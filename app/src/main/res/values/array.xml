@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shuttle_routes">
+        <item>NCBS to IISc</item>
+        <item>IISc to NCBS</item>
+        <item>NCBS to Mandara</item>
+        <item>Mandara to NCBS</item>
+        <item>Buggy from NCBS</item>
+        <item>Buggy from Mandara</item>
+        <item>NCBS to ICTS</item>
+    </string-array>
+    <string-array name="shuttle_routes_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="default_lang">
+        <item>English</item>
+        <item>Marathi</item>
+    </string-array>
+    <string-array name="default_lang_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="route_names">
+        <item>NCBS - IISc</item>
+        <item>IISc - NCBS</item>
+        <item>NCBS - MANDARA</item>
+        <item>MANDARA - NCBS</item>
+        <item>Buggy from NCBS to Mandara</item>
+        <item>Buggy from Mandara to NCBS</item>
+        <item>NCBS - ICTS</item>
+        <item>NCBS - CBL</item>
+    </string-array>
+
+
+</resources>

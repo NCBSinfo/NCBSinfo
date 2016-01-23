@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/default_lang"
+        android:entryValues="@array/default_lang_values"
+        android:key="default_language"
+        android:title="@string/setting_app_lang" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/shuttle_routes"
+        android:entryValues="@array/shuttle_routes_values"
+        android:key="shuttle_route_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/setting_default_shuttle_view" />
+    <Preference
+        android:key="guide_setting"
+        android:summary="@string/setting_guide_summary"
+        android:title="@string/setting_guide_title"/>
+   <Preference
+       android:key="shuttle_clear_settings"
+       android:summary="@string/setting_clear_summary"
+       android:title="@string/setting_clear_pref"/>
+   <Preference
+        android:key="about_us_setting"
+        android:summary="@string/setting_aboutus_summary"
+        android:title="@string/setting_aboutus"/>
+    <Preference
+        android:key="feature_setting"
+        android:summary="@string/setting_feature_summary"
+        android:title="@string/setting_feature"/>
+   <Preference
+        android:key="terms_setting"
+        android:summary="@string/setting_terms_summary"
+        android:title="@string/setting_terms"/>
+
+</PreferenceScreen>

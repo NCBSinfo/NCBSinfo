@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="hourBar_fill">#009688</color>
+    <color name="hourBar_empty">#b2dfdb</color>
+    <color name="minuteBar_fill">#cddc39</color>
+    <color name="minuteBar_empty">#f0f4c3</color>
+    <color name="secondBar_fill">#ff5722</color>
+    <color name="secondBar_empty">#ffccbc</color>
+</resources>
