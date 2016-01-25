@@ -1,5 +1,8 @@
 # NCBSinfo
 
+This app can be found on <a href= "https://play.google.com/store/apps/details?id=com.rohitsuratekar.NCBSinfo">Google Play Store</a><br></br>
+
+
 <b>Current features</b> </br>
 (1) Shuttle timings </b></br>
 
