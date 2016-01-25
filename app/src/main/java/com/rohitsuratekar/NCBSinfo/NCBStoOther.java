@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class OtherShuttles extends AppCompatActivity {
+public class NCBStoOther extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -33,8 +33,9 @@ public class OtherShuttles extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_other_shuttles);
-        setTitle(getString(R.string.title_activity_ncbsto_icts));
+        setContentView(R.layout.activity_ncbs_to_iisc);
+        setTitle(getString(R.string.title_activity_ncbsto_other));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,6 +53,7 @@ public class OtherShuttles extends AppCompatActivity {
         String currentSwitch = intent.getExtras().getString("switch");
         int currentInt = Integer.parseInt(currentSwitch);
         TabLayout.Tab tab = tabLayout.getTabAt(currentInt); tab.select();
+
 
 
 
@@ -75,23 +77,25 @@ public class OtherShuttles extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent;
-            intent = new Intent( OtherShuttles.this, SettingsActivity.class );
+            intent = new Intent( NCBStoOther.this, SettingsActivity.class );
             intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.DefaultShuttleFragment.class.getName() );
             intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
             startActivity(intent);
             return true;
         }
         else if (id == R.id.tab_ncbs_iisc){
-            Intent intent = new Intent(OtherShuttles.this, NCBStoIISC.class);
+            Intent intent = new Intent( NCBStoOther.this, NCBStoIISC.class);
             intent.putExtra("switch","0");
             startActivity(intent);
             return true;
         }
         else if (id == R.id.tab_ncbs_mandara){
-            Intent intent = new Intent(OtherShuttles.this, NCBStoMandara.class);
+            Intent intent = new Intent( NCBStoOther.this, NCBStoMandara.class);
             intent.putExtra("switch","0");
             startActivity(intent);
             return true;
+        }
+        else if (id == R.id.tab_other){
         }
 
         return super.onOptionsItemSelected(item);
@@ -116,7 +120,8 @@ public class OtherShuttles extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0: return BasicOther.newInstance(0);
-                case 1: return BasicOther.newInstance(1);
+                case 1 :return BasicOther.newInstance(1);
+                case 2 :return BasicOther.newInstance(2);
                 default: return BasicOther.newInstance(0);
             }
         }
@@ -124,7 +129,7 @@ public class OtherShuttles extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -132,10 +137,11 @@ public class OtherShuttles extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return getString(R.string.tab_title6);
-
                 case 1:
                     return getString(R.string.tab_title7);
-        }
+                case 2:
+                    return getString(R.string.tab_title8);
+            }
             return null;
         }
     }

@@ -91,7 +91,7 @@ public class NCBStoIISC extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.tab_other){
-            Intent intent = new Intent(NCBStoIISC.this, OtherShuttles.class);
+            Intent intent = new Intent( NCBStoIISC.this, NCBStoOther.class);
             intent.putExtra("switch","0");
             startActivity(intent);
             return true;

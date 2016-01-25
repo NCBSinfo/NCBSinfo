@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -34,10 +32,6 @@ public class BasicOther extends Fragment {
     String GlobalShuttleFrom;
     String GlobalShuttleto;
     int isBuggy;
-    String sroute1;
-    String sroute2;
-    int swipe = 1;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,21 +42,21 @@ public class BasicOther extends Fragment {
                 GlobalShuttleFrom = "ncbs";
                 GlobalShuttleto = "icts";
                 isBuggy = 0;
-                sroute1=getString(R.string.list_titile5);
-                sroute2=getString(R.string.list_titile6);
-                swipe =1;
+
                 break;
             case 1:
+                GlobalShuttleFrom = "icts";
+                GlobalShuttleto = "ncbs";
+                isBuggy = 0;
+                break;
+            case 2:
                 GlobalShuttleFrom = "ncbs";
                 GlobalShuttleto = "cbl";
                 isBuggy = 0;
-                sroute1=getString(R.string.list_titile2);
-                sroute2=getString(R.string.list_titile1);
-                swipe =0;
                 break;
 
         }
-        View rootView = inflater.inflate(R.layout.fragment_other_shuttles, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_ncbs_to_iisc, container, false);
         perform(rootView);
         return rootView;
     }
@@ -76,8 +70,6 @@ public class BasicOther extends Fragment {
         String[] after = new String[AllArrays.length];
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
         SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        //SimpleDateFormat stringdate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        //SimpleDateFormat shortdate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         SimpleDateFormat onlytime = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
 
         String current_weekday = weeksmall+onlytime.format(Calendar.getInstance().getTime());
@@ -85,14 +77,12 @@ public class BasicOther extends Fragment {
 
         Calendar nextcal = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, current_weekday, isBuggy);
         String nextShuttleWeek = modformat.format(nextcal.getTime());
-        Calendar sundaynext;
-        if(swipe==1){ sundaynext = new ShuttleTimings().newNextShuttle(GlobalShuttleto, GlobalShuttleFrom, current_sunday, isBuggy); }//Swiped
-        else{ sundaynext = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);}
+
+        Calendar sundaynext = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);
         String nextShuttleSunday = modformat.format(sundaynext.getTime());
         int selectionItem1 = 0;
         int selectionItem2 = 0;
 
-        List<String> lateList = new ArrayList<String>();
         for (int i =0; i<AllArrays.length; i++){
 
             try {
@@ -109,9 +99,8 @@ public class BasicOther extends Fragment {
             }
 
         }
-        String[] AllArrays_sunday;
-        if (swipe==1){ AllArrays_sunday = new ShuttleTimings().OnlyTrips(GlobalShuttleto, GlobalShuttleFrom,  SundayDate, isBuggy);} //Swiped
-        else {AllArrays_sunday = new ShuttleTimings().OnlyTrips(GlobalShuttleFrom, GlobalShuttleto,  SundayDate, isBuggy);}
+
+        String[] AllArrays_sunday = new ShuttleTimings().OnlyTrips(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
         String[] sunday = new String[AllArrays_sunday.length];
         for (int i =0; i<AllArrays_sunday.length; i++){
             try {
@@ -128,8 +117,8 @@ public class BasicOther extends Fragment {
             }
 
         }
-        ListView afterList = (ListView) v.findViewById(R.id.TripList_weekday_other);
-        ListView sundaylist = (ListView) v.findViewById(R.id.TripList_return);
+        ListView afterList = (ListView) v.findViewById(R.id.TripList_weekday);
+        ListView sundaylist = (ListView) v.findViewById(R.id.TripList_sunday);
         RListAdaptor adapter5 = new RListAdaptor(getActivity(), R.layout.list_view_item, after);
         RListAdaptor adapter2 = new RListAdaptor(getActivity(), R.layout.list_view_item, sunday);
         sundaylist.setAdapter(adapter2);
@@ -139,11 +128,7 @@ public class BasicOther extends Fragment {
         sundaylist.setSelection(selectionItem2);
         sundaylist.requestFocus();
 
-        TextView foot = (TextView) v.findViewById(R.id.footNoteText_other);
-        TextView t1 = (TextView) v.findViewById(R.id.Route1);
-        TextView t2 = (TextView) v.findViewById(R.id.Route2);
-        t1.setText(sroute1);
-        t2.setText(sroute2);
+        TextView foot = (TextView) v.findViewById(R.id.footNoteText);
         String tempText;
         if (isBuggy==1){tempText=getString(R.string.next_buggy);}
         else {tempText=getString(R.string.next_shuttle);}

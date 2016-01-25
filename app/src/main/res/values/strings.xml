@@ -49,11 +49,14 @@
     <string name="tab_title4">Mandara to NCBS</string>
     <string name="tab_title5">Buggy</string>
     <string name="tab_title6">NCBS to ICTS</string>
-    <string name="tab_title7">NCBS to CBL</string>
+    <string name="tab_title7">ICTS to NCBS</string>
+    <string name="tab_title8">NCBS to CBL</string>
 
     <string name="title_activity_ncbsto_mandara">Between NCBS and Mandara</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_ncbsto_icts">Other Shuttles</string>
+    <string name="title_activity_ncbsto_icts">Between NCBS and ICTS</string>
+    <string name="title_activity_ncbsto_cbl">NCBS to CBL</string>
+    <string name="title_activity_ncbsto_other">Other shuttles</string>
 
     <string name="setting_app_lang">Application Language</string>
     <string name="setting_default_shuttle_view">Default Route View</string>
@@ -63,7 +66,7 @@
     <string name="setting_aboutus_summary">Little bit about us :)</string>
     <string name="setting_terms">Terms and Conditions</string>
     <string name="setting_terms_summary">Nobody reads this anyways.</string>
-   <string name="setting_guide_summary">Check out app functions once again</string>
+    <string name="setting_guide_summary">Check out app functions once again</string>
     <string name="setting_guide_title">App Guide</string>
     <string name="setting_feature_summary">If you would like to see any new feature in this app.</string>
     <string name="setting_feature">Request Feature</string>
@@ -94,7 +97,7 @@
     <string name="guide_details1">Take a quick tour of this app to know functions and available options. Tap anywhere on the blue screen to see the next tip.</string>
     <string name="guide_title2">Select route</string>
     <string name="guide_details2">Just scroll through the available options and we will take care of the rest :)</string>
-   <string name="guide_title3">Next shuttle or buggy</string>
+    <string name="guide_title3">Next shuttle or buggy</string>
     <string name="guide_details3">When you select the route you will see the next shuttle or buggy timing here. You can also set the default view from the settings, which will be shown when you start the app.</string>
     <string name="guide_title4">Time remaining</string>
     <string name="guide_details4">Here you will be able to see how much time is left for the next shuttle or buggy.</string>

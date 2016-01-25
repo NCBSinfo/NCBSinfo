@@ -89,13 +89,13 @@ public class HomeActivity extends AppCompatActivity
                     startActivity(intent);
                 }
                 else if (Scrollint==6){
-                    Intent intent = new Intent(HomeActivity.this, OtherShuttles.class);
+                    Intent intent = new Intent(HomeActivity.this, NCBStoOther.class);
                     intent.putExtra("switch",String.valueOf(0));
                     startActivity(intent);
                 }
                 else if (Scrollint==7){
-                    Intent intent = new Intent(HomeActivity.this, OtherShuttles.class);
-                    intent.putExtra("switch",String.valueOf(1));
+                    Intent intent = new Intent(HomeActivity.this, NCBStoOther.class);
+                    intent.putExtra("switch",String.valueOf(2));
                     startActivity(intent);
                 }
             }
@@ -354,9 +354,10 @@ public class HomeActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_other){
-        Intent intent = new Intent(HomeActivity.this, OtherShuttles.class);
-        intent.putExtra("switch",String.valueOf(0));
-        startActivity(intent);
+            Intent intent = new Intent( HomeActivity.this, NCBStoOther.class);
+            intent.putExtra("switch","0");
+            startActivity(intent);
+            return true;
     }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

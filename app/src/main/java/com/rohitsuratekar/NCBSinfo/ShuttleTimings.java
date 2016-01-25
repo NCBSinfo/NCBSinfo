@@ -39,8 +39,10 @@ public class ShuttleTimings {
         String[] buggy_ncbs_mandara = {"08:00", "08:30", "08:45", "09:00", "09:30", "09:45", "10:00", "10:30", "11:30", "12:15", "12:45", "13:00", "14:15", "15:30", "16:00", "16:30", "17:30", "17:45", "18:15", "19:00", "19:30", "19:45", "20:00"};
         String[] buggy_mandara_ncbs = {"08:15", "08:45", "09:00", "09:15", "09:45", "10:00", "10:15", "10:45", "11:45", "12:30", "13:45", "14:00", "14:45", "15:45", "16:45", "17:45", "18:15", "18:30", "19:15", "19:45", "20:00", "20:15"};
 
-        String[] ncbs_icts = {"08:15", "09:00","10:30","15:00","18:00","18:30"};
-        String[] icts_ncbs = {"09:45","14:00","17:05","17:35","19:25"};
+        String[] ncbs_icts = {"08:00", "09:00", "10:00", "13:00", "14:00", "15:30", "16:30", "17:40", "18:30", "20:00", "21:30"};
+        String[] icts_ncbs = {"08:00", "09:00", "12:00", "13:00", "14:00", "15:30", "17:00", "17:40", "19:00", "20:00", "20:30", "22:30"};
+        String[] ncbs_icts_sunday = {"08:30", "10:30", "12:30", "15:00", "17:00", "19:00", "21:00", "23:00"};
+        String[] icts_ncbs_sunday = {"07:30", "09:30", "11:30", "14:00", "16:00", "18:00", "20:00", "22:00"};
 
         String[] ncbs_cbl = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
         String[] ncbs_cbl_sunday = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
@@ -69,10 +71,14 @@ public class ShuttleTimings {
                 }
             } else if (from.equals("mandara") && to.equals("ncbs") && day == 1) {
                 currentRoute = mandara_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("icts")) {
-                currentRoute = ncbs_icts;
-            } else if (from.equals("icts") && to.equals("ncbs")) {
+            } else if (from.equals("ncbs") && to.equals("icts") && day == 1) {
+                currentRoute = ncbs_icts_sunday;
+            }else if (from.equals("ncbs") && to.equals("icts") && day != 1) {
+                    currentRoute = ncbs_icts;
+            } else if (from.equals("icts") && to.equals("ncbs")&& day != 1) {
                 currentRoute = icts_ncbs;
+            } else if (from.equals("icts") && to.equals("ncbs")&& day == 1) {
+                currentRoute = icts_ncbs_sunday;
             } else if (from.equals("ncbs") && to.equals("cbl") && day==1) {
                 currentRoute = ncbs_cbl_sunday;
             } else if (from.equals("ncbs") && to.equals("cbl") && day != 1){
@@ -175,8 +181,10 @@ public class ShuttleTimings {
         String[] buggy_ncbs_mandara = {"08:00", "08:30", "08:45", "09:00", "09:30", "09:45", "10:00", "10:30", "11:30", "12:15", "12:45", "13:00", "14:15", "15:30", "16:00", "16:30", "17:30", "17:45", "18:15", "19:00", "19:30", "19:45", "20:00"};
         String[] buggy_mandara_ncbs = {"08:15", "08:45", "09:00", "09:15", "09:45", "10:00", "10:15", "10:45", "11:45", "12:30", "13:45", "14:00", "14:45", "15:45", "16:45", "17:45", "18:15", "18:30", "19:15", "19:45", "20:00", "20:15"};
 
-        String[] ncbs_icts = {"08:15", "09:00","10:30","15:00","18:00","18:30"};
-        String[] icts_ncbs = {"09:45","14:00","17:05","17:35","19:25"};
+        String[] ncbs_icts = {"08:00", "09:00", "10:00", "13:00", "14:00", "15:30", "16:30", "17:40", "18:30", "20:00", "21:30"};
+        String[] icts_ncbs = {"08:00", "09:00", "12:00", "13:00", "14:00", "15:30", "17:00", "17:40", "19:00", "20:00", "20:30", "22:30"};
+        String[] ncbs_icts_sunday = {"08:30", "10:30", "12:30", "15:00", "17:00", "19:00", "21:00", "23:00"};
+        String[] icts_ncbs_sunday = {"07:30", "09:30", "11:30", "14:00", "16:00", "18:00", "20:00", "22:00"};
 
 
         String[] ncbs_cbl = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
@@ -200,10 +208,14 @@ public class ShuttleTimings {
                 currentRoute = mandara_ncbs;
             } else if (from.equals("mandara") && to.equals("ncbs") && day == 1) {
                 currentRoute = mandara_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("icts")) {
+            } else if (from.equals("ncbs") && to.equals("icts") && day == 1) {
+                currentRoute = ncbs_icts_sunday;
+            }else if (from.equals("ncbs") && to.equals("icts") && day != 1) {
                 currentRoute = ncbs_icts;
-            } else if (from.equals("icts") && to.equals("ncbs")) {
+            } else if (from.equals("icts") && to.equals("ncbs")&& day != 1) {
                 currentRoute = icts_ncbs;
+            } else if (from.equals("icts") && to.equals("ncbs")&& day == 1) {
+                currentRoute = icts_ncbs_sunday;
             } else if (from.equals("ncbs") && to.equals("cbl") && day==1) {
                 currentRoute = ncbs_cbl_sunday;
             } else if (from.equals("ncbs") && to.equals("cbl") && day != 1){

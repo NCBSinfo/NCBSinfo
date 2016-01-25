@@ -33,15 +33,18 @@
     <string name="list_titile5">NCBS ते ICTS</string>
     <string name="list_titile6">ICTS ते NCBS</string>
 
+
     <string name="tab_title1">NCBS ते IISc</string>
     <string name="tab_title2">IISc ते NCBS</string>
     <string name="tab_title3">NCBS ते Mandara</string>
     <string name="tab_title4">Mandara ते NCBS</string>
     <string name="tab_title5">बग्गी</string>
     <string name="tab_title6">NCBS ते ICTS</string>
-    <string name="tab_title7">NCBS ते CBL</string>
+    <string name="tab_title7">ICTS ते NCBS</string>
+    <string name="tab_title8">NCBS ते CBL</string>
 
     <string name="title_activity_ncbsto_iisc">NCBS आणि IISc मध्ये</string>
+    <string name="title_activity_ncbsto_other">बाकीचे शटल</string>
 
     <string name="action_settings">सेटिंग्ज</string>
     <string name="action_other">बाकीचे शटल</string>
@@ -50,7 +53,8 @@
 
     <string name="title_activity_ncbsto_mandara">NCBS आणि Mandara मध्ये</string>
     <string name="title_activity_settings">सेटिंग्ज</string>
-    <string name="title_activity_ncbsto_icts">बाकीचे शटल</string>
+    <string name="title_activity_ncbsto_icts">NCBS आणि ICTS मध्ये</string>
+    <string name="title_activity_ncbsto_cbl">NCBS ते CBL</string>
 
     <string name="setting_app_lang">अॅप्लिकेशनची भाषा</string>
     <string name="setting_default_shuttle_view">प्रमुख मार्गाचे दृश्य</string>
