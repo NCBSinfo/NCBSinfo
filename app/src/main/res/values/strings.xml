@@ -14,7 +14,7 @@
     <string name="next_buggy">Next buggy</string>
 
     <string name="user_name" translatable="false">NCBSinfo</string>
-    <string name="user_email" translatable="false">v 1.0</string>
+    <string name="user_email" translatable="false">v 1.2</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_ncbs_iisc">NCBS-IISc</string>
@@ -84,7 +84,7 @@
 
     <string name="about_us">NCBSinfo is an application for regular use specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore. Our aim is to create a mobile application which will serve as an application-cum-database of important timings pertaining to NCBS. With the help of this we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.</string>
     <string name="developer">Developed by Rohit Suratekar \n (rohitsuratekar@gmail.com) \n Feel free to send any feedback :)</string>
-    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use. All the information provided in this application was last updated on 22 January 2016. Though a lot of effort has been taken to curate the information, minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed through this application. In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
+    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use. All the information provided in this application was last updated on 02 February 2016. Though a lot of effort has been taken to curate the information, minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed through this application. In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
     <string name="title_activity_other_shuttles">Other Shuttles</string>
     <string name="feature_list"><![CDATA[ We are always happy to receive your feature requests. From our beta testing program, we have received many feature suggestions and requests. We are in the process of implementing the following features in the current app <br></br><br></br>
     &#8226; Important contacts and email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>

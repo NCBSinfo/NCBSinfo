@@ -95,6 +95,11 @@ public class HomeActivity extends AppCompatActivity
                 }
                 else if (Scrollint==7){
                     Intent intent = new Intent(HomeActivity.this, NCBStoOther.class);
+                    intent.putExtra("switch",String.valueOf(1));
+                    startActivity(intent);
+                }
+                else if (Scrollint==8){
+                    Intent intent = new Intent(HomeActivity.this, NCBStoOther.class);
                     intent.putExtra("switch",String.valueOf(2));
                     startActivity(intent);
                 }
@@ -264,10 +269,16 @@ public class HomeActivity extends AppCompatActivity
                     Scrollint = 6;
                     break;
                 case "7":
+                    GlobalShuttleFrom = "icts";
+                    GlobalShuttleto = "ncbs";
+                    isBuggy = 0;
+                    Scrollint = 7;
+                    break;
+                case "8":
                     GlobalShuttleFrom = "ncbs";
                     GlobalShuttleto = "cbl";
                     isBuggy = 0;
-                    Scrollint = 7;
+                    Scrollint = 8;
                     break;
             }
 

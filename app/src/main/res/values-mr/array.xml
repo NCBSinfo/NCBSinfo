@@ -8,6 +8,8 @@
         <item>NCBS पासून बग्गी</item>
         <item>Mandara पासून बग्गी</item>
         <item>NCBS पासून ICTS पर्यंत</item>
+        <item>ICTS पासून NCBS पर्यंत</item>
+        <item>NCBS पासून CBL पर्यंत</item>
     </string-array>
     <string-array name="shuttle_routes_values">
         <item>0</item>
@@ -17,6 +19,8 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
 
     <string-array name="default_lang">
@@ -35,7 +39,8 @@
         <item>MANDARA पासून  NCBS पर्यंत</item>
         <item>NCBS पासून  Mandara पर्यंत बग्गी </item>
         <item>Mandara पासून NCBS पर्यंत बग्गी</item>
-        <item>NCBS-ICTS च्यामध्ये</item>
+        <item>NCBS पासून ICTS पर्यंत</item>
+        <item>ICTS पासून NCBS पर्यंत</item>
         <item>NCBS पासून CBL पर्यंत</item>
     </string-array>
 
