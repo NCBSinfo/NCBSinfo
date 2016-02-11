@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="shuttle_routes">
-        <item>NCBS to IISc</item>
-        <item>IISc to NCBS</item>
-        <item>NCBS to Mandara</item>
-        <item>Mandara to NCBS</item>
-        <item>Buggy from NCBS</item>
-        <item>Buggy from Mandara</item>
-        <item>NCBS to ICTS</item>
-        <item>ICTS to NCBS</item>
-        <item>NCBS to CBL</item>
+        <item>NCBS থেকে IISc</item>
+        <item>IISc থেকে NCBS</item>
+        <item>NCBS থেকে Mandara</item>
+        <item>Mandara থেকে NCBS</item>
+        <item>বাগী  থেকে NCBS</item>
+        <item>বাগী  থেকে Mandara</item>
+        <item>NCBS থেকে ICTS</item>
+        <item>ICTS থেকে NCBS</item>
+        <item>NCBS থেকে CBL</item>
     </string-array>
     <string-array name="shuttle_routes_values">
         <item>0</item>
@@ -24,9 +24,9 @@
     </string-array>
 
     <string-array name="default_lang">
-        <item>English</item>
-        <item>Marathi</item>
-        <item>Bengali</item>
+        <item>ইংরেজি</item>
+        <item>মারাঠি</item>
+        <item>বাংলা</item>
     </string-array>
     <string-array name="default_lang_values">
         <item>0</item>

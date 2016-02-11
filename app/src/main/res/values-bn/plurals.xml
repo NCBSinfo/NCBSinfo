@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals
+        name="sec_left">
+        <item quantity="zero"><![CDATA[ ]]></item>
+        <item quantity="one"><![CDATA[<b>%1$d</b> <br><small> সেকেন্ড <small>]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d</b> <br><small> সেকেন্ড <small>]]></item>
+    </plurals>
+    <plurals
+        name="min_left">
+        <item quantity="zero"><![CDATA[ ]]></item>
+        <item quantity="one"><![CDATA[<b>%1$d</b> <br><small> মিনিট <small>]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d</b> <br><small> মিনিট <small>]]></item>
+    </plurals>
+    <plurals
+        name="hour_left">
+        <item quantity="zero"><![CDATA[ ]]></item>
+        <item quantity="one"><![CDATA[<b>%1$d</b> <br><small> ঘন্টা <small>]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d</b> <br><small> ঘন্টা <small>]]></item>
+    </plurals>
+</resources>

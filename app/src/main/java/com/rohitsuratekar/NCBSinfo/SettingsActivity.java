@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                     if (activitystart==0){activitystart++;}
                     else{
-                        preference.getContext().startActivity(new Intent(preference.getContext(), HomeActivity.class));
+                        preference.getContext().startActivity(new Intent(preference.getContext(), MainActivity.class));
                         activitystart=0;}
 
                    }
@@ -88,14 +88,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             preference.getContext().getResources().getDisplayMetrics());
 
                     if (activitystart==0){activitystart++;}
-                    else{ preference.getContext().startActivity(new Intent(preference.getContext(), HomeActivity.class));
+                    else{ preference.getContext().startActivity(new Intent(preference.getContext(), MainActivity.class));
                         activitystart=0;}
 
                 }
 
                 else if (stringValue.equals("2")){
 
-                    String languageToLoad  = "kn"; // your language
+                    String languageToLoad  = "bn"; // your language
                     Locale locale = new Locale(languageToLoad);
                     Locale.setDefault(locale);
                     Configuration config = new Configuration();

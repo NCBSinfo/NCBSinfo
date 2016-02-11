@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/popup_english"
+        android:title="English"/>
+
+    <item
+        android:id="@+id/popup_marathi"
+        android:title="Marathi"/>
+
+    <item
+        android:id="@+id/popup_bengali"
+        android:title="Bengali"/>
+
+</menu>

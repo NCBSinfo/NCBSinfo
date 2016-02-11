@@ -1,7 +1,11 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,10 +76,20 @@ public class ExtraFunctions {
 
     public String currentLang(String code){
         String setLan ="en";
-        if (code.equals("0")){setLan ="en";}
-        else if (code.equals("1")){setLan ="mr";}
+        switch (code) {
+            case "0":
+                setLan = "en";
+                break;
+            case "1":
+                setLan = "mr";
+                break;
+            case "2":
+                setLan = "bn";
+                break;
+        }
 
         return setLan;
     }
+
 
 }
