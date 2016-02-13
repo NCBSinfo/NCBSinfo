@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -49,16 +50,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
 
     public class DataObjectHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnCreateContextMenuListener {
-        TextView label;
-        TextView dateTime;
+        TextView ContactName, ContactNumber, ContactDepartment;
+
         ImageButton favButton;
 
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            label = (TextView) itemView.findViewById(R.id.item_title);
-            dateTime = (TextView) itemView.findViewById(R.id.item_number);
+            ContactName = (TextView) itemView.findViewById(R.id.item_title);
+            ContactNumber = (TextView) itemView.findViewById(R.id.item_number);
+            ContactDepartment = (TextView) itemView.findViewById(R.id.item_department);
             favButton = (ImageButton) itemView.findViewById(R.id.fav_button);
+
             itemView.setOnCreateContextMenuListener(this);
 
             itemView.setOnClickListener(this);
@@ -84,6 +87,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(Menu.NONE, R.id.contact_list_call,Menu.NONE,"Call");
             menu.add(Menu.NONE, R.id.contact_list_fav, Menu.NONE, " Add to Favorite");
+            menu.add(Menu.NONE, R.id.contact_list_edit, Menu.NONE, "Edit");
             menu.add(Menu.NONE, R.id.contact_list_delete, Menu.NONE, "Delete");
         }
 
@@ -116,10 +120,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
 
     @Override
     public void onBindViewHolder(final DataObjectHolder holder, final int position) {
-        holder.label.setText(mDataset.get(position).getmText1());
-        holder.dateTime.setText(mDataset.get(position).getmText2());
+        holder.ContactName.setText(Html.fromHtml(mDataset.get(position).getmText1()));
+        holder.ContactNumber.setText(Html.fromHtml(mDataset.get(position).getmText2()));
+        holder.ContactDepartment.setText(Html.fromHtml(mDataset.get(position).getmText3()));
 
-        String firstLetter =  holder.label.getText().toString().substring(0,1).toUpperCase();
+        String firstLetter =  holder.ContactName.getText().toString().substring(0,1).toUpperCase();
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color1 = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
@@ -143,6 +148,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
                 return false;
             }
         });
+        db2.close();
     }
     public void addItem(DataObject dataObj, int index) {
         mDataset.add(dataObj);
@@ -195,19 +201,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
+            //DBHandler db2 = new DBHandler(context);
             if (constraint != null && constraint.length() > 0) {
                 ArrayList<DataObject> filterList = new ArrayList<DataObject>();
-                for (int i = 0; i < mDataset.size(); i++)
-                    if ((mDataset.get(i).getmText1().toUpperCase())
-                            .contains(constraint.toString().toUpperCase())) {
+                for (int i = 0; i < mDataset.size(); i++){
 
+                    if ((mDataset.get(i).getmText1().toUpperCase()).contains(constraint.toString().toUpperCase()) ) {
 
-                        DataObject m = new DataObject(mDataset.get(i).getmText1(), mDataset.get(i).getmText2(), mDataset.get(i).getmID());
+                        DataObject m = new DataObject(mDataset.get(i).getmText1(), mDataset.get(i).getmText2(), mDataset.get(i).getmText3(), mDataset.get(i).getmID());
+
+                        filterList.add(m);
+                    }
+
+                    else if ((mDataset.get(i).getmText3().toUpperCase()).contains(constraint.toString().toUpperCase())){
+                        DataObject m = new DataObject(mDataset.get(i).getmText1(), mDataset.get(i).getmText2(), mDataset.get(i).getmText3(), mDataset.get(i).getmID());
 
                         filterList.add(m);
                     }
                 results.count = filterList.size();
-                results.values = filterList;
+                results.values = filterList;}
             } else {
                 results.count = mDataset.size();
                 results.values = mDataset;

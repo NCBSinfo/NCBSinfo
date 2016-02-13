@@ -6,11 +6,13 @@ package com.rohitsuratekar.NCBSinfo;
 public class DataObject {
     private String mText1;
     private String mText2;
+    private String mText3;
     private int mID;
 
-    DataObject (String text1, String text2, int ID){
+    DataObject (String text1, String text2, String text3, int ID){
         mText1 = text1;
         mText2 = text2;
+        mText3 = text3;
         mID = ID;
 
     }
@@ -31,6 +33,14 @@ public class DataObject {
         this.mText2 = mText2;
     }
 
+    public String getmText3() {
+        return mText3;
+    }
+
+    public void setmText3(String mText3) {
+        this.mText3 = mText3;
+    }
+
     public int getmID() {
         return mID;
     }
@@ -38,4 +48,6 @@ public class DataObject {
     public void setmID(int mIDs) {
         this.mID = mIDs;
     }
+
+
 }

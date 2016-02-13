@@ -1,7 +1,10 @@
 package com.rohitsuratekar.NCBSinfo;
 /**
  * Created by Dexter on 1/28/2016.
+ *
+ * Original code was adapted from Rohit Suratekar Document Adaptor
  */
+
 public class SQfields {
 
     //private variables

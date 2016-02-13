@@ -11,7 +11,11 @@
         android:title="Add to favorites"/>
 
     <item
-        android:id="@+id/contact_list_delete"
-        android:title="Delete"/>
+        android:id="@+id/contact_list_edit"
+        android:title="Edit"/>
+
+    <item
+    android:id="@+id/contact_list_delete"
+    android:title="Delete"/>
 
 </menu>

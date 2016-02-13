@@ -177,7 +177,7 @@ public class ContactTab2 extends Fragment implements SearchView.OnQueryTextListe
 
         for (SQfields cn : documents) {
             if (cn.getContactFavorite().equals("1")) {
-                resultsFav.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactID()));
+                resultsFav.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactDepartment(), cn.getContactID()));
             }
         }
 
@@ -279,7 +279,7 @@ public class ContactTab2 extends Fragment implements SearchView.OnQueryTextListe
 
         for (SQfields cn : documents) {
             if (cn.getContactFavorite().equals("1")) {
-                resultsFav.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactID()));
+                resultsFav.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactDepartment(), cn.getContactID()));
             }
         }
         mAllData.clear();

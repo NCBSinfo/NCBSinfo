@@ -45,7 +45,9 @@ public class ContactActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactActivity.this, MainActivity.class);
+                Intent intent = new Intent(ContactActivity.this, AddNewContact.class);
+                intent.putExtra("forEdit", 0);
+                intent.putExtra("feldID", 0);
                 startActivity(intent);
             }
         });

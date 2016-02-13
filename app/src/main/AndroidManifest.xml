@@ -89,6 +89,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.MainActivity" />
         </activity>
+        <activity android:name=".AddNewContact"></activity>
     </application>
 
 </manifest>

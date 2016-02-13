@@ -183,7 +183,7 @@ public class ContactTab1 extends Fragment implements SearchView.OnQueryTextListe
         List<SQfields> documents = db2.getAllDocuments();
 
         for (SQfields cn : documents) {
-            results.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactID()));
+            results.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactDepartment(), cn.getContactID()));
         }
 
         mAllData.addAll(results);
@@ -286,7 +286,7 @@ public class ContactTab1 extends Fragment implements SearchView.OnQueryTextListe
         List<SQfields> documents = db2.getAllDocuments();
 
         for (SQfields cn : documents) {
-            results.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactID()));
+            results.add(new DataObject(cn.getContactName(), cn.getContactExtension(), cn.getContactDepartment(), cn.getContactID()));
             if (cn.getContactFavorite().equals("0")){
                 ImageButton img = (ImageButton) rootView.findViewById(R.id.fav_button);
                 img.setColorFilter(null);
@@ -301,7 +301,7 @@ public class ContactTab1 extends Fragment implements SearchView.OnQueryTextListe
 
     public boolean onContextItemSelected(MenuItem item) {
         long position = -1;
-        final SQfields doc;
+        final SQfields doc, doc2;
         final DBHandler db2 = new DBHandler(getContext());
 
         try {
@@ -341,7 +341,7 @@ public class ContactTab1 extends Fragment implements SearchView.OnQueryTextListe
             return false;
         }
 
-        if(item.getItemId() == R.id.contact_list_fav){
+        else if(item.getItemId() == R.id.contact_list_fav){
 
             if (doc.getContactFavorite().equals("0")) {
                 doc.setContactFavorite("1");
@@ -356,6 +356,17 @@ public class ContactTab1 extends Fragment implements SearchView.OnQueryTextListe
             }
 
             db2.updateDocument(doc);
+        }
+
+        else if(item.getItemId() == R.id.contact_list_edit){
+            position = ((ContactAdapter) mAdapter).getPosition();
+            doc2 = db2.getDocument(((int) position));
+
+            Intent intent = new Intent(getContext(), AddNewContact.class);
+            intent.putExtra("forEdit", 1);
+            intent.putExtra("feldID", doc2.getContactID() );
+            startActivity(intent);
+
         }
 
 
