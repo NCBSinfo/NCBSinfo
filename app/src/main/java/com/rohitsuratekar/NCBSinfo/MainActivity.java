@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
@@ -18,14 +17,17 @@ import android.view.Display;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
@@ -34,14 +36,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnShowcaseEventListener {
     DecoView arcView;
     int series3Index, series2Index, series1Index, isBuggy;
     int currentIndex =0;
     String[] ShuttleStringList;
     String GlobalShuttleFrom, GlobalShuttleto;
+    int currentItem=0;
+    ShowcaseView showcaseview;
+    String guideTitle = "";
+    String guideDetails = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,20 +88,20 @@ public class MainActivity extends AppCompatActivity {
                 .build());
 
         //Create data series track
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#ff5722"))
+        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#ff5722")) //second line
                 .setRange(0, 60, 0)
                 .setLineWidth(16f)
                 .setInitialVisibility(true)
                 .build();
 
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#4caf50"))
+        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#4caf50")) //minute line
                 .setRange(0, 60, 0)
                 .setLineWidth(16f)
                 .setInset(new PointF(16f, 16f))
                 .setInitialVisibility(true)
                 .build();
 
-        SeriesItem seriesItem3 = new SeriesItem.Builder(Color.parseColor("#3f51b5"))
+        SeriesItem seriesItem3 = new SeriesItem.Builder(Color.parseColor("#3f51b5")) //Hour line
                 .setRange(0, 24, 0)
                 .setLineWidth(16f)
                 .setInset(new PointF(32f, 32f))
@@ -217,8 +222,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });//closing the setOnClickListener method
 
-    }
+        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("guideSeen", true))
+        {
+            guideTitle = getString(R.string.guide_title1);
+            guideDetails = getString(R.string.guide_details1);
+            viewcase(R.id.dynamicArcView);
+            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("guideSeen", false).apply();
+        }
 
+    }
 
 
 
@@ -231,7 +243,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoShuttle(View arg0){
-        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        Intent intent = new Intent(MainActivity.this, AllShuttles.class);
+        intent.putExtra("switch", String.valueOf(currentIndex));
         startActivity(intent);
     }
 
@@ -463,6 +476,73 @@ public class MainActivity extends AppCompatActivity {
         Intent intend = new Intent(getBaseContext(), MainActivity.class);
         finish();
         startActivity(intend);
+    }
+
+    @Override
+    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+        if (currentItem==1){
+
+            guideTitle= getString(R.string.guide_title2);
+            guideDetails = getString(R.string.guide_details2);
+            viewcase(R.id.text);
+        }
+        else if (currentItem==2){
+            guideTitle= getString(R.string.guide_title3);
+            guideDetails = getString(R.string.guide_details3);
+            viewcase(R.id.dynamicArcView);
+        }
+        else if (currentItem==3){
+            guideTitle= getString(R.string.guide_title5);
+            guideDetails = getString(R.string.guide_details5);
+            viewcase(R.id.ShuttleImageButton);
+        }
+        else if (currentItem==4){
+            guideTitle= getString(R.string.guide_title6);
+            guideDetails = getString(R.string.guide_details6);
+            viewcase(R.id.ContactImageButton);
+
+        }
+        else if (currentItem==5){
+            guideTitle= getString(R.string.guide_title7);
+            guideDetails = getString(R.string.guide_details7);
+            viewcase(R.id.Home_translation_button);
+
+        }
+
+    }
+
+    @Override
+    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+    }
+
+    @Override
+    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+    }
+
+    public void viewcase(int viewID){
+        RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();
+        lps.setMargins(margin, margin, margin, margin);
+        ViewTarget target = new ViewTarget(viewID, this);
+
+        showcaseview = new ShowcaseView.Builder(this)
+                .hideOnTouchOutside()
+                .setTarget(target)
+                .setContentTitle(guideTitle)
+                .setContentText(guideDetails)
+                .setStyle(R.style.CustomShowcaseTheme2)
+                .setShowcaseEventListener(this)
+                .withHoloShowcase()
+                .replaceEndButton(R.layout.view_custom_button)
+                .build();
+
+        showcaseview.setButtonPosition(lps);
+        currentItem = currentItem+1;
     }
 
 }

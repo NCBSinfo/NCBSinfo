@@ -145,7 +145,7 @@ public class HomeActivity extends AppCompatActivity
 
 
         //First Time Guide
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("guideSeen", true))
+        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("guideSeen2", true))
         {
             RelativeLayout main = (RelativeLayout)findViewById(R.id.MainLayout);
             RelativeLayout welcome = (RelativeLayout)findViewById(R.id.WelcomeLayout);
@@ -182,8 +182,8 @@ public class HomeActivity extends AppCompatActivity
             viewcase(R.id.NextShuttleTime);
         }
         else if (currentItem==3){
-            guideTitle= getString(R.string.guide_title4);
-            guideDetails = getString(R.string.guide_details4);
+            guideTitle= getString(R.string.guide_title5);
+            guideDetails = getString(R.string.guide_details5);
             viewcase(R.id.TimerAnimation);
         }
         else if (currentItem==4){

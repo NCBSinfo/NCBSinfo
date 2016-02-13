@@ -153,7 +153,7 @@ public class ContactActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_full_shuttle) {
 
-         Intent intent = new Intent(ContactActivity.this, NCBStoIISC.class);
+         Intent intent = new Intent(ContactActivity.this, AllShuttles.class);
          intent.putExtra("switch", String.valueOf(0));
          startActivity(intent);
 

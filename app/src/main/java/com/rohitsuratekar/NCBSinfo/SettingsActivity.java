@@ -286,7 +286,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             myPref4.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putBoolean("guideSeen", true).apply();
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     return false;
                 }
