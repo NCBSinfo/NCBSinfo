@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/popup_english"
-        android:title="English"/>
+        android:title="@string/lang_name1"/>
 
     <item
         android:id="@+id/popup_marathi"
-        android:title="Marathi"/>
+        android:title="@string/lang_name2"/>
 
     <item
         android:id="@+id/popup_bengali"
-        android:title="Bengali"/>
+        android:title="@string/lang_name3"/>
 
 </menu>

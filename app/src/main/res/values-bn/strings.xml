@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NCBSinfo</string>
+
+    <string name="main_page_contact">পরিচিতি</string>
+    <string name="main_page_language">ভাষা</string>
+    <string name="main_page_settings">সেটিংস</string>
+    <string name="main_page_shuttle">শাটল </string>
+
+
     <string name="navigation_drawer_open">নেভিগেশান ড্রয়ার খুলুন</string>
     <string name="navigation_drawer_close">নেভিগেশান ড্রয়ার বন্ধ করুন</string>
     <string name="nav_settings">সেটিংস</string>
@@ -8,6 +15,13 @@
     <string name="nav_shuttle">শাটল তালিকা</string>
     <string name="nav_buggy">বাগী তালিকা</string>
     <string name="nav_other">অন্যান্য</string>
+    <string name="nav_contact">পরিচিতি</string>
+
+
+    <string name="contact_activity_tab1">সব যোগাযোগ</string>
+    <string name="contact_activity_tab2">প্রিয়</string>
+
+
     <string name="next_shuttle">পরবর্তী শাটল</string>
     <string name="next_buggy">পরবর্তী বাগী</string>
     <string name="title_activity_settings">সেটিংস</string>
@@ -74,4 +88,18 @@
     <string name="action_ncbs_mandara">NCBS-Mandara</string>
     <string name="action_ncbs_iisc">NCBS-IISc</string>
     <string name="home_fromto"><![CDATA[ থেকে <b>%1$s</b> পর্যন্ত  <b>%2$s</b> ]]></string>
+
+    <string name="title_activity_contact">পরিচিতি</string>
+    <string name="title_activity_home">শাটল </string>
+
+    <string name="main_popup0">NCBS থেকে IISc</string>
+    <string name="main_popup1">IISc থেকে NCBS</string>
+    <string name="main_popup2">NCBS থেকে Mandara</string>
+    <string name="main_popup3">Mandara থেকে NCBS</string>
+    <string name="main_popup4">বাগী  থেকে NCBS</string>
+    <string name="main_popup5">বাগী  থেকে Mandara</string>
+    <string name="main_popup6">NCBS থেকে ICTS</string>
+    <string name="main_popup7">ICTS থেকে NCBS</string>
+    <string name="main_popup8">NCBS থেকে CBL</string>
+
 </resources>

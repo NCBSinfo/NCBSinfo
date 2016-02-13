@@ -62,17 +62,9 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String langtvalue = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("default_language", "0");
-        String languageToLoad  = new ExtraFunctions().currentLang(langtvalue); // your language
-
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
 
         setContentView(R.layout.activity_home);
+        setTitle(R.string.title_activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -332,7 +324,8 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_full_shuttle) {
 
@@ -358,6 +351,11 @@ public class HomeActivity extends AppCompatActivity
             intent = new Intent( HomeActivity.this, SettingsActivity.class );
             intent.putExtra( SettingsActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.DefaultShuttleFragment.class.getName() );
             intent.putExtra( SettingsActivity.EXTRA_NO_HEADERS, true );
+            startActivity(intent);
+
+        } else if (id == R.id.nav_contact) {
+            Intent intent;
+            intent = new Intent( HomeActivity.this, ContactActivity.class );
             startActivity(intent);
 
         } else if (id == R.id.nav_full_buggy){

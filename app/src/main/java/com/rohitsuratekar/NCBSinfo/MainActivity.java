@@ -12,10 +12,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,16 +25,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.hanks.htextview.HTextView;
-import com.hanks.htextview.HTextViewType;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
@@ -50,7 +47,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-         arcView= (DecoView)findViewById(R.id.dynamicArcView);
+        //For contact activity
+        Boolean Firstvalue = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("firstTime2", true);
+
+        if (Firstvalue){
+            DBHandler db = new DBHandler(getBaseContext());
+            String[][] clist = new contactList().allContacts();
+            for (int i=0; i <clist.length; i++){
+                db.addContact(new SQfields(1, clist[i][0], clist[i][1],clist[i][2], clist[i][3], "0"));
+            }
+            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("firstTime2", false).apply();
+            db.close();
+        }
+
+        //Set locale
+        String langtvalue = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("default_language", "0");
+        String languageToLoad  = new ExtraFunctions().currentLang(langtvalue); // your language
+
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
+
+        arcView= (DecoView)findViewById(R.id.dynamicArcView);
         ShuttleStringList = getResources().getStringArray(R.array.route_names);
 
         // Create background track
@@ -61,20 +83,20 @@ public class MainActivity extends AppCompatActivity {
                 .build());
 
         //Create data series track
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.argb(255, 64, 196, 0))
+        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#ff5722"))
                 .setRange(0, 60, 0)
                 .setLineWidth(16f)
                 .setInitialVisibility(true)
                 .build();
 
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.argb(255, 64, 96, 0))
+        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#4caf50"))
                 .setRange(0, 60, 0)
                 .setLineWidth(16f)
                 .setInset(new PointF(16f, 16f))
                 .setInitialVisibility(true)
                 .build();
 
-        SeriesItem seriesItem3 = new SeriesItem.Builder(Color.argb(125, 164, 96, 0))
+        SeriesItem seriesItem3 = new SeriesItem.Builder(Color.parseColor("#3f51b5"))
                 .setRange(0, 24, 0)
                 .setLineWidth(16f)
                 .setInset(new PointF(32f, 32f))
@@ -100,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
         b2.startAnimation(animation);
 
 
-        TextView hTextView = (TextView) findViewById(R.id.text);
-        hTextView.setText(ShuttleStringList[currentIndex]); // animate
+
 
         final ImageButton button1 = (ImageButton) findViewById(R.id.Home_translation_button);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -137,8 +158,6 @@ public class MainActivity extends AppCompatActivity {
         ln.setOnTouchListener(activitySwipeDetector);
 
         String shuttleRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("shuttle_route_list", "0");
-        Random randomGenerator = new Random();
-        int randomInt1 = randomGenerator.nextInt(60);
 
         String[] place = new ExtraFunctions().getRouteName(Integer.valueOf(shuttleRoute));
         GlobalShuttleFrom = place[0];
@@ -152,7 +171,51 @@ public class MainActivity extends AppCompatActivity {
         main1.setText(dformat.format(nextDate.getTime()));
         arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.HOUR_OF_DAY)).setIndex(series3Index).setDuration(500).build());
         arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.MINUTE)).setIndex(series2Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(randomInt1).setIndex(series1Index).setDuration(500).build());
+        arcView.addEvent(new DecoEvent.Builder(c2.get(Calendar.SECOND)).setIndex(series1Index).setDuration(500).build());
+
+        final TextView hTextView = (TextView) findViewById(R.id.text);
+        currentIndex = new ExtraFunctions().RouteNo(GlobalShuttleFrom, GlobalShuttleto, isBuggy);
+        hTextView.setText(ShuttleStringList[currentIndex]); // animate
+
+        String tempText;
+        if (isBuggy==1){tempText=getString(R.string.next_buggy);}
+        else {tempText=getString(R.string.next_shuttle);}
+        TextView nameT = (TextView)findViewById(R.id.HomePageText);
+        nameT.setText(tempText);
+        Date d1 =   new Date();
+        SimpleDateFormat format2 = new SimpleDateFormat("EEEE", Locale.getDefault());
+        TextView home_currentime = (TextView)findViewById(R.id.main_screen_timetext);
+        home_currentime.setText(Html.fromHtml(getString(R.string.home_current_datetime2, format2.format(d1))));
+
+        hTextView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(MainActivity.this, hTextView);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.main_screen_popup, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.main_popup_r0) { currentIndex = -1; goNext();
+                        } else if (item.getItemId() == R.id.main_popup_r1) { currentIndex = 0; goNext();
+                        } else if (item.getItemId() == R.id.main_popup_r2) { currentIndex = 1; goNext();
+                        }else if (item.getItemId() == R.id.main_popup_r3) { currentIndex = 2; goNext();
+                        }else if (item.getItemId() == R.id.main_popup_r4) { currentIndex = 3; goNext();
+                        }else if (item.getItemId() == R.id.main_popup_r5) { currentIndex = 4; goNext();
+                        }else if (item.getItemId() == R.id.main_popup_r6) { currentIndex = 5; goNext();
+                        }else if (item.getItemId() == R.id.main_popup_r7) { currentIndex = 6; goNext();
+                        }else if (item.getItemId() == R.id.main_popup_r8) { currentIndex = 7; goNext();
+                        }
+                        return true;
+                    }
+                });
+
+                popup.show();//showing popup menu
+            }
+        });//closing the setOnClickListener method
 
     }
 
@@ -169,6 +232,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void gotoShuttle(View arg0){
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void gotoContact(View arg0){
+        Intent intent = new Intent(MainActivity.this, ContactActivity.class);
         startActivity(intent);
     }
 
@@ -193,13 +261,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void onRightSwipe() {
-            goNext();
 
+            goPrevious();
 
         }
 
         public void onLeftSwipe() {
-            goPrevious();
+            goNext();
 
         }
 
@@ -315,8 +383,6 @@ public class MainActivity extends AppCompatActivity {
         if (currentIndex<0){
             currentIndex = ShuttleStringList.length - 1;
         }
-        Random randomGenerator=new Random();
-        int randomInt1 = randomGenerator.nextInt(60);
 
         String[] place = new ExtraFunctions().getRouteName(currentIndex);
         GlobalShuttleFrom = place[0];
@@ -333,7 +399,18 @@ public class MainActivity extends AppCompatActivity {
         hTextView.setText(ShuttleStringList[currentIndex]); // animate
         arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.HOUR_OF_DAY)).setIndex(series3Index).setDuration(500).build());
         arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.MINUTE)).setIndex(series2Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(randomInt1).setIndex(series1Index).setDuration(500).build());
+        arcView.addEvent(new DecoEvent.Builder(c2.get(Calendar.SECOND)).setIndex(series1Index).setDuration(500).build());
+
+        String tempText;
+        if (isBuggy==1){tempText=getString(R.string.next_buggy);}
+        else {tempText=getString(R.string.next_shuttle);}
+        TextView nameT = (TextView)findViewById(R.id.HomePageText);
+        nameT.setText(tempText);
+
+        Date d1 =   new Date();
+        SimpleDateFormat format2 = new SimpleDateFormat("EEEE", Locale.getDefault());
+        TextView home_currentime = (TextView)findViewById(R.id.main_screen_timetext);
+        home_currentime.setText(Html.fromHtml(getString(R.string.home_current_datetime2, format2.format(d1))));
 
     }
 
@@ -342,8 +419,6 @@ public class MainActivity extends AppCompatActivity {
         if (currentIndex>=ShuttleStringList.length){
             currentIndex = 0;
         }
-        Random randomGenerator = new Random();
-        int randomInt1 = randomGenerator.nextInt(60);
 
         String[] place = new ExtraFunctions().getRouteName(currentIndex);
         GlobalShuttleFrom = place[0];
@@ -360,7 +435,18 @@ public class MainActivity extends AppCompatActivity {
         hTextView.setText(ShuttleStringList[currentIndex]); // animate
         arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.HOUR_OF_DAY)).setIndex(series3Index).setDuration(500).build());
         arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.MINUTE)).setIndex(series2Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(randomInt1).setIndex(series1Index).setDuration(500).build());
+        arcView.addEvent(new DecoEvent.Builder(c2.get(Calendar.SECOND)).setIndex(series1Index).setDuration(500).build());
+
+        String tempText;
+        if (isBuggy==1){tempText=getString(R.string.next_buggy);}
+        else {tempText=getString(R.string.next_shuttle);}
+        TextView nameT = (TextView)findViewById(R.id.HomePageText);
+        nameT.setText(tempText);
+
+        Date d1 =   new Date();
+        SimpleDateFormat format2 = new SimpleDateFormat("EEEE", Locale.getDefault());
+        TextView home_currentime = (TextView)findViewById(R.id.main_screen_timetext);
+        home_currentime.setText(Html.fromHtml(getString(R.string.home_current_datetime2, format2.format(d1))));
     }
 
     public void changeLang(String code){

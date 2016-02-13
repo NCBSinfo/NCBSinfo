@@ -3,6 +3,11 @@
 
     <string name="app_name">NCBS बद्दल माहिती</string>
 
+    <string name="main_page_contact">संपर्क</string>
+    <string name="main_page_language">भाषा</string>
+    <string name="main_page_settings">सेटिंग</string>
+    <string name="main_page_shuttle">शटल</string>
+
     <string name="navigation_drawer_open">नेव्हिगेशन ड्रॉवर उघडा</string>
     <string name="navigation_drawer_close">नेव्हिगेशन ड्रॉवर बंद करा</string>
     <string name="nav_settings">सेटिंग्ज</string>
@@ -10,6 +15,7 @@
     <string name="nav_shuttle">संपूर्ण शटलची यादी</string>
     <string name="nav_buggy">संपूर्ण बाग्गीची यादी</string>
     <string name="nav_other">बाकीचे</string>
+    <string name="nav_contact">संपर्क</string>
 
     <string name="next_shuttle">पुढचे शटल</string>
     <string name="next_buggy">पुढची बग्गी</string>
@@ -42,6 +48,9 @@
     <string name="tab_title6">NCBS ते ICTS</string>
     <string name="tab_title7">ICTS ते NCBS</string>
     <string name="tab_title8">NCBS ते CBL</string>
+
+    <string name="contact_activity_tab1">सर्व संपर्क</string>
+    <string name="contact_activity_tab2">आवडते </string>
 
     <string name="title_activity_ncbsto_iisc">NCBS आणि IISc मध्ये</string>
     <string name="title_activity_ncbsto_other">बाकीचे शटल</string>
@@ -99,5 +108,18 @@
     <string name="guide_details2">फक्त उपलब्ध पर्याय ओलांडून स्क्रोल करा आणि बाकीचे सर्व आमच्यावर सोपवा</string>
     <string name="guide_details1">कार्ये आणि उपलब्ध पर्याय जाणून घेण्यासाठी या अॅप्लिकेशनचा एक फेरफटका मारा. पुढील टीप पाहण्यासाठी निळ्या स्क्रीन वर कुठेही टॅप करा.</string>
     <string name="feature_list"><![CDATA[ आम्ही नेहमीच आपल्या वैशिष्ट्य विनंत्या पाहण्यासाठी उत्सुक आहोत. आमच्या बीटा चाचणी कार्यक्रमातून , आम्हाला अनेक वैशिष्ट्य सूचना आणि विनंत्या आल्या आहेत. आम्ही सध्याच्या अॅप्लिकेशन मध्ये खालील वैशिष्ट्ये अंमलबजावणी करण्याच्या प्रक्रियेत आहोत, <br></br><br></br>  &#8226; महत्वाचे संपर्क आणि ईमेल आयडी <br></br> &#8226; जीपीएस आधारित शटल किंवा बाग्गीची सूचना<br></br> &#8226; लॅब संसाधने आणि व्यवस्थापन<br></br> &#8226; NCBS कार्यक्रम अद्यतने<br></br> <br></br><br></br> आपण मनात काहीतरी वेगळे असेल तर अभिप्राय <b>rohitsuratekar@gmail.com</b> वर पाठवा. <br></br><br></br> आपणास आम्हाला अॅप्लिकेशन बनविण्यामध्ये किंवा वेगळ्या भाषेत अनुवाद करण्यात मदत करण्याचे स्वारस्य असल्यास , आपले स्वागतच आहे :)   ]]></string>
+
+    <string name="title_activity_contact">संपर्क</string>
+    <string name="title_activity_home">शटल</string>
+
+    <string name="main_popup0">NCBS पासून IISc पर्यंत</string>
+    <string name="main_popup1">IISc पासून NCBS पर्यंत</string>
+    <string name="main_popup2">NCBS पासून Mandara पर्यंत</string>
+    <string name="main_popup3">Mandara पासून NCBS पर्यंत</string>
+    <string name="main_popup4">NCBS पासून बग्गी</string>
+    <string name="main_popup5">Mandara पासून बग्गी</string>
+    <string name="main_popup6">NCBS पासून ICTS पर्यंत</string>
+    <string name="main_popup7">ICTS पासून NCBS पर्यंत</string>
+    <string name="main_popup8">NCBS पासून CBL पर्यंत</string>
 
 </resources>
