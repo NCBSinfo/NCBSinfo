@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/main_popup_r0"
+        android:title="@string/main_popup0"/>
+
+    <item
+        android:id="@+id/main_popup_r1"
+        android:title="@string/main_popup1"/>
+    <item
+        android:id="@+id/main_popup_r2"
+        android:title="@string/main_popup2"/>
+    <item
+        android:id="@+id/main_popup_r3"
+        android:title="@string/main_popup3"/>
+    <item
+        android:id="@+id/main_popup_r4"
+        android:title="@string/main_popup4"/>
+
+    <item
+        android:id="@+id/main_popup_r5"
+        android:title="@string/main_popup5"/>
+
+    <item
+        android:id="@+id/main_popup_r6"
+        android:title="@string/main_popup6"/>
+
+    <item
+        android:id="@+id/main_popup_r7"
+        android:title="@string/main_popup7"/>
+
+    <item
+        android:id="@+id/main_popup_r8"
+        android:title="@string/main_popup8"/>
+
+
+</menu>

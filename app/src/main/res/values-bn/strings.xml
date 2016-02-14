@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NCBSinfo</string>
+
+    <string name="main_page_contact">পরিচিতি</string>
+    <string name="main_page_language">ভাষা</string>
+    <string name="main_page_settings">সেটিংস</string>
+    <string name="main_page_shuttle">শাটল </string>
+
+
+    <string name="navigation_drawer_open">নেভিগেশান ড্রয়ার খুলুন</string>
+    <string name="navigation_drawer_close">নেভিগেশান ড্রয়ার বন্ধ করুন</string>
+    <string name="nav_settings">সেটিংস</string>
+    <string name="nav_sub_title">অন্যান্য</string>
+    <string name="nav_shuttle">শাটল তালিকা</string>
+    <string name="nav_buggy">বাগী তালিকা</string>
+    <string name="nav_other">অন্যান্য</string>
+    <string name="nav_contact">পরিচিতি</string>
+
+
+    <string name="contact_activity_tab1">সব যোগাযোগ</string>
+    <string name="contact_activity_tab2">প্রিয়</string>
+
+
+    <string name="next_shuttle">পরবর্তী শাটল</string>
+    <string name="next_buggy">পরবর্তী বাগী</string>
+    <string name="title_activity_settings">সেটিংস</string>
+    <string name="list_titile3">NCBS থেকে</string>
+    <string name="list_titile4">Mandara থেকে</string>
+    <string name="list_titile5">NCBS থেকে IISc</string>
+    <string name="list_titile6">ICTS থেকে NCBS</string>
+    <string name="tab_title3">NCBS থেকে Mandara</string>
+    <string name="tab_title1">NCBS থেকে IISc</string>
+    <string name="tab_title2">IISc থেকে NCBS</string>
+    <string name="tab_title4">Mandara থেকে NCBS</string>
+    <string name="tab_title7">ICTS থেকে NCBS</string>
+    <string name="tab_title8">NCBS থেকে CBL</string>
+    <string name="tab_title6">NCBS থেকে  ICTS</string>
+    <string name="title_activity_ncbsto_icts">NCBS এবং ICTSর মধ্যে</string>
+    <string name="title_activity_ncbsto_iisc">NCBS এবং IIScর মধ্যে</string>
+    <string name="title_activity_ncbsto_mandara">NCBS এবং Mandaraর মধ্যে</string>
+    <string name="setting_default_shuttle_view">ডিফল্ট রুট দেখুন</string>
+    <string name="setting_clear_summary">সব ব্যবহারকারী পছন্দগুলি মুছে দিন</string>
+    <string name="setting_feature">বৈশিষ্ট্যর জন্য অনুরোধ করুন</string>
+    <string name="request_feature_button">বৈশিষ্ট্যর জন্য অনুরোধ করুন</string>
+    <string name="feature_title">বৈশিষ্ট্যর জন্য অনুরোধ করুন</string>
+
+    <string name="guide_details1">ফাংশন এবং উপলব্ধ অপশন জানতে, এই অ্যাপ্লিকেশন একটি দ্রুত সফর নিন. পরবর্তী tip দেখতে, নীল পর্দায় কোথাও ট্যাপ করুন.</string>
+    <string name="guide_title2">রুট নির্বাচন</string>
+    <string name="guide_title3">পরবর্তী শাটল বা বাগী</string>
+    <string name="guide_title5">অধিক তথ্য</string>
+    <string name="guide_details5">নির্বাচিত রুটে পরিবহন সংক্রান্ত আরও তথ্যের জন্য, এই বাটন-এ ক্লিক করুন</string>
+    <string name="guide_title6">আরও বেশি</string>
+
+    <string name="nav_home">হোম</string>
+    <string name="other_shuttle_r1">NCBS-ICTS</string>
+    <string name="other_shuttle_r2">ICTS-NCBS</string>
+    <string name="home_onRoute">রুটে</string>
+    <string name="home_timeleft">সময় বাকি </string>
+    <string name="shuttle_footnote">* শনিবার সহ</string>
+    <string name="shuttle_footnote3">শুধু সোমবার থেকে শুক্রবার</string>
+    <string name="list_titile1">রবিবার </string>
+    <string name="tab_title5"> বাগী</string>
+    <string name="title_activity_ncbsto_cbl">NCBS থেকে CBL</string>
+    <string name="title_activity_ncbsto_other">অন্যান্য   Shuttles</string>
+    <string name="title_activity_other_shuttles">অন্যান্য   Shuttles</string>
+    <string name="setting_app_lang">অ্যাপ্লিকেশনের ভাষা</string>
+    <string name="setting_clear_pref">পছন্দগুলি সাফ করুন</string>
+    <string name="setting_aboutus">আমাদের সম্পর্কে</string>
+    <string name="setting_aboutus_summary">আমাদের সম্পর্কে কিছু তথ্য </string>
+    <string name="setting_terms">শর্তাবলী</string>
+    <string name="setting_terms_summary">এটা যদিও কেউ পড়ে না </string>
+    <string name="setting_guide_summary">অ্যাপ্লিকেশনের ফাংশন গুলি আবার চেক করুন </string>
+    <string name="setting_guide_title">অ্যাপ গাইড</string>
+    <string name="setting_feature_summary">আপনি এই app এর মধ্যে যদি কোনো নতুন বৈশিষ্ট্য দেখতে চান</string>
+    <string name="alert_langchange_head">টীকা</string>
+    <string name="alert_langchange_warning">পুনরায় আরম্ভ করার পর ভাষা পরিবর্তন হবে</string>
+    <string name="alert_prefchange_head">তথ্য পুনরুদ্ধার করুন</string>
+    <string name="alert_prefchange_warning">আপনি কি নিশ্চিত যে আপনি সব ব্যক্তিগতকৃত সেটিংস পুনরুদ্ধার করতে চান?</string>
+    <string name="toast_restore_value">সকল মান ডিফল্টে পুনরুদ্ধার করা হল</string>
+    <string name="pref_shuttle_header">সাধারণ সেটিংস</string>
+    <string name="guide_title1">ধন্যবাদ </string>
+    <string name="guide_details2">শুধু উপলব্ধ অপশন মাধ্যমে স্ক্রোল করুন এবং আমরা বাকিটার যত্ন নেব</string>
+    <string name="guide_details3">যখন আপনি রুট নির্বাচন করবেন, তখন এখানে পরের শাটল বা বাগীর সময় দেখতে পাবেন </string>
+    <string name="action_settings">সেটিংস</string>
+    <string name="action_other">অন্যান্য   Shuttles</string>
+    <string name="action_ncbs_mandara">NCBS-Mandara</string>
+    <string name="action_ncbs_iisc">NCBS-IISc</string>
+    <string name="home_fromto"><![CDATA[ থেকে <b>%1$s</b> পর্যন্ত  <b>%2$s</b> ]]></string>
+
+    <string name="title_activity_contact">পরিচিতি</string>
+    <string name="title_activity_home">শাটল </string>
+
+    <string name="main_popup0">NCBS থেকে IISc</string>
+    <string name="main_popup1">IISc থেকে NCBS</string>
+    <string name="main_popup2">NCBS থেকে Mandara</string>
+    <string name="main_popup3">Mandara থেকে NCBS</string>
+    <string name="main_popup4">বাগী  থেকে NCBS</string>
+    <string name="main_popup5">বাগী  থেকে Mandara</string>
+    <string name="main_popup6">NCBS থেকে ICTS</string>
+    <string name="main_popup7">ICTS থেকে NCBS</string>
+    <string name="main_popup8">NCBS থেকে CBL</string>
+
+    <string name="title_activity_all_shuttles">সব রুট</string>
+    <string name="developer">Developed by Rohit Suratekar \n (rohitsuratekar@gmail.com) \n Feel free to send any feedback :)</string>
+    <string name="feature_list"><![CDATA[ We are always happy to receive your feature requests. From our beta testing program, we have received many feature suggestions and requests. We are in the process of implementing the following features in the current app <br></br><br></br>     &#8226; Important email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>        &#8226; NCBS event updates<br></br><br></br> if you have something else in mind, please send your feedback to <b>rohitsuratekar@gmail.com</b> <br></br><br></br>        If you are interested in helping us build the app or translate it to another language then you are most welcome :)  ]]></string>
+    <string name="about_us">NCBSinfo is an application for regular use specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore. Our aim is to create a mobile application which will serve as an application-cum-database of important timings pertaining to NCBS. With the help of this we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.</string>
+    <string name="guide_title7">ভাষা</string>
+    <string name="home_current_datetime"><![CDATA[after %1$s on %2$s ]]></string>
+    <string name="home_current_datetime2"><![CDATA[ %1$s ]]></string>
+    <string name="hour_left"><![CDATA[<b>%1$d</b> <br> <small>Hours<small>]]></string>
+    <string name="min_left"><![CDATA[<b>%1$d</b> <br><small>Minutes<small>]]></string>
+    <string name="sec_left"><![CDATA[<b>%1$d</b> <br><small>Seconds<small>]]></string>
+    <string name="shuttle_footnote2">** %1$s after %2$s</string>
+    <string name="special_thanks">Special thanks to Pritha Ghosh for Bengali translation.</string>
+    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use. All the information provided in this application was last updated on 14 February 2016. Though a lot of effort has been taken to curate the information, minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed through this application. In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
+    <string name="list_titile2">উইকডেস *</string>
+    <string name="guide_details6">গুরুত্বপূর্ণ পরিচিতি এবং এক্সটেনশন নম্বর দেখতে এখানে ক্লিক করুন</string>
+    <string name="guide_details7">আপনি এখান থেকে দ্রুত ভাষা পরিবর্তন করতে পারেন </string>
+
+</resources>

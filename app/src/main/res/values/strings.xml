@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
 
+    <string name="main_page_contact">Contacts</string>
+    <string name="main_page_language">Language</string>
+    <string name="main_page_settings">Settings</string>
+    <string name="main_page_shuttle">Shuttles</string>
+
+    <string name="lang_name1" translatable="false">English</string>
+    <string name="lang_name2" translatable="false">मराठी</string>
+    <string name="lang_name3" translatable="false">বাংলা</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_settings">Settings</string>
@@ -9,12 +18,13 @@
     <string name="nav_shuttle">Shuttle Lists</string>
     <string name="nav_buggy">Buggy lists</string>
     <string name="nav_other">Other</string>
+    <string name="nav_contact">Contact</string>
 
     <string name="next_shuttle">Next shuttle</string>
     <string name="next_buggy">Next buggy</string>
 
     <string name="user_name" translatable="false">NCBSinfo</string>
-    <string name="user_email" translatable="false">v 1.2</string>
+    <string name="user_email" translatable="false">v 2.0</string>
 
     <string name="action_settings">Settings</string>
     <string name="action_ncbs_iisc">NCBS-IISc</string>
@@ -24,8 +34,12 @@
     <string name="other_shuttle_r1">NCBS-ICTS</string>
     <string name="other_shuttle_r2">ICTS-NCBS</string>
 
+    <string name="contact_activity_tab1">All contacts</string>
+    <string name="contact_activity_tab2">Favorite</string>
+
 
     <string name="home_current_datetime"><![CDATA[after %1$s on %2$s ]]> </string>
+    <string name="home_current_datetime2"><![CDATA[ on %1$s ]]> </string>
     <string name="home_fromto"><![CDATA[from <b>%1$s</b> to <b>%2$s</b> ]]> </string>
     <string name="hour_left"><![CDATA[<b>%1$d</b> <br> <small>Hours<small>]]> </string>
     <string name="min_left"><![CDATA[<b>%1$d</b> <br><small>Minutes<small>]]> </string>
@@ -84,12 +98,14 @@
 
     <string name="about_us">NCBSinfo is an application for regular use specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore. Our aim is to create a mobile application which will serve as an application-cum-database of important timings pertaining to NCBS. With the help of this we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.</string>
     <string name="developer">Developed by Rohit Suratekar \n (rohitsuratekar@gmail.com) \n Feel free to send any feedback :)</string>
-    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use. All the information provided in this application was last updated on 02 February 2016. Though a lot of effort has been taken to curate the information, minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed through this application. In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
+    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use. All the information provided in this application was last updated on 14 February 2016. Though a lot of effort has been taken to curate the information, minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed through this application. In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
     <string name="title_activity_other_shuttles">Other Shuttles</string>
     <string name="feature_list"><![CDATA[ We are always happy to receive your feature requests. From our beta testing program, we have received many feature suggestions and requests. We are in the process of implementing the following features in the current app <br></br><br></br>
-    &#8226; Important contacts and email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>
+    &#8226; Important email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>
        &#8226; NCBS event updates<br></br><br></br> if you have something else in mind, please send your feedback to <b>rohitsuratekar@gmail.com</b> <br></br><br></br>
        If you are interested in helping us build the app or translate it to another language then you are most welcome :)  ]]></string>
+
+    <string name="special_thanks">Special thanks to Pritha Ghosh for Bengali translation.</string>
 
     <string name="feature_title">Feature Request</string>
 
@@ -99,13 +115,28 @@
     <string name="guide_details2">Just scroll through the available options and we will take care of the rest :)</string>
     <string name="guide_title3">Next shuttle or buggy</string>
     <string name="guide_details3">When you select the route you will see the next shuttle or buggy timing here. You can also set the default view from the settings, which will be shown when you start the app.</string>
-    <string name="guide_title4">Time remaining</string>
-    <string name="guide_details4">Here you will be able to see how much time is left for the next shuttle or buggy.</string>
     <string name="guide_title5">More information</string>
     <string name="guide_details5">For further information regarding transport on the selected route, click on this button.</string>
-    <string name="guide_title6">Even more</string>
-    <string name="guide_details6">Open navigation drawer to see more options and enjoy :)</string>
+    <string name="guide_title6">Contacts</string>
+    <string name="guide_details6">Click here to see important contacts and extension numbers.</string>
+    <string name="guide_title7">Language</string>
+    <string name="guide_details7">You can quickly switch amongst languages from here.</string>
     <string name="request_feature_button">Request Feature</string>
+    <string name="title_activity_contact">Contacts</string>
+    <string name="title_activity_home">Shuttles</string>
+
+    <string name="main_popup0">NCBS to IISc</string>
+    <string name="main_popup1">IISc to NCBS</string>
+    <string name="main_popup2">NCBS to Mandara</string>
+    <string name="main_popup3">Mandara to NCBS</string>
+    <string name="main_popup4">Buggy from NCBS</string>
+    <string name="main_popup5">Buggy from Mandara</string>
+    <string name="main_popup6">NCBS to ICTS</string>
+    <string name="main_popup7">ICTS to NCBS</string>
+    <string name="main_popup8">NCBS to CBL</string>
+
+
+    <string name="title_activity_all_shuttles">All routes</string>
 
 
 </resources>

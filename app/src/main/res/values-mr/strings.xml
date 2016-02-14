@@ -3,6 +3,11 @@
 
     <string name="app_name">NCBS बद्दल माहिती</string>
 
+    <string name="main_page_contact">संपर्क</string>
+    <string name="main_page_language">भाषा</string>
+    <string name="main_page_settings">सेटिंग</string>
+    <string name="main_page_shuttle">शटल</string>
+
     <string name="navigation_drawer_open">नेव्हिगेशन ड्रॉवर उघडा</string>
     <string name="navigation_drawer_close">नेव्हिगेशन ड्रॉवर बंद करा</string>
     <string name="nav_settings">सेटिंग्ज</string>
@@ -10,6 +15,7 @@
     <string name="nav_shuttle">संपूर्ण शटलची यादी</string>
     <string name="nav_buggy">संपूर्ण बाग्गीची यादी</string>
     <string name="nav_other">बाकीचे</string>
+    <string name="nav_contact">संपर्क</string>
 
     <string name="next_shuttle">पुढचे शटल</string>
     <string name="next_buggy">पुढची बग्गी</string>
@@ -42,6 +48,9 @@
     <string name="tab_title6">NCBS ते ICTS</string>
     <string name="tab_title7">ICTS ते NCBS</string>
     <string name="tab_title8">NCBS ते CBL</string>
+
+    <string name="contact_activity_tab1">सर्व संपर्क</string>
+    <string name="contact_activity_tab2">आवडते </string>
 
     <string name="title_activity_ncbsto_iisc">NCBS आणि IISc मध्ये</string>
     <string name="title_activity_ncbsto_other">बाकीचे शटल</string>
@@ -79,7 +88,9 @@
     <string name="toast_restore_value">सर्व सेटिंग चे मूल्य पूर्वतः झाले !</string>
     <string name="about_us"> जे लोक National Centre for Biological Science (NCBS), बंगळुरु मध्ये काम करतात अश्या लोकांसाठी NCBSinfo हे नेहमी उपयोगी पडणारे अॅप्लिकेशन आहे. आमचे ध्येय असे अॅप्लिकेशन तयार करायचे आहे कि जे NCBS संबंधित महत्वाच्या वेळा आणि इतर माहिती संबंधित अॅप्लिकेशन कमी डेटाबेस म्हणून काम करेल. याच्या मदतीने आपण शटल वेळ आणि संपर्क क्रमांक अशी उपयुक्त माहिती शोधण्याचा वेळ कमी करण्यासाठी प्रयत्न करू.</string>
      <string name="developer"> हे रोहित सुरतेकर यांनी विकसित केले आहे. \n (rohitsuratekar@gmail.com) \n मोकळ्या मनाने कोणताही अभिप्राय पाठवा. </string>
-    <string name="terms">हे NCBS चे अधिकृत अॅप्लिकेशन नाही आणि फक्त वैयक्तिक वापरासाठी तयार केले गेले आहे. या अॅप्लिकेशन मध्ये प्रदान केलेली सर्व माहिती गेल्या 2016,02 फेब्रुवारी रोजी अद्यतनित केली आहे. जरी योग्य माहिती पुरवण्यासाठी भरपूर काळजी घेतली आहे, लहान विसंगतीं अद्याप अस्तित्वात असू शकतात. विकासक अशा अॅप्लिकेशन द्वारा सादर केलेल्या कोणत्याही माहितीला जबाबदार नाहीत . अश्या काही विसंगती आढळल्यास कृपया विकासकांना कळवावे. ती सुधारण्यासाठी योग्य ते प्रयत्न घेतले जातील.</string>
+    <string name="terms">हे NCBS चे अधिकृत अॅप्लिकेशन नाही आणि फक्त वैयक्तिक वापरासाठी तयार केले गेले आहे. या अॅप्लिकेशन मध्ये प्रदान केलेली सर्व माहिती गेल्या 2016,14 फेब्रुवारी रोजी अद्यतनित केली आहे. जरी योग्य माहिती पुरवण्यासाठी भरपूर काळजी घेतली आहे, लहान विसंगतीं अद्याप अस्तित्वात असू शकतात. विकासक अशा अॅप्लिकेशन द्वारा सादर केलेल्या कोणत्याही माहितीला जबाबदार नाहीत . अश्या काही विसंगती आढळल्यास कृपया विकासकांना कळवावे. ती सुधारण्यासाठी योग्य ते प्रयत्न घेतले जातील.</string>
+    <string name="special_thanks"> बंगाली अनुवादासाठी प्रिथा घोष यांना विशेष धन्यवाद</string>
+
     <string name="feature_title">वैशिष्ट्य विनंती</string>
     <string name="setting_feature">वैशिष्ट्य विनंती</string>
     <string name="setting_guide_title">अॅप्लिकेशनबद्दल मार्गदर्शन</string>
@@ -88,16 +99,32 @@
     <string name="request_feature_button">वैशिष्ट्य विनंती</string>
     <string name="guide_title6">आणखी</string>
     <string name="guide_title5">अधिक माहिती</string>
-    <string name="guide_title4">उर्वरित वेळ</string>
     <string name="guide_title3">पुढील शटल किंवा बग्गी</string>
     <string name="guide_title2">मार्ग निवडा</string>
     <string name="guide_title1">आपले स्वागत आहे</string>
-    <string name="guide_details6">नेव्हिगेशन ड्रॉवर उघडा अधिक पर्याय पाहण्यासाठी आणि आनंद घ्या :)</string>
     <string name="guide_details5">आपण निवडलेल्या मार्गावर वाहतूक बद्दल अधिक माहिती हवी असेल तर , या बटणावर क्लिक करा.</string>
-    <string name="guide_details4">येथे आपण पुढील शटल किंवा बग्गी साठी किती वेळ शिल्लक आहे दिसेल.</string>
     <string name="guide_details3">जेव्हा मार्ग निवडाल , तेव्हा आपणास पुढील शटल किंवा बाग्गीची वेळ दिसेल. आपण अॅपच्या प्रारंभी दाखवले जाणारे दृश्य डीफॉल्ट सेटिंग्ज मधून सेट करू शकता.</string>
     <string name="guide_details2">फक्त उपलब्ध पर्याय ओलांडून स्क्रोल करा आणि बाकीचे सर्व आमच्यावर सोपवा</string>
     <string name="guide_details1">कार्ये आणि उपलब्ध पर्याय जाणून घेण्यासाठी या अॅप्लिकेशनचा एक फेरफटका मारा. पुढील टीप पाहण्यासाठी निळ्या स्क्रीन वर कुठेही टॅप करा.</string>
-    <string name="feature_list"><![CDATA[ आम्ही नेहमीच आपल्या वैशिष्ट्य विनंत्या पाहण्यासाठी उत्सुक आहोत. आमच्या बीटा चाचणी कार्यक्रमातून , आम्हाला अनेक वैशिष्ट्य सूचना आणि विनंत्या आल्या आहेत. आम्ही सध्याच्या अॅप्लिकेशन मध्ये खालील वैशिष्ट्ये अंमलबजावणी करण्याच्या प्रक्रियेत आहोत, <br></br><br></br>  &#8226; महत्वाचे संपर्क आणि ईमेल आयडी <br></br> &#8226; जीपीएस आधारित शटल किंवा बाग्गीची सूचना<br></br> &#8226; लॅब संसाधने आणि व्यवस्थापन<br></br> &#8226; NCBS कार्यक्रम अद्यतने<br></br> <br></br><br></br> आपण मनात काहीतरी वेगळे असेल तर अभिप्राय <b>rohitsuratekar@gmail.com</b> वर पाठवा. <br></br><br></br> आपणास आम्हाला अॅप्लिकेशन बनविण्यामध्ये किंवा वेगळ्या भाषेत अनुवाद करण्यात मदत करण्याचे स्वारस्य असल्यास , आपले स्वागतच आहे :)   ]]></string>
+    <string name="feature_list"><![CDATA[ आम्ही नेहमीच आपल्या वैशिष्ट्य विनंत्या पाहण्यासाठी उत्सुक आहोत. आमच्या बीटा चाचणी कार्यक्रमातून , आम्हाला अनेक वैशिष्ट्य सूचना आणि विनंत्या आल्या आहेत. आम्ही सध्याच्या अॅप्लिकेशन मध्ये खालील वैशिष्ट्ये अंमलबजावणी करण्याच्या प्रक्रियेत आहोत, <br></br><br></br>  &#8226; महत्वाचे ईमेल आयडी <br></br> &#8226; जीपीएस आधारित शटल किंवा बाग्गीची सूचना<br></br> &#8226; लॅब संसाधने आणि व्यवस्थापन<br></br> &#8226; NCBS कार्यक्रम अद्यतने<br></br> <br></br><br></br> आपण मनात काहीतरी वेगळे असेल तर अभिप्राय <b>rohitsuratekar@gmail.com</b> वर पाठवा. <br></br><br></br> आपणास आम्हाला अॅप्लिकेशन बनविण्यामध्ये किंवा वेगळ्या भाषेत अनुवाद करण्यात मदत करण्याचे स्वारस्य असल्यास , आपले स्वागतच आहे :)   ]]></string>
+
+    <string name="title_activity_contact">संपर्क</string>
+    <string name="title_activity_home">शटल</string>
+
+    <string name="main_popup0">NCBS पासून IISc पर्यंत</string>
+    <string name="main_popup1">IISc पासून NCBS पर्यंत</string>
+    <string name="main_popup2">NCBS पासून Mandara पर्यंत</string>
+    <string name="main_popup3">Mandara पासून NCBS पर्यंत</string>
+    <string name="main_popup4">NCBS पासून बग्गी</string>
+    <string name="main_popup5">Mandara पासून बग्गी</string>
+    <string name="main_popup6">NCBS पासून ICTS पर्यंत</string>
+    <string name="main_popup7">ICTS पासून NCBS पर्यंत</string>
+    <string name="main_popup8">NCBS पासून CBL पर्यंत</string>
+
+    <string name="title_activity_all_shuttles">सर्व मार्ग</string>
+    <string name="guide_details7">आपण येथून त्वरीत भाषा निवडू शकता.</string>
+    <string name="guide_title7">भाषा</string>
+    <string name="home_current_datetime2"><![CDATA[ %1$s ]]></string>
+    <string name="guide_details6">महत्त्वाचे संपर्क पाहण्यासाठी येथे क्लिक करा .</string>
 
 </resources>

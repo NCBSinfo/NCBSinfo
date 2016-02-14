@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_home_black_48px"
             android:title="@string/nav_home" />
         <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_contacts_24dp"
+            android:title="@string/nav_contact" />
+        <item
             android:id="@+id/nav_full_shuttle"
             android:icon="@drawable/ic_airport_shuttle_black_48px"
             android:title="@string/nav_shuttle" />

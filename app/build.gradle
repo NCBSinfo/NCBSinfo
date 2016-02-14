@@ -8,8 +8,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 7
-        versionName "v 1.2"
+        versionCode 8
+        versionName "v 2.0"
     }
     buildTypes {
         release {
@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+repositories{
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -26,4 +29,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.github.amlcurran.showcaseview:library:5.4.0'
+    compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.5'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
