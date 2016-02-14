@@ -101,7 +101,7 @@
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use. All the information provided in this application was last updated on 14 February 2016. Though a lot of effort has been taken to curate the information, minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed through this application. In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
     <string name="title_activity_other_shuttles">Other Shuttles</string>
     <string name="feature_list"><![CDATA[ We are always happy to receive your feature requests. From our beta testing program, we have received many feature suggestions and requests. We are in the process of implementing the following features in the current app <br></br><br></br>
-    &#8226; Important contacts and email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>
+    &#8226; Important email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>
        &#8226; NCBS event updates<br></br><br></br> if you have something else in mind, please send your feedback to <b>rohitsuratekar@gmail.com</b> <br></br><br></br>
        If you are interested in helping us build the app or translate it to another language then you are most welcome :)  ]]></string>
 

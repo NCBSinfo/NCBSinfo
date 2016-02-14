@@ -9,58 +9,53 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeActivity"
-            android:configChanges="locale|orientation|keyboardHidden"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".NCBStoIISC"
             android:configChanges="locale|orientation|keyboardHidden"
             android:label="@string/title_activity_ncbsto_iisc"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.HomeActivity" />
+                android:value="com.rohitsuratekar.NCBSinfo.MainActivity" />
         </activity>
         <activity
             android:name=".NCBStoMandara"
             android:configChanges="locale|orientation|keyboardHidden"
             android:label="@string/title_activity_ncbsto_mandara"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.HomeActivity" />
+                android:value="com.rohitsuratekar.NCBSinfo.MainActivity" />
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:configChanges="locale|orientation|keyboardHidden"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.HomeActivity" />
+                android:value="com.rohitsuratekar.NCBSinfo.MainActivity" />
         </activity>
         <activity android:name=".AboutUsActivity" />
         <activity
             android:name=".NCBStoOther"
             android:configChanges="locale|orientation|keyboardHidden"
             android:label="@string/title_activity_ncbsto_icts"
-            android:parentActivityName=".HomeActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.HomeActivity" />
+                android:value="com.rohitsuratekar.NCBSinfo.MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
+            android:configChanges="locale|orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -89,7 +84,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.MainActivity" />
         </activity>
-        <activity android:name=".AddNewContact"></activity>
+        <activity
+            android:name=".AddNewContact"
+            android:configChanges="locale|orientation|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+
+            />
     </application>
 
 </manifest>

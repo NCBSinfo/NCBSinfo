@@ -31,5 +31,4 @@ dependencies {
     compile 'com.github.amlcurran.showcaseview:library:5.4.0'
     compile 'com.github.bmarrdev:android-DecoView-charting:v0.9.5'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.bignerdranch.android:expandablerecyclerview:1.0.3'
 }

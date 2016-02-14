@@ -98,7 +98,13 @@ public class AddNewContact extends AppCompatActivity {
             inputLayoutName.setError("Invalid Name");
             requestFocus(inputName);
             return false;
-        } else {
+        }
+        else if (inputNumber.getText().toString().trim().isEmpty()) {
+            inputLayoutNumber.setError("Contact number can not be empty");
+            requestFocus(inputNumber);
+            return false;
+        }
+        else {
             inputLayoutName.setErrorEnabled(false);
         }
 

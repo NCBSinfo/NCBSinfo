@@ -104,7 +104,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             preference.getContext().getResources().getDisplayMetrics());
 
                     if (activitystart==0){activitystart++;}
-                    else{ preference.getContext().startActivity(new Intent(preference.getContext(), HomeActivity.class));
+                    else{ preference.getContext().startActivity(new Intent(preference.getContext(), MainActivity.class));
                         activitystart=0;}
 
                 }
