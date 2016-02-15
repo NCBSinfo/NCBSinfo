@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.rohitsuratekar.NCBSinfo"
-        minSdkVersion 19
+        minSdkVersion 14
         targetSdkVersion 23
-        versionCode 8
-        versionName "v 2.0"
+        versionCode 9
+        versionName "v 2.1"
     }
     buildTypes {
         release {

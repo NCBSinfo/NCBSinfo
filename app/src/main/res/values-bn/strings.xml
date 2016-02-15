@@ -106,7 +106,7 @@
     <string name="feature_list"><![CDATA[ We are always happy to receive your feature requests. From our beta testing program, we have received many feature suggestions and requests. We are in the process of implementing the following features in the current app <br></br><br></br>     &#8226; Important email IDs <br/> &#8226; GPS based shuttle or buggy suggestions <br/> &#8226; Lab resources and management<br/>        &#8226; NCBS event updates<br></br><br></br> if you have something else in mind, please send your feedback to <b>rohitsuratekar@gmail.com</b> <br></br><br></br>        If you are interested in helping us build the app or translate it to another language then you are most welcome :)  ]]></string>
     <string name="about_us">NCBSinfo is an application for regular use specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore. Our aim is to create a mobile application which will serve as an application-cum-database of important timings pertaining to NCBS. With the help of this we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.</string>
     <string name="guide_title7">ভাষা</string>
-    <string name="home_current_datetime"><![CDATA[after %1$s on %2$s ]]></string>
+    <string name="home_current_datetime"><![CDATA[%2$s  %1$s-এর পর ]]></string>
     <string name="home_current_datetime2"><![CDATA[ %1$s ]]></string>
     <string name="hour_left"><![CDATA[<b>%1$d</b> <br> <small>Hours<small>]]></string>
     <string name="min_left"><![CDATA[<b>%1$d</b> <br><small>Minutes<small>]]></string>

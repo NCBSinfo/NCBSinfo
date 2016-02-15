@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,24 +20,21 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
-import com.hookedonplay.decoviewlib.DecoView;
-import com.hookedonplay.decoviewlib.charts.SeriesItem;
-import com.hookedonplay.decoviewlib.events.DecoEvent;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements OnShowcaseEventListener {
-    DecoView arcView;
-    int series3Index, series2Index, series1Index, isBuggy;
+    int isBuggy;
     int currentIndex =0;
     String[] ShuttleStringList;
     String GlobalShuttleFrom, GlobalShuttleto;
@@ -47,10 +42,22 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
     ShowcaseView showcaseview;
     String guideTitle = "";
     String guideDetails = "";
+    private Timer TimeLeft;
+    Calendar c = Calendar.getInstance();
+    int currentDay = c.get(Calendar.DAY_OF_WEEK);
+    int currentMonth = c.get(Calendar.MONTH);
+    int currentYear = c.get(Calendar.YEAR);
+    float currentHour = c.get(Calendar.HOUR_OF_DAY);
+    float currentMinute = c.get(Calendar.MINUTE);
+    int currentSecond = c.get(Calendar.SECOND);
+    int currentDate = c.get(Calendar.DATE);
+    Date d1 =   new Date();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ShuttleStringList = getResources().getStringArray(R.array.route_names);
 
         //For contact activity
         Boolean Firstvalue = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("firstTime2", true);
@@ -77,41 +84,17 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
                 getBaseContext().getResources().getDisplayMetrics());
 
 
-        arcView= (DecoView)findViewById(R.id.dynamicArcView);
-        ShuttleStringList = getResources().getStringArray(R.array.route_names);
+        //Timer
 
-        // Create background track
-        arcView.addSeries(new SeriesItem.Builder(Color.argb(255, 218, 218, 218))
-                .setRange(0, 100, 100)
-                .setInitialVisibility(true)
-                .setLineWidth(5f)
-                .build());
+        TimeLeft = new Timer();
+        TimeLeft.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                TimerMethod();
+            }
 
-        //Create data series track
-        SeriesItem seriesItem1 = new SeriesItem.Builder(Color.parseColor("#ff5722")) //second line
-                .setRange(0, 60, 0)
-                .setLineWidth(16f)
-                .setInitialVisibility(true)
-                .build();
+        }, 0, 1000); //1000
 
-        SeriesItem seriesItem2 = new SeriesItem.Builder(Color.parseColor("#4caf50")) //minute line
-                .setRange(0, 60, 0)
-                .setLineWidth(16f)
-                .setInset(new PointF(16f, 16f))
-                .setInitialVisibility(true)
-                .build();
-
-        SeriesItem seriesItem3 = new SeriesItem.Builder(Color.parseColor("#3f51b5")) //Hour line
-                .setRange(0, 24, 0)
-                .setLineWidth(16f)
-                .setInset(new PointF(32f, 32f))
-                .setInitialVisibility(true)
-                .build();
-
-
-        series1Index = arcView.addSeries(seriesItem1);
-        series2Index = arcView.addSeries(seriesItem2);
-        series3Index = arcView.addSeries(seriesItem3);
 
 
 
@@ -174,9 +157,6 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
         Calendar nextDate = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, format.format(c2.getTime()), isBuggy);
         SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         main1.setText(dformat.format(nextDate.getTime()));
-        arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.HOUR_OF_DAY)).setIndex(series3Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.MINUTE)).setIndex(series2Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(c2.get(Calendar.SECOND)).setIndex(series1Index).setDuration(500).build());
 
         final TextView hTextView = (TextView) findViewById(R.id.text);
         currentIndex = new ExtraFunctions().RouteNo(GlobalShuttleFrom, GlobalShuttleto, isBuggy);
@@ -226,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
         {
             guideTitle = getString(R.string.guide_title1);
             guideDetails = getString(R.string.guide_details1);
-            viewcase(R.id.dynamicArcView);
+            viewcase(R.id.NextShuttle_MainScreen);
             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("guideSeen", false).apply();
         }
 
@@ -264,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
     //Detection of swipe event and take action
     public class ActivitySwipeDetector implements View.OnTouchListener {
 
-        static final String logTag = "ActivitySwipeDetector";
         private Activity activity;
         static final int MIN_DISTANCE = 100;
         private float downX, downY, upX, upY, rawX1, rawY1;
@@ -401,29 +380,12 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
         GlobalShuttleFrom = place[0];
         GlobalShuttleto = place[1];
         isBuggy = Integer.parseInt(place[2]);
-        TextView main1 = (TextView)findViewById(R.id.NextShuttle_MainScreen);
-        Calendar c2 = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Calendar nextDate = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, format.format(c2.getTime()), isBuggy);
-        SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        main1.setText(dformat.format(nextDate.getTime()));
 
         TextView hTextView = (TextView) findViewById(R.id.text);
         hTextView.setText(ShuttleStringList[currentIndex]); // animate
-        arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.HOUR_OF_DAY)).setIndex(series3Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.MINUTE)).setIndex(series2Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(c2.get(Calendar.SECOND)).setIndex(series1Index).setDuration(500).build());
 
-        String tempText;
-        if (isBuggy==1){tempText=getString(R.string.next_buggy);}
-        else {tempText=getString(R.string.next_shuttle);}
-        TextView nameT = (TextView)findViewById(R.id.HomePageText);
-        nameT.setText(tempText);
 
-        Date d1 =   new Date();
-        SimpleDateFormat format2 = new SimpleDateFormat("EEEE", Locale.getDefault());
-        TextView home_currentime = (TextView)findViewById(R.id.main_screen_timetext);
-        home_currentime.setText(Html.fromHtml(getString(R.string.home_current_datetime2, format2.format(d1))));
+        setTextinField();
 
     }
 
@@ -433,33 +395,15 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
             currentIndex = 0;
         }
 
+
+
         String[] place = new ExtraFunctions().getRouteName(currentIndex);
         GlobalShuttleFrom = place[0];
         GlobalShuttleto = place[1];
         isBuggy = Integer.parseInt(place[2]);
-        TextView main1 = (TextView)findViewById(R.id.NextShuttle_MainScreen);
-        Calendar c2 = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Calendar nextDate = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, format.format(c2.getTime()), isBuggy);
-        SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        main1.setText(dformat.format(nextDate.getTime()));
-
         TextView hTextView = (TextView) findViewById(R.id.text);
         hTextView.setText(ShuttleStringList[currentIndex]); // animate
-        arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.HOUR_OF_DAY)).setIndex(series3Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(nextDate.get(Calendar.MINUTE)).setIndex(series2Index).setDuration(500).build());
-        arcView.addEvent(new DecoEvent.Builder(c2.get(Calendar.SECOND)).setIndex(series1Index).setDuration(500).build());
-
-        String tempText;
-        if (isBuggy==1){tempText=getString(R.string.next_buggy);}
-        else {tempText=getString(R.string.next_shuttle);}
-        TextView nameT = (TextView)findViewById(R.id.HomePageText);
-        nameT.setText(tempText);
-
-        Date d1 =   new Date();
-        SimpleDateFormat format2 = new SimpleDateFormat("EEEE", Locale.getDefault());
-        TextView home_currentime = (TextView)findViewById(R.id.main_screen_timetext);
-        home_currentime.setText(Html.fromHtml(getString(R.string.home_current_datetime2, format2.format(d1))));
+        setTextinField();
     }
 
     public void changeLang(String code){
@@ -490,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
         else if (currentItem==2){
             guideTitle= getString(R.string.guide_title3);
             guideDetails = getString(R.string.guide_details3);
-            viewcase(R.id.dynamicArcView);
+            viewcase(R.id.NextShuttle_MainScreen);
         }
         else if (currentItem==3){
             guideTitle= getString(R.string.guide_title5);
@@ -543,6 +487,59 @@ public class MainActivity extends AppCompatActivity implements OnShowcaseEventLi
 
         showcaseview.setButtonPosition(lps);
         currentItem = currentItem+1;
+    }
+    private void TimerMethod() {
+        this.runOnUiThread(Timer_Tick);
+    }
+    private Runnable Timer_Tick = new Runnable() {
+        public void run() {
+            setTextinField();
+        }
+    };
+
+    public void setTextinField() {
+
+        TextView home_next = (TextView)findViewById(R.id.HomePageText);
+        String tempText;
+        if (isBuggy==1){tempText=getString(R.string.next_buggy);}
+        else {tempText=getString(R.string.next_shuttle);}
+        home_next.setText(tempText);
+        Calendar c2 = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        TextView nextShuttle2 = (TextView)findViewById(R.id.NextShuttle_MainScreen);
+        Calendar nextDate = new ShuttleTimings().newNextShuttle(GlobalShuttleFrom, GlobalShuttleto, format.format(c2.getTime()), isBuggy);
+        SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        nextShuttle2.setText(dformat.format(nextDate.getTime()));
+
+        float[] Difference = new ExtraFunctions().DateTimeDifferentExample(format.format(c2.getTime()), format.format(nextDate.getTime()));
+
+        LinearLayout ln = (LinearLayout) findViewById(R.id.SecondBar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ln.getLayoutParams();
+        params.weight = Difference[0];
+        ln.setLayoutParams(params);
+
+        LinearLayout ln2 = (LinearLayout) findViewById(R.id.MinuteBar);
+        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) ln2.getLayoutParams();
+        params2.weight = Difference[1];
+        ln2.setLayoutParams(params2);
+
+        LinearLayout ln3 = (LinearLayout) findViewById(R.id.HourBar);
+        LinearLayout.LayoutParams params3 = (LinearLayout.LayoutParams) ln3.getLayoutParams();
+        params3.weight = Difference[2];
+        ln3.setLayoutParams(params3);
+
+        TextView t1 = (TextView)findViewById(R.id.HourText);
+        TextView t2 = (TextView)findViewById(R.id.MinuteText);
+        TextView t3 = (TextView)findViewById(R.id.SecondText);
+        t1.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.hour_left, Math.round(Difference[2]), Math.round(Difference[2]))));
+        t2.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.min_left, Math.round(Difference[1]), Math.round(Difference[1]))));
+        t3.setText(Html.fromHtml(getResources().getQuantityString(R.plurals.sec_left, Math.round(Difference[0]), Math.round(Difference[0]))));
+
+        SimpleDateFormat format1 = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        SimpleDateFormat format2 = new SimpleDateFormat("EEEE", Locale.getDefault());
+        TextView home_currentime = (TextView)findViewById(R.id.main_screen_timetext);
+        home_currentime.setText(Html.fromHtml(getString(R.string.home_current_datetime, format1.format(d1), format2.format(d1))));
+
     }
 
 }
