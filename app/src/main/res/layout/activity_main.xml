@@ -1,69 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rohitsuratekar.NCBSinfo.MainActivity"
-    android:gravity="center_horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.rohitsuratekar.test1.TestActivity"
     android:id="@+id/MainRelativeLayout">
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:layout_below="@+id/dynamicArcView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
-
-
-    <com.hookedonplay.decoviewlib.DecoView
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        android:id="@+id/dynamicArcView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
-        android:onClick="gotoShuttle" />
-
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/home_nextshuttle_btn2"
-        android:src="@drawable/ic_fast_rewind_24dp"
-        android:scaleType="fitXY"
-        android:background="#00ffffff"
-        android:layout_marginLeft="20dp"
-        android:alpha="0.5"
-        android:onClick="showPrevious"
-        android:layout_alignBottom="@+id/dynamicArcView"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="70dp" />
-
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/home_nextshuttle_btn"
-        android:layout_alignTop="@+id/home_nextshuttle_btn2"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_fast_forward_24dp"
-        android:background="#00ffffff"
-        android:scaleType="fitXY"
-        android:layout_marginRight="20dp"
-        android:alpha="0.5"
-        android:onClick="showNext" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/NextShuttle_MainScreen"
-        android:layout_alignTop="@+id/home_nextshuttle_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -71,10 +17,9 @@
         android:layout_height="100dp"
         android:weightSum="1"
         android:gravity="center"
-        android:layout_below="@+id/text"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp"
-        >
+        android:layout_below="@+id/linearLayout3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -98,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/main_page_shuttle"
+                android:text="shuttle"
                 android:id="@+id/textView8" />
         </LinearLayout>
 
@@ -179,14 +124,166 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:weightSum="100"
+        android:gravity="center"
+        android:id="@+id/TimeLayout"
+        android:layout_below="@+id/main_screen_timetext"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:gravity="center_horizontal|bottom"
+            android:weightSum="100"
+            android:background="@color/hourBar_empty">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/HourBar"
+                android:background="@color/hourBar_fill"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:gravity="center_horizontal|bottom"
+                android:weightSum="100"
+                android:background="@color/minuteBar_empty">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MinuteBar"
+                    android:background="@color/minuteBar_fill" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:gravity="center_horizontal|bottom"
+                android:weightSum="100"
+                android:background="@color/secondBar_empty">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/SecondBar"
+                    android:background="@color/secondBar_fill" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/TimeLayout"
+        android:layout_centerHorizontal="true"
+        android:weightSum="100"
+        android:gravity="center"
+        android:id="@+id/linearLayout2">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/HourText"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/MinuteText"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/SecondText"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/HomePageText"
-        android:layout_above="@+id/NextShuttle_MainScreen"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/NextShuttle_MainScreen"
+        android:layout_below="@+id/HomePageText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textAlignment="center" />
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -196,6 +293,74 @@
         android:id="@+id/main_screen_timetext"
         android:layout_below="@+id/NextShuttle_MainScreen"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="5dp"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:id="@+id/linearLayout3"
+        android:weightSum="100">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:id="@+id/home_nextshuttle_btn2"
+                android:src="@drawable/ic_fast_rewind_24dp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:alpha="0.5"
+                android:onClick="showPrevious"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Medium Text"
+                android:id="@+id/text"
+                android:textSize="18sp"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="45sp"
+                android:layout_height="45sp"
+                android:id="@+id/home_nextshuttle_btn"
+                android:src="@drawable/ic_fast_forward_24dp"
+                android:scaleType="fitXY"
+                android:background="#00ffffff"
+                android:alpha="0.5"
+                android:onClick="showNext" />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </RelativeLayout>
