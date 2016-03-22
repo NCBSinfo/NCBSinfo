@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="hourBar_fill">#009688</color>
-    <color name="hourBar_empty">#b2dfdb</color>
-    <color name="minuteBar_fill">#cddc39</color>
-    <color name="minuteBar_empty">#f0f4c3</color>
-    <color name="secondBar_fill">#ff5722</color>
-    <color name="secondBar_empty">#ffccbc</color>
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="colorAccent">#FF5722</color>
+
+    <color name="home_shuttleholder">#512da8</color>
+    <color name="home_contactholder">#5e35b1</color>
+    <color name="home_updateholder">#673ab7</color>
+    <color name="home_otherholder">#7e57c2</color>
+
+    <color name="home_section_icon_tint">#d6ffffff</color>
+    <color name="home_shuttle_buttons">#b39ddb</color>
+    <color name="home_section_select">#84a82d</color>
+    <color name="home_section_select_darker">#5C751F</color>
+
+    <color name="home_shuttlesection_timeRemaining">#d6ffffff</color>
+    <color name="home_shuttlesection_from">#d6ffffff</color>
+    <color name="home_shuttlesection_to">#000</color>
+
+    <color name="user_log_topic_jc">#84a82d</color>
+    <color name="user_log_topic_student">#7e57c2</color>
 </resources>

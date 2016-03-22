@@ -1,0 +1,131 @@
+package com.rohitsuratekar.NCBSinfo.adapters;
+
+import android.app.Activity;
+import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.TextView;
+
+import com.rohitsuratekar.NCBSinfo.R;
+
+import java.util.ArrayList;
+
+public class adapters_lecturehall extends BaseExpandableListAdapter implements Filterable {
+
+    public ArrayList<String> groupItem, tempChild;
+    public ArrayList<Object> Childtem = new ArrayList<Object>();
+    public LayoutInflater minflater;
+    public Activity activity;
+
+    public adapters_lecturehall(ArrayList<String> grList, ArrayList<Object> childItem) {
+        groupItem = grList;
+        this.Childtem = childItem;
+    }
+
+    public void setInflater(LayoutInflater mInflater, Activity act) {
+        this.minflater = mInflater;
+        activity = act;
+    }
+
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        return null;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return 0;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, final int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
+        tempChild = (ArrayList<String>) Childtem.get(groupPosition);
+        TextView text = null;
+        if (convertView == null) {
+            convertView = minflater.inflate(R.layout.activity_lecturehall_listheader, null);
+        }
+        text = (TextView) convertView.findViewById(R.id.masterlist_lectureHeader);
+        text.setText(Html.fromHtml(tempChild.get(childPosition)));
+          /*  convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(activity, tempChild.get(childPosition),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });*/
+        convertView.setLongClickable(true);
+        return convertView;
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return ((ArrayList<String>) Childtem.get(groupPosition)).size();
+    }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return null;
+    }
+
+    @Override
+    public int getGroupCount() {
+        return groupItem.size();
+    }
+
+    @Override
+    public void onGroupCollapsed(int groupPosition) {
+        super.onGroupCollapsed(groupPosition);
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return 0;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            convertView = minflater.inflate(R.layout.activity_lecturehall_parentlist, parent,false);
+        }
+        TextView txt =(TextView)convertView.findViewById(R.id.lblListHeader);
+        txt.setText(Html.fromHtml(groupItem.get(groupPosition)));
+        return convertView;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                return null;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            }
+        };
+    }
+}
