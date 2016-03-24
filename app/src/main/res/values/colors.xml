@@ -13,6 +13,7 @@
     <color name="home_shuttle_buttons">#b39ddb</color>
     <color name="home_section_select">#84a82d</color>
     <color name="home_section_select_darker">#5C751F</color>
+    <color name="home_section_shadow">#405115</color>
 
     <color name="home_shuttlesection_timeRemaining">#d6ffffff</color>
     <color name="home_shuttlesection_from">#d6ffffff</color>

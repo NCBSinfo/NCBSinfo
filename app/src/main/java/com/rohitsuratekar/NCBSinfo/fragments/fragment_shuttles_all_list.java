@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by Dexter on 3/15/2016.
+ * Created by Rohit Suratekar on 3/15/2016.
  */
 public class fragment_shuttles_all_list extends Fragment {
 
@@ -96,6 +96,11 @@ public class fragment_shuttles_all_list extends Fragment {
             String weeksmall = "12/31/2015 ";
             String sundaysmall = "1/31/2016 ";
             String[] AllArrays = new helper_shuttles().TripsData(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
+
+            if (isBuggy==1){
+                AllArrays = new helper_shuttles().TripsData("ncbs", "mandara", WeekDate, isBuggy);
+            }
+
             String[] after = new String[AllArrays.length];
             SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
             SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
@@ -105,9 +110,14 @@ public class fragment_shuttles_all_list extends Fragment {
             String current_sunday = sundaysmall+onlytime.format(Calendar.getInstance().getTime());
 
             Calendar nextcal = new helper_shuttles().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_weekday, isBuggy);
-            String nextShuttleWeek = modformat.format(nextcal.getTime());
-
             Calendar sundaynext = new helper_shuttles().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);
+
+            if (isBuggy==1){
+                nextcal = new helper_shuttles().NextTransport("ncbs", "mandara", current_weekday, isBuggy);
+                sundaynext = new helper_shuttles().NextTransport("mandara", "ncbs", current_sunday, isBuggy);
+            }
+
+            String nextShuttleWeek = modformat.format(nextcal.getTime());
             String nextShuttleSunday = modformat.format(sundaynext.getTime());
             int selectionItem1 = 0;
             int selectionItem2 = 0;
@@ -130,6 +140,10 @@ public class fragment_shuttles_all_list extends Fragment {
             }
 
             String[] AllArrays_sunday = new helper_shuttles().TripsData(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
+            if (isBuggy==1){
+                AllArrays_sunday = new helper_shuttles().TripsData("mandara", "ncbs", SundayDate, isBuggy);
+            }
+
             String[] sunday = new String[AllArrays_sunday.length];
             for (int i =0; i<AllArrays_sunday.length; i++){
                 try {

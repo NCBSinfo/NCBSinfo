@@ -218,7 +218,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/ShuttleAnimation"
                 android:background="@color/home_section_select" />
 
@@ -227,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ShuttleOptions"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageButton
                     android:layout_width="@dimen/home_section_icon_size"
@@ -246,30 +246,85 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/Button_home_shuttle_highlighted"
-                    android:layout_toRightOf="@+id/Button_home_shuttle_highlighted"
+                    android:layout_toEndOf="@+id/linearLayout2"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/home_section_layout_left_margis"
                     android:layout_marginRight="@dimen/home_section_layout_right_margis"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/linearLayout2"
+                    android:background="@color/home_section_select_darker"
+                    android:id="@+id/linearLayout3">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Select Route"
+                        android:text="Select Route "
                         android:id="@+id/textView"
-                        android:layout_marginBottom="10sp" />
+                        android:layout_marginLeft="10sp"
+                        android:layout_gravity="center_horizontal" />
 
-                    <Spinner
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center">
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/home_shuttle_go_spinner"
+                            android:spinnerMode="dialog"
+                            android:gravity="center"
+                            android:layout_marginLeft="10sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/home_shuttle_go_spinner"
-                        android:layout_gravity="center_horizontal"
-                        android:spinnerMode="dialog"
-                        android:gravity="center" />
+                        android:layout_gravity="right"
+                        android:layout_marginTop="5sp"
+                        android:gravity="center">
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Show trips"
+                            android:id="@+id/home_sh_GoButton"
+                            android:alpha="0.7" />
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/home_section_layout_left_margis"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/Button_home_shuttle_highlighted"
+                    android:id="@+id/linearLayout2"
+                    android:layout_alignParentTop="true"
+                    android:gravity="right">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView3"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/icon_filler"
+                        android:scaleType="fitXY"
+                        android:tint="@color/home_section_shadow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/home_section_layout_right_margis"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/home_section_select_darker"></LinearLayout>
 
             </RelativeLayout>
 
@@ -376,7 +431,9 @@
                     android:weightSum="100"
                     android:layout_marginRight="@dimen/home_section_layout_right_margis"
                     android:gravity="center"
-                    android:layout_toRightOf="@+id/linearLayout">
+                    android:layout_toRightOf="@+id/linearLayout"
+                    android:id="@+id/linearLayout4"
+                    android:background="@color/home_section_select_darker">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -476,7 +533,23 @@
                     android:layout_alignParentBottom="true"
                     android:id="@+id/linearLayout">
 
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView4"
+                        android:src="@drawable/icon_filler"
+                        android:scaleType="fitXY"
+                        android:tint="@color/home_section_shadow" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/home_section_layout_right_margis"
+                    android:layout_height="match_parent"
+                    android:background="@color/home_section_select_darker"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 
@@ -620,11 +693,12 @@
                     android:gravity="center"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/Button_home_update_highlighted"
-                    android:layout_toEndOf="@+id/Button_home_update_highlighted"
+                    android:layout_toEndOf="@+id/linearLayout5"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="@dimen/home_section_layout_left_margis"
-                    android:layout_marginRight="@dimen/home_section_layout_right_margis">
+                    android:layout_marginRight="@dimen/home_section_layout_right_margis"
+                    android:layout_toRightOf="@+id/linearLayout5"
+                    android:id="@+id/linearLayout6"
+                    android:background="@color/home_section_select_darker">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -637,7 +711,7 @@
                         <ImageButton
                             android:layout_width="@dimen/home_section_icon_size"
                             android:layout_height="@dimen/home_section_icon_size"
-                            android:id="@+id/imageButton4"
+                            android:id="@+id/home_update_logButton"
                             android:src="@drawable/icon_list"
                             android:scaleType="fitXY"
                             android:background="#00ffffff"
@@ -665,12 +739,12 @@
                         <ImageButton
                             android:layout_width="@dimen/home_section_icon_size"
                             android:layout_height="@dimen/home_section_icon_size"
-                            android:id="@+id/imageButton5"
+                            android:id="@+id/home_update_registerButton"
                             android:src="@drawable/icon_registration"
                             android:scaleType="fitXY"
                             android:background="#00ffffff"
                             android:onClick="gotoRegistration"
-                            android:layout_alignTop="@+id/imageButton4"
+                            android:layout_alignTop="@+id/home_update_logButton"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="center_horizontal" />
@@ -680,7 +754,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Registration"
-                            android:id="@+id/textView19"
+                            android:id="@+id/home_update_registration_text"
                             android:layout_gravity="center_horizontal"
                             android:textSize="@dimen/home_section_icon_text" />
                     </LinearLayout>
@@ -701,7 +775,7 @@
                             android:scaleType="fitXY"
                             android:background="#00ffffff"
                             android:onClick="gotoModerator"
-                            android:layout_alignTop="@+id/imageButton4"
+                            android:layout_alignTop="@+id/home_update_logButton"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="center_horizontal" />
@@ -716,6 +790,33 @@
                             android:textSize="@dimen/home_section_icon_text" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="@dimen/home_section_layout_left_margis"
+                    android:layout_height="match_parent"
+                    android:id="@+id/linearLayout5"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/Button_home_update_highlighted"
+                    android:layout_toEndOf="@+id/Button_home_update_highlighted">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView5"
+                        android:src="@drawable/icon_filler"
+                        android:scaleType="fitXY"
+                        android:tint="@color/home_section_shadow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/home_section_layout_right_margis"
+                    android:layout_height="match_parent"
+                    android:background="@color/home_section_select_darker"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 
@@ -819,12 +920,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/Button_home_other_highlighted"
-                    android:layout_toEndOf="@+id/Button_home_other_highlighted"
-                    android:layout_marginLeft="@dimen/home_section_layout_left_margis"
+                    android:layout_toEndOf="@+id/linearLayout7"
                     android:layout_marginRight="@dimen/home_section_layout_right_margis"
                     android:weightSum="100"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_toRightOf="@+id/linearLayout7"
+                    android:id="@+id/linearLayout8"
+                    android:background="@color/home_section_select_darker">
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -871,7 +973,8 @@
                             android:layout_alignTop="@+id/ExtraButton"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_gravity="center_horizontal" />
+                            android:layout_gravity="center_horizontal"
+                            android:onClick="gotoSettings" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -883,6 +986,33 @@
                             android:textSize="@dimen/home_section_icon_text" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="@dimen/home_section_layout_left_margis"
+                    android:layout_height="match_parent"
+                    android:id="@+id/linearLayout7"
+                    android:layout_toRightOf="@+id/Button_home_other_highlighted"
+                    android:layout_toEndOf="@+id/Button_home_other_highlighted"
+                    android:layout_alignParentTop="true">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView6"
+                        android:src="@drawable/icon_filler"
+                        android:scaleType="fitXY"
+                        android:tint="@color/home_section_shadow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="@dimen/home_section_layout_right_margis"
+                    android:layout_height="match_parent"
+                    android:background="@color/home_section_select_darker"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
 
 
             </RelativeLayout>

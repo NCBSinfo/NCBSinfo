@@ -5,11 +5,13 @@ package com.rohitsuratekar.NCBSinfo.constants;
  */
 public class SQLConstants {
 
-    public static final int DATABASE_VERSION = 1;  //Update this every time you change database
+    public static final int DATABASE_VERSION = 2;  //Update this every time you change database
     public static final String DATABASE_NAME = "NCBSinfo";
 
 
     //Contact Table
+
+    public static final String CONTACT_LOADED = "loadContact";
 
     public static final String CONTACT_TABLENAME = "contacts";
     public static final String CONTACT_KEY_ID = "contact_id";

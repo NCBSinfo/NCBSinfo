@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,10 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.rohitsuratekar.NCBSinfo.DatabaseHelper;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_viewpager;
+import com.rohitsuratekar.NCBSinfo.constants.SQLConstants;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_contact_tab1;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_contact_tab2;
+import com.rohitsuratekar.NCBSinfo.helper.helper_contact_list;
+import com.rohitsuratekar.NCBSinfo.models.models_contacts_database;
 
 public class Activity_Contact extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +34,18 @@ public class Activity_Contact extends AppCompatActivity
         setContentView(R.layout.activity_contact_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Boolean Firstvalue = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(SQLConstants.CONTACT_LOADED, true);
+
+        if (Firstvalue){
+            DatabaseHelper db = new DatabaseHelper(getBaseContext());
+            String[][] clist = new helper_contact_list().allContacts();
+            for (int i=0; i <clist.length; i++){
+                db.addContact(new models_contacts_database(1, clist[i][0], clist[i][1],clist[i][2], clist[i][3], "0"));
+            }
+            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(SQLConstants.CONTACT_LOADED, false).apply();
+            db.close();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_contact);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -16,10 +16,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,6 +71,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
+
         alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.home_section_fade);
         exitAnimation = AnimationUtils.loadAnimation(this,R.anim.home_section_exit);
 
@@ -316,10 +321,10 @@ public class Home extends AppCompatActivity {
         //First Time use layouts
 
         Spinner spinHome = (Spinner) findViewById(R.id.Home_sh_spinner);
-        Spinner shuttleGoSpinner = (Spinner) findViewById(R.id.home_shuttle_go_spinner);
+        final Spinner shuttleGoSpinner = (Spinner) findViewById(R.id.home_shuttle_go_spinner);
         String[] spinnerItems = getResources().getStringArray(R.array.home_spinner_items);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(),R.layout.home_spinner_items,spinnerItems);
-        spinHome.setAdapter(adapter);
+        adapeters_home_GoSpinner customAdapetr = new adapeters_home_GoSpinner(Home.this,spinnerItems);
+        spinHome.setAdapter(customAdapetr);
         spinHome.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -345,22 +350,23 @@ public class Home extends AppCompatActivity {
 
         adapeters_home_GoSpinner customAdapetr1 = new adapeters_home_GoSpinner(Home.this,spinnerItems);
         shuttleGoSpinner.setAdapter(customAdapetr1);
-        shuttleGoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(spinnerVariable2>0){
-                    Intent intent = new Intent(Home.this, Activity_Shuttles.class);
-                    intent.putExtra("switch",String.valueOf(position));
-                    startActivity(intent);
-                }
-                spinnerVariable2++;
-            }
 
+        Button goButton = (Button)findViewById(R.id.home_sh_GoButton);
+        goButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, Activity_Shuttles.class);
+                intent.putExtra("switch",String.valueOf(shuttleGoSpinner.getSelectedItemPosition()));
+                startActivity(intent);
             }
         });
+
+       /* final Animation animation = new AlphaAnimation(1, 0);
+        animation.setDuration(3000);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.REVERSE);
+        goButton.startAnimation(animation);*/
 
 
 
@@ -376,12 +382,32 @@ public class Home extends AppCompatActivity {
             l5.setVisibility(View.GONE);
         }
 
+        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_Registered, false)){
+
+            ImageButton im = (ImageButton)findViewById(R.id.home_update_registerButton);
+            im.setBackgroundResource(R.drawable.icon_unregistration);
+            TextView tx = (TextView)findViewById(R.id.home_update_registration_text);
+            tx.setText("Unregister");
+            ImageButton im2 = (ImageButton)findViewById(R.id.home_update_logButton);
+            im2.setEnabled(true);
+            im2.setAlpha((float) 1);
+        }
+        else{
+
+            ImageButton im = (ImageButton)findViewById(R.id.home_update_registerButton);
+            im.setBackgroundResource(R.drawable.icon_registration);
+            TextView tx = (TextView)findViewById(R.id.home_update_registration_text);
+            tx.setText("Register");
+            ImageButton im2 = (ImageButton)findViewById(R.id.home_update_logButton);
+            im2.setEnabled(false);
+            im2.setAlpha((float) 0.5);
+        }
 
 
 
 
 
-        DatabaseHelper db = new DatabaseHelper(getBaseContext());
+            DatabaseHelper db = new DatabaseHelper(getBaseContext());
         entrylist = db.getAllEntries();
 
         //Check if you have any recent updates
@@ -529,32 +555,38 @@ public class Home extends AppCompatActivity {
         ImageButton im1 = (ImageButton)findViewById(R.id.home_contact_favButton);
         ImageButton im2 = (ImageButton)findViewById(R.id.home_contactListButton);
         ImageButton im3 = (ImageButton)findViewById(R.id.home_contact_emergency);
-        im1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(Home.this,Activity_Contact.class);
-                intent.putExtra("switch","1");
-                startActivity(intent);
-            }
-        });
+        if (im1 != null) {
+            im1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent= new Intent(Home.this,Activity_Contact.class);
+                    intent.putExtra("switch","1");
+                    startActivity(intent);
+                }
+            });
+        }
 
-        im2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(Home.this,Activity_Contact.class);
-                intent.putExtra("switch","0");
-                startActivity(intent);
-            }
-        });
+        if (im2 != null) {
+            im2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent= new Intent(Home.this,Activity_Contact.class);
+                    intent.putExtra("switch","0");
+                    startActivity(intent);
+                }
+            });
+        }
 
-        im3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + "080-2366-6666"));
-                startActivity(intent);
-            }
-        });
+        if (im3 != null) {
+            im3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + "080-2366-6666"));
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
 
@@ -628,6 +660,11 @@ public class Home extends AppCompatActivity {
 
         }
 
+    }
+
+    public void gotoSettings(View arg0){
+        Intent i = new Intent(Home.this,Settings.class);
+    startActivity(i);
     }
 
 

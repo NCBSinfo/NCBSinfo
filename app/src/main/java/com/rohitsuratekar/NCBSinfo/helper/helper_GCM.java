@@ -50,4 +50,24 @@ public class helper_GCM {
         String time = formatter.format(new Date());
         return time;
     }
+
+    public String ModDailyStamp(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dMMyyyy", Locale.getDefault());
+        String time = formatter.format(new Date());
+        return time;
+    }
+
+    public String getTopicCode(boolean[] values){
+
+        String code="";
+        for (int i = 0; i<values.length;i++){
+            if(values[i]){
+                code=code+"1";
+            }
+            else{
+                code=code+"0";;
+            }
+        }
+        return code;
+    }
 }

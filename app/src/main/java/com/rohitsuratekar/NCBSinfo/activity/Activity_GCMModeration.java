@@ -42,9 +42,11 @@ import com.rohitsuratekar.NCBSinfo.retro.retro_Data;
 import com.rohitsuratekar.NCBSinfo.retro.retro_LoginService;
 import com.rohitsuratekar.NCBSinfo.retro.retro_MakeQuery;
 import com.rohitsuratekar.NCBSinfo.retro.retro_Response_AccessToken;
+import com.rohitsuratekar.NCBSinfo.retro.retro_Response_RowUpdate;
 import com.rohitsuratekar.NCBSinfo.retro.retro_Response_SpecificRowValue;
 import com.rohitsuratekar.NCBSinfo.retro.retro_Response_Topic;
 import com.rohitsuratekar.NCBSinfo.retro.retro_Services_Auth;
+import com.rohitsuratekar.NCBSinfo.retro.retro_Services_FusionTable;
 import com.rohitsuratekar.NCBSinfo.retro.retro_Services_GCM;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
     EditText inputTitle, inputBody, inputExtra;
     ProgressDialog progress;
     Spinner spinner;
-    String topicNameSelected, notificationSendingTime, notificationRcode, ovverideall;
+    String topicNameSelected, notificationSendingTime, notificationRcode, ovverideall, rCodeValue;
     Button setTimeButton, sentButton;
     CheckBox timeCheck, overrideCheck;
     String clientID, clientSecret;
@@ -219,10 +221,12 @@ public class Activity_GCMModeration extends AppCompatActivity {
                     String seedValue = edittext.getText().toString();
 
                     try {
-                        clientID = helper_AES.decrypt(seedValue, GCMConstants.MOD_CLIENT_SECRET);
-                        clientSecret = helper_AES.decrypt(seedValue, GCMConstants.MOD_CLIENT_ID);
+                        clientID = helper_AES.decrypt(seedValue, GCMConstants.MOD_CLIENT_ID);
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DECODED_CLIENTID, clientID).apply();
+                        clientSecret = helper_AES.decrypt(seedValue, GCMConstants.MOD_CLIENT_SECRET);
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DECODED_SECRET, clientSecret).apply();
                         web.setWebViewClient(new MyWebViewClient());
-                        web.loadUrl(GCMConstants.MOD_LOGINURL + "?scope=" + GCMConstants.MOD_SCOPE + "&client_id=" + clientID + "&response_type=code&redirect_uri=" + GCMConstants.MOD_REDIRECT_URI);
+                        web.loadUrl(GCMConstants.MOD_LOGINURL + "?scope=" + GCMConstants.MOD_SCOPE + "&client_id=" + clientID + "&response_type=code&access_type=offline&redirect_uri=" + GCMConstants.MOD_REDIRECT_URI);
 
 
                     } catch (Exception e) {
@@ -259,6 +263,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
 
                 String topic = GCMConstants.GCM_TOPIC_EMERGENCY;
+                topicNameSelected = topic;
                 retro_Data data = new retro_Data();
                 data.setMessage(inputBody.getText().toString());
                 data.setTitle("Alert!");
@@ -267,6 +272,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 retro_MakeQuery query = new retro_MakeQuery();
                 query.setData(data);
                 query.setTo("/topics/" + topic);
+                rCodeValue= inputExtra.getText().toString();
                 sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
 
 
@@ -280,6 +286,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 data.setTitle(inputTitle.getText().toString());
                 data.setRcode(notificationRcode);
                 data.setValue(notificationSendingTime);
+                rCodeValue= notificationSendingTime;
                 retro_MakeQuery query = new retro_MakeQuery();
                 query.setData(data);
                 query.setTo("/topics/" + topic);
@@ -309,15 +316,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
         }
         @Override
         public void afterTextChanged(Editable editable) {
-            switch (view.getId()) {
-                case R.id.input_noti_title:
-                    validateName();
-                    break;
-                case R.id.input_noti_body:
-                    validateName();
-                    break;
             }
-        }
     }
     private void requestFocus(View view) {
         if (view.requestFocus()) {
@@ -351,11 +350,8 @@ public class Activity_GCMModeration extends AppCompatActivity {
             @Override
             public void onResponse(Call<retro_Response_Topic> call, Response<retro_Response_Topic> response) {
                 if (response.isSuccess()) {
-                    Log.i("RETRO----", "GCM Successful"); // Got Token
-                    Toast.makeText(getBaseContext(),"Successfully sent !",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
-                    startActivity(intent);
-
+                    String RefreshToken = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_REFRESH_TOKEN, "401");
+                    RefreshAndSendLog(RefreshToken);
                 } else {
 
                     Log.i("RETRO----", response.raw().toString());
@@ -379,7 +375,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 String code = Uri.parse(url).getQueryParameter("code");
                 Log.i("Loaded", code);
                 retro_LoginService loginService = retro_Services_Auth.createService(retro_LoginService.class, clientID, clientSecret);
-                Call<retro_Response_AccessToken> call = loginService.getAccessToken(clientID, clientSecret, code, "authorization_code", GCMConstants.MOD_REDIRECT_URI);
+                Call<retro_Response_AccessToken> call = loginService.getAccessToken(clientID, clientSecret, code, "authorization_code", "force", GCMConstants.MOD_REDIRECT_URI);
                 Log.i("Current_URL==", call.request().toString());
                 progress = new ProgressDialog(Activity_GCMModeration.this);
                 progress.setMessage("Attempting to log in...");
@@ -390,8 +386,10 @@ public class Activity_GCMModeration extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<retro_Response_AccessToken> call, retrofit2.Response<retro_Response_AccessToken> response) {
                         if (response.isSuccess()) {
-                            Log.i("RETRO----", response.body().getAccessToken()); // Got Token
+                            Log.i("RETRO TOKEN----", response.body().getAccessToken()); // Got Token
+                            Log.i("RETRO REFRESH TOKEN----", response.body().getRefreshToken()); // Got Token
                             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_ACCESS_TOKEN, response.body().getAccessToken()).apply();
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_REFRESH_TOKEN, response.body().getRefreshToken()).apply();
                             progress.setMessage("Login Successful, authenticating email...");
                             getUserInfo(response.body().getAccessToken(),getBaseContext());
                         } else {
@@ -414,7 +412,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
             return Uri.parse(url).getHost().contains("?code=");
         }
     }
-
+    //Using access token becuase this is immediate call after token exchange
     public void getUserInfo(final String AccessToken, final Context context){
 
         retro_Commands gplusSerive = retro_Services_Auth.createService(retro_Commands.class, clientID, clientSecret, AccessToken);
@@ -425,8 +423,8 @@ public class Activity_GCMModeration extends AppCompatActivity {
             public void onResponse(Call<Response_gplus> call, Response<Response_gplus> response) {
                 if (response.isSuccess()) {
                     Log.i("RETRO----", "Email ID: " + response.body().getEmails().get(0).getValue() + " and Name: " + response.body().getDisplayName());
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_EMAIL, response.body().getEmails().get(0).getValue()).apply();
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_USERNAME, response.body().getDisplayName()).apply();
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.MOD_EMAIL, response.body().getEmails().get(0).getValue()).apply();
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.MOD_USERNAME, response.body().getDisplayName()).apply();
                     getRowsByValue(GCMConstants.TABLE_ID, AccessToken, "Email", response.body().getEmails().get(0).getValue(), context);
                     progress.setMessage("Authenticating email...");
                 } else {
@@ -446,11 +444,11 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
 
     }
-
+    //Using access token because follow up call after exchange
     public void getRowsByValue(String TableID, String AccessToken, String Column, String Rowvalue, final Context context){
         String sql_query = "SELECT * FROM "+TableID+" WHERE "+Column+"='"+Rowvalue+"'";
         retro_Commands fusionService = retro_Services_Auth.createService(retro_Commands.class, clientID, clientSecret, AccessToken);
-        Call<retro_Response_SpecificRowValue> call2 = fusionService.getSpecificRow(sql_query,AccessToken);
+        Call<retro_Response_SpecificRowValue> call2 = fusionService.getSpecificRow(sql_query, AccessToken);
 
         call2.enqueue(new Callback<retro_Response_SpecificRowValue>() {
             @Override
@@ -492,6 +490,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.GCM_API_KEY, response.body().getRows().get(0).get(2)).apply();
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.GCM_MAX_DAILYQUOTA, response.body().getRows().get(0).get(3)).apply();
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.GCM_USER_EXTRA, response.body().getRows().get(0).get(4)).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.GCM_USER_LOGTABLE, response.body().getRows().get(0).get(5)).apply();
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_MODERATORLOGIN, true).apply();
                         Toast.makeText(context, "Successfully Loaded All Data", Toast.LENGTH_LONG);
                         Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
@@ -536,6 +535,93 @@ public class Activity_GCMModeration extends AppCompatActivity {
             @Override
             public void onFailure(Call<retro_Response_SpecificRowValue> call, Throwable t) {
                 Toast.makeText(context, "Error:"+t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+    }
+
+    public void sendModeratorLog(){
+
+        String timeStamp = new helper_GCM().timeStamp();
+        String DailyStamp = new helper_GCM().ModDailyStamp();
+        String ModEmail = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.MOD_EMAIL, "401");
+        String NotificationTitle = inputTitle.getText().toString();
+        String NotificationTopic = topicNameSelected;
+        String NotificationExtra = notificationRcode + ":"+ rCodeValue;
+        String modTable = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_USER_LOGTABLE, "401");
+        String APIkey = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401");
+        String AccessToken = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_ACCESS_TOKEN, "401");
+        String sql_query = "INSERT INTO "+modTable+ "(timeStamp, moderatorEmail,notificationUse,NotificationTitle,NotificationExtra,NotificationTopic) VALUES ('"+timeStamp+"','"+ModEmail+"','"+DailyStamp+"','"+NotificationTitle+"','"+NotificationExtra+"','"+NotificationTopic+"')";
+        retro_Commands fusionService = retro_Services_FusionTable.createService(retro_Commands.class, AccessToken);
+        Call<retro_Response_RowUpdate> call = fusionService.sendLogrow(sql_query, APIkey);
+
+        call.enqueue(new Callback<retro_Response_RowUpdate>() {
+            @Override
+            public void onResponse(Call<retro_Response_RowUpdate> call, Response<retro_Response_RowUpdate> response) {
+                if (response.isSuccess()) {
+
+                    Log.i("Moderator Log Sent ===", "Suceessful");
+                    Toast.makeText(getBaseContext(), "Successfully sent !", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
+                    startActivity(intent);
+                } else {
+
+                    Toast.makeText(getBaseContext(), "Failed to get database.", Toast.LENGTH_LONG).show();
+                    Log.i("RETRO----", String.valueOf(response.raw().code()));
+                    if (response.code() == 403) {
+                        progress.dismiss();
+                        Log.i("RETRO----", "Not permitted");
+                        final AlertDialog alertDialog = new AlertDialog.Builder(
+                                Activity_GCMModeration.this).create();
+
+                        // Setting Dialog Title
+                        alertDialog.setTitle("Oops");
+
+                        // Setting Dialog Message
+                        alertDialog.setMessage("You don't have access to moderator's zone!");
+
+                        // Setting OK Button
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                               Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // Showing Alert Message
+                        alertDialog.show();
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<retro_Response_RowUpdate> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    public void RefreshAndSendLog(String RefreshToken){
+        String clientID2 = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_CLIENTID, "401");
+
+        String clientSecret2 = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_SECRET, "401");
+        retro_LoginService loginService = retro_Services_Auth.createService(retro_LoginService.class, clientID2, clientSecret2);
+        Call<retro_Response_AccessToken> call = loginService.ExchangeRefreshToken(clientID2, clientSecret2, RefreshToken, "refresh_token");
+        call.enqueue(new Callback<retro_Response_AccessToken>() {
+            @Override
+            public void onResponse(Call<retro_Response_AccessToken> call, Response<retro_Response_AccessToken> response) {
+                Log.i("Refreshed ===",response.body().toString());
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_ACCESS_TOKEN, response.body().getAccessToken()).apply();
+                sendModeratorLog();
+            }
+
+            @Override
+            public void onFailure(Call<retro_Response_AccessToken> call, Throwable t) {
+
             }
         });
 

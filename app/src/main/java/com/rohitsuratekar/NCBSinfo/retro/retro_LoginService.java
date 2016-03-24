@@ -15,8 +15,15 @@ public interface retro_LoginService {
                                      @Field("client_secret") String clientSecret,
                                      @Field("code") String code,
                                      @Field("grant_type") String grantType,
+                                     @Field("approval_prompt") String prompt,
                                      @Field("redirect_uri") String redirecturi);
 
+    @FormUrlEncoded
+    @POST("/oauth2/v4/token")
+    Call<retro_Response_AccessToken> ExchangeRefreshToken(@Field("client_id") String clientId,
+                                                    @Field("client_secret") String clientSecret,
+                                                  @Field("refresh_token") String RefreshToken,
+                                                  @Field("grant_type") String grantType);
 
 }
 

@@ -30,4 +30,9 @@ public interface retro_Commands {
     Call<retro_Response_SpecificRowValue> getSpecificRow (@Field("sql") String SQLquery,
                                               @Field("key") String Token);
 
+    @FormUrlEncoded
+    @POST("fusiontables/v2/query")
+    Call<retro_Response_RowUpdate> sendLogrow (@Field("sql") String SQLquery,
+                                                          @Field("key") String Token);
+
 }

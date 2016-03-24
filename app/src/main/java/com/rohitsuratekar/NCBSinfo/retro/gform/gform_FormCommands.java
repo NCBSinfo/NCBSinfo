@@ -16,6 +16,7 @@ public interface gform_FormCommands {
     Call<ResponseBody> submitForm  (@Field("entry_309813602") String GroupID,
                                     @Field("entry_1593460908") String email,
                                     @Field("entry_845724782") String tokensting,
+                                    @Field("entry_1745980777") String topicCode,
                                     @Field("submit") String submit);
 
 }

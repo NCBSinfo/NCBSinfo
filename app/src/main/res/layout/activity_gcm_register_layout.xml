@@ -32,8 +32,7 @@
         android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/input_layout_name"
-        android:layout_alignParentStart="true">
+        android:layout_below="@+id/input_layout_name">
 
         <EditText
             android:id="@+id/input_email"
@@ -41,8 +40,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:inputType="textEmailAddress"
-            android:hint="Email"
-            android:layout_alignParentEnd="true" />
+            android:hint="Email" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -57,7 +55,6 @@
         android:id="@+id/researchTalk_switch"
         android:checked="true"
         android:layout_below="@+id/regiForm_pref"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
 
     <Switch
@@ -67,7 +64,6 @@
         android:id="@+id/JournalClub_switch"
         android:checked="false"
         android:layout_below="@+id/researchTalk_switch"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
 
     <TextView
@@ -88,7 +84,6 @@
         android:id="@+id/studentActivities_switch"
         android:checked="true"
         android:layout_below="@+id/JournalClub_switch"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="10dp" />
 
     <Button
@@ -111,7 +106,6 @@
         android:textAlignment="center"
         android:textSize="15sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginBottom="15dp" />
 
 

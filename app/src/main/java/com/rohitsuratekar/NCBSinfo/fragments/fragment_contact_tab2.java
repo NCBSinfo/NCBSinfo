@@ -26,6 +26,7 @@ import android.widget.SearchView;
 import com.rohitsuratekar.NCBSinfo.DatabaseHelper;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_contact;
+import com.rohitsuratekar.NCBSinfo.constants.SQLConstants;
 import com.rohitsuratekar.NCBSinfo.helper.helper_contact_divideritemdecoratio;
 import com.rohitsuratekar.NCBSinfo.helper.helper_contact_list;
 import com.rohitsuratekar.NCBSinfo.models.models_contacts_database;
@@ -73,18 +74,6 @@ public class fragment_contact_tab2 extends Fragment implements SearchView.OnQuer
                 new helper_contact_divideritemdecoratio(getContext(), LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(itemDecoration);
         doSearch(rootView2);
-        Boolean Firstvalue = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("firstTime2", true);
-
-        if (Firstvalue){
-            DatabaseHelper db = new DatabaseHelper(getContext());
-            String[][] clist = new helper_contact_list().allContacts();
-            for (int i=0; i <clist.length; i++){
-                db.addContact(new models_contacts_database(1, clist[i][0], clist[i][1],clist[i][2], clist[i][3], "0"));
-            }
-            PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("firstTime2", false).apply();
-            db.close();
-        }
-
 
         searchBt = (ImageButton) rootView2.findViewById(R.id.searchButton);
         searchBt.setOnClickListener(new View.OnClickListener() {

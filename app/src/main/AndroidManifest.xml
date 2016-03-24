@@ -76,8 +76,9 @@
         <activity android:name=".activity.Activity_GCMModeration" />
 
         <!-- This will receive intend from alarm manager -->
-        <receiver android:name=".gcm.TimedNotifications"
-            android:process=":remote"/>
+        <receiver
+            android:name=".gcm.TimedNotifications"
+            android:process=":remote" />
 
         <!-- for setting up alarm again after reboot -->
         <receiver
@@ -113,6 +114,14 @@
             android:label="@string/title_activity_activity__extra"
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />

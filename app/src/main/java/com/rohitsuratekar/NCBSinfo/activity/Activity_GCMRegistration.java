@@ -27,6 +27,7 @@ import com.google.android.gms.iid.InstanceID;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
+import com.rohitsuratekar.NCBSinfo.helper.helper_GCM;
 import com.rohitsuratekar.NCBSinfo.retro.gform.gform_FormCommands;
 import com.rohitsuratekar.NCBSinfo.retro.gform.gform_service;
 
@@ -86,43 +87,47 @@ public class Activity_GCMRegistration extends AppCompatActivity {
             RegisterBackground();
         }
 
-        //Events for change in switch configurations
+        else {
+            //Events for change in switch configurations
 
-        sw_talk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_TALK, true).apply();
-                    Log.i("TALK ==", "True");
+            sw_talk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_TALK, true).apply();
+                        Log.i("TALK ==", "True");
+                    }
+                    else{
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_TALK, false).apply();
+                        Log.i("TALK ==", "False");
+                    }
                 }
-                else{
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_TALK, false).apply();
-                    Log.i("TALK ==", "False");
-                }
-            }
-        });
+            });
 
-        sw_jc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_JC, true).apply();
-                    Log.i("JC ==", "True");
+            sw_jc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_JC, true).apply();
+                        Log.i("JC ==", "True");
+                    }
+                    else{
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_JC, false).apply();
+                        Log.i("JC ==", "FALSE");
+                    }
                 }
-                else{
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_JC, false).apply();
-                    Log.i("JC ==", "FALSE");
-                }
-            }
-        });
+            });
 
-        sw_student.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_students, true).apply();
-                } else {
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_students, false).apply();
+            sw_student.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_students, true).apply();
+                    } else {
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.DATA_students, false).apply();
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
 
 
     }
@@ -265,14 +270,21 @@ public class Activity_GCMRegistration extends AppCompatActivity {
 
             //@Override
             protected void onPostExecute(String msg) {
-                Toast.makeText(getApplicationContext(), "Registered with GCM Server!", Toast.LENGTH_LONG).show();
+
             }
         }.execute(null, null, null);
     }
 
     private void storeRegistrationId(final String regId) {
+        boolean[] Topic_Values = { PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_TALK, true),
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_JC, false),
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_students, true)
+        };
+
+        String topicCode = new helper_GCM().getTopicCode(Topic_Values);
+
         gform_FormCommands Service = gform_service.createService(gform_FormCommands.class);
-        Call<ResponseBody> call = Service.submitForm(inputName.getText().toString(), inputEmail.getText().toString(), regId,"Submit");
+        Call<ResponseBody> call = Service.submitForm(inputName.getText().toString(), inputEmail.getText().toString(), regId,topicCode,"Submit");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -325,6 +337,7 @@ public class Activity_GCMRegistration extends AppCompatActivity {
 
     private void unregister() {
 
+        progress.setCancelable(false);
 
         new AsyncTask<Object, Void, String>() {
             //@Override
@@ -356,8 +369,15 @@ public class Activity_GCMRegistration extends AppCompatActivity {
     }
 
     private void sendDeleteFlag() {
+        boolean[] Topic_Values = { PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_TALK, true),
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_JC, false),
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_students, true)
+        };
+
+        String topicCode = new helper_GCM().getTopicCode(Topic_Values);
         gform_FormCommands Service = gform_service.createService(gform_FormCommands.class);
-        Call<ResponseBody> call = Service.submitForm(inputName.getText().toString(), inputEmail.getText().toString(),"Deleted","Submit");
+        Call<ResponseBody> call = Service.submitForm(inputName.getText().toString(), inputEmail.getText().toString(),"Deleted",topicCode,"Submit");
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -371,14 +391,15 @@ public class Activity_GCMRegistration extends AppCompatActivity {
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.DATA_TALK).apply();
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.DATA_JC).apply();
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.DATA_students).apply();
-                    Intent intent = new Intent(Activity_GCMRegistration.this,Home.class);
                     progress.setMessage("Almost done!");
+                    Intent intent = new Intent(Activity_GCMRegistration.this,Home.class);
                     startActivity(intent);
+
+
                 } else {
                     progress.dismiss();
                     Log.i("RETRO----", response.raw().toString());
                     Log.i("RETRO----", response.message());
-
                 }
             }
 
@@ -428,6 +449,8 @@ public class Activity_GCMRegistration extends AppCompatActivity {
                 progress.dismiss();
                 Toast.makeText(getApplicationContext(), "Successfully subscribed!", Toast.LENGTH_LONG).show();
                 RegisterBackground();
+                Intent intent = new Intent(Activity_GCMRegistration.this, Home.class);
+                startActivity(intent);
             }
         }.execute(null, null, null);
     }
