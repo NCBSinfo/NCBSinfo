@@ -261,7 +261,8 @@
                         android:text="Select Route "
                         android:id="@+id/textView"
                         android:layout_marginLeft="10sp"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="5sp" />
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -285,15 +286,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:layout_marginTop="5sp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:layout_marginTop="5sp">
 
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Show trips"
                             android:id="@+id/home_sh_GoButton"
-                            android:alpha="0.7" />
+                            android:alpha="0.7"
+                            android:layout_marginLeft="10sp" />
                     </LinearLayout>
 
                 </LinearLayout>

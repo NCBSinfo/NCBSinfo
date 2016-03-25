@@ -86,7 +86,7 @@
             android:layout_marginStart="35dp"
             android:layout_alignBottom="@+id/setTimeButton"
             android:layout_alignParentStart="true"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="wrap_content"

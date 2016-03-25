@@ -12,7 +12,7 @@
         android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.rohitsuratekar.updatesbroadcaster.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -49,6 +49,7 @@
         <activity android:name=".activity.Activity_AddContact" />
 
         <!-- GCMRelated Activities -->
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -70,10 +71,6 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activity.Activity_GCMRegistration"
-            android:label="@string/register_activity_name" />
-        <activity android:name=".activity.Activity_GCMModeration" />
 
         <!-- This will receive intend from alarm manager -->
         <receiver
@@ -90,6 +87,15 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+
+
+
+
+        <activity
+            android:name=".activity.Activity_GCMRegistration"
+            android:label="@string/register_activity_name" />
+        <activity android:name=".activity.Activity_GCMModeration" />
 
         <activity
             android:name=".activity.Activity_LectureHalls"
@@ -125,6 +131,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
+        <activity
+            android:name=".activity.Activity_Canteen"
+            android:label="@string/title_activity_activity__canteen"
+            android:parentActivityName=".activity.Activity_Extra"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.activity.Activity_Extra" />
+        </activity>
+        <activity
+            android:name=".activity.Activity_Experimental"
+            android:label="@string/title_activity_activity__experimental"
+            android:parentActivityName=".activity.Activity_Extra"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.activity.Activity_Extra" />
         </activity>
     </application>
 

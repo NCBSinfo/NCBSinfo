@@ -2,7 +2,7 @@
 <resources>
     <string-array name="extra_info_icons">
     <item>Seminar Hall\nNames</item>
-    <item>Canteen\nTimings</item>
+    <item>Canteen\nStuff</item>
     <item>Experimental\nFeatures</item>
     </string-array>
 

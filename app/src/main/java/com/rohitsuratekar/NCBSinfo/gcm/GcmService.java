@@ -139,7 +139,7 @@ public class GcmService extends GcmListenerService {
         intent.putExtra("message",notificationstring );
         intent.putExtra("title",notificationTitle);
         intent.putExtra("topic", currentTopic);
-        PendingIntent sender = PendingIntent.getBroadcast(getBaseContext(), 1989, intent, PendingIntent.FLAG_UPDATE_CURRENT); //1989 is ,y birth year :P
+        PendingIntent sender = PendingIntent.getBroadcast(getBaseContext(), 1989, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Get the AlarmManager service
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

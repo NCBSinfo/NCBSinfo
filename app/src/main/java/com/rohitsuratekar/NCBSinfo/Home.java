@@ -361,15 +361,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-       /* final Animation animation = new AlphaAnimation(1, 0);
-        animation.setDuration(3000);
-        animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(Animation.INFINITE);
-        animation.setRepeatMode(Animation.REVERSE);
-        goButton.startAnimation(animation);*/
-
-
-
         if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.HOME_SETSHUTTLE_DEFAULT, true)){
             l3.setVisibility(View.VISIBLE);
             l4.setVisibility(View.GONE);
@@ -425,6 +416,13 @@ public class Home extends AppCompatActivity {
             haveUpdates=0;
             l1.setVisibility(View.VISIBLE);
             l2.setVisibility(View.GONE);
+
+            if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_Registered,false)){
+                l1.setVisibility(View.GONE);
+                l2.setVisibility(View.VISIBLE);
+                updateText.setText("So far no updates received!");
+            }
+
          }
 
         //Elements to change

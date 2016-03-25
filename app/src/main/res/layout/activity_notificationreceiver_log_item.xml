@@ -17,8 +17,8 @@
         <ImageView
             android:layout_width="50sp"
             android:layout_height="50sp"
-            android:id="@+id/imageView2"
-            android:src="@drawable/icon_lecturehall" />
+            android:id="@+id/notification_log_icon"
+           />
 
         <TextView
             android:layout_width="wrap_content"

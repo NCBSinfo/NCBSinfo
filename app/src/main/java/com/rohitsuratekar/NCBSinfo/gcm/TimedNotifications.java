@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -24,12 +23,7 @@ public class TimedNotifications extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
-        wl.acquire();
-
         int pseudoIncrement=1;
-
         Log.i("Received Timed Message", "Boardcasted");
         String notificationMessage = intent.getExtras().getString("message");
         String notificationTitle = intent.getExtras().getString("title");
@@ -61,10 +55,9 @@ public class TimedNotifications extends BroadcastReceiver {
         mBuilder.setSound(alarmSound);
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
-        wl.release();
-
     }
+
+
 
 
 

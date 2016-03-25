@@ -19,6 +19,9 @@
     <color name="home_shuttlesection_from">#d6ffffff</color>
     <color name="home_shuttlesection_to">#000</color>
 
-    <color name="user_log_topic_jc">#84a82d</color>
-    <color name="user_log_topic_student">#7e57c2</color>
+    <color name="user_log_topic_jc">#b59fdc</color>
+    <color name="user_log_topic_student">#cbbce7</color>
+    <color name="user_log_topic_talk">#e1d9f1</color>
+
+    <color name="experimental_diabledButtons">#9C9797</color>
 </resources>
