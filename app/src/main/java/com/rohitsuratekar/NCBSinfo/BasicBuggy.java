@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by Dexter on 1/8/2016.
- */
 public class BasicBuggy extends Fragment {
 
     public static BasicBuggy newInstance(int index) {
@@ -80,15 +78,12 @@ public class BasicBuggy extends Fragment {
 
     public void perform(View v) {
         String WeekDate = "12/31/2015 00:00:00";
-        String SundayDate = "1/31/2016 00:00:00";
         String weeksmall = "12/31/2015 ";
         String sundaysmall = "1/31/2016 ";
         String[] AllArrays = new ShuttleTimings().OnlyTrips("ncbs", "mandara", WeekDate, 1);
         String[] after = new String[AllArrays.length];
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
         SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        //SimpleDateFormat stringdate = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        //SimpleDateFormat shortdate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         SimpleDateFormat onlytime = new SimpleDateFormat("HH:mm:ss",Locale.getDefault());
 
         String current_weekday = weeksmall+onlytime.format(Calendar.getInstance().getTime());
@@ -97,12 +92,11 @@ public class BasicBuggy extends Fragment {
         Calendar nextcal = new ShuttleTimings().newNextShuttle("ncbs", "mandara", current_weekday, 1);
         String nextShuttleWeek = modformat.format(nextcal.getTime());
 
-        Calendar sundaynext = new ShuttleTimings().newNextShuttle("mandara","ncbs", current_sunday, 1);
+        Calendar sundaynext = new ShuttleTimings().newNextShuttle("mandara", "ncbs", current_sunday, 1);
         String nextShuttleSunday = modformat.format(sundaynext.getTime());
         int selectionItem1 = 0;
         int selectionItem2 = 0;
 
-        List<String> lateList = new ArrayList<String>();
         for (int i =0; i<AllArrays.length; i++){
 
             try {
@@ -111,7 +105,6 @@ public class BasicBuggy extends Fragment {
                 if (after[i].equals(nextShuttleWeek)){
                     after[i]="<font color=\"blue\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem1 = i;
-
                 }
 
             } catch (ParseException e) {
