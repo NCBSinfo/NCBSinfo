@@ -2,6 +2,7 @@
 
 Open source application developed to help people working at National Centre for Biological Sciences, Bangalore. This is <b>NOT</b> an official app. This app can be found on <a href= "https://play.google.com/store/apps/details?id=com.rohitsuratekar.NCBSinfo">Google Play Store</a><br></br>
 
+Scheduled version: v2.2 (Scheduled on 1 April 2016)
 Current version : <a href = https://github.com/NCBSinfo/NCBSinfo/commit/d21b260af667e93d1db1bc9d479045e8a0f8320e>v2.1</a></br>
 Stable version: <a href = https://github.com/NCBSinfo/NCBSinfo/releases/tag/version2.0> v2.0 </a></br></br>
 
