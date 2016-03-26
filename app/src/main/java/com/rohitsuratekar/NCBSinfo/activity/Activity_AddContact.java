@@ -88,6 +88,7 @@ public class Activity_AddContact extends AppCompatActivity {
             Toast.makeText(getBaseContext(), contactName+" changed!", Toast.LENGTH_LONG).show(); }
         db.close();
         Intent intent = new Intent(Activity_AddContact.this, Activity_Contact.class);
+        intent.putExtra("switch","0");
         startActivity(intent);
 
     }

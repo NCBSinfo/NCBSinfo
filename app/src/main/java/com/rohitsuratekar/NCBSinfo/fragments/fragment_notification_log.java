@@ -17,6 +17,7 @@ import com.rohitsuratekar.NCBSinfo.helper.helper_contact_divideritemdecoratio;
 import com.rohitsuratekar.NCBSinfo.models.models_userNotifications;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -34,6 +35,7 @@ public class fragment_notification_log extends Fragment {
         DatabaseHelper db = new DatabaseHelper(rootView.getContext());
         recyclerView = (RecyclerView) rootView.findViewById(R.id.User_logList);
         entrylist = db.getAllEntries();
+        Collections.reverse(entrylist);
         adapters_userNotificationLog log_adapter= new adapters_userNotificationLog(entrylist);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

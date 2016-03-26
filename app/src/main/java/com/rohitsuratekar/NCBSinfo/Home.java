@@ -443,6 +443,14 @@ public class Home extends AppCompatActivity {
 
         }, 0, 1000); //1000
 
+        updateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Home.this, Activity_NotificationReceiver.class);
+                startActivity(intent);
+            }
+        });
+
 
     } //OnCreate close
 

@@ -1,155 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rohitsuratekar.NCBSinfo">
+xmlns:ndroid="http://schemas.android.com/apk/res-auto"
+package="com.rohitsuratekar.NCBSinfo">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.VIBRATE" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <permission
-        android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+<permission
+    android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE"
+    android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.rohitsuratekar.updatesbroadcaster.permission.C2D_MESSAGE" />
+<uses-permission android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.Activity_Shuttles"
-            android:label="@string/title_activity_activity__shuttles"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".activity.Activity_Contact"
-            android:label="@string/title_activity_activity__contact"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity android:name=".activity.Activity_AddContact" />
-
-        <!-- GCMRelated Activities -->
-
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <!-- for Gingerbread GSF backward compat -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.rohitsuratekar.NCBSinfo" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Declare Service -->
-        <service
-            android:name=".gcm.GcmService"
-            android:permission="android.permission.c2dm.intent.RECEIVE">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
+<application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
 
 
-        <!-- This will receive intend from alarm manager -->
-        <receiver
-            android:name=".gcm.TimedNotifications"
-            android:process=":remote" />
+    <activity android:name=".Home">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-        <!-- for setting up alarm again after reboot -->
-        <receiver
-            android:name=".gcm.AfterRestartReceiver"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name=".activity.Activity_Shuttles"
+        android:label="@string/title_activity_activity__shuttles"
+        android:parentActivityName=".Home"
+        android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.Home" />
+    </activity>
+    <activity
+        android:name=".activity.Activity_Contact"
+        android:label="@string/title_activity_activity__contact"
+        android:parentActivityName=".Home"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:windowSoftInputMode="stateHidden">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.Home" />
+    </activity>
+    <activity android:name=".activity.Activity_AddContact" />
+
+    <receiver
+        android:name="com.google.android.gms.gcm.GcmReceiver"
+        android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            <!-- for Gingerbread GSF backward compat -->
+            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+            <category android:name="com.rohitsuratekar.NCBSinfo" />
+        </intent-filter>
+    </receiver>
+
+    <!-- Declare Service -->
+    <service
+        android:name=".gcm.GcmService"
+        android:permission="android.permission.c2dm.intent.RECEIVE">
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        </intent-filter>
+    </service>
+
+    <!-- This will receive intend from alarm manager -->
 
 
+    <!-- for setting up alarm again after reboot -->
+    <receiver
+        android:name=".gcm.AfterRestartReceiver"
+        android:enabled="true"
+        android:exported="false"
+        android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
 
 
+    <activity
+        android:name=".activity.Activity_GCMRegistration"
+        android:label="@string/register_activity_name" />
+    <activity android:name=".activity.Activity_GCMModeration" />
 
-        <activity
-            android:name=".activity.Activity_GCMRegistration"
-            android:label="@string/register_activity_name" />
-        <activity android:name=".activity.Activity_GCMModeration" />
+    <activity
+        android:name=".activity.Activity_LectureHalls"
+        android:label="@string/title_activity_activity__lecture_halls"
+        android:parentActivityName=".Home"
+        android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.Home" />
+    </activity>
+    <activity
+        android:name=".activity.Activity_NotificationReceiver"
+        android:label="@string/title_activity_activity__notification_receiver"
+        android:parentActivityName=".Home"
+        android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.Home" />
+    </activity>
+    <activity
+        android:name=".activity.Activity_Extra"
+        android:label="@string/title_activity_activity__extra"
+        android:parentActivityName=".Home"
+        android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.Home" />
+    </activity>
+    <activity
+        android:name=".Settings"
+        android:label="@string/title_activity_settings"
+        android:parentActivityName=".Home">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.Home" />
+    </activity>
+    <activity
+        android:name=".activity.Activity_Canteen"
+        android:label="@string/title_activity_activity__canteen"
+        android:parentActivityName=".activity.Activity_Extra"
+        android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.activity.Activity_Extra" />
+    </activity>
+    <activity
+        android:name=".activity.Activity_Experimental"
+        android:label="@string/title_activity_activity__experimental"
+        android:parentActivityName=".activity.Activity_Extra"
+        android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.rohitsuratekar.NCBSinfo.activity.Activity_Extra" />
+    </activity>
 
-        <activity
-            android:name=".activity.Activity_LectureHalls"
-            android:label="@string/title_activity_activity__lecture_halls"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".activity.Activity_NotificationReceiver"
-            android:label="@string/title_activity_activity__notification_receiver"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".activity.Activity_Extra"
-            android:label="@string/title_activity_activity__extra"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".Settings"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".Home">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".activity.Activity_Canteen"
-            android:label="@string/title_activity_activity__canteen"
-            android:parentActivityName=".activity.Activity_Extra"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.activity.Activity_Extra" />
-        </activity>
-        <activity
-            android:name=".activity.Activity_Experimental"
-            android:label="@string/title_activity_activity__experimental"
-            android:parentActivityName=".activity.Activity_Extra"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.activity.Activity_Extra" />
-        </activity>
-    </application>
+    <receiver
+        android:name="com.rohitsuratekar.NCBSinfo.gcm.TimedNotifications"
+        android:process=":remote"/>
+</application>
 
 </manifest>
+
