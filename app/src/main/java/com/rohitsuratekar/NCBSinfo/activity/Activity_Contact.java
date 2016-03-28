@@ -99,6 +99,7 @@ public class Activity_Contact extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
         }
     }
 

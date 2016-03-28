@@ -133,21 +133,17 @@ public class GcmService extends GcmListenerService {
         Log.i("Set Timed", "Now");
         // get a Calendar object with current time
         Calendar cal = Calendar.getInstance();
-        Log.i("Current Time", cal.get(Calendar.YEAR)+" "+cal.get(Calendar.MONTH)+" "+cal.get(Calendar.DATE)+" "+cal.get(Calendar.HOUR_OF_DAY)+" "+cal.get(Calendar.MINUTE)+" "+cal.get(Calendar.SECOND));
         // add 30 seconds to the calendar object
         cal.add(Calendar.SECOND, Seconds);
-        Log.i("Targeted Time", cal.get(Calendar.YEAR) + " " + cal.get(Calendar.MONTH) + " " + cal.get(Calendar.DATE) + " " + cal.get(Calendar.HOUR_OF_DAY) + " " + cal.get(Calendar.MINUTE) + " " + cal.get(Calendar.SECOND));
-
         Intent intent = new Intent(getBaseContext(), TimedNotifications.class);
         intent.putExtra("message",notificationstring );
         intent.putExtra("title",notificationTitle);
         intent.putExtra("topic", currentTopic);
-        PendingIntent sender = PendingIntent.getBroadcast(getBaseContext(), 16101989, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(getBaseContext(), 1989, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Get the AlarmManager service
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
-        Log.i("Alarm Set for", cal.getTimeInMillis()+"");
     }
 
 }

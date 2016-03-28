@@ -23,6 +23,12 @@ public class TimedNotifications extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+    sendNotification(context,intent);
+
+    }
+
+
+    static void sendNotification(Context context, Intent intent){
         int pseudoIncrement=1;
         Log.i("Received Timed Message", "Boardcasted");
         String notificationMessage = intent.getExtras().getString("message");
@@ -55,10 +61,7 @@ public class TimedNotifications extends BroadcastReceiver {
         mBuilder.setSound(alarmSound);
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
     }
-
-
 
 
 

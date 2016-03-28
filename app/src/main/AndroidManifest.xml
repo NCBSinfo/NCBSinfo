@@ -147,8 +147,9 @@ package="com.rohitsuratekar.NCBSinfo">
     </activity>
 
     <receiver
-        android:name="com.rohitsuratekar.NCBSinfo.gcm.TimedNotifications"
-        android:process=":remote"/>
+        android:name=".gcm.TimedNotifications"
+        android:process=":remote" />
+
 </application>
 
 </manifest>

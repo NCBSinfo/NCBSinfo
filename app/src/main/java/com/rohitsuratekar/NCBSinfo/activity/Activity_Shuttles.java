@@ -66,6 +66,7 @@ public class Activity_Shuttles extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
         }
     }
 

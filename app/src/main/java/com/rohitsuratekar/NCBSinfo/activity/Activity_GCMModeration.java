@@ -123,18 +123,25 @@ public class Activity_GCMModeration extends AppCompatActivity {
                         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                         int minute = mcurrentTime.get(Calendar.MINUTE);
                         TimePickerDialog mTimePicker;
+
                         mTimePicker = new TimePickerDialog(Activity_GCMModeration.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                                Log.i("Time Set: ", selectedHour + ":" + selectedMinute);
-                                setTimeButton.setText(selectedHour + ":" + selectedMinute);
-                                notificationSendingTime = selectedHour + ":" + selectedMinute;
+                                if(selectedMinute<10){  //This is important else it will go as single digit number
+                                Log.i("Time Set: ", selectedHour + ":0" + selectedMinute);
+                                setTimeButton.setText(selectedHour + ":0" + selectedMinute);
+                                notificationSendingTime = selectedHour + ":0" + selectedMinute;}
+                                else{
+                                    Log.i("Time Set: ", selectedHour + ":" + selectedMinute);
+                                    setTimeButton.setText(selectedHour + ":" + selectedMinute);
+                                    notificationSendingTime = selectedHour + ":" + selectedMinute;
+                                }
                             }
-                        }, hour, minute, true);//Yes 24 hour time
-                        //mTimePicker.setTitle("Select Time");
+                        }, hour, minute, false);//false if for NO 24 hour time
                         mTimePicker.show();
                     }
                 });
+
 
                 timeCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -215,20 +222,15 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
             alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    //What ever you want to do with the value
-                    // Editable YouEditTextValue = edittext.getText();
-                    //OR
-                    String seedValue = edittext.getText().toString();
 
+                    String seedValue = edittext.getText().toString();
                     try {
                         clientID = helper_AES.decrypt(seedValue, GCMConstants.MOD_CLIENT_ID);
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DECODED_CLIENTID, clientID).apply();
                         clientSecret = helper_AES.decrypt(seedValue, GCMConstants.MOD_CLIENT_SECRET);
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DECODED_SECRET, clientSecret).apply();
                         web.setWebViewClient(new MyWebViewClient());
-                        web.loadUrl(GCMConstants.MOD_LOGINURL + "?scope=" + GCMConstants.MOD_SCOPE + "&client_id=" + clientID + "&response_type=code&access_type=offline&redirect_uri=" + GCMConstants.MOD_REDIRECT_URI);
-
-
+                        web.loadUrl(GCMConstants.MOD_LOGINURL + "?scope=" + GCMConstants.MOD_SCOPE + "&client_id=" + clientID + "&response_type=code&access_type=offline&prompt=consent&redirect_uri=" + GCMConstants.MOD_REDIRECT_URI);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(getBaseContext(), "Now stare at blank screen :)", Toast.LENGTH_LONG).show();
@@ -258,9 +260,12 @@ public class Activity_GCMModeration extends AppCompatActivity {
         if(validateName()){
 
             sentButton.setEnabled(false);
+            progress=new ProgressDialog(Activity_GCMModeration.this);
+            progress.show();
+            progress.setMessage("Sending notification to users");
+            progress.setCancelable(false);
 
             if (ovverideall.equals("doit")){
-
 
                 String topic = GCMConstants.GCM_TOPIC_EMERGENCY;
                 topicNameSelected = topic;
@@ -274,7 +279,6 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 query.setTo("/topics/" + topic);
                 rCodeValue= inputExtra.getText().toString();
                 sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
-
 
             }
 
@@ -291,7 +295,6 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 query.setData(data);
                 query.setTo("/topics/" + topic);
                 sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
-
                 Log.i("Sent===", data.getRcode() + data.getValue());
                 String[] split1 = data.getValue().split(":");
                 int seconds = new helper_GCM().converToSeconds(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]));
@@ -318,6 +321,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
             }
     }
+
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -412,7 +416,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
             return Uri.parse(url).getHost().contains("?code=");
         }
     }
-    //Using access token becuase this is immediate call after token exchange
+    //Using access token because this is immediate call after token exchange
     public void getUserInfo(final String AccessToken, final Context context){
 
         retro_Commands gplusSerive = retro_Services_Auth.createService(retro_Commands.class, clientID, clientSecret, AccessToken);
@@ -538,10 +542,11 @@ public class Activity_GCMModeration extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void sendModeratorLog(){
+
+        progress.setMessage("Almost done...");
 
         String timeStamp = new helper_GCM().timeStamp();
         String DailyStamp = new helper_GCM().ModDailyStamp();
@@ -563,6 +568,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
                     Log.i("Moderator Log Sent ===", "Suceessful");
                     Toast.makeText(getBaseContext(), "Successfully sent !", Toast.LENGTH_LONG).show();
+                    progress.dismiss();
                     Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
                     startActivity(intent);
                 } else {
@@ -606,6 +612,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
     }
 
     public void RefreshAndSendLog(String RefreshToken){
+        progress.setMessage("Updating registration...");
         String clientID2 = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_CLIENTID, "401");
 
         String clientSecret2 = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_SECRET, "401");
@@ -614,13 +621,21 @@ public class Activity_GCMModeration extends AppCompatActivity {
         call.enqueue(new Callback<retro_Response_AccessToken>() {
             @Override
             public void onResponse(Call<retro_Response_AccessToken> call, Response<retro_Response_AccessToken> response) {
+                if (response.isSuccess()) {
                 Log.i("Refreshed ===",response.body().toString());
                 PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_ACCESS_TOKEN, response.body().getAccessToken()).apply();
                 sendModeratorLog();
+                }
+                else {
+
+                    progress.dismiss();
+                    Toast.makeText(getBaseContext(), "Something is wrong. Please report error.", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<retro_Response_AccessToken> call, Throwable t) {
+                progress.dismiss();
 
             }
         });

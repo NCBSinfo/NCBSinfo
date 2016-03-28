@@ -313,7 +313,9 @@ public class fragment_contact_tab1 extends Fragment implements SearchView.OnQuer
                             db2.deleteContact(doc);
 
                             getActivity().finish();
-                            getContext().startActivity(new Intent(getContext(), Activity_Contact.class));
+                            Intent intent = new Intent(getContext(), Activity_Contact.class);
+                            intent.putExtra("switch","0");
+                            getContext().startActivity(intent);
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

@@ -4,20 +4,16 @@
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="colorAccent">#FF5722</color>
 
-    <color name="home_shuttleholder">#512da8</color>
-    <color name="home_contactholder">#5e35b1</color>
-    <color name="home_updateholder">#673ab7</color>
-    <color name="home_otherholder">#7e57c2</color>
+    <color name="home_shuttle">#673ab7</color>
+    <color name="home_contact">#3f51b5</color>
+    <color name="home_updates">#3f51b5</color>
+    <color name="home_other">#673ab7</color>
 
-    <color name="home_section_icon_tint">#d6ffffff</color>
-    <color name="home_shuttle_buttons">#b39ddb</color>
-    <color name="home_section_select">#84a82d</color>
-    <color name="home_section_select_darker">#5C751F</color>
-    <color name="home_section_shadow">#405115</color>
+    <color name="home_Selection">#FF5722</color>
+    <color name="home_subSection">#3f51b5</color>
 
-    <color name="home_shuttlesection_timeRemaining">#d6ffffff</color>
-    <color name="home_shuttlesection_from">#d6ffffff</color>
-    <color name="home_shuttlesection_to">#000</color>
+
+
 
     <color name="user_log_topic_jc">#b59fdc</color>
     <color name="user_log_topic_student">#cbbce7</color>

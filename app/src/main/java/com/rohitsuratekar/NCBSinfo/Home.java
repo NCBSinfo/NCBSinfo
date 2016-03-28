@@ -1,70 +1,46 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.animation.Animator;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
-import android.text.Html;
+import android.transition.Explode;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MenuItem;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.animation.AlphaAnimation;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.activity.Activity_Contact;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_Extra;
 import com.rohitsuratekar.NCBSinfo.activity.Activity_GCMModeration;
 import com.rohitsuratekar.NCBSinfo.activity.Activity_GCMRegistration;
 import com.rohitsuratekar.NCBSinfo.activity.Activity_LectureHalls;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_NotificationReceiver;
 import com.rohitsuratekar.NCBSinfo.activity.Activity_Shuttles;
-import com.rohitsuratekar.NCBSinfo.adapters.adapeters_home_GoSpinner;
 import com.rohitsuratekar.NCBSinfo.constants.DatabaseConstants;
-import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
-import com.rohitsuratekar.NCBSinfo.helper.helper_shuttles;
-import com.rohitsuratekar.NCBSinfo.models.models_userNotifications;
-import com.rohitsuratekar.NCBSinfo.retro.gplus_response.Image;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements View.OnClickListener{
 
-    Animation alphaAnimation, exitAnimation;
-    ImageButton shuttleButton, ContactButton,updateButton, otherButton;
-    RelativeLayout aniShuttle, targetShuttle, originalShuttle,aniContact,targetContact,originalContact;
-    RelativeLayout aniUpdate, targetUpdate,originalUpdate,aniOther,targetOther,originalOther;
-    int haveUpdates, updateRepeat, updateTime, tempCounter, tempListItem, isBuggy;
-    TextView home_next,nextShuttleText, timeleft, updateText, shuttleFromText, shuttleToText;
-    List<models_userNotifications> entrylist;
-    String transportFROM, transportTO;
-    int spinnerVariable=0,spinnerVariable2=0;
+    Animation alphaAnimation, exitAnimation, dropDown;
+    int screen_H;
+    LinearLayout shuttleSection, shuttleAnimation, shuttleOption, contactSection, contactAnimation, contactOption;
+    LinearLayout updatesSection, updatesAnimation, updatesOption, otherSection, otherAnimation, otherOption;
 
 
     @Override
@@ -72,27 +48,29 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
 
-        alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.home_section_fade);
-        exitAnimation = AnimationUtils.loadAnimation(this,R.anim.home_section_exit);
-
         //Delete Old databases
         if(doesDatabaseExist(this,"ContactStore2")){
             this.deleteDatabase("ContactStore2");
         }
 
+
         //Get Height of Device Screen
         DisplayMetrics matrix = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(matrix);
-        final int screen_H = matrix.heightPixels;
+        screen_H = matrix.heightPixels;
+
+        alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.home_section_fade);
+        exitAnimation = AnimationUtils.loadAnimation(this,R.anim.home_section_exit);
+        dropDown = AnimationUtils.loadAnimation(this,R.anim.drop_down_view);
 
         //Give warning to users if Android version is lower than 5.0
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.ANDROID_VERSION_WARNING, true)) {
 
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
                 alertDialog.setTitle("Compatibility mode");
-                alertDialog.setMessage("This app is best suited for Android Lollipop (21) and above. Your current android version is " + android.os.Build.VERSION.SDK_INT + " . Some animations and functions might not work properly. ");
+                alertDialog.setMessage("This app is best suited for Android Lollipop (21) and above. Your current android version is " + Build.VERSION.SDK_INT + " . Some animations and functions might not work properly. ");
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(DatabaseConstants.ANDROID_VERSION_WARNING, false).apply();
@@ -102,575 +80,200 @@ public class Home extends AppCompatActivity {
                 alertDialog.show();
 
             }
+
+
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.home_actionbar);
+
+
         }
 
-        //Check default values
-        int route =  PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(DatabaseConstants.HOME_DEFAULT_ROUTE, 0);
-        transportFROM = new helper_shuttles().getRouteName(route)[0];
-        transportTO = new helper_shuttles().getRouteName(route)[1];
-        isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(route)[2]);
+        shuttleAnimation = (LinearLayout)findViewById(R.id.home_shuttle_animation);
+        shuttleSection = (LinearLayout)findViewById(R.id.home_shuttle_Section);
+        shuttleOption = (LinearLayout)findViewById(R.id.home_shuttle_options);
 
-        //Find and assign all section Components
-        //Shuttle Section
-        shuttleButton = (ImageButton)findViewById(R.id.Button_home_shuttle);
-        aniShuttle = (RelativeLayout)findViewById(R.id.ShuttleAnimation);
-        targetShuttle = (RelativeLayout)findViewById(R.id.ShuttleOptions);
-        originalShuttle = (RelativeLayout)findViewById(R.id.ShuttleContent);
-        //Contact Section
-        ContactButton = (ImageButton)findViewById(R.id.Button_home_contact);
-        aniContact = (RelativeLayout)findViewById(R.id.ContactAnimation);
-        targetContact = (RelativeLayout)findViewById(R.id.ContactOptions);
-        originalContact = (RelativeLayout)findViewById(R.id.ContactContent);
-        //Update Section
-        updateButton = (ImageButton)findViewById(R.id.Button_home_updates);
-        aniUpdate = (RelativeLayout)findViewById(R.id.UpdateAnimation);
-        targetUpdate = (RelativeLayout)findViewById(R.id.UpdateOptions);
-        originalUpdate = (RelativeLayout)findViewById(R.id.UpdateContent);
-        //Other section
-        otherButton = (ImageButton)findViewById(R.id.Button_home_other);
-        aniOther= (RelativeLayout)findViewById(R.id.OtherAnimation);
-        targetOther = (RelativeLayout)findViewById(R.id.OtherOptions);
-        originalOther = (RelativeLayout)findViewById(R.id.OtherContent);
-        //Set all layouts of default view
-        setAllDefaultview(0); //0 is for default
+        contactAnimation = (LinearLayout)findViewById(R.id.home_contact_animation);
+        contactSection = (LinearLayout)findViewById(R.id.home_contact_Section);
+        contactOption = (LinearLayout)findViewById(R.id.home_contact_options);
 
-        LinearLayout l1 = (LinearLayout) findViewById(R.id.Home_pre_update);
-        LinearLayout l2 = (LinearLayout) findViewById(R.id.Home_post_update);
-        final LinearLayout l3 = (LinearLayout) findViewById(R.id.Home_sh_firsttime);
-        final LinearLayout l4 = (LinearLayout) findViewById(R.id.Home_sh_timeleftLayout);
-        final LinearLayout l5 = (LinearLayout) findViewById(R.id.Home_sh_setDefault);
-        updateText = (TextView)findViewById(R.id.home_updateTitle);
-        shuttleFromText = (TextView)findViewById(R.id.home_sh_from);
-        shuttleToText = (TextView)findViewById(R.id.home_sh_totext);
+        updatesAnimation = (LinearLayout)findViewById(R.id.home_updates_animation);
+        updatesSection = (LinearLayout)findViewById(R.id.home_updates_Section);
+        updatesOption = (LinearLayout)findViewById(R.id.home_updates_options);
+
+        otherAnimation = (LinearLayout)findViewById(R.id.home_other_animation);
+        otherSection = (LinearLayout)findViewById(R.id.home_other_Section);
+        otherOption = (LinearLayout)findViewById(R.id.home_other_options);
 
 
-        //All animation OnCLick events
-        //Shuttle Section
-        shuttleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ImageButton i1 = (ImageButton)findViewById(R.id.home_shuttleButton);
+        ImageButton i2 = (ImageButton)findViewById(R.id.home_contactButton);
+        ImageButton i3 = (ImageButton)findViewById(R.id.home_updatesButton);
+        ImageButton i4 = (ImageButton)findViewById(R.id.home_otherButton);
+        i1.setOnClickListener(this);
+        i2.setOnClickListener(this);
+        i3.setOnClickListener(this);
+        i4.setOnClickListener(this);
 
-                if(!PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.HOME_SETSHUTTLE_DEFAULT, true)) {
+        SetDefaultView();
 
-                    int x = shuttleButton.getRight();
-                    int y = shuttleButton.getBottom();
-                    FillAnimation(originalShuttle, aniShuttle, targetShuttle, x, y, 0, screen_H, true);  //Flag will determine whether section is under selection of deselection
-                }
-                else {
+        LinearLayout l1 = (LinearLayout)findViewById(R.id.home_fav_layout);
+        LinearLayout l2 = (LinearLayout)findViewById(R.id.home_allcontact_layout);
 
-                    l3.setVisibility(View.GONE);
-                    l4.setVisibility(View.GONE);
-                    l5.setVisibility(View.VISIBLE);
-
-                }
-                setAllDefaultview(1); //Change view of other selected sections
-            }
-        });
-        final ImageButton HighlightshuttleButton = (ImageButton)findViewById(R.id.Button_home_shuttle_highlighted);
-        HighlightshuttleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = HighlightshuttleButton.getRight();
-                int y = HighlightshuttleButton.getBottom();
-                FillAnimation(originalShuttle, aniShuttle, targetShuttle, x, y, 0, screen_H, false);
-
-            }
-        });
-        //ContactSection
-        ContactButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = ContactButton.getRight();
-                int y = ContactButton.getBottom();
-                FillAnimation(originalContact,aniContact,targetContact,x,y,0,screen_H, true);
-                setAllDefaultview(2);
-            }
-        });
-        final ImageButton HighlightContactButton = (ImageButton)findViewById(R.id.Button_home_contact_highlighted);
-        HighlightContactButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = HighlightContactButton.getRight();
-                int y = HighlightContactButton.getBottom();
-                FillAnimation(originalContact,aniContact,targetContact,x,y,0,screen_H, false);
-            }
-        });
-        //UpdateSection
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = updateButton.getRight();
-                int y = updateButton.getBottom();
-                FillAnimation(originalUpdate,aniUpdate,targetUpdate,x,y,0,screen_H, true);
-                setAllDefaultview(3);
-            }
-        });
-        final ImageButton HighlightUpdateButton = (ImageButton)findViewById(R.id.Button_home_update_highlighted);
-        HighlightUpdateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = HighlightUpdateButton.getRight();
-                int y = HighlightUpdateButton.getBottom();
-                FillAnimation(originalUpdate,aniUpdate,targetUpdate,x,y,0,screen_H, false);
-            }
-        });
-        //OtherSection
-        otherButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = otherButton.getRight();
-                int y = otherButton.getBottom();
-                FillAnimation(originalOther,aniOther,targetOther,x,y,0,screen_H, true);
-                setAllDefaultview(4);
-            }
-        });
-        final ImageButton HighlightOtherButton = (ImageButton)findViewById(R.id.Button_home_other_highlighted);
-        HighlightOtherButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int x = HighlightOtherButton.getRight();
-                int y = HighlightOtherButton.getBottom();
-                FillAnimation(originalOther, aniOther, targetOther, x, y, 0, screen_H, false);
-            }
-        });
-
-        ImageButton extra = (ImageButton)findViewById(R.id.ExtraButton);
-        extra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home.this, Activity_Extra.class);
-                startActivity(intent);
-            }
-        });
-
-        //Popup menu on From-To text
-
-
-        shuttleToText.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(Home.this, shuttleFromText);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater().inflate(R.menu.home_shuttle_to_fram_menu, popup.getMenu());
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int changeRoute =0;
-                        if (item.getItemId() == R.id.route0) { changeRoute=0; }
-                        else if (item.getItemId() == R.id.route1) {changeRoute=1; }
-                        else if (item.getItemId() == R.id.route2) { changeRoute=2; }
-                        else if (item.getItemId() == R.id.route3) { changeRoute=3; }
-                        else if (item.getItemId() == R.id.route4) { changeRoute=4; }
-                        else if (item.getItemId() == R.id.route5) { changeRoute=5; }
-                        else if (item.getItemId() == R.id.route6) { changeRoute=6; }
-                        else if (item.getItemId() == R.id.route7) { changeRoute=7; }
-                        else if (item.getItemId() == R.id.route8) { changeRoute=8; }
-
-                        transportFROM = new helper_shuttles().getRouteName(changeRoute)[0];
-                        transportTO = new helper_shuttles().getRouteName(changeRoute)[1];
-                        isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(changeRoute)[2]);
-                        changeShuttleText();
-
-                        return true;
-                    }
-                });
-
-                popup.show();//showing popup menu
-            }
-        });//closing the setOnClickListener method
-
-        shuttleFromText.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(Home.this, shuttleFromText);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater().inflate(R.menu.home_shuttle_to_fram_menu, popup.getMenu());
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int changeRoute =0;
-                        if (item.getItemId() == R.id.route0) { changeRoute=0; }
-                        else if (item.getItemId() == R.id.route1) {changeRoute=1; }
-                        else if (item.getItemId() == R.id.route2) { changeRoute=2; }
-                        else if (item.getItemId() == R.id.route3) { changeRoute=3; }
-                        else if (item.getItemId() == R.id.route4) { changeRoute=4; }
-                        else if (item.getItemId() == R.id.route5) { changeRoute=5; }
-                        else if (item.getItemId() == R.id.route6) { changeRoute=6; }
-                        else if (item.getItemId() == R.id.route7) { changeRoute=7; }
-                        else if (item.getItemId() == R.id.route8) { changeRoute=8; }
-
-                        transportFROM = new helper_shuttles().getRouteName(changeRoute)[0];
-                        transportTO = new helper_shuttles().getRouteName(changeRoute)[1];
-                        isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(changeRoute)[2]);
-                        changeShuttleText();
-
-                        return true;
-                    }
-                });
-
-                popup.show();//showing popup menu
-            }
-        });//closing the setOnClickListener method
-
-        //First Time use layouts
-
-        Spinner spinHome = (Spinner) findViewById(R.id.Home_sh_spinner);
-        final Spinner shuttleGoSpinner = (Spinner) findViewById(R.id.home_shuttle_go_spinner);
-        String[] spinnerItems = getResources().getStringArray(R.array.home_spinner_items);
-        adapeters_home_GoSpinner customAdapetr = new adapeters_home_GoSpinner(Home.this,spinnerItems);
-        spinHome.setAdapter(customAdapetr);
-        spinHome.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spinnerVariable > 0) {
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt(DatabaseConstants.HOME_DEFAULT_ROUTE, position).apply();
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(DatabaseConstants.HOME_SETSHUTTLE_DEFAULT, false).apply();
-                    transportFROM = new helper_shuttles().getRouteName(position)[0];
-                    transportTO = new helper_shuttles().getRouteName(position)[1];
-                    isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(position)[2]);
-                    l3.setVisibility(View.GONE);
-                    l4.setVisibility(View.VISIBLE);
-                    l5.setVisibility(View.GONE);
-                    changeShuttleText();
-                }
-                spinnerVariable++;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        adapeters_home_GoSpinner customAdapetr1 = new adapeters_home_GoSpinner(Home.this,spinnerItems);
-        shuttleGoSpinner.setAdapter(customAdapetr1);
-
-        Button goButton = (Button)findViewById(R.id.home_sh_GoButton);
-        goButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home.this, Activity_Shuttles.class);
-                intent.putExtra("switch",String.valueOf(shuttleGoSpinner.getSelectedItemPosition()));
-                startActivity(intent);
-            }
-        });
-
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.HOME_SETSHUTTLE_DEFAULT, true)){
-            l3.setVisibility(View.VISIBLE);
-            l4.setVisibility(View.GONE);
-            l5.setVisibility(View.GONE);
-        }
-        else{
-
-            l3.setVisibility(View.GONE);
-            l4.setVisibility(View.VISIBLE);
-            l5.setVisibility(View.GONE);
-        }
-
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_Registered, false)){
-
-            ImageButton im = (ImageButton)findViewById(R.id.home_update_registerButton);
-            im.setBackgroundResource(R.drawable.icon_unregistration);
-            TextView tx = (TextView)findViewById(R.id.home_update_registration_text);
-            tx.setText("Unregister");
-            ImageButton im2 = (ImageButton)findViewById(R.id.home_update_logButton);
-            im2.setEnabled(true);
-            im2.setAlpha((float) 1);
-        }
-        else{
-
-            ImageButton im = (ImageButton)findViewById(R.id.home_update_registerButton);
-            im.setBackgroundResource(R.drawable.icon_registration);
-            TextView tx = (TextView)findViewById(R.id.home_update_registration_text);
-            tx.setText("Register");
-            ImageButton im2 = (ImageButton)findViewById(R.id.home_update_logButton);
-            im2.setEnabled(false);
-            im2.setAlpha((float) 0.5);
-        }
+        l1.setOnClickListener(this);
+        l2.setOnClickListener(this);
 
 
 
 
 
-            DatabaseHelper db = new DatabaseHelper(getBaseContext());
-        entrylist = db.getAllEntries();
 
-        //Check if you have any recent updates
-        if (entrylist.size()>0){
-            haveUpdates=1;
-            l1.setVisibility(View.GONE);
-            l2.setVisibility(View.VISIBLE);
-            updateText.setText( entrylist.get(entrylist.size()-1).getNotificationTitle());
-            //Set how many updates will be repeated
-            if (entrylist.size()>5){ updateRepeat = 5;}
-            else {updateRepeat=entrylist.size();}
-
-        }
-        else {
-            haveUpdates=0;
-            l1.setVisibility(View.VISIBLE);
-            l2.setVisibility(View.GONE);
-
-            if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_Registered,false)){
-                l1.setVisibility(View.GONE);
-                l2.setVisibility(View.VISIBLE);
-                updateText.setText("So far no updates received!");
-            }
-
-         }
-
-        //Elements to change
-        home_next = (TextView)findViewById(R.id.home_shuttleSection_nextText);
-        nextShuttleText = (TextView)findViewById(R.id.home_sh_NextShuttle);
-        timeleft = (TextView)findViewById(R.id.home_sh_timing);
-
-        //Timer
-        updateTime = 3;
-        tempCounter = 0;
-        tempListItem = 0;
-        Timer timeLeft = new Timer();
-        timeLeft.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                TimerMethod();
-            }
-
-        }, 0, 1000); //1000
-
-        updateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Home.this, Activity_NotificationReceiver.class);
-                startActivity(intent);
-            }
-        });
 
 
     } //OnCreate close
 
 
-    // Animation to fill section
-      public void FillAnimation(final View currentView, final View animatedWindows, final View targetView, int x, int y,int startRadius, int endRadius, boolean flag) {
+    @Override
+    public void onClick(View v) {
 
-          Animator anim = null;
-
-          //Animation will work only of android 21 and above
-          if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-
-          if (flag) {
-
-              anim = ViewAnimationUtils.createCircularReveal(animatedWindows, x, y, startRadius, endRadius);
-            anim.setDuration(500);
-            anim.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                    targetView.setVisibility(View.VISIBLE);
-                    targetView.startAnimation(alphaAnimation);
-                }
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                   // targetView.setVisibility(View.VISIBLE);
-                   // targetView.startAnimation(alphaAnimation);
-                }
-                @Override
-                public void onAnimationCancel(Animator animator) {
-                }
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-                }
-            });
-            animatedWindows.setVisibility(View.VISIBLE);
-            anim.start();
-            flag = false;
-        }
-        else{
-              anim = ViewAnimationUtils.createCircularReveal(animatedWindows, x, y, endRadius, startRadius);
-            anim.setDuration(400);
-            anim.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                    targetView.setVisibility(View.GONE);
-                    targetView.startAnimation(exitAnimation);
-
-                }
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    animatedWindows.setVisibility(View.GONE);
-                }
-                @Override
-                public void onAnimationCancel(Animator animator) {
-                }
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-                }
-            });
-            anim.start();
-            flag = true;
-
-        }
-          }
-          //COMPATIBILITY CHECK
-          //Change for devices with lower android version
-          else{
-              if (flag) {
-                targetView.setVisibility(View.VISIBLE);
-                animatedWindows.setVisibility(View.VISIBLE);
-              }
-              else{
-                    targetView.setVisibility(View.GONE);
-                    animatedWindows.setVisibility(View.GONE);
-                   flag = true;
-              }
-
-          }
-    }
+        switch (v.getId()) {
 
 
-    //Function to set section view to default except current selected section
-    public void setAllDefaultview (int section){  //Section will be currently selected section
-        if(section!=1){
-        aniShuttle.setVisibility(View.GONE);
-        targetShuttle.setVisibility(View.GONE);
-        originalShuttle.setVisibility(View.VISIBLE);
-        }
-        if (section!=2) {
-            aniContact.setVisibility(View.GONE);
-            targetContact.setVisibility(View.GONE);
-            originalContact.setVisibility(View.VISIBLE);
-        }
-        if(section!=3){
-            aniUpdate.setVisibility(View.GONE);
-            targetUpdate.setVisibility(View.GONE);
-            originalUpdate.setVisibility(View.VISIBLE);
-
-        }
-        if(section!=4){
-            aniOther.setVisibility(View.GONE);
-            targetOther.setVisibility(View.GONE);
-            originalOther.setVisibility(View.VISIBLE);
-        }
-
-        //Contact Section onCLick Events
-
-        ImageButton im1 = (ImageButton)findViewById(R.id.home_contact_favButton);
-        ImageButton im2 = (ImageButton)findViewById(R.id.home_contactListButton);
-        ImageButton im3 = (ImageButton)findViewById(R.id.home_contact_emergency);
-        if (im1 != null) {
-            im1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent= new Intent(Home.this,Activity_Contact.class);
-                    intent.putExtra("switch","1");
-                    startActivity(intent);
-                }
-            });
-        }
-
-        if (im2 != null) {
-            im2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent= new Intent(Home.this,Activity_Contact.class);
-                    intent.putExtra("switch","0");
-                    startActivity(intent);
-                }
-            });
-        }
-
-        if (im3 != null) {
-            im3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + "080-2366-6666"));
-                    startActivity(intent);
-                }
-            });
+            case R.id.home_shuttleButton:
+                GeneralAnimationFlow(v, shuttleSection, shuttleAnimation, shuttleOption);
+                break;
+            case R.id.home_contactButton:
+                GeneralAnimationFlow(v, contactSection, contactAnimation, contactOption);
+                break;
+            case R.id.home_updatesButton:
+                GeneralAnimationFlow(v, updatesSection,updatesAnimation,updatesOption);
+                break;
+            case R.id.home_otherButton:
+                GeneralAnimationFlow(v, otherSection,otherAnimation,otherOption);
+                break;
+            case R.id.home_fav_layout:
+                Intent intent = new Intent(Home.this,Activity_GCMRegistration.class);
+                startActivity(intent);
+                break;
+            case R.id.home_allcontact_layout:
+                Intent intent2 = new Intent(Home.this,Activity_GCMModeration.class);
+                startActivity(intent2);
+                break;
+            default:
+                break;
         }
     }
 
-
-    public void gotoRegistration(View arg0){
-        Intent intent = new Intent(Home.this, Activity_GCMRegistration.class);
-        startActivity(intent);
-    }
-    public void gotoModerator(View arg0){
-        Intent intent = new Intent(Home.this, Activity_GCMModeration.class);
-        startActivity(intent);
-    }
-
-    public void gotoNotificationLog(View arg0){
-       // DatabaseHelper db = new DatabaseHelper(getBaseContext());
-        //db.close();
-        Intent intent = new Intent(Home.this, Activity_NotificationReceiver.class);
-        startActivity(intent);
-    }
 
     private static boolean doesDatabaseExist(Context context, String dbName) {
         File dbFile = context.getDatabasePath(dbName);
         return dbFile.exists();
     }
 
-    //Timer functions
 
-    private void TimerMethod() {
-        this.runOnUiThread(Timer_Tick);
-    }
-    private Runnable Timer_Tick = new Runnable() {
-        public void run() {
-            //Content Here
-            //TODO
-            changeShuttleText();
+    // Animation to fill section
+    public void FillAnimation(final View currentView, final View animatedWindows, final View targetView, int x, int y,int startRadius, int endRadius, boolean flag) {
+
+        Animator anim = null;
+
+        //Animation will work only of android 21 and above
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+            if (flag) {
+
+                anim = ViewAnimationUtils.createCircularReveal(animatedWindows, x, y, startRadius, endRadius);
+                anim.setDuration(500);
+                anim.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+                        targetView.setVisibility(View.VISIBLE);
+                        targetView.startAnimation(alphaAnimation);
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        // targetView.setVisibility(View.VISIBLE);
+                        // targetView.startAnimation(alphaAnimation);
+                        currentView.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+                    }
+                });
+                animatedWindows.setVisibility(View.VISIBLE);
+                anim.start();
+                flag = false;
+            }
+            else{
+                anim = ViewAnimationUtils.createCircularReveal(animatedWindows, x, y, endRadius, startRadius);
+                anim.setDuration(400);
+                anim.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+                        targetView.setVisibility(View.GONE);
+                        targetView.startAnimation(exitAnimation);
+
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        animatedWindows.setVisibility(View.GONE);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+                    }
+                });
+                anim.start();
+                flag = true;
+
+            }
+        }
+        //COMPATIBILITY CHECK
+        //Change for devices with lower android version
+        else{
+            if (flag) {
+                targetView.setVisibility(View.VISIBLE);
+                animatedWindows.setVisibility(View.VISIBLE);
+            }
+            else{
+                targetView.setVisibility(View.GONE);
+                animatedWindows.setVisibility(View.GONE);
+                flag = true;
+            }
 
         }
-    };
-
-    public void changeShuttleText(){
-        String tempText;
-        if (isBuggy==1){tempText="Next Buggy";}
-        else {tempText="Next Shuttle";}
-        home_next.setText(tempText);
-        Calendar c2 = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Calendar nextDate = new helper_shuttles().NextTransport(transportFROM, transportTO, format.format(c2.getTime()), isBuggy);
-        SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        nextShuttleText.setText(dformat.format(nextDate.getTime()));
-        shuttleFromText.setText(transportFROM.toUpperCase());
-        shuttleToText.setText(transportTO.toUpperCase());
-
-        float[] Difference = new helper_shuttles().TimeLeft(format.format(c2.getTime()), format.format(nextDate.getTime()));
-
-        timeleft.setText(""+ ((int) Difference[2])+":"+ ((int) Difference[1])+":"+ ((int) Difference[0]));
-
-        if(haveUpdates==1){
-
-         if (tempCounter==updateTime){
-
-             if (tempListItem < updateRepeat){
-             updateText.setText( entrylist.get(entrylist.size()-tempListItem-1).getNotificationTitle());
-             tempListItem++;}
-             else{
-                 tempListItem=0;
-             }
-             tempCounter=0;
-
-         }
-            else
-         {tempCounter++;}
-
-        }
-
     }
 
-    public void gotoSettings(View arg0){
-        Intent i = new Intent(Home.this,Settings.class);
-    startActivity(i);
+    public void GeneralAnimationFlow(View button, View section, View animation, View options ){
+        int x = button.getRight();
+        int y = button.getBottom();
+        SetDefaultView();
+        FillAnimation(section, animation, options, x, y, 0, screen_H, true);
+    }
+
+
+    public void SetDefaultView (){
+
+        shuttleAnimation.setVisibility(View.GONE);
+        shuttleSection.setVisibility(View.VISIBLE);
+        shuttleOption.setVisibility(View.GONE);
+
+        contactAnimation.setVisibility(View.GONE);
+        contactSection.setVisibility(View.VISIBLE);
+        contactOption.setVisibility(View.GONE);
+
+        updatesAnimation.setVisibility(View.GONE);
+        updatesSection.setVisibility(View.VISIBLE);
+        updatesOption.setVisibility(View.GONE);
+
+        otherAnimation.setVisibility(View.GONE);
+        otherSection.setVisibility(View.VISIBLE);
+        otherOption.setVisibility(View.GONE);
+
+
     }
 
 
