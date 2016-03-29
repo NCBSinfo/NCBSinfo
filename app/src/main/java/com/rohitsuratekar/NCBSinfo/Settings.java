@@ -26,6 +26,7 @@ import android.support.v4.app.NavUtils;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.constants.DatabaseConstants;
+import com.rohitsuratekar.NCBSinfo.constants.SettingsConstants;
 import com.rohitsuratekar.NCBSinfo.helper.helper_AppCompatPreferenceActivity;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class Settings extends helper_AppCompatPreferenceActivity {
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(DatabaseConstants.HOME_DEFAULT_ROUTE, Integer.parseInt(stringValue)).apply(); // value to store
+                editor.putInt(SettingsConstants.HOME_DEFAULT_ROUTE, Integer.parseInt(stringValue)).apply(); // value to store
                 if (activitystart==0){activitystart++;}
                 else{
                     preference.getContext().startActivity(new Intent(preference.getContext(), Home.class));

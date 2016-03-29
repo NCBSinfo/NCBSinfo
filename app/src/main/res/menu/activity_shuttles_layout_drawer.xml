@@ -3,34 +3,57 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/icon_home"
+            android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/icon_contact"
+            android:title="Contact" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_updates"
+            android:icon="@drawable/icon_updates"
+            android:title="Updates" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_other"
+            android:icon="@drawable/icon_other"
+            android:title="Other" />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/icon_settings"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Transport"
+        android:icon="@drawable/icon_shuttle">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_shuttle_ncbs_iisc"
+                android:title="NCBS-IISc" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_shuttle_iisc_ncbs"
+                android:title="IISc-NCBS" />
+            <item
+                android:id="@+id/nav_shuttle_ncbs_mandara"
+                android:title="NCBS-Mandara" />
+            <item
+                android:id="@+id/nav_shuttle_mandara_ncbs"
+                android:title="Mandara-NCBS" />
+            <item
+                android:id="@+id/nav_buggy"
+                android:title="Buggy" />
+            <item
+                android:id="@+id/nav_shuttle_ncbs_icts"
+                android:title="NCBS-ICTS" />
+            <item
+                android:id="@+id/nav_shuttle_icts_ncbs"
+                android:title="ICTS-NCBS" />
+            <item
+                android:id="@+id/nav_shuttle_ncbs_cbl"
+                android:title="NCBS-CBL" />
         </menu>
     </item>
+
+
 
 </menu>

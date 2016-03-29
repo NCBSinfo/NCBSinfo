@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -392,7 +394,7 @@ public class Activity_GCMRegistration extends AppCompatActivity {
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.DATA_JC).apply();
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.DATA_students).apply();
                     progress.setMessage("Almost done!");
-                    Intent intent = new Intent(Activity_GCMRegistration.this,Home.class);
+                    Intent intent = new Intent(Activity_GCMRegistration.this, Home.class);
                     startActivity(intent);
 
 
@@ -453,6 +455,12 @@ public class Activity_GCMRegistration extends AppCompatActivity {
                 startActivity(intent);
             }
         }.execute(null, null, null);
+    }
+    @Override
+    public void onBackPressed() {
+             super.onBackPressed();
+            overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
+
     }
 
 

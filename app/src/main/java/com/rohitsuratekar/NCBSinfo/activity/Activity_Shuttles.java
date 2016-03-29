@@ -16,7 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_shuttles_all_list;
 
 public class Activity_Shuttles extends AppCompatActivity
@@ -24,15 +26,16 @@ public class Activity_Shuttles extends AppCompatActivity
 
         private SectionsPagerAdapter mSectionsPagerAdapter;
         private ViewPager mViewPager;
+        TabLayout tabLayout;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shuttles_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -46,17 +49,20 @@ public class Activity_Shuttles extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         Intent intent = getIntent();
         String currentSwitch = intent.getExtras().getString("switch", "0");
+
+
 
         int currentInt = Integer.parseInt(currentSwitch);
         if (currentInt>4){currentInt=currentInt-1;}  //Remove extra buggy pointer
         TabLayout.Tab tab = tabLayout.getTabAt(currentInt);
         assert tab != null;
         tab.select();
+
     }
 
     @Override
@@ -86,7 +92,7 @@ public class Activity_Shuttles extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this,Settings.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,21 +102,27 @@ public class Activity_Shuttles extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        int newIndex = 0;
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) { Intent i = new Intent(this, Home.class); startActivity(i);
+        } else if (id == R.id.nav_transport) { Intent i = new Intent(this, Activity_Shuttles.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_contact) { Intent i = new Intent(this, Activity_Contact.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_updates) { Intent i = new Intent(this, Activity_NotificationReceiver.class); startActivity(i);
+        } else if (id == R.id.nav_other) { Intent i = new Intent(this, Activity_Extra.class); startActivity(i);
+        } else if (id == R.id.nav_settings) { Intent i = new Intent(this, Settings.class); startActivity(i);
+        } else if (id == R.id.nav_shuttle_ncbs_iisc) { newIndex = 0;
+        } else if (id == R.id.nav_shuttle_iisc_ncbs) { newIndex = 1;
+        } else if (id == R.id.nav_shuttle_ncbs_mandara) { newIndex = 2;
+        } else if (id == R.id.nav_shuttle_mandara_ncbs) { newIndex = 3;
+        } else if (id == R.id.nav_buggy) { newIndex = 4;
+        } else if (id == R.id.nav_shuttle_ncbs_icts) { newIndex = 5;
+        } else if (id == R.id.nav_shuttle_icts_ncbs) { newIndex = 6;
+        } else if (id == R.id.nav_shuttle_ncbs_cbl) { newIndex = 7;
         }
+
+        TabLayout.Tab tab = tabLayout.getTabAt(newIndex);
+        assert tab != null;
+        tab.select();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -150,6 +162,7 @@ public class Activity_Shuttles extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
+
                     return "NCBS-IISc";
                 case 1:
                     return "IISc-NCBS";

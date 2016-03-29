@@ -177,13 +177,10 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(
                         Activity_GCMModeration.this).create();
-
                 // Setting Dialog Title
                 alertDialog.setTitle("Register yourself");
-
                 // Setting Dialog Message
                 alertDialog.setMessage("In order to use this facility, you need to register to GCM first!");
-
                 // Setting OK Button
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -200,13 +197,9 @@ public class Activity_GCMModeration extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-
                 // Showing Alert Message
                 alertDialog.show();
-
-
             }
-
         }
         else {  //Else Send it to login page
             rLog.setVisibility(View.VISIBLE);
@@ -219,7 +212,6 @@ public class Activity_GCMModeration extends AppCompatActivity {
             alert.setTitle("Warning!");
             alert.setMessage("Restricted Access! Use access key to proceed.");
             alert.setView(edittext);
-
             alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -234,10 +226,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(getBaseContext(), "Now stare at blank screen :)", Toast.LENGTH_LONG).show();
-
                     }
-
-
                 }
             });
 
@@ -245,6 +234,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
                 }
             });
 
@@ -505,7 +495,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_ACCESS_TOKEN, response.body().getAccessToken()).apply();
                 String AccessToken = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_ACCESS_TOKEN, "402");
 
-                    getDailyQuota(TableID,AccessToken,rowValue,Email,getBaseContext());
+                    getDailyQuota(TableID, AccessToken, rowValue, Email, getBaseContext());
                 }
                 else {
 
@@ -555,9 +545,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //If daily quota is not over send message
-                                progress = new ProgressDialog(Activity_GCMModeration.this);
-                                progress.setMessage("Sending notification");
-                                progress.setCancelable(false);
+
                                 sendModeratorLog();
                             }
                         });
@@ -565,8 +553,8 @@ public class Activity_GCMModeration extends AppCompatActivity {
                         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                             progress.dismiss();
-                             sentButton.setEnabled(true);
+                                progress.dismiss();
+                                sentButton.setEnabled(true);
                             }
                         });
 
@@ -616,7 +604,8 @@ public class Activity_GCMModeration extends AppCompatActivity {
     }
 
     public void sendModeratorLog(){
-
+        progress = new ProgressDialog(Activity_GCMModeration.this);
+        progress.setCancelable(false);
         progress.setMessage("Almost done...");
 
         String timeStamp = new helper_GCM().timeStamp();
@@ -746,5 +735,12 @@ public class Activity_GCMModeration extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
+
+    }
+
 
 }

@@ -16,7 +16,9 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_extra_grid;
 
 public class Activity_Extra extends AppCompatActivity
@@ -81,6 +83,7 @@ public class Activity_Extra extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
         }
     }
 
@@ -100,7 +103,7 @@ public class Activity_Extra extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this,Settings.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -112,18 +115,15 @@ public class Activity_Extra extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) { Intent i = new Intent(this, Home.class); startActivity(i);
+        } else if (id == R.id.nav_transport) { Intent i = new Intent(this, Activity_Shuttles.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_contact) { Intent i = new Intent(this, Activity_Contact.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_updates) { Intent i = new Intent(this, Activity_NotificationReceiver.class); startActivity(i);
+        } else if (id == R.id.nav_other) { Intent i = new Intent(this, Activity_Extra.class); startActivity(i);
+        } else if (id == R.id.nav_settings) { Intent i = new Intent(this, Settings.class); startActivity(i);
+        } else if (id == R.id.nav_other_canteen) { Intent i = new Intent(this, Activity_Canteen.class); startActivity(i);
+        } else if (id == R.id.nav_other_lecture) { Intent i = new Intent(this, Activity_LectureHalls.class); startActivity(i);
+        } else if (id == R.id.nav_other_experimental) { Intent i = new Intent(this, Activity_Experimental.class); startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

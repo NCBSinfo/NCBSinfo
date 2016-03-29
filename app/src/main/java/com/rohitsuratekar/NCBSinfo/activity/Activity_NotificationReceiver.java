@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_viewpager;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_contact_tab1;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_notification_log;
@@ -20,6 +23,8 @@ import com.rohitsuratekar.NCBSinfo.fragments.fragment_notification_recent;
 
 public class Activity_NotificationReceiver extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +46,14 @@ public class Activity_NotificationReceiver extends AppCompatActivity
         ViewPager viewPager = (ViewPager) findViewById(R.id.notification_viewpager);
         setupViewPager(viewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.notification_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.notification_tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         adapters_viewpager adapter = new adapters_viewpager(getSupportFragmentManager());
-        adapter.addFragment(new fragment_notification_recent(), "Tab1");
-        adapter.addFragment(new fragment_notification_log(), "Tab2");
+        adapter.addFragment(new fragment_notification_recent(), "Recent");
+        adapter.addFragment(new fragment_notification_log(), "Log");
         viewPager.setAdapter(adapter);
     }
 
@@ -59,6 +64,7 @@ public class Activity_NotificationReceiver extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
         }
     }
 
@@ -78,7 +84,7 @@ public class Activity_NotificationReceiver extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this,Settings.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -90,18 +96,18 @@ public class Activity_NotificationReceiver extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) { Intent i = new Intent(this, Home.class); startActivity(i);
+        } else if (id == R.id.nav_transport) { Intent i = new Intent(this, Activity_Shuttles.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_contact) { Intent i = new Intent(this, Activity_Contact.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_updates) { Intent i = new Intent(this, Activity_NotificationReceiver.class); startActivity(i);
+        } else if (id == R.id.nav_other) { Intent i = new Intent(this, Activity_Extra.class); startActivity(i);
+        } else if (id == R.id.nav_settings) { Intent i = new Intent(this, Settings.class); startActivity(i);
+        } else if (id == R.id.nav_updates_registration) { Intent i = new Intent(this, Activity_GCMRegistration.class); startActivity(i);
+        } else if (id == R.id.nav_updates_moderator) { Intent i = new Intent(this, Activity_GCMModeration.class); startActivity(i);
+        } else if (id == R.id.nav_updates_log) {
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            assert tab != null;
+            tab.select();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

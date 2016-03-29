@@ -17,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.DatabaseHelper;
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_viewpager;
 import com.rohitsuratekar.NCBSinfo.constants.SQLConstants;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_contact_tab1;
@@ -27,7 +29,7 @@ import com.rohitsuratekar.NCBSinfo.models.models_contacts_database;
 
 public class Activity_Contact extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class Activity_Contact extends AppCompatActivity
         ViewPager viewPager = (ViewPager) findViewById(R.id.contact_viewpager);
         setupViewPager(viewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.contact_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.contact_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         Intent intent = getIntent();
@@ -84,8 +86,8 @@ public class Activity_Contact extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         adapters_viewpager adapter = new adapters_viewpager(getSupportFragmentManager());
-        adapter.addFragment(new fragment_contact_tab1(), "Tab1");
-        adapter.addFragment(new fragment_contact_tab2(), "Tab2");
+        adapter.addFragment(new fragment_contact_tab1(), "All Contacts");
+        adapter.addFragment(new fragment_contact_tab2(), "Favorite");
         viewPager.setAdapter(adapter);
 
 
@@ -119,7 +121,7 @@ public class Activity_Contact extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this,Settings.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -131,18 +133,24 @@ public class Activity_Contact extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_home) { Intent i = new Intent(this, Home.class); startActivity(i);
+        } else if (id == R.id.nav_transport) { Intent i = new Intent(this, Activity_Shuttles.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_contact) { Intent i = new Intent(this, Activity_Contact.class); i.putExtra("switch","0");startActivity(i);
+        } else if (id == R.id.nav_updates) { Intent i = new Intent(this, Activity_NotificationReceiver.class); startActivity(i);
+        } else if (id == R.id.nav_other) { Intent i = new Intent(this, Activity_Extra.class); startActivity(i);
+        } else if (id == R.id.nav_settings) { Intent i = new Intent(this, Settings.class); startActivity(i);
+        } else if (id == R.id.nav_contact_add) { Intent i = new Intent(this, Activity_AddContact.class);
+            i.putExtra("forEdit", 0);
+            i.putExtra("feldID", 0);
+            startActivity(i);
+        } else if (id == R.id.nav_contact_fav) {
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            assert tab != null;
+            tab.select();
+        } else if (id == R.id.nav_contact_all) {
+            TabLayout.Tab tab = tabLayout.getTabAt(0);
+            assert tab != null;
+            tab.select();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

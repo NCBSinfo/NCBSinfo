@@ -32,6 +32,7 @@ import com.rohitsuratekar.NCBSinfo.activity.Activity_NotificationReceiver;
 import com.rohitsuratekar.NCBSinfo.activity.Activity_Shuttles;
 import com.rohitsuratekar.NCBSinfo.constants.DatabaseConstants;
 import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
+import com.rohitsuratekar.NCBSinfo.constants.SettingsConstants;
 import com.rohitsuratekar.NCBSinfo.gcm.FlagHandler;
 import com.rohitsuratekar.NCBSinfo.helper.helper_shuttles;
 
@@ -69,7 +70,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
             startActivity(intent);
         }
         //set default values
-        changeRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(DatabaseConstants.HOME_DEFAULT_ROUTE,0);
+        changeRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsConstants.HOME_DEFAULT_ROUTE,0);
         transportFROM = new helper_shuttles().getRouteName(changeRoute)[0];
         transportTO = new helper_shuttles().getRouteName(changeRoute)[1];
         isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(changeRoute)[2]);
@@ -184,6 +185,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
 
         }, 0, 1000); //1000 is milliseconds for each time tick
 
+        changeShuttleText();
+
 
     } //OnCreate close
 
@@ -200,7 +203,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
         else if (item.getItemId() == R.id.route7) { changeRoute=7; }
         else if (item.getItemId() == R.id.route8) { changeRoute=8; }
 
-        shuttleName.setText(item.getTitle());
         transportFROM = new helper_shuttles().getRouteName(changeRoute)[0];
         transportTO = new helper_shuttles().getRouteName(changeRoute)[1];
         isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(changeRoute)[2]);
@@ -232,36 +234,45 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
                 Intent intent7 = new Intent(Home.this,Activity_Contact.class);
                 intent7.putExtra("switch","1");
                 startActivity(intent7);
+                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
                 break;
             case R.id.home_allcontact_layout:
                 Intent intent6 = new Intent(Home.this,Activity_Contact.class);
                 intent6.putExtra("switch","0");
                 startActivity(intent6);
+                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
                 break;
             case R.id.home_moderator_layout:
                 Intent intent3 = new Intent(Home.this,Activity_GCMModeration.class);
                 startActivity(intent3);
+                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
                 break;
             case R.id.home_register_layout:
                 Intent intent = new Intent(Home.this,Activity_GCMRegistration.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
                 break;
             case R.id.home_log_layout:
                 Intent intent2 = new Intent(Home.this,Activity_NotificationReceiver.class);
                 startActivity(intent2);
+                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
                 break;
             case R.id.home_otherinfo_layout:
                 Intent intent4 = new Intent(Home.this,Activity_Extra.class);
                 startActivity(intent4);
+                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
                 break;
             case R.id.home_settings_layout:
                 Intent intent5 = new Intent(Home.this,Settings.class);
                 startActivity(intent5);
+                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
                 break;
             case R.id.home_viewmore_layout:
                 Intent intent8 = new Intent(Home.this, Activity_Shuttles.class);
                 intent8.putExtra("switch", String.valueOf(changeRoute));
                 startActivity(intent8);
+                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
+                break;
 
             case R.id.home_textHolder:
                 popup = new PopupMenu(Home.this,shuttleName );
@@ -270,6 +281,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(this);
                 popup.show();
+                break;
 
 
             default:
@@ -312,7 +324,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
                     @Override
                     public void onAnimationEnd(Animator animator) {
                         currentView.setVisibility(View.GONE);
-
                     }
                     @Override
                     public void onAnimationCancel(Animator animator) {
@@ -526,7 +537,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
     };
     public void changeShuttleText(){
         String tempText;
-        if (isBuggy==1){tempText="Next";}
+        if (isBuggy==1){tempText="Next Buggy from";}
         else {tempText="Next Shuttle from";}
         shuttleNote.setText(tempText);
         Calendar c2 = Calendar.getInstance();
@@ -539,6 +550,26 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
 
         timeleft.setText("" + ((int) Difference[2]) + " Hrs " + ((int) Difference[1]) + " Min " + ((int) Difference[0])+" Sec left");
 
+        String tempString = transportFROM.toUpperCase()+"-"+transportTO.toUpperCase();
+        shuttleName.setText(tempString);
+
+        int hurryUp = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsConstants.HOME_HURRYUP_COLOR,5);
+
+        if (Difference[1]<hurryUp){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                nextShuttle.setTextColor(getResources().getColor(R.color.home_hurryup_color,getTheme()));
+            }
+            else
+            {nextShuttle.setTextColor(getResources().getColor(R.color.home_hurryup_color));}
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                nextShuttle.setTextColor(getResources().getColor(R.color.home_shuttle_info_color,getTheme()));
+            }
+            else
+            {nextShuttle.setTextColor(getResources().getColor(R.color.home_shuttle_info_color));}
+
+        }
      }
 
 }

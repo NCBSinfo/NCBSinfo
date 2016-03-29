@@ -50,8 +50,7 @@
                     android:text="Small Text"
                     android:id="@+id/recent_Timestamp"
                     android:layout_below="@+id/notification_receiver_layout_recent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5sp" />
+                    android:layout_centerHorizontal="true" />
             </LinearLayout>
 
             <TextView

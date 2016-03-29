@@ -160,7 +160,8 @@
                                 android:src="@drawable/icon_view_more"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -169,7 +170,8 @@
                                 android:text="See all trips"
                                 android:id="@+id/textView16"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -224,7 +226,7 @@
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_contact_animation"
                         android:background="@color/home_Selection"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -233,7 +235,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_contact_options"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:gravity="bottom">
 
                         <LinearLayout
@@ -253,7 +255,8 @@
                                 android:src="@drawable/icon_contactlist"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -262,7 +265,8 @@
                                 android:text="All Contacts"
                                 android:id="@+id/textView7"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -282,7 +286,8 @@
                                 android:src="@drawable/icon_favorite"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -291,7 +296,8 @@
                                 android:text="Favorite"
                                 android:id="@+id/textView6"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -393,7 +399,8 @@
                                 android:src="@drawable/icon_list"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -402,7 +409,8 @@
                                 android:text="Log"
                                 android:id="@+id/textView10"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -422,7 +430,8 @@
                                 android:src="@drawable/icon_registration"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -431,7 +440,8 @@
                                 android:text="Registration"
                                 android:id="@+id/home_registration_caption"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -451,7 +461,8 @@
                                 android:src="@drawable/icon_moderator"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -460,7 +471,8 @@
                                 android:text="Moderators"
                                 android:id="@+id/textView8"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -543,7 +555,8 @@
                                 android:src="@drawable/icon_extra"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -552,7 +565,8 @@
                                 android:text="Other info"
                                 android:id="@+id/textView15"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -572,7 +586,8 @@
                                 android:src="@drawable/icon_settings"
                                 android:scaleType="fitCenter"
                                 android:layout_marginLeft="10sp"
-                                android:layout_marginRight="5sp" />
+                                android:layout_marginRight="5sp"
+                                android:tint="@color/home_subsection_icon" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -581,7 +596,8 @@
                                 android:text="Settings"
                                 android:id="@+id/textView11"
                                 android:textAlignment="center"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textColor="@color/home_subsection_text" />
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>

@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="sist_titile2"
-                android:id="@+id/textView12"
+                android:id="@+id/Shuttles_Weekdays_List"
                 android:textStyle="bold" />
 
             <ListView
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="slist_titile1"
-                android:id="@+id/textView13"
+                android:id="@+id/Shuttles_Sunday_List"
                 android:textStyle="bold" />
 
             <ListView
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="sshuttle_footnote"
-        android:id="@+id/textView14"
+        android:id="@+id/Shuttles_Footnote1"
         android:layout_gravity="center_horizontal" />
 
     <TextView
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="shuttle_footnote"
-        android:id="@+id/footNoteText"
+        android:id="@+id/Shuttles_Footnote2"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_shuttle_list;
@@ -35,6 +36,7 @@ public class fragment_shuttles_all_list extends Fragment {
         String GlobalShuttleFrom;
         String GlobalShuttleto;
         int isBuggy;
+        TextView weekTitle, sundayTitle, footnote1, footnote2;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -86,6 +88,10 @@ public class fragment_shuttles_all_list extends Fragment {
 
             }
             View rootView = inflater.inflate(R.layout.activity_shuttles_fragment_all_lists, container, false);
+            weekTitle = (TextView)rootView.findViewById(R.id.Shuttles_Weekdays_List);
+            sundayTitle = (TextView)rootView.findViewById(R.id.Shuttles_Sunday_List);
+            footnote1 = (TextView)rootView.findViewById(R.id.Shuttles_Footnote1);
+            footnote2 = (TextView)rootView.findViewById(R.id.Shuttles_Footnote2);
             perform(rootView);
             return rootView;
         }
@@ -97,9 +103,7 @@ public class fragment_shuttles_all_list extends Fragment {
             String sundaysmall = "1/31/2016 ";
             String[] AllArrays = new helper_shuttles().TripsData(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
 
-            if (isBuggy==1){
-                AllArrays = new helper_shuttles().TripsData("ncbs", "mandara", WeekDate, isBuggy);
-            }
+
 
             String[] after = new String[AllArrays.length];
             SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -170,6 +174,21 @@ public class fragment_shuttles_all_list extends Fragment {
             afterList.requestFocus();
             sundaylist.setSelection(selectionItem2);
             sundaylist.requestFocus();
+
+            String currentTime = modformat.format(Calendar.getInstance().getTime());
+
+            weekTitle.setText("Weekdays*");
+            sundayTitle.setText("Sunday");
+            footnote1.setText("*Including Saturday");
+            footnote2.setText("**Next shuttle after "+currentTime);
+
+            if (isBuggy==1){
+                AllArrays = new helper_shuttles().TripsData("ncbs", "mandara", WeekDate, isBuggy);
+                weekTitle.setText("From NCBS");
+                sundayTitle.setText("From Mandara");
+                footnote1.setText("");
+                footnote2.setText("**Next buggy after "+currentTime);
+            }
 
         }
 
