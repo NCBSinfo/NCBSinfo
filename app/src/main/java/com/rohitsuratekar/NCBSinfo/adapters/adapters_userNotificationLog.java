@@ -70,6 +70,10 @@ public class adapters_userNotificationLog extends RecyclerView.Adapter<adapters_
             holder.layout1.setBackgroundColor(currentview.getResources().getColor(R.color.user_log_topic_talk));
             holder.image.setBackgroundResource(R.drawable.icon_research_talk);
         }
+        else if (entry.getNotificationTopic().equals(GCMConstants.GCM_TOPIC_EMERGENCY)){
+            holder.layout1.setBackgroundColor(currentview.getResources().getColor(R.color.user_log_topic_emergency));
+            holder.image.setBackgroundResource(R.drawable.icon_emergency);
+        }
     }
 
     @Override

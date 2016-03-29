@@ -264,44 +264,8 @@ public class Activity_GCMModeration extends AppCompatActivity {
             progress.show();
             progress.setMessage("Sending notification to users");
             progress.setCancelable(false);
-
-            if (ovverideall.equals("doit")){
-
-                String topic = GCMConstants.GCM_TOPIC_EMERGENCY;
-                topicNameSelected = topic;
-                retro_Data data = new retro_Data();
-                data.setMessage(inputBody.getText().toString());
-                data.setTitle("Alert!");
-                data.setRcode("invisible");
-                data.setValue(inputExtra.getText().toString());
-                retro_MakeQuery query = new retro_MakeQuery();
-                query.setData(data);
-                query.setTo("/topics/" + topic);
-                rCodeValue= inputExtra.getText().toString();
-                sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
-
-            }
-
-            else {
-
-                String topic = topicNameSelected;
-                retro_Data data = new retro_Data();
-                data.setMessage(inputBody.getText().toString());
-                data.setTitle(inputTitle.getText().toString());
-                data.setRcode(notificationRcode);
-                data.setValue(notificationSendingTime);
-                rCodeValue= notificationSendingTime;
-                retro_MakeQuery query = new retro_MakeQuery();
-                query.setData(data);
-                query.setTo("/topics/" + topic);
-                sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
-                Log.i("Sent===", data.getRcode() + data.getValue());
-                String[] split1 = data.getValue().split(":");
-                int seconds = new helper_GCM().converToSeconds(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]));
-                Log.i("DEBUG===",split1.length+" Actual seconds:"+seconds);
-
-            }
-
+            String RefreshToken = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_REFRESH_TOKEN, "401");
+            RefreshAndSend(RefreshToken);
         }
 
 
@@ -347,29 +311,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
         return true;
     }
 
-    public void sendTopicMessage (String token, retro_MakeQuery data){
-        retro_Commands Service = retro_Services_GCM.createService(retro_Commands.class, token);
-        Call<retro_Response_Topic> call = Service.sendTopicMessage(data);
-        call.enqueue(new Callback<retro_Response_Topic>() {
-            @Override
-            public void onResponse(Call<retro_Response_Topic> call, Response<retro_Response_Topic> response) {
-                if (response.isSuccess()) {
-                    String RefreshToken = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_REFRESH_TOKEN, "401");
-                    RefreshAndSendLog(RefreshToken);
-                } else {
 
-                    Log.i("RETRO----", response.raw().toString());
-                    Log.i("RETRO----", response.message());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<retro_Response_Topic> call, Throwable t) {
-
-            }
-        });
-    }
 
     private class MyWebViewClient extends WebViewClient {
         @Override
@@ -544,6 +486,135 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
     }
 
+
+
+    public void RefreshAndSend(String RefreshToken){
+        progress.setMessage("Authenticating...");
+        clientID = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_CLIENTID, "401");
+        final String TableID = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_USER_LOGTABLE, "402");
+        final String Email = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.MOD_EMAIL, "402");
+        final String rowValue = new helper_GCM().ModDailyStamp();
+        clientSecret = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_SECRET, "401");
+        retro_LoginService loginService = retro_Services_Auth.createService(retro_LoginService.class, clientID, clientSecret);
+        Call<retro_Response_AccessToken> call = loginService.ExchangeRefreshToken(clientID, clientSecret, RefreshToken, "refresh_token");
+        call.enqueue(new Callback<retro_Response_AccessToken>() {
+            @Override
+            public void onResponse(Call<retro_Response_AccessToken> call, Response<retro_Response_AccessToken> response) {
+                if (response.isSuccess()) {
+                Log.i("Refreshed ===", response.body().toString());
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_ACCESS_TOKEN, response.body().getAccessToken()).apply();
+                String AccessToken = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_ACCESS_TOKEN, "402");
+
+                    getDailyQuota(TableID,AccessToken,rowValue,Email,getBaseContext());
+                }
+                else {
+
+                    progress.dismiss();
+                    Toast.makeText(getBaseContext(), "Something is wrong. Please report error.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<retro_Response_AccessToken> call, Throwable t) {
+                progress.dismiss();
+
+            }
+        });
+
+
+    }
+
+    public void getDailyQuota(String TableID, String AccessToken, String Rowvalue, final String Email, final Context context){
+        String sql_query = "SELECT * FROM "+TableID+" WHERE notificationUse ='"+Rowvalue+"' AND moderatorEmail='"+Email+"'";
+        retro_Commands fusionService = retro_Services_Auth.createService(retro_Commands.class, clientID, clientSecret, AccessToken);
+        Call<retro_Response_SpecificRowValue> call2 = fusionService.getSpecificRow(sql_query, AccessToken);
+        final int dailyQuota = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(GCMConstants.GCM_MAX_DAILYQUOTA, "2"));
+
+        call2.enqueue(new Callback<retro_Response_SpecificRowValue>() {
+            @Override
+            public void onResponse(Call<retro_Response_SpecificRowValue> call, Response<retro_Response_SpecificRowValue> response) {
+                if (response.isSuccess()) {
+
+                    Log.i("Retro===", "Size" + response.body().getRows().size());
+
+
+                    if (response.body().getRows().size()<dailyQuota){
+                        int quotaLeft = response.body().getRows().size();
+                        progress.dismiss();
+
+                        final AlertDialog alertDialog = new AlertDialog.Builder(
+                                Activity_GCMModeration.this).create();
+
+                        // Setting Dialog Title
+                        alertDialog.setTitle("Daily quota warning");
+
+                        // Setting Dialog Message
+                        alertDialog.setMessage("You have used " + quotaLeft + " notification(s) out of " + dailyQuota + " . Do you want to send this notification? ");
+
+                        // Setting OK Button
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //If daily quota is not over send message
+                                progress = new ProgressDialog(Activity_GCMModeration.this);
+                                progress.setMessage("Sending notification");
+                                progress.setCancelable(false);
+                                sendModeratorLog();
+                            }
+                        });
+
+                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                             progress.dismiss();
+                             sentButton.setEnabled(true);
+                            }
+                        });
+
+                        // Showing Alert Message
+                        alertDialog.show();
+
+                    }
+                    else{
+                        progress.dismiss();
+                        final AlertDialog alertDialog = new AlertDialog.Builder(
+                                Activity_GCMModeration.this).create();
+
+                        // Setting Dialog Title
+                        alertDialog.setTitle("Sorry :(");
+
+                        // Setting Dialog Message
+                        alertDialog.setMessage("Your daily quota of "+dailyQuota+" notifications per day for your ID '"+Email+"' is already over. Try sending tomorrow!" );
+
+                        // Setting OK Button
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog closed
+                                Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
+                                startActivity(intent);
+                            }
+                        });
+
+                        // Showing Alert Message
+                        alertDialog.show();
+
+
+                    }
+
+
+
+                } else {
+                    Toast.makeText(context, "Failed to get database.", Toast.LENGTH_LONG).show();
+                    Log.i("RETRO----", String.valueOf(response.raw().code()));
+                }
+            }
+            @Override
+            public void onFailure(Call<retro_Response_SpecificRowValue> call, Throwable t) {
+                Toast.makeText(context, "Error:"+t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
     public void sendModeratorLog(){
 
         progress.setMessage("Almost done...");
@@ -566,11 +637,10 @@ public class Activity_GCMModeration extends AppCompatActivity {
             public void onResponse(Call<retro_Response_RowUpdate> call, Response<retro_Response_RowUpdate> response) {
                 if (response.isSuccess()) {
 
+                    sendMessage();
                     Log.i("Moderator Log Sent ===", "Suceessful");
-                    Toast.makeText(getBaseContext(), "Successfully sent !", Toast.LENGTH_LONG).show();
-                    progress.dismiss();
-                    Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
-                    startActivity(intent);
+
+
                 } else {
 
                     Toast.makeText(getBaseContext(), "Failed to get database.", Toast.LENGTH_LONG).show();
@@ -590,7 +660,7 @@ public class Activity_GCMModeration extends AppCompatActivity {
                         // Setting OK Button
                         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                               Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
+                                Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
                                 startActivity(intent);
                             }
                         });
@@ -611,35 +681,70 @@ public class Activity_GCMModeration extends AppCompatActivity {
 
     }
 
-    public void RefreshAndSendLog(String RefreshToken){
-        progress.setMessage("Updating registration...");
-        String clientID2 = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_CLIENTID, "401");
 
-        String clientSecret2 = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DECODED_SECRET, "401");
-        retro_LoginService loginService = retro_Services_Auth.createService(retro_LoginService.class, clientID2, clientSecret2);
-        Call<retro_Response_AccessToken> call = loginService.ExchangeRefreshToken(clientID2, clientSecret2, RefreshToken, "refresh_token");
-        call.enqueue(new Callback<retro_Response_AccessToken>() {
+    public void sendMessage(){
+        if (ovverideall.equals("doit")){
+
+            String topic = GCMConstants.GCM_TOPIC_EMERGENCY;
+            topicNameSelected = topic;
+            retro_Data data = new retro_Data();
+            data.setMessage(inputBody.getText().toString());
+            data.setTitle("Alert!");
+            data.setRcode("invisible");
+            data.setValue(inputExtra.getText().toString());
+            retro_MakeQuery query = new retro_MakeQuery();
+            query.setData(data);
+            query.setTo("/topics/" + topic);
+            rCodeValue= inputExtra.getText().toString();
+            sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
+
+        }
+
+        else {
+
+            String topic = topicNameSelected;
+            retro_Data data = new retro_Data();
+            data.setMessage(inputBody.getText().toString());
+            data.setTitle(inputTitle.getText().toString());
+            data.setRcode(notificationRcode);
+            data.setValue(notificationSendingTime);
+            rCodeValue= notificationSendingTime;
+            retro_MakeQuery query = new retro_MakeQuery();
+            query.setData(data);
+            query.setTo("/topics/" + topic);
+            sendTopicMessage(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.GCM_API_KEY, "401"), query);
+            Log.i("Sent===", data.getRcode() + data.getValue());
+            String[] split1 = data.getValue().split(":");
+            int seconds = new helper_GCM().converToSeconds(Integer.parseInt(split1[0]), Integer.parseInt(split1[1]));
+            Log.i("DEBUG===",split1.length+" Actual seconds:"+seconds);
+
+        }
+    }
+
+    public void sendTopicMessage (String token, retro_MakeQuery data){
+        retro_Commands Service = retro_Services_GCM.createService(retro_Commands.class, token);
+        Call<retro_Response_Topic> call = Service.sendTopicMessage(data);
+        call.enqueue(new Callback<retro_Response_Topic>() {
             @Override
-            public void onResponse(Call<retro_Response_AccessToken> call, Response<retro_Response_AccessToken> response) {
+            public void onResponse(Call<retro_Response_Topic> call, Response<retro_Response_Topic> response) {
                 if (response.isSuccess()) {
-                Log.i("Refreshed ===",response.body().toString());
-                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.DATA_ACCESS_TOKEN, response.body().getAccessToken()).apply();
-                sendModeratorLog();
-                }
-                else {
-
+                    Toast.makeText(getBaseContext(), "Notification sent successfully.", Toast.LENGTH_LONG).show();
                     progress.dismiss();
-                    Toast.makeText(getBaseContext(), "Something is wrong. Please report error.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Activity_GCMModeration.this, Home.class);
+                    startActivity(intent);
+                } else {
+
+                    Log.i("RETRO----", response.raw().toString());
+                    Log.i("RETRO----", response.message());
+
                 }
             }
 
             @Override
-            public void onFailure(Call<retro_Response_AccessToken> call, Throwable t) {
-                progress.dismiss();
+            public void onFailure(Call<retro_Response_Topic> call, Throwable t) {
 
             }
         });
-
-
     }
+
 }

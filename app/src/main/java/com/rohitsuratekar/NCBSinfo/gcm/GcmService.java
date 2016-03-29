@@ -25,11 +25,6 @@ import com.rohitsuratekar.NCBSinfo.models.models_userNotifications;
 
 import java.util.Calendar;
 
-
-/**
- * Imported and Modified from "Google Samples"
- * Service used for receiving GCM messages.
- */
 public class GcmService extends GcmListenerService {
 
     public static final int NOTIFICATION_ID = 1;
@@ -60,12 +55,35 @@ public class GcmService extends GcmListenerService {
                 timedNotification(data.getString("message"),seconds);
 
             } else if (data.getString("rcode","0").equals("invisible")){
-
-                  PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.START_FLAG, true).apply();
+                Boolean isModerator = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_MODERATORLOGIN, false);
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(GCMConstants.START_FLAG, true).apply();
                   PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(GCMConstants.FLAG_CODE, data.getString("value", "0")).apply();
-                  sendNotification("Your admin access to NCBSinfo has expired!");
+                if(data.getString("value", "0").equals("clearToken")){
+                    if(isModerator){
+                    sendEmergencyNotification("Your admin access to NCBSinfo has expired!");}
+                    else {
+
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.START_FLAG).apply();
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().remove(GCMConstants.FLAG_CODE).apply();
+
+                    }
+
+                }
+                if(data.getString("value", "0").equals("emergency")){
+
+                    notificationTitle = data.getString("title");
+                    sendEmergencyNotification(data.getString("message"));
+                    currentTopic = GCMConstants.GCM_TOPIC_EMERGENCY;
+                    String timestamp = new helper_GCM().timeStamp();
+                    DatabaseHelper db = new DatabaseHelper(this);
+                    db.addNotificationEntry(new models_userNotifications(pseudoIncrement, timestamp, data.getString("title"), data.getString("message"), currentTopic, 1)); //1 is to show Notification
+
+                }
+
+
             }
-            else {sendNotification(data.getString("message"));
+            else {
+                sendNotification(data.getString("message"));
                 currentTopic = from.replace("/topics/","");
                 String timestamp = new helper_GCM().timeStamp();
                 DatabaseHelper db = new DatabaseHelper(this);
@@ -133,17 +151,46 @@ public class GcmService extends GcmListenerService {
         Log.i("Set Timed", "Now");
         // get a Calendar object with current time
         Calendar cal = Calendar.getInstance();
-        // add 30 seconds to the calendar object
+        // add seconds to the calendar object
         cal.add(Calendar.SECOND, Seconds);
         Intent intent = new Intent(getBaseContext(), TimedNotifications.class);
         intent.putExtra("message",notificationstring );
-        intent.putExtra("title",notificationTitle);
+        intent.putExtra("title", notificationTitle);
         intent.putExtra("topic", currentTopic);
-        PendingIntent sender = PendingIntent.getBroadcast(getBaseContext(), 1989, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int requestID = (int) System.currentTimeMillis();
+        PendingIntent sender = PendingIntent.getBroadcast(getBaseContext(), requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Get the AlarmManager service
         AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarmMgr.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
+    }
+
+    private void sendEmergencyNotification(String notificationMessage) {
+
+        NotificationManager mNotificationManager = (NotificationManager) this
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int requestID = (int) System.currentTimeMillis();
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        Intent notificationIntent = new Intent(getApplicationContext(), Home.class);
+
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int color = getResources().getColor(R.color.emergency_notification);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(notificationTitle)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(notificationMessage))
+                .setColor(color)
+                .setContentText(notificationMessage).setAutoCancel(true);
+        mBuilder.setSound(alarmSound);
+        mBuilder.setContentIntent(contentIntent);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
     }
 
 }

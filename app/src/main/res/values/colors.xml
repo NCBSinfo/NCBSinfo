@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="colorAccent">#FF5722</color>
 
+
+    <color name="home_background_color">#512DA8</color>
     <color name="home_shuttle">#673ab7</color>
     <color name="home_contact">#3f51b5</color>
     <color name="home_updates">#3f51b5</color>
@@ -13,11 +15,12 @@
     <color name="home_subSection">#3f51b5</color>
 
 
-
+    <color name="emergency_notification">#ff0000</color>
 
     <color name="user_log_topic_jc">#b59fdc</color>
     <color name="user_log_topic_student">#cbbce7</color>
     <color name="user_log_topic_talk">#e1d9f1</color>
+    <color name="user_log_topic_emergency">#ff0000</color>
 
     <color name="experimental_diabledButtons">#9C9797</color>
 </resources>

@@ -63,6 +63,11 @@ public class fragment_notification_recent extends Fragment {
             l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_talk));
             icon.setBackgroundResource(R.drawable.icon_research_talk);
         }
+        else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_EMERGENCY)){
+            l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_emergency));
+            icon.setBackgroundResource(R.drawable.icon_emergency);
+        }
+
 
 
         return rootView;

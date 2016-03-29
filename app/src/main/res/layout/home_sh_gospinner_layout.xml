@@ -12,5 +12,5 @@
         android:text="Medium Text"
         android:id="@+id/home_sh_gospinner_text"
         android:layout_gravity="left"
-        android:layout_marginLeft="20sp" />
+        android:textSize="15sp" />
 </LinearLayout>

@@ -14,7 +14,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:gravity="center"
-        android:weightSum="100">
+        android:weightSum="100"
+        android:background="@color/home_background_color">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                         android:visibility="visible"
                         android:id="@+id/home_shuttle_Section">
 
-                        <ImageButton
+                        <ImageView
                             android:layout_width="@dimen/home_section_icon_size"
                             android:layout_height="@dimen/home_section_icon_size"
                             android:id="@+id/home_shuttleButton"
@@ -55,7 +56,6 @@
                             android:layout_centerHorizontal="true"
                             android:scaleType="fitXY"
                             android:src="@drawable/icon_shuttle"
-                            android:background="#00ffffff"
                             android:tint="#ffffff"
                             android:alpha="@dimen/home_section_alpha"
                             android:layout_gravity="center_horizontal" />
@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="OTHER"
+                            android:text="TRANSPORT"
                             android:id="@+id/textView2"
                             android:alpha="@dimen/home_section_alpha"
                             android:textColor="#ffffff"
@@ -81,7 +81,7 @@
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_shuttle_animation"
                         android:background="@color/home_Selection"
-                        android:visibility="gone"></LinearLayout>
+                        android:visibility="visible"></LinearLayout>
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -90,14 +90,87 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_shuttle_options"
-                        android:visibility="gone">
+                        android:visibility="visible"
+                        android:gravity="bottom"
+                        android:weightSum="1">
 
-                        <Button
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="New Button"
-                            android:id="@+id/button"
-                            android:layout_gravity="center_horizontal" />
+                            android:layout_gravity="center_horizontal"
+                            android:id="@+id/home_textHolder"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="next shuttle from"
+                                android:id="@+id/home_shuttle_note"
+                                android:textAlignment="center"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="NCBS to Mandara"
+                                android:id="@+id/home_shuttleName_text"
+                                android:textAlignment="center"
+                                android:textSize="15sp"
+                                android:layout_marginTop="5sp"
+                                android:layout_marginBottom="5sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:text="08:15 PM"
+                                android:id="@+id/home_nextShuttle"
+                                android:textAlignment="center"
+                                android:textSize="30sp"
+                                android:layout_marginBottom="20sp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="01 Hr 10 Min 11 Sec left"
+                                android:id="@+id/home_shuttle_timeleft"
+                                android:textSize="12sp"
+                                android:textAlignment="center" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/home_subsection_height"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="5sp"
+                            android:id="@+id/home_viewmore_layout"
+                            android:background="@color/home_subSection"
+                            android:layout_marginTop="5sp">
+
+                            <ImageView
+                                android:layout_width="@dimen/home_subIcon_size"
+                                android:layout_height="@dimen/home_subIcon_size"
+                                android:id="@+id/imageView9"
+                                android:src="@drawable/icon_view_more"
+                                android:scaleType="fitCenter"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="See all trips"
+                                android:id="@+id/textView16"
+                                android:textAlignment="center"
+                                android:textSize="15sp" />
+                        </LinearLayout>
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -119,7 +192,7 @@
                         android:visibility="visible"
                         android:id="@+id/home_contact_Section" >
 
-                        <ImageButton
+                        <ImageView
                             android:layout_width="@dimen/home_section_icon_size"
                             android:layout_height="@dimen/home_section_icon_size"
                             android:id="@+id/home_contactButton"
@@ -127,7 +200,6 @@
                             android:layout_centerHorizontal="true"
                             android:scaleType="fitXY"
                             android:src="@drawable/icon_contact"
-                            android:background="#00ffffff"
                             android:tint="#ffffff"
                             android:alpha="@dimen/home_section_alpha"
                             android:layout_gravity="center_horizontal" />
@@ -136,7 +208,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="OTHER"
+                            android:text="CONTACT"
                             android:id="@+id/textView3"
                             android:alpha="@dimen/home_section_alpha"
                             android:textColor="#ffffff"
@@ -152,7 +224,7 @@
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_contact_animation"
                         android:background="@color/home_Selection"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -161,7 +233,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_contact_options"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:gravity="bottom">
 
                         <LinearLayout
@@ -260,7 +332,7 @@
                         android:visibility="visible"
                         android:id="@+id/home_updates_Section" >
 
-                        <ImageButton
+                        <ImageView
                             android:layout_width="@dimen/home_section_icon_size"
                             android:layout_height="@dimen/home_section_icon_size"
                             android:id="@+id/home_updatesButton"
@@ -268,7 +340,6 @@
                             android:layout_centerHorizontal="true"
                             android:scaleType="fitXY"
                             android:src="@drawable/icon_updates"
-                            android:background="#00ffffff"
                             android:tint="#ffffff"
                             android:alpha="@dimen/home_section_alpha"
                             android:layout_gravity="center_horizontal" />
@@ -277,7 +348,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="OTHER"
+                            android:text="UPDATES"
                             android:id="@+id/textView4"
                             android:alpha="@dimen/home_section_alpha"
                             android:textColor="#ffffff"
@@ -293,7 +364,7 @@
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_updates_animation"
                         android:background="@color/home_Selection"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -302,14 +373,95 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_updates_options"
-                        android:visibility="gone" >
+                        android:visibility="visible"
+                        android:gravity="bottom">
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="New Button"
-                            android:id="@+id/button3"
-                            android:layout_gravity="center_horizontal" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/home_subsection_height"
+                            android:layout_gravity="right"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="5sp"
+                            android:id="@+id/home_log_layout"
+                            android:background="@color/home_subSection" >
+
+                            <ImageView
+                                android:layout_width="@dimen/home_subIcon_size"
+                                android:layout_height="@dimen/home_subIcon_size"
+                                android:id="@+id/imageView6"
+                                android:src="@drawable/icon_list"
+                                android:scaleType="fitCenter"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Log"
+                                android:id="@+id/textView10"
+                                android:textAlignment="center"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/home_subsection_height"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="5sp"
+                            android:id="@+id/home_register_layout"
+                            android:background="@color/home_subSection" >
+
+                            <ImageView
+                                android:layout_width="@dimen/home_subIcon_size"
+                                android:layout_height="@dimen/home_subIcon_size"
+                                android:id="@+id/home_registerButton"
+                                android:src="@drawable/icon_registration"
+                                android:scaleType="fitCenter"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Registration"
+                                android:id="@+id/home_registration_caption"
+                                android:textAlignment="center"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/home_subsection_height"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="5sp"
+                            android:id="@+id/home_moderator_layout"
+                            android:background="@color/home_subSection" >
+
+                            <ImageView
+                                android:layout_width="@dimen/home_subIcon_size"
+                                android:layout_height="@dimen/home_subIcon_size"
+                                android:id="@+id/imageView4"
+                                android:src="@drawable/icon_moderator"
+                                android:scaleType="fitCenter"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Moderators"
+                                android:id="@+id/textView8"
+                                android:textAlignment="center"
+                                android:textSize="15sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -330,7 +482,7 @@
                         android:visibility="visible"
                         android:id="@+id/home_other_Section" >
 
-                        <ImageButton
+                        <ImageView
                             android:layout_width="@dimen/home_section_icon_size"
                             android:layout_height="@dimen/home_section_icon_size"
                             android:id="@+id/home_otherButton"
@@ -338,7 +490,6 @@
                             android:layout_centerHorizontal="true"
                             android:scaleType="fitXY"
                             android:src="@drawable/icon_other"
-                            android:background="#00ffffff"
                             android:tint="#ffffff"
                             android:alpha="@dimen/home_section_alpha"
                             android:layout_gravity="center_horizontal" />
@@ -363,7 +514,7 @@
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_other_animation"
                         android:background="@color/home_Selection"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -372,14 +523,66 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/home_section_margin"
                         android:id="@+id/home_other_options"
-                        android:visibility="gone" >
+                        android:visibility="visible"
+                        android:gravity="bottom">
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="New Button"
-                            android:id="@+id/button4"
-                            android:layout_gravity="center_horizontal" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/home_subsection_height"
+                            android:layout_gravity="right"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="5sp"
+                            android:id="@+id/home_otherinfo_layout"
+                            android:background="@color/home_subSection" >
+
+                            <ImageView
+                                android:layout_width="@dimen/home_subIcon_size"
+                                android:layout_height="@dimen/home_subIcon_size"
+                                android:id="@+id/imageView8"
+                                android:src="@drawable/icon_extra"
+                                android:scaleType="fitCenter"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Other info"
+                                android:id="@+id/textView15"
+                                android:textAlignment="center"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/home_subsection_height"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="5sp"
+                            android:id="@+id/home_settings_layout"
+                            android:background="@color/home_subSection" >
+
+                            <ImageView
+                                android:layout_width="@dimen/home_subIcon_size"
+                                android:layout_height="@dimen/home_subIcon_size"
+                                android:id="@+id/imageView7"
+                                android:src="@drawable/icon_settings"
+                                android:scaleType="fitCenter"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="5sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Settings"
+                                android:id="@+id/textView11"
+                                android:textAlignment="center"
+                                android:textSize="15sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
