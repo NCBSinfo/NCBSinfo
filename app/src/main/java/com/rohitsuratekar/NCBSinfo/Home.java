@@ -43,6 +43,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.app.ActionBar.DISPLAY_SHOW_CUSTOM;
+
 public class Home extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     Animation alphaAnimation, exitAnimation, dropDown;
@@ -105,7 +107,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
         //Give warning to bigger screen sizes
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.ANDROID_DEVICE_SIZE_WARNING, true)) {
 
-            if (getResources().getInteger(R.dimen.ScreenSize)==1) {
+            if (getResources().getString(R.string.ScreenSize).equals("1")) {
                 final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
                 alertDialog.setTitle("Compatibility mode");
                 alertDialog.setMessage("This app not designed for Tablets and Large Screen devices yet. Hence device layouts will be not on scale.");
@@ -121,7 +123,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
         }
 
         //App name in middle
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_actionbar);
 
         //Search all layouts and assign variables

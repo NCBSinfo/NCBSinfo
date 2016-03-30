@@ -20,8 +20,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+
         android:theme="@style/AppTheme">
-        <activity android:name=".Home">
+        <activity android:name=".Home"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +34,7 @@
             android:name=".activity.Activity_Shuttles"
             android:label="@string/title_activity_activity__shuttles"
             android:parentActivityName=".Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -42,6 +45,7 @@
             android:label="@string/title_activity_activity__contact"
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -86,12 +90,14 @@
 
         <activity
             android:name=".activity.Activity_GCMRegistration"
-            android:label="@string/register_activity_name" />
+            android:label="@string/register_activity_name"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.Activity_GCMModeration" />
         <activity
             android:name=".activity.Activity_LectureHalls"
             android:label="@string/title_activity_activity__lecture_halls"
             android:parentActivityName=".Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -101,6 +107,7 @@
             android:name=".activity.Activity_NotificationReceiver"
             android:label="@string/title_activity_activity__notification_receiver"
             android:parentActivityName=".Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -110,6 +117,7 @@
             android:name=".activity.Activity_Extra"
             android:label="@string/title_activity_activity__extra"
             android:parentActivityName=".Home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -118,6 +126,7 @@
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait"
             android:parentActivityName=".Home">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -126,6 +135,7 @@
         <activity
             android:name=".activity.Activity_Canteen"
             android:label="@string/title_activity_activity__canteen"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.Activity_Extra"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -135,6 +145,7 @@
         <activity
             android:name=".activity.Activity_Experimental"
             android:label="@string/title_activity_activity__experimental"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.Activity_Extra"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
