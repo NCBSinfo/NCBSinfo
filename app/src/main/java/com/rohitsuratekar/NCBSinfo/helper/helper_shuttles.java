@@ -18,62 +18,74 @@ public class helper_shuttles {
         try {
             Calendar d1 = Calendar.getInstance();
             d1.setTime(format.parse(date));
-            day = d1.get(Calendar.DAY_OF_WEEK);  // 1 = Sunday
+            day = d1.get(Calendar.DAY_OF_WEEK);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String[] ncbs_iisc = {"07:30", "08:15", "09:00", "11:30", "14:00", "16:15", "17:45", "18:15", "19:00", "20:30", "22:00", "23:00"};
-        String[] ncbs_iisc_sunday = {"8:00", "10:00", "12:00", "14:00", "16:15", "17:45", "19:00", "19:30", "22:00", "23:30"};
-        String[] iisc_ncbs = {"07:00", "08:30", "09:15", "09:45", "12:30", "15:15", "17:00", "18:30", "19:15", "19:45", "21:30", "22:30","00:30"};
-        String[] iisc_ncbs_sunday = {"09:00", "11:00", "12:30", "15:15", "17:00", "18:30", "21:15", "21:30", "22:30","00:30"};
+        String[] ncbs_iisc = {"07:15", "08:50", "11:30", "14:00","16:15", "18:00", "18:45", "20:30", "22:00" ,"23:00"};
+        String[] ncbs_iisc_sunday = {"08:00", "10:00" ,"12:00", "14:00", "16:15", "17:45","19:00", "19:30", "22:00", "23:30"};
 
-        String[] ncbs_mandara = {"07:45", "9:00", "18:00", "20:30", "21:30", "23:00","00:30","02:00"};
-        String[] ncbs_mandara_sunday = {"09:30", "10:30", "11:30", "15:00", "17:30", "22:00", "23:00","02:00"};
+        String[] iisc_ncbs_monday = {"00:30","08:15", "09:30", "12:30", "15:15", "17:00","18:30","19:30","21:30","22:30"};
+        String[] iisc_ncbs = {"00:00","08:15", "09:30", "12:30", "15:15", "17:00","18:30","19:30","21:30","22:30"};
+        String[] iisc_ncbs_sunday = {"00:00","09:00", "11:00", "12:30","15:15","17:00","18:30", "20:00","21:30","22:30"};
 
-        String[] mandara_ncbs = {"07:00", "07:45", "08:30", "09:30", "18:30", "21:30", "23:30","01:00"};
-        String[] mandara_ncbs_sunday = {"08:30", "09:45", "11:00", "12:15", "16:00", "18:30", "22:30","00:00"};
+        String[] ncbs_mandara_monday = {"02:00","08:00", "09:00","17:45","20:30","22:00","23:00"};
+        String[] ncbs_mandara = {"00:30", "01:30","08:00", "09:00","17:45","20:30","22:00","23:00"};
+        String[] ncbs_mandara_sunday = {"00:30", "01:30","09:00","10:30","20:30","22:00","23:00"};
 
-        String[] buggy_ncbs_mandara = {"08:00","08:30", "08:45", "09:00", "09:30", "09:45", "10:00", "10:30", "11:30", "12:15", "12:45", "13:00", "14:15" ,"15:30" ,"16:00" ,"16:30","17:30", "17:45" ,"18:15" ,"18:30" ,"19:00" ,"19:30", "19:45", "20:00"};
-        String[] buggy_mandara_ncbs = {"08:15","08:45","09:00","09:15","09:45","10:00","10:15","10:45","11:45","12:30","13:45","14:00","14:45","15:45","16:15","16:45","17:45","18:15","18:30","18:45","19:15","19:45","20:00","20:15"};
+        String[] mandara_ncbs_monday = {"00:00","07:30","08:30","09:30","18:15","21:30","22:30","23:30"};
+        String[] mandara_ncbs = {"01:00","07:30","08:30","09:30","18:15","21:30","22:30","23:30"};
+        String[] mandara_ncbs_sunday = {"01:00","08:30", "09:30", "18:00","21:30","22:30"};
+
+        String[] buggy_ncbs_mandara = {"07:45", "08:30","08:45","09:00","09:30","09:45", "10:00", "10:30", "11:00", "11:30", "12:15", "12:45", "13:00", "14:30" ,"15:00", "15:30", "16:00", "16:30", "17:30", "18:00", "18:15", "18:30", "18:45" ,"19:00", "19:30" ,"20:00"};
+        String[] buggy_mandara_ncbs = {"08:00","08:45","09:00","09:15","09:45","10:00","10:15","10:45","11:15","11:45","12:30","13:45","14:00","14:45","15:15","15:45","16:15","16:45","17:45","18:15","18:30","18:45","19:00","19:15","19:45","20:15"};
 
         String[] ncbs_icts = {"08:00", "09:00", "10:00", "13:00", "14:00", "15:30", "16:30", "17:40", "18:30", "20:00", "21:30"};
         String[] icts_ncbs = {"08:00", "09:00", "12:00", "13:00", "14:00", "15:30", "17:00", "17:40", "19:00", "20:00", "20:30", "22:30"};
         String[] ncbs_icts_sunday = {"08:30", "10:30", "12:30", "15:00", "17:00", "19:00", "21:00", "23:00"};
         String[] icts_ncbs_sunday = {"07:30", "09:30", "11:30", "14:00", "16:00", "18:00", "20:00", "22:00"};
 
-
         String[] ncbs_cbl = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
         String[] ncbs_cbl_sunday = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
 
         String[] currentRoute = {};
         if (isBuggy==0) {
-            if (from.equals("ncbs") && to.equals("iisc") && day != 1) {
+            if (from.equals("ncbs") && to.equals("iisc") && day != Calendar.SUNDAY) {
                 currentRoute = ncbs_iisc;
-            } else if (from.equals("ncbs") && to.equals("iisc") && day == 1) {
+            } else if (from.equals("ncbs") && to.equals("iisc") && day == Calendar.SUNDAY) {
                 currentRoute = ncbs_iisc_sunday;
-            } else if (from.equals("iisc") && to.equals("ncbs") && day != 1) {
-                currentRoute = iisc_ncbs;
-            } else if (from.equals("iisc") && to.equals("ncbs") && day == 1) {
+            } else if (from.equals("iisc") && to.equals("ncbs") && day != Calendar.SUNDAY) {
+                if(day==Calendar.MONDAY){currentRoute=iisc_ncbs_monday;}
+                else {
+                    currentRoute = iisc_ncbs;
+                }
+            } else if (from.equals("iisc") && to.equals("ncbs") && day == Calendar.SUNDAY) {
                 currentRoute = iisc_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("mandara") && day != 1) {
-                currentRoute = ncbs_mandara;
-            } else if (from.equals("ncbs") && to.equals("mandara") && day == 1) {
+            } else if (from.equals("ncbs") && to.equals("mandara") && day != Calendar.SUNDAY) {
+                if (day == Calendar.MONDAY){currentRoute=ncbs_mandara_monday;}
+                else{
+                    currentRoute = ncbs_mandara;
+                }
+            } else if (from.equals("ncbs") && to.equals("mandara") && day == Calendar.SUNDAY) {
                 currentRoute = ncbs_mandara_sunday;
-            } else if (from.equals("mandara") && to.equals("ncbs") && day != 1) {
-                currentRoute = mandara_ncbs;
-            } else if (from.equals("mandara") && to.equals("ncbs") && day == 1) {
+            } else if (from.equals("mandara") && to.equals("ncbs") && day != Calendar.SUNDAY) {
+                if (day == Calendar.MONDAY){currentRoute=mandara_ncbs_monday;}
+                else{
+                    currentRoute = mandara_ncbs;
+                }
+            } else if (from.equals("mandara") && to.equals("ncbs") && day == Calendar.SUNDAY) {
                 currentRoute = mandara_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("icts") && day == 1) {
+            } else if (from.equals("ncbs") && to.equals("icts") && day == Calendar.SUNDAY) {
                 currentRoute = ncbs_icts_sunday;
-            }else if (from.equals("ncbs") && to.equals("icts") && day != 1) {
+            }else if (from.equals("ncbs") && to.equals("icts") && day != Calendar.SUNDAY) {
                 currentRoute = ncbs_icts;
-            } else if (from.equals("icts") && to.equals("ncbs")&& day != 1) {
+            } else if (from.equals("icts") && to.equals("ncbs")&& day != Calendar.SUNDAY) {
                 currentRoute = icts_ncbs;
-            } else if (from.equals("icts") && to.equals("ncbs")&& day == 1) {
+            } else if (from.equals("icts") && to.equals("ncbs")&& day == Calendar.SUNDAY) {
                 currentRoute = icts_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("cbl") && day==1) {
+            } else if (from.equals("ncbs") && to.equals("cbl") && day== Calendar.SUNDAY) {
                 currentRoute = ncbs_cbl_sunday;
-            } else if (from.equals("ncbs") && to.equals("cbl") && day != 1){
+            } else if (from.equals("ncbs") && to.equals("cbl") && day != Calendar.SUNDAY){
                 currentRoute = ncbs_cbl;
             }
         }
@@ -84,6 +96,7 @@ public class helper_shuttles {
             else{
                 currentRoute = buggy_mandara_ncbs;
             }
+
         }
         return currentRoute;
     }
@@ -99,65 +112,59 @@ public class helper_shuttles {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String[] ncbs_iisc = {"07:30", "08:15", "09:00", "11:30", "14:00", "16:15", "17:45", "18:15", "19:00", "20:30", "22:00", "23:00"};
-        String[] ncbs_iisc_sunday = {"8:00", "10:00", "12:00", "14:00", "16:15", "17:45", "19:00", "19:30", "22:00", "23:30"};
-        String[] iisc_ncbs = {"00:30", "07:00", "08:30", "09:15", "09:45", "12:30", "15:15", "17:00", "18:30", "19:15", "19:45", "21:30", "22:30"};
-        String[] iisc_ncbs_sunday = {"00:30", "09:00", "11:00", "12:30", "15:15", "17:00", "18:30", "21:15", "21:30", "22:30"};
+        String[] ncbs_iisc = {"07:15", "08:50", "11:30", "14:00","16:15", "18:00", "18:45", "20:30", "22:00" ,"23:00"};
+        String[] ncbs_iisc_sunday = {"08:00", "10:00" ,"12:00", "14:00", "16:15", "17:45","19:00", "19:30", "22:00", "23:30"};
 
-        String[] ncbs_mandara_monday = {"02:00", "07:45", "09:00", "18:00", "20:30", "21:30", "23:00"};
-        String[] ncbs_mandara = {"00:30", "02:00", "07:45", "9:00", "18:00", "20:30", "21:30", "23:00"};
-        String[] ncbs_mandara_sunday = {"00:30", "02:00", "09:30", "10:30", "11:30", "15:00", "17:30", "22:00", "23:00"};
+        String[] iisc_ncbs = {"08:15", "09:30", "12:30", "15:15", "17:00","18:30","19:30","21:30","22:30","00:00"};
+        String[] iisc_ncbs_sunday = {"09:00", "11:00", "12:30","15:15","17:00","18:30", "20:00","21:30","22:30","00:30"};
 
-        String[] mandara_ncbs_monday = {"00:00","07:00", "07:45", "08:30", "09:30", "18:30", "21:30", "23:30"};
-        String[] mandara_ncbs = {"01:00", "07:00", "07:45", "08:30", "09:30", "18:30", "21:30", "23:30"};
-        String[] mandara_ncbs_sunday = {"01:00", "08:30", "09:45", "11:00", "12:15", "16:00", "18:30", "22:30"};
+        String[] ncbs_mandara = {"08:00", "09:00","17:45","20:30","22:00","23:00","00:30", "01:30"};
+        String[] ncbs_mandara_sunday = {"09:00","10:30","20:30","22:00","23:00","02:00"};
 
-        String[] buggy_ncbs_mandara = {"08:00","08:30", "08:45", "09:00", "09:30", "09:45", "10:00", "10:30", "11:30", "12:15", "12:45", "13:00", "14:15" ,"15:30" ,"16:00" ,"16:30","17:30", "17:45" ,"18:15" ,"18:30" ,"19:00" ,"19:30", "19:45", "20:00"};
-        String[] buggy_mandara_ncbs = {"08:15","08:45","09:00","09:15","09:45","10:00","10:15","10:45","11:45","12:30","13:45","14:00","14:45","15:45","16:15","16:45","17:45","18:15","18:30","18:45","19:15","19:45","20:00","20:15"};
+        String[] mandara_ncbs = {"07:30","08:30","09:30","18:15","21:30","22:30","23:30","01:00"};
+        String[] mandara_ncbs_sunday = {"08:30", "09:30", "18:00","21:30","22:30","00:00"};
+
+        String[] buggy_ncbs_mandara = {"07:45", "08:30","08:45","09:00","09:30","09:45", "10:00", "10:30", "11:00", "11:30", "12:15", "12:45", "13:00", "14:30" ,"15:00", "15:30", "16:00", "16:30", "17:30", "18:00", "18:15", "18:30", "18:45" ,"19:00", "19:30" ,"20:00"};
+        String[] buggy_mandara_ncbs = {"08:00","08:45","09:00","09:15","09:45","10:00","10:15","10:45","11:15","11:45","12:30","13:45","14:00","14:45","15:15","15:45","16:15","16:45","17:45","18:15","18:30","18:45","19:00","19:15","19:45","20:15"};
 
         String[] ncbs_icts = {"08:00", "09:00", "10:00", "13:00", "14:00", "15:30", "16:30", "17:40", "18:30", "20:00", "21:30"};
         String[] icts_ncbs = {"08:00", "09:00", "12:00", "13:00", "14:00", "15:30", "17:00", "17:40", "19:00", "20:00", "20:30", "22:30"};
         String[] ncbs_icts_sunday = {"08:30", "10:30", "12:30", "15:00", "17:00", "19:00", "21:00", "23:00"};
         String[] icts_ncbs_sunday = {"07:30", "09:30", "11:30", "14:00", "16:00", "18:00", "20:00", "22:00"};
 
+
         String[] ncbs_cbl = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
         String[] ncbs_cbl_sunday = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
 
         String[] currentRoute = {};
         if (isBuggy==0) {
-            if (from.equals("ncbs") && to.equals("iisc") && day != 1) {
+            if (from.equals("ncbs") && to.equals("iisc") && day != Calendar.SUNDAY) {
                 currentRoute = ncbs_iisc;
-            } else if (from.equals("ncbs") && to.equals("iisc") && day == 1) {
+            } else if (from.equals("ncbs") && to.equals("iisc") && day == Calendar.SUNDAY) {
                 currentRoute = ncbs_iisc_sunday;
-            } else if (from.equals("iisc") && to.equals("ncbs") && day != 1) {
+            } else if (from.equals("iisc") && to.equals("ncbs") && day != Calendar.SUNDAY) {
                 currentRoute = iisc_ncbs;
-            } else if (from.equals("iisc") && to.equals("ncbs") && day == 1) {
+            } else if (from.equals("iisc") && to.equals("ncbs") && day == Calendar.SUNDAY) {
                 currentRoute = iisc_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("mandara") && day != 1) {
-                if (day == 2){currentRoute=ncbs_mandara_monday;}
-                else{
-                    currentRoute = ncbs_mandara;
-                }
-            } else if (from.equals("ncbs") && to.equals("mandara") && day == 1) {
+            } else if (from.equals("ncbs") && to.equals("mandara") && day != Calendar.SUNDAY) {
+                currentRoute = ncbs_mandara;
+            } else if (from.equals("ncbs") && to.equals("mandara") && day == Calendar.SUNDAY) {
                 currentRoute = ncbs_mandara_sunday;
-            } else if (from.equals("mandara") && to.equals("ncbs") && day != 1) {
-                if (day == 2){currentRoute=mandara_ncbs_monday;}
-                else{
-                    currentRoute = mandara_ncbs;
-                }
-            } else if (from.equals("mandara") && to.equals("ncbs") && day == 1) {
+            } else if (from.equals("mandara") && to.equals("ncbs") && day != Calendar.SUNDAY) {
+                currentRoute = mandara_ncbs;
+            } else if (from.equals("mandara") && to.equals("ncbs") && day == Calendar.SUNDAY) {
                 currentRoute = mandara_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("icts") && day == 1) {
+            } else if (from.equals("ncbs") && to.equals("icts") && day == Calendar.SUNDAY) {
                 currentRoute = ncbs_icts_sunday;
-            }else if (from.equals("ncbs") && to.equals("icts") && day != 1) {
+            }else if (from.equals("ncbs") && to.equals("icts") && day != Calendar.SUNDAY) {
                 currentRoute = ncbs_icts;
-            } else if (from.equals("icts") && to.equals("ncbs")&& day != 1) {
+            } else if (from.equals("icts") && to.equals("ncbs")&& day != Calendar.SUNDAY) {
                 currentRoute = icts_ncbs;
-            } else if (from.equals("icts") && to.equals("ncbs")&& day == 1) {
+            } else if (from.equals("icts") && to.equals("ncbs")&& day == Calendar.SUNDAY) {
                 currentRoute = icts_ncbs_sunday;
-            } else if (from.equals("ncbs") && to.equals("cbl") && day==1) {
+            } else if (from.equals("ncbs") && to.equals("cbl") && day==Calendar.SUNDAY) {
                 currentRoute = ncbs_cbl_sunday;
-            } else if (from.equals("ncbs") && to.equals("cbl") && day != 1){
+            } else if (from.equals("ncbs") && to.equals("cbl") && day != Calendar.SUNDAY){
                 currentRoute = ncbs_cbl;
             }
         }
@@ -171,6 +178,7 @@ public class helper_shuttles {
 
         }
         return currentRoute;
+
     }
 
     public Calendar NextTransport (String from, String to, String date, int isbuggy){

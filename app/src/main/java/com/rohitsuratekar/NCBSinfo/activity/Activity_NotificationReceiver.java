@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
@@ -12,11 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_viewpager;
+import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_contact_tab1;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_notification_log;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_notification_recent;
@@ -42,6 +46,13 @@ public class Activity_NotificationReceiver extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.Navigation_Name);
+        TextView email = (TextView)header.findViewById(R.id.Navigation_Email);
+        if(name!=null) {
+            name.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_USERNAME, "username"));
+            email.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_EMAIL, "email@domain.com"));
+        }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.notification_viewpager);
         setupViewPager(viewPager);

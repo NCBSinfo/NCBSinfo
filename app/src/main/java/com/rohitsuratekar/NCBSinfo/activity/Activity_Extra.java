@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -15,11 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_extra_grid;
+import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
 
 public class Activity_Extra extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +43,13 @@ public class Activity_Extra extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.Navigation_Name);
+        TextView email = (TextView)header.findViewById(R.id.Navigation_Email);
+        if(name!=null) {
+            name.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_USERNAME, "username"));
+            email.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_EMAIL, "email@domain.com"));
+        }
 
 
         GridView grid = (GridView)findViewById(R.id.Otherinfo_Grid);

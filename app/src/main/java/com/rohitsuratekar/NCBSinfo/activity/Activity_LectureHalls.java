@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -16,11 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_lecturehall;
+import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
 import com.rohitsuratekar.NCBSinfo.helper.helper_lecturehall;
 
 import java.util.ArrayList;
@@ -48,6 +51,13 @@ public class Activity_LectureHalls extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.Navigation_Name);
+        TextView email = (TextView)header.findViewById(R.id.Navigation_Email);
+        if(name!=null) {
+            name.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_USERNAME, "username"));
+            email.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_EMAIL, "email@domain.com"));
+        }
 
         expListView = (ExpandableListView) findViewById(R.id.LectureHallList);
 

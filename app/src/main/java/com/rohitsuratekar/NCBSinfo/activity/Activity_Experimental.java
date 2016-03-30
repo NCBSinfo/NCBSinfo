@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.Home;
@@ -45,7 +46,14 @@ public class Activity_Experimental extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(this);      View header = navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.Navigation_Name);
+        TextView email = (TextView)header.findViewById(R.id.Navigation_Email);
+        if(name!=null) {
+            name.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_USERNAME, "username"));
+            email.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.DATA_EMAIL, "email@domain.com"));
+        }
+
 
         final AlertDialog alertDialog = new AlertDialog.Builder(
                 Activity_Experimental.this).create();
