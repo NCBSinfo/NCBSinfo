@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/route0"
+        android:title="NCBS-IISc"/>
+
+    <item
+        android:id="@+id/route1"
+        android:title="IISc-NCBS"/>
+
+    <item
+        android:id="@+id/route2"
+        android:title="NCBS-Mandara"/>
+
+    <item
+        android:id="@+id/route3"
+        android:title="Mandara-NCBS"/>
+
+    <item
+        android:id="@+id/route4"
+        android:title="Buggy from NCBS"/>
+
+    <item
+        android:id="@+id/route5"
+        android:title="Buggy from Mandara"/>
+
+    <item
+        android:id="@+id/route6"
+        android:title="NCBS-ICTS"/>
+
+    <item
+        android:id="@+id/route7"
+        android:title="ICTS-NCBS"/>
+
+    <item
+        android:id="@+id/route8"
+        android:title="NCBS-CBL"/>
+
+
+
+</menu>

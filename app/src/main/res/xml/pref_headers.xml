@@ -3,8 +3,15 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.rohitsuratekar.NCBSinfo.SettingsActivity$DefaultShuttleFragment"
-        android:icon="@drawable/ic_airport_shuttle_black_48px"
-        android:title="@string/pref_shuttle_header"
-        android:tint="#009688"/>
+        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$GeneralPreferenceFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_header_general" />
+
+    <header
+        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$TransportPreferenceFragment"
+        android:icon="@drawable/icon_shuttle"
+        android:title="Transports" />
+
+
+
 </preference-headers>
