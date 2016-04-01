@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,41 +33,49 @@ public class fragment_notification_recent extends Fragment {
         title = (TextView)rootView.findViewById(R.id.recent_Title);
         message = (TextView)rootView.findViewById(R.id.recent_Message);
         timestamp = (TextView)rootView.findViewById(R.id.recent_Timestamp);
-
+        LinearLayout l1 = (LinearLayout)rootView.findViewById(R.id.notification_receiver_layout_recent);
+        ImageView icon = (ImageView)rootView.findViewById(R.id.notification_receiver_recent_icon);
+        LinearLayout footnote = (LinearLayout)rootView.findViewById(R.id.recent_notification_footnote);
         DatabaseHelper db = new DatabaseHelper(rootView.getContext());
         entrylist = db.getAllEntries();
         int itemnumber = entrylist.size();
         if (itemnumber>0){
+        footnote.setVisibility(View.VISIBLE);
         title.setText(entrylist.get(itemnumber-1).getNotificationTitle());
         message.setText(entrylist.get(itemnumber-1).getNotificationMessage());
-        timestamp.setText(entrylist.get(itemnumber-1).getTimestamp());}
+        timestamp.setText(entrylist.get(itemnumber-1).getTimestamp());
+            if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_jc)){
+                l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_jc));
+                icon.setBackgroundResource(R.drawable.icon_jc);
+            }
+            else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_student)){
+                l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_student));
+                icon.setBackgroundResource(R.drawable.icon_students);
+            }
+            else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_TALK)){
+                l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_talk));
+                icon.setBackgroundResource(R.drawable.icon_research_talk);
+            }
+            else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_EMERGENCY)){
+                l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_emergency));
+                icon.setBackgroundResource(R.drawable.icon_emergency);
+            }}
         else{
 
             title.setText("Nothing here yet!");
             message.setText("It looks like you have not received any notification yet!");
             timestamp.setText("N/A");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                message.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
+
+            footnote.setVisibility(View.INVISIBLE);
 
         }
 
-        LinearLayout l1 = (LinearLayout)rootView.findViewById(R.id.notification_receiver_layout_recent);
-        ImageView icon = (ImageView)rootView.findViewById(R.id.notification_receiver_recent_icon);
 
-        if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_jc)){
-            l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_jc));
-            icon.setBackgroundResource(R.drawable.icon_jc);
-        }
-        else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_student)){
-            l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_student));
-            icon.setBackgroundResource(R.drawable.icon_students);
-        }
-        else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_TALK)){
-            l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_talk));
-            icon.setBackgroundResource(R.drawable.icon_research_talk);
-        }
-        else if (entrylist.get(itemnumber-1).getNotificationTopic().equals(GCMConstants.GCM_TOPIC_EMERGENCY)){
-            l1.setBackgroundColor(rootView.getResources().getColor(R.color.user_log_topic_emergency));
-            icon.setBackgroundResource(R.drawable.icon_emergency);
-        }
+
+
 
 
 
