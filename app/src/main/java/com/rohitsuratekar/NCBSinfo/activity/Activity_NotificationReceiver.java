@@ -21,7 +21,6 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.adapters_viewpager;
 import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
-import com.rohitsuratekar.NCBSinfo.fragments.fragment_contact_tab1;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_notification_log;
 import com.rohitsuratekar.NCBSinfo.fragments.fragment_notification_recent;
 

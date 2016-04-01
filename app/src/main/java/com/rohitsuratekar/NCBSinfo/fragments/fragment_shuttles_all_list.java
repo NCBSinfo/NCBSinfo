@@ -101,7 +101,7 @@ public class fragment_shuttles_all_list extends Fragment {
             String SundayDate = "1/31/2016 00:00:00";
             String weeksmall = "12/31/2015 ";
             String sundaysmall = "1/31/2016 ";
-            String[] AllArrays = new helper_shuttles().TripsData(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
+            String[] AllArrays = new helper_shuttles().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
 
 
 
@@ -145,7 +145,7 @@ public class fragment_shuttles_all_list extends Fragment {
 
             String[] AllArrays_sunday = new helper_shuttles().TripsData(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
             if (isBuggy==1){
-                AllArrays_sunday = new helper_shuttles().TripsData("mandara", "ncbs", SundayDate, isBuggy);
+                AllArrays_sunday = new helper_shuttles().ModifiedTransportList("mandara", "ncbs", SundayDate, isBuggy);
             }
 
             String[] sunday = new String[AllArrays_sunday.length];
