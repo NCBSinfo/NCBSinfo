@@ -556,8 +556,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
         shuttleName.setText(tempString);
 
         int hurryUp = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsConstants.HOME_HURRYUP_COLOR,5);
-
-        if (Difference[1]<hurryUp){
+        if (Difference[1]<hurryUp && Difference[2]==0.0){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 nextShuttle.setTextColor(getResources().getColor(R.color.home_hurryup_color,getTheme()));
             }

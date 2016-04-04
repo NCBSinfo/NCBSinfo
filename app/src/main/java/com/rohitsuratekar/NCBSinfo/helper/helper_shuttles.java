@@ -182,7 +182,7 @@ public class helper_shuttles {
     }
 
     public Calendar NextTransport (String from, String to, String date, int isbuggy){
-        String[] trips = ModifiedTransportList(from, to, date, isbuggy);
+        String[] trips = TripsData(from, to, date, isbuggy);
         List<String> convertedList = new ArrayList<String>();
         int sec = 0;
         Calendar returnString = Calendar.getInstance();

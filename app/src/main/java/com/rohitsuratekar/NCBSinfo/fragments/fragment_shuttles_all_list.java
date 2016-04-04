@@ -143,7 +143,7 @@ public class fragment_shuttles_all_list extends Fragment {
 
             }
 
-            String[] AllArrays_sunday = new helper_shuttles().TripsData(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
+            String[] AllArrays_sunday = new helper_shuttles().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
             if (isBuggy==1){
                 AllArrays_sunday = new helper_shuttles().ModifiedTransportList("mandara", "ncbs", SundayDate, isBuggy);
             }
@@ -183,7 +183,6 @@ public class fragment_shuttles_all_list extends Fragment {
             footnote2.setText("**Next shuttle after "+currentTime);
 
             if (isBuggy==1){
-                AllArrays = new helper_shuttles().TripsData("ncbs", "mandara", WeekDate, isBuggy);
                 weekTitle.setText("From NCBS");
                 sundayTitle.setText("From Mandara");
                 footnote1.setText("");
