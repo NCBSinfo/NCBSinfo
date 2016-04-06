@@ -188,6 +188,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
         }, 0, 1000); //1000 is milliseconds for each time tick
 
         changeShuttleText();
+        //Shuttle section will be visible whenever user starts app
+        shuttleOption.setVisibility(View.VISIBLE);
+        shuttleAnimation.setVisibility(View.VISIBLE);
+        shuttleSection.setVisibility(View.GONE);
+        animatTransport();
 
 
     } //OnCreate close
@@ -572,5 +577,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener, Pop
 
         }
      }
+
 
 }
