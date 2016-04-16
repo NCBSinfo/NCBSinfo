@@ -4,14 +4,21 @@
 
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$GeneralPreferenceFragment"
-        android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
+        android:icon="@drawable/icon_info"
+        android:title="General" />
 
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$TransportPreferenceFragment"
         android:icon="@drawable/icon_shuttle"
         android:title="Transports" />
+    <header
+        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$NotificationPreferenceFragment"
+        android:icon="@drawable/icon_updates"
+        android:title="Notification Preferences"/>
 
-
+    <header
+        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$DeveloperPreferenceFragment"
+        android:icon="@drawable/icon_dev"
+        android:title="Developers options" />
 
 </preference-headers>

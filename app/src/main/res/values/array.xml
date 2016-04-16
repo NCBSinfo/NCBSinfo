@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="extra_info_icons">
-    <item>Seminar Hall\nNames</item>
-    <item>Canteen\nStuff</item>
-    <item>Experimental\nFeatures</item>
+        <item>Seminar Hall\nNames</item>
+        <item>Canteen\nStuff</item>
+        <item>Experimental\nFeatures</item>
     </string-array>
 
     <string-array name="home_spinner_items">

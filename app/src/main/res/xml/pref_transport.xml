@@ -5,7 +5,7 @@
         android:defaultValue="0"
         android:entries="@array/home_spinner_items"
         android:entryValues="@array/home_route_values"
-        android:key="shuttle_route_list"
+        android:key="settings_transport_routes"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
         android:title="Default view" />

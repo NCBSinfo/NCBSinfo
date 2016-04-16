@@ -1,34 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#673AB7</color>
-    <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorAccent">#FF5722</color>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff4081</color>
 
+    <color name="map_polygone_overlay">#9d3a9bea</color>
 
-    <color name="home_background_color">#45277b</color>
-    <color name="home_shuttle">#673ab7</color>
-    <color name="home_contact">#3f51b5</color>
-    <color name="home_updates">#3f51b5</color>
-    <color name="home_other">#673ab7</color>
-
-    <color name="home_Selection">#84a82d</color>
-    <color name="home_subSection">#2f1b54</color>
-    <color name="home_subsection_text">#C8FFFFFF</color>
-    <color name="home_subsection_icon">#C8FFFFFF</color>
-
-    <color name="home_shuttle_info_color">#000</color>
-    <color name="home_hurryup_color">#ff1a1a</color>
-
-    <color name="emergency_notification">#ff0000</color>
-
-    <color name="user_log_topic_jc">#b59fdc</color>
-    <color name="user_log_topic_student">#cbbce7</color>
-    <color name="user_log_topic_talk">#e1d9f1</color>
-    <color name="user_log_topic_emergency">#ff0000</color>
-
-    <color name="experimental_diabledButtons">#9C9797</color>
-
-    <color name="nav_bar_start">#673ab7</color>
-    <color name="nav_bar_middle">#673ab7</color>
-    <color name="nav_bar_end">#45277b</color>
 </resources>

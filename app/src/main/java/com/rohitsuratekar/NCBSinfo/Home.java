@@ -1,42 +1,36 @@
 package com.rohitsuratekar.NCBSinfo;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.rohitsuratekar.NCBSinfo.activity.Activity_Contact;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_Extra;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_GCMModeration;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_GCMRegistration;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_NotificationReceiver;
-import com.rohitsuratekar.NCBSinfo.activity.Activity_Shuttles;
-import com.rohitsuratekar.NCBSinfo.constants.DatabaseConstants;
-import com.rohitsuratekar.NCBSinfo.constants.GCMConstants;
-import com.rohitsuratekar.NCBSinfo.constants.SettingsConstants;
-import com.rohitsuratekar.NCBSinfo.gcm.FlagHandler;
-import com.rohitsuratekar.NCBSinfo.helper.helper_shuttles;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
+import com.rohitsuratekar.NCBSinfo.activity.Registration;
+import com.rohitsuratekar.NCBSinfo.activity.Transport;
+import com.rohitsuratekar.NCBSinfo.constants.General;
+import com.rohitsuratekar.NCBSinfo.constants.Preferences;
+import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
+import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
+import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
+import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
+import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
+import com.rohitsuratekar.NCBSinfo.maplist.MapListActivityImpl;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -45,538 +39,200 @@ import java.util.TimerTask;
 
 import static android.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
-public class Home extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-
-    Animation alphaAnimation, exitAnimation, dropDown;
-    int screen_H, isBuggy, changeRoute;
-    LinearLayout shuttleSection, shuttleAnimation, shuttleOption, contactSection, contactAnimation, contactOption;
-    LinearLayout updatesSection, updatesAnimation, updatesOption, otherSection, otherAnimation, otherOption;
-    TextView shuttleName,nextShuttle, timeleft, shuttleNote;
-    String transportFROM, transportTO;
-    PopupMenu popup;
-
+public class Home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
+    GoogleMap googleMap;
+    TextView title,footer,nextText;
+    ImageView image,previous,next, showall;
+    ImageView icon_transport, icon_updates, icon_settings;
+    LatLng coord;
+    String transportFrom, transportTo;
+    int isBuggy, currentRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_layout);
+        setContentView(R.layout.home);
 
-        //Delete Old databases
-        if(doesDatabaseExist(this,"ContactStore2")){
-            this.deleteDatabase("ContactStore2");
-        }
-        //Check for Flag handlers
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.START_FLAG, false)){
-            Intent intent = new Intent(Home.this, FlagHandler.class);
-            intent.putExtra(GCMConstants.FLAG_CODE,PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(GCMConstants.FLAG_CODE, "0"));
-            startActivity(intent);
-        }
-        //set default values
-        changeRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsConstants.HOME_DEFAULT_ROUTE,0);
-        transportFROM = new helper_shuttles().getRouteName(changeRoute)[0];
-        transportTO = new helper_shuttles().getRouteName(changeRoute)[1];
-        isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(changeRoute)[2]);
-
-        //Get Height of Device Screen
-        DisplayMetrics matrix = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(matrix);
-        screen_H = matrix.heightPixels;
-
-        alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.home_section_fade);
-        exitAnimation = AnimationUtils.loadAnimation(this,R.anim.home_section_exit);
-        dropDown = AnimationUtils.loadAnimation(this,R.anim.drop_down_view);
-
-        //Give warning to users if Android version is lower than 5.0
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.ANDROID_VERSION_WARNING, true)) {
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
-                alertDialog.setTitle("Compatibility mode");
-                alertDialog.setMessage("This app is best suited for Android Lollipop (21) and above. Your current android version is " + Build.VERSION.SDK_INT + " . Some animations and functions might not work properly. ");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(DatabaseConstants.ANDROID_VERSION_WARNING, false).apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-            }
-
-        }
-
-        //Give warning to bigger screen sizes
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(DatabaseConstants.ANDROID_DEVICE_SIZE_WARNING, true)) {
-
-            if (getResources().getString(R.string.ScreenSize).equals("1")) {
-                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
-                alertDialog.setTitle("Compatibility mode");
-                alertDialog.setMessage("This app not designed for Tablets and Large Screen devices yet. Hence device layouts will be not on scale.");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(DatabaseConstants.ANDROID_DEVICE_SIZE_WARNING, false).apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-            }
-
+        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_FIRSTTIME,true)){
+            new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
+            startActivity(new Intent(this, Registration.class));
         }
 
         //App name in middle
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.home_actionbar);
+        getSupportActionBar().setCustomView(R.layout.home_action_bar);
 
-        //Search all layouts and assign variables
+        //set default values
+        currentRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsRelated.HOME_DEFAULT_ROUTE,0);
+        transportFrom = new TransportFunctions().getRouteName(currentRoute)[0];
+        transportTo = new TransportFunctions().getRouteName(currentRoute)[1];
+        isBuggy = Integer.valueOf(new TransportFunctions().getRouteName(currentRoute)[2]);
 
-        shuttleAnimation = (LinearLayout)findViewById(R.id.home_shuttle_animation);
-        shuttleSection = (LinearLayout)findViewById(R.id.home_shuttle_Section);
-        shuttleOption = (LinearLayout)findViewById(R.id.home_shuttle_options);
+       coord = new TransportFunctions().getLocation(getApplicationContext(),transportTo,isBuggy);
 
-        contactAnimation = (LinearLayout)findViewById(R.id.home_contact_animation);
-        contactSection = (LinearLayout)findViewById(R.id.home_contact_Section);
-        contactOption = (LinearLayout)findViewById(R.id.home_contact_options);
+       title = (TextView)findViewById(R.id.home_cardview_title);
+       footer = (TextView)findViewById(R.id.home_cardView_Footer);
+       nextText = (TextView)findViewById(R.id.home_cardView_nextText);
+       image= (ImageView)findViewById(R.id.home_cardView_selector);
+       previous= (ImageView)findViewById(R.id.previousRoute);
+       next= (ImageView)findViewById(R.id.nextRoute);
+       showall= (ImageView)findViewById(R.id.home_icon_showall);
+       icon_transport= (ImageView)findViewById(R.id.home_icon_transport);
+       icon_updates= (ImageView)findViewById(R.id.home_icon_updates);
+       icon_settings= (ImageView)findViewById(R.id.home_icon_settings);
+       MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.home_map);
+        mapFragment.getMapAsync(this);
+        mapFragment.getMap().setOnMapClickListener(this);
 
-        updatesAnimation = (LinearLayout)findViewById(R.id.home_updates_animation);
-        updatesSection = (LinearLayout)findViewById(R.id.home_updates_Section);
-        updatesOption = (LinearLayout)findViewById(R.id.home_updates_options);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(Home.this,v);
+                popupMenu.inflate(R.menu.popup_card);
+                popupMenu.show();
+            }
+        });
 
-        otherAnimation = (LinearLayout)findViewById(R.id.home_other_animation);
-        otherSection = (LinearLayout)findViewById(R.id.home_other_Section);
-        otherOption = (LinearLayout)findViewById(R.id.home_other_options);
-
-        shuttleSection.setOnClickListener(this);
-        contactSection.setOnClickListener(this);
-        updatesSection.setOnClickListener(this);
-        otherSection.setOnClickListener(this);
-
-
-        SetDefaultView();
-
-        LinearLayout l1 = (LinearLayout)findViewById(R.id.home_fav_layout);
-        LinearLayout l2 = (LinearLayout)findViewById(R.id.home_allcontact_layout);
-        LinearLayout l3 = (LinearLayout)findViewById(R.id.home_moderator_layout);
-        LinearLayout l4 = (LinearLayout)findViewById(R.id.home_register_layout);
-        LinearLayout l5 = (LinearLayout)findViewById(R.id.home_log_layout);
-        LinearLayout l6 = (LinearLayout)findViewById(R.id.home_otherinfo_layout);
-        LinearLayout l7 = (LinearLayout)findViewById(R.id.home_settings_layout);
-        LinearLayout l8 = (LinearLayout)findViewById(R.id.home_viewmore_layout);
-        LinearLayout l9 = (LinearLayout)findViewById(R.id.home_textHolder);
-
-        l1.setOnClickListener(this);
-        l2.setOnClickListener(this);
-        l3.setOnClickListener(this);
-        l4.setOnClickListener(this);
-        l5.setOnClickListener(this);
-        l6.setOnClickListener(this);
-        l7.setOnClickListener(this);
-        l8.setOnClickListener(this);
-        l9.setOnClickListener(this);
-
-        shuttleNote = (TextView)findViewById(R.id.home_shuttle_note);
-        timeleft = (TextView)findViewById(R.id.home_shuttle_timeleft);
-        nextShuttle = (TextView)findViewById(R.id.home_nextShuttle);
-        shuttleName = (TextView)findViewById(R.id.home_shuttleName_text);
+        previous.setOnClickListener(this);
+        next.setOnClickListener(this);
+        showall.setOnClickListener(this);
+        icon_updates.setOnClickListener(this);
+        icon_transport.setOnClickListener(this);
+        icon_settings.setOnClickListener(this);
 
         //Timer for timeleft
         Timer timeLeft = new Timer();
         timeLeft.schedule(new TimerTask() {
             @Override
             public void run() {
-                TimerMethod();
+                runTimer();
             }
 
         }, 0, 1000); //1000 is milliseconds for each time tick
-
-        changeShuttleText();
-        //Shuttle section will be visible whenever user starts app
-        shuttleOption.setVisibility(View.VISIBLE);
-        shuttleAnimation.setVisibility(View.VISIBLE);
-        shuttleSection.setVisibility(View.GONE);
-        animatTransport();
-
-
-    } //OnCreate close
+    }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        changeRoute =0;
-        if (item.getItemId() == R.id.route0) {  changeRoute =0;  }
-        else if (item.getItemId() == R.id.route1) {changeRoute=1; }
-        else if (item.getItemId() == R.id.route2) { changeRoute=2; }
-        else if (item.getItemId() == R.id.route3) { changeRoute=3; }
-        else if (item.getItemId() == R.id.route4) { changeRoute=4; }
-        else if (item.getItemId() == R.id.route5) { changeRoute=5; }
-        else if (item.getItemId() == R.id.route6) { changeRoute=6; }
-        else if (item.getItemId() == R.id.route7) { changeRoute=7; }
-        else if (item.getItemId() == R.id.route8) { changeRoute=8; }
-
-        transportFROM = new helper_shuttles().getRouteName(changeRoute)[0];
-        transportTO = new helper_shuttles().getRouteName(changeRoute)[1];
-        isBuggy = Integer.valueOf(new helper_shuttles().getRouteName(changeRoute)[2]);
-        changeShuttleText();
-
-        return true;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-
-            case R.id.home_shuttle_Section:
-                GeneralAnimationFlow(v, shuttleSection, shuttleAnimation, shuttleOption);
-                break;
-            case R.id.home_contact_Section:
-                GeneralAnimationFlow(v, contactSection, contactAnimation, contactOption);
-                break;
-            case R.id.home_updates_Section:
-                GeneralAnimationFlow(v, updatesSection,updatesAnimation,updatesOption);
-                break;
-            case R.id.home_other_Section:
-                GeneralAnimationFlow(v, otherSection,otherAnimation,otherOption);
-                break;
-            case R.id.home_fav_layout:
-                Intent intent7 = new Intent(Home.this,Activity_Contact.class);
-                intent7.putExtra("switch","1");
-                startActivity(intent7);
-                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
-                break;
-            case R.id.home_allcontact_layout:
-                Intent intent6 = new Intent(Home.this,Activity_Contact.class);
-                intent6.putExtra("switch","0");
-                startActivity(intent6);
-                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
-                break;
-            case R.id.home_moderator_layout:
-                Intent intent3 = new Intent(Home.this,Activity_GCMModeration.class);
-                startActivity(intent3);
-                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
-                break;
-            case R.id.home_register_layout:
-                Intent intent = new Intent(Home.this,Activity_GCMRegistration.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
-                break;
-            case R.id.home_log_layout:
-                Intent intent2 = new Intent(Home.this,Activity_NotificationReceiver.class);
-                startActivity(intent2);
-                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
-                break;
-            case R.id.home_otherinfo_layout:
-                Intent intent4 = new Intent(Home.this,Activity_Extra.class);
-                startActivity(intent4);
-                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
-                break;
-            case R.id.home_settings_layout:
-                Intent intent5 = new Intent(Home.this,Settings.class);
-                startActivity(intent5);
-                overridePendingTransition(R.anim.activity_slide_left, R.anim.activity_slide_left_half);
-                break;
-            case R.id.home_viewmore_layout:
-                Intent intent8 = new Intent(Home.this, Activity_Shuttles.class);
-                intent8.putExtra("switch", String.valueOf(changeRoute));
-                startActivity(intent8);
-                overridePendingTransition(R.anim.activity_slide_right, R.anim.activity_right_half);
-                break;
-
-            case R.id.home_textHolder:
-                popup = new PopupMenu(Home.this,shuttleName );
-                //Inflating the Popup using xml file
-                popup.getMenuInflater().inflate(R.menu.home_shuttle_to_fram_menu, popup.getMenu());
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(this);
-                popup.show();
-                break;
-
-
-            default:
-                break;
+    public void onMapReady(GoogleMap map) {
+        googleMap=map;
+        MapsInitializer.initialize(getBaseContext());
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+        if (googleMap!=null){
+            googleMap.setOnMapClickListener(this);
+            updateMapContents(coord);
         }
 
-
     }
 
+    protected void updateMapContents(LatLng coord) {
+        // Since the mapView is re-used, need to remove pre-existing mapView features.
+        googleMap.clear();
+        // Update the mapView feature data and camera position.
+        googleMap.addMarker(new MarkerOptions()
+                .position(coord));
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coord, 10f);
+        googleMap.moveCamera(cameraUpdate);
+        googleMap.animateCamera( CameraUpdateFactory.zoomTo( 14.0f ) ); //Zoom level
 
-    private static boolean doesDatabaseExist(Context context, String dbName) {
-        File dbFile = context.getDatabasePath(dbName);
-        return dbFile.exists();
-    }
-
-
-    // Animation to fill section
-    public void FillAnimation(final View currentView, final View animatedWindows, final View targetView, int x, int y,int startRadius, int endRadius, boolean flag) {
-
-        Animator anim = null;
-        final int id = currentView.getId();
-
-        //Animation will work only of android 21 and above
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-
-            if (flag) {
-
-                anim = ViewAnimationUtils.createCircularReveal(animatedWindows, x, y, startRadius, endRadius);
-                anim.setDuration(500);
-                anim.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                        targetView.setVisibility(View.VISIBLE);
-                        targetView.startAnimation(alphaAnimation);
-                        animatTransport();
-                        animateContact();
-                        animateUpdate();
-                        animateOther();
-                    }
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        currentView.setVisibility(View.GONE);
-                    }
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                    }
-                });
-                animatedWindows.setVisibility(View.VISIBLE);
-                anim.start();
-                flag = false;
+        if(currentRoute==8){
+            PolygonOptions rectOptions = new PolygonOptions();
+            String[] stringarray = getResources().getStringArray(R.array.canara_bank_layout);
+            for (String point : stringarray){
+                String cLat = point.split(",")[0];
+                String cLong = point.split(",")[1];
+                rectOptions.add(new LatLng(Double.parseDouble(cLat),Double.parseDouble(cLong)));
             }
-            else{
-                anim = ViewAnimationUtils.createCircularReveal(animatedWindows, x, y, endRadius, startRadius);
-                anim.setDuration(400);
-                anim.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
-                        targetView.setVisibility(View.GONE);
-                        targetView.startAnimation(exitAnimation);
-
-                    }
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-                        animatedWindows.setVisibility(View.GONE);
-                    }
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-                    }
-                });
-                anim.start();
-                flag = true;
-
-            }
-        }
-        //COMPATIBILITY CHECK
-        //Change for devices with lower android version
-        else{
-            if (flag) {
-                targetView.setVisibility(View.VISIBLE);
-                animatedWindows.setVisibility(View.VISIBLE);
-            }
-            else{
-                targetView.setVisibility(View.GONE);
-                animatedWindows.setVisibility(View.GONE);
-                flag = true;
-            }
-
-        }
-    }
-
-    public void GeneralAnimationFlow(View v, View section, View animation, View options ){
-        int x,y;
-
-        switch (v.getId()){
-            case R.id.home_shuttle_Section:
-                x=v.getRight(); y = v.getBottom(); break;
-            case R.id.home_contact_Section:
-                x=v.getLeft(); y=v.getBottom(); break;
-            case R.id.home_updates_Section:
-                x=v.getRight(); y=v.getTop(); break;
-            case R.id.home_other_Section:
-                x=v.getLeft(); y=v.getTop(); break;
-            default:
-                x=v.getLeft(); y=v.getBottom(); break;
-
-        }
-        SetDefaultView();
-        FillAnimation(section, animation, options, x, y, 0, screen_H, true);
-    }
-
-
-    public void SetDefaultView (){
-
-        shuttleAnimation.setVisibility(View.GONE);
-        shuttleSection.setVisibility(View.VISIBLE);
-        shuttleOption.setVisibility(View.GONE);
-
-        contactAnimation.setVisibility(View.GONE);
-        contactSection.setVisibility(View.VISIBLE);
-        contactOption.setVisibility(View.GONE);
-
-        updatesAnimation.setVisibility(View.GONE);
-        updatesSection.setVisibility(View.VISIBLE);
-        updatesOption.setVisibility(View.GONE);
-
-        otherAnimation.setVisibility(View.GONE);
-        otherSection.setVisibility(View.VISIBLE);
-        otherOption.setVisibility(View.GONE);
-
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(GCMConstants.DATA_Registered, false)){
-            ImageView im = (ImageView)findViewById(R.id.home_registerButton);
-            TextView text = (TextView)findViewById(R.id.home_registration_caption);
-            im.setBackgroundResource(R.drawable.icon_unregistration);
-            text.setText("Unregister");
+            rectOptions.fillColor(R.color.map_polygone_overlay);
+            googleMap.addPolygon(rectOptions);
         }
 
-
     }
-
-    private void animateContact(){
-        LinearLayout l1 = (LinearLayout)findViewById(R.id.home_fav_layout);
-        final LinearLayout l2 = (LinearLayout)findViewById(R.id.home_allcontact_layout);
-        ObjectAnimator animY = ObjectAnimator.ofFloat(l1, "translationY", -1000f, 0f);
-        animY.setDuration(300);
-        animY.setInterpolator(new OvershootInterpolator((float) 1.5));
-        animY.setRepeatCount(0);
-        animY.start();
-        ObjectAnimator animY2 = ObjectAnimator.ofFloat(l2, "translationY", -1000f, 0f);
-        animY2.setDuration(500);
-        animY2.setInterpolator(new OvershootInterpolator());
-        animY2.setRepeatCount(0);
-        animY2.start();
-
-
-    }
-
-    private void animateUpdate(){
-        LinearLayout l1 = (LinearLayout)findViewById(R.id.home_moderator_layout);
-        LinearLayout l2 = (LinearLayout)findViewById(R.id.home_register_layout);
-        LinearLayout l3 = (LinearLayout)findViewById(R.id.home_log_layout);
-
-        ObjectAnimator animY = ObjectAnimator.ofFloat(l1, "translationY", -1000f, 0f);
-        animY.setDuration(300);
-        animY.setInterpolator(new AccelerateInterpolator((float) 1.5));
-        animY.setRepeatCount(0);
-        animY.start();
-        ObjectAnimator animY2 = ObjectAnimator.ofFloat(l2, "translationY", -1000f, 0f);
-        animY2.setDuration(500);
-        animY2.setInterpolator(new OvershootInterpolator());
-        animY2.setRepeatCount(0);
-        animY2.start();
-        ObjectAnimator animY3 = ObjectAnimator.ofFloat(l3, "translationY", -1000f, 0f);
-        animY3.setDuration(700);
-        animY3.setInterpolator(new OvershootInterpolator());
-        animY3.setRepeatCount(0);
-        animY3.start();
-
-
-    }
-
-    private void animateOther(){
-        LinearLayout l1 = (LinearLayout)findViewById(R.id.home_settings_layout);
-        LinearLayout l2 = (LinearLayout)findViewById(R.id.home_otherinfo_layout);
-
-        ObjectAnimator animY = ObjectAnimator.ofFloat(l1, "translationY", -1000f, 0f);
-        animY.setDuration(300);
-        animY.setInterpolator(new OvershootInterpolator ((float) 1.5));
-        animY.setRepeatCount(0);
-        animY.start();
-        ObjectAnimator animY2 = ObjectAnimator.ofFloat(l2, "translationY", -1000f, 0f);
-        animY2.setDuration(500);
-        animY2.setInterpolator(new OvershootInterpolator());
-        animY2.setRepeatCount(0);
-        animY2.start();
-
-
-
-    }
-
-    public void animatTransport(){
-        LinearLayout l1 = (LinearLayout)findViewById(R.id.home_viewmore_layout);
-        TextView t1 = (TextView)findViewById(R.id.home_shuttleName_text);
-        TextView t2 = (TextView)findViewById(R.id.home_shuttle_note);
-        TextView t3 = (TextView)findViewById(R.id.home_shuttle_timeleft);
-        TextView t4 = (TextView)findViewById(R.id.home_nextShuttle);
-
-        ObjectAnimator animY = ObjectAnimator.ofFloat(l1, "translationY", -1000f, 0f);
-        animY.setDuration(300);
-        animY.setInterpolator(new OvershootInterpolator ((float) 1.5));
-        animY.setRepeatCount(0);
-        animY.start();
-        ObjectAnimator animY2 = ObjectAnimator.ofFloat(t3, "translationY", -1000f, 0f);
-        animY2.setDuration(400);
-        animY2.setInterpolator(new OvershootInterpolator ((float) 1.5));
-        animY2.setRepeatCount(0);
-        animY2.start();
-        ObjectAnimator animY3 = ObjectAnimator.ofFloat(t4, "translationY", -1000f, 0f);
-        animY3.setDuration(500);
-        animY3.setInterpolator(new OvershootInterpolator ((float) 1.5));
-        animY3.setRepeatCount(0);
-        animY3.start();
-        ObjectAnimator animY4 = ObjectAnimator.ofFloat(t1, "translationY", -1000f, 0f);
-        animY4.setDuration(600);
-        animY4.setInterpolator(new OvershootInterpolator ((float) 1.5));
-        animY4.setRepeatCount(0);
-        animY4.start();
-        ObjectAnimator animY5 = ObjectAnimator.ofFloat(t2, "translationY", -1000f, 0f);
-        animY5.setDuration(600);
-        animY5.setInterpolator(new OvershootInterpolator ((float) 1.5));
-        animY5.setRepeatCount(0);
-        animY5.start();
-
-    }
-
-    //Timer functions
-
-    private void TimerMethod() {
+    private void runTimer() {
         this.runOnUiThread(Timer_Tick);
     }
     private Runnable Timer_Tick = new Runnable() {
         public void run() {
-            //Content Here
-            //TODO
-            changeShuttleText();
-
+            changeTransportText();
         }
     };
-    public void changeShuttleText(){
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra(MapActivity.EXTRA_LATITUDE, coord.latitude);
+        intent.putExtra(MapActivity.EXTRA_LONGITUDE, coord.longitude);
+        intent.putExtra(MapActivity.EXTRA_ROUTE, currentRoute);
+        startActivity(intent);
+    }
+
+
+    public void changeTransportText(){
         String tempText;
-        if (isBuggy==1){tempText="Next Buggy from";}
-        else {tempText="Next Shuttle from";}
-        shuttleNote.setText(tempText);
+        if (isBuggy==1){tempText="Next Buggy ";}
+        else {tempText="Next Shuttle ";}
         Calendar c2 = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Calendar nextDate = new helper_shuttles().NextTransport(transportFROM, transportTO, format.format(c2.getTime()), isBuggy);
+        Calendar nextDate = new TransportFunctions().NextTransport(transportFrom, transportTo, format.format(c2.getTime()), isBuggy);
         SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        nextShuttle.setText(dformat.format(nextDate.getTime()));
+        nextText.setText(tempText+dformat.format(nextDate.getTime()));
 
-        float[] Difference = new helper_shuttles().TimeLeft(format.format(c2.getTime()), format.format(nextDate.getTime()));
+        float[] Difference = new TransportFunctions().TimeLeft(format.format(c2.getTime()), format.format(nextDate.getTime()));
 
-        timeleft.setText("" + ((int) Difference[2]) + " Hrs " + ((int) Difference[1]) + " Min " + ((int) Difference[0])+" Sec left");
+        footer.setText("" + ((int) Difference[2]) + " Hrs " + ((int) Difference[1]) + " Min " + ((int) Difference[0])+" Sec left");
 
-        String tempString = transportFROM.toUpperCase()+"-"+transportTO.toUpperCase();
-        shuttleName.setText(tempString);
+        String tempString = transportFrom.toUpperCase()+"-"+transportTo.toUpperCase();
+        title.setText(tempString);
 
-        int hurryUp = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsConstants.HOME_HURRYUP_COLOR,5);
-        if (Difference[1]<hurryUp && Difference[2]==0.0){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                nextShuttle.setTextColor(getResources().getColor(R.color.home_hurryup_color,getTheme()));
-            }
-            else
-            {nextShuttle.setTextColor(getResources().getColor(R.color.home_hurryup_color));}
+    }
+
+    public int changeRoute(int currentRoute, boolean isNext){
+        int route = currentRoute;
+        if(isNext){
+            route=route+1;
+            if (route>8){route=0;}
         }
         else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                nextShuttle.setTextColor(getResources().getColor(R.color.home_shuttle_info_color,getTheme()));
-            }
-            else
-            {nextShuttle.setTextColor(getResources().getColor(R.color.home_shuttle_info_color));}
+            route=route-1;
+            if(route<0){route=8;}
+        }
+        return route;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.previousRoute:
+                currentRoute = changeRoute(currentRoute,false);
+                transportFrom = new TransportFunctions().getRouteName(currentRoute)[0];
+                transportTo = new TransportFunctions().getRouteName(currentRoute)[1];
+                isBuggy = Integer.valueOf(new TransportFunctions().getRouteName(currentRoute)[2]);
+                coord = new TransportFunctions().getLocation(getBaseContext(),transportTo,isBuggy);
+                updateMapContents(coord);
+                changeTransportText();
+                break;
+            case R.id.nextRoute:
+                currentRoute=changeRoute(currentRoute,true);
+                transportFrom = new TransportFunctions().getRouteName(currentRoute)[0];
+                transportTo = new TransportFunctions().getRouteName(currentRoute)[1];
+                isBuggy = Integer.valueOf(new TransportFunctions().getRouteName(currentRoute)[2]);
+                coord = new TransportFunctions().getLocation(getBaseContext(),transportTo,isBuggy);
+                updateMapContents(coord);
+                changeTransportText();
+                break;
+            case R.id.home_icon_settings:
+                startActivity(new Intent(this,Settings.class)); break;
+            case R.id.home_icon_updates:
+                startActivity(new Intent(this,EventUpdates.class)); break;
+            case R.id.home_icon_transport:
+                Intent i1 = new Intent(this, Transport.class);
+                i1.putExtra(General.GEN_TRANSPORT_INTENT,String.valueOf(currentRoute));
+                startActivity(i1);break;
+            case R.id.home_icon_showall:
+                startActivity(new Intent(this,MapListActivityImpl.class));break;
+            default:
+                Toast.makeText(getBaseContext(),"No item found",Toast.LENGTH_LONG).show();break;
 
         }
-     }
-
-
+    }
 }

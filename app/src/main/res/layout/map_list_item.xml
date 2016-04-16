@@ -1,0 +1,46 @@
+
+<com.rohitsuratekar.NCBSinfo.maplist.MapCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/map_card_vertical_margin"
+    android:layout_marginBottom="@dimen/map_card_vertical_margin"
+    android:layout_marginLeft="@dimen/map_card_horizontal_margin"
+    android:layout_marginRight="@dimen/map_card_horizontal_margin"
+    android:clickable="true"
+    android:onClick="showMapDetails"
+    card_view:cardCornerRadius="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            style="@style/MapCardTitle" />
+
+        <com.google.android.gms.maps.MapView
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:layout_below="@id/title"
+            map:liteMode="true" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mapview"
+            android:text="description"
+            style="@style/MapCardDescription" />
+
+    </RelativeLayout>
+</com.rohitsuratekar.NCBSinfo.maplist.MapCardView>

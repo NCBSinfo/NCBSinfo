@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/icon_home"
+            android:title="Home" />
+
+        <item android:icon="@drawable/icon_shuttle"
+            android:id="@+id/nav_transport"
+            android:title="Transport"
+            android:checked="true"/>
+        <item
+            android:id="@+id/nav_updates"
+            android:icon="@drawable/icon_updates"
+            android:title="Updates" />
+        <item
+            android:id="@+id/nav_experimental"
+            android:icon="@drawable/icon_experimental"
+            android:title="Experimental" />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/icon_settings"/>
+    </group>
+
+    <item android:title="Transport"
+        android:icon="@drawable/icon_shuttle">
+        <menu>
+            <item
+                android:id="@+id/nav_shuttle_ncbs_iisc"
+                android:title="NCBS-IISc" />
+            <item
+                android:id="@+id/nav_shuttle_iisc_ncbs"
+                android:title="IISc-NCBS" />
+            <item
+                android:id="@+id/nav_shuttle_ncbs_mandara"
+                android:title="NCBS-Mandara" />
+            <item
+                android:id="@+id/nav_shuttle_mandara_ncbs"
+                android:title="Mandara-NCBS" />
+            <item
+                android:id="@+id/nav_buggy"
+                android:title="Buggy" />
+            <item
+                android:id="@+id/nav_shuttle_ncbs_icts"
+                android:title="NCBS-ICTS" />
+            <item
+                android:id="@+id/nav_shuttle_icts_ncbs"
+                android:title="ICTS-NCBS" />
+            <item
+                android:id="@+id/nav_shuttle_ncbs_cbl"
+                android:title="NCBS-CBL" />
+        </menu>
+    </item>
+
+
+
+</menu>

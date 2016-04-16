@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="setings_onDev"
+        android:summary="Let you control lot of options for your app"
+        android:title="Switch On"/>
+    <PreferenceCategory
+        android:key="settings_devoptions"
+        android:title="Developers Log">
+    <Preference
+        android:key="setting_gotoDevLog"
+        android:summary="Check every action performed by this app"
+        android:title="Check Log"/>
+
+    <com.rohitsuratekar.NCBSinfo.helpers.NumberPickerPreference
+            android:key="settings_dev_log_items"
+            android:title="Log Entries"
+            android:summary="Set number of log entries"
+            android:defaultValue="@integer/settings_log_entries_default" />
+    </PreferenceCategory>
+<PreferenceCategory
+    android:key="setting_network_related"
+    android:title="Network Control">
+    <Preference
+        android:key="settings_sync_now"
+        android:title="Sync Data"/>
+</PreferenceCategory>
+</PreferenceScreen>
