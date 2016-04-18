@@ -1,19 +1,14 @@
 package com.rohitsuratekar.NCBSinfo.activity;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -79,7 +74,7 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.registration);
         //Change Registration preference
 
-        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_action_bar);
 
         animcounter = 0;
@@ -393,7 +388,11 @@ public class Registration extends AppCompatActivity {
     private void sendForm (boolean[] codeSequence){
         progress.setMessage("Almost Done...");
         Commands formservice = Service.createService(Commands.class);
-        Call<ResponseBody> call = formservice.submitForm(inputName.getText().toString(), inputEmail.getText().toString(), regId,new NetworkRelated().getTopicCode(codeSequence),"Submit");
+        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_REGISTERED,false)){
+            inputName.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(Preferences.PREF_USERNAME,"Username"));
+            inputEmail.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(Preferences.PREF_EMAIL,"email"));
+           }
+        Call<ResponseBody> call = formservice.submitForm(inputName.getText().toString(), inputEmail.getText().toString(), regId, new NetworkRelated().getTopicCode(codeSequence), "Submit");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

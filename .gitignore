@@ -6,3 +6,5 @@
 .DS_Store
 /build
 /captures
+app/src/main/java/com/rohitsuratekar/NCBSinfo/constants/Network.java
+gradle.properties

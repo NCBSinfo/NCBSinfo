@@ -22,6 +22,7 @@ public class StatusCodes {
     public static final int STATUS_AFTERBOOT = 7;
     public static final int STATUS_ONUPGRADE = 8;
     public static final int STATUS_ALARM_FAILED = 14;
+    public static final int STATUS_OPTIMIZED_ALARMS = 25;
 
     //Notifications
     public static final int STATUS_DAILYNOTIFICATIONS = 9;
@@ -29,6 +30,7 @@ public class StatusCodes {
     public static final int STATUS_EVENTNOTIFIED = 11;
     public static final int STATUS_SET_NOTIFICATION = 12;
     public static final int STATUS_DAILYNOTE_RESET = 13;
+
 
     //GCM
     public static final int STATUS_GCM_RECEIVED = 21;

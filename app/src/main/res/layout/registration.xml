@@ -21,7 +21,7 @@
         android:layout_alignParentEnd="true"
         android:gravity="center"
         android:id="@+id/first_main_elements"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="vertical"
@@ -89,7 +89,7 @@
         android:layout_alignLeft="@+id/first_main_elements"
         android:layout_alignStart="@+id/first_main_elements"
         android:id="@+id/first_gcm_options"
-        android:visibility="gone"
+        android:visibility="visible"
         android:gravity="bottom">
 
         <ImageView
@@ -129,7 +129,7 @@
             <CheckBox
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="CBJC"
+                android:text="CBJC and DBJC"
                 android:id="@+id/check_jc"
                 android:layout_gravity="center_horizontal"
                 android:checked="false" />

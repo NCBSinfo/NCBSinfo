@@ -82,6 +82,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LatLng coords = new LatLng(lat, lng);
         googleMap.addMarker(new MarkerOptions().position(coords));
+        googleMap.getUiSettings().setMapToolbarEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coords, 10f);
         googleMap.moveCamera(cameraUpdate);
         googleMap.animateCamera( CameraUpdateFactory.zoomTo( 14.0f ) ); //Zoom level

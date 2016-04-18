@@ -180,6 +180,12 @@ public class StatusConverter {
                 _category = StatusCodes.STATCAT_APPLICATION;
                 _status = StatusCodes.TYPE_ERROR;
                 break;
+            case StatusCodes.STATUS_OPTIMIZED_ALARMS:
+                _message = "Data fetching set to optimized settings";
+                _details = "Data fetching service restarted with default settings";
+                _category = StatusCodes.STATCAT_DAILY;
+                _status = StatusCodes.TYPE_SUCCESSFUL;
+                break;
 
             default:
                 _message = "Unknown Code";

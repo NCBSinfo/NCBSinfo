@@ -10,4 +10,11 @@
         android:positiveButtonText="@null"
         android:title="Default view" />
 
+    <EditTextPreference
+        android:key="setting_hurryup"
+        android:title="Hurry up time\n (in min)"
+        android:summary="Time left color will turn red if next transport is within this time period"
+        android:inputType="number"
+        />
+
 </PreferenceScreen>

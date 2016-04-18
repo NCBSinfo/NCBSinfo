@@ -15,6 +15,7 @@ import com.rohitsuratekar.NCBSinfo.models.LogModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,8 +40,8 @@ public class DevelopersLogAdapter extends RecyclerView.Adapter<DevelopersLogAdap
             layout1 = (LinearLayout)view.findViewById(R.id.fetch_logLayout);
 
         }
-    }
 
+    }
 
     public DevelopersLogAdapter(List<LogModel> entryList) {
         this.entryList = entryList;

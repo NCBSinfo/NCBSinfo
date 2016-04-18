@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -50,7 +51,6 @@ public class Notifications extends BroadcastReceiver {
                 break;
             default:
                 new LogEntry(context, StatusCodes.STATUS_FAILED_NOTIFICATIONS);
-                Log.i("Wrong code", "in notification");
                 break;
         }
 
@@ -130,7 +130,14 @@ public class Notifications extends BroadcastReceiver {
                         int requestID = new GeneralHelp().getMiliseconds(entry.getTimestamp());
                         PendingIntent sender = PendingIntent.getBroadcast(mContext, requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         AlarmManager alarmMgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-                        alarmMgr.set(AlarmManager.RTC_WAKEUP, cal3.getTimeInMillis(), sender);
+                        //Compatibility
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, cal3.getTimeInMillis(), sender);
+                        }
+                        else
+                        {
+                            alarmMgr.set(AlarmManager.RTC_WAKEUP, cal3.getTimeInMillis(), sender);
+                        }
                         entry.setActioncode(SQL.ACTION_SEND);
                         if(entry.getDatacode().equals("RTALK")){
                         db.updateTalkEntry(new GeneralHelp().CommonEventToTalk(entry));}

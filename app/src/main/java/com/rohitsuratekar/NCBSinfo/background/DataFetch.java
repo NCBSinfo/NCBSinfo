@@ -34,7 +34,6 @@ public class DataFetch extends IntentService {
         String serviceswitch = intent.getStringExtra(General.GEN_SERIVICE_SWITCH);
         //Switch Activities
         if (serviceswitch.equals(Network.NET_START_FETCHING)){ loadData(this);}
-
     }
 
     public void loadData(final Context context) {
@@ -86,7 +85,7 @@ public class DataFetch extends IntentService {
                     }
 
                     String detailchange = "Request to server is successful and number of entries added to "+datacode+ " : "  +numberOfentries;
-                    if(numberOfentries==0){new LogEntry(getBaseContext(),StatusCodes.STATUS_DATARETRIVED);}
+                    if(numberOfentries==0){ new LogEntry(getBaseContext(),StatusCodes.STATUS_DATARETRIVED);}
                     else {
                         new LogEntry(getBaseContext(),StatusCodes.STATUS_DATARETRIVED,detailchange);
                         Intent notservice=new Intent(context,Notifications.class);
@@ -140,7 +139,8 @@ public class DataFetch extends IntentService {
                     }
 
                     String detailchange = "Request to server is successful and number of entries added to talks : "+numberOfentries;
-                    if(numberOfentries==0){new LogEntry(getBaseContext(),StatusCodes.STATUS_DATARETRIVED);}
+                    if(numberOfentries==0){
+                        new LogEntry(getBaseContext(),StatusCodes.STATUS_DATARETRIVED);}
                     else {
                         new LogEntry(getBaseContext(),StatusCodes.STATUS_DATARETRIVED,detailchange);
                         Intent notservice=new Intent(context,Notifications.class);

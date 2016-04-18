@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -18,6 +19,7 @@ import android.preference.SwitchPreference;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.background.DataFetch;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Network;
+import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
 import com.rohitsuratekar.NCBSinfo.helpers.AppCompatPreferenceActivity;
 import com.rohitsuratekar.NCBSinfo.helpers.NumberPickerPreference;
@@ -46,19 +49,29 @@ public class Settings extends AppCompatPreferenceActivity {
 
             String prefkey = preference.getKey();
 
-            if(prefkey.equals(SettingsRelated.SETTINGS_TRANSPORT_ROUTES)) {
-                String stringValue = String.valueOf(value);
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(SettingsRelated.HOME_DEFAULT_ROUTE, Integer.parseInt(stringValue)).apply(); // value to store
-                if (activitystart==0){activitystart++;}
-                else{
-                    preference.getContext().startActivity(new Intent(preference.getContext(), Home.class));
-                    activitystart=0;}
+           if(prefkey.equals(SettingsRelated.SETTINGS_TRANSPORT_ROUTES)) {
+               SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
+               SharedPreferences.Editor editor = preferences.edit();
+               editor.putInt(SettingsRelated.HOME_DEFAULT_ROUTE, Integer.parseInt(String.valueOf(value))).apply(); // value to store
+             }
 
-            }
+           if(prefkey.equals("setting_dataFetchFrequency")) {
+                    EditTextPreference EditPreference = (EditTextPreference) preference;
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    int currentFrequency;
+                     if (EditPreference.getText()!=null){
+                    currentFrequency = Integer.parseInt(EditPreference.getText());}
+                    else {
+                        currentFrequency = 120; //Default value
+                        ((EditTextPreference) preference).setText(String.valueOf(120));
+                    }
+                    currentFrequency = currentFrequency*60;
+                    editor.putInt(Preferences.PREF_ALARM_FREQUENCY,currentFrequency).apply();
+           }
 
-           if (preference instanceof ListPreference) {
+
+       if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
@@ -74,7 +87,7 @@ public class Settings extends AppCompatPreferenceActivity {
             } else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
-                preference.setSummary(value.toString());
+                preference.setSummary(String.valueOf(value));
             }
             return true;
         }
@@ -112,7 +125,19 @@ public class Settings extends AppCompatPreferenceActivity {
                             preference.getContext()).getInt(preference.getKey(),0));
 
         }
-        else {
+        else if (preference instanceof EditTextPreference){
+
+             if (preference.getKey()!=null) {
+
+                 sBindPreferenceSummaryToValueListener.onPreferenceChange(
+                         preference,
+                         PreferenceManager.getDefaultSharedPreferences(
+                                 preference.getContext()).getString(preference.getKey(), "null"));
+             }
+
+
+         }
+        else{
              sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                      PreferenceManager
                              .getDefaultSharedPreferences(preference.getContext())
@@ -248,7 +273,33 @@ public class Settings extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
+
+          EditTextPreference setHurryup = (EditTextPreference) findPreference("setting_hurryup");
+            setHurryup.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    EditTextPreference EditPreference = (EditTextPreference) preference;
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    float hurryupMin;
+                    if(EditPreference.getText()!=null){
+                        hurryupMin = Float.parseFloat(EditPreference.getText());
+
+                    }
+                    else {
+                        hurryupMin = 5;
+                    }
+                    editor.putFloat(SettingsRelated.SETTING_HURRY_UP_TIME,hurryupMin).apply();
+                    if (activitystart==0){activitystart++;}
+                    else{
+                        preference.getContext().startActivity(new Intent(preference.getContext(), Home.class));
+                        activitystart=0;}
+                    return false;
+                }
+            });
+            bindPreferenceSummaryToValue(findPreference("setting_hurryup"));
             bindPreferenceSummaryToValue(findPreference(SettingsRelated.SETTINGS_TRANSPORT_ROUTES));
+
         }
 
         @Override
@@ -320,7 +371,41 @@ public class Settings extends AppCompatPreferenceActivity {
                 }
             });
 
+            final EditTextPreference frequency = (EditTextPreference)findPreference("setting_dataFetchFrequency");
+            final SwitchPreference autoOn = (SwitchPreference)findPreference(SettingsRelated.SETTINGS_DATA_FETCH_FREQUENCY);
+            if(autoOn.isChecked()){
+                frequency.setEnabled(true);
+                autoOn.setSummary("Manual");
+            }
+            else
+            {
+                frequency.setEnabled(false);
+                autoOn.setSummary("Optimized");
+            }
+            final SharedPreferences freq;
+            freq = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            autoOn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    if(autoOn.isChecked()){
+                        frequency.setEnabled(true);
+                        autoOn.setSummary("Manual");
+                        freq.edit().putBoolean(SettingsRelated.SETTINGS_OPTIMIZED_DATA_SYNC,false).apply();
+                    }
+                    else
+                    {
+                        frequency.setEnabled(false);
+                        autoOn.setSummary("Optimized");
+                        freq.edit().putBoolean(SettingsRelated.SETTINGS_OPTIMIZED_DATA_SYNC,true).apply();
+                    }
+
+                    return true;
+                }
+            });
+
             bindPreferenceSummaryToValue(findPreference(SettingsRelated.SETTINGS_DEVELOPERS_LOG_ITEMS));
+            bindPreferenceSummaryToValue(findPreference("setting_dataFetchFrequency"));
 
 
         }
@@ -352,7 +437,7 @@ public class Settings extends AppCompatPreferenceActivity {
                     public boolean onPreferenceClick(Preference preference) {
 
                         startActivity(new Intent(getActivity().getBaseContext(), Registration.class));
-                        return false;
+                        return true;
                     }
                 });
 

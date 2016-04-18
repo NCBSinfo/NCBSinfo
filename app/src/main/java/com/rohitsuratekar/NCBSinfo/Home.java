@@ -3,11 +3,14 @@ package com.rohitsuratekar.NCBSinfo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +42,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static android.app.ActionBar.DISPLAY_SHOW_CUSTOM;
-
 public class Home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
     GoogleMap googleMap;
     TextView title,footer,nextText;
@@ -49,6 +50,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     LatLng coord;
     String transportFrom, transportTo;
     int isBuggy, currentRoute;
+    LinearLayout footerHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +62,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             startActivity(new Intent(this, Registration.class));
         }
 
-
-        //Give warning to users if Android version is lower than 5.0
+       //Give warning to users if Android version is lower than 5.0
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.ANDROID_VERSION_WARNING, true)) {
 
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -80,28 +81,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             }
         }
 
-        //Give warning to users with larger screen size
-        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.ANDROID_SCREENSIZE_WARNING, true)) {
-
-            if (getResources().getDimension(R.dimen.tablet_check) == 20) {
-
-                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
-                alertDialog.setTitle("Compatibility mode");
-                alertDialog.setMessage("This app is designed for small screen size. It looks like you are using device with larger screen size. You might face some UI issues.");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                       PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(Preferences.ANDROID_SCREENSIZE_WARNING, false).apply();
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-
-            }
-        }
-
-
         //App name in middle
-        getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_action_bar);
 
         //set default values
@@ -111,7 +92,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         isBuggy = Integer.valueOf(new TransportFunctions().getRouteName(currentRoute)[2]);
 
        coord = new TransportFunctions().getLocation(getApplicationContext(),transportTo,isBuggy);
-
+       footerHolder = (LinearLayout)findViewById(R.id.home_footerHolder);
        title = (TextView)findViewById(R.id.home_cardview_title);
        footer = (TextView)findViewById(R.id.home_cardView_Footer);
        nextText = (TextView)findViewById(R.id.home_cardView_nextText);
@@ -210,8 +191,18 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
 
     public void changeTransportText(){
         String tempText;
-        if (isBuggy==1){tempText="Next Buggy ";}
-        else {tempText="Next Shuttle ";}
+        if (isBuggy==1){
+            tempText="Next Buggy ";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor,getTheme()));
+            } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor));}
+        }
+        else {
+            tempText="Next Shuttle ";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary,getTheme()));
+            } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));}
+        }
         Calendar c2 = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         Calendar nextDate = new TransportFunctions().NextTransport(transportFrom, transportTo, format.format(c2.getTime()), isBuggy);
@@ -224,6 +215,19 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
 
         String tempString = transportFrom.toUpperCase()+"-"+transportTo.toUpperCase();
         title.setText(tempString);
+        float minLeft = Difference[2]*60 + Difference[1];
+        if(minLeft<PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getFloat(SettingsRelated.SETTING_HURRY_UP_TIME,5)){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                footer.setTextColor(getResources().getColor(R.color.hurryupColor,getTheme()));
+            } else {footer.setTextColor(getResources().getColor(R.color.hurryupColor));}
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                footer.setTextColor(getResources().getColor(R.color.normalColor,getTheme()));
+            } else {footer.setTextColor(getResources().getColor(R.color.normalColor));}
+
+        }
+
 
     }
 

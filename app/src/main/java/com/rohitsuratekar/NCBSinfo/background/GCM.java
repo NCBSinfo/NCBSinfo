@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
@@ -37,6 +36,12 @@ public class GCM extends GcmListenerService{
                     String dataID = data.getString(General.GEN_NOTIFICATION_DATA_ID,"null");
                     sendNotification(data.getString("title"), data.getString("message"),datacode,dataID);
                     break;
+                case Network.GCM_TOPIC_JC:
+                    new LogEntry(getBaseContext(), StatusCodes.STATUS_GCM_RECEIVED, new NetworkRelated().getTopicStrings(Network.GCM_TOPIC_JC));
+                    String datacode2 = data.getString(General.GEN_NOTIFICATION_DATACODE,"null");
+                    String dataID2 = data.getString(General.GEN_NOTIFICATION_DATA_ID,"null");
+                    sendNotification(data.getString("title"), data.getString("message"),datacode2,dataID2);
+                    break;
                 case Network.GCM_TOPIC_PUBLIC:
                     String rcode = data.getString(Network.GCM_CODE);
                     String codemessgae = "Action code: " + rcode;
@@ -50,6 +55,13 @@ public class GCM extends GcmListenerService{
                             updateNotification(data.getString("title"), data.getString("message"));
                         } else if (rcode.equals(Network.GCM_TRIGGER_DELETEENTRY)){
                             deleteEntry(data.getString("value", "null"));
+                        } else if (rcode.equals(Network.GCM_TOPIC_DEBUG)){
+                            //For developers. This will avoid other users to receive this notifications
+                            debugFunction();
+                        }
+                        else {
+                            String temp = "Unknown code : "+rcode;
+                            new LogEntry(getBaseContext(),StatusCodes.STATUS_NO_TOPIC,temp);
                         }
                     }
                     break;
@@ -59,6 +71,8 @@ public class GCM extends GcmListenerService{
             }
         }
     }
+
+
 
     private void sendNotification(String title, String notificationMessage, String datacode, String dataID) {
 
@@ -136,5 +150,9 @@ public class GCM extends GcmListenerService{
                 new LogEntry(getBaseContext(),StatusCodes.STATUS_ERROR_DELETING);
             }
         }
+    }
+
+    private void debugFunction() {
+    //Function Here !
     }
 }

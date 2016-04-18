@@ -24,6 +24,22 @@
     android:title="Network Control">
     <Preference
         android:key="settings_sync_now"
-        android:title="Sync Data"/>
+        android:title="Sync Data Now"/>
+
+
+    <SwitchPreference
+        android:key="settings_optimized_sync"
+        android:title="Data Sync Frequency"
+        android:summary="Default: Optimized"
+        android:checked="false"/>
+
+    <EditTextPreference
+        android:key="setting_dataFetchFrequency"
+        android:title="Current data fetch frequency \n (in min)"
+        android:summary="Set data fetch frequency"
+        android:inputType="number"
+        />
+
 </PreferenceCategory>
+
 </PreferenceScreen>

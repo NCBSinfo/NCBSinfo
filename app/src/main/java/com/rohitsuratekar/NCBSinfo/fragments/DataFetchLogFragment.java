@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
@@ -24,6 +26,8 @@ import com.rohitsuratekar.NCBSinfo.models.TalkModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,10 +44,19 @@ public class DataFetchLogFragment  extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.event_update_log, container, false);
         Database db = new Database(rootView.getContext());
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.event_log_recycleview);
         entrylist = db.getFullDatabase();
         Talklist = db.getTalkDatabase();
         commonList = new GeneralHelp().makeCommonList(entrylist,Talklist);
+        Collections.sort(commonList, new Comparator<CommonEventModel>(){
+            @Override
+            public int compare(CommonEventModel lhs, CommonEventModel rhs) {
+                Date entry1 = new Date(new GeneralHelp().getMiliseconds(lhs.getTimestamp()));
+                Date entry2 = new Date(new GeneralHelp().getMiliseconds(rhs.getTimestamp()));
+                return entry1.compareTo(entry2);
+            }
+        });
         EventLogAdapter log_adapter = new EventLogAdapter(commonList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -67,4 +80,5 @@ public class DataFetchLogFragment  extends Fragment {
 
         return rootView;
     }
+
 }
