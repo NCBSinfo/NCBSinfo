@@ -1,5 +1,7 @@
 package com.rohitsuratekar.NCBSinfo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -57,6 +59,46 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
             startActivity(new Intent(this, Registration.class));
         }
+
+
+        //Give warning to users if Android version is lower than 5.0
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.ANDROID_VERSION_WARNING, true)) {
+
+            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
+                alertDialog.setTitle("Compatibility mode");
+                alertDialog.setMessage("This app is best suited for Android Lollipop (21) and above. Your current android version is " + android.os.Build.VERSION.SDK_INT + " . Some animations and functions might not work properly. ");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                       PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(Preferences.ANDROID_VERSION_WARNING, false).apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+
+            }
+        }
+
+        //Give warning to users with larger screen size
+        if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.ANDROID_SCREENSIZE_WARNING, true)) {
+
+            if (getResources().getDimension(R.dimen.tablet_check) == 20) {
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
+                alertDialog.setTitle("Compatibility mode");
+                alertDialog.setMessage("This app is designed for small screen size. It looks like you are using device with larger screen size. You might face some UI issues.");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                       PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(Preferences.ANDROID_SCREENSIZE_WARNING, false).apply();
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+
+            }
+        }
+
 
         //App name in middle
         getSupportActionBar().setDisplayOptions(DISPLAY_SHOW_CUSTOM);

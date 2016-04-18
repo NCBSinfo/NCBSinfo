@@ -99,8 +99,8 @@ public class GeneralHelp {
         common.setActioncode(d.getActioncode());
         common.setSpeaker(d.getSpeaker());
         common.setVenue(d.getVenue());
-        common.setCommonItem1(d.getTitle());
-        common.setCommonItem2(d.getAffilication());
+        common.setCommonItem1(d.getAffilication());
+        common.setCommonItem2(d.getTitle());
         common.setCommonItem3(d.getHost());
         return common;
 
@@ -130,11 +130,12 @@ public class GeneralHelp {
         common.setSpeaker(d.getSpeaker());
         common.setVenue(d.getVenue());
         common.setTalkabstract(d.getCommonItem1());
-        common.setNextspeaker(d.getCommonItem2());
-        common.setUrl(d.getCommonItem3());
+        common.setNextspeaker(d.getCommonItem3());
+        common.setUrl(d.getCommonItem2());
         return common;
 
     }
+
 
     public TalkModel CommonEventToTalk (CommonEventModel d){
 

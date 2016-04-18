@@ -13,8 +13,6 @@
         android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-
-
     <uses-permission android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE" />
 
     <application

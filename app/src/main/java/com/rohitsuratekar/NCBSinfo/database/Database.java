@@ -1,24 +1,21 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
-import com.rohitsuratekar.NCBSinfo.models.CommonEventModel;
 import com.rohitsuratekar.NCBSinfo.models.DataModel;
 import com.rohitsuratekar.NCBSinfo.models.LogModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
 
+import java.io.File;
 import java.util.List;
 
 public class Database extends SQLiteOpenHelper {
@@ -130,9 +127,16 @@ public class Database extends SQLiteOpenHelper {
         if(cursor.getCount() <= 0){ cursor.close(); return false;
         } cursor.close(); return true; }
 
+    //Delete old entries by keep specific number of entries
     public void deleteOldEntries(String Tablename,String UID, int numberofEntriesToKeep ){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "DELETE FROM "+Tablename+" WHERE "+UID+" IN (SELECT "+UID+" FROM "+Tablename+" ORDER BY "+UID+" ASC LIMIT "+numberofEntriesToKeep+")";
         db.execSQL(Query);
+    }
+
+    //Delete Database
+    private static boolean doesDatabaseExist(Context context, String dbName) {
+        File dbFile = context.getDatabasePath(dbName);
+        return dbFile.exists();
     }
 }

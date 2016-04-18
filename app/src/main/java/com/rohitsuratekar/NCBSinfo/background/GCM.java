@@ -130,7 +130,7 @@ public class GCM extends GcmListenerService{
     private void deleteEntry(String Timestamp){
         if(!Timestamp.equals("null")){
             Database db = new Database(getBaseContext());
-            if(db.isAlreadyThere(SQL.TABLE_DATABASE,SQL.DATA_TIMESTAMP,SQL.DATA_TIMESTAMP)){
+            if(db.isAlreadyThere(SQL.TABLE_DATABASE,SQL.DATA_TIMESTAMP,Timestamp)){
             db.deleteDataEntry(db.getDatabaseEntry(db.getIDbyTimeStamp(Timestamp)));}
             else{
                 new LogEntry(getBaseContext(),StatusCodes.STATUS_ERROR_DELETING);

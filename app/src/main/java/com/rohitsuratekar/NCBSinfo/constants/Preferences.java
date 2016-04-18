@@ -4,6 +4,8 @@ public class Preferences {
 
     //First Time checks
     public static final String PREF_FIRSTTIME = "pref_firstTime";
+    public static final String ANDROID_VERSION_WARNING = "pref_androidVersionWarning";
+    public static final String ANDROID_SCREENSIZE_WARNING = "pref_androidScreenSizeWarning";
     public static final String PREF_REGISTERED = "pref_registered";
     public static final String PREF_USERNAME = "pref_username";
     public static final String PREF_EMAIL = "pref_email";

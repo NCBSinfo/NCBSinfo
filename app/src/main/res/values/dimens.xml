@@ -14,5 +14,6 @@
     <dimen name="map_card_vertical_margin">8dp</dimen>
     <dimen name="map_card_horizontal_margin">12dp</dimen>
 
-
+    <!-- Tablet Compatibility -->
+    <dimen name="tablet_check">10sp</dimen>
 </resources>

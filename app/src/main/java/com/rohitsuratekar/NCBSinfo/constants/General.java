@@ -26,4 +26,5 @@ public class General {
     public static final String GEN_DATACODE_TALK = "RTALK";
     public static final String GEN_DATACODE_CBJC = "CBJC";
     public static final String GEN_DATCODE_DBJC = "DBJC";
+
 }
