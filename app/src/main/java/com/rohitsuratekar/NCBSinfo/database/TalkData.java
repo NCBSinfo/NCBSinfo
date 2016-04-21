@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
+import com.rohitsuratekar.NCBSinfo.models.DataModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
 
 import java.util.ArrayList;
@@ -98,6 +99,26 @@ public class TalkData {
     // Delete all data
     public void clearTalkDatabase(SQLiteDatabase db) {
         db.execSQL("DELETE FROM " + SQL.TABLE_TALK);
+        db.close();
+    }
+
+    public int getTalkIDbyTimeStamp(SQLiteDatabase db, String timestamp){
+        Cursor cursor = db.query(SQL.TABLE_TALK, new String[]{SQL.TALK_KEY_ID, SQL.TALK_TIMESTAMP, SQL.TALK_NOTIFICATION_TITLE, SQL.TALK_DATE,
+                        SQL.TALK_TIME, SQL.TALK_VENUE, SQL.TALK_SPEAKER, SQL.TALK_AFFILICATION, SQL.TALK_TITLE, SQL.TALK_HOST, SQL.TALK_DATACODE, SQL.TALK_ACTIONCODE}, SQL.TALK_TIMESTAMP + "=?",
+                new String[]{String.valueOf(timestamp)}, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        DataModel entry = new DataModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getInt(11));
+        cursor.close();
+        db.close();
+        return entry.getDataID();
+    }
+
+
+    // Deleting single data entry
+    public void deleteTalkEntry(SQLiteDatabase db, TalkModel data) {
+        db.delete(SQL.TABLE_TALK, SQL.TALK_KEY_ID + " = ?", new String[]{String.valueOf(data.getDataID())});
         db.close();
     }
 }

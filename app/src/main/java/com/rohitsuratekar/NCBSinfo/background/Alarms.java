@@ -53,9 +53,9 @@ public class Alarms  extends BroadcastReceiver {
         Intent myIntent = new Intent(context , Notifications.class);
         myIntent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_DAILYNOTIFICATION);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, myIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getService(context, General.GEN_DAILYNOT_INTENT1, myIntent, 0);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.HOUR_OF_DAY, 7);  //Every day at 7, daily notifications will be sent
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent);

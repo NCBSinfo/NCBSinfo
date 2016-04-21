@@ -30,17 +30,22 @@
 
         <uses-library android:name="com.google.android.maps" />
 
-        <activity android:name=".Home">
+        <activity
+            android:name=".Home"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Registration" />
+        <activity
+            android:name=".activity.Registration"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DevelopersOptions"
             android:label="@string/title_activity_developers_options"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".background.DataFetch" />
@@ -82,6 +87,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <!-- for Gingerbread GSF backward compat -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.rohitsuratekar.NCBSinfo" />
             </intent-filter>
         </receiver>
@@ -89,41 +95,54 @@
         <activity
             android:name=".activity.EventUpdates"
             android:label="@string/title_activity_event_updates"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EventDetails"
-            android:label="@string/title_activity_event_details" />
+            android:label="@string/title_activity_event_details"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Transport"
             android:label="@string/title_activity_transport"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LectureHalls"
             android:label="@string/title_activity_lecture_halls"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Experimental"
             android:label="@string/title_activity_experimental"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Settings"
+        <activity
+            android:name=".Settings"
             android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
-
         <activity
             android:name=".maplist.MapActivity"
-            android:label="@string/title_activity_mapactivity" >
+            android:label="@string/title_activity_mapactivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
         </activity>
         <activity
             android:name=".maplist.MapListActivityImpl"
-            android:label="Maps" >
+            android:label="Maps"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.Information"
+            android:label="@string/title_activity_information"
+            android:parentActivityName=".Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
-
     </application>
 
 </manifest>

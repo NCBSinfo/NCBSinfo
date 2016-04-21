@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +26,7 @@ import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.adapters.ViewpagerAdapter;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
+import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.fragments.DevelopersLogFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.EventsLogFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.OldEventLogFragment;
@@ -102,6 +105,32 @@ public class EventUpdates extends AppCompatActivity
         if (id==R.id.action_settings){
             startActivity(new Intent(this,Settings.class));
         }
+        else if (id==R.id.action_clear_data){
+            new AlertDialog.Builder(EventUpdates.this)
+                    .setTitle("Are you sure?")
+                    .setMessage("You are about to delete entire database.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            Database db = new Database(getBaseContext());
+                            db.clearDatabase();
+                            db.clearTalkDatabase();
+                            db.close();
+                            finish();
+                            Intent intent = new Intent(getBaseContext(), DevelopersOptions.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return false;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -125,4 +154,5 @@ public class EventUpdates extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

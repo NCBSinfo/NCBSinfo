@@ -4,4 +4,10 @@
         android:key="setting_notification_regisration"
         android:summary="Change your notification preferences"
         android:title="Change preference"/>
+    <EditTextPreference
+        android:key="setting_notification_time"
+        android:title="Notification time before event\n (in min)"
+        android:summary="Set notification time before event"
+        android:inputType="number"
+        />
 </PreferenceScreen>

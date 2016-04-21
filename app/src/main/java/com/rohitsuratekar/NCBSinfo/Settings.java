@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.activity.DevelopersOptions;
+import com.rohitsuratekar.NCBSinfo.activity.Information;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.background.DataFetch;
 import com.rohitsuratekar.NCBSinfo.constants.General;
@@ -48,30 +50,66 @@ public class Settings extends AppCompatPreferenceActivity {
 
 
             String prefkey = preference.getKey();
+            if (preference instanceof EditTextPreference) {
+                if (prefkey.equals("setting_hurryup")) {
+
+                    EditTextPreference EditPreference = (EditTextPreference) preference;
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    float hurryupMin;
+                    if (EditPreference.getText() != null) {
+                        hurryupMin = Float.parseFloat((String) value);
+                    } else {
+                        hurryupMin = 5;
+                    }
+                    editor.putFloat(SettingsRelated.SETTING_HURRY_UP_TIME, hurryupMin).apply();
+                    preference.setSummary(String.valueOf(hurryupMin));
+                    Log.i("New value",String.valueOf(hurryupMin));
+                    return true;
+                }
+
+                if (prefkey.equals("setting_notification_time")) {
+                    EditTextPreference EditPreference = (EditTextPreference) preference;
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    int notificationOnset;
+                    if (EditPreference.getText() != null) {
+                        notificationOnset = Integer.parseInt((String) value);
+                    } else {
+                        notificationOnset = 10; //Default value
+                    }
+                    preference.setSummary(String.valueOf(notificationOnset));
+                    notificationOnset = notificationOnset * 60;
+                    editor.putInt(Preferences.PREF_NOTIFICATION_ONSET, notificationOnset).apply();
+                    return true;
+                }
+
+                if (prefkey.equals("setting_dataFetchFrequency")) {
+                    EditTextPreference EditPreference = (EditTextPreference) preference;
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    int currentFrequency;
+                    if (EditPreference.getText() != null) {
+                        currentFrequency = Integer.parseInt((String) value);
+                    } else {
+                        currentFrequency = 120; //Default value
+                        ((EditTextPreference) preference).setText(String.valueOf(120));
+                    }
+                    currentFrequency = currentFrequency * 60;
+                    editor.putInt(Preferences.PREF_ALARM_FREQUENCY, currentFrequency).apply();
+                    preference.setSummary(String.valueOf(currentFrequency));
+                    return true;
+                }
+            }
+
+
+       else if (preference instanceof ListPreference) {
 
            if(prefkey.equals(SettingsRelated.SETTINGS_TRANSPORT_ROUTES)) {
                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
                SharedPreferences.Editor editor = preferences.edit();
                editor.putInt(SettingsRelated.HOME_DEFAULT_ROUTE, Integer.parseInt(String.valueOf(value))).apply(); // value to store
-             }
-
-           if(prefkey.equals("setting_dataFetchFrequency")) {
-                    EditTextPreference EditPreference = (EditTextPreference) preference;
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-                    SharedPreferences.Editor editor = preferences.edit();
-                    int currentFrequency;
-                     if (EditPreference.getText()!=null){
-                    currentFrequency = Integer.parseInt(EditPreference.getText());}
-                    else {
-                        currentFrequency = 120; //Default value
-                        ((EditTextPreference) preference).setText(String.valueOf(120));
-                    }
-                    currentFrequency = currentFrequency*60;
-                    editor.putInt(Preferences.PREF_ALARM_FREQUENCY,currentFrequency).apply();
            }
-
-
-       if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
@@ -121,20 +159,32 @@ public class Settings extends AppCompatPreferenceActivity {
 
             sBindPreferenceSummaryToValueListener.onPreferenceChange(
                     preference,
-                    PreferenceManager.getDefaultSharedPreferences(
-                            preference.getContext()).getInt(preference.getKey(),0));
+                    PreferenceManager.getDefaultSharedPreferences( preference.getContext())
+                            .getInt(preference.getKey(),0));
 
         }
         else if (preference instanceof EditTextPreference){
 
              if (preference.getKey()!=null) {
 
-                 sBindPreferenceSummaryToValueListener.onPreferenceChange(
+                if (((EditTextPreference) preference).getEditText()!=null)
+                {
+                    sBindPreferenceSummaryToValueListener.onPreferenceChange(
                          preference,
-                         PreferenceManager.getDefaultSharedPreferences(
-                                 preference.getContext()).getString(preference.getKey(), "null"));
-             }
+                         PreferenceManager.getDefaultSharedPreferences(preference.getContext())
+                                 .getString(preference.getKey(), String.valueOf(((EditTextPreference) preference).getEditText())));
+                }
+                 else
+                {
+                    sBindPreferenceSummaryToValueListener.onPreferenceChange(
+                            preference,
+                            PreferenceManager.getDefaultSharedPreferences(preference.getContext())
+                                    .getString(preference.getKey(), String.valueOf(preference.getSummary())));
 
+                }
+
+
+                }
 
          }
         else{
@@ -200,7 +250,8 @@ public class Settings extends AppCompatPreferenceActivity {
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 ||TransportPreferenceFragment.class.getName().equals(fragmentName)
                 || DeveloperPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                || NotificationPreferenceFragment.class.getName().equals(fragmentName)
+                || AboutusPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -244,6 +295,20 @@ public class Settings extends AppCompatPreferenceActivity {
                     return false;
                 }
             });
+
+            final Preference myPref2 = (Preference) findPreference("settings_knownBugs");
+            myPref2.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    Intent i1 = new Intent(getActivity(), Information.class);
+                    i1.putExtra(General.GET_INFORMATION_INTENT,2);
+                    startActivity(i1);
+                    return true;
+                }
+            });
+
+
         }
 
         @Override
@@ -274,29 +339,6 @@ public class Settings extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
 
-          EditTextPreference setHurryup = (EditTextPreference) findPreference("setting_hurryup");
-            setHurryup.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    EditTextPreference EditPreference = (EditTextPreference) preference;
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-                    SharedPreferences.Editor editor = preferences.edit();
-                    float hurryupMin;
-                    if(EditPreference.getText()!=null){
-                        hurryupMin = Float.parseFloat(EditPreference.getText());
-
-                    }
-                    else {
-                        hurryupMin = 5;
-                    }
-                    editor.putFloat(SettingsRelated.SETTING_HURRY_UP_TIME,hurryupMin).apply();
-                    if (activitystart==0){activitystart++;}
-                    else{
-                        preference.getContext().startActivity(new Intent(preference.getContext(), Home.class));
-                        activitystart=0;}
-                    return false;
-                }
-            });
             bindPreferenceSummaryToValue(findPreference("setting_hurryup"));
             bindPreferenceSummaryToValue(findPreference(SettingsRelated.SETTINGS_TRANSPORT_ROUTES));
 
@@ -441,6 +483,8 @@ public class Settings extends AppCompatPreferenceActivity {
                     }
                 });
 
+                bindPreferenceSummaryToValue(findPreference("setting_notification_time"));
+
 
             }
 
@@ -454,5 +498,70 @@ public class Settings extends AppCompatPreferenceActivity {
                 }
                 return super.onOptionsItemSelected(item);
             }
+        }
+
+
+    //About us fragment
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class AboutusPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_aboutus);
+            setHasOptionsMenu(true);
+
+            final Preference myPref = (Preference) findPreference("settings_aboutus");
+            myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    Intent i1 = new Intent(getActivity(), Information.class);
+                    i1.putExtra(General.GET_INFORMATION_INTENT,0);
+                    startActivity(i1);
+                    return true;
+                }
+            });
+
+            final Preference myPref2 = (Preference) findPreference("settings_terms_conditions");
+            myPref2.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    Intent i1 = new Intent(getActivity(), Information.class);
+                    i1.putExtra(General.GET_INFORMATION_INTENT,1);
+                    startActivity(i1);
+                    return true;
+                }
+            });
+
+            final Preference myPref3 = (Preference) findPreference("settings_github");
+            myPref3.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    String currenturl = "https://github.com/NCBSinfo/NCBSinfo";
+                    Intent i2 = new Intent(Intent.ACTION_VIEW);
+                    i2.setData(Uri.parse(currenturl));
+                    startActivity(i2);
+                    return true;
+                }
+            });
+
+
+
+
+        }
+
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                startActivity(new Intent(getActivity(), Settings.class));
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
+
 }

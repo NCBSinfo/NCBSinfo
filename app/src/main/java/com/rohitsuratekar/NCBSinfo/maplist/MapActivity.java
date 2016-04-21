@@ -96,6 +96,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 String cLong = point.split(",")[1];
                 rectOptions.add(new LatLng(Double.parseDouble(cLat),Double.parseDouble(cLong)));
             }
+            rectOptions.strokeWidth((float) 1);
             rectOptions.fillColor(R.color.map_polygone_overlay);
             googleMap.addPolygon(rectOptions);
         }

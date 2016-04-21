@@ -5,4 +5,8 @@
         android:key="clear_settings"
         android:summary="Delete Your preference"
         android:title="Clear Preference"/>
+    <Preference
+        android:key="settings_knownBugs"
+        android:title="FAQs"
+        android:summary="Known problems faced while using different features of this app"/>
 </PreferenceScreen>

@@ -43,7 +43,7 @@ public class Notifications extends BroadcastReceiver {
                 String title = intent.getExtras().getString(General.GEN_NOTIFY_TITLE, "Alert!");
                 String message = intent.getExtras().getString(General.GEN_NOTIFY_MESSAGE, "You have unread notification");
                 String datacode = intent.getExtras().getString(General.GEN_NOTIFICATION_DATACODE,"null");
-                String dataID = intent.getExtras().getString(General.GEN_NOTIFICATION_DATA_ID,"null");
+                int dataID = intent.getExtras().getInt(General.GEN_NOTIFICATION_DATA_ID,1);
                 sendNotification(title, message,datacode,dataID);
                 break;
             case General.GEN_DAILYNOTIFICATION:
@@ -56,7 +56,7 @@ public class Notifications extends BroadcastReceiver {
 
     }
 
-    private void sendNotification(String title, String notificationMessage, String datacode, String dataID) {
+    private void sendNotification(String title, String notificationMessage, String datacode, int dataID) {
 
         NotificationManager mNotificationManager = (NotificationManager) mContext
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -71,14 +71,14 @@ public class Notifications extends BroadcastReceiver {
         else
         {notificationIntent = new Intent(mContext, EventDetails.class);
             notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATACODE,datacode);
-            notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATA_ID,Integer.parseInt(dataID));}
+            notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATA_ID,dataID);}
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = mContext.getResources().getColor(R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationMessage))
@@ -130,14 +130,19 @@ public class Notifications extends BroadcastReceiver {
                         int requestID = new GeneralHelp().getMiliseconds(entry.getTimestamp());
                         PendingIntent sender = PendingIntent.getBroadcast(mContext, requestID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         AlarmManager alarmMgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+
                         //Compatibility
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                             alarmMgr.setExact(AlarmManager.RTC_WAKEUP, cal3.getTimeInMillis(), sender);
+                        }
+                        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,cal3.getTimeInMillis(),sender);
                         }
                         else
                         {
                             alarmMgr.set(AlarmManager.RTC_WAKEUP, cal3.getTimeInMillis(), sender);
                         }
+
                         entry.setActioncode(SQL.ACTION_SEND);
                         if(entry.getDatacode().equals("RTALK")){
                         db.updateTalkEntry(new GeneralHelp().CommonEventToTalk(entry));}

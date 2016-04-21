@@ -13,10 +13,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@android:drawable/sym_def_app_icon" />
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:scaleType="fitXY"
+        android:tint="@color/profile_color"
+        android:src="@drawable/icon_profile" />
 
     <TextView
         android:layout_width="match_parent"

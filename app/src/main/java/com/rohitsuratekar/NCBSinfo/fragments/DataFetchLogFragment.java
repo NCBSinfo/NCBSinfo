@@ -57,6 +57,7 @@ public class DataFetchLogFragment  extends Fragment {
                 return entry1.compareTo(entry2);
             }
         });
+        Collections.reverse(commonList);
         EventLogAdapter log_adapter = new EventLogAdapter(commonList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -37,6 +37,7 @@ public class StatusCodes {
     public static final int STATUS_PUBLIC_GCM = 22;
     public static final int STATUS_NO_TOPIC = 23;
     public static final int STATUS_ERROR_DELETING = 24;
+    public static final int STATUS_ENTRY_ADDED_GCM = 26;
 
 
     //Standard status

@@ -7,6 +7,6 @@
 
     <item
         android:id="@+id/popup_remove"
-        android:title="Not interested"/>
+        android:title="Reset"/>
 
 </menu>

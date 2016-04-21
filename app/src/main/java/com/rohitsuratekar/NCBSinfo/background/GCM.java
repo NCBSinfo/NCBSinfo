@@ -18,8 +18,10 @@ import com.rohitsuratekar.NCBSinfo.constants.Network;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
 import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.NetworkRelated;
+import com.rohitsuratekar.NCBSinfo.models.TalkModel;
 
 
 public class GCM extends GcmListenerService{
@@ -47,21 +49,40 @@ public class GCM extends GcmListenerService{
                     String codemessgae = "Action code: " + rcode;
                     new LogEntry(getBaseContext(), StatusCodes.STATUS_PUBLIC_GCM, codemessgae);
                     if (rcode != null) {
-                        if (rcode.equals(Network.GCM_TRIGGER_DATAFETCH)) {
-                            Intent service = new Intent(getBaseContext(), DataFetch.class);
-                            service.putExtra(General.GEN_SERIVICE_SWITCH, Network.NET_START_FETCHING);
-                            startService(service);
-                        } else if (rcode.equals(Network.GCM_TRIGGER_NEW_UPDATE)) {
-                            updateNotification(data.getString("title"), data.getString("message"));
-                        } else if (rcode.equals(Network.GCM_TRIGGER_DELETEENTRY)){
-                            deleteEntry(data.getString("value", "null"));
-                        } else if (rcode.equals(Network.GCM_TOPIC_DEBUG)){
-                            //For developers. This will avoid other users to receive this notifications
-                            debugFunction();
-                        }
-                        else {
-                            String temp = "Unknown code : "+rcode;
-                            new LogEntry(getBaseContext(),StatusCodes.STATUS_NO_TOPIC,temp);
+                        switch (rcode) {
+                            case Network.GCM_TRIGGER_DATAFETCH:
+                                Intent service = new Intent(getBaseContext(), DataFetch.class);
+                                service.putExtra(General.GEN_SERIVICE_SWITCH, Network.NET_START_FETCHING);
+                                startService(service);
+                                break;
+                            case Network.GCM_TRIGGER_NEW_UPDATE:
+                                updateNotification(data.getString("title"), data.getString("message"));
+                                break;
+                            case Network.GCM_TRIGGER_DELETEENTRY:
+                                deleteEntry(data.getString("value", "null"));
+                                break;
+                            case Network.GCM_TOPIC_DEBUG:
+                                //For developers. This will avoid other users to receive this notifications
+                                debugFunction();
+                                break;
+                            case Network.GCM_ADD_TALK_ENTRY:
+                                TalkModel talkModel = new TalkModel();
+                                talkModel.setTimestamp(data.getString("timestamp","01/05/2016 00:00:00"));
+                                talkModel.setTime(data.getString("time","00:00:00"));
+                                talkModel.setDate(data.getString("date","01/05/2016"));
+                                talkModel.setNotificationTitle(data.getString("title","Special talk"));
+                                talkModel.setTitle(data.getString("talk_title","Title of the talk"));
+                                talkModel.setHost(data.getString("host","Dean's office"));
+                                talkModel.setAffilication(data.getString("affiliation","University"));
+                                talkModel.setDatacode("RTALK");
+                                talkModel.setSpeaker(data.getString("speaker","Speaker Name"));
+                                talkModel.setVenue(data.getString("venue", "Seminar hall"));
+                                addEntrybyGCM(talkModel);
+                                break;
+                            default:
+                                String temp = "Unknown code : " + rcode;
+                                new LogEntry(getBaseContext(), StatusCodes.STATUS_NO_TOPIC, temp);
+                                break;
                         }
                     }
                     break;
@@ -95,7 +116,7 @@ public class GCM extends GcmListenerService{
         PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = getApplicationContext().getResources().getColor(R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext())
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationMessage))
@@ -129,7 +150,7 @@ public class GCM extends GcmListenerService{
         PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = getApplicationContext().getResources().getColor(R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationMessage))
@@ -144,15 +165,28 @@ public class GCM extends GcmListenerService{
     private void deleteEntry(String Timestamp){
         if(!Timestamp.equals("null")){
             Database db = new Database(getBaseContext());
-            if(db.isAlreadyThere(SQL.TABLE_DATABASE,SQL.DATA_TIMESTAMP,Timestamp)){
-            db.deleteDataEntry(db.getDatabaseEntry(db.getIDbyTimeStamp(Timestamp)));}
+            if(db.isAlreadyThere(SQL.TABLE_TALK,SQL.TALK_TIMESTAMP,Timestamp)){
+            db.deleteTalkEntry(db.getTalkDataEntry(db.getTalkIDbyTimeStamp(Timestamp)));}
+            else if (db.isAlreadyThere(SQL.TABLE_DATABASE,SQL.DATA_TIMESTAMP,Timestamp)){
+             db.deleteDataEntry(db.getDatabaseEntry(db.getIDbyTimeStamp(Timestamp)));
+            }
             else{
                 new LogEntry(getBaseContext(),StatusCodes.STATUS_ERROR_DELETING);
             }
         }
     }
 
+    private void addEntrybyGCM(TalkModel talkModel) {
+        Database db = new Database(getBaseContext());
+        db.addTalkEntry(talkModel);  //0 is pseudo increment
+        String entryDetails = talkModel.getNotificationTitle();
+        new LogEntry(getBaseContext(),StatusCodes.STATUS_ENTRY_ADDED_GCM, entryDetails);
+        Intent notservice=new Intent(getBaseContext(),Notifications.class);
+        notservice.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_DAILYNOTIFICATION);
+        getBaseContext().sendBroadcast(notservice);
+    }
+
     private void debugFunction() {
-    //Function Here !
+
     }
 }

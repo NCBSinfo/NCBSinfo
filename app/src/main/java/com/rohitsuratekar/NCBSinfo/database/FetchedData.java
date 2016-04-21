@@ -114,7 +114,7 @@ public class FetchedData {
         return entry.getDataID();
     }
 
-    // Deleting single log
+    // Deleting single data entry
     public void deleteDataEntry(SQLiteDatabase db, DataModel data) {
         db.delete(SQL.TABLE_DATABASE, SQL.DATA_KEY_ID + " = ?", new String[]{String.valueOf(data.getDataID())});
         db.close();

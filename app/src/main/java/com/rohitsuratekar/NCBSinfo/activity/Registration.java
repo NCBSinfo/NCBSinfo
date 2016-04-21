@@ -439,4 +439,11 @@ public class Registration extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(!PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_REGISTERED,false)){
+            startActivity(new Intent(this,Home.class));
+        }
+    }
 }

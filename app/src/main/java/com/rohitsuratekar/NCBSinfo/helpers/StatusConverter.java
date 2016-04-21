@@ -186,6 +186,12 @@ public class StatusConverter {
                 _category = StatusCodes.STATCAT_DAILY;
                 _status = StatusCodes.TYPE_SUCCESSFUL;
                 break;
+            case  StatusCodes.STATUS_ENTRY_ADDED_GCM:
+                _message = "Database entry added by moderator";
+                _details = "New entry was added to event database";
+                _category = StatusCodes.STATCAT_NETWORK;
+                _status = StatusCodes.TYPE_SUCCESSFUL;
+                break;
 
             default:
                 _message = "Unknown Code";

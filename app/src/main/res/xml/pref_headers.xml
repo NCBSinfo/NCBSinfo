@@ -21,4 +21,9 @@
         android:icon="@drawable/icon_dev"
         android:title="Developers options" />
 
+    <header
+        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$AboutusPreferenceFragment"
+        android:icon="@drawable/icon_feedback"
+        android:title="About NCBSinfo" />
+
 </preference-headers>

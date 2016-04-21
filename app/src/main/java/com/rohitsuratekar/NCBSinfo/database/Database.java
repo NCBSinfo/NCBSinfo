@@ -117,7 +117,8 @@ public class Database extends SQLiteOpenHelper {
     public  TalkModel getTalkDataEntry(int id){SQLiteDatabase db = this.getWritableDatabase(); return new TalkData().getTalkDataEntry(db,id);}
     public void updateTalkEntry (TalkModel data){ SQLiteDatabase db = this.getWritableDatabase(); new TalkData().updateTalkEntry(db, data);}
     public void clearTalkDatabase (){ SQLiteDatabase db = this.getWritableDatabase(); new TalkData().clearTalkDatabase(db); }
-
+    public void deleteTalkEntry (TalkModel data){ SQLiteDatabase db = this.getWritableDatabase(); new TalkData().deleteTalkEntry(db,data);}
+    public  int getTalkIDbyTimeStamp(String timestamp){SQLiteDatabase db = this.getWritableDatabase(); return new TalkData().getTalkIDbyTimeStamp(db,timestamp);}
 
     //Check if record is already ther
     public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {

@@ -3,15 +3,23 @@ package com.rohitsuratekar.NCBSinfo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +35,12 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.activity.Transport;
+import com.rohitsuratekar.NCBSinfo.background.Notifications;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
+import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
 import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
@@ -51,6 +61,9 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     String transportFrom, transportTo;
     int isBuggy, currentRoute;
     LinearLayout footerHolder;
+    RelativeLayout homeLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +74,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
             startActivity(new Intent(this, Registration.class));
         }
+
 
        //Give warning to users if Android version is lower than 5.0
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.ANDROID_VERSION_WARNING, true)) {
@@ -90,7 +104,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         transportFrom = new TransportFunctions().getRouteName(currentRoute)[0];
         transportTo = new TransportFunctions().getRouteName(currentRoute)[1];
         isBuggy = Integer.valueOf(new TransportFunctions().getRouteName(currentRoute)[2]);
-
+       homeLayout = (RelativeLayout)findViewById(R.id.home_layout);
        coord = new TransportFunctions().getLocation(getApplicationContext(),transportTo,isBuggy);
        footerHolder = (LinearLayout)findViewById(R.id.home_footerHolder);
        title = (TextView)findViewById(R.id.home_cardview_title);
@@ -113,6 +127,21 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(Home.this,v);
                 popupMenu.inflate(R.menu.popup_card);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId() == R.id.popup_addfav){
+                            String[] route = new TransportFunctions().getRouteName(currentRoute);
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt(SettingsRelated.HOME_DEFAULT_ROUTE,currentRoute).apply();
+                            Snackbar.make(homeLayout, route[0].toUpperCase()+"-"+route[1].toUpperCase()+" added to default view",Snackbar.LENGTH_SHORT).show();
+                        }
+                        else if (item.getItemId() == R.id.popup_remove){
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt(SettingsRelated.HOME_DEFAULT_ROUTE,0).apply();
+                            Snackbar.make(homeLayout, "Default view is reset",Snackbar.LENGTH_SHORT).show();
+                        }
+                        return false;
+                    }
+                });
                 popupMenu.show();
             }
         });
@@ -133,6 +162,16 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             }
 
         }, 0, 1000); //1000 is milliseconds for each time tick
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        currentRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsRelated.HOME_DEFAULT_ROUTE,0);
+        transportFrom = new TransportFunctions().getRouteName(currentRoute)[0];
+        transportTo = new TransportFunctions().getRouteName(currentRoute)[1];
+        isBuggy = Integer.valueOf(new TransportFunctions().getRouteName(currentRoute)[2]);
+        changeTransportText();
     }
 
     @Override
@@ -165,6 +204,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 String cLong = point.split(",")[1];
                 rectOptions.add(new LatLng(Double.parseDouble(cLat),Double.parseDouble(cLong)));
             }
+            rectOptions.strokeWidth((float) 1);
             rectOptions.fillColor(R.color.map_polygone_overlay);
             googleMap.addPolygon(rectOptions);
         }
@@ -193,15 +233,9 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         String tempText;
         if (isBuggy==1){
             tempText="Next Buggy ";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor,getTheme()));
-            } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor));}
         }
         else {
             tempText="Next Shuttle ";
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary,getTheme()));
-            } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));}
         }
         Calendar c2 = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
@@ -214,17 +248,57 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         footer.setText("" + ((int) Difference[2]) + " Hrs " + ((int) Difference[1]) + " Min " + ((int) Difference[0])+" Sec left");
 
         String tempString = transportFrom.toUpperCase()+"-"+transportTo.toUpperCase();
+        if(isBuggy==1){
+            tempString = tempString + " Buggy";
+        }
         title.setText(tempString);
         float minLeft = Difference[2]*60 + Difference[1];
-        if(minLeft<PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getFloat(SettingsRelated.SETTING_HURRY_UP_TIME,5)){
+
+        Window window = getWindow();
+
+        if(minLeft < PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getFloat(SettingsRelated.SETTING_HURRY_UP_TIME,5)){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 footer.setTextColor(getResources().getColor(R.color.hurryupColor,getTheme()));
-            } else {footer.setTextColor(getResources().getColor(R.color.hurryupColor));}
+                footerHolder.setBackgroundColor(getResources().getColor(R.color.hurryupColor,getTheme()));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.hurryupColor,getTheme())));
+                window.setStatusBarColor(getResources().getColor(R.color.hurryup_dark,getTheme()));
+
+
+            } else {
+                footer.setTextColor(getResources().getColor(R.color.hurryupColor));
+                footerHolder.setBackgroundColor(getResources().getColor(R.color.hurryupColor));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.hurryupColor)));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.setStatusBarColor(getResources().getColor(R.color.hurryup_dark));
+                }
+            }
         }
         else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 footer.setTextColor(getResources().getColor(R.color.normalColor,getTheme()));
-            } else {footer.setTextColor(getResources().getColor(R.color.normalColor));}
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary,getTheme())));
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark,getTheme()));
+
+            } else {
+                footer.setTextColor(getResources().getColor(R.color.normalColor));
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+                }
+
+            }
+
+            //Check Buggy color
+            if (isBuggy==1){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor,getTheme()));
+                } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor));}
+            }
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary,getTheme()));
+                } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));}
+            }
 
         }
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/home_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.rohitsuratekar.NCBSinfo.Home">
 
@@ -72,7 +73,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="80sp"
+        android:layout_height="150sp"
         android:gravity="center"
         android:id="@+id/linearLayout"
         android:weightSum="100"
@@ -156,7 +157,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50sp"
+        android:layout_height="20sp"
         android:layout_below="@+id/linearLayout"
         android:id="@+id/linearLayout2"
         android:visibility="invisible">

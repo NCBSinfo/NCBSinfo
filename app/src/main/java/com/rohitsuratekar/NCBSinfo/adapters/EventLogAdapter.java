@@ -62,6 +62,9 @@ public class EventLogAdapter extends RecyclerView.Adapter<EventLogAdapter.MyView
         CommonEventModel entry = entryList.get(position);
         holder.title.setText(entry.getNotificationTitle());
         holder.message.setText(entry.getCommonItem1() );
+        if(entry.getDatacode().equals(General.GEN_DATACODE_TALK)){
+            holder.message.setText(entry.getCommonItem2() );
+        }
         holder.image.setColorFilter(R.color.colorPrimary);
         holder.image.setAlpha((float) 0.7);
 

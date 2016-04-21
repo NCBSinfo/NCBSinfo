@@ -6,6 +6,7 @@ public class General {
     public static final String GEN_EVENTDETAILS_DATACODE = "datacode";
     public static final String GEN_EVENTDETAILS_DATA_ID = "code";
     public static final String GEN_TRANSPORT_INTENT = "switch";
+    public static final String GET_INFORMATION_INTENT = "infoSwitch";
 
     //Notification intents
     public static final String GEN_NOTIFICATION_INTENT = "notification";
@@ -26,5 +27,11 @@ public class General {
     public static final String GEN_DATACODE_TALK = "RTALK";
     public static final String GEN_DATACODE_CBJC = "CBJC";
     public static final String GEN_DATCODE_DBJC = "DBJC";
+
+
+    //All alarm intent numbers
+    public static final int GEN_DAILYNOT_INTENT1 = 1000;
+
+
 
 }
