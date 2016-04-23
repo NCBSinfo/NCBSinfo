@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.rohitsuratekar.NCBSinfo.activity.Contacts;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.activity.Transport;
@@ -56,7 +57,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     GoogleMap googleMap;
     TextView title,footer,nextText;
     ImageView image,previous,next, showall;
-    ImageView icon_transport, icon_updates, icon_settings;
+    ImageView icon_transport, icon_updates, icon_settings, icon_contacts;
     LatLng coord;
     String transportFrom, transportTo;
     int isBuggy, currentRoute;
@@ -117,6 +118,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
        icon_transport= (ImageView)findViewById(R.id.home_icon_transport);
        icon_updates= (ImageView)findViewById(R.id.home_icon_updates);
        icon_settings= (ImageView)findViewById(R.id.home_icon_settings);
+        icon_contacts= (ImageView)findViewById(R.id.home_icon_contacts);
        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.home_map);
         mapFragment.getMapAsync(this);
@@ -152,6 +154,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         icon_updates.setOnClickListener(this);
         icon_transport.setOnClickListener(this);
         icon_settings.setOnClickListener(this);
+        icon_contacts.setOnClickListener(this);
 
         //Timer for timeleft
         Timer timeLeft = new Timer();
@@ -350,6 +353,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 startActivity(i1);break;
             case R.id.home_icon_showall:
                 startActivity(new Intent(this,MapListActivityImpl.class));break;
+            case R.id.home_icon_contacts:
+                startActivity(new Intent(this, Contacts.class));break;
             default:
                 Toast.makeText(getBaseContext(),"No item found",Toast.LENGTH_LONG).show();break;
 

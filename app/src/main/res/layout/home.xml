@@ -190,7 +190,7 @@
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="30"
+            android:layout_weight="25"
             android:gravity="center">
 
             <ImageView
@@ -198,6 +198,13 @@
                 android:layout_height="50sp"
                 android:id="@+id/home_icon_transport"
                 android:src="@drawable/icon_shuttle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Transport"
+                android:id="@+id/textView11" />
         </LinearLayout>
 
         <LinearLayout
@@ -205,7 +212,7 @@
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="30"
+            android:layout_weight="25"
             android:gravity="center">
 
             <ImageView
@@ -213,6 +220,13 @@
                 android:layout_height="50sp"
                 android:id="@+id/home_icon_updates"
                 android:src="@drawable/icon_updates" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Events"
+                android:id="@+id/textView12" />
         </LinearLayout>
 
         <LinearLayout
@@ -220,14 +234,42 @@
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="30"
+            android:layout_weight="25"
             android:gravity="center">
+
+            <ImageView
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:id="@+id/home_icon_contacts"
+                android:src="@drawable/icon_contacts" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Contacts"
+                android:id="@+id/textView13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="25"
+            android:gravity="center" >
 
             <ImageView
                 android:layout_width="50sp"
                 android:layout_height="50sp"
                 android:id="@+id/home_icon_settings"
                 android:src="@drawable/icon_settings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Settings"
+                android:id="@+id/textView14" />
         </LinearLayout>
 
     </LinearLayout>

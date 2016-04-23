@@ -131,6 +131,7 @@ public class Experimental extends AppCompatActivity
         } else if (id == R.id.nav_settings) {startActivity(new Intent(this, Settings.class));
         } else if (id==R.id.nav_lecture){startActivity(new Intent(this, LectureHalls.class));
         } else if (id==R.id.nav_canteen){startActivity(new Intent(this,Home.class));}
+        else if (id==R.id.nav_contacts){startActivity(new Intent(this,Contacts.class));}
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

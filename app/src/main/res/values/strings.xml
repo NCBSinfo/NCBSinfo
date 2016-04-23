@@ -34,4 +34,5 @@
        &#8226; <b>There is nothing in event section</b> <br> </br>
        This can happen if there are no events retrieved from the server. App will make request to data server depending on your network settings and will retrieve data.
        If you want to manually sync your app, go to developers options and click on "Sync Data now".]]></string>
+    <string name="title_activity_contacts">Contacts</string>
 </resources>

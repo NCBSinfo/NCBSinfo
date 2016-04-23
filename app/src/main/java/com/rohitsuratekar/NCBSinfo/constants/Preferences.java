@@ -20,4 +20,6 @@ public class Preferences {
     public static final String PREF_SUB_JC = "pref_sub_jc";
     public static final String PREF_SUB_STUDENT = "pref_sub_student";
 
+    public static final String PREF_CONTACT_LOADED = "pref_firsttimecontact";
+
 }

@@ -124,7 +124,11 @@ public class Notifications extends BroadcastReceiver {
                         Intent intent = new Intent(mContext, Notifications.class);
                         intent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_SENDNOTIFICATION );
                         intent.putExtra(General.GEN_NOTIFY_TITLE,entry.getNotificationTitle());
-                        intent.putExtra(General.GEN_NOTIFY_MESSAGE,entry.getCommonItem1());
+                        if(entry.getDatacode().equals(General.GEN_DATACODE_TALK)){
+                            intent.putExtra(General.GEN_NOTIFY_MESSAGE,entry.getCommonItem2()); }
+                        else {
+                            intent.putExtra(General.GEN_NOTIFY_MESSAGE,entry.getCommonItem1());}
+
                         intent.putExtra(General.GEN_NOTIFICATION_DATACODE,entry.getDatacode());
                         intent.putExtra(General.GEN_NOTIFICATION_DATA_ID,entry.getDataID());
                         int requestID = new GeneralHelp().getMiliseconds(entry.getTimestamp());

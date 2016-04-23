@@ -130,8 +130,8 @@ public class Information extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.nav_updates) { startActivity(new Intent(this,EventUpdates.class));
         } else if (id == R.id.nav_experimental) {startActivity(new Intent(this,Experimental.class));
-        } else if (id == R.id.nav_settings) {startActivity(new Intent(this, Settings.class));
-        }
+        } else if (id == R.id.nav_settings) {startActivity(new Intent(this, Settings.class));}
+        else if (id==R.id.nav_contacts){startActivity(new Intent(this,Contacts.class));}
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

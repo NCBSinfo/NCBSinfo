@@ -149,6 +149,7 @@ public class EventUpdates extends AppCompatActivity
         } else if (id == R.id.nav_experimental) {startActivity(new Intent(this,Experimental.class));
         } else if (id == R.id.nav_settings) {startActivity(new Intent(this, Settings.class));
         } else if (id == R.id.nav_registration){startActivity(new Intent(this,Registration.class));}
+        else if (id==R.id.nav_contacts){startActivity(new Intent(this,Contacts.class));}
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

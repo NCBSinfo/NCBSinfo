@@ -135,7 +135,7 @@ public class Transport extends AppCompatActivity
         } else if (id == R.id.nav_shuttle_ncbs_icts) { newIndex = 5;
         } else if (id == R.id.nav_shuttle_icts_ncbs) { newIndex = 6;
         } else if (id == R.id.nav_shuttle_ncbs_cbl) { newIndex = 7;
-        }
+        } else if (id==R.id.nav_contacts){startActivity(new Intent(this,Contacts.class));}
 
         TabLayout.Tab tab = tabLayout.getTabAt(newIndex);
         assert tab != null;

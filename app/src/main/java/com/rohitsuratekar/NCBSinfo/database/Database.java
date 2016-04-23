@@ -11,6 +11,7 @@ import android.util.Log;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
+import com.rohitsuratekar.NCBSinfo.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.models.DataModel;
 import com.rohitsuratekar.NCBSinfo.models.LogModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
@@ -66,9 +67,22 @@ public class Database extends SQLiteOpenHelper {
                 + SQL.TALK_DATACODE + " TEXT,"
                 + SQL.TALK_ACTIONCODE + " INTEGER )";
 
+
+        String CREATE_CONTACT_TABLE = "CREATE TABLE " + SQL.TABLE_CONTACTS + "("
+                + SQL.CONTACT_KEY_ID + " INTEGER PRIMARY KEY,"
+                + SQL.CONTACT_KEY_NAME + " TEXT,"
+                + SQL.CONTACT_KEY_DEPARTMENT + " TEXT,"
+                + SQL.CONTACT_KEY_POSITION + " TEXT,"
+                + SQL.CONTACT_KEY_EXTENSION + " TEXT,"
+                + SQL.CONTACT_KEY_FAVORITE + " TEXT " + ")";
+
+
+
+
         db.execSQL(CREATE_CAT_TABLE);
         db.execSQL(CREATE_DATA_TABLE);
         db.execSQL(CREATE_TALK_TABLE);
+        db.execSQL(CREATE_CONTACT_TABLE);
     }
 
     @Override
@@ -76,6 +90,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_LOG);
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_DATABASE);
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_TALK);
+        db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_CONTACTS);
         onCreate(db);
     }
 
@@ -94,8 +109,6 @@ public class Database extends SQLiteOpenHelper {
             new LogData().addLogEntry(db,log);
         }
         db.close();
-        Log.i("HERE","");
-
     }
     public List<LogModel> getAllLogEntries (){ SQLiteDatabase db = this.getWritableDatabase(); return new LogData().getAllLogEntries(db);}
     public void deleteLogEntry (LogModel log){ SQLiteDatabase db = this.getWritableDatabase(); new LogData().deleteLogEntry(db,log);}
@@ -119,6 +132,15 @@ public class Database extends SQLiteOpenHelper {
     public void clearTalkDatabase (){ SQLiteDatabase db = this.getWritableDatabase(); new TalkData().clearTalkDatabase(db); }
     public void deleteTalkEntry (TalkModel data){ SQLiteDatabase db = this.getWritableDatabase(); new TalkData().deleteTalkEntry(db,data);}
     public  int getTalkIDbyTimeStamp(String timestamp){SQLiteDatabase db = this.getWritableDatabase(); return new TalkData().getTalkIDbyTimeStamp(db,timestamp);}
+
+
+    //Contact database commands
+
+    public void addContact (ContactModel contact){ SQLiteDatabase db = this.getWritableDatabase(); new ContactData().addContact(db, contact);}
+    public List<ContactModel> getAllContacts (){ SQLiteDatabase db = this.getWritableDatabase(); return new ContactData().getAllContacts(db);}
+    public  ContactModel getContact(int id){SQLiteDatabase db = this.getWritableDatabase(); return new ContactData().getContact(db,id);}
+    public void deleteContact (ContactModel contact){ SQLiteDatabase db = this.getWritableDatabase(); new ContactData().deleteContact(db,contact);}
+    public void updateContact (ContactModel contact){ SQLiteDatabase db = this.getWritableDatabase(); new ContactData().updateContact(db, contact);}
 
     //Check if record is already ther
     public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {

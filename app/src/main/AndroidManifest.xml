@@ -133,7 +133,7 @@
         <activity
             android:name=".maplist.MapListActivityImpl"
             android:label="Maps"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Information"
             android:label="@string/title_activity_information"
@@ -143,6 +143,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
+        <activity
+            android:name=".activity.Contacts"
+            android:label="@string/title_activity_contacts"
+            android:parentActivityName=".Home"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
+        <activity android:name=".activity.ContactAdd"></activity>
     </application>
 
 </manifest>

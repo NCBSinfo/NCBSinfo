@@ -3,13 +3,14 @@ package com.rohitsuratekar.NCBSinfo.constants;
 public class SQL {
 
     //Global Names
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "NCBSinfo";
 
     //Tables
     public static final String TABLE_LOG = "table_log";
     public static final String TABLE_DATABASE = "table_database";
     public static final String TABLE_TALK = "table_talkdata";
+    public static final String TABLE_CONTACTS = "table_contacts";
 
     //Log Table Columns
     public static final String LOG_ID = "log_id";
@@ -52,6 +53,15 @@ public class SQL {
     public static final int ACTION_RETRIVED = 1;
     public static final int ACTION_NOTIFIED = 2;
     public static final int ACTION_SEND = 3;
+
+    //Contact Table
+
+    public static final String CONTACT_KEY_ID = "contact_id";
+    public static final String CONTACT_KEY_NAME = "contact_name";
+    public static final String CONTACT_KEY_DEPARTMENT = "contact_department";
+    public static final String CONTACT_KEY_POSITION = "contact_position";
+    public static final String CONTACT_KEY_EXTENSION = "contact_extension";
+    public static final String CONTACT_KEY_FAVORITE = "contact_favorite";
 
 
 }

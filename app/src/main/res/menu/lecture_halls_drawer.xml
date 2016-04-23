@@ -16,6 +16,10 @@
             android:title="Updates"
             />
         <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/icon_contacts"
+            android:title="Contacts" />
+        <item
             android:id="@+id/nav_experimental"
             android:icon="@drawable/icon_experimental"
             android:title="Experimental"
