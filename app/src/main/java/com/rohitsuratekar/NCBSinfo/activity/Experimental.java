@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
@@ -33,8 +34,6 @@ public class Experimental extends AppCompatActivity
         setContentView(R.layout.experimental);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,10 +71,10 @@ public class Experimental extends AppCompatActivity
                         startActivity(new Intent(Experimental.this,LectureHalls.class));
                         break;
                     case 1:
-
+                        Toast.makeText(Experimental.this,"Coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-
+                        Toast.makeText(Experimental.this,"Nothing is here right now",Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -101,12 +100,8 @@ public class Experimental extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id==R.id.action_settings){
             startActivity(new Intent(this,Settings.class));
         }

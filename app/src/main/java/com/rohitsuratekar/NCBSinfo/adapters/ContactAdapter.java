@@ -80,10 +80,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, R.id.contact_list_call,Menu.NONE,"Call");
-            menu.add(Menu.NONE, R.id.contact_list_fav, Menu.NONE, " Add to Favorite");
-            menu.add(Menu.NONE, R.id.contact_list_edit, Menu.NONE, "Edit");
-            menu.add(Menu.NONE, R.id.contact_list_delete, Menu.NONE, "Delete");
+            menu.add(Menu.NONE, R.id.contact_list_call,Menu.NONE, v.getResources().getString(R.string.action_call));
+            menu.add(Menu.NONE, R.id.contact_list_fav, Menu.NONE, v.getResources().getString(R.string.action_add_to_favorite));
+            menu.add(Menu.NONE, R.id.contact_list_edit, Menu.NONE, v.getResources().getString(R.string.action_edit));
+            menu.add(Menu.NONE, R.id.contact_list_delete, Menu.NONE, v.getResources().getString(R.string.action_delete));
         }
 
     }
@@ -105,13 +105,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
                                                int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.contact_row, parent, false);
-
         context= parent.getContext();
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+        return new DataObjectHolder(view);
     }
-
-
 
     @Override
     public void onBindViewHolder(final DataObjectHolder holder, final int position) {
@@ -168,15 +164,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
     }
 
     public interface MyClickListener {
-        public void onItemClick(int position, View v);
+        void onItemClick(int position, View v);
 
 
     }
 
     public interface MyClickListener2 {
-        public void onItemClick(int position, View v);
-
-
+        void onItemClick(int position, View v);
     }
 
     private long position;
@@ -196,7 +190,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.DataObje
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            //DBHandler db2 = new DBHandler(context);
             if (constraint != null && constraint.length() > 0) {
                 ArrayList<ContactRowModel> filterList = new ArrayList<ContactRowModel>();
                 for (int i = 0; i < mDataset.size(); i++){

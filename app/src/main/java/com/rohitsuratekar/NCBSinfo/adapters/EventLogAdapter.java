@@ -86,7 +86,7 @@ public class EventLogAdapter extends RecyclerView.Adapter<EventLogAdapter.MyView
     }
 
     public interface ClickListener {
-        public void onItemClick(int position, View v);
+        void onItemClick(int position, View v);
 
 
     }

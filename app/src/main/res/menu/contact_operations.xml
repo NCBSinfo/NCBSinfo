@@ -2,18 +2,18 @@
 
     <item
         android:id="@+id/contact_list_call"
-        android:title="Call"/>
+        android:title="@string/action_call"/>
 
     <item
         android:id="@+id/contact_list_fav"
-        android:title="Add to favorites"/>
+        android:title="@string/action_add_to_favorite"/>
 
     <item
         android:id="@+id/contact_list_edit"
-        android:title="Edit"/>
+        android:title="@string/action_edit"/>
 
     <item
         android:id="@+id/contact_list_delete"
-        android:title="Delete"/>
+        android:title="@string/action_delete"/>
 
 </menu>

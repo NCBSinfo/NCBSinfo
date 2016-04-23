@@ -5,27 +5,27 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/icon_home"
-            android:title="Home" />
+            android:title="@string/home" />
 
         <item android:icon="@drawable/icon_shuttle"
             android:id="@+id/nav_transport"
-            android:title="Transport" />
+            android:title="@string/transport" />
         <item
             android:id="@+id/nav_updates"
             android:icon="@drawable/icon_updates"
-            android:title="Updates"
+            android:title="@string/event_updates"
             android:checked="true"/>
         <item
             android:id="@+id/nav_contacts"
             android:icon="@drawable/icon_contacts"
-            android:title="Contacts" />
+            android:title="@string/contacts" />
         <item
             android:id="@+id/nav_experimental"
             android:icon="@drawable/icon_experimental"
-            android:title="Experimental" />
+            android:title="@string/experimental" />
         <item
             android:id="@+id/nav_settings"
-            android:title="Settings"
+            android:title="@string/settings"
             android:icon="@drawable/icon_settings" />
     </group>
 
@@ -34,7 +34,7 @@
         <menu>
             <item android:id="@+id/nav_registration"
                 android:icon="@drawable/icon_register"
-                android:title="Change Preferences"/>
+                android:title="@string/settings_change_notification_preference"/>
         </menu>
     </item>
 

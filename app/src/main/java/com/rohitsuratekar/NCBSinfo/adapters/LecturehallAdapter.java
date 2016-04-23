@@ -51,13 +51,6 @@ public class LecturehallAdapter extends BaseExpandableListAdapter implements Fil
         }
         text = (TextView) convertView.findViewById(R.id.masterlist_lectureHeader);
         text.setText(Html.fromHtml(tempChild.get(childPosition)));
-          /*  convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(activity, tempChild.get(childPosition),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });*/
         convertView.setLongClickable(true);
         return convertView;
     }

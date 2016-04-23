@@ -26,7 +26,7 @@ public class General {
     //Datacodes
     public static final String GEN_DATACODE_TALK = "RTALK";
     public static final String GEN_DATACODE_CBJC = "CBJC";
-    public static final String GEN_DATCODE_DBJC = "DBJC";
+    public static final String GEN_DATACODE_DBJC = "DBJC";
 
 
     //All alarm intent numbers

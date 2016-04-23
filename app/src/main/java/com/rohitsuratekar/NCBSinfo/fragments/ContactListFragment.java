@@ -34,7 +34,6 @@ import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.helpers.ContactList;
 import com.rohitsuratekar.NCBSinfo.helpers.DividerDecoration;
-import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.models.ContactRowModel;
 
@@ -130,10 +129,6 @@ public class ContactListFragment extends Fragment implements SearchView.OnQueryT
                 hideSoftKeyboard(getActivity());
                 ((ContactAdapter) mAdapter).setPosition(results.get(position).getId());
                 v.showContextMenu();
-                //Intent intent = new Intent(Intent.ACTION_DIAL);
-                //intent.setData(Uri.parse("tel:" + results.get(position).getmText2()));
-                //startActivity(intent);
-
             }
         });
         ((ContactAdapter) mAdapter).setOnItemClickListener2(new ContactAdapter.MyClickListener2() {
@@ -310,8 +305,8 @@ public class ContactListFragment extends Fragment implements SearchView.OnQueryT
         else if(item.getItemId() == R.id.contact_list_delete){
             final long finalPosition = position;
             new AlertDialog.Builder(getActivity())
-                    .setTitle("Are you sure?")
-                    .setMessage("You are abount to delete "+doc.getName()+" from this list.")
+                    .setTitle(getResources().getString(R.string.warning_are_you_sure))
+                    .setMessage(getResources().getString(R.string.warning_delete_contact, doc.getName()))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete

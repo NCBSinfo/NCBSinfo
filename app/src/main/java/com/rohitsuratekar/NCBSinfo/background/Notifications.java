@@ -41,7 +41,7 @@ public class Notifications extends BroadcastReceiver {
         switch (currentSwitch) {
             case General.GEN_SENDNOTIFICATION:
                 String title = intent.getExtras().getString(General.GEN_NOTIFY_TITLE, "Alert!");
-                String message = intent.getExtras().getString(General.GEN_NOTIFY_MESSAGE, "You have unread notification");
+                String message = intent.getExtras().getString(General.GEN_NOTIFY_MESSAGE, "You have an unread notification");
                 String datacode = intent.getExtras().getString(General.GEN_NOTIFICATION_DATACODE,"null");
                 int dataID = intent.getExtras().getInt(General.GEN_NOTIFICATION_DATA_ID,1);
                 sendNotification(title, message,datacode,dataID);
@@ -101,7 +101,7 @@ public class Notifications extends BroadcastReceiver {
                 Date tempdate = new GeneralHelp().convertToDate(entry.getDate(),entry.getTime());
                 if ((tempdate.getTime()- Calendar.getInstance().getTime().getTime())<0){
 
-                    if (entry.getDatacode().equals("RTALK")){
+                    if (entry.getDatacode().equals(General.GEN_DATACODE_TALK)){
                         entry.setActioncode(SQL.ACTION_NOTIFIED);
                         db.updateTalkEntry(new GeneralHelp().CommonEventToTalk(entry));
                         db.close();
@@ -111,7 +111,6 @@ public class Notifications extends BroadcastReceiver {
                     db.updateDataEntry(new GeneralHelp().CommonEventToData(entry));
                     db.close();
                     }
-                    Log.i("NOTIFIED",entry.getNotificationTitle());
                 }
                 else {
                     Calendar cal = Calendar.getInstance();
@@ -148,13 +147,12 @@ public class Notifications extends BroadcastReceiver {
                         }
 
                         entry.setActioncode(SQL.ACTION_SEND);
-                        if(entry.getDatacode().equals("RTALK")){
+                        if(entry.getDatacode().equals(General.GEN_DATACODE_TALK)){
                         db.updateTalkEntry(new GeneralHelp().CommonEventToTalk(entry));}
                         else {db.updateDataEntry(new GeneralHelp().CommonEventToData(entry));}
                         db.close();
                         TimedNote++;
                         new LogEntry(mContext,StatusCodes.STATUS_SET_NOTIFICATION,entry.getNotificationTitle());
-                        Log.i("SENT", entry.getNotificationTitle());
                     }
                 }
             }

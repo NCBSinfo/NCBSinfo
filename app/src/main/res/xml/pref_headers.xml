@@ -5,25 +5,25 @@
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$GeneralPreferenceFragment"
         android:icon="@drawable/icon_info"
-        android:title="General" />
+        android:title="@string/settings_general" />
 
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$TransportPreferenceFragment"
         android:icon="@drawable/icon_shuttle"
-        android:title="Transports" />
+        android:title="@string/transport" />
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$NotificationPreferenceFragment"
         android:icon="@drawable/icon_updates"
-        android:title="Notification Preferences"/>
+        android:title="@string/settings_change_notification_preference"/>
 
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$DeveloperPreferenceFragment"
         android:icon="@drawable/icon_dev"
-        android:title="Developers options" />
+        android:title="@string/developers_options" />
 
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$AboutusPreferenceFragment"
         android:icon="@drawable/icon_feedback"
-        android:title="About NCBSinfo" />
+        android:title="@string/settings_about_ncbinfo" />
 
 </preference-headers>

@@ -44,7 +44,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DevelopersOptions"
-            android:label="@string/title_activity_developers_options"
+            android:label="@string/developers_options"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -94,38 +94,38 @@
 
         <activity
             android:name=".activity.EventUpdates"
-            android:label="@string/title_activity_event_updates"
+            android:label="@string/event_updates"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.EventDetails"
-            android:label="@string/title_activity_event_details"
+            android:label="@string/event_details"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Transport"
-            android:label="@string/title_activity_transport"
+            android:label="@string/transport"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LectureHalls"
-            android:label="@string/title_activity_lecture_halls"
+            android:label="@string/lecture_hall"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.Experimental"
-            android:label="@string/title_activity_experimental"
+            android:label="@string/experimental"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Settings"
-            android:label="@string/title_activity_settings">
+            android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
         <activity
             android:name=".maplist.MapActivity"
-            android:label="@string/title_activity_mapactivity">
+            android:label="@string/map">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Home" />
@@ -136,7 +136,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Information"
-            android:label="@string/title_activity_information"
+            android:label="@string/map"
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -66,14 +66,10 @@
 
     </android.support.v7.widget.CardView>
 
-
-
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="150sp"
+        android:layout_height="100sp"
         android:gravity="center"
         android:id="@+id/linearLayout"
         android:weightSum="100"
@@ -155,35 +151,16 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="20sp"
-        android:layout_below="@+id/linearLayout"
-        android:id="@+id/linearLayout2"
-        android:visibility="invisible">
-
-        <ImageView
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:id="@+id/home_icon_showall"
-            android:layout_alignTop="@+id/home_cardview_title"
-            android:layout_toRightOf="@+id/home_cardview_title"
-            android:layout_toEndOf="@+id/home_cardview_title"
-            android:src="@drawable/icon_down"
-            android:clickable="true"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
-
-    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="100sp"
         android:weightSum="100"
         android:gravity="center"
-        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/linearLayout"
         android:layout_alignStart="@+id/linearLayout"
-        android:layout_below="@+id/linearLayout2">
+        android:layout_below="@+id/linearLayout"
+        android:id="@+id/linearLayout3"
+        android:layout_above="@+id/home_footer">
 
         <LinearLayout
             android:orientation="vertical"
@@ -203,7 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Transport"
+                android:text="@string/transport"
                 android:id="@+id/textView11" />
         </LinearLayout>
 
@@ -225,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Events"
+                android:text="@string/event_updates"
                 android:id="@+id/textView12" />
         </LinearLayout>
 
@@ -247,7 +224,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Contacts"
+                android:text="@string/contacts"
                 android:id="@+id/textView13" />
         </LinearLayout>
 
@@ -268,11 +245,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:id="@+id/textView14" />
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/home_footer"
+        android:background="@color/colorPrimary"/>
 
 
 </RelativeLayout>

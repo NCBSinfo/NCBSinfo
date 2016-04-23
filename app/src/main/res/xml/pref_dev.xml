@@ -3,40 +3,39 @@
 
     <SwitchPreference
         android:key="setings_onDev"
-        android:summary="Let you control lot of options for your app"
-        android:title="Switch On"/>
+        android:title="@string/settings_dev_switchon"
+        android:summary="@string/settings_dev_switchon_summary" />
     <PreferenceCategory
         android:key="settings_devoptions"
-        android:title="Developers Log">
+        android:title="@string/settings_dev_log">
     <Preference
         android:key="setting_gotoDevLog"
-        android:summary="Check every action performed by this app"
-        android:title="Check Log"/>
+        android:title="@string/settings_dev_log_action"
+        android:summary="@string/settings_dev_log_action_summary" />
 
     <com.rohitsuratekar.NCBSinfo.helpers.NumberPickerPreference
             android:key="settings_dev_log_items"
-            android:title="Log Entries"
-            android:summary="Set number of log entries"
+            android:title="@string/settings_dev_log_entries"
+            android:summary="@string/settings_dev_log_entries_summary"
             android:defaultValue="@integer/settings_log_entries_default" />
     </PreferenceCategory>
 <PreferenceCategory
     android:key="setting_network_related"
-    android:title="Network Control">
+    android:title="@string/settings_network">
     <Preference
         android:key="settings_sync_now"
-        android:title="Sync Data Now"/>
-
+        android:title="@string/settings_sync_now"/>
 
     <SwitchPreference
         android:key="settings_optimized_sync"
-        android:title="Data Sync Frequency"
-        android:summary="Default: Optimized"
+        android:title="@string/settings_data_sync_frequency"
+        android:summary="@string/settings_data_sync_frequency_summary"
         android:checked="false"/>
 
     <EditTextPreference
         android:key="setting_dataFetchFrequency"
-        android:title="Current data fetch frequency \n (in min)"
-        android:summary="Set data fetch frequency"
+        android:title="@string/settings_current_frequency"
+        android:summary="@string/settings_current_frequency_summary"
         android:inputType="number"
         />
 

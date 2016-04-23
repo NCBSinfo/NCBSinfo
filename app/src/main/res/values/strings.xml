@@ -1,22 +1,147 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
-    <string name="title_activity_developers_options">Developers Options</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_event_updates">Event Updates</string>
-    <string name="title_activity_event_details">Event Details</string>
-    <string name="title_activity_transport">Transport</string>
-    <string name="title_activity_lecture_halls">Lecture Halls</string>
-    <string name="title_activity_registration_gcm">Registration</string>
-    <string name="title_activity_experimental">Experimental</string>
-    <string name="title_activity_mapactivity">Map</string>
-    <string name="title_activity_settings">Settings</string>
-
+    <string name="developers_options">Developers Options</string>
     <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
-    <string name="title_activity_information">Information</string>
+    <string name="registration">Registration</string>
+    <string name="information">Information</string>
+    <string name="map">Map</string>
+    <string name="home">Home</string>
+    <string name="transport">Transport</string>
+    <string name="event_updates">Events</string>
+    <string name="event_details">Events Details</string>
+    <string name="contacts">Contacts</string>
+    <string name="settings">Settings</string>
+    <string name="experimental">Experimental</string>
+    <string name="canteen">Canteen</string>
+    <string name="lecture_hall">Lecture Halls</string>
+
+    <string name="warning_version_title">Compatibility mode</string>
+    <string name="warning_version_details">This app is best suited for Android Lollipop (21) and above. Your current android version is %1$s . Some animations and functions might not work properly.</string>
+    <string name="warning_are_you_sure">Are you sure?</string>
+    <string name="warning_delete_contact">You are about to delete %1$s from this list.</string>
+    <string name="warning_clear_data">You are about to delete entire event data retrieved from database.</string>
+    <string name="warning_internet_connection">You are not connected to internet</string>
+    <string name="warning_in_hurry">In hurry?</string>
+    <string name="warning_in_hurry_details">You have not selected any option to receive updates. Were you forgot to check?</string>
+    <string name="warning_hurry_positive">Oh, Yes!</string>
+    <string name="warning_hurry_negative">Nah, changed mind</string>
+
+
+    <string name="snackbar_added_route">%1$s - %2$s added to default view.</string>
+    <string name="snackbar_reset_route">Default view is reset.</string>
+
+    <string name="next_transport"> Next %1$s </string>
+    <string name="next_transport_details">%1$s %2$s</string>
+    <string name="time_left">%1$d Hr %2$d Min %3$d Sec left</string>
+    <string name="buggy">Buggy</string>
+    <string name="shuttle">Shuttle</string>
+    <string name="route_ncbs_iisc"> NCBS - IISc</string>
+    <string name="route_iisc_ncbs"> IISc - NCBS</string>
+    <string name="route_ncbs_mandara"> NCBS - Mandara</string>
+    <string name="route_mandara_ncbs"> Mandara - NCBS</string>
+    <string name="route_buggy_ncbs"> NCBS - Mandara Buggy</string>
+    <string name="route_buggy_mandara"> Mandara - NCBS Buggy</string>
+    <string name="route_ncbs_icts"> NCBS - ICTS</string>
+    <string name="route_icts_ncbs"> ICTS - NCBS </string>
+    <string name="route_ncbs_cbl"> NCBS - CBL</string>
+    <string name="transport_list_title1">Weekdays*</string>
+    <string name="transport_list_title2">Sunday*</string>
+    <string name="transport_list_title3">From NCBS</string>
+    <string name="transport_list_title4">From Mandara</string>
+    <string name="transport_footer1">*Including Saturday</string>
+    <string name="transport_footer2">**Next shuttle after %1$s</string>
+    <string name="transport_footer3">**Next buggy after %1$s</string>
+
+
+    <string name="action_add">Add</string>
+    <string name="action_search">Search</string>
+    <string name="action_call">Call</string>
+    <string name="action_add_to_favorite">Add to favorites</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_settings">@string/settings</string>
+    <string name="action_clear_log">Clear Log</string>
+    <string name="action_clear_database">Clear Event Data</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_select_category">Select Category</string>
+
+    <string name="contact_name">Contact Name</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="contact_department">Department</string>
+    <string name="contact_position">Position</string>
+    <string name="contact_error1">Invalid Name</string>
+    <string name="contact_error2">Contact number can not be empty</string>
+    <string name="contact_add">Add Contact</string>
+    <string name="contact_edit">Edit Contact</string>
+
+    <string name="registration_salutation">Hi</string>
+    <string name="registration_message1">We have some \nsurprise for you!</string>
+    <string name="registration_message2">Introducing event notifications</string>
+    <string name="registration_message3">about your surroundings!</string>
+    <string name="registration_message4">Let\'s check it out?</string>
+    <string name="registration_positive_response">Yes! Sure :)</string>
+    <string name="registration_negative_response">Nope… may be another time</string>
+    <string name="registration_finish_response">All Set</string>
+    <string name="registration_message_update_choice">OK, which updates \nyou want to receive ?</string>
+    <string name="registration_form_note1">First tell us about you :)</string>
+    <string name="registration_form_submit_button">Let\'s go next</string>
+    <string name="registration_username_hint">What should we call you ?</string>
+    <string name="registration_email_hint">What is your email ID ?</string>
+    <string name="registration_footer_new">Don\'t worry , If you change your mind you can change this any time from settings :)</string>
+    <string name="registration_choice1">Research Talks</string>
+    <string name="registration_choice2">DBJC</string>
+    <string name="registration_choice3">Student Activities</string>
+    <string name="registration_dialog1">Registering your device…</string>
+    <string name="registration_dialog2">Almost done…</string>
+    <string name="registration_user_comeback">Hey %1$s,\nIt is good to have you back</string>
+    <string name="registration_change_button">Change Preferences</string>
+    <string name="registration_error1">Common, at least tell us your nick name :P</string>
+    <string name="registration_error2">Provide valid email, we won\'t spam :)</string>
+
+
+
+    <string name="developers_tab_log">Complete Log</string>
+    <string name="developers_tab_data">Retrieved Log</string>
+
+    <string name="settings_change_notification_preference">Notification Preference</string>
+    <string name="settings_change_notification_preference_summary">Change your notification preferences</string>
+    <string name="settings_notification_time">Notification time before event\n (in min)</string>
+    <string name="settings_notification_time_summary">Set notification time before event</string>
+    <string name="settings_general">General</string>
+    <string name="settings_about_ncbinfo">About NCBSinfo</string>
+    <string name="settings_delete_preference">Clear preference</string>
+    <string name="settings_delete_preference_summary">Delete all of your preferences and customizations</string>
+    <string name="settings_faq">Frequently Asked Questions</string>
+    <string name="settings_faq_summary">Known problems faced while using different features of this app</string>
+    <string name="settings_about_us">About us</string>
+    <string name="settings_about_us_summary">Little bit about us</string>
+    <string name="settings_contribute">Contribute to NCBSinfo</string>
+    <string name="settings_contribute_summary">Fork us on GitHub and join open source app making</string>
+    <string name="settings_terms">Terms and Conditions</string>
+    <string name="settings_terms_summary">Nobody reads this !</string>
+    <string name="settings_dev_switchon">Switch On</string>
+    <string name="settings_dev_switchon_summary">Let you control lot of options for your app</string>
+    <string name="settings_dev_log">Developers Log</string>
+    <string name="settings_dev_log_action">Check Log</string>
+    <string name="settings_dev_log_action_summary">Check every action performed by this app</string>
+    <string name="settings_dev_log_entries">Log Entries</string>
+    <string name="settings_dev_log_entries_summary">Set number of log entries</string>
+    <string name="settings_network">Network Control</string>
+    <string name="settings_sync_now">Sync Data Now</string>
+    <string name="settings_data_sync_frequency">Data Sync Frequency</string>
+    <string name="settings_data_sync_frequency_summary">Default: Optimized</string>
+    <string name="settings_current_frequency">Current data fetch frequency \n (in min)</string>
+    <string name="settings_current_frequency_summary">Set data fetch frequency</string>
+    <string name="settings_default_view">Default transport</string>
+    <string name="settings_default_view_summary">This transport will be shown first when you open app</string>
+    <string name="settings_hurryup">Hurry up time\n (in min)</string>
+    <string name="settings_hurryup_summary">Time left color will turn red if next transport is within this time period</string>
+
 
     <string name="about_us"><![CDATA[ <b>NCBSinfo</b> is an application for regular use specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
     Our aim is to create a mobile application which will serve as an application-cum-database of important timings pertaining to NCBS. With the help of this we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.]]></string>

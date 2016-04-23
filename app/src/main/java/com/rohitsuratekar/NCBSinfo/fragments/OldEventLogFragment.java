@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +66,6 @@ public class OldEventLogFragment extends Fragment {
                 eventDateTime = eventFormat.parse(entry.getDate()+" "+entry.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
-                Log.i("FAILED", "PARSING");
             }
             Calendar c1 = Calendar.getInstance();
             c1.setTime(eventDateTime);

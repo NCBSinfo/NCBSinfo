@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_toStartOf="@+id/searchButton"
         android:visibility="visible"
-        android:hint="Search"
+        android:hint="@string/action_search"
         android:textAlignment="center"
         android:layout_marginTop="10dp" />
     <ImageButton

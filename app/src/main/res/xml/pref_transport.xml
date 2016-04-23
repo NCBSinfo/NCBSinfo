@@ -8,13 +8,13 @@
         android:key="settings_transport_routes"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        android:title="Default view" />
+        android:title="@string/settings_default_view"
+        android:summary="@string/settings_default_view_summary"/>
 
     <EditTextPreference
         android:key="setting_hurryup"
-        android:title="Hurry up time\n (in min)"
-        android:summary="Time left color will turn red if next transport is within this time period"
-        android:inputType="number"
-        />
+        android:title="@string/settings_hurryup"
+        android:summary="@string/settings_hurryup_summary"
+        android:inputType="number" />
 
 </PreferenceScreen>

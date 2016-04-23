@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/popup_addfav"
-        android:title="Add to Favorite"/>
+        android:title="@string/action_add_to_favorite"/>
 
     <item
         android:id="@+id/popup_remove"
-        android:title="Reset"/>
+        android:title="@string/action_reset"/>
 
 </menu>

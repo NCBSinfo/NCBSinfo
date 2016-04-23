@@ -37,7 +37,6 @@ public class Alarms  extends BroadcastReceiver {
 
             default:
                 new LogEntry(context, StatusCodes.STATUS_ALARM_FAILED);
-                Log.i("Wrong code", "in alarm");
                 break;
         }
 

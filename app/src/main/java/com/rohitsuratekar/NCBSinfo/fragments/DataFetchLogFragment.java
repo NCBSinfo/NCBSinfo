@@ -3,7 +3,6 @@ package com.rohitsuratekar.NCBSinfo.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
@@ -30,9 +28,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Rohit Suratekar on 12-04-16.
- */
 public class DataFetchLogFragment  extends Fragment {
     RecyclerView recyclerView;
     List<DataModel> entrylist = new ArrayList<>();

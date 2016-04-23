@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Select Category"
+            android:text="@string/action_select_category"
             android:id="@+id/textView"
             android:layout_marginRight="10sp"
             android:layout_marginLeft="10sp"

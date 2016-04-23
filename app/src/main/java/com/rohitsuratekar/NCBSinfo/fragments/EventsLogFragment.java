@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
-import com.rohitsuratekar.NCBSinfo.adapters.DevelopersLogAdapter;
 import com.rohitsuratekar.NCBSinfo.adapters.EventLogAdapter;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.database.Database;
@@ -22,7 +21,6 @@ import com.rohitsuratekar.NCBSinfo.helpers.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.models.CommonEventModel;
 import com.rohitsuratekar.NCBSinfo.models.DataModel;
-import com.rohitsuratekar.NCBSinfo.models.LogModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
 
 import java.text.DateFormat;
@@ -69,7 +67,6 @@ public class EventsLogFragment extends Fragment {
                 eventDateTime = eventFormat.parse(entry.getDate()+" "+entry.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
-                Log.i("FAILED", "PARSING");
             }
             Calendar c1 = Calendar.getInstance();
             c1.setTime(eventDateTime);

@@ -37,7 +37,7 @@ public class EventDetails extends AppCompatActivity {
         TextView common1 = (TextView)findViewById(R.id.details_CommonElement1);
         TextView common2 = (TextView)findViewById(R.id.details_CommonElement2);
 
-        if (datacode.equals("CBJC")||datacode.equals("DBJC")) {
+        if (datacode.equals(General.GEN_DATACODE_CBJC)||datacode.equals(General.GEN_DATACODE_DBJC)) {
             List<DataModel> list = db.getFullDatabase();
             if(list.size()>0){
             final DataModel info = db.getDatabaseEntry(dataID);
@@ -97,9 +97,7 @@ public class EventDetails extends AppCompatActivity {
             });
             }
         }
-        else if (datacode.equals("RTALK")) {
-            Log.i("DEBUG","HERE");
-
+        else if (datacode.equals(General.GEN_DATACODE_TALK)) {
             List<TalkModel> list = db.getTalkDatabase();
 
             if (list.size() > 0) {

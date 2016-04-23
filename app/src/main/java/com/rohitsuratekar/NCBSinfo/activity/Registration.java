@@ -11,7 +11,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -47,8 +46,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.app.ActionBar.DISPLAY_SHOW_CUSTOM;
 
 public class Registration extends AppCompatActivity {
 
@@ -119,22 +116,22 @@ public class Registration extends AppCompatActivity {
 
          animFadein.setAnimationListener(new Animation.AnimationListener() {
             @Override  public void onAnimationStart(Animation animation) {
-                if(animcounter==0){ txt.setText("Hi"); }
+                if(animcounter==0){ txt.setText(getResources().getString(R.string.registration_salutation)); }
                 else if (animcounter==1){
-                    txt.setText("We have some \n surprise for you!");
+                    txt.setText(getResources().getString(R.string.registration_message1));
                     aniImage.setVisibility(View.VISIBLE);
                     aniImage.setBackgroundResource(R.drawable.icon_gift);
                 }
                 else if (animcounter==2){
-                    txt.setText("Introducing event notifications");
+                    txt.setText(getResources().getString(R.string.registration_message2));
                     aniImage.setBackgroundResource(R.drawable.icon_vibrate);
                 }
                 else if (animcounter==3){
-                    txt.setText("about your surroundings!");
+                    txt.setText(getResources().getString(R.string.registration_message3));
                     aniImage.setBackgroundResource(R.drawable.icon_web);
                 }
                 else if (animcounter==4){
-                    txt.setText("Let's check it out?");
+                    txt.setText(getResources().getString(R.string.registration_message4));
                     aniImage.setVisibility(View.GONE);
                     positive.setVisibility(View.VISIBLE);
                     negative.setVisibility(View.VISIBLE);
@@ -179,7 +176,7 @@ public class Registration extends AppCompatActivity {
                     txt.setText("Oops!");
                     negative.setVisibility(View.GONE);
                     positive.setText("Retry!");
-                    Snackbar.make(anim_relativelayout,"You are not connected to internet",Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(anim_relativelayout,getResources().getString(R.string.warning_internet_connection),Snackbar.LENGTH_LONG).show();
                   }
 
             }
@@ -191,9 +188,9 @@ public class Registration extends AppCompatActivity {
                     if (!research.isChecked() && !jc.isChecked() && !student.isChecked()) {
 
                         new AlertDialog.Builder(Registration.this)
-                                .setTitle("In hurry?")
-                                .setMessage("You have not selected any option to receive updates. Were you forgot to check?")
-                                .setPositiveButton("Oh, Yes!", new DialogInterface.OnClickListener() {
+                                .setTitle(getResources().getString(R.string.warning_in_hurry))
+                                .setMessage(getResources().getString(R.string.warning_in_hurry_details))
+                                .setPositiveButton(getResources().getString(R.string.warning_hurry_positive), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         allset.setEnabled(false);
                                         boolean[] sequence = {research.isChecked(), jc.isChecked(), student.isChecked()};
@@ -201,7 +198,7 @@ public class Registration extends AppCompatActivity {
 
                                     }
                                 })
-                                .setNegativeButton("Nah, changed mind", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(getResources().getString(R.string.warning_hurry_negative), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(Preferences.PREF_REGISTERED, false).apply();
                                         allset.setEnabled(false);
@@ -214,7 +211,7 @@ public class Registration extends AppCompatActivity {
                         allset.setEnabled(false);
                         progress = new ProgressDialog(getBaseContext());
                         progress.setCancelable(false);
-                        progress.setMessage("Registering your device...");
+                        progress.setMessage(getResources().getString(R.string.registration_dialog1));
                         boolean[] sequence = {research.isChecked(), jc.isChecked(), student.isChecked()};
                         registerInBackground(sequence);
                     }
@@ -224,7 +221,6 @@ public class Registration extends AppCompatActivity {
         nameDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("clicked","her");
                 if (validateName() && validateEmail()) {
                 nameDetails.setVisibility(View.GONE);
                 gcmLayout.setVisibility(View.VISIBLE);
@@ -252,8 +248,8 @@ public class Registration extends AppCompatActivity {
             jc.setChecked(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_SUB_JC,false));
             student.setChecked(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_SUB_STUDENT,false));
             String user = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(Preferences.PREF_USERNAME," ");
-            gcmOptionMessage.setText("Hey "+user+",\n It is good to have you back");
-            allset.setText("Change Preferences");
+            gcmOptionMessage.setText(getResources().getString(R.string.registration_user_comeback,user));
+            allset.setText(getResources().getString(R.string.registration_change_button));
         }
 
 
@@ -263,7 +259,7 @@ public class Registration extends AppCompatActivity {
          progress = new ProgressDialog(Registration.this);
          progress.show();
          progress.setCancelable(false);
-         progress.setMessage("Registering your device...");
+         progress.setMessage(getResources().getString(R.string.registration_dialog1));
 
         new AsyncTask<Object, Void, String>() {
             //@Override
@@ -275,12 +271,8 @@ public class Registration extends AppCompatActivity {
                             gcm = GoogleCloudMessaging.getInstance(getBaseContext());
                         }
                         regId = InstanceID.getInstance(getApplicationContext()).getToken(Network.GCM_PROJECT_ID, Network.GCM_SCOPE);
-                        Log.d("RegisterActivity", "registerInBackground - regId: " + regId);
-
-                        msg = "Device registered, registration ID=" + regId;
                     } catch (IOException ex) {
                         msg = "Error :" + ex.getMessage();
-                        Log.d("RegisterActivity", msg);
                         new LogEntry(getBaseContext(), StatusCodes.STATUS_REGISTRATION_ERROR, msg);
                     }
 
@@ -340,7 +332,6 @@ public class Registration extends AppCompatActivity {
 
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
-                    Log.d("RegisterActivity", msg);
                     new LogEntry(getBaseContext(),StatusCodes.STATUS_REGISTRATION_ERROR,msg);
                 }
                 return msg;
@@ -362,7 +353,7 @@ public class Registration extends AppCompatActivity {
 
     private boolean validateName() {
         if (inputName.getText().toString().trim().isEmpty()) {
-            inputLayoutName.setError("Common, at least tell us your nick name :P");
+            inputLayoutName.setError(getResources().getString(R.string.registration_error1));
             requestFocus(inputName);
             return false;
         }
@@ -375,7 +366,7 @@ public class Registration extends AppCompatActivity {
     private boolean validateEmail() {
 
         if ((inputEmail.getText().toString().trim().isEmpty()) || (!android.util.Patterns.EMAIL_ADDRESS.matcher(inputEmail.getText().toString()).matches())){
-            inputLayoutEmail.setError("Provide valid email, we won't spam :)");
+            inputLayoutEmail.setError(getString(R.string.registration_error2));
             requestFocus(inputEmail);
             return false;
         }
@@ -386,7 +377,7 @@ public class Registration extends AppCompatActivity {
     }
 
     private void sendForm (boolean[] codeSequence){
-        progress.setMessage("Almost Done...");
+        progress.setMessage(getString(R.string.registration_dialog2));
         Commands formservice = Service.createService(Commands.class);
         if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_REGISTERED,false)){
             inputName.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(Preferences.PREF_USERNAME,"Username"));

@@ -4,11 +4,11 @@
     <item
         android:id="@+id/action_clear_log"
         android:orderInCategory="100"
-        android:title="Clear Log"
+        android:title="@string/action_clear_log"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_clear_data"
         android:orderInCategory="100"
-        android:title="Clear Database"
+        android:title="@string/action_clear_database"
         app:showAsAction="never" />
 </menu>

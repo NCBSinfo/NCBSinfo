@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 
-/**
- * Created by Rohit Suratekar on 14-04-16.
- */
 public class ExperimentalGrid extends BaseAdapter {
 
     private Context mContext;

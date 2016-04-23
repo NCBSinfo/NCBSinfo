@@ -56,15 +56,13 @@ import java.util.TimerTask;
 public class Home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
     GoogleMap googleMap;
     TextView title,footer,nextText;
-    ImageView image,previous,next, showall;
+    ImageView image,previous,next;
     ImageView icon_transport, icon_updates, icon_settings, icon_contacts;
     LatLng coord;
     String transportFrom, transportTo;
     int isBuggy, currentRoute;
-    LinearLayout footerHolder;
+    LinearLayout footerHolder, homeFooter;
     RelativeLayout homeLayout;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +81,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
-                alertDialog.setTitle("Compatibility mode");
-                alertDialog.setMessage("This app is best suited for Android Lollipop (21) and above. Your current android version is " + android.os.Build.VERSION.SDK_INT + " . Some animations and functions might not work properly. ");
+                alertDialog.setTitle(getResources().getString(R.string.warning_version_title));
+                alertDialog.setMessage(getResources().getString(R.string.warning_version_details,android.os.Build.VERSION.SDK_INT ));
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(Preferences.ANDROID_VERSION_WARNING, false).apply();
@@ -108,13 +106,13 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
        homeLayout = (RelativeLayout)findViewById(R.id.home_layout);
        coord = new TransportFunctions().getLocation(getApplicationContext(),transportTo,isBuggy);
        footerHolder = (LinearLayout)findViewById(R.id.home_footerHolder);
+       homeFooter = (LinearLayout)findViewById(R.id.home_footer);
        title = (TextView)findViewById(R.id.home_cardview_title);
        footer = (TextView)findViewById(R.id.home_cardView_Footer);
        nextText = (TextView)findViewById(R.id.home_cardView_nextText);
        image= (ImageView)findViewById(R.id.home_cardView_selector);
        previous= (ImageView)findViewById(R.id.previousRoute);
        next= (ImageView)findViewById(R.id.nextRoute);
-       showall= (ImageView)findViewById(R.id.home_icon_showall);
        icon_transport= (ImageView)findViewById(R.id.home_icon_transport);
        icon_updates= (ImageView)findViewById(R.id.home_icon_updates);
        icon_settings= (ImageView)findViewById(R.id.home_icon_settings);
@@ -135,11 +133,13 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                         if(item.getItemId() == R.id.popup_addfav){
                             String[] route = new TransportFunctions().getRouteName(currentRoute);
                             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt(SettingsRelated.HOME_DEFAULT_ROUTE,currentRoute).apply();
-                            Snackbar.make(homeLayout, route[0].toUpperCase()+"-"+route[1].toUpperCase()+" added to default view",Snackbar.LENGTH_SHORT).show();
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(SettingsRelated.SETTINGS_TRANSPORT_ROUTES, String.valueOf(currentRoute)).apply();
+                            Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_added_route,route[0].toUpperCase(),route[1].toUpperCase()),Snackbar.LENGTH_SHORT).show();
                         }
                         else if (item.getItemId() == R.id.popup_remove){
                             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt(SettingsRelated.HOME_DEFAULT_ROUTE,0).apply();
-                            Snackbar.make(homeLayout, "Default view is reset",Snackbar.LENGTH_SHORT).show();
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString(SettingsRelated.SETTINGS_TRANSPORT_ROUTES,"0").apply();
+                            Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_reset_route),Snackbar.LENGTH_SHORT).show();
                         }
                         return false;
                     }
@@ -150,7 +150,6 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
 
         previous.setOnClickListener(this);
         next.setOnClickListener(this);
-        showall.setOnClickListener(this);
         icon_updates.setOnClickListener(this);
         icon_transport.setOnClickListener(this);
         icon_settings.setOnClickListener(this);
@@ -235,26 +234,22 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     public void changeTransportText(){
         String tempText;
         if (isBuggy==1){
-            tempText="Next Buggy ";
+            tempText=getResources().getString(R.string.next_transport,getResources().getString(R.string.buggy));
         }
         else {
-            tempText="Next Shuttle ";
+            tempText=getResources().getString(R.string.next_transport,getResources().getString(R.string.shuttle));
         }
         Calendar c2 = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         Calendar nextDate = new TransportFunctions().NextTransport(transportFrom, transportTo, format.format(c2.getTime()), isBuggy);
         SimpleDateFormat dformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        nextText.setText(tempText+dformat.format(nextDate.getTime()));
+        nextText.setText(getResources().getString(R.string.next_transport_details,tempText, dformat.format(nextDate.getTime())));
 
         float[] Difference = new TransportFunctions().TimeLeft(format.format(c2.getTime()), format.format(nextDate.getTime()));
 
-        footer.setText("" + ((int) Difference[2]) + " Hrs " + ((int) Difference[1]) + " Min " + ((int) Difference[0])+" Sec left");
+        footer.setText(getResources().getString(R.string.time_left, (int) Difference[2] ,((int) Difference[1]) , ((int) Difference[0])));
 
-        String tempString = transportFrom.toUpperCase()+"-"+transportTo.toUpperCase();
-        if(isBuggy==1){
-            tempString = tempString + " Buggy";
-        }
-        title.setText(tempString);
+        title.setText(getResources().getStringArray(R.array.home_spinner_items)[currentRoute]);
         float minLeft = Difference[2]*60 + Difference[1];
 
         Window window = getWindow();
@@ -263,6 +258,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 footer.setTextColor(getResources().getColor(R.color.hurryupColor,getTheme()));
                 footerHolder.setBackgroundColor(getResources().getColor(R.color.hurryupColor,getTheme()));
+                homeFooter.setBackgroundColor(getResources().getColor(R.color.hurryupColor,getTheme()));
                 getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.hurryupColor,getTheme())));
                 window.setStatusBarColor(getResources().getColor(R.color.hurryup_dark,getTheme()));
 
@@ -270,6 +266,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             } else {
                 footer.setTextColor(getResources().getColor(R.color.hurryupColor));
                 footerHolder.setBackgroundColor(getResources().getColor(R.color.hurryupColor));
+                homeFooter.setBackgroundColor(getResources().getColor(R.color.hurryupColor));
                 getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.hurryupColor)));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     window.setStatusBarColor(getResources().getColor(R.color.hurryup_dark));
@@ -295,12 +292,20 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
             if (isBuggy==1){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor,getTheme()));
-                } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor));}
+                    homeFooter.setBackgroundColor(getResources().getColor(R.color.BuggyColor,getTheme()));
+                } else {
+                    footerHolder.setBackgroundColor(getResources().getColor(R.color.BuggyColor));
+                    homeFooter.setBackgroundColor(getResources().getColor(R.color.BuggyColor));
+                }
             }
             else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary,getTheme()));
-                } else {footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));}
+                    homeFooter.setBackgroundColor(getResources().getColor(R.color.colorPrimary,getTheme()));
+                } else {
+                    footerHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    homeFooter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                }
             }
 
         }
@@ -351,8 +356,6 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 Intent i1 = new Intent(this, Transport.class);
                 i1.putExtra(General.GEN_TRANSPORT_INTENT,String.valueOf(currentRoute));
                 startActivity(i1);break;
-            case R.id.home_icon_showall:
-                startActivity(new Intent(this,MapListActivityImpl.class));break;
             case R.id.home_icon_contacts:
                 startActivity(new Intent(this, Contacts.class));break;
             default:

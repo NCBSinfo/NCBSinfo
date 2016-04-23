@@ -25,6 +25,7 @@ import android.widget.SearchView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.adapters.ContactAdapter;
+import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.helpers.ContactList;
 import com.rohitsuratekar.NCBSinfo.helpers.DividerDecoration;
@@ -70,7 +71,7 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
                 new DividerDecoration(getContext(), LinearLayoutManager.VERTICAL);
         mRecyclerView.addItemDecoration(itemDecoration);
         doSearch(rootView2);
-        Boolean Firstvalue = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("firstTime2", true);
+        Boolean Firstvalue = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(Preferences.PREF_CONTACT_LOADED, true);
 
         if (Firstvalue){
             Database db = new Database(getContext());
@@ -78,7 +79,7 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
             for (int i=0; i <clist.length; i++){
                 db.addContact(new ContactModel(1, clist[i][0], clist[i][1],clist[i][2], clist[i][3], "0"));
             }
-            PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("firstTime2", false).apply();
+            PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(Preferences.PREF_CONTACT_LOADED, false).apply();
             db.close();
         }
 
@@ -107,12 +108,6 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
         });
 
         inputSearch = (EditText) rootView2.findViewById(R.id.searchTextBox);
-
-        // Code to Add an item with default animation
-        //((MyRecyclerViewAdapter) mAdapter).addItem(obj, index);
-
-        // Code to remove an item with default animation
-        //((MyRecyclerViewAdapter) mAdapter).deleteItem(index);
 
         return rootView2;
     }
@@ -245,7 +240,6 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
             resultsFav.clear();
             resultsFav.addAll(mAllData);
             mAdapter2.notifyDataSetChanged();
-            //inputSearch.setInputType(0);
             inputSearch.setText("");
         }
     }

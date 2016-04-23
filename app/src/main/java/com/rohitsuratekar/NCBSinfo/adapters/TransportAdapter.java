@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 
-/**
- * Created by Rohit Suratekar on 11-04-16.
- */
 public class TransportAdapter  extends ArrayAdapter<String> {
 
     Context context;
@@ -27,7 +24,6 @@ public class TransportAdapter  extends ArrayAdapter<String> {
         data = data2;
 
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)

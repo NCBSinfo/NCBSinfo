@@ -48,8 +48,6 @@ public class DataFetch extends IntentService {
 
     }
 
-
-
     public void loadJCData(final Context context, String TableID) {
         String sql_query = "SELECT * FROM " + TableID;
         Commands FusionTable = Service.createService(Commands.class);
@@ -74,7 +72,9 @@ public class DataFetch extends IntentService {
                         String nextspeaker = response.body().getRows().get(i).get(8);
                         datacode = response.body().getRows().get(i).get(9);
                         int actioncode = SQL.ACTION_RETRIVED;
-
+                        if(title.isEmpty()){
+                            title = "Talk by "+speaker;
+                        }
                         if (!db.isAlreadyThere(SQL.TABLE_DATABASE, SQL.DATA_TIMESTAMP, timestamp)) {
 
                             if (timestamp.length() != 0) {
@@ -128,7 +128,9 @@ public class DataFetch extends IntentService {
                         String host = response.body().getRows().get(i).get(8);
                         String datacode = response.body().getRows().get(i).get(9);
                         int actioncode = SQL.ACTION_RETRIVED;
-
+                        if(notificationtitle.isEmpty()){
+                            notificationtitle = "Talk by "+speaker;
+                        }
                         if (!db.isAlreadyThere(SQL.TABLE_TALK, SQL.TALK_TIMESTAMP, timestamp)) {
 
                             if (timestamp.length() != 0) {

@@ -174,21 +174,17 @@ public class TransportFragment extends Fragment {
 
         String currentTime = modformat.format(Calendar.getInstance().getTime());
 
-        weekTitle.setText("Weekdays*");
-        sundayTitle.setText("Sunday");
-        footnote1.setText("*Including Saturday");
-        footnote2.setText("**Next shuttle after "+currentTime);
+        weekTitle.setText(getResources().getString(R.string.transport_list_title1));
+        sundayTitle.setText(getResources().getString(R.string.transport_list_title2));
+        footnote1.setText(getResources().getString(R.string.transport_footer1));
+        footnote2.setText(getResources().getString(R.string.transport_footer2,currentTime));
 
         if (isBuggy==1){
-            weekTitle.setText("From NCBS");
-            sundayTitle.setText("From Mandara");
+            weekTitle.setText(getResources().getString(R.string.transport_list_title3));
+            sundayTitle.setText(getResources().getString(R.string.transport_list_title4));
             footnote1.setText("");
-            footnote2.setText("**Next buggy after "+currentTime);
+            footnote2.setText(getResources().getString(R.string.transport_footer3,currentTime));
         }
-
     }
-
-
-
 }
 

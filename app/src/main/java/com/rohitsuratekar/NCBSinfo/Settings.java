@@ -64,6 +64,7 @@ public class Settings extends AppCompatPreferenceActivity {
                     }
                     editor.putFloat(SettingsRelated.SETTING_HURRY_UP_TIME, hurryupMin).apply();
                     preference.setSummary(String.valueOf(hurryupMin));
+                    ((EditTextPreference) preference).setText(String.valueOf(hurryupMin));
                     Log.i("New value",String.valueOf(hurryupMin));
                     return true;
                 }
@@ -79,6 +80,7 @@ public class Settings extends AppCompatPreferenceActivity {
                         notificationOnset = 10; //Default value
                     }
                     preference.setSummary(String.valueOf(notificationOnset));
+                    ((EditTextPreference) preference).setText(String.valueOf(notificationOnset));
                     notificationOnset = notificationOnset * 60;
                     editor.putInt(Preferences.PREF_NOTIFICATION_ONSET, notificationOnset).apply();
                     return true;
@@ -95,9 +97,10 @@ public class Settings extends AppCompatPreferenceActivity {
                         currentFrequency = 120; //Default value
                         ((EditTextPreference) preference).setText(String.valueOf(120));
                     }
+                    preference.setSummary(String.valueOf(currentFrequency));
+                    ((EditTextPreference) preference).setText(String.valueOf(currentFrequency));
                     currentFrequency = currentFrequency * 60;
                     editor.putInt(Preferences.PREF_ALARM_FREQUENCY, currentFrequency).apply();
-                    preference.setSummary(String.valueOf(currentFrequency));
                     return true;
                 }
             }
@@ -172,7 +175,7 @@ public class Settings extends AppCompatPreferenceActivity {
                     sBindPreferenceSummaryToValueListener.onPreferenceChange(
                          preference,
                          PreferenceManager.getDefaultSharedPreferences(preference.getContext())
-                                 .getString(preference.getKey(), String.valueOf(((EditTextPreference) preference).getEditText())));
+                                 .getString(preference.getKey(), String.valueOf(preference.getSummary())));
                 }
                  else
                 {

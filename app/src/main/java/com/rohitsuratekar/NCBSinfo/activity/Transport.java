@@ -180,21 +180,21 @@ public class Transport extends AppCompatActivity
             switch (position) {
                 case 0:
 
-                    return "NCBS-IISc";
+                    return getResources().getString(R.string.route_ncbs_iisc);
                 case 1:
-                    return "IISc-NCBS";
+                    return getResources().getString(R.string.route_iisc_ncbs);
                 case 2:
-                    return "NCBS-Mandara";
+                    return getResources().getString(R.string.route_ncbs_mandara);
                 case 3:
-                    return "Mandara-NCBS";
+                    return getResources().getString(R.string.route_mandara_ncbs);
                 case 4:
-                    return "Buggy";
+                    return getResources().getString(R.string.buggy);
                 case 5:
-                    return "NCBS-ICTS";
+                    return getResources().getString(R.string.route_ncbs_icts);
                 case 6:
-                    return "ICTS-NCBS";
+                    return getResources().getString(R.string.route_icts_ncbs);
                 case 7:
-                    return "NCBS-CBL";
+                    return getResources().getString(R.string.route_ncbs_cbl);
 
             }
             return null;

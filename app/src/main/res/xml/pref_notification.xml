@@ -2,12 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference
         android:key="setting_notification_regisration"
-        android:summary="Change your notification preferences"
-        android:title="Change preference"/>
+        android:title="@string/settings_change_notification_preference"
+        android:summary="@string/settings_change_notification_preference_summary" />
+
     <EditTextPreference
         android:key="setting_notification_time"
-        android:title="Notification time before event\n (in min)"
-        android:summary="Set notification time before event"
-        android:inputType="number"
-        />
+        android:title="@string/settings_notification_time"
+        android:summary="@string/settings_notification_time_summary"
+        android:inputType="number" />
 </PreferenceScreen>

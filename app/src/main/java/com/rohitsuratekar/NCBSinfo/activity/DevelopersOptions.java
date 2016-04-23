@@ -65,8 +65,8 @@ public class DevelopersOptions extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
       ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DevelopersLogFragment(), "Full Log");
-        adapter.addFragment(new DataFetchLogFragment(), "All Data");
+        adapter.addFragment(new DevelopersLogFragment(), getResources().getString(R.string.developers_tab_log));
+        adapter.addFragment(new DataFetchLogFragment(), getResources().getString(R.string.developers_tab_data));
         viewPager.setAdapter(adapter);
     }
 
@@ -99,15 +99,13 @@ public class DevelopersOptions extends AppCompatActivity
             db.clearLogs();
             db.close();
             finish();
-            Intent intent = new Intent(getBaseContext(), DevelopersOptions.class);
-            startActivity(intent);
-            Log.i("Data cleared","Limited Log");
+            startActivity(new Intent(getBaseContext(), DevelopersOptions.class));
 
         }
         else if (id==R.id.action_clear_data){
             new AlertDialog.Builder(DevelopersOptions.this)
-                    .setTitle("Are you sure?")
-                    .setMessage("You are about to delete entire database.")
+                    .setTitle(getResources().getString(R.string.warning_are_you_sure))
+                    .setMessage(getResources().getString(R.string.warning_clear_data))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete

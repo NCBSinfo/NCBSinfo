@@ -29,8 +29,8 @@ public class ContactAdd extends AppCompatActivity  {
             Intent intent = getIntent();
             forEdit = intent.getIntExtra("forEdit", 0);
             feldID = intent.getIntExtra("feldID", 0);
-            if (forEdit==0){ setTitle("Add Contact");}
-            else{setTitle("Edit Contact");}
+            if (forEdit==0){ setTitle(getString(R.string.contact_add));}
+            else{setTitle(getString(R.string.contact_edit));}
 
             inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
             inputLayoutNumber = (TextInputLayout) findViewById(R.id.input_layout_contact_number);
@@ -93,13 +93,13 @@ public class ContactAdd extends AppCompatActivity  {
 
         private boolean validateName() {
             if (inputName.getText().toString().trim().isEmpty()) {
-                inputLayoutName.setError("Invalid Name");
+                inputLayoutName.setError(getString(R.string.contact_error1));
                 requestFocus(inputName);
                 inputLayoutNumber.setErrorEnabled(false);
                 return false;
             }
             else if (inputNumber.getText().toString().trim().isEmpty()) {
-                inputLayoutNumber.setError("Contact number can not be empty");
+                inputLayoutNumber.setError(getString(R.string.contact_error2));
                 requestFocus(inputNumber);
                 inputLayoutName.setErrorEnabled(false);
                 return false;

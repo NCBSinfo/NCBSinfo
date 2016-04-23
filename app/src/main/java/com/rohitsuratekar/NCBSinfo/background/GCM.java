@@ -18,7 +18,6 @@ import com.rohitsuratekar.NCBSinfo.constants.Network;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
 import com.rohitsuratekar.NCBSinfo.database.Database;
-import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.NetworkRelated;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
@@ -74,7 +73,7 @@ public class GCM extends GcmListenerService{
                                 talkModel.setTitle(data.getString("talk_title","Title of the talk"));
                                 talkModel.setHost(data.getString("host","Dean's office"));
                                 talkModel.setAffilication(data.getString("affiliation","University"));
-                                talkModel.setDatacode("RTALK");
+                                talkModel.setDatacode(General.GEN_DATACODE_TALK);
                                 talkModel.setSpeaker(data.getString("speaker","Speaker Name"));
                                 talkModel.setVenue(data.getString("venue", "Seminar hall"));
                                 addEntrybyGCM(talkModel);
@@ -178,7 +177,7 @@ public class GCM extends GcmListenerService{
 
     private void addEntrybyGCM(TalkModel talkModel) {
         Database db = new Database(getBaseContext());
-        db.addTalkEntry(talkModel);  //0 is pseudo increment
+        db.addTalkEntry(talkModel);
         String entryDetails = talkModel.getNotificationTitle();
         new LogEntry(getBaseContext(),StatusCodes.STATUS_ENTRY_ADDED_GCM, entryDetails);
         Intent notservice=new Intent(getBaseContext(),Notifications.class);
@@ -187,6 +186,6 @@ public class GCM extends GcmListenerService{
     }
 
     private void debugFunction() {
-
+        //TODO function for developers, this will avoid other users from getting unnecessary notifications
     }
 }
