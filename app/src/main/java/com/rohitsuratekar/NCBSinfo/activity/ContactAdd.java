@@ -66,9 +66,6 @@ public class ContactAdd extends AppCompatActivity  {
 
         }
 
-        /**
-         * Validating form
-         */
         private void submitForm() {
             if (!validateName()) {
                 return;

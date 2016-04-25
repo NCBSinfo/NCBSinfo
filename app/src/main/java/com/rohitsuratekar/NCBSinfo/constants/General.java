@@ -30,7 +30,8 @@ public class General {
 
 
     //All alarm intent numbers
-    public static final int GEN_DAILYNOT_INTENT1 = 1000;
+    public static final int GEN_DAILYNOT_INTENT1 = 7632472; //Some random number
+    public static final int GEN_DAILYNOT_INTENT2 = 8723984; //Some random number
 
 
 

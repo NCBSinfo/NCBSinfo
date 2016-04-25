@@ -114,7 +114,7 @@ public class GCM extends GcmListenerService{
 
         PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = getApplicationContext().getResources().getColor(R.color.colorPrimary);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext())
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()

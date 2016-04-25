@@ -53,7 +53,6 @@ public class TransportFunctions  {
 
         String[] ncbs_cbl = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
         String[] ncbs_cbl_sunday = {"00:00", "01:00","02:00","03:00","04:00","20:30","22:00","23:00"};
-
         String[] currentRoute = {};
         if (isBuggy==0) {
             if (from.equals("ncbs") && to.equals("iisc") && day != Calendar.SUNDAY) {
@@ -231,10 +230,8 @@ public class TransportFunctions  {
                 d2_new.setTime(format.parse(date));
                 d2_new.add(Calendar.DATE, 1);
                 String TempString = shortformat.format(d2_new.getTime());
-
                 dateString2 = String.format("%s 00:00:00",TempString);
-                String[] nexttrips = ModifiedTransportList(from, to, dateString2, isbuggy);
-
+                String[] nexttrips = TripsData(from, to, dateString2, isbuggy);
                 String temp2 = String.format("%s %s:%s", TempString, nexttrips[0], 0);
                 Calendar finalTime = Calendar.getInstance();
                 finalTime.setTime(format.parse(temp2));

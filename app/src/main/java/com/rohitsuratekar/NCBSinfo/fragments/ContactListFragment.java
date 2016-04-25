@@ -347,8 +347,7 @@ public class ContactListFragment extends Fragment implements SearchView.OnQueryT
         else if(item.getItemId() == R.id.contact_list_edit){
             position = ((ContactAdapter) mAdapter).getPosition();
             doc2 = db2.getContact(((int) position));
-            //TODO
-            //Add contact activity
+
             Intent intent = new Intent(getContext(), ContactAdd.class);
             intent.putExtra("forEdit", 1);
             intent.putExtra("feldID", doc2.getId() );

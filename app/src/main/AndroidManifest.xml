@@ -136,7 +136,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.Information"
-            android:label="@string/map"
+            android:label="@string/information"
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -145,7 +145,7 @@
         </activity>
         <activity
             android:name=".activity.Contacts"
-            android:label="@string/title_activity_contacts"
+            android:label="@string/contacts"
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">

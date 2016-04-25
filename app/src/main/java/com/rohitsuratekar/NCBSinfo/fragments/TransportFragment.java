@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class TransportFragment extends Fragment {
                 GlobalShuttleFrom = "ncbs";
                 GlobalShuttleto = "iisc";
                 isBuggy = 0;
-
                 break;
             case 1:
                 GlobalShuttleFrom = "iisc";
@@ -100,8 +100,6 @@ public class TransportFragment extends Fragment {
         String sundaysmall = "1/31/2016 ";
         String[] AllArrays = new TransportFunctions().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
 
-
-
         String[] after = new String[AllArrays.length];
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
         SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
@@ -112,6 +110,9 @@ public class TransportFragment extends Fragment {
 
         Calendar nextcal = new TransportFunctions().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_weekday, isBuggy);
         Calendar sundaynext = new TransportFunctions().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);
+
+        Log.i("Next Sunday", GlobalShuttleFrom+" "+GlobalShuttleto+" "+isBuggy+" "+sundaynext.get(Calendar.HOUR_OF_DAY)+" "+sundaynext.get(Calendar.MINUTE) );
+        Log.i("Next Weekdays", GlobalShuttleFrom+" "+GlobalShuttleto+" "+isBuggy+" "+nextcal.get(Calendar.HOUR_OF_DAY)+" "+nextcal.get(Calendar.MINUTE) );
 
         if (isBuggy==1){
             nextcal = new TransportFunctions().NextTransport("ncbs", "mandara", current_weekday, isBuggy);
@@ -129,7 +130,7 @@ public class TransportFragment extends Fragment {
                 Date tempdate = format.parse(AllArrays[i]);
                 after[i] = modformat.format(tempdate);
                 if (after[i].equals(nextShuttleWeek)){
-                    after[i]="<font color=\"blue\">"+modformat.format(tempdate)+"**</font>";
+                    after[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem1 = i;
 
                 }
@@ -152,7 +153,7 @@ public class TransportFragment extends Fragment {
                 sunday[i] = modformat.format(tempdate);
 
                 if (sunday[i].equals(nextShuttleSunday)){
-                    sunday[i]="<font color=\"blue\">"+modformat.format(tempdate)+"**</font>";
+                    sunday[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem2 = i;
 
                 }

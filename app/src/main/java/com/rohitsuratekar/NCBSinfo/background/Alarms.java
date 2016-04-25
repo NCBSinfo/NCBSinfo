@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.constants.General;
@@ -53,17 +52,23 @@ public class Alarms  extends BroadcastReceiver {
         myIntent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_DAILYNOTIFICATION);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getService(context, General.GEN_DAILYNOT_INTENT1, myIntent, 0);
+        PendingIntent pendingIntent2 = PendingIntent.getService(context, General.GEN_DAILYNOT_INTENT2, myIntent, 0);
+
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 7);  //Every day at 7, daily notifications will be sent
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 7);  //Every day at 7 am, daily notifications will be sent
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent);
+
+        calendar.set(Calendar.HOUR_OF_DAY, 13);  //Every day at 1 pm, daily notifications will be sent
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent2);
+
         new LogEntry(context, StatusCodes.STATUS_DAILYNOTE_RESET);
-
     }
-
     private void resetDataFetch(Context context){
         Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
         Intent intent1 = new Intent(context, Alarms.class);
         intent1.putExtra(General.GEN_ALARM_INTENT, General.GEN_ALARM_DATAFETCH);
         PendingIntent single_sender = PendingIntent.getBroadcast(context, 1989, intent1, PendingIntent.FLAG_CANCEL_CURRENT); //1989 is ,y birth year :P
@@ -95,6 +100,7 @@ public class Alarms  extends BroadcastReceiver {
         {
             //Optimized data fetch frequency
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             calendar.set(Calendar.HOUR_OF_DAY, 6);
             calendar.set(Calendar.MINUTE, 0);
@@ -108,14 +114,9 @@ public class Alarms  extends BroadcastReceiver {
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender4);
             calendar.set(Calendar.HOUR_OF_DAY, 21);
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender5);
-
             //Cancel previous alarms
             alarmMgr.cancel(single_sender);
             new LogEntry(context,StatusCodes.STATUS_OPTIMIZED_ALARMS);
         }
     }
-
-
-
-
 }

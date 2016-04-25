@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
@@ -119,6 +118,9 @@ public class Notifications extends BroadcastReceiver {
                         Calendar cal3 = Calendar.getInstance();
                         long timeleft = tempdate.getTime()-Calendar.getInstance().getTime().getTime(); //Get time difference from now
                         timeleft = timeleft - (PreferenceManager.getDefaultSharedPreferences(mContext).getInt(Preferences.PREF_NOTIFICATION_ONSET,mContext.getResources().getInteger(R.integer.notification_onset_default)))*1000;
+                        if(timeleft<0){
+                            timeleft = 0;  //In case someone had put very large time onset
+                        }
                         cal3.add(Calendar.MILLISECOND, (int) timeleft);
                         Intent intent = new Intent(mContext, Notifications.class);
                         intent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_SENDNOTIFICATION );

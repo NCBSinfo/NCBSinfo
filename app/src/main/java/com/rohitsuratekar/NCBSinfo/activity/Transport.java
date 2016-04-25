@@ -3,31 +3,27 @@ package com.rohitsuratekar.NCBSinfo.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
-import com.rohitsuratekar.NCBSinfo.adapters.ViewpagerAdapter;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
-import com.rohitsuratekar.NCBSinfo.fragments.DevelopersLogFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.TransportFragment;
 
 public class Transport extends AppCompatActivity
@@ -171,7 +167,6 @@ public class Transport extends AppCompatActivity
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 8;
         }
 
@@ -179,7 +174,6 @@ public class Transport extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-
                     return getResources().getString(R.string.route_ncbs_iisc);
                 case 1:
                     return getResources().getString(R.string.route_iisc_ncbs);

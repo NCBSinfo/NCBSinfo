@@ -61,7 +61,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     LatLng coord;
     String transportFrom, transportTo;
     int isBuggy, currentRoute;
-    LinearLayout footerHolder, homeFooter;
+    LinearLayout footerHolder, homeFooter, titleHolder;
     RelativeLayout homeLayout;
 
     @Override
@@ -107,6 +107,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
        coord = new TransportFunctions().getLocation(getApplicationContext(),transportTo,isBuggy);
        footerHolder = (LinearLayout)findViewById(R.id.home_footerHolder);
        homeFooter = (LinearLayout)findViewById(R.id.home_footer);
+       titleHolder = (LinearLayout)findViewById(R.id.home_title_holder);
        title = (TextView)findViewById(R.id.home_cardview_title);
        footer = (TextView)findViewById(R.id.home_cardView_Footer);
        nextText = (TextView)findViewById(R.id.home_cardView_nextText);
@@ -154,6 +155,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         icon_transport.setOnClickListener(this);
         icon_settings.setOnClickListener(this);
         icon_contacts.setOnClickListener(this);
+        title.setOnClickListener(this);
 
         //Timer for timeleft
         Timer timeLeft = new Timer();
@@ -232,6 +234,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
 
 
     public void changeTransportText(){
+
         String tempText;
         if (isBuggy==1){
             tempText=getResources().getString(R.string.next_transport,getResources().getString(R.string.buggy));
@@ -358,6 +361,10 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 startActivity(i1);break;
             case R.id.home_icon_contacts:
                 startActivity(new Intent(this, Contacts.class));break;
+            case R.id.home_cardview_title:
+                Intent i2 = new Intent(this, Transport.class);
+                i2.putExtra(General.GEN_TRANSPORT_INTENT,String.valueOf(currentRoute));
+                startActivity(i2);break;
             default:
                 Toast.makeText(getBaseContext(),"No item found",Toast.LENGTH_LONG).show();break;
 
