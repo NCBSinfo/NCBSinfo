@@ -20,4 +20,6 @@ Stable version: <a href = https://github.com/NCBSinfo/NCBSinfo/tree/version3.1> 
 -- Send feedback </br>
 -- Suggest features</br>
 -- Code !</br>
--- Be an administrator for event updates :)
+-- Be an administrator for event updates :) </br></br>
+
+> Special note for developers :  app/src/main/java/com/rohitsuratekar/NCBSinfo/constants/Network.java file is un-tracked for security purpose. This file contains all network related constants.
