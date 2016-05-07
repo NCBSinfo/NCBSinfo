@@ -8,18 +8,9 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 14
         targetSdkVersion 23
-<<<<<<< HEAD
         versionCode 17
         versionName " 3.0 "
-=======
-<<<<<<< HEAD
-        versionCode 10
-        versionName "v 2.2"
-=======
-        versionCode 11
-        versionName "v 3.0 beta 1"
->>>>>>> cbb920d52f83504a4e10bdd117e0e3466795a50f
->>>>>>> 8b379007eaaaaad2905ed959e16658c49b714d9e
+
     }
     buildTypes {
         release {
@@ -29,14 +20,6 @@ android {
         }
     }
 
-    signingConfigs {
-        debug {
-            storeFile file(project.property("MyApp.signing"))
-            storePassword project.property("MyApp.signing.password")
-            keyAlias project.property("MyApp.signing.alias")
-            keyPassword project.property("MyApp.signing.password")
-        }
-    }
 }
 
 dependencies {

@@ -59,6 +59,8 @@ public class OldEventLogFragment extends Fragment {
             }
         });
 
+        Collections.reverse(commonList); //Old events will go to bottom
+
         DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
         Date eventDateTime = Calendar.getInstance().getTime();
         for (CommonEventModel entry : commonList){
