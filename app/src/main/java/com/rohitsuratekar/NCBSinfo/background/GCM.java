@@ -13,6 +13,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
+import com.rohitsuratekar.NCBSinfo.activity.JustNotify;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Network;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
@@ -79,7 +80,7 @@ public class GCM extends GcmListenerService{
                                 addEntrybyGCM(talkModel);
                                 break;
                             case Network.GCM_TRIGGER_JUST_NOTIFY:
-                                sendNotification(data.getString("title"), data.getString("message"),"null","null");
+                                sendNotification(data.getString("title"), data.getString("message"),Network.GCM_TRIGGER_JUST_NOTIFY,"null");
                                 break;
                             default:
                                 String temp = "Unknown code : " + rcode;
@@ -105,13 +106,21 @@ public class GCM extends GcmListenerService{
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Intent notificationIntent;
-        if (datacode.equals("null")){
-            notificationIntent = new Intent(getBaseContext(), EventUpdates.class);
+        switch (datacode) {
+            case "null":
+                notificationIntent = new Intent(getBaseContext(), EventUpdates.class);
+                break;
+            case Network.GCM_TRIGGER_JUST_NOTIFY:
+                notificationIntent = new Intent(getBaseContext(), JustNotify.class);
+                notificationIntent.putExtra(General.GEN_NOTIFY_TITLE, title);
+                notificationIntent.putExtra(General.GEN_NOTIFY_MESSAGE, notificationMessage);
+                break;
+            default:
+                notificationIntent = new Intent(getBaseContext(), EventDetails.class);
+                notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATA_ID, Integer.parseInt(dataID));
+                notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATACODE, datacode);
+                break;
         }
-        else
-        {notificationIntent = new Intent(getBaseContext(), EventDetails.class);
-            notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATA_ID,Integer.parseInt(dataID));
-            notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATACODE,datacode);}
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
