@@ -46,6 +46,10 @@ public class DataFetch extends IntentService {
         if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_SUB_RESEARCHTALK,false)){
         loadTalkData(context);}
 
+        Intent myIntent = new Intent(context , Notifications.class);
+        myIntent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_DAILYNOTIFICATION);
+        context.sendBroadcast(myIntent);
+
     }
 
     public void loadJCData(final Context context, String TableID) {
