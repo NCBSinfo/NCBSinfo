@@ -153,7 +153,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
-        <activity android:name=".activity.ContactAdd"></activity>
+        <activity android:name=".activity.ContactAdd" />
+        <activity android:name=".activity.JustNotify"></activity>
     </application>
 
 </manifest>

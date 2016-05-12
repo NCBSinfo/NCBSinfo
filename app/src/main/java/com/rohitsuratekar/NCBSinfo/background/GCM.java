@@ -64,7 +64,7 @@ public class GCM extends GcmListenerService{
                                 //For developers. This will avoid other users to receive this notifications
                                 debugFunction();
                                 break;
-                            case Network.GCM_ADD_TALK_ENTRY:
+                            case Network.GCM_TRIGGER_ADD_TALK_ENTRY:
                                 TalkModel talkModel = new TalkModel();
                                 talkModel.setTimestamp(data.getString("timestamp","01/05/2016 00:00:00"));
                                 talkModel.setTime(data.getString("time","00:00:00"));
@@ -77,6 +77,9 @@ public class GCM extends GcmListenerService{
                                 talkModel.setSpeaker(data.getString("speaker","Speaker Name"));
                                 talkModel.setVenue(data.getString("venue", "Seminar hall"));
                                 addEntrybyGCM(talkModel);
+                                break;
+                            case Network.GCM_TRIGGER_JUST_NOTIFY:
+                                sendNotification(data.getString("title"), data.getString("message"),"null","null");
                                 break;
                             default:
                                 String temp = "Unknown code : " + rcode;

@@ -8,13 +8,13 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 17
-        versionName " 3.0 "
+        versionCode 18
+        versionName " 3.1 "
 
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
