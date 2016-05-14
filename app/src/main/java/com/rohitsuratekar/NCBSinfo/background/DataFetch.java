@@ -46,6 +46,7 @@ public class DataFetch extends IntentService {
         if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_SUB_RESEARCHTALK,false)){
         loadTalkData(context);}
 
+        //TODO change this forced notification strategy later on
         Intent myIntent = new Intent(context , Notifications.class);
         myIntent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_DAILYNOTIFICATION);
         context.sendBroadcast(myIntent);

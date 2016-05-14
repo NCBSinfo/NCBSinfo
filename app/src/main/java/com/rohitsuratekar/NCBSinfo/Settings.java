@@ -453,6 +453,9 @@ public class Settings extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("setting_dataFetchFrequency"));
 
 
+          //TODO data sync option is removed. Add option to XML like previous versions.
+
+
         }
 
 
