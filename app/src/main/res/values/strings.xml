@@ -17,7 +17,7 @@
     <string name="settings">Settings</string>
     <string name="experimental">Experimental</string>
     <string name="canteen">Canteen</string>
-    <string name="lecture_hall">Lecture Halls</string>
+    <string name="lecture_hall">Locations</string>
     <string name="developers_options">Developer\'s Options</string>
 
     <string name="warning_version_title">Compatibility mode</string>

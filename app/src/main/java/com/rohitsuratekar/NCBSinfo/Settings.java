@@ -416,41 +416,8 @@ public class Settings extends AppCompatPreferenceActivity {
                 }
             });
 
-            final EditTextPreference frequency = (EditTextPreference)findPreference("setting_dataFetchFrequency");
-            final SwitchPreference autoOn = (SwitchPreference)findPreference(SettingsRelated.SETTINGS_DATA_FETCH_FREQUENCY);
-            if(autoOn.isChecked()){
-                frequency.setEnabled(true);
-                autoOn.setSummary("Manual");
-            }
-            else
-            {
-                frequency.setEnabled(false);
-                autoOn.setSummary("Optimized");
-            }
-            final SharedPreferences freq;
-            freq = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            autoOn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-                    if(autoOn.isChecked()){
-                        frequency.setEnabled(true);
-                        autoOn.setSummary("Manual");
-                        freq.edit().putBoolean(SettingsRelated.SETTINGS_OPTIMIZED_DATA_SYNC,false).apply();
-                    }
-                    else
-                    {
-                        frequency.setEnabled(false);
-                        autoOn.setSummary("Optimized");
-                        freq.edit().putBoolean(SettingsRelated.SETTINGS_OPTIMIZED_DATA_SYNC,true).apply();
-                    }
-
-                    return true;
-                }
-            });
-
             bindPreferenceSummaryToValue(findPreference(SettingsRelated.SETTINGS_DEVELOPERS_LOG_ITEMS));
-            bindPreferenceSummaryToValue(findPreference("setting_dataFetchFrequency"));
+           // bindPreferenceSummaryToValue(findPreference("setting_dataFetchFrequency"));
 
 
           //TODO data sync option is removed. Add option to XML like previous versions.
