@@ -28,11 +28,11 @@ public class LecturehallList {
         LectureList.add(new String[] {"Meeting room (Admin) " , "Meeting room (Admin) " , "Admin Block" , "Third Floor" , "RDO", "Meeting Room"});
         LectureList.add(new String[] {"Mitochondrion" , "SLCSF Seminal Hall" , "Southern Labs" , "Second Floor" , "Towards Canteen", "Seminar Hall"});
         LectureList.add(new String[] {"Nucleus" , "S-01 Seminar Hall" , "Eastern Labs" , "Ground Floor" , "Next to Lab Support", "Seminar Hall"});
-        LectureList.add(new String[] {"Oases" , "OSH" , "Eastern Labs" , "First Floor" , "N/A", "Seminar Hall"});
         LectureList.add(new String[] {"Raspuri" , "New Teaching Lab" , "Southern Labs" , "Ground Floor" , "Next to tennis court", "Teaching Lab"});
         LectureList.add(new String[] {"Ribosome" , "GF Seminar Hall" , "CCAMP Building" , "Ground Floor" , "N/A", "Seminar Hall"});
         LectureList.add(new String[] {"Safeda" , "40 Seater" , "Southern Labs" , "Second Floor" , "Towards Canteen", "Auditorium"});
         LectureList.add(new String[] {"Synapse" , "SLCGF Seminar Hall" , "Southern Labs" , "Ground Floor" , "Towards Canteen", "Seminar Hall"});
+        LectureList.add(new String[] {"Vesicle" , "Oases" , "Eastern Labs" , "First Floor" , "In front of CBI counter", "Seminar Hall"});
         return LectureList;
     }
 }

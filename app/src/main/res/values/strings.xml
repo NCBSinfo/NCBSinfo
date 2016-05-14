@@ -17,7 +17,7 @@
     <string name="settings">Settings</string>
     <string name="experimental">Experimental</string>
     <string name="canteen">Canteen</string>
-    <string name="lecture_hall">Lecture Halls</string>
+    <string name="lecture_hall">Locations</string>
     <string name="developers_options">Developer\'s Options</string>
 
     <string name="warning_version_title">Compatibility mode</string>
@@ -104,7 +104,6 @@
     <string name="registration_change_button">Change Preferences</string>
     <string name="registration_error1">Cummon! At least tell us your nick name :P</string>
     <string name="registration_error2">Provide a valid email address (we are not going to spam :))</string>
-
 
 
     <string name="developers_tab_log">Complete log</string>

@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.helpers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;

@@ -26,18 +26,6 @@
         android:key="settings_sync_now"
         android:title="@string/settings_sync_now"/>
 
-    <SwitchPreference
-        android:key="settings_optimized_sync"
-        android:title="@string/settings_data_sync_frequency"
-        android:summary="@string/settings_data_sync_frequency_summary"
-        android:checked="false"/>
-
-    <EditTextPreference
-        android:key="setting_dataFetchFrequency"
-        android:title="@string/settings_current_frequency"
-        android:summary="@string/settings_current_frequency_summary"
-        android:inputType="number"
-        />
 
 </PreferenceCategory>
 
