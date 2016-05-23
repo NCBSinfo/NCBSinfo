@@ -52,7 +52,7 @@
     <string name="route_ncbs_cbl">NCBS - CBL</string>
 
     <string name="transport_list_title1">Weekdays*</string>
-    <string name="transport_list_title2">Sunday*</string>
+    <string name="transport_list_title2">Sunday</string>
     <string name="transport_list_title3">From NCBS</string>
     <string name="transport_list_title4">From Mandara</string>
     <string name="transport_footer1">*Including Saturday</string>

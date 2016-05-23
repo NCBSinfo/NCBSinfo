@@ -109,10 +109,7 @@ public class ContactAdd extends AppCompatActivity  {
             return true;
         }
 
-
-
-
-        private void requestFocus(View view) {
+    private void requestFocus(View view) {
             if (view.requestFocus()) {
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
