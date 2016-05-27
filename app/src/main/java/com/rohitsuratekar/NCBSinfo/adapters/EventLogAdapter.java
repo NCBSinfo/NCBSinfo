@@ -12,7 +12,13 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.models.CommonEventModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EventLogAdapter extends RecyclerView.Adapter<EventLogAdapter.MyViewHolder> {
 
@@ -21,9 +27,8 @@ public class EventLogAdapter extends RecyclerView.Adapter<EventLogAdapter.MyView
     private ClickListener myClickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView title, message;
+        public TextView title, message, event_date, event_month;
         public LinearLayout layout1;
-        public ImageView image;
 
         public MyViewHolder(View view) {
             super(view);
@@ -31,7 +36,8 @@ public class EventLogAdapter extends RecyclerView.Adapter<EventLogAdapter.MyView
             title = (TextView) view.findViewById(R.id.event_log_title);
             message = (TextView) view.findViewById(R.id.event_log_details);
             layout1 = (LinearLayout)view.findViewById(R.id.event_log_layout);
-            image = (ImageView)view.findViewById(R.id.event_log_icon);
+            event_date = (TextView)view.findViewById(R.id.event_log_date);
+            event_month = (TextView)view.findViewById(R.id.event_log_month);
             layout1.setOnClickListener(this);
 
         }
@@ -65,19 +71,17 @@ public class EventLogAdapter extends RecyclerView.Adapter<EventLogAdapter.MyView
         if(entry.getDatacode().equals(General.GEN_DATACODE_TALK)){
             holder.message.setText(entry.getCommonItem2() );
         }
-        holder.image.setColorFilter(R.color.colorPrimary);
-        holder.image.setAlpha((float) 0.7);
-
-        if(entry.getDatacode().equals(General.GEN_DATACODE_TALK)){
-            holder.image.setBackgroundResource(R.drawable.icon_feed);
+        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
+        Date eventDateTime = Calendar.getInstance().getTime();
+        try {
+            eventDateTime = eventFormat.parse(entry.getDate()+" "+entry.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        else if(entry.getDatacode().equals(General.GEN_DATACODE_CBJC)){
-            holder.image.setBackgroundResource(R.drawable.icon_jc);
-        }
-        else { holder.image.setBackgroundResource(R.drawable.icon_event); }
-
-
-
+        Calendar showCal = Calendar.getInstance();
+        showCal.setTime(eventDateTime);
+        holder.event_date.setText(new SimpleDateFormat("dd", Locale.ENGLISH).format(showCal.getTime()));
+        holder.event_month.setText(new SimpleDateFormat("MMM", Locale.ENGLISH).format(showCal.getTime()).toUpperCase());
     }
 
     @Override

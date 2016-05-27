@@ -126,7 +126,7 @@ public class EventDetails extends AppCompatActivity {
                     speaker.setText(info.getSpeaker());
                     venue.setText(info.getVenue());
                     nextspeaker.setText(info.getAffilication());
-                    url.setTextColor(Color.BLACK);
+                    url.setTextColor(venue.getCurrentHintTextColor());
                     url.setText(info.getHost());
                 } else {
                     JCname.setText("No record found");

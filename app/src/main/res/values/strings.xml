@@ -30,7 +30,9 @@
     <string name="warning_in_hurry_details">You have not selected any option to receive updates. Have to forgotten to check?</string>
     <string name="warning_hurry_positive">Oh, yes!</string>
     <string name="warning_hurry_negative">Nah, changed mind!</string>
-
+    <string name="warning_map_title">Warning!</string>
+    <string name="warning_map_details">This map presents approximate information about locations. Real route/location might vary depending on traffic, laws and new rules.
+        Do not rely entirely on this information. Developers are not responsible for any mistake/delay/mishap due to information presented here.</string>
 
     <string name="snackbar_added_route">%1$s - %2$s added to the default view.</string>
     <string name="snackbar_reset_route">Default view is reset.</string>
