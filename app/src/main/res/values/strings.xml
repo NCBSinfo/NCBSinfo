@@ -34,7 +34,7 @@
     <string name="warning_map_details">This map presents approximate information about locations. Real route/location might vary depending on traffic, laws and new rules.
         Please do not rely entirely on the provided information. Developers are not responsible for any mistake/delay/mishap due to information presented here.</string>
     <string name="warning_noroute_title">Oops!</string>
-    <string name="warning_noroute_details">No additional information is not available on this route.</string>
+    <string name="warning_noroute_details">No additional information is available on this route.</string>
     <string name="warning_cbl_title">Be aware!</string>
     <string name="warning_cbl_details">Route will vary depending on passengers. Please inform your destination to driver.</string>
 

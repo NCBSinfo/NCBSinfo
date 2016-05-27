@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#000000"
-        android:text="Get help"
+        android:text="GET HELP"
         app:layout_anchor="@id/fab_call"
         app:layout_anchorGravity="top"
         android:layout_marginBottom="80sp"

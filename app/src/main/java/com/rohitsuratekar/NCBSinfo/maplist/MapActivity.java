@@ -3,7 +3,6 @@ package com.rohitsuratekar.NCBSinfo.maplist;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,7 +12,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,15 +22,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activity.ContactAdd;
-import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
-import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
-import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -42,6 +34,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     GoogleMap currentmap;
     int currentRoute;
+    LatLng coords;
 
 
     @Override
@@ -124,15 +117,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         currentmap = googleMap;
         googleMap.clear();
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
 
-        LatLng coords = new LatLng(lat, lng);
-        googleMap.addMarker(new MarkerOptions().position(coords));
+       coords = new LatLng(lat, lng);
+       // googleMap.addMarker(new MarkerOptions().position(coords));
         googleMap.getUiSettings().setMapToolbarEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(coords, 10f);
         googleMap.moveCamera(cameraUpdate);
-        googleMap.animateCamera( CameraUpdateFactory.zoomTo( 14.0f ) ); //Zoom level
+        googleMap.animateCamera( CameraUpdateFactory.zoomTo( 13.0f ) ); //Zoom level
 
         if(currentRoute==8){
             PolygonOptions rectOptions = new PolygonOptions();
@@ -274,9 +266,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             alertDialog.show();
         }
 
+        if(route!=8){
+            currentmap.addMarker(new MarkerOptions().position(coords)
+                    .title("Destination")).showInfoWindow();
+        }
+
     }
-
-
-
 
 }

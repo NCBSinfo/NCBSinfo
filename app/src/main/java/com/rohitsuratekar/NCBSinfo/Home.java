@@ -3,7 +3,6 @@ package com.rohitsuratekar.NCBSinfo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,11 +10,9 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -37,16 +34,13 @@ import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
 import com.rohitsuratekar.NCBSinfo.activity.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.activity.Transport;
-import com.rohitsuratekar.NCBSinfo.background.Notifications;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
-import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
 import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
-import com.rohitsuratekar.NCBSinfo.maplist.MapListActivityImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -368,7 +362,6 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 startActivity(i2);break;
             default:
                 Toast.makeText(getBaseContext(),"No item found",Toast.LENGTH_LONG).show();break;
-
         }
     }
 }
