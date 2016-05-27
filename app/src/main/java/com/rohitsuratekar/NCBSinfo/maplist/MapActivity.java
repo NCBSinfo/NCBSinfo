@@ -83,8 +83,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     startActivity(new Intent(MapActivity.this, Home.class));
                 }
             });
+            alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
-
         }
 
 
@@ -177,8 +177,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                     .title("RRI")).showInfoWindow(); //RRI
         }
-
-        if (route==1){ //IISc-NCBS
+        else if (route==1){ //IISc-NCBS
             currentmap.addMarker(new MarkerOptions().position(new LatLng(13.014730, 77.581150))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                     .title("RRI")).showInfoWindow(); //RRI
@@ -201,6 +200,78 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                     .title("GKVK Gate")).showInfoWindow(); //GKVK Gate
 
+        }
+        else if (route==2){ //NCBS-Mandara
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.070403, 77.578944))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("NCBS Back Gate")).showInfoWindow(); //NCBS Back Gate
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.070484, 77.578144))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Double Road 1")).showInfoWindow(); //Double Road 1
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.092300, 77.559512))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Betahalli")).showInfoWindow(); //Betahalli
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.098118, 77.569677))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Purva Venezia")).showInfoWindow(); //Purva Venezia
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.099277, 77.577166))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Dairy Circle")).showInfoWindow(); //Dairy Circle
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.095423, 77.579421))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Yelahanka New Town Bus Station")).showInfoWindow(); //Yelahanka New Town Bus Station
+
+        }
+        else if (route==3){ //Mandara-NCBS
+
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.095423, 77.579421))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Yelahanka New Town Bus Station")).showInfoWindow(); //Yelahanka New Town Bus Station
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.099282, 77.577098))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Dairy Circle")).showInfoWindow(); //Dairy Circle
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.098323, 77.572076))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("NCC Urban Aster")).showInfoWindow(); //NCC Urban Aster
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.097986, 77.570094))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Purva Venezia")).showInfoWindow(); //Purva Venezia
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.092074, 77.559663))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Betahalli")).showInfoWindow(); //Betahalli
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.070403, 77.578944))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("NCBS Back Gate")).showInfoWindow(); //NCBS Back Gate
+
+        }
+        else if (route==4){ //Buggy from NCBS
+            //Nothing is here
+        }
+        else if (route==5){ //Buggy from Mandara
+            //Nothing is here
+        }
+        else if (route==8){ //CBL
+            final AlertDialog alertDialog = new AlertDialog.Builder(MapActivity.this).create();
+            alertDialog.setTitle(getResources().getString(R.string.warning_cbl_title));
+            alertDialog.setMessage(getResources().getString(R.string.warning_cbl_details));
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
+        }
+        else
+        {
+            final AlertDialog alertDialog = new AlertDialog.Builder(MapActivity.this).create();
+            alertDialog.setTitle(getResources().getString(R.string.warning_noroute_title));
+            alertDialog.setMessage(getResources().getString(R.string.warning_noroute_details));
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                       alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
         }
 
     }
