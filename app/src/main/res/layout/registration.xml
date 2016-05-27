@@ -131,7 +131,8 @@
                 android:text="@string/registration_choice2"
                 android:id="@+id/check_jc"
                 android:layout_gravity="center_horizontal"
-                android:checked="false" />
+                android:checked="false"
+                android:visibility="gone" />
 
             <CheckBox
                 android:layout_width="fill_parent"

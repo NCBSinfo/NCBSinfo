@@ -30,7 +30,13 @@
     <string name="warning_in_hurry_details">You have not selected any option to receive updates. Have to forgotten to check?</string>
     <string name="warning_hurry_positive">Oh, yes!</string>
     <string name="warning_hurry_negative">Nah, changed mind!</string>
-
+    <string name="warning_map_title">Warning!</string>
+    <string name="warning_map_details">This map presents approximate information about locations. Real route/location might vary depending on traffic, laws and new rules.
+        Please do not rely entirely on the provided information. Developers are not responsible for any mistake/delay/mishap due to information presented here.</string>
+    <string name="warning_noroute_title">Oops!</string>
+    <string name="warning_noroute_details">No additional information is available on this route.</string>
+    <string name="warning_cbl_title">Be aware!</string>
+    <string name="warning_cbl_details">Route will vary depending on passengers. Please inform your destination to driver.</string>
 
     <string name="snackbar_added_route">%1$s - %2$s added to the default view.</string>
     <string name="snackbar_reset_route">Default view is reset.</string>
@@ -52,7 +58,7 @@
     <string name="route_ncbs_cbl">NCBS - CBL</string>
 
     <string name="transport_list_title1">Weekdays*</string>
-    <string name="transport_list_title2">Sunday*</string>
+    <string name="transport_list_title2">Sunday</string>
     <string name="transport_list_title3">From NCBS</string>
     <string name="transport_list_title4">From Mandara</string>
     <string name="transport_footer1">*Including Saturday</string>

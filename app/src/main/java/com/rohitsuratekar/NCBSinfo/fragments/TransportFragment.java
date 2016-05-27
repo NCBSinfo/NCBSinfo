@@ -99,7 +99,7 @@ public class TransportFragment extends Fragment {
         String weeksmall = "12/31/2015 ";
         String sundaysmall = "1/31/2016 ";
         String[] AllArrays = new TransportFunctions().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
-
+        int isSunday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         String[] after = new String[AllArrays.length];
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
         SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
@@ -129,7 +129,7 @@ public class TransportFragment extends Fragment {
             try {
                 Date tempdate = format.parse(AllArrays[i]);
                 after[i] = modformat.format(tempdate);
-                if (after[i].equals(nextShuttleWeek)){
+                if (after[i].equals(nextShuttleWeek) && isSunday!=Calendar.SUNDAY){
                     after[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem1 = i;
 
@@ -152,7 +152,7 @@ public class TransportFragment extends Fragment {
                 Date tempdate = format.parse(AllArrays_sunday[i]);
                 sunday[i] = modformat.format(tempdate);
 
-                if (sunday[i].equals(nextShuttleSunday)){
+                if (sunday[i].equals(nextShuttleSunday) && isSunday==Calendar.SUNDAY){
                     sunday[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem2 = i;
 

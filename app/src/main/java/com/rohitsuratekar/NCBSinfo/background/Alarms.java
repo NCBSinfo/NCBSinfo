@@ -40,7 +40,6 @@ public class Alarms  extends BroadcastReceiver {
         }
 
     }
-
     private void startDataFetch(Context context){
         Intent service = new Intent(context, DataFetch.class);
         service.putExtra(General.GEN_SERIVICE_SWITCH, Network.NET_START_FETCHING);
@@ -52,19 +51,13 @@ public class Alarms  extends BroadcastReceiver {
         myIntent.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_DAILYNOTIFICATION);
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getService(context, General.GEN_DAILYNOT_INTENT1, myIntent, 0);
-        PendingIntent pendingIntent2 = PendingIntent.getService(context, General.GEN_DAILYNOT_INTENT2, myIntent, 0);
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 7);  //Every day at 7 am, daily notifications will be sent
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent);
-
-        calendar.set(Calendar.HOUR_OF_DAY, 13);  //Every day at 1 pm, daily notifications will be sent
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , pendingIntent2);
-
-        new LogEntry(context, StatusCodes.STATUS_DAILYNOTE_RESET);
+       new LogEntry(context, StatusCodes.STATUS_DAILYNOTE_RESET);
     }
     private void resetDataFetch(Context context){
         Calendar cal = Calendar.getInstance();
@@ -110,8 +103,8 @@ public class Alarms  extends BroadcastReceiver {
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender2);
             calendar.set(Calendar.HOUR_OF_DAY, 12);
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender3);
-            calendar.set(Calendar.HOUR_OF_DAY, 15);
-            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender4);
+            //calendar.set(Calendar.HOUR_OF_DAY, 15);
+            //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender4);
             calendar.set(Calendar.HOUR_OF_DAY, 21);
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24*60*60*1000 , sender5);
             //Cancel previous alarms
