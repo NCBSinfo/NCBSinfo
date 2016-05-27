@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activity.ContactAdd;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
@@ -48,6 +51,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         currentRoute = getIntent().getIntExtra(EXTRA_ROUTE, 0);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_call);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + "080-2366-6001"));
+                startActivity(intent);
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
@@ -110,6 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         double lng = getIntent().getDoubleExtra(EXTRA_LONGITUDE, 0);
 
         currentmap = googleMap;
+        googleMap.clear();
         googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
 
         LatLng coords = new LatLng(lat, lng);
@@ -164,10 +178,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .title("RRI")).showInfoWindow(); //RRI
         }
 
-        if (route==1){ //NCBS-IISc
-            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.072639, 77.592433))
+        if (route==1){ //IISc-NCBS
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.014730, 77.581150))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("RRI")).showInfoWindow(); //RRI
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.016642, 77.583859))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Indian Air Force")).showInfoWindow(); //Indian Air Force
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.038025, 77.589211))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Hebbal")).showInfoWindow(); //Hebbal
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.049927, 77.592736))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Esteem Mall")).showInfoWindow(); //Esteem Mall
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.062567, 77.593080))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Big Market")).showInfoWindow(); //Big Market
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.065568, 77.593080))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    .title("Byatarayanapura")).showInfoWindow(); //Byatarayanapura
+            currentmap.addMarker(new MarkerOptions().position(new LatLng(13.072615, 77.592443))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                     .title("GKVK Gate")).showInfoWindow(); //GKVK Gate
+
         }
 
     }
