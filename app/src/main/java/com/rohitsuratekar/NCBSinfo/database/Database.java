@@ -6,7 +6,6 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
@@ -66,8 +65,6 @@ public class Database extends SQLiteOpenHelper {
                 + SQL.TALK_HOST + " TEXT,"
                 + SQL.TALK_DATACODE + " TEXT,"
                 + SQL.TALK_ACTIONCODE + " INTEGER )";
-
-
         String CREATE_CONTACT_TABLE = "CREATE TABLE " + SQL.TABLE_CONTACTS + "("
                 + SQL.CONTACT_KEY_ID + " INTEGER PRIMARY KEY,"
                 + SQL.CONTACT_KEY_NAME + " TEXT,"
@@ -76,22 +73,63 @@ public class Database extends SQLiteOpenHelper {
                 + SQL.CONTACT_KEY_EXTENSION + " TEXT,"
                 + SQL.CONTACT_KEY_FAVORITE + " TEXT " + ")";
 
-
-
-
         db.execSQL(CREATE_CAT_TABLE);
         db.execSQL(CREATE_DATA_TABLE);
         db.execSQL(CREATE_TALK_TABLE);
         db.execSQL(CREATE_CONTACT_TABLE);
+        db.execSQL(createExternal());
+        db.execSQL(createConference());
     }
 
+    //No "break" is added. This will upgrade database serially.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if(oldVersion>3) {
+            switch (oldVersion) {
+                case 4:
+                    db.execSQL(createExternal());
+                    db.execSQL(createConference());
+                    break;
+            }
+        }
+        //Remove support from previous databases
+        else
+        {
+            DropAll(db);
+            onCreate(db);
+        }
+    }
+
+    private void DropAll(SQLiteDatabase db){
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_LOG);
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_DATABASE);
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_TALK);
         db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_CONTACTS);
-        onCreate(db);
+    }
+
+    private String createExternal(){
+        return  "CREATE TABLE " + SQL.TABLE_EXTERNAL + "("
+                + SQL.EXTERNAL_KEY_ID + " INTEGER PRIMARY KEY,"
+                + SQL.EXTERNAL_TIMESTAMP + " TEXT,"
+                + SQL.EXTERNAL_CODE + " TEXT,"
+                + SQL.EXTERNAL_TITLE + " TEXT,"
+                + SQL.EXTERNAL_MESSAGE + " TEXT,"
+                + SQL.EXTERNAL_EXTRA + " TEXT " + ")";
+    }
+
+    private String createConference(){
+        return  "CREATE TABLE " + SQL.TABLE_CONFERENCE + "("
+                + SQL.CONFERENCE_KEY_ID + " INTEGER PRIMARY KEY,"
+                + SQL.CONFERENCE_TIMESTAMP + " TEXT,"
+                + SQL.CONFERENCE_CODE + " TEXT,"
+                + SQL.CONFERENCE_EVENT_TITLE + " TEXT,"
+                + SQL.CONFERENCE_EVENT_HOST + " TEXT,"
+                + SQL.CONFERENCE_EVENT_START_TIME + " TEXT,"
+                + SQL.CONFERENCE_EVENT_END_TIME + " TEXT,"
+                + SQL.CONFERENCE_EVENT_DATE + " TEXT,"
+                + SQL.CONFERENCE_EVENT_VENUE + " TEXT,"
+                + SQL.CONFERENCE_EVENT_MESSAGE + " TEXT, "
+                + SQL.CONFERENCE_UPDATE_COUNTER + " INTEGER " + ")";
     }
 
     //All log commands

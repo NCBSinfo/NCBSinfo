@@ -164,6 +164,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.activity.Experimental" />
         </activity>
+        <activity android:name=".tempActivitites.ExternalRegistrations"></activity>
     </application>
 
 </manifest>

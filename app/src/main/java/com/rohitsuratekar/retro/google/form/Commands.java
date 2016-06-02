@@ -19,4 +19,12 @@ public interface Commands {
                                     @Field("entry_1745980777") String topicCode,
                                     @Field("submit") String submit);
 
+    @FormUrlEncoded
+    @POST("forms/d/1wdTuzR0R_H7MBbgaraqH9rI68zTjE1EL6hlY29dCEwc/formResponse")
+    Call<ResponseBody> submitExternalForm  (@Field("entry_675707263") String name,
+                                    @Field("entry_1261125575") String email,
+                                    @Field("entry_1147357417") String tokensting,
+                                    @Field("entry_1750062233") String ExternalCode,
+                                    @Field("submit") String submit);
+
 }

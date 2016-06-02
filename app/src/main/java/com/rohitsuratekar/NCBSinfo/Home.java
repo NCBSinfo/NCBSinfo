@@ -41,6 +41,8 @@ import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
 import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.ExternalRegistrations;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -347,7 +349,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 changeTransportText();
                 break;
             case R.id.home_icon_lecture:
-                startActivity(new Intent(this,LectureHalls.class)); break;
+                startActivity(new Intent(this,ExternalRegistrations.class)); break;
+               // startActivity(new Intent(this,LectureHalls.class)); break;
             case R.id.home_icon_updates:
                 startActivity(new Intent(this,EventUpdates.class)); break;
             case R.id.home_icon_transport:
