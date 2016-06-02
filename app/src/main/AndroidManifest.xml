@@ -154,7 +154,16 @@
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
         <activity android:name=".activity.ContactAdd" />
-        <activity android:name=".activity.JustNotify"></activity>
+        <activity android:name=".activity.JustNotify" />
+        <activity
+            android:name=".tempActivitites.CAMP"
+            android:label="@string/camp"
+            android:parentActivityName=".activity.Experimental"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.activity.Experimental" />
+        </activity>
     </application>
 
 </manifest>

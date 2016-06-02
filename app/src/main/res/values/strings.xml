@@ -19,6 +19,7 @@
     <string name="canteen">Canteen</string>
     <string name="lecture_hall">Locations</string>
     <string name="developers_options">Developer\'s Options</string>
+    <string name="camp">CAMP</string>
 
     <string name="warning_version_title">Compatibility mode</string>
     <string name="warning_version_details">This app is best suited for Android Lollipop (21) and above. Your current android version is %1$s. Some animations and functions might not work properly.</string>
@@ -169,4 +170,5 @@
        This can happen if there are no events retrieved from the server. App will make request to data server
        depending on your network settings and will retrieve the data.
        If you want to manually sync your app, go to developer\'s options and click on \"Sync Data now\".]]></string>
+
 </resources>
