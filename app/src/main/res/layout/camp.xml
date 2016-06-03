@@ -22,4 +22,6 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/camp_drawer" />
 
+
+
 </android.support.v4.widget.DrawerLayout>

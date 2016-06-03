@@ -52,7 +52,7 @@ public class ExternalData extends Database {
         return fullList;
     }
 
-    public void deleteContact(ExternalModel enrty) {
+    public void delete(ExternalModel enrty) {
         db.delete(SQL.TABLE_EXTERNAL, SQL.EXTERNAL_KEY_ID + " = ?", new String[] { String.valueOf(enrty.getId()) });
         db.close();
     }

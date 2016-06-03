@@ -26,4 +26,5 @@ public class Preferences {
 
     public static final String PREF_CONTACT_LOADED = "pref_firsttimecontact";
 
+
 }

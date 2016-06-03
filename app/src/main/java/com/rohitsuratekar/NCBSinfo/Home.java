@@ -34,13 +34,17 @@ import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
 import com.rohitsuratekar.NCBSinfo.activity.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.activity.Transport;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
+import com.rohitsuratekar.NCBSinfo.database.ExternalData;
+import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
 import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
+import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
 import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
 import com.rohitsuratekar.NCBSinfo.tempActivitites.ExternalRegistrations;
 
@@ -66,7 +70,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_FIRSTTIME,true)){
+       if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_FIRSTTIME,true)){
             new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
             startActivity(new Intent(this, Registration.class));
         }
@@ -349,7 +353,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 changeTransportText();
                 break;
             case R.id.home_icon_lecture:
-                startActivity(new Intent(this,ExternalRegistrations.class)); break;
+                Intent uu = new Intent(this, CAMP.class);
+                startActivity(uu); break;
                // startActivity(new Intent(this,LectureHalls.class)); break;
             case R.id.home_icon_updates:
                 startActivity(new Intent(this,EventUpdates.class)); break;
