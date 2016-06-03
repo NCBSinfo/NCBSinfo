@@ -18,6 +18,7 @@ import com.rohitsuratekar.NCBSinfo.helpers.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ExternalFragment extends Fragment {
@@ -36,6 +37,7 @@ public class ExternalFragment extends Fragment {
                 filteredList.add(item);
             }
         }
+        Collections.reverse(filteredList);
         adapter = new ExternalAdapter(filteredList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

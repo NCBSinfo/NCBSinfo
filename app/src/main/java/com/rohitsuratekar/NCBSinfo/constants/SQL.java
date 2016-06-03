@@ -3,7 +3,7 @@ package com.rohitsuratekar.NCBSinfo.constants;
 public class SQL {
 
     //Global Names
-    public static final int DATABASE_VERSION = 5; //Changed from 4 to 5 on 2 June 2016
+    public static final int DATABASE_VERSION = 6; //Changed from 4 to 5 on 2 June 2016 //TODO change to 5
     public static final String DATABASE_NAME = "NCBSinfo";
 
     //Tables
@@ -78,12 +78,14 @@ public class SQL {
     public static final String CONFERENCE_TIMESTAMP = "conference_timestamp";
     public static final String CONFERENCE_CODE = "conference_code";
     public static final String CONFERENCE_EVENT_TITLE = "conference_event_title";
+    public static final String CONFERENCE_EVENT_SPEAKER = "conference_event_speaker";
     public static final String CONFERENCE_EVENT_HOST = "conference_event_host";
     public static final String CONFERENCE_EVENT_START_TIME = "conference_event_startTime";
     public static final String CONFERENCE_EVENT_END_TIME = "conference_event_endTime";
     public static final String CONFERENCE_EVENT_DATE = "conference_event_date";
     public static final String CONFERENCE_EVENT_VENUE = "conference_event_venue";
     public static final String CONFERENCE_EVENT_MESSAGE = "conference_event_message";
+    public static final String CONFERENCE_EVENT_CODE = "conference_event_code";
     public static final String CONFERENCE_UPDATE_COUNTER = "conference_update_counter";
 
 }

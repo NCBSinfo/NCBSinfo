@@ -5,25 +5,29 @@ public class ConferenceModel {
     String timestamp;
     String code;
     String eventTitle;
+    String eventSpeaker;
     String eventHost;
     String eventStartTime;
     String eventEndTime;
     String eventDate;
     String eventVenue;
     String eventMessage;
+    String eventCode;
     int updateCounter;
 
-    public ConferenceModel(int id, String timestamp, String code, String eventTitle, String eventHost, String eventStartTime, String eventEndTime, String eventDate, String eventVenue, String eventMessage, int updateCounter) {
+    public ConferenceModel(int id, String timestamp, String code, String eventTitle, String eventSpeaker, String eventHost, String eventStartTime, String eventEndTime, String eventDate, String eventVenue, String eventMessage, String eventCode, int updateCounter) {
         this.id = id;
         this.timestamp = timestamp;
         this.code = code;
         this.eventTitle = eventTitle;
+        this.eventSpeaker = eventSpeaker;
         this.eventHost = eventHost;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.eventDate = eventDate;
         this.eventVenue = eventVenue;
         this.eventMessage = eventMessage;
+        this.eventCode = eventCode;
         this.updateCounter = updateCounter;
     }
 
@@ -60,6 +64,14 @@ public class ConferenceModel {
 
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
+    }
+
+    public String getEventSpeaker() {
+        return eventSpeaker;
+    }
+
+    public void setEventSpeaker(String eventSpeaker) {
+        this.eventSpeaker = eventSpeaker;
     }
 
     public String getEventHost() {
@@ -108,6 +120,14 @@ public class ConferenceModel {
 
     public void setEventMessage(String eventMessage) {
         this.eventMessage = eventMessage;
+    }
+
+    public String getEventCode() {
+        return eventCode;
+    }
+
+    public void setEventCode(String eventCode) {
+        this.eventCode = eventCode;
     }
 
     public int getUpdateCounter() {

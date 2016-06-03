@@ -1,8 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,15 +65,19 @@ public class ExternalAdapter extends RecyclerView.Adapter<ExternalAdapter.MyView
         ExternalModel entry = entryList.get(position);
         holder.title.setText(entry.getTitle());
         holder.message.setText(entry.getMessage() );
-        Log.i("Actual time",entry.getTimestamp());
         holder.timestamp.setText(new GeneralHelp().makeReadableTime(new GeneralHelp().reverseTimestamp(entry.getTimestamp())));
         holder.type.setText("INFO");
         holder.icon.setImageResource(R.drawable.icon_information);
-        holder.icon_holder.setBackgroundColor(currentview.getResources().getColor(R.color.colorPrimary));
+        holder.icon_holder.setBackgroundColor(currentview.getResources().getColor(R.color.general_message));
         if(entry.getExtra().equals("IMP")){
-            holder.icon_holder.setBackgroundColor(currentview.getResources().getColor(R.color.colorAccent));
+            holder.icon_holder.setBackgroundColor(currentview.getResources().getColor(R.color.imp_message));
             holder.icon.setImageResource(R.drawable.icon_star);
             holder.type.setText("IMP");
+        }
+        else if (entry.getExtra().equals("PERSONAL")){
+            holder.icon_holder.setBackgroundColor(currentview.getResources().getColor(R.color.personal_message));
+            holder.icon.setImageResource(R.drawable.icon_personal);
+            holder.type.setText("YOU");
         }
 
     }

@@ -28,6 +28,7 @@ import com.rohitsuratekar.NCBSinfo.adapters.ViewpagerAdapter;
 import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
+import com.rohitsuratekar.NCBSinfo.fragments.ConferenceFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.DevelopersLogFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.EventsLogFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.ExternalFragment;
@@ -85,8 +86,8 @@ public class CAMP extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new ConferenceFragment(), "Events");
         adapter.addFragment(new ExternalFragment(), "Notifications");
-        adapter.addFragment(new OldEventLogFragment(), "Past events");
         viewPager.setAdapter(adapter);
     }
 
@@ -113,17 +114,6 @@ public class CAMP extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.nav_home) {startActivity(new Intent(this, Home.class));
-        } else if (id == R.id.nav_transport) {
-            Intent i = new Intent(this,Transport.class);
-            i.putExtra(General.GEN_TRANSPORT_INTENT,"0");
-            startActivity(i);
-        } else if (id == R.id.nav_updates) { startActivity(new Intent(this,EventUpdates.class));
-        } else if (id == R.id.nav_experimental) {startActivity(new Intent(this,Experimental.class));
-        } else if (id == R.id.nav_settings) {startActivity(new Intent(this, Settings.class));
-        } else if (id == R.id.nav_registration){startActivity(new Intent(this,Registration.class));}
-        else if (id==R.id.nav_contacts){startActivity(new Intent(this,Contacts.class));}
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
@@ -139,7 +129,16 @@ public class CAMP extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
+        if (id == R.id.nav_home) {startActivity(new Intent(this, Home.class));
+        } else if (id == R.id.nav_transport) {
+            Intent i = new Intent(this,Transport.class);
+            i.putExtra(General.GEN_TRANSPORT_INTENT,"0");
+            startActivity(i);
+        } else if (id == R.id.nav_updates) { startActivity(new Intent(this,EventUpdates.class));
+        } else if (id == R.id.nav_experimental) {startActivity(new Intent(this,Experimental.class));
+        } else if (id == R.id.nav_settings) {startActivity(new Intent(this, Settings.class));
+        } else if (id == R.id.nav_registration){startActivity(new Intent(this,Registration.class));}
+        else if (id==R.id.nav_contacts){startActivity(new Intent(this,Contacts.class));}
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

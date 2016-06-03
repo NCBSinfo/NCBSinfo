@@ -24,12 +24,14 @@ public class ConferenceData extends Database {
         values.put(SQL.CONFERENCE_TIMESTAMP, entry.getTimestamp());
         values.put(SQL.CONFERENCE_CODE, entry.getCode());
         values.put(SQL.CONFERENCE_EVENT_TITLE, entry.getEventTitle());
+        values.put(SQL.CONFERENCE_EVENT_SPEAKER, entry.getEventSpeaker());
         values.put(SQL.CONFERENCE_EVENT_HOST, entry.getEventHost());
         values.put(SQL.CONFERENCE_EVENT_START_TIME, entry.getEventStartTime());
         values.put(SQL.CONFERENCE_EVENT_END_TIME, entry.getEventEndTime());
         values.put(SQL.CONFERENCE_EVENT_DATE, entry.getEventDate());
         values.put(SQL.CONFERENCE_EVENT_VENUE, entry.getEventVenue());
         values.put(SQL.CONFERENCE_EVENT_MESSAGE, entry.getEventMessage());
+        values.put(SQL.CONFERENCE_EVENT_CODE, entry.getCode());
         values.put(SQL.CONFERENCE_UPDATE_COUNTER, entry.getUpdateCounter());
         db.insert(SQL.TABLE_CONFERENCE, null, values);
         db.close();
@@ -46,13 +48,15 @@ public class ConferenceData extends Database {
                 enrty.setTimestamp(cursor.getString(1));
                 enrty.setCode(cursor.getString(2));
                 enrty.setEventTitle(cursor.getString(3));
-                enrty.setEventHost(cursor.getString(4));
-                enrty.setEventStartTime(cursor.getString(5));
-                enrty.setEventEndTime(cursor.getString(6));
-                enrty.setEventDate(cursor.getString(7));
-                enrty.setEventVenue(cursor.getString(8));
-                enrty.setEventMessage(cursor.getString(9));
-                enrty.setUpdateCounter(Integer.parseInt(cursor.getString(10)));
+                enrty.setEventSpeaker(cursor.getString(4));
+                enrty.setEventHost(cursor.getString(5));
+                enrty.setEventStartTime(cursor.getString(6));
+                enrty.setEventEndTime(cursor.getString(7));
+                enrty.setEventDate(cursor.getString(8));
+                enrty.setEventVenue(cursor.getString(9));
+                enrty.setEventMessage(cursor.getString(10));
+                enrty.setCode(cursor.getString(11));
+                enrty.setUpdateCounter(Integer.parseInt(cursor.getString(12)));
                 fullList.add(enrty);
             } while (cursor.moveToNext());
         }
@@ -66,12 +70,14 @@ public class ConferenceData extends Database {
         values.put(SQL.CONFERENCE_TIMESTAMP, entry.getTimestamp());
         values.put(SQL.CONFERENCE_CODE, entry.getCode());
         values.put(SQL.CONFERENCE_EVENT_TITLE, entry.getEventTitle());
+        values.put(SQL.CONFERENCE_EVENT_SPEAKER, entry.getEventSpeaker());
         values.put(SQL.CONFERENCE_EVENT_HOST, entry.getEventHost());
         values.put(SQL.CONFERENCE_EVENT_START_TIME, entry.getEventStartTime());
         values.put(SQL.CONFERENCE_EVENT_END_TIME, entry.getEventEndTime());
         values.put(SQL.CONFERENCE_EVENT_DATE, entry.getEventDate());
         values.put(SQL.CONFERENCE_EVENT_VENUE, entry.getEventVenue());
         values.put(SQL.CONFERENCE_EVENT_MESSAGE, entry.getEventMessage());
+        values.put(SQL.CONFERENCE_EVENT_CODE, entry.getCode());
         values.put(SQL.CONFERENCE_UPDATE_COUNTER, entry.getUpdateCounter());
 
         return db.update(SQL.TABLE_CONFERENCE, values, SQL.CONFERENCE_KEY_ID + " = ?",

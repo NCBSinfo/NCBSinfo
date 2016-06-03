@@ -39,11 +39,13 @@ import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
+import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.ExternalData;
 import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
 import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
+import com.rohitsuratekar.NCBSinfo.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
 import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
 import com.rohitsuratekar.NCBSinfo.tempActivitites.ExternalRegistrations;
@@ -70,10 +72,28 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+
+       /* ConferenceModel enrty = new ConferenceModel();
+        enrty.setId(0);
+        enrty.setTimestamp(new GeneralHelp().timeStamp());
+        enrty.setCode(ExternalConstants.CONFERENCE_CAMP2016);
+        enrty.setEventTitle("Some science very very very XYZ Drosophila name which is very long generally");
+        enrty.setEventHost("Dr Unknown");
+        enrty.setEventSpeaker("Prof. Rohit");
+        enrty.setEventStartTime("16:30:00");
+        enrty.setEventEndTime("N/A");
+        enrty.setEventDate("22/08/2016");
+        enrty.setEventVenue("Dasheri");
+        enrty.setEventMessage("Everyone assemble");
+        enrty.setCode("NORMAL");
+        enrty.setUpdateCounter(Integer.parseInt("1"));
+
+        new ConferenceData(getBaseContext()).add(enrty);
+
        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_FIRSTTIME,true)){
             new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
             startActivity(new Intent(this, Registration.class));
-        }
+        }*/
 
 
        //Give warning to users if Android version is lower than 5.0

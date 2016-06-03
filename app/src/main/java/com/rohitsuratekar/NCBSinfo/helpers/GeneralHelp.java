@@ -1,18 +1,15 @@
 package com.rohitsuratekar.NCBSinfo.helpers;
 
 import android.util.Log;
-import android.widget.Switch;
 
 import com.rohitsuratekar.NCBSinfo.models.CommonEventModel;
 import com.rohitsuratekar.NCBSinfo.models.DataModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
-import com.rohitsuratekar.retro.google.gcm.reponse.Data;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -170,25 +167,23 @@ public class GeneralHelp {
     }
 
     public String makeReadableTime (int timeInmilliseconds){
-        Calendar cal = Calendar.getInstance();
+        Date cal = new Date();
 
-        long diff = (cal.getTimeInMillis()-timeInmilliseconds);
-        long seconds = diff / 1000 % 60; //Seconds
-        long min = diff / (60 * 1000) % 60; //Minutes
-        long hour = diff / (60 * 60 * 1000) % 24; //Hours
-        long days = diff / (24 * 60 * 60 * 1000); //days
-        cal.setTimeInMillis(timeInmilliseconds);
+        long diff = ((int) cal.getTime()-timeInmilliseconds);
+        long seconds = diff / (1000); //Seconds
+        long min = diff / (1000*60); //Minutes
+        long hour = diff / (1000*60*60); //Hours
+        cal.setTime(timeInmilliseconds);
         String returnString;
         if(min<=1){ returnString = seconds + " seconds ago";}
         else if(min<=10){ returnString = "Few minutes ago";}
         else if(hour<=1 && min>10) {returnString = min+" minutes ago";}
         else if(hour>=1 && hour<5) {returnString = "Few hours ago";}
         else if(hour>=5 && hour<24) {returnString = hour+" hours ago";}
-        else if(hour>=24 && days<2) {returnString = "Yesterday";}
-        else if (days>=2 && days <5) {returnString = days + " days ago";}
+        else if(hour>=24 && hour<48) {returnString = "Yesterday";}
+        else if (hour>=48 && hour <120) {returnString = "Few days ago";}
         else{returnString = new SimpleDateFormat("d MMM", Locale.getDefault()).format(timeInmilliseconds);}
         return returnString;
     }
-
 
 }

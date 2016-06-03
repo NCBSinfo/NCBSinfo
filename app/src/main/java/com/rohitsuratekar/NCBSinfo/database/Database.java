@@ -89,6 +89,9 @@ public class Database extends SQLiteOpenHelper {
                 case 4:
                     db.execSQL(createExternal());
                     db.execSQL(createConference());
+                case 5:
+                    db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_CONFERENCE);
+                    db.execSQL(createConference());
                     break;
             }
         }
@@ -123,12 +126,14 @@ public class Database extends SQLiteOpenHelper {
                 + SQL.CONFERENCE_TIMESTAMP + " TEXT,"
                 + SQL.CONFERENCE_CODE + " TEXT,"
                 + SQL.CONFERENCE_EVENT_TITLE + " TEXT,"
+                + SQL.CONFERENCE_EVENT_SPEAKER + " TEXT,"
                 + SQL.CONFERENCE_EVENT_HOST + " TEXT,"
                 + SQL.CONFERENCE_EVENT_START_TIME + " TEXT,"
                 + SQL.CONFERENCE_EVENT_END_TIME + " TEXT,"
                 + SQL.CONFERENCE_EVENT_DATE + " TEXT,"
                 + SQL.CONFERENCE_EVENT_VENUE + " TEXT,"
                 + SQL.CONFERENCE_EVENT_MESSAGE + " TEXT, "
+                + SQL.CONFERENCE_EVENT_CODE + " TEXT, "
                 + SQL.CONFERENCE_UPDATE_COUNTER + " INTEGER " + ")";
     }
 

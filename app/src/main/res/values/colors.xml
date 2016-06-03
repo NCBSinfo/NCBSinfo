@@ -11,4 +11,11 @@
 
     <color name="profile_color">#004d40</color>
     <color name="map_polygone_overlay">#9d3a9bea</color>
+
+    <color name="general_message">#009688</color>
+    <color name="imp_message">#f44336</color>
+    <color name="personal_message">#2e7d32</color>
+
+    <color name="conference_item_background">#009688</color>
+    <color name="conference_item_next">#D32F2F</color>
 </resources>
