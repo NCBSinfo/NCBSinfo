@@ -3,7 +3,7 @@ package com.rohitsuratekar.NCBSinfo.constants;
 public class SQL {
 
     //Global Names
-    public static final int DATABASE_VERSION = 6; //Changed from 4 to 5 on 2 June 2016 //TODO change to 5
+    public static final int DATABASE_VERSION = 5; //Changed from 4 to 5 on 2 June 2016
     public static final String DATABASE_NAME = "NCBSinfo";
 
     //Tables

@@ -89,9 +89,6 @@ public class Database extends SQLiteOpenHelper {
                 case 4:
                     db.execSQL(createExternal());
                     db.execSQL(createConference());
-                case 5:
-                    db.execSQL("DROP TABLE IF EXISTS " + SQL.TABLE_CONFERENCE);
-                    db.execSQL(createConference());
                     break;
             }
         }

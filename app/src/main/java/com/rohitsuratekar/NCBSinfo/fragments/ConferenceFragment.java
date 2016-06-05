@@ -64,7 +64,6 @@ public class ConferenceFragment extends Fragment {
                 refinedList.add(entry);
             }
         }
-
         adapter = new ConferenceAdapter(refinedList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -73,7 +73,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         setContentView(R.layout.home);
 
 
-       /* ConferenceModel enrty = new ConferenceModel();
+      /*  ConferenceModel enrty = new ConferenceModel();
         enrty.setId(0);
         enrty.setTimestamp(new GeneralHelp().timeStamp());
         enrty.setCode(ExternalConstants.CONFERENCE_CAMP2016);
@@ -81,19 +81,19 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         enrty.setEventHost("Dr Unknown");
         enrty.setEventSpeaker("Prof. Rohit");
         enrty.setEventStartTime("16:30:00");
-        enrty.setEventEndTime("N/A");
+        enrty.setEventEndTime("18:30:00");
         enrty.setEventDate("22/08/2016");
         enrty.setEventVenue("Dasheri");
         enrty.setEventMessage("Everyone assemble");
         enrty.setCode("NORMAL");
         enrty.setUpdateCounter(Integer.parseInt("1"));
 
-        new ConferenceData(getBaseContext()).add(enrty);
+        new ConferenceData(getBaseContext()).add(enrty);*/
 
        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_FIRSTTIME,true)){
             new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
             startActivity(new Intent(this, Registration.class));
-        }*/
+        }
 
 
        //Give warning to users if Android version is lower than 5.0
