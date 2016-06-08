@@ -8,7 +8,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.rohitsuratekar.NCBSinfo.R;
@@ -47,7 +46,7 @@ public class GCM extends GcmListenerService{
                     break;
                 case Network.CONFERENCE_TOPIC:
                     new LogEntry(getBaseContext(), StatusCodes.STATUS_GCM_RECEIVED, new NetworkRelated().getTopicStrings(Network.CONFERENCE_TOPIC));
-                    new External(data);
+                    new External(getBaseContext(), data);
                     break;
                 case Network.GCM_TOPIC_PUBLIC:
                     String rcode = data.getString(Network.GCM_CODE);

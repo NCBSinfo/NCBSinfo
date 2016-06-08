@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.models.ConferenceModel;
 
 import java.text.DateFormat;
@@ -70,8 +71,14 @@ public class ConferenceAdapter extends RecyclerView.Adapter<ConferenceAdapter.My
         holder.date.setText(convertDate(entry.getEventDate()));
         holder.venue.setText("Venue: "+entry.getEventVenue());
         holder.time.setText(convertTime(entry.getEventStartTime(), entry.getEventEndTime()));
-
-
+        if(entry.getEventCode()!=null){
+            if(entry.getEventCode().equals(ExternalConstants.CAMP2016_ACTIVITY)) {
+                holder.speaker.setVisibility(View.GONE);
+            }
+            if(entry.getEventCode().equals(ExternalConstants.CAMP2016_TUTORIAL)){
+                holder.speaker.setText("Tutor: "+entry.getEventSpeaker());
+            }
+        }
     }
 
     @Override

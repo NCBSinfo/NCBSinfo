@@ -4,6 +4,7 @@ public class ConferenceModel {
     int id;
     String timestamp;
     String code;
+    String eventID;
     String eventTitle;
     String eventSpeaker;
     String eventHost;
@@ -15,10 +16,11 @@ public class ConferenceModel {
     String eventCode;
     int updateCounter;
 
-    public ConferenceModel(int id, String timestamp, String code, String eventTitle, String eventSpeaker, String eventHost, String eventStartTime, String eventEndTime, String eventDate, String eventVenue, String eventMessage, String eventCode, int updateCounter) {
+    public ConferenceModel(int id, String timestamp, String code, String eventID, String eventTitle, String eventSpeaker, String eventHost, String eventStartTime, String eventEndTime, String eventDate, String eventVenue, String eventMessage, String eventCode, int updateCounter) {
         this.id = id;
         this.timestamp = timestamp;
         this.code = code;
+        this.eventID = eventID;
         this.eventTitle = eventTitle;
         this.eventSpeaker = eventSpeaker;
         this.eventHost = eventHost;
@@ -56,6 +58,14 @@ public class ConferenceModel {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
 
     public String getEventTitle() {

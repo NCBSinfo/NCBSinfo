@@ -122,6 +122,7 @@ public class Database extends SQLiteOpenHelper {
                 + SQL.CONFERENCE_KEY_ID + " INTEGER PRIMARY KEY,"
                 + SQL.CONFERENCE_TIMESTAMP + " TEXT,"
                 + SQL.CONFERENCE_CODE + " TEXT,"
+                + SQL.CONFERENCE_EVENT_ID + " TEXT,"
                 + SQL.CONFERENCE_EVENT_TITLE + " TEXT,"
                 + SQL.CONFERENCE_EVENT_SPEAKER + " TEXT,"
                 + SQL.CONFERENCE_EVENT_HOST + " TEXT,"

@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
@@ -25,6 +26,7 @@ import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.models.CommonEventModel;
 import com.rohitsuratekar.NCBSinfo.models.DataModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,13 +66,21 @@ public class Notifications extends BroadcastReceiver {
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Intent notificationIntent;
-        if (datacode.equals("null")){
-        notificationIntent = new Intent(mContext, EventUpdates.class);
+
+        //Change datacode whenever temporary events are done
+        switch (datacode) {
+            case "null":
+                notificationIntent = new Intent(mContext, EventUpdates.class);
+                break;
+            case ExternalConstants.CONFERENCE_CAMP2016:
+                notificationIntent = new Intent(mContext, CAMP.class);
+                break;
+            default:
+                notificationIntent = new Intent(mContext, EventDetails.class);
+                notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATACODE, datacode);
+                notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATA_ID, dataID);
+                break;
         }
-        else
-        {notificationIntent = new Intent(mContext, EventDetails.class);
-            notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATACODE,datacode);
-            notificationIntent.putExtra(General.GEN_EVENTDETAILS_DATA_ID,dataID);}
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 

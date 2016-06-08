@@ -23,6 +23,7 @@ public class ConferenceData extends Database {
         ContentValues values = new ContentValues();
         values.put(SQL.CONFERENCE_TIMESTAMP, entry.getTimestamp());
         values.put(SQL.CONFERENCE_CODE, entry.getCode());
+        values.put(SQL.CONFERENCE_EVENT_ID, entry.getEventID());
         values.put(SQL.CONFERENCE_EVENT_TITLE, entry.getEventTitle());
         values.put(SQL.CONFERENCE_EVENT_SPEAKER, entry.getEventSpeaker());
         values.put(SQL.CONFERENCE_EVENT_HOST, entry.getEventHost());
@@ -31,7 +32,7 @@ public class ConferenceData extends Database {
         values.put(SQL.CONFERENCE_EVENT_DATE, entry.getEventDate());
         values.put(SQL.CONFERENCE_EVENT_VENUE, entry.getEventVenue());
         values.put(SQL.CONFERENCE_EVENT_MESSAGE, entry.getEventMessage());
-        values.put(SQL.CONFERENCE_EVENT_CODE, entry.getCode());
+        values.put(SQL.CONFERENCE_EVENT_CODE, entry.getEventCode());
         values.put(SQL.CONFERENCE_UPDATE_COUNTER, entry.getUpdateCounter());
         db.insert(SQL.TABLE_CONFERENCE, null, values);
         db.close();
@@ -47,16 +48,17 @@ public class ConferenceData extends Database {
                 enrty.setId(Integer.parseInt(cursor.getString(0)));
                 enrty.setTimestamp(cursor.getString(1));
                 enrty.setCode(cursor.getString(2));
-                enrty.setEventTitle(cursor.getString(3));
-                enrty.setEventSpeaker(cursor.getString(4));
-                enrty.setEventHost(cursor.getString(5));
-                enrty.setEventStartTime(cursor.getString(6));
-                enrty.setEventEndTime(cursor.getString(7));
-                enrty.setEventDate(cursor.getString(8));
-                enrty.setEventVenue(cursor.getString(9));
-                enrty.setEventMessage(cursor.getString(10));
-                enrty.setCode(cursor.getString(11));
-                enrty.setUpdateCounter(Integer.parseInt(cursor.getString(12)));
+                enrty.setEventID(cursor.getString(3));
+                enrty.setEventTitle(cursor.getString(4));
+                enrty.setEventSpeaker(cursor.getString(5));
+                enrty.setEventHost(cursor.getString(6));
+                enrty.setEventStartTime(cursor.getString(7));
+                enrty.setEventEndTime(cursor.getString(8));
+                enrty.setEventDate(cursor.getString(9));
+                enrty.setEventVenue(cursor.getString(10));
+                enrty.setEventMessage(cursor.getString(11));
+                enrty.setEventCode(cursor.getString(12));
+                enrty.setUpdateCounter(Integer.parseInt(cursor.getString(13)));
                 fullList.add(enrty);
             } while (cursor.moveToNext());
         }
@@ -69,6 +71,7 @@ public class ConferenceData extends Database {
         ContentValues values = new ContentValues();
         values.put(SQL.CONFERENCE_TIMESTAMP, entry.getTimestamp());
         values.put(SQL.CONFERENCE_CODE, entry.getCode());
+        values.put(SQL.CONFERENCE_EVENT_ID, entry.getEventID());
         values.put(SQL.CONFERENCE_EVENT_TITLE, entry.getEventTitle());
         values.put(SQL.CONFERENCE_EVENT_SPEAKER, entry.getEventSpeaker());
         values.put(SQL.CONFERENCE_EVENT_HOST, entry.getEventHost());
@@ -77,14 +80,14 @@ public class ConferenceData extends Database {
         values.put(SQL.CONFERENCE_EVENT_DATE, entry.getEventDate());
         values.put(SQL.CONFERENCE_EVENT_VENUE, entry.getEventVenue());
         values.put(SQL.CONFERENCE_EVENT_MESSAGE, entry.getEventMessage());
-        values.put(SQL.CONFERENCE_EVENT_CODE, entry.getCode());
+        values.put(SQL.CONFERENCE_EVENT_CODE, entry.getEventCode());
         values.put(SQL.CONFERENCE_UPDATE_COUNTER, entry.getUpdateCounter());
 
         return db.update(SQL.TABLE_CONFERENCE, values, SQL.CONFERENCE_KEY_ID + " = ?",
                 new String[] { String.valueOf(entry.getId()) });
     }
 
-    public void deleteContact(ConferenceModel enrty) {
+    public void delete(ConferenceModel enrty) {
         db.delete(SQL.TABLE_CONFERENCE, SQL.CONFERENCE_KEY_ID + " = ?", new String[] { String.valueOf(enrty.getId()) });
         db.close();
     }

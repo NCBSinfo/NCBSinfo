@@ -77,6 +77,7 @@ public class SQL {
     public static final String CONFERENCE_KEY_ID = "conference_id";
     public static final String CONFERENCE_TIMESTAMP = "conference_timestamp";
     public static final String CONFERENCE_CODE = "conference_code";
+    public static final String CONFERENCE_EVENT_ID = "conference_eventID";
     public static final String CONFERENCE_EVENT_TITLE = "conference_event_title";
     public static final String CONFERENCE_EVENT_SPEAKER = "conference_event_speaker";
     public static final String CONFERENCE_EVENT_HOST = "conference_event_host";

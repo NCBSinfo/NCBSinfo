@@ -41,6 +41,8 @@ public class StatusCodes {
 
     //External
     public static final int STATUS_EXTERNAL_REGISTRATION = 27;
+    public static final int STATUS_CONFERENCE_DATA_ADDED = 28;
+
 
     //Standard status
     public static final int STATUS_SUCCESSFUL = 200;

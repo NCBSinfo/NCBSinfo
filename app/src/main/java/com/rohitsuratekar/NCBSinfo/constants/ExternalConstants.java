@@ -12,4 +12,12 @@ public class ExternalConstants {
     public static final String CAMP2016_REGISTERED = "camp16_registered";
     public static final String CAMP2016_USERNAME = "camp16_user";
     public static final String CAMP2016_EMAIL = "camp16_email";
+    public static final String CAMP2016_GCM_TITLE = "title";
+    public static final String CAMP2016_GCM_MESSAGE = "message";
+    public static final String CAMP2016_GCM_EXTRA = "gcm_extra";
+
+    public static final String CAMP2016_ACTIVITY = "ACTIVITY";
+    public static final String CAMP2016_TUTORIAL = "TUTORIAL";
+    public static final String CAMP2016_TALK = "TALK";
+
 }

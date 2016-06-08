@@ -28,12 +28,12 @@ import com.rohitsuratekar.NCBSinfo.adapters.ViewpagerAdapter;
 import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
+import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.fragments.ConferenceFragment;
-import com.rohitsuratekar.NCBSinfo.fragments.DevelopersLogFragment;
-import com.rohitsuratekar.NCBSinfo.fragments.EventsLogFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.ExternalFragment;
-import com.rohitsuratekar.NCBSinfo.fragments.OldEventLogFragment;
-import com.rohitsuratekar.NCBSinfo.fragments.TransportFragment;
+import com.rohitsuratekar.NCBSinfo.models.ConferenceModel;
+
+import java.util.List;
 
 public class CAMP extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,10 +55,8 @@ public class CAMP extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.camp_viewpager);
         tabLayout = (TabLayout) findViewById(R.id.camp_tabs);
-        // TODO convert following to not equal to
-       // if(!PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(ExternalConstants.CAMP2016_REGISTERED, false)) {
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(ExternalConstants.CAMP2016_REGISTERED, false)) {
 
+        if(!PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(ExternalConstants.CAMP2016_REGISTERED, false)) {
             Intent intent = new Intent(CAMP.this, ExternalRegistrations.class);
             intent.putExtra(ExternalConstants.EXTERNAL_INTENT, ExternalConstants.CONFERENCE_CAMP2016);
             startActivity(intent);
@@ -98,6 +96,7 @@ public class CAMP extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            startActivity(new Intent(CAMP.this,Experimental.class));
         }
     }
 
@@ -118,6 +117,15 @@ public class CAMP extends AppCompatActivity
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
             return true;
+        }
+        else if(id==R.id.action_camp_delete){
+            List<ConferenceModel> alldata = new ConferenceData(getBaseContext()).getAll();
+            for (ConferenceModel c : alldata){
+                if(c.getCode().equals(ExternalConstants.CONFERENCE_CAMP2016)){
+                    new ConferenceData(getBaseContext()).delete(c);
+                }
+            }
+            startActivity(new Intent(this, Experimental.class));
         }
 
         return super.onOptionsItemSelected(item);

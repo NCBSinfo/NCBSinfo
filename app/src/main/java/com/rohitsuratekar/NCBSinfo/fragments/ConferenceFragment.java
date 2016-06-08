@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class ConferenceFragment extends Fragment {
                 return entry1.compareTo(entry2);
             }
         });
+        Log.i("Size",fullList.size()+"");
         List<ConferenceModel> refinedList = new ArrayList<>();
         DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
         Date eventDateTime = Calendar.getInstance().getTime();
