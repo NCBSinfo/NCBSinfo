@@ -8,19 +8,24 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activity.EventDetails;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
 import com.rohitsuratekar.NCBSinfo.activity.JustNotify;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Network;
 import com.rohitsuratekar.NCBSinfo.constants.SQL;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
 import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.database.ExternalData;
+import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.NetworkRelated;
+import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
 
 
@@ -43,6 +48,10 @@ public class GCM extends GcmListenerService{
                     String datacode2 = data.getString(General.GEN_NOTIFICATION_DATACODE,"null");
                     String dataID2 = data.getString(General.GEN_NOTIFICATION_DATA_ID,"null");
                     sendNotification(data.getString("title"), data.getString("message"),datacode2,dataID2);
+                    break;
+                case Network.CONFERENCE_TOPIC:
+                    new LogEntry(getBaseContext(), StatusCodes.STATUS_GCM_RECEIVED, new NetworkRelated().getTopicStrings(Network.CONFERENCE_TOPIC));
+                    new External(getBaseContext(), data);
                     break;
                 case Network.GCM_TOPIC_PUBLIC:
                     String rcode = data.getString(Network.GCM_CODE);
@@ -94,6 +103,10 @@ public class GCM extends GcmListenerService{
                     break;
             }
         }
+        else{
+            new LogEntry(getBaseContext(), StatusCodes.STATUS_GCM_RECEIVED, "Personal");
+            new External(getBaseContext(), data);
+        }
     }
 
 
@@ -127,7 +140,7 @@ public class GCM extends GcmListenerService{
         PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = getApplicationContext().getResources().getColor(R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationMessage))
@@ -161,7 +174,7 @@ public class GCM extends GcmListenerService{
         PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = getApplicationContext().getResources().getColor(R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationMessage))

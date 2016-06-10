@@ -19,6 +19,7 @@
     <string name="canteen">Canteen</string>
     <string name="lecture_hall">Locations</string>
     <string name="developers_options">Developer\'s Options</string>
+    <string name="camp">CAMP</string>
 
     <string name="warning_version_title">Compatibility mode</string>
     <string name="warning_version_details">This app is best suited for Android Lollipop (21) and above. Your current android version is %1$s. Some animations and functions might not work properly.</string>
@@ -154,7 +155,7 @@
     Our aim is to create a mobile application which will serve as an application-cum-database for important timings pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information (except event updates) provided in this application was last updated on 1 May 2016.
+    All the information (except event updates) provided in this application was last updated on 10 June 2016.
     Though a lot of effort has been taken to curate the information,
     minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
     through this application.
@@ -169,4 +170,5 @@
        This can happen if there are no events retrieved from the server. App will make request to data server
        depending on your network settings and will retrieve the data.
        If you want to manually sync your app, go to developer\'s options and click on \"Sync Data now\".]]></string>
+
 </resources>

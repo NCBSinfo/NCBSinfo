@@ -5,13 +5,11 @@ import android.util.Log;
 import com.rohitsuratekar.NCBSinfo.models.CommonEventModel;
 import com.rohitsuratekar.NCBSinfo.models.DataModel;
 import com.rohitsuratekar.NCBSinfo.models.TalkModel;
-import com.rohitsuratekar.retro.google.gcm.reponse.Data;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -21,6 +19,18 @@ public class GeneralHelp {
     public String timeStamp(){
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss a d MMM yy", Locale.getDefault());
         return formatter.format(new Date());
+    }
+
+    public int reverseTimestamp(String timestamp){
+        Date dt = new Date();
+        DateFormat currentformat = new SimpleDateFormat("hh:mm:ss a d MMM yy",Locale.getDefault());
+        try {
+            dt = currentformat.parse(timestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.i("FAILED", "PARSING");
+        }
+        return (int) dt.getTime();
     }
 
     public Date convertToDate(String Date, String Time){
@@ -156,5 +166,24 @@ public class GeneralHelp {
 
     }
 
+    public String makeReadableTime (int timeInmilliseconds){
+        Date cal = new Date();
+
+        long diff = ((int) cal.getTime()-timeInmilliseconds);
+        long seconds = diff / (1000); //Seconds
+        long min = diff / (1000*60); //Minutes
+        long hour = diff / (1000*60*60); //Hours
+        cal.setTime(timeInmilliseconds);
+        String returnString;
+        if(min<=1){ returnString = seconds + " seconds ago";}
+        else if(min<=10){ returnString = "Few minutes ago";}
+        else if(hour<=1 && min>10) {returnString = min+" minutes ago";}
+        else if(hour>=1 && hour<5) {returnString = "Few hours ago";}
+        else if(hour>=5 && hour<24) {returnString = hour+" hours ago";}
+        else if(hour>=24 && hour<48) {returnString = "Yesterday";}
+        else if (hour>=48 && hour <120) {returnString = "Few days ago";}
+        else{returnString = new SimpleDateFormat("d MMM", Locale.getDefault()).format(timeInmilliseconds);}
+        return returnString;
+    }
 
 }

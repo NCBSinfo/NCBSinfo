@@ -111,9 +111,6 @@ public class TransportFragment extends Fragment {
         Calendar nextcal = new TransportFunctions().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_weekday, isBuggy);
         Calendar sundaynext = new TransportFunctions().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);
 
-        Log.i("Next Sunday", GlobalShuttleFrom+" "+GlobalShuttleto+" "+isBuggy+" "+sundaynext.get(Calendar.HOUR_OF_DAY)+" "+sundaynext.get(Calendar.MINUTE) );
-        Log.i("Next Weekdays", GlobalShuttleFrom+" "+GlobalShuttleto+" "+isBuggy+" "+nextcal.get(Calendar.HOUR_OF_DAY)+" "+nextcal.get(Calendar.MINUTE) );
-
         if (isBuggy==1){
             nextcal = new TransportFunctions().NextTransport("ncbs", "mandara", current_weekday, isBuggy);
             sundaynext = new TransportFunctions().NextTransport("mandara", "ncbs", current_sunday, isBuggy);
@@ -132,7 +129,10 @@ public class TransportFragment extends Fragment {
                 if (after[i].equals(nextShuttleWeek) && isSunday!=Calendar.SUNDAY){
                     after[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem1 = i;
-
+                }
+                if(after[i].equals(nextShuttleWeek) && isBuggy==1){
+                    after[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
+                    selectionItem1 = i;
                 }
 
             } catch (ParseException e) {
@@ -156,6 +156,10 @@ public class TransportFragment extends Fragment {
                     sunday[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
                     selectionItem2 = i;
 
+                }
+                if (sunday[i].equals(nextShuttleSunday) && isBuggy==1){
+                    sunday[i]="<font color=\"red\">"+modformat.format(tempdate)+"**</font>";
+                    selectionItem2 = i;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();

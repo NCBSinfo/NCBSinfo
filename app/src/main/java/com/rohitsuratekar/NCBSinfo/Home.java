@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -10,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -31,16 +33,32 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.rohitsuratekar.NCBSinfo.activity.Contacts;
 import com.rohitsuratekar.NCBSinfo.activity.EventUpdates;
+import com.rohitsuratekar.NCBSinfo.activity.Experimental;
 import com.rohitsuratekar.NCBSinfo.activity.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activity.Registration;
 import com.rohitsuratekar.NCBSinfo.activity.Transport;
+import com.rohitsuratekar.NCBSinfo.background.DataFetch;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
+import com.rohitsuratekar.NCBSinfo.constants.Network;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
+import com.rohitsuratekar.NCBSinfo.constants.SQL;
 import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
 import com.rohitsuratekar.NCBSinfo.constants.StatusCodes;
+import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
+import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.database.ExternalData;
+import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.helpers.LogEntry;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
 import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
+import com.rohitsuratekar.NCBSinfo.models.ConferenceModel;
+import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.ExternalRegistrations;
+import com.rohitsuratekar.retro.google.fusiontable.Commands;
+import com.rohitsuratekar.retro.google.fusiontable.Service;
+import com.rohitsuratekar.retro.google.fusiontable.reponse.FusionTableRow;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,11 +66,15 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Home extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
     GoogleMap googleMap;
     TextView title,footer,nextText;
     ImageView image,previous,next;
-    ImageView icon_transport, icon_updates, icon_lecture, icon_contacts;
+    ImageView icon_transport, icon_updates, icon_experimental, icon_contacts;
     LatLng coord;
     String transportFrom, transportTo;
     int isBuggy, currentRoute;
@@ -63,12 +85,6 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-
-        if(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.PREF_FIRSTTIME,true)){
-            new LogEntry(getBaseContext(), StatusCodes.STATUS_OPENED);
-            startActivity(new Intent(this, Registration.class));
-        }
-
 
        //Give warning to users if Android version is lower than 5.0
         if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(Preferences.ANDROID_VERSION_WARNING, true)) {
@@ -88,7 +104,6 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
 
             }
         }
-
         //App name in middle
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_action_bar);
@@ -111,7 +126,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
        next= (ImageView)findViewById(R.id.nextRoute);
        icon_transport= (ImageView)findViewById(R.id.home_icon_transport);
        icon_updates= (ImageView)findViewById(R.id.home_icon_updates);
-       icon_lecture= (ImageView)findViewById(R.id.home_icon_lecture);
+       icon_experimental= (ImageView)findViewById(R.id.home_icon_experimental);
         icon_contacts= (ImageView)findViewById(R.id.home_icon_contacts);
        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.home_map);
@@ -148,7 +163,7 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
         next.setOnClickListener(this);
         icon_updates.setOnClickListener(this);
         icon_transport.setOnClickListener(this);
-        icon_lecture.setOnClickListener(this);
+        icon_experimental.setOnClickListener(this);
         icon_contacts.setOnClickListener(this);
         title.setOnClickListener(this);
 
@@ -346,8 +361,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 updateMapContents(coord);
                 changeTransportText();
                 break;
-            case R.id.home_icon_lecture:
-                startActivity(new Intent(this,LectureHalls.class)); break;
+            case R.id.home_icon_experimental:
+                startActivity(new Intent(this, Experimental.class)); break;
             case R.id.home_icon_updates:
                 startActivity(new Intent(this,EventUpdates.class)); break;
             case R.id.home_icon_transport:

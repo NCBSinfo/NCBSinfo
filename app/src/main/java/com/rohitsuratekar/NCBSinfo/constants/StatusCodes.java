@@ -39,11 +39,16 @@ public class StatusCodes {
     public static final int STATUS_ERROR_DELETING = 24;
     public static final int STATUS_ENTRY_ADDED_GCM = 26;
 
+    //External
+    public static final int STATUS_EXTERNAL_REGISTRATION = 27;
+    public static final int STATUS_CONFERENCE_DATA_ADDED = 28;
+
 
     //Standard status
     public static final int STATUS_SUCCESSFUL = 200;
     public static final int STATUS_UNAUTHENTICATED = 401;
     public static final int STATUS_FORBIDDEN = 403 ;
+
 
 
     //Status
@@ -61,5 +66,6 @@ public class StatusCodes {
     public static final String STATCAT_APPLICATION = "application";
     public static final String STATCAT_IMPORTANT = "important";
     public static final String STATCAT_BACKGROUND = "background";
+
 
 }

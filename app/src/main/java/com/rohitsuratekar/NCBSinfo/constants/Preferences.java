@@ -17,10 +17,14 @@ public class Preferences {
     public static final String PREF_NOTIFICATION_ONSET = "pref_notificationOnset";
     public static final String PREF_GCM_REGISTRATION_TOKEN = "pref_gcm_token";
 
+    public static final String PREF_EXTERNAL_REGISTRATION_TOKEN = "pref_external_token";
+
+
     public static final String PREF_SUB_RESEARCHTALK = "pref_sub_researchtalk";
     public static final String PREF_SUB_JC = "pref_sub_jc";
     public static final String PREF_SUB_STUDENT = "pref_sub_student";
 
     public static final String PREF_CONTACT_LOADED = "pref_firsttimecontact";
+
 
 }

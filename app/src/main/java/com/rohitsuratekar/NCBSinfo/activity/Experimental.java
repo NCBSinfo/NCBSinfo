@@ -24,6 +24,7 @@ import com.rohitsuratekar.NCBSinfo.adapters.ExperimentalGrid;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.helpers.LecturehallList;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
 
 public class Experimental extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -56,7 +57,7 @@ public class Experimental extends AppCompatActivity
         final int[] icons = {
                 R.drawable.icon_lecturehall,
                 R.drawable.icon_canteen,
-                R.drawable.icon_experimental
+                R.drawable.icon_camp
         };
         ExperimentalGrid adapter = new ExperimentalGrid(Experimental.this, names, icons);
         grid.setAdapter(adapter);
@@ -74,7 +75,7 @@ public class Experimental extends AppCompatActivity
                         Toast.makeText(Experimental.this,"Coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-                        Toast.makeText(Experimental.this,"Nothing is here right now",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Experimental.this, CAMP.class));
                         break;
                 }
             }

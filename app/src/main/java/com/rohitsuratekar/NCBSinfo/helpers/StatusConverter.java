@@ -192,13 +192,25 @@ public class StatusConverter {
                 _category = StatusCodes.STATCAT_NETWORK;
                 _status = StatusCodes.TYPE_SUCCESSFUL;
                 break;
-
+            case StatusCodes.STATUS_EXTERNAL_REGISTRATION:
+                _message = "External registration successful";
+                _details = "New registration is done";
+                _category = StatusCodes.STATCAT_NETWORK;
+                _status = StatusCodes.TYPE_SUCCESSFUL;
+                break;
+            case StatusCodes.STATUS_CONFERENCE_DATA_ADDED:
+                _message = "Conference data added";
+                _details = "new Conference entry added";
+                _category = StatusCodes.STATCAT_NETWORK;
+                _status = StatusCodes.TYPE_SUCCESSFUL;
+                break;
             default:
                 _message = "Unknown Code";
                 _details = "Status code '"+statuscode+"' not found in internal database";
                 _category= StatusCodes.STATCAT_IMPORTANT;
                 _status = StatusCodes.TYPE_UNKNOWN;
                 break;
+
         }
         this.message = _message;
         this.details = _details;
