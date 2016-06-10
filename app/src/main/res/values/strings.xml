@@ -155,7 +155,7 @@
     Our aim is to create a mobile application which will serve as an application-cum-database for important timings pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information (except event updates) provided in this application was last updated on 1 May 2016.
+    All the information (except event updates) provided in this application was last updated on 10 June 2016.
     Though a lot of effort has been taken to curate the information,
     minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
     through this application.

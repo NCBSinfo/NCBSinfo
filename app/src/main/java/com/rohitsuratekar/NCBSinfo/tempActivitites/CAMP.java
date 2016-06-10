@@ -75,8 +75,8 @@ public class CAMP extends AppCompatActivity
             TextView name = (TextView) header.findViewById(R.id.Navigation_Name);
             TextView email = (TextView) header.findViewById(R.id.Navigation_Email);
             if (name != null) {
-                name.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(Preferences.PREF_USERNAME, "username"));
-                email.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(Preferences.PREF_EMAIL, "email@domain.com"));
+                name.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(ExternalConstants.CAMP2016_USERNAME, "username"));
+                email.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(ExternalConstants.CAMP2016_EMAIL, "email@domain.com"));
             }
         }
 

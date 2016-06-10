@@ -87,7 +87,7 @@ public class Notifications extends BroadcastReceiver {
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, requestID,notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         int color = mContext.getResources().getColor(R.color.colorPrimary);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationMessage))

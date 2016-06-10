@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.helpers.GeneralHelp;
 import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
 
@@ -74,7 +75,7 @@ public class ExternalAdapter extends RecyclerView.Adapter<ExternalAdapter.MyView
             holder.icon.setImageResource(R.drawable.icon_star);
             holder.type.setText("IMP");
         }
-        else if (entry.getExtra().equals("PERSONAL")){
+        else if (entry.getExtra().equals(ExternalConstants.PERSONAL)){
             holder.icon_holder.setBackgroundColor(currentview.getResources().getColor(R.color.personal_message));
             holder.icon.setImageResource(R.drawable.icon_personal);
             holder.type.setText("YOU");

@@ -74,6 +74,11 @@ public class ExternalRegistrations extends AppCompatActivity {
                 }
             });
 
+        if(pref.getBoolean(Preferences.PREF_REGISTERED,false)){
+            name.setText(pref.getString(Preferences.PREF_USERNAME, "Username"));
+            email.setText(pref.getString(Preferences.PREF_EMAIL, "email@domain.com"));
+        }
+
 
     }
 

@@ -3,9 +3,7 @@ package com.rohitsuratekar.NCBSinfo.background;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.constants.General;
 import com.rohitsuratekar.NCBSinfo.database.ExternalData;
@@ -20,6 +18,9 @@ public class External {
         this.data = data;
         if (data.getString(ExternalConstants.GEN_EXTERNAL_CODE,"null").equals(ExternalConstants.CONFERENCE_CAMP2016)){
             CAMP2016();
+        }
+        else {
+            onlyNotify();
         }
     }
 
@@ -38,6 +39,15 @@ public class External {
         notservice.putExtra(General.GEN_NOTIFICATION_DATACODE,ExternalConstants.CONFERENCE_CAMP2016);
         notservice.putExtra(General.GEN_NOTIFY_TITLE,data.getString(ExternalConstants.CAMP2016_GCM_TITLE,"New notification"));
         notservice.putExtra(General.GEN_NOTIFY_MESSAGE,data.getString(ExternalConstants.CAMP2016_GCM_MESSAGE,"null"));
+        context.sendBroadcast(notservice);
+    }
+
+    private void onlyNotify(){
+        //Notify
+        Intent notservice=new Intent(context,Notifications.class);
+        notservice.putExtra(General.GEN_NOTIFICATION_INTENT,General.GEN_SENDNOTIFICATION);
+        notservice.putExtra(General.GEN_NOTIFY_TITLE,data.getString(General.GEN_NOTIFY_TITLE,"New notification"));
+        notservice.putExtra(General.GEN_NOTIFY_MESSAGE,data.getString(General.GEN_NOTIFY_MESSAGE,"null"));
         context.sendBroadcast(notservice);
     }
 }

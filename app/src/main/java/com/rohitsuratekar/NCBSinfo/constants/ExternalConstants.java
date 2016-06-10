@@ -7,6 +7,7 @@ public class ExternalConstants {
 
     //Conference codes
     public static final String CONFERENCE_CAMP2016 = "CAMP2016";
+    public static final String PERSONAL = "PERSONAL";
 
     //CAMP 2016 constants
     public static final String CAMP2016_REGISTERED = "camp16_registered";
