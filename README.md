@@ -9,7 +9,7 @@ Stable version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/ba5a237072a81
 (2) Notification updates for reasearch talks, Student activities and conferences etc </br>
 (3) Lecture hall names and venues </br>
 (4) Important contacts </br>
-(5) Conference Schedule (beta)
+(5) Conference Schedule (beta) </br>
 (6) Developers log to check every action taken by app </br>
 (7) Shuttle and Buggy locations, stops and directions </br>
 
