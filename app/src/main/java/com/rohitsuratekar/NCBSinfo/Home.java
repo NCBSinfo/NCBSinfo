@@ -55,13 +55,18 @@ import com.rohitsuratekar.NCBSinfo.maplist.MapActivity;
 import com.rohitsuratekar.NCBSinfo.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.models.ExternalModel;
 import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP_transport;
 import com.rohitsuratekar.NCBSinfo.tempActivitites.ExternalRegistrations;
 import com.rohitsuratekar.retro.google.fusiontable.Commands;
 import com.rohitsuratekar.retro.google.fusiontable.Service;
 import com.rohitsuratekar.retro.google.fusiontable.reponse.FusionTableRow;
+import com.rohitsuratekar.retro.google.gcm.reponse.Data;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -80,6 +85,8 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     int isBuggy, currentRoute;
     LinearLayout footerHolder, homeFooter, titleHolder;
     RelativeLayout homeLayout;
+
+    boolean CAMPuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +111,13 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
 
             }
         }
+
+        CAMPuser = new CAMP().isCAMPuser(getBaseContext());
+
+        if(CAMPuser){
+            startActivity(new Intent(Home.this, CAMP.class));
+        }
+
         //App name in middle
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.home_action_bar);
@@ -181,6 +195,10 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
     @Override
     protected void onResume() {
         super.onResume();
+        //TODO remove after CAMP
+        if(CAMPuser){
+            startActivity(new Intent(Home.this, CAMP.class));
+        }
         currentRoute = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getInt(SettingsRelated.HOME_DEFAULT_ROUTE,0);
         transportFrom = new TransportFunctions().getRouteName(currentRoute)[0];
         transportTo = new TransportFunctions().getRouteName(currentRoute)[1];
@@ -379,4 +397,5 @@ public class Home extends AppCompatActivity implements OnMapReadyCallback, Googl
                 Toast.makeText(getBaseContext(),"No item found",Toast.LENGTH_LONG).show();break;
         }
     }
+
 }

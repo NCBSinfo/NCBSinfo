@@ -1,6 +1,9 @@
 package com.rohitsuratekar.NCBSinfo.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +14,12 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.adapters.TransportAdapter;
+import com.rohitsuratekar.NCBSinfo.constants.ExternalConstants;
 import com.rohitsuratekar.NCBSinfo.helpers.TransportFunctions;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP;
+import com.rohitsuratekar.NCBSinfo.tempActivitites.CAMP_transport;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -94,11 +101,20 @@ public class TransportFragment extends Fragment {
     }
 
     public void perform(View v) {
+
+        boolean CAMPuser = new CAMP().isCAMPuser(getContext());
+
         String WeekDate = "12/31/2015 00:00:00";
         String SundayDate = "1/31/2016 00:00:00";
         String weeksmall = "12/31/2015 ";
         String sundaysmall = "1/31/2016 ";
         String[] AllArrays = new TransportFunctions().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
+
+        //TODO remove after CAMP 2016
+        if(CAMPuser){
+            AllArrays = new CAMP_transport().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, WeekDate, isBuggy);
+        }
+
         int isSunday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         String[] after = new String[AllArrays.length];
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -111,9 +127,22 @@ public class TransportFragment extends Fragment {
         Calendar nextcal = new TransportFunctions().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_weekday, isBuggy);
         Calendar sundaynext = new TransportFunctions().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);
 
+        //TODO remove after CAMP 2016
+        if(CAMPuser){
+            nextcal = new CAMP_transport().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_weekday, isBuggy);
+            sundaynext = new CAMP_transport().NextTransport(GlobalShuttleFrom, GlobalShuttleto, current_sunday, isBuggy);
+        }
+
+
         if (isBuggy==1){
             nextcal = new TransportFunctions().NextTransport("ncbs", "mandara", current_weekday, isBuggy);
             sundaynext = new TransportFunctions().NextTransport("mandara", "ncbs", current_sunday, isBuggy);
+
+            //TODO remove after CAMP 2016
+            if(CAMPuser){
+                nextcal = new CAMP_transport().NextTransport("ncbs", "mandara", current_weekday, isBuggy);
+                sundaynext = new CAMP_transport().NextTransport("mandara", "ncbs", current_sunday, isBuggy);
+            }
         }
 
         String nextShuttleWeek = modformat.format(nextcal.getTime());
@@ -142,8 +171,21 @@ public class TransportFragment extends Fragment {
         }
 
         String[] AllArrays_sunday = new TransportFunctions().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
+
+        //TODO remove after CAMP 2016
+        if(CAMPuser){
+            AllArrays_sunday = new CAMP_transport().ModifiedTransportList(GlobalShuttleFrom, GlobalShuttleto, SundayDate, isBuggy);
+        }
+
+
         if (isBuggy==1){
             AllArrays_sunday = new TransportFunctions().ModifiedTransportList("mandara", "ncbs", SundayDate, isBuggy);
+
+            //TODO remove after CAMP 2016
+            if(CAMPuser){
+                AllArrays_sunday = new CAMP_transport().ModifiedTransportList("mandara", "ncbs", SundayDate, isBuggy);
+            }
+
         }
 
         String[] sunday = new String[AllArrays_sunday.length];
@@ -184,12 +226,25 @@ public class TransportFragment extends Fragment {
         footnote1.setText(getResources().getString(R.string.transport_footer1));
         footnote2.setText(getResources().getString(R.string.transport_footer2,currentTime));
 
+        //TODO remove after CAMP 2016
+        if(CAMPuser){
+            footnote2.setText(getResources().getString(R.string.transport_footer2,currentTime) + "\n\nPlease note\nthis schedule is valid only during CAMP course");
+        }
+
+
+
         if (isBuggy==1){
             weekTitle.setText(getResources().getString(R.string.transport_list_title3));
             sundayTitle.setText(getResources().getString(R.string.transport_list_title4));
             footnote1.setText("");
             footnote2.setText(getResources().getString(R.string.transport_footer3,currentTime));
+
+            if(CAMPuser){
+                footnote2.setText(getResources().getString(R.string.transport_footer3,currentTime) + "\n\nPlease note\nthis schedule is valid only during CAMP course");
+            }
         }
     }
+
+
 }
 
