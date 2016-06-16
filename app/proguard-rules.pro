@@ -16,10 +16,5 @@
 #   public *;
 #}
 -repackageclasses 'obfuscated'
--dontwarn okio.**
--dontwarn retrofit2.**
 -keepattributes Signature
 -keepattributes *Annotation*
--keep class sun.misc.Unsafe { *; }
--keep class com.rohitsuratekar.retro.google.** { *; }
-

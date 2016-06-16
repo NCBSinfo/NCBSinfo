@@ -7,7 +7,5 @@
 /build
 /captures
 app/src/main/java/com/rohitsuratekar/NCBSinfo/constants/Network.java
-<<<<<<< HEAD
-gradle.properties
-=======
->>>>>>> 8b379007eaaaaad2905ed959e16658c49b714d9e
+app/google-services.json
+*.properties
