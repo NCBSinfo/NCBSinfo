@@ -1,6 +1,8 @@
 package com.rohitsuratekar.NCBSinfo.tempActivitites;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -31,9 +33,15 @@ import com.rohitsuratekar.NCBSinfo.constants.Preferences;
 import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.fragments.ConferenceFragment;
 import com.rohitsuratekar.NCBSinfo.fragments.ExternalFragment;
+import com.rohitsuratekar.NCBSinfo.fragments.TransportFragment;
 import com.rohitsuratekar.NCBSinfo.models.ConferenceModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CAMP extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,18 +97,7 @@ public class CAMP extends AppCompatActivity
         viewPager.setAdapter(adapter);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-            startActivity(new Intent(CAMP.this,Experimental.class));
-        }
-    }
-
-    @Override
+     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.cam, menu);
@@ -150,5 +147,30 @@ public class CAMP extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(isCAMPuser(getBaseContext())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                this.finishAffinity();
+            } else {
+                this.finish();
+                System.exit(0);
+            }
+        }
+    }
+
+    public boolean isCAMPuser (Context context){
+        Date cam1 = new Date();
+        Date cam2 = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        try {
+            cam2 = format.parse("2016-07-26"); //Start Date
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(ExternalConstants.CAMP2016_REGISTERED, false)&&(cam1.compareTo(cam2)<0);
     }
 }
