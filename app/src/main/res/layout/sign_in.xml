@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20sp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sign In"
+        android:id="@+id/textview_signin_welcome"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_signin_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:textAlignment="center"
+        android:hint="email">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edittext_signin_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_signin_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:textAlignment="center"
+        android:hint="password">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edittext_signin_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:id="@+id/button_sign_in"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30sp"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password"
+        android:id="@+id/button_signin_forgot_pass"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15sp"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffff" />
+</LinearLayout>

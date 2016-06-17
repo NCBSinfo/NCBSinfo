@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
@@ -19,10 +21,10 @@ public class Home extends AppCompatActivity {
     public static final String MODE = "app_mode";
     public static final String ONLINE = "online";
     public static final String OFFLINE = "offline";
-    public static final String LOGIN = "login";
 
     //UI elements
     Button onlineButton, offlineButton;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +34,13 @@ public class Home extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
+        pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE,"none")){
             case ONLINE:
                 startActivity(new Intent(Home.this, OnlineHome.class)); break;
             case OFFLINE:
                 startActivity(new Intent(Home.this, OfflineHome.class)); break;
-            case LOGIN:
-                startActivity(new Intent(Home.this,Login.class)); break;
         }
 
         onlineButton = (Button)findViewById(R.id.button_home_online);
@@ -88,6 +90,27 @@ public class Home extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        setTransportvalue();
+    }
+
+    public void setTransportvalue(){
+
+            pref.edit().putString(TransportConstants.NCBS_IISC_WEEK,getResources().getString(R.string.def_ncbs_iisc_week)).apply();
+            pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY,getResources().getString(R.string.def_ncbs_iisc_sunday)).apply();
+            pref.edit().putString(TransportConstants.IISC_NCBS_WEEK,getResources().getString(R.string.def_iisc_ncbs_week)).apply();
+            pref.edit().putString(TransportConstants.IISC_NCBS_SUNDAY,getResources().getString(R.string.def_iisc_ncbs_sunday)).apply();
+            pref.edit().putString(TransportConstants.NCBS_MANDARA_WEEK,getResources().getString(R.string.def_ncbs_mandara_week)).apply();
+            pref.edit().putString(TransportConstants.NCBS_MANDARA_SUNDAY,getResources().getString(R.string.def_ncbs_mandara_sunday)).apply();
+            pref.edit().putString(TransportConstants.MANDARA_NCBS_WEEK,getResources().getString(R.string.def_mandara_ncbs_week)).apply();
+            pref.edit().putString(TransportConstants.MANDARA_NCBS_SUNDAY,getResources().getString(R.string.def_mandara_ncbs_sunday)).apply();
+            pref.edit().putString(TransportConstants.NCBS_ICTS_WEEK,getResources().getString(R.string.def_ncbs_icts_week)).apply();
+            pref.edit().putString(TransportConstants.NCBS_ICTS_SUNDAY,getResources().getString(R.string.def_ncbs_icts_sunday)).apply();
+            pref.edit().putString(TransportConstants.ICTS_NCBS_WEEK,getResources().getString(R.string.def_icts_ncbs_week)).apply();
+            pref.edit().putString(TransportConstants.ICTS_NCBS_SUNDAY,getResources().getString(R.string.def_icts_ncbs_sunday)).apply();
+            pref.edit().putString(TransportConstants.NCBS_CBL,getResources().getString(R.string.def_ncbs_cbl)).apply();
+            pref.edit().putString(TransportConstants.BUGGY_NCBS,getResources().getString(R.string.def_buggy_from_ncbs)).apply();
+            pref.edit().putString(TransportConstants.BUGGY_MANDARA,getResources().getString(R.string.def_buggy_from_mandara)).apply();
 
     }
 }

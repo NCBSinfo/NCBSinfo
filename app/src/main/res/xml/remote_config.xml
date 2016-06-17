@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap>
+
+    <entry>
+        <key>isOldVersion</key>
+        <value>False</value>
+    </entry>
+
+
     <entry>
         <key>route1_ncbs_iisc_week</key>
         <value>{"07:15", "08:50", "11:30", "14:00","16:15", "18:00", "18:30", "20:30", "22:00" ,"23:00"}</value>
