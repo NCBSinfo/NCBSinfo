@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="warning_online">ONLINE mode</string>
+    <string name="warning_online_details">This mode will required internet connection. You will be able to access full features
+    of this application. Internet and battery usage is already optimized for good user experience. Don\'t worry, you can switch
+    anytime from settings.</string>
+
+    <string name="warning_offline">OFFLINE mode</string>
+    <string name="warning_offline_details">This is lightweight mode and do not require internet connection. Only basic features
+         will be available. Don\'t worry, you can switch anytime from settings.</string>
+</resources>

@@ -9,16 +9,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Home">
+            android:name=".Home"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity   android:name=".Login"
-                    android:noHistory="true"/>
+        <activity
+            android:name=".Login"
+            android:noHistory="true" />
+        <activity android:name=".offline.OfflineHome" />
+        <activity android:name=".online.OnlineHome"></activity>
     </application>
 
 </manifest>
