@@ -18,13 +18,17 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rohitsuratekar.NCBSinfo.common.Utilities;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
+import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.fragments.RegisterFragment;
 
 public class Login extends AppCompatActivity {
+
     //Public constants
     public static final String IS_OLD_VERSION = "isOldVersion";
+
     //Local constants
     private final String TAG = this.getClass().getSimpleName();
+
     //Local variables
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private FirebaseAuth mAuth;
@@ -37,11 +41,12 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        //Initialization
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        //Set up Firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
         //Set up remote configuration
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         //TODO: Change debug mode while production
@@ -51,28 +56,28 @@ public class Login extends AppCompatActivity {
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
 
-            //Add listener
-            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user != null) {
-                        // User is signed in
-                        Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                        if(pref.getBoolean(RegisterFragment.REGISTERED,false)) {
-                            mDatabase.child("users/" + user.getUid() + "/username").setValue(pref.getString(RegisterFragment.USERNAME,"Username"));
-                            mDatabase.child("users/" + user.getUid() + "/email").setValue(pref.getString(RegisterFragment.EMAIL,"email@domain.com"));
-                            mDatabase.child("users/" + user.getUid() + "/ResearchTalk").setValue(1);
-                        }
-
-                    } else {
-                        // User is signed out
-                        Log.d(TAG, "onAuthStateChanged:signed_out");
-
+        //Add listener
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    if (pref.getBoolean(RegisterFragment.REGISTERED, false)) {
+                        mDatabase.child(RemoteConstants.USER_NODE+ "/" + user.getUid() + "/"+ RemoteConstants.USERNAME).setValue(pref.getString(RegisterFragment.USERNAME, "Username"));
+                        mDatabase.child(RemoteConstants.USER_NODE+ "/" + user.getUid() + "/"+ RemoteConstants.EMAIL).setValue(pref.getString(RegisterFragment.EMAIL, "email@domain.com"));
+                        mDatabase.child(RemoteConstants.USER_NODE+ "/" + user.getUid() + "/"+ RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(RegisterFragment.RESEARCH_TALK, 1));
                     }
 
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+
                 }
-            };
+
+            }
+        };
         //Get remote configuration
         getConfiguration();
 
@@ -105,11 +110,12 @@ public class Login extends AppCompatActivity {
         startActivity(new Intent(Login.this, Home.class));
     }
 
-    private void getConfiguration(){
-        long cacheExpiration = 3600*24; // 1 hour in seconds.
+    private void getConfiguration() {
+        long cacheExpiration = RemoteConstants.CACHE_EXPIRATION;
+
         // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
         // the server.
-        if(mFirebaseRemoteConfig!=null) {
+        if (mFirebaseRemoteConfig != null) {
             if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
                 cacheExpiration = 0;
             }
@@ -123,7 +129,7 @@ public class Login extends AppCompatActivity {
                                     // Once the config is successfully fetched it must be activated before newly fetched
                                     // values are returned.
                                     mFirebaseRemoteConfig.activateFetched();
-                                    setTransportvalue();
+                                    setTransportValue();
                                     pref.edit().putBoolean(IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(IS_OLD_VERSION)).apply();
                                 } else {
                                     Log.d(TAG, "Fetch failed");
@@ -136,30 +142,28 @@ public class Login extends AppCompatActivity {
         }
 
 
-
     }
 
 
-    public void setTransportvalue(){
+    public void setTransportValue() {
 
-        pref.edit().putString(TransportConstants.NCBS_IISC_WEEK,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_WEEK)).apply();
-        pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.IISC_NCBS_WEEK,mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.IISC_NCBS_SUNDAY,mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.NCBS_MANDARA_WEEK,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_WEEK)).apply();
-        pref.edit().putString(TransportConstants.NCBS_MANDARA_SUNDAY,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.MANDARA_NCBS_WEEK,mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.MANDARA_NCBS_SUNDAY,mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.NCBS_ICTS_WEEK,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.NCBS_ICTS_SUNDAY,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.ICTS_NCBS_WEEK,mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.ICTS_NCBS_SUNDAY,mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.NCBS_CBL,mFirebaseRemoteConfig.getString(TransportConstants.NCBS_CBL)).apply();
-        pref.edit().putString(TransportConstants.BUGGY_NCBS,mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_NCBS)).apply();
-        pref.edit().putString(TransportConstants.BUGGY_MANDARA,mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_MANDARA)).apply();
+        pref.edit().putString(TransportConstants.NCBS_IISC_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_WEEK)).apply();
+        pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.IISC_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.IISC_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.NCBS_MANDARA_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_WEEK)).apply();
+        pref.edit().putString(TransportConstants.NCBS_MANDARA_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.MANDARA_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.MANDARA_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.NCBS_ICTS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.NCBS_ICTS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.ICTS_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.ICTS_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.NCBS_CBL, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_CBL)).apply();
+        pref.edit().putString(TransportConstants.BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_NCBS)).apply();
+        pref.edit().putString(TransportConstants.BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_MANDARA)).apply();
 
     }
-
 
 
 }

@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
@@ -33,30 +34,35 @@ public class RegisterFragment extends Fragment {
     public static final String REGISTERED = "registeredUser";
     public static final String USERNAME = "currentUsername";
     public static final String EMAIL = "currentEmail";
+    public static final String RESEARCH_TALK = "currentResearchTalk";
 
     //Local
     private static String TAG = "RegisterFragment";
+    private ProgressDialog progress;
 
     TextInputEditText username, email, password;
     TextInputLayout user_layout, email_layout, password_layout;
     View rootView;
-    private ProgressDialog progress ;
     SharedPreferences pref;
+    FirebaseAuth mAuth;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.register, container, false);
+        //Initialization
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        Button registerBtn = (Button)rootView.findViewById(R.id.button_register);
-        username = (TextInputEditText)rootView.findViewById(R.id.edittext_register_name);
-        password = (TextInputEditText)rootView.findViewById(R.id.edittext_register_password);
-        email = (TextInputEditText)rootView.findViewById(R.id.edittext_register_email);
-        user_layout = (TextInputLayout)rootView.findViewById(R.id.input_layout_register_name);
-        password_layout = (TextInputLayout)rootView.findViewById(R.id.input_layout_register_pass);
-        email_layout = (TextInputLayout)rootView.findViewById(R.id.input_layout_register_email);
+        mAuth = FirebaseAuth.getInstance();
         progress = new ProgressDialog(getContext());
+
+        //UI components
+        Button registerBtn = (Button) rootView.findViewById(R.id.button_register);
+        username = (TextInputEditText) rootView.findViewById(R.id.edittext_register_name);
+        password = (TextInputEditText) rootView.findViewById(R.id.edittext_register_password);
+        email = (TextInputEditText) rootView.findViewById(R.id.edittext_register_email);
+        user_layout = (TextInputLayout) rootView.findViewById(R.id.input_layout_register_name);
+        password_layout = (TextInputLayout) rootView.findViewById(R.id.input_layout_register_pass);
+        email_layout = (TextInputLayout) rootView.findViewById(R.id.input_layout_register_email);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,25 +70,20 @@ public class RegisterFragment extends Fragment {
                 if (validateEmail() && validatePass() && validateUser()) {
                     progress.setMessage("Registering ...");
                     progress.show();
-                    mAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
+                    mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                                    // If sign in fails, display a message to the user. If sign in succeeds
-                                    // the auth state listener will be notified and logic to handle the
-                                    // signed in user can be handled in the listener.
                                     if (!task.isSuccessful()) {
                                         progress.dismiss();
                                         try {
-                                            Log.i(TAG,task.getResult().toString());
-                                        }
-                                        catch (RuntimeExecutionException e){
-                                            if(e.getMessage().contains("FirebaseAuthUserCollisionException")){
+                                            Log.i(TAG, task.getResult().toString());
+                                        } catch (RuntimeExecutionException e) {
+                                            if (e.getMessage().contains("FirebaseAuthUserCollisionException")) {
                                                 final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                                                alertDialog.setTitle("User exists");
-                                                alertDialog.setMessage("Email "+ mAuth.getCurrentUser().getEmail()+ " is already used by another user. If you think it was you, click on reset below and you will receive email with further instructions.");
+                                                alertDialog.setTitle(getString(R.string.warning_registration_reset_email));
+                                                alertDialog.setMessage(getString(R.string.warning_registration_reset_email_details, mAuth.getCurrentUser().getEmail()));
                                                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Reset", new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         mAuth.sendPasswordResetEmail(mAuth.getCurrentUser().getEmail());
@@ -96,18 +97,15 @@ public class RegisterFragment extends Fragment {
                                                 });
 
                                                 alertDialog.show();
-                                            }
-                                            else if (e.getMessage().contains("FirebaseAuthInvalidCredentialsException")){
+                                            } else if (e.getMessage().contains("FirebaseAuthInvalidCredentialsException")) {
                                                 email_layout.setError(e.getCause().getMessage());
                                                 requestFocus(email);
-                                            }
-                                            else{
-                                                Log.i(TAG,e.getMessage());
+                                            } else {
+                                                Log.i(TAG, e.getMessage());
                                             }
                                         }
 
-                                    }
-                                    else {
+                                    } else {
                                         progress.setMessage("Signing in...");
                                         pref.edit().putString(USERNAME, username.getText().toString()).apply();
                                         pref.edit().putString(EMAIL, email.getText().toString()).apply();
@@ -119,16 +117,15 @@ public class RegisterFragment extends Fragment {
                                                 if (!task.isSuccessful()) {
                                                     Log.w(TAG, "signInWithEmail", task.getException());
                                                     if (task.getException().toString().contains("FirebaseAuthInvalidUserException")) {
-                                                        user_layout.setError("Email is not found in our database, try registering instead ?");
+                                                        user_layout.setError(getString(R.string.warning_registration_no_email_found));
                                                         requestFocus(username);
                                                     }
                                                     if (task.getException().toString().contains("FirebaseAuthInvalidCredentialsException")) {
-                                                        password_layout.setError("Wrong Password");
+                                                        password_layout.setError(getString(R.string.warning_registration_wrong_password));
                                                         requestFocus(password);
                                                     }
                                                 } else {
-
-
+                                                    pref.edit().putString(Home.MODE, Home.ONLINE).apply();
                                                     startActivity(new Intent(getActivity(), OnlineHome.class));
                                                 }
                                             }
@@ -140,7 +137,7 @@ public class RegisterFragment extends Fragment {
             }
         });
 
-        Button gotoSignin = (Button)rootView.findViewById(R.id.button_goto_signin);
+        Button gotoSignin = (Button) rootView.findViewById(R.id.button_goto_signin);
         gotoSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,16 +160,14 @@ public class RegisterFragment extends Fragment {
 
     private boolean validatePass() {
         if (password.getText().toString().trim().isEmpty()) {
-            password_layout.setError("Password can not be empty");
+            password_layout.setError(getString(R.string.warning_registration_empty_password));
             requestFocus(password);
             return false;
-        }
-        else if (password.length()<6){
-            password_layout.setError("Password must be at least 6 character long");
+        } else if (password.length() < 6) {
+            password_layout.setError(getString(R.string.warning_registration_bad_password));
             requestFocus(password);
             return false;
-        }
-        else {
+        } else {
             password_layout.setErrorEnabled(false);
         }
         return true;
@@ -180,11 +175,10 @@ public class RegisterFragment extends Fragment {
 
     private boolean validateUser() {
         if (username.getText().toString().trim().isEmpty()) {
-            user_layout.setError("Name can not be empty");
+            user_layout.setError(getString(R.string.warning_registration_empty_username));
             requestFocus(username);
             return false;
-        }
-        else {
+        } else {
             user_layout.setErrorEnabled(false);
         }
         return true;
@@ -192,14 +186,13 @@ public class RegisterFragment extends Fragment {
 
     private boolean validateEmail() {
 
-        if ((email.getText().toString().trim().isEmpty()) || (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())){
-            email_layout.setError("Invalid Email");
+        if ((email.getText().toString().trim().isEmpty()) || (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())) {
+            email_layout.setError(getString(R.string.warning_registration_invalid_email));
             requestFocus(email);
             return false;
-        }
-        else {
+        } else {
             email_layout.setErrorEnabled(false);
         }
-        return true ;
+        return true;
     }
 }

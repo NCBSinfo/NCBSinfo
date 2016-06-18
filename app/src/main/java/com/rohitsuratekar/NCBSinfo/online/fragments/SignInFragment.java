@@ -16,31 +16,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 
-public class SignInFragment extends Fragment  {
+public class SignInFragment extends Fragment {
 
+    //Local
     private static String TAG = "SignInFragment";
+    private ProgressDialog progress;
+    private DatabaseReference mDatabase;
 
     TextInputEditText username, password;
     TextInputLayout user_layout, password_layout;
     View rootView;
-    private ProgressDialog progress ;
-    private DatabaseReference mDatabase;
     SharedPreferences pref;
 
     @Nullable
@@ -48,15 +48,19 @@ public class SignInFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.sign_in, container, false);
 
+        //Initialization
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Button signInButton = (Button)rootView.findViewById(R.id.button_sign_in);
-        username = (TextInputEditText)rootView.findViewById(R.id.edittext_signin_username);
-        password = (TextInputEditText)rootView.findViewById(R.id.edittext_signin_password);
-        user_layout = (TextInputLayout)rootView.findViewById(R.id.input_layout_signin_user);
-        password_layout = (TextInputLayout)rootView.findViewById(R.id.input_layout_signin_pass);
         progress = new ProgressDialog(getContext());
+
+        //UI
+        Button signInButton = (Button) rootView.findViewById(R.id.button_sign_in);
+        username = (TextInputEditText) rootView.findViewById(R.id.edittext_signin_username);
+        password = (TextInputEditText) rootView.findViewById(R.id.edittext_signin_password);
+        user_layout = (TextInputLayout) rootView.findViewById(R.id.input_layout_signin_user);
+        password_layout = (TextInputLayout) rootView.findViewById(R.id.input_layout_signin_pass);
+
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,32 +70,40 @@ public class SignInFragment extends Fragment  {
                     mAuth.signInWithEmailAndPassword(username.getText().toString(), password.getText().toString()).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if (!task.isSuccessful()) {
                                 progress.dismiss();
                                 Log.w(TAG, "signInWithEmail", task.getException());
                                 if (task.getException().toString().contains("FirebaseAuthInvalidUserException")) {
-                                    user_layout.setError("Email is not found in our database, try registering instead ?");
+                                    user_layout.setError(getString(R.string.warning_registration_no_email_found));
                                     requestFocus(username);
                                 }
                                 if (task.getException().toString().contains("FirebaseAuthInvalidCredentialsException")) {
-                                    password_layout.setError("Wrong Password");
+                                    password_layout.setError(getString(R.string.warning_registration_wrong_password));
                                     requestFocus(password);
                                 }
                             } else {
                                 progress.setMessage("Updating data...");
-                                mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
+                                //Retrieve data from database here
+                                mDatabase.child(RemoteConstants.USER_NODE).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
                                         new ValueEventListener() {
                                             @Override
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                                    if (child.getKey().equals("username")) {
-                                                      pref.edit().putString(RegisterFragment.USERNAME, child.getValue().toString()).apply();
-                                                    }
-                                                    if (child.getKey().equals("email")){
-                                                        pref.edit().putString(RegisterFragment.EMAIL, child.getValue().toString()).apply();
+                                                    switch (child.getKey()) {
+                                                        case RemoteConstants.USERNAME:
+                                                            pref.edit().putString(RegisterFragment.USERNAME, child.getValue().toString()).apply();
+                                                            break;
+                                                        case RemoteConstants.EMAIL:
+                                                            pref.edit().putString(RegisterFragment.EMAIL, child.getValue().toString()).apply();
+                                                            break;
+                                                        case RegisterFragment.RESEARCH_TALK:
+                                                            pref.edit().putInt(RegisterFragment.RESEARCH_TALK, Integer.parseInt(child.getValue().toString())).apply();
+                                                            break;
+                                                        default:
+                                                            Log.i(TAG, "Unknown Key :" + child.getKey());
                                                     }
                                                 }
+                                                //Always keep registration true after sign in
                                                 pref.edit().putBoolean(RegisterFragment.REGISTERED, true).apply();
                                             }
 
@@ -101,6 +113,7 @@ public class SignInFragment extends Fragment  {
                                             }
                                         });
                                 progress.dismiss();
+                                pref.edit().putString(Home.MODE, Home.ONLINE).apply();
                                 startActivity(new Intent(getActivity(), OnlineHome.class));
                             }
                         }
@@ -120,16 +133,14 @@ public class SignInFragment extends Fragment  {
 
     private boolean validatePass() {
         if (password.getText().toString().trim().isEmpty()) {
-            password_layout.setError("Password can not be empty");
+            password_layout.setError(getString(R.string.warning_registration_empty_password));
             requestFocus(password);
             return false;
-        }
-        else if (password.length()<6){
-            password_layout.setError("Password must be at least 6 character long");
+        } else if (password.length() < 6) {
+            password_layout.setError(getString(R.string.warning_registration_bad_password));
             requestFocus(password);
             return false;
-        }
-        else {
+        } else {
             password_layout.setErrorEnabled(false);
         }
         return true;
@@ -137,14 +148,13 @@ public class SignInFragment extends Fragment  {
 
     private boolean validateEmail() {
 
-        if ((username.getText().toString().trim().isEmpty()) || (!android.util.Patterns.EMAIL_ADDRESS.matcher(username.getText().toString()).matches())){
-            user_layout.setError("Invalid Email");
+        if ((username.getText().toString().trim().isEmpty()) || (!android.util.Patterns.EMAIL_ADDRESS.matcher(username.getText().toString()).matches())) {
+            user_layout.setError(getString(R.string.warning_registration_invalid_email));
             requestFocus(username);
             return false;
-        }
-        else {
+        } else {
             user_layout.setErrorEnabled(false);
         }
-        return true ;
+        return true;
     }
 }

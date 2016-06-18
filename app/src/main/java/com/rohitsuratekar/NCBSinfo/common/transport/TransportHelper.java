@@ -12,17 +12,41 @@ public class TransportHelper {
     public String[] routeToStrings(int route){
         String from;
         String to;
+        String weekPreferenceKey;
+        String sundayPreferenceKey;
         switch (route){
-            case 1: from = "ncbs"; to = "iisc"; break;
-            case 2: from = "iisc"; to = "ncbs"; break;
-            case 3: from = "ncbs"; to = "mandara"; break;
-            case 4: from = "mandara"; to = "ncbs"; break;
-            case 5: from = "ncbs"; to = "icts"; break;
-            case 6: from = "icts"; to = "ncbs"; break;
-            case 7: from = "ncbs"; to = "cbl"; break;
-            default: from = "ncbs"; to = "iisc";
+            case 1:
+                from = "ncbs"; to = "iisc";
+                weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
+                sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY; break;
+            case 2:
+                from = "iisc"; to = "ncbs";
+                weekPreferenceKey = TransportConstants.IISC_NCBS_WEEK;
+                sundayPreferenceKey = TransportConstants.IISC_NCBS_SUNDAY; break;
+            case 3:
+                from = "ncbs"; to = "mandara";
+                weekPreferenceKey = TransportConstants.NCBS_MANDARA_WEEK;
+                sundayPreferenceKey = TransportConstants.NCBS_MANDARA_SUNDAY; break;
+            case 4:
+                from = "mandara"; to = "ncbs";
+                weekPreferenceKey = TransportConstants.MANDARA_NCBS_WEEK;
+                sundayPreferenceKey = TransportConstants.MANDARA_NCBS_SUNDAY; break;
+            case 5:
+                from = "ncbs"; to = "icts";
+                weekPreferenceKey = TransportConstants.NCBS_ICTS_WEEK;
+                sundayPreferenceKey = TransportConstants.NCBS_ICTS_SUNDAY; break;
+            case 6: from = "icts"; to = "ncbs";
+                weekPreferenceKey = TransportConstants.ICTS_NCBS_WEEK;
+                sundayPreferenceKey = TransportConstants.ICTS_NCBS_SUNDAY; break;
+            case 7: from = "ncbs"; to = "cbl";
+                weekPreferenceKey = TransportConstants.NCBS_CBL;
+                sundayPreferenceKey = TransportConstants.NCBS_CBL; break;
+            default:
+                from = "ncbs"; to = "iisc";
+                weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
+                sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY; break;
         }
-        return new String[]{from, to};
+        return new String[]{from, to, sundayPreferenceKey,weekPreferenceKey};
     }
 
     public List<List<String>> rawToRegular (List<String> sundayTrips, List<String> weekdayTrips){

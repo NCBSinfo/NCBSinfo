@@ -3,6 +3,8 @@
     package="com.rohitsuratekar.NCBSinfo">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -23,22 +25,28 @@
             android:name=".Login"
             android:noHistory="true" />
         <activity android:name=".offline.OfflineHome" />
-        <activity android:name=".online.OnlineHome"/>
+        <activity android:name=".online.OnlineHome" />
 
-        <service
-            android:name=".background.FireBaseMessage">
+        <service android:name=".background.FireBaseMessage">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".background.FireBaseID">
+        <service android:name=".background.FireBaseID">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-
+        <activity
+            android:name=".common.transport.Transport"
+            android:label="@string/title_activity_transport"
+            android:parentActivityName=".Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
     </application>
 
 </manifest>

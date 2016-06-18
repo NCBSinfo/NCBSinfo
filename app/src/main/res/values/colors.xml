@@ -7,4 +7,6 @@
     <color name="online">#4caf50</color>
     <color name="offline">#cddc39</color>
 
+    <color name="profile_color">#004d40</color>
+
 </resources>
