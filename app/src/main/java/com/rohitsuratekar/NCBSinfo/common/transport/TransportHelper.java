@@ -56,17 +56,23 @@ public class TransportHelper {
                 break;
             case 5:
                 from = "ncbs";
+                to = "mandara";
+                weekPreferenceKey = TransportConstants.BUGGY_NCBS;
+                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
+                break;
+            case 6:
+                from = "ncbs";
                 to = "icts";
                 weekPreferenceKey = TransportConstants.NCBS_ICTS_WEEK;
                 sundayPreferenceKey = TransportConstants.NCBS_ICTS_SUNDAY;
                 break;
-            case 6:
+            case 7:
                 from = "icts";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.ICTS_NCBS_WEEK;
                 sundayPreferenceKey = TransportConstants.ICTS_NCBS_SUNDAY;
                 break;
-            case 7:
+            case 8:
                 from = "ncbs";
                 to = "cbl";
                 weekPreferenceKey = TransportConstants.NCBS_CBL;

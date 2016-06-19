@@ -176,27 +176,29 @@ public class Transport extends AppCompatActivity
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return TransportFragment.newInstance(1);
+                    return TransportFragment.newInstance(1, false);
                 case 1:
-                    return TransportFragment.newInstance(2);
+                    return TransportFragment.newInstance(2, false);
                 case 2:
-                    return TransportFragment.newInstance(3);
+                    return TransportFragment.newInstance(3, false);
                 case 3:
-                    return TransportFragment.newInstance(4);
+                    return TransportFragment.newInstance(4, false);
                 case 4:
-                    return TransportFragment.newInstance(5);
+                    return TransportFragment.newInstance(5, true); //This is buggy
                 case 5:
-                    return TransportFragment.newInstance(6);
+                    return TransportFragment.newInstance(6, false);
                 case 6:
-                    return TransportFragment.newInstance(7);
+                    return TransportFragment.newInstance(7, false);
+                case 7:
+                    return TransportFragment.newInstance(8, false);
                 default:
-                    return TransportFragment.newInstance(0);
+                    return TransportFragment.newInstance(0, false);
             }
         }
 
         @Override
         public int getCount() {
-            return 7;
+            return 8;
         }
 
         @Override
@@ -211,10 +213,12 @@ public class Transport extends AppCompatActivity
                 case 3:
                     return getResources().getString(R.string.route_mandara_ncbs);
                 case 4:
-                    return getResources().getString(R.string.route_ncbs_icts);
+                    return getResources().getString(R.string.buggy);
                 case 5:
-                    return getResources().getString(R.string.route_icts_ncbs);
+                    return getResources().getString(R.string.route_ncbs_icts);
                 case 6:
+                    return getResources().getString(R.string.route_icts_ncbs);
+                case 7:
                     return getResources().getString(R.string.route_ncbs_cbl);
 
             }
