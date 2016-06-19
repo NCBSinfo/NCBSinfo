@@ -29,6 +29,7 @@ public class TransportModel {
     String timeLeft[];
     int routeNo;
     int nextTripDay;
+    String type;
 
 
     public TransportModel(Context context, ShuttleModel shuttle) {
@@ -51,6 +52,7 @@ public class TransportModel {
         this.routeNo = shuttle.getRouteNo();
         this.from = shuttle.getFrom();
         this.to = shuttle.getTo();
+        this.type = context.getResources().getString(R.string.shuttle);
     }
 
     public TransportModel(Context context, BuggyModel buggy) {
@@ -64,9 +66,11 @@ public class TransportModel {
         this.sundayTitle = context.getResources().getString(R.string.transport_list_buggy_title_mandara);
         this.footnote1 = "";
         this.footnote2 = context.getResources().getString(R.string.transport_buggy_footer, currentTime);
-        if(buggy.from!=null) {
+        if (buggy.from != null) {
             this.from = buggy.from;
             this.to = buggy.to;
+            this.originLocation = new TransportHelper().getLocation(context,buggy.from,true);
+            this.destinationLocation = new TransportHelper().getLocation(context,buggy.to,true);
             this.routeNo = buggy.getRouteNo();
             if (buggy.from.equals("ncbs")) {
                 this.nextTrip = buggy.getNextTrip()[0];
@@ -76,6 +80,15 @@ public class TransportModel {
                 this.nextTripDay = Integer.parseInt(buggy.getNextTrip()[3]);
             }
         }
+        this.type = context.getResources().getString(R.string.buggy);
+    }
+
+    public int getNextTripDay() {
+        return nextTripDay;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getFrom() {
@@ -157,11 +170,10 @@ public class TransportModel {
         date.setTime(calendar.getTimeInMillis());
         String target = null;
         try {
-            target = format.format(format.parse(shortformat.format(date)+nextTrip+":00"));
+            target = format.format(format.parse(shortformat.format(date) + nextTrip + ":00"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.i("Dates", now+ "  " +target);
-        return new TransportHelper().TimeLeft(now,target);
+        return new TransportHelper().TimeLeft(now, target);
     }
 }

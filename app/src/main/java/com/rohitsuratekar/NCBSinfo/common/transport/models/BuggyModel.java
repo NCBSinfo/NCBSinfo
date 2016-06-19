@@ -15,14 +15,6 @@ public class BuggyModel {
     String to;
     int routeNo;
 
-    public BuggyModel(String[] tripsFromNCBS, String[] tripsFromMandara) {
-        this.tripsFromNCBS = tripsFromNCBS;
-        this.tripsFromMandara = tripsFromMandara;
-        this.nextTrip = nextTrip();
-        this.from = "ncbs";
-        this.from = "mandara";
-    }
-
     public BuggyModel(String[] tripsFromNCBS, String[] tripsFromMandara, String from, String to) {
         this.tripsFromNCBS = tripsFromNCBS;
         this.tripsFromMandara = tripsFromMandara;

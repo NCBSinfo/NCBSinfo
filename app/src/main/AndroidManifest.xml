@@ -14,7 +14,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -23,7 +22,6 @@
             android:value="@string/google_map" />
 
         <uses-library android:name="com.google.android.maps" />
-
 
         <activity
             android:name=".Home"
@@ -37,8 +35,10 @@
         <activity
             android:name=".Login"
             android:noHistory="true" />
-        <activity android:name=".offline.OfflineHome" />
-        <activity android:name=".online.OnlineHome" />
+        <activity android:name=".offline.OfflineHome"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".online.OnlineHome"
+            android:screenOrientation="portrait"/>
 
         <service android:name=".background.FireBaseMessage">
             <intent-filter>
@@ -63,7 +63,8 @@
         <activity
             android:name=".common.contacts.Contacts"
             android:label="@string/contacts"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".common.contacts.ContactAdd" />
         <activity
             android:name=".common.lecturehalls.LectureHalls"
@@ -72,11 +73,31 @@
         <activity
             android:name=".online.experimental.Experimental"
             android:label="@string/experimental"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".online.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".online.maps.MapActivity"
+            android:label="@string/map">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".online.OnlineHome" />
+        </activity>
         <activity
             android:name=".online.temp.camp.CAMP"
             android:label="@string/title_activity_camp"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".online.events.Events"
+            android:label="@string/title_activity_events"
+            android:parentActivityName=".online.OnlineHome"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
+        </activity>
     </application>
 
 </manifest>

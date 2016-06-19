@@ -12,6 +12,7 @@
     <string name="experimental">Experimental</string>
     <string name="canteen">Canteen</string>
     <string name="lecture_hall">Locations</string>
+    <string name="map">Map</string>
 
 
     <!-- Home -->
@@ -28,8 +29,10 @@
     <string name="home_select_offline">Offline is fine</string>
 
     <string name="home_trasnport_title">%1$s - %2$s</string>
-    <string name="next_transport"> Next %1$s </string>
+    <string name="next_transport">Next %1$s : %2$s</string>
     <string name="time_left">%1$d Hr %2$d Min %3$d Sec left</string>
+    <string name="snackbar_added_route">%1$s - %2$s added to the default view.</string>
+    <string name="snackbar_reset_route">Default view is reset.</string>
 
 
     <!-- Transport -->
@@ -78,6 +81,7 @@
     <string name="action_reset">Reset</string>
     <string name="action_select_category">Select Category</string>
     <string name="title_activity_camp">CAMP</string>
+    <string name="title_activity_events">Events</string>
 
 
 </resources>

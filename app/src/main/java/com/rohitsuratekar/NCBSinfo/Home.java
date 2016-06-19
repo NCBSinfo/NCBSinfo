@@ -40,9 +40,11 @@ public class Home extends AppCompatActivity {
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE, "none")) {
             case ONLINE:
                 startActivity(new Intent(Home.this, OnlineHome.class));
+                break;
 
             case OFFLINE:
                 startActivity(new Intent(Home.this, OfflineHome.class));
+                break;
 
         }
 
@@ -98,7 +100,7 @@ public class Home extends AppCompatActivity {
         });
 
         //Set transport timings first time app is open
-        if(pref.getBoolean(FIRST_TIME, true)) {
+        if (pref.getBoolean(FIRST_TIME, true)) {
             setTransportValue();
             pref.edit().putBoolean(FIRST_TIME, false).apply();
         }

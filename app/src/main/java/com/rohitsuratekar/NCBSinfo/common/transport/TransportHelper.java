@@ -353,21 +353,27 @@ public class TransportHelper {
     public LatLng getLocation(Context context, String place, boolean isBuggy) {
         String latitude, longitude;
         if (isBuggy) {
-            if (place.equals("ncbs")) {
-                latitude = context.getString(R.string.ncbs_latitude);
-                longitude = context.getString(R.string.ncbs_longitude);
-            } else if (place.equals("iisc")) {
-                latitude = context.getString(R.string.iisc_latitude);
-                longitude = context.getString(R.string.iisc_longitude);
-            } else if (place.equals("mandara")) {
-                latitude = context.getString(R.string.mandara_latitude);
-                longitude = context.getString(R.string.mandara_longitude);
-            } else if (place.equals("icts")) {
-                latitude = context.getString(R.string.icts_latitude);
-                longitude = context.getString(R.string.icts_longitude);
-            } else {
-                latitude = context.getString(R.string.ncbs_latitude);
-                longitude = context.getString(R.string.ncbs_longitude);
+            switch (place) {
+                case "ncbs":
+                    latitude = context.getString(R.string.ncbs_latitude);
+                    longitude = context.getString(R.string.ncbs_longitude);
+                    break;
+                case "iisc":
+                    latitude = context.getString(R.string.iisc_latitude);
+                    longitude = context.getString(R.string.iisc_longitude);
+                    break;
+                case "mandara":
+                    latitude = context.getString(R.string.mandara_latitude);
+                    longitude = context.getString(R.string.mandara_longitude);
+                    break;
+                case "icts":
+                    latitude = context.getString(R.string.icts_latitude);
+                    longitude = context.getString(R.string.icts_longitude);
+                    break;
+                default:
+                    latitude = context.getString(R.string.ncbs_latitude);
+                    longitude = context.getString(R.string.ncbs_longitude);
+                    break;
             }
         } else {
             if (place.equals("ncbs")) {

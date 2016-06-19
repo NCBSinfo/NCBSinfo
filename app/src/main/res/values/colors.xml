@@ -10,4 +10,9 @@
     <color name="profile_color">#004d40</color>
     <color name="map_polygone_overlay">#9d3a9bea</color>
 
+    <color name="BuggyColor">#009688</color>
+    <color name="hurryupColor">#F44336</color>
+    <color name="hurryup_dark">#D32F2F</color>
+    <color name="normalColor">#727272</color>
+
 </resources>

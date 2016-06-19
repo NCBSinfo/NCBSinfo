@@ -61,8 +61,8 @@ public class TransportFragment extends Fragment {
         if (isBuggy) {
             buggy = new BuggyModel(
                     new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[3], getString(R.string.def_buggy_from_ncbs))),
-                    new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[2], getString(R.string.def_buggy_from_mandara)))
-            );
+                    new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[2], getString(R.string.def_buggy_from_mandara))),
+                    new TransportHelper().routeToStrings(index)[0],new TransportHelper().routeToStrings(index)[1] );
             transport = new TransportModel(getContext(), buggy);
         } else {
             weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[3], getString(R.string.def_ncbs_iisc_week)))));

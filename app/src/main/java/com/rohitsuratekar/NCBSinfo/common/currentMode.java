@@ -8,6 +8,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
@@ -40,6 +41,7 @@ public class CurrentMode {
             case LectureHalls.MODE_CONSTANT: activateLectureHall(mode); break;
             case Experimental.MODE_CONSTANT: activateExperimental(mode); break;
             case CAMP.MODE_CONSTANT: activateCAMP(mode); break;
+            case Events.MODE_CONSTANT: activateEvents(mode); break;
             default: activateContacts(mode);
         }
 
@@ -99,6 +101,14 @@ public class CurrentMode {
             this.DrawerMenu = R.menu.camp_drawer;
         } else {
             this.DrawerMenu = R.menu.camp_drawer;
+        }
+    }
+
+    private void activateEvents(int mode){
+        if (mode==1) {
+            this.DrawerMenu = R.menu.events_drawer;
+        } else {
+            this.DrawerMenu = R.menu.events_drawer;
         }
     }
 }

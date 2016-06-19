@@ -32,6 +32,7 @@ public class Transport extends AppCompatActivity
     //Public
     public static final String INDENT = "transportIndent";
     public static final String MODE_CONSTANT = "transport";
+    public static final String DEFAULT_ROUTE = "defaultRoute";
 
     //Local
     private final String TAG = this.getClass().getSimpleName();
