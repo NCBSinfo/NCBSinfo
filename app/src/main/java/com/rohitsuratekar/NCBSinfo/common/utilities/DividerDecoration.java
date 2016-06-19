@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.common;
+package com.rohitsuratekar.NCBSinfo.common.utilities;
 
 import android.content.Context;
 import android.content.res.TypedArray;

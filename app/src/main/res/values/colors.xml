@@ -8,5 +8,6 @@
     <color name="offline">#cddc39</color>
 
     <color name="profile_color">#004d40</color>
+    <color name="map_polygone_overlay">#9d3a9bea</color>
 
 </resources>

@@ -22,4 +22,17 @@ public class TransportConstants {
     public static final String BUGGY_MANDARA = "buggy_from_mandara";
 
 
+    //Route Nos
+    public static final int ROUTE_NCBS_IISC = 0;
+    public static final int ROUTE_IISC_NCBS = 1;
+    public static final int ROUTE_NCBS_MANDARA = 2;
+    public static final int ROUTE_MANDARA_NCBS = 3;
+    public static final int ROUTE_BUGGY_NCBS = 4;
+    public static final int ROUTE_BUGGY_MANDARA = 5;
+    public static final int ROUTE_NCBS_ICTS = 6;
+    public static final int ROUTE_ICTS_NCBS = 7;
+    public static final int ROUTE_NCBS_CBL = 8;
+
+
+
 }

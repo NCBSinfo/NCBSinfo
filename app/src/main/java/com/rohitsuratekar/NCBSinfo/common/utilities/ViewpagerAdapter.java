@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.common;
+package com.rohitsuratekar.NCBSinfo.common.utilities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

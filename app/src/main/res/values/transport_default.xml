@@ -16,4 +16,30 @@
     <string name="def_buggy_from_ncbs">{"07:45", "08:30","08:45","09:00","09:30","09:45","10:00", "10:30", "11:00", "11:30", "12:15", "12:45", "13:00", "14:30" ,"15:00", "15:30", "16:00", "16:30", "17:30", "18:00", "18:15", "18:30", "18:45" ,"19:00", "19:30" ,"20:00"}</string>
     <string name="def_buggy_from_mandara">{"08:00","08:45","09:00","09:15","09:45","10:00","10:15","10:45","11:15","11:45","12:30","13:45","14:00","14:45","15:15","15:45","16:15","16:45","17:45","18:15","18:30","18:45","19:00","19:15","19:45","20:15"}</string>
 
+
+
+    <string name="ncbs_latitude">13.070639</string>
+    <string name="ncbs_longitude">77.581128</string>
+    <string name="iisc_latitude">13.016160</string>
+    <string name="iisc_longitude">77.567024</string>
+    <string name="mandara_latitude">13.093818</string>
+    <string name="mandara_longitude">77.577983</string>
+    <string name="buggy_ncbs_latitude">13.070639</string>
+    <string name="buggy_ncbs_longitude">77.581128</string>
+    <string name="buggy_mandara_latitude">13.092608</string>
+    <string name="buggy_mandara_longitude">77.575890</string>
+    <string name="icts_latitude">13.146325</string>
+    <string name="icts_longitude">77.513896</string>
+
+    <string-array name="canara_bank_layout">
+        <item> 13.066134, 77.578620</item>
+        <item> 13.070068, 77.581155</item>
+        <item> 13.071615, 77.575383</item>
+        <item> 13.069755, 77.574868</item>
+        <item> 13.069441, 77.575661</item>
+        <item> 13.069337, 77.575661</item>
+        <item> 13.069044, 77.576370</item>
+        <item> 13.067288, 77.575769</item>
+    </string-array>
+
 </resources>

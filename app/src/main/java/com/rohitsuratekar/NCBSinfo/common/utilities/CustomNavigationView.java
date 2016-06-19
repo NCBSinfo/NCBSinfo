@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.common;
+package com.rohitsuratekar.NCBSinfo.common.utilities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.online.fragments.RegisterFragment;
 
 public class CustomNavigationView {

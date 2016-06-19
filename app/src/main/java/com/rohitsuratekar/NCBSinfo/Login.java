@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.rohitsuratekar.NCBSinfo.common.Utilities;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.fragments.RegisterFragment;
@@ -65,9 +65,9 @@ public class Login extends AppCompatActivity {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     if (pref.getBoolean(RegisterFragment.REGISTERED, false)) {
-                        mDatabase.child(RemoteConstants.USER_NODE+ "/" + user.getUid() + "/"+ RemoteConstants.USERNAME).setValue(pref.getString(RegisterFragment.USERNAME, "Username"));
-                        mDatabase.child(RemoteConstants.USER_NODE+ "/" + user.getUid() + "/"+ RemoteConstants.EMAIL).setValue(pref.getString(RegisterFragment.EMAIL, "email@domain.com"));
-                        mDatabase.child(RemoteConstants.USER_NODE+ "/" + user.getUid() + "/"+ RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(RegisterFragment.RESEARCH_TALK, 1));
+                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(RegisterFragment.USERNAME, "Username"));
+                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(RegisterFragment.EMAIL, "email@domain.com"));
+                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(RegisterFragment.RESEARCH_TALK, 1));
                     }
 
                 } else {

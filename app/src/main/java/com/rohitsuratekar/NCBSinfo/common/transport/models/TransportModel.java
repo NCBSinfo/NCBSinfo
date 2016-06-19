@@ -1,11 +1,16 @@
 package com.rohitsuratekar.NCBSinfo.common.transport.models;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class TransportModel {
@@ -13,11 +18,18 @@ public class TransportModel {
     BuggyModel buggy;
     String weekTitle;
     String sundayTitle;
-    String footnote1;
-    String footnote2;
+    String footnote1, footnote2;
+    String from, to;
     Context context;
     String[] rawTripsWeekDays;
     String[] rawTripsSunday;
+    LatLng originLocation;
+    LatLng destinationLocation;
+    String nextTrip;
+    String timeLeft[];
+    int routeNo;
+    int nextTripDay;
+
 
     public TransportModel(Context context, ShuttleModel shuttle) {
         SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
@@ -32,6 +44,13 @@ public class TransportModel {
         this.sundayTitle = context.getResources().getString(R.string.transport_list_sunday_title);
         this.footnote1 = context.getResources().getString(R.string.transport_footer1);
         this.footnote2 = context.getResources().getString(R.string.transport_footer2, currentTime);
+        this.originLocation = new TransportHelper().getLocation(context, shuttle.from, false);
+        this.destinationLocation = new TransportHelper().getLocation(context, shuttle.to, false);
+        this.nextTrip = shuttle.getNextTrip()[1];
+        this.nextTripDay = Integer.parseInt(shuttle.getNextTrip()[0]);
+        this.routeNo = shuttle.getRouteNo();
+        this.from = shuttle.getFrom();
+        this.to = shuttle.getTo();
     }
 
     public TransportModel(Context context, BuggyModel buggy) {
@@ -45,6 +64,26 @@ public class TransportModel {
         this.sundayTitle = context.getResources().getString(R.string.transport_list_buggy_title_mandara);
         this.footnote1 = "";
         this.footnote2 = context.getResources().getString(R.string.transport_buggy_footer, currentTime);
+        if(buggy.from!=null) {
+            this.from = buggy.from;
+            this.to = buggy.to;
+            this.routeNo = buggy.getRouteNo();
+            if (buggy.from.equals("ncbs")) {
+                this.nextTrip = buggy.getNextTrip()[0];
+                this.nextTripDay = Integer.parseInt(buggy.getNextTrip()[2]);
+            } else {
+                this.nextTrip = buggy.getNextTrip()[1];
+                this.nextTripDay = Integer.parseInt(buggy.getNextTrip()[3]);
+            }
+        }
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public String getTo() {
+        return to;
     }
 
     public ShuttleModel getShuttle() {
@@ -89,5 +128,40 @@ public class TransportModel {
 
     public String[] getRawTripsSunday() {
         return rawTripsSunday;
+    }
+
+    public LatLng getOriginLocation() {
+        return originLocation;
+    }
+
+    public LatLng getDestinationLocation() {
+        return destinationLocation;
+    }
+
+    public String getNextTrip() {
+        return nextTrip;
+    }
+
+    public int getRouteNo() {
+        return routeNo;
+    }
+
+    public float[] getTimeLeft() {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat shortformat = new SimpleDateFormat("MM/dd/yyyy ", Locale.getDefault());
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_WEEK, nextTripDay);
+        String now = format.format(date);
+        date.setTime(calendar.getTimeInMillis());
+        String target = null;
+        try {
+            target = format.format(format.parse(shortformat.format(date)+nextTrip+":00"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i("Dates", now+ "  " +target);
+        return new TransportHelper().TimeLeft(now,target);
     }
 }

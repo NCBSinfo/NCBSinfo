@@ -52,5 +52,10 @@ public class Database extends SQLiteOpenHelper {
             onCreate(db);
         }
     }
+
+    public void restartDatabase(SQLiteDatabase db){
+        new Tables(db).dropAllTables();
+        onCreate(db);
+    }
 }
 

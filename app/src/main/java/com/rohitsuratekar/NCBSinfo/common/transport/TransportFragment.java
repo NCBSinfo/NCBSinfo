@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.Utilities;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.BuggyModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.ShuttleModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.SundayModel;
@@ -24,7 +24,7 @@ import java.util.Calendar;
 public class TransportFragment extends Fragment {
 
     /**
-     * @param index : This is route Number (See Transport Helpers to know route numbers)
+     * @param index   : This is route Number (See Transport Helpers to know route numbers)
      * @param isBuggy : This will be true if current transport is buggy
      * @return : Will return fragment containing all trips and next trip marked
      */

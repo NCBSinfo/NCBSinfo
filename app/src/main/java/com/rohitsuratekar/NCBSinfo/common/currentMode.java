@@ -2,12 +2,14 @@ package com.rohitsuratekar.NCBSinfo.common;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 public class CurrentMode {
 
@@ -35,6 +37,10 @@ public class CurrentMode {
         switch (section){
             case Transport.MODE_CONSTANT: activateTransport(mode); break;
             case Contacts.MODE_CONSTANT: activateContacts(mode); break;
+            case LectureHalls.MODE_CONSTANT: activateLectureHall(mode); break;
+            case Experimental.MODE_CONSTANT: activateExperimental(mode); break;
+            case CAMP.MODE_CONSTANT: activateCAMP(mode); break;
+            default: activateContacts(mode);
         }
 
     }
@@ -69,6 +75,30 @@ public class CurrentMode {
             this.DrawerMenu = R.menu.contact_drawer_online;
         } else {
             this.DrawerMenu = R.menu.contact_drawer_offline;
+        }
+    }
+
+    private void activateLectureHall(int mode){
+        if (mode==1) {
+            this.DrawerMenu = R.menu.lecture_halls_drawer_online;
+        } else {
+            this.DrawerMenu = R.menu.lecture_halls_drawer_offline;
+        }
+    }
+
+    private void activateExperimental(int mode){
+        if (mode==1) {
+            this.DrawerMenu = R.menu.experimental_drawer;
+        } else {
+            this.DrawerMenu = R.menu.experimental_drawer;
+        }
+    }
+
+    private void activateCAMP(int mode){
+        if (mode==1) {
+            this.DrawerMenu = R.menu.camp_drawer;
+        } else {
+            this.DrawerMenu = R.menu.camp_drawer;
         }
     }
 }

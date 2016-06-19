@@ -28,6 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.database.Tables;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 
@@ -82,6 +84,9 @@ public class SignInFragment extends Fragment {
                                     requestFocus(password);
                                 }
                             } else {
+                                pref.edit().clear().apply();
+                                Database db = new Database(getContext());
+                                db.restartDatabase(db.getWritableDatabase());
                                 progress.setMessage("Updating data...");
                                 //Retrieve data from database here
                                 mDatabase.child(RemoteConstants.USER_NODE).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(

@@ -22,7 +22,8 @@ import android.view.MenuItem;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.common.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 
 public class Transport extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,7 +49,6 @@ public class Transport extends AppCompatActivity
         //Initialization
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mode = new CurrentMode(getBaseContext(),MODE_CONSTANT);
-        Log.i(TAG, "Starting mode: "+pref.getString(Home.MODE, Home.ONLINE));
         //UI setup
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,8 +74,8 @@ public class Transport extends AppCompatActivity
         //Focus selected path
         Intent intent = getIntent();
         String currentSwitch = intent.getExtras().getString(INDENT, "0");
-
         int currentInt = Integer.parseInt(currentSwitch);
+        if (currentInt>TransportConstants.ROUTE_BUGGY_NCBS){currentInt=currentInt-1;}  //Remove extra buggy pointer
         TabLayout.Tab tab = tabLayout.getTabAt(currentInt);
         assert tab != null;
         tab.select();
@@ -143,13 +143,13 @@ public class Transport extends AppCompatActivity
                 case 3:
                     return TransportFragment.newInstance(4, false);
                 case 4:
-                    return TransportFragment.newInstance(5, true); //This is buggy
+                    return TransportFragment.newInstance(5, true); //This is buggy and also 6
                 case 5:
-                    return TransportFragment.newInstance(6, false);
-                case 6:
                     return TransportFragment.newInstance(7, false);
-                case 7:
+                case 6:
                     return TransportFragment.newInstance(8, false);
+                case 7:
+                    return TransportFragment.newInstance(9, false);
                 default:
                     return TransportFragment.newInstance(0, false);
             }

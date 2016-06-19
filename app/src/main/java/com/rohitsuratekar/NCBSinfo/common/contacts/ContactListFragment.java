@@ -28,7 +28,7 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.DividerDecoration;
+import com.rohitsuratekar.NCBSinfo.common.utilities.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;

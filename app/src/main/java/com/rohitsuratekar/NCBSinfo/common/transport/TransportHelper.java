@@ -1,13 +1,23 @@
 package com.rohitsuratekar.NCBSinfo.common.transport;
 
-import com.rohitsuratekar.NCBSinfo.common.transport.models.MondayModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.SundayModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.WeekDayModel;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import java.security.PublicKey;
+import com.google.android.gms.maps.model.LatLng;
+import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.BuggyModel;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.MondayModel;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.ShuttleModel;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.SundayModel;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.common.transport.models.WeekDayModel;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,49 +40,55 @@ public class TransportHelper {
         String weekPreferenceKey;
         String sundayPreferenceKey;
         switch (route) {
-            case 1:
+            case TransportConstants.ROUTE_NCBS_IISC:
                 from = "ncbs";
                 to = "iisc";
                 weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
                 sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY;
                 break;
-            case 2:
+            case TransportConstants.ROUTE_IISC_NCBS:
                 from = "iisc";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.IISC_NCBS_WEEK;
                 sundayPreferenceKey = TransportConstants.IISC_NCBS_SUNDAY;
                 break;
-            case 3:
+            case TransportConstants.ROUTE_NCBS_MANDARA:
                 from = "ncbs";
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.NCBS_MANDARA_WEEK;
                 sundayPreferenceKey = TransportConstants.NCBS_MANDARA_SUNDAY;
                 break;
-            case 4:
+            case TransportConstants.ROUTE_MANDARA_NCBS:
                 from = "mandara";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.MANDARA_NCBS_WEEK;
                 sundayPreferenceKey = TransportConstants.MANDARA_NCBS_SUNDAY;
                 break;
-            case 5:
+            case TransportConstants.ROUTE_BUGGY_NCBS:
                 from = "ncbs";
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
                 sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
                 break;
-            case 6:
+            case TransportConstants.ROUTE_BUGGY_MANDARA:
+                from = "mandara";
+                to = "ncbs";
+                weekPreferenceKey = TransportConstants.BUGGY_NCBS;
+                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
+                break;
+            case TransportConstants.ROUTE_NCBS_ICTS:
                 from = "ncbs";
                 to = "icts";
                 weekPreferenceKey = TransportConstants.NCBS_ICTS_WEEK;
                 sundayPreferenceKey = TransportConstants.NCBS_ICTS_SUNDAY;
                 break;
-            case 7:
+            case TransportConstants.ROUTE_ICTS_NCBS:
                 from = "icts";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.ICTS_NCBS_WEEK;
                 sundayPreferenceKey = TransportConstants.ICTS_NCBS_SUNDAY;
                 break;
-            case 8:
+            case TransportConstants.ROUTE_NCBS_CBL:
                 from = "ncbs";
                 to = "cbl";
                 weekPreferenceKey = TransportConstants.NCBS_CBL;
@@ -331,6 +347,91 @@ public class TransportHelper {
             e.printStackTrace();
         }
         return finalStrings;
+    }
+
+    //Provides Location of given place
+    public LatLng getLocation(Context context, String place, boolean isBuggy) {
+        String latitude, longitude;
+        if (isBuggy) {
+            if (place.equals("ncbs")) {
+                latitude = context.getString(R.string.ncbs_latitude);
+                longitude = context.getString(R.string.ncbs_longitude);
+            } else if (place.equals("iisc")) {
+                latitude = context.getString(R.string.iisc_latitude);
+                longitude = context.getString(R.string.iisc_longitude);
+            } else if (place.equals("mandara")) {
+                latitude = context.getString(R.string.mandara_latitude);
+                longitude = context.getString(R.string.mandara_longitude);
+            } else if (place.equals("icts")) {
+                latitude = context.getString(R.string.icts_latitude);
+                longitude = context.getString(R.string.icts_longitude);
+            } else {
+                latitude = context.getString(R.string.ncbs_latitude);
+                longitude = context.getString(R.string.ncbs_longitude);
+            }
+        } else {
+            if (place.equals("ncbs")) {
+                latitude = context.getString(R.string.buggy_ncbs_latitude);
+                longitude = context.getString(R.string.buggy_ncbs_longitude);
+            } else {
+                latitude = context.getString(R.string.buggy_mandara_latitude);
+                longitude = context.getString(R.string.buggy_mandara_longitude);
+            }
+        }
+        return new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+    }
+
+    public TransportModel getTransport(Context context, int route) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        TransportModel transport;
+        BuggyModel buggy;
+        ShuttleModel shuttle;
+        SundayModel sunday;
+        WeekDayModel weekday;
+        boolean isBuggy = false;
+        if (route == TransportConstants.ROUTE_BUGGY_NCBS || route == TransportConstants.ROUTE_BUGGY_MANDARA) {
+            isBuggy = true;
+        }
+        if (isBuggy) {
+            String from = routeToStrings(route)[0];
+            String to = routeToStrings(route)[1];
+            buggy = new BuggyModel(
+                    new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_buggy_from_ncbs))),
+                    new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_buggy_from_mandara)))
+                    , from, to);
+            transport = new TransportModel(context, buggy);
+        } else {
+            weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_ncbs_iisc_week)))));
+            sunday = new SundayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_ncbs_iisc_week)))));
+            shuttle = new ShuttleModel(route, sunday, weekday);
+            transport = new TransportModel(context, shuttle);
+        }
+        return transport;
+    }
+
+    //Function will return time left [Seconds, Minutes, Hours, Days]
+    public float[] TimeLeft (String currentTime, String DestinationTime) {
+
+        float[] timeLeft = new float[4];
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = format.parse(currentTime);
+            d2 = format.parse(DestinationTime);
+
+            //in milliseconds
+            long diff = Math.abs(d2.getTime() - d1.getTime());
+
+            timeLeft[0] = diff / 1000 % 60; //Seconds
+            timeLeft[1] = diff / (60 * 1000) % 60; //Minutes
+            timeLeft[2] = diff / (60 * 60 * 1000) % 24; //Hours
+            timeLeft[3] = diff / (24 * 60 * 60 * 1000); //days
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return timeLeft;
     }
 
 

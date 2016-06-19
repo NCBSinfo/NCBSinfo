@@ -15,9 +15,9 @@
             android:title="@string/contacts"
             android:checked="true"/>
         <item
-            android:id="@+id/nav_experimental"
-            android:icon="@drawable/icon_experimental"
-            android:title="@string/experimental" />
+            android:id="@+id/nav_lecturehall"
+            android:icon="@drawable/icon_lecturehall"
+            android:title="@string/lecture_hall" />
         <item
             android:id="@+id/nav_settings"
             android:title="@string/settings"

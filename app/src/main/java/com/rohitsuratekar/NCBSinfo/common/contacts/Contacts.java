@@ -19,8 +19,8 @@ import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.common.CustomNavigationView;
-import com.rohitsuratekar.NCBSinfo.common.ViewpagerAdapter;
+import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.common.utilities.ViewpagerAdapter;
 
 public class Contacts extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
