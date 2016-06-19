@@ -14,6 +14,7 @@ public class ShuttleModel {
     WeekDayModel weekdayTrips;
     SundayModel rawSunday;
     WeekDayModel rawWeekday;
+    String[] nextTrip;
 
     public ShuttleModel(int routeNo) {
         this.routeNo = routeNo;
@@ -31,6 +32,7 @@ public class ShuttleModel {
         this.sundayTrips = new SundayModel(allModels.get(0));
         this.mondayTrips = new MondayModel(allModels.get(1));
         this.weekdayTrips = new WeekDayModel(allModels.get(2));
+        this.nextTrip = new TransportHelper().nextTrip(sundayTrips,mondayTrips,weekdayTrips);
 
     }
 
@@ -80,5 +82,9 @@ public class ShuttleModel {
 
     public void setRawWeekday(WeekDayModel rawWeekday) {
         this.rawWeekday = rawWeekday;
+    }
+
+    public String[] getNextTrip() {
+        return nextTrip;
     }
 }

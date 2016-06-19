@@ -61,21 +61,68 @@ public class TransportFragment extends Fragment {
 
     public void perform(View v) {
 
+        //UI initialization
+        ListView weekList = (ListView) v.findViewById(R.id.weekdays_trips);
+        ListView sundayList = (ListView) v.findViewById(R.id.sunday_trips);
+
+        //Get raw trips
         String[] rawWeekTrips =
                 shuttle.getRawWeekday().getTrips()
-                .toArray(new String[shuttle.getRawWeekday().getTrips().size()]);
+                        .toArray(new String[shuttle.getRawWeekday().getTrips().size()]);
 
         String[] rawSundayTrips =
                 shuttle.getRawSunday().getTrips()
-                .toArray(new String[shuttle.getRawSunday().getTrips().size()]);
+                        .toArray(new String[shuttle.getRawSunday().getTrips().size()]);
 
-        ListView weekList = (ListView) v.findViewById(R.id.weekdays_trips);
-        ListView sundaylist = (ListView) v.findViewById(R.id.sunday_trips);
+        //Convert to regular format
+        rawWeekTrips = new TransportHelper().convertToSimpleDate(rawWeekTrips);
+        rawSundayTrips = new TransportHelper().convertToSimpleDate(rawSundayTrips);
+
+
+        String[] nextTrips = shuttle.getNextTrip();
+        String targetString = new TransportHelper().convertToSimpleDate(nextTrips[1]);
+        if(nextTrips[0].equals(String.valueOf(Calendar.SUNDAY))){
+            boolean gotDate = false;
+            for(int i=0;i<rawSundayTrips.length;i++){
+                if(rawSundayTrips[i].equals(targetString)){
+                    rawSundayTrips[i]="<font color=\"red\">"+rawSundayTrips[i]+"**</font>";
+                    gotDate = true;
+                    break;
+                }
+            }
+            if(!gotDate){
+                for(int i=0;i<rawWeekTrips.length;i++){
+                    if(rawWeekTrips[i].equals(targetString)){
+                        rawWeekTrips[i]="<font color=\"red\">"+rawWeekTrips[i]+"**</font>";
+                        break;
+                    }
+                }
+            }
+        }
+        else{
+            boolean gotDate = false;
+            for(int i=0;i<rawWeekTrips.length;i++){
+                if(rawWeekTrips[i].equals(targetString)){
+                    rawWeekTrips[i]="<font color=\"red\">"+rawWeekTrips[i]+"**</font>";
+                    gotDate = true;
+                    break;
+                }
+            }
+            if(!gotDate){
+                for(int i=0;i<rawSundayTrips.length;i++){
+                    if(rawSundayTrips[i].equals(targetString)){
+                        rawSundayTrips[i]="<font color=\"red\">"+rawSundayTrips[i]+"**</font>";
+                        break;
+                    }
+                }
+            }
+
+        }
 
         TransportAdapter weekAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, rawWeekTrips);
         TransportAdapter sundayAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, rawSundayTrips);
 
-        sundaylist.setAdapter(sundayAdapter);
+        sundayList.setAdapter(sundayAdapter);
         weekList.setAdapter(weekAdapter);
 
         SimpleDateFormat modformat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
