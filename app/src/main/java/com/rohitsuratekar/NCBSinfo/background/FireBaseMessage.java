@@ -18,7 +18,7 @@ public class FireBaseMessage extends FirebaseMessagingService {
             switch (remoteMessage.getData().get("rcode")) {
                 case "time":
                     Log.i(TAG, remoteMessage.getData().get("extra"));
-                    break;
+
             }
         } else {
             //Normal notification without any "rcode" field.

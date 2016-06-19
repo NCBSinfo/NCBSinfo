@@ -47,6 +47,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
+        <activity
+            android:name=".common.contacts.Contacts"
+            android:label="@string/contacts"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".common.contacts.ContactAdd"></activity>
     </application>
 
 </manifest>

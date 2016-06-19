@@ -47,12 +47,30 @@
     <string name="transport_footer2">**Next shuttle after %1$s</string>
     <string name="transport_buggy_footer">**Next buggy after %1$s</string>
 
+    <string name="contact_name">Contact Name</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="contact_department">Department</string>
+    <string name="contact_position">Position</string>
+    <string name="contact_error1">Invalid Name</string>
+    <string name="contact_error2">Contact number can not be empty</string>
+    <string name="contact_add">Add Contact</string>
+    <string name="contact_edit">Edit Contact</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
 
-
+    <string name="action_add">Add</string>
+    <string name="action_search">Search</string>
+    <string name="action_call">Call</string>
+    <string name="action_add_to_favorite">Add to favorites</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_settings">@string/settings</string>
+    <string name="action_clear_log">Clear Log</string>
+    <string name="action_clear_database">Clear Event Data</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_select_category">Select Category</string>
 
 
 </resources>

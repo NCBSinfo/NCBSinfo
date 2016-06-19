@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 
 public class OnlineHome extends AppCompatActivity {
@@ -13,7 +14,7 @@ public class OnlineHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.online_home);
-        Intent intent = new Intent(this, Transport.class);
+        Intent intent = new Intent(this, Contacts.class);
         intent.putExtra(Transport.INDENT,"0");
         startActivity(intent);
     }

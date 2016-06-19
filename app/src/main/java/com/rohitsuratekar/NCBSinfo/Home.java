@@ -40,10 +40,10 @@ public class Home extends AppCompatActivity {
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE, "none")) {
             case ONLINE:
                 startActivity(new Intent(Home.this, OnlineHome.class));
-                break;
+
             case OFFLINE:
                 startActivity(new Intent(Home.this, OfflineHome.class));
-                break;
+
         }
 
         onlineButton = (Button) findViewById(R.id.button_home_online);
@@ -57,7 +57,9 @@ public class Home extends AppCompatActivity {
                 alertDialog.setMessage(getResources().getString(R.string.warning_online_details));
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Home.this, Login.class));
+                        Intent intent = new Intent(Home.this, Login.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         alertDialog.dismiss();
                     }
                 });
@@ -80,9 +82,9 @@ public class Home extends AppCompatActivity {
                 alertDialog.setMessage(getResources().getString(R.string.warning_offline_details));
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Home.this, OfflineHome.class));
                         pref.edit().putString(Home.MODE, Home.OFFLINE).apply();
                         alertDialog.dismiss();
+                        startActivity(new Intent(Home.this, OfflineHome.class));
                     }
                 });
                 alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "GO BACK", new DialogInterface.OnClickListener() {

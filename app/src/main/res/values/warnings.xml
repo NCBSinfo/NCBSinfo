@@ -21,4 +21,7 @@
     <string name="warning_registration_reset_email">User exists</string>
     <string name="warning_registration_reset_email_details">Email \'%1$s\' is already used by another user. If you think it was you, click on
         reset below and you will receive email with further instructions.</string>
+
+    <string name="warning_are_you_sure">Are you sure?</string>
+    <string name="warning_delete_contact">You are about to delete %1$s from this list.</string>
 </resources>
