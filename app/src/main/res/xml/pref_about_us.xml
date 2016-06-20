@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="settings_aboutus"
+        android:title="@string/settings_about_us"
+        android:summary="@string/settings_about_us_summary"/>
+
+    <Preference
+        android:key="settings_github"
+        android:title="@string/settings_contribute"
+        android:summary="@string/settings_contribute_summary"/>
+
+    <Preference
+        android:key="settings_terms_conditions"
+        android:title="@string/settings_terms"
+        android:summary="@string/settings_terms_summary"/>
+
+</PreferenceScreen>

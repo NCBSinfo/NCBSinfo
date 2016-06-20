@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 
 public class Home extends AppCompatActivity {
 
@@ -35,11 +36,12 @@ public class Home extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
+
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE, "none")) {
             case ONLINE:
-                startActivity(new Intent(Home.this, OnlineHome.class));
+               startActivity(new Intent(Home.this, OnlineHome.class));
                 break;
 
             case OFFLINE:
@@ -59,7 +61,7 @@ public class Home extends AppCompatActivity {
                 alertDialog.setMessage(getResources().getString(R.string.warning_online_details));
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Home.this, Login.class);
+                        Intent intent = new Intent(Home.this, Registration.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         alertDialog.dismiss();

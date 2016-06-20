@@ -12,6 +12,8 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,17 @@ public class Utilities {
     public String timeStamp(){
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss a d MMM yy", Locale.getDefault());
         return formatter.format(new Date());
+    }
+
+    public Date convertToDate(String Date, String Time){
+        Date returnDate=new Date();
+        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+        try {
+            returnDate = eventFormat.parse(Date+" "+Time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return returnDate;
     }
 
     public String[] stringToarray(String input){

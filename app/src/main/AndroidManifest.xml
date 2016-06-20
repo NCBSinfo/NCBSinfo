@@ -3,6 +3,7 @@
     package="com.rohitsuratekar.NCBSinfo">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -33,12 +34,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
-            android:noHistory="true" />
-        <activity android:name=".offline.OfflineHome"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".online.OnlineHome"
-            android:screenOrientation="portrait"/>
+            android:name=".offline.OfflineHome"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".online.OnlineHome"
+            android:screenOrientation="portrait" />
 
         <service android:name=".background.FireBaseMessage">
             <intent-filter>
@@ -50,6 +50,25 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".background.AfterBoot"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".background.OnUpgrade">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data
+                    android:path="com.rohitsuratekar.NCBSinfo"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".common.transport.Transport"
@@ -87,11 +106,33 @@
         </activity>
         <activity
             android:name=".online.temp.camp.CAMP"
-            android:label="@string/title_activity_camp"
+            android:label="@string/camp"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".online.events.Events"
-            android:label="@string/title_activity_events"
+            android:label="@string/event_updates"
+            android:parentActivityName=".online.OnlineHome"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".common.Information"
+            android:label="@string/information"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Settings"
+            android:label="@string/settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
+        <activity android:name=".online.login.Registration" />
+        <activity android:name=".online.login.Login" />
+        <activity
+            android:name=".online.DashBoard"
+            android:label="@string/dashboard"
             android:parentActivityName=".online.OnlineHome"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

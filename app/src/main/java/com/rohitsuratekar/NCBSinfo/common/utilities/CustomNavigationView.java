@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.online.fragments.RegisterFragment;
+import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 
 public class CustomNavigationView {
 
@@ -25,15 +25,15 @@ public class CustomNavigationView {
         navigationView.inflateMenu(mode.getDrawerMenu());
         MenuItem currentMenu = navigationView.getMenu().findItem(R.id.nav_dashboard);
         if (currentMenu != null) {
-            currentMenu.setTitle(pref.getString(RegisterFragment.USERNAME, "User").trim().split(" ")[0] + "\'s " + activity.getString(R.string.dashboard));
+            currentMenu.setTitle(pref.getString(Registration.USERNAME, "User").trim().split(" ")[0] + "\'s " + activity.getString(R.string.dashboard));
         }
         View header = navigationView.getHeaderView(0);
         TextView name = (TextView) header.findViewById(R.id.Navigation_Name);
         TextView email = (TextView) header.findViewById(R.id.Navigation_Email);
         ImageView switchButton = (ImageView) header.findViewById(R.id.switch_mode);
         if (name != null) {
-            name.setText(pref.getString(RegisterFragment.USERNAME, "User Name"));
-            email.setText(pref.getString(RegisterFragment.EMAIL, "email@domain.com"));
+            name.setText(pref.getString(Registration.USERNAME, "User Name"));
+            email.setText(pref.getString(Registration.EMAIL, "email@domain.com"));
         }
         if (switchButton != null) {
             switchButton.setImageResource(mode.getIcon());

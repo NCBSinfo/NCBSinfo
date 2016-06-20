@@ -6,6 +6,28 @@
         <item>Canteen\nStuff</item>
         <item>CAMP\n2016</item>
     </string-array>
+    <string-array name="home_spinner_items">
+        <item>@string/route_ncbs_iisc</item>
+        <item>@string/route_iisc_ncbs</item>
+        <item>@string/route_ncbs_mandara</item>
+        <item>@string/route_mandara_ncbs</item>
+        <item>@string/route_buggy_ncbs</item>
+        <item>@string/route_buggy_mandara</item>
+        <item>@string/route_ncbs_icts</item>
+        <item>@string/route_icts_ncbs</item>
+        <item>@string/route_ncbs_cbl</item>
+    </string-array>
 
+    <string-array name="home_route_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
 
 </resources>

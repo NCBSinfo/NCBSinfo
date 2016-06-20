@@ -8,6 +8,8 @@ public class RemoteConstants {
     //Path data
     public static final String USER_NODE = "users";
     public static final String PUBLIC_NODE = "public";
+    public static final String CAMP_NODE = "camp2016";
+
 
 
     //User Specific data

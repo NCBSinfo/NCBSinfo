@@ -15,15 +15,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.online.DashBoard;
+import com.rohitsuratekar.NCBSinfo.online.events.Events;
+import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 
 public class Transport extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +36,7 @@ public class Transport extends AppCompatActivity
     public static final String INDENT = "transportIndent";
     public static final String MODE_CONSTANT = "transport";
     public static final String DEFAULT_ROUTE = "defaultRoute";
+    public static final String HURRY_UP = "setting_hurryup";
 
     //Local
     private final String TAG = this.getClass().getSimpleName();
@@ -49,7 +53,7 @@ public class Transport extends AppCompatActivity
         setSupportActionBar(toolbar);
         //Initialization
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        mode = new CurrentMode(getBaseContext(),MODE_CONSTANT);
+        mode = new CurrentMode(getBaseContext(), MODE_CONSTANT);
         //UI setup
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,7 +80,9 @@ public class Transport extends AppCompatActivity
         Intent intent = getIntent();
         String currentSwitch = intent.getExtras().getString(INDENT, "0");
         int currentInt = Integer.parseInt(currentSwitch);
-        if (currentInt>TransportConstants.ROUTE_BUGGY_NCBS){currentInt=currentInt-1;}  //Remove extra buggy pointer
+        if (currentInt > TransportConstants.ROUTE_BUGGY_NCBS) {
+            currentInt = currentInt - 1;
+        }  //Remove extra buggy pointer
         TabLayout.Tab tab = tabLayout.getTabAt(currentInt);
         assert tab != null;
         tab.select();
@@ -108,6 +114,7 @@ public class Transport extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
             return true;
         }
 
@@ -119,6 +126,45 @@ public class Transport extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        int newIndex = 0;
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this, Home.class));
+        } else if (id == R.id.nav_transport) {
+            Intent i = new Intent(this, Transport.class);
+            i.putExtra(Transport.INDENT, TransportConstants.ROUTE_NCBS_IISC);
+            startActivity(i);
+        } else if (id == R.id.nav_updates) {
+            startActivity(new Intent(this, Events.class));
+        } else if (id == R.id.nav_experimental) {
+            startActivity(new Intent(this, Experimental.class));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(this, Settings.class));
+        } else if (id == R.id.nav_contacts) {
+            startActivity(new Intent(this, Contacts.class));
+        } else if (id == R.id.nav_shuttle_ncbs_iisc) {
+            newIndex = 0;
+        } else if (id == R.id.nav_shuttle_iisc_ncbs) {
+            newIndex = 1;
+        } else if (id == R.id.nav_shuttle_ncbs_mandara) {
+            newIndex = 2;
+        } else if (id == R.id.nav_shuttle_mandara_ncbs) {
+            newIndex = 3;
+        } else if (id == R.id.nav_buggy) {
+            newIndex = 4;
+        } else if (id == R.id.nav_shuttle_ncbs_icts) {
+            newIndex = 5;
+        } else if (id == R.id.nav_shuttle_icts_ncbs) {
+            newIndex = 6;
+        } else if (id == R.id.nav_shuttle_ncbs_cbl) {
+            newIndex = 7;
+        } else if (id == R.id.nav_dashboard) {
+            startActivity(new Intent(this, DashBoard.class));
+        }
+
+        TabLayout.Tab tab = tabLayout.getTabAt(newIndex);
+        assert tab != null;
+        tab.select();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -136,23 +182,23 @@ public class Transport extends AppCompatActivity
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return TransportFragment.newInstance(1, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_NCBS_IISC, false);
                 case 1:
-                    return TransportFragment.newInstance(2, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_IISC_NCBS, false);
                 case 2:
-                    return TransportFragment.newInstance(3, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_NCBS_MANDARA, false);
                 case 3:
-                    return TransportFragment.newInstance(4, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_MANDARA_NCBS, false);
                 case 4:
-                    return TransportFragment.newInstance(5, true); //This is buggy and also 6
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_BUGGY_NCBS, true); //This is buggy and also 6
                 case 5:
-                    return TransportFragment.newInstance(7, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_NCBS_ICTS, false);
                 case 6:
-                    return TransportFragment.newInstance(8, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_ICTS_NCBS, false);
                 case 7:
-                    return TransportFragment.newInstance(9, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_NCBS_CBL, false);
                 default:
-                    return TransportFragment.newInstance(0, false);
+                    return TransportFragment.newInstance(TransportConstants.ROUTE_NCBS_IISC, false);
             }
         }
 

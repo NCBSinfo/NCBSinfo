@@ -1,20 +1,34 @@
 package com.rohitsuratekar.NCBSinfo.online.events;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
+import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.common.utilities.ViewpagerAdapter;
+import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.online.DashBoard;
+import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 
 public class Events extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +60,28 @@ public class Events extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         new CustomNavigationView(navigationView, this, mode);
 
+        ViewPager viewPager = (ViewPager) findViewById(R.id.events_viewpager);
+        setupViewPager(viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.events_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        Bundle bundle1 = new Bundle();
+        bundle1.putString(EventsListFragment.BUNDLE, "1");
+        EventsListFragment Upcomingevents = new EventsListFragment();
+        Upcomingevents.setArguments(bundle1);
+
+        Bundle bundle2 = new Bundle();
+        bundle2.putString(EventsListFragment.BUNDLE, "2");
+        EventsListFragment pastEvents = new EventsListFragment();
+        pastEvents.setArguments(bundle2);
+
+        ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(Upcomingevents, "Upcoming events");
+        adapter.addFragment(pastEvents, "Past events");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -74,7 +110,29 @@ public class Events extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this, Settings.class));
+        } else if (id == R.id.action_clear_data) {
+            new AlertDialog.Builder(Events.this)
+                    .setTitle("Are you sure?")
+                    .setMessage("You are about to delete entire database.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            new TalkData(getBaseContext()).clearAll();
+                            finish();
+                            Intent intent = new Intent(getBaseContext(), Events.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return false;
         }
 
         return super.onOptionsItemSelected(item);
@@ -85,6 +143,23 @@ public class Events extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this, Home.class));
+        } else if (id == R.id.nav_transport) {
+            Intent i = new Intent(this, Transport.class);
+            i.putExtra(Transport.INDENT, TransportConstants.ROUTE_NCBS_IISC);
+            startActivity(i);
+        } else if (id == R.id.nav_updates) {
+            startActivity(new Intent(this, Events.class));
+        } else if (id == R.id.nav_experimental) {
+            startActivity(new Intent(this, Experimental.class));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(this, Settings.class));
+        } else if (id == R.id.nav_contacts) {
+            startActivity(new Intent(this, Contacts.class));
+        } else if (id == R.id.nav_dashboard) {
+            startActivity(new Intent(this, DashBoard.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

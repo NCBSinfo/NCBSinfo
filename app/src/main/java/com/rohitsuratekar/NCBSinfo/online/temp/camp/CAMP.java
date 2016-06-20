@@ -21,6 +21,8 @@ public class CAMP extends AppCompatActivity
 
 
     public static final String MODE_CONSTANT = "camp16";
+    public static final String AUTO_NOTIFY = "autoNotifyCamp16";
+
 
     SharedPreferences pref;
     CurrentMode mode;

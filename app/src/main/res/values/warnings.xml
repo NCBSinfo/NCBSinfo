@@ -17,10 +17,7 @@
     <string name="warning_registration_wrong_password">Wrong Password</string>
     <string name="warning_registration_empty_username">Name can not be empty</string>
     <string name="warning_registration_invalid_email">Invalid email</string>
-    <string name="warning_registration_no_email_found">Email is not found in our database, try registering instead ?</string>
-    <string name="warning_registration_reset_email">User exists</string>
-    <string name="warning_registration_reset_email_details">Email \'%1$s\' is already used by another user. If you think it was you, click on
-        reset below and you will receive email with further instructions.</string>
+
 
     <string name="warning_are_you_sure">Are you sure?</string>
     <string name="warning_delete_contact">You are about to delete %1$s from this list.</string>
@@ -33,4 +30,8 @@
     <string name="warning_cbl_title">Be aware!</string>
     <string name="warning_cbl_details">Route will vary depending on passengers. Please inform your destination to driver.</string>
 
+    <string name="warning_user_exists_title">User exists</string>
+    <string name="warning_user_exists">Email address provided by you is already present in our database. Try signing in ?</string>
+    <string name="warning_password_reset">Link to reset password will be sent to your email address \'%1$s\' . Please check your inbox for further details . </string>
+    <string name="warning_firebase_too_many_attemps">Too many login attempts are detected from this device. Please try after some time.</string>
 </resources>

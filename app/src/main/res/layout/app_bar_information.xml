@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.rohitsuratekar.NCBSinfo.online.events.Events">
+    tools:context="com.rohitsuratekar.NCBSinfo.common.Information">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -19,21 +19,9 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/events_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill"/>
-
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/events_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+    <include layout="@layout/content_information" />
 
-    <include layout="@layout/content_events" />
 
 </android.support.design.widget.CoordinatorLayout>

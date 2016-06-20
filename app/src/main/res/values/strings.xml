@@ -12,7 +12,9 @@
     <string name="experimental">Experimental</string>
     <string name="canteen">Canteen</string>
     <string name="lecture_hall">Locations</string>
+    <string name="information">Information</string>
     <string name="map">Map</string>
+    <string name="camp">CAMP</string>
 
 
     <!-- Home -->
@@ -76,12 +78,10 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_settings">@string/settings</string>
-    <string name="action_clear_log">Clear Log</string>
     <string name="action_clear_database">Clear Event Data</string>
     <string name="action_reset">Reset</string>
     <string name="action_select_category">Select Category</string>
-    <string name="title_activity_camp">CAMP</string>
-    <string name="title_activity_events">Events</string>
+    <string name="action_clear_contact">Clear All Contacts</string>
 
 
 </resources>

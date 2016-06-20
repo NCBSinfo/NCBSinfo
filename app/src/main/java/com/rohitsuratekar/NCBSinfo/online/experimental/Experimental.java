@@ -17,10 +17,17 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
+import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
+import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.online.DashBoard;
+import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 public class Experimental extends AppCompatActivity
@@ -38,7 +45,7 @@ public class Experimental extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        mode = new CurrentMode(getBaseContext(),MODE_CONSTANT);
+        mode = new CurrentMode(getBaseContext(), MODE_CONSTANT);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,7 +57,7 @@ public class Experimental extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         new CustomNavigationView(navigationView, this, mode);
 
-        GridView grid = (GridView)findViewById(R.id.experimental_grid);
+        GridView grid = (GridView) findViewById(R.id.experimental_grid);
         final String[] names = getResources().getStringArray(R.array.extra_info_icons);
         final int[] icons = {
                 R.drawable.icon_lecturehall,
@@ -67,10 +74,10 @@ public class Experimental extends AppCompatActivity
 
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(Experimental.this,LectureHalls.class));
+                        startActivity(new Intent(Experimental.this, LectureHalls.class));
                         break;
                     case 1:
-                        Toast.makeText(Experimental.this,"Coming soon",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Experimental.this, "Coming soon", Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
                         startActivity(new Intent(Experimental.this, CAMP.class));
@@ -117,6 +124,24 @@ public class Experimental extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this, Home.class));
+        } else if (id == R.id.nav_transport) {
+            Intent i = new Intent(this, Transport.class);
+            i.putExtra(Transport.INDENT, TransportConstants.ROUTE_NCBS_IISC);
+            startActivity(i);
+        } else if (id == R.id.nav_updates) {
+            startActivity(new Intent(this, Events.class));
+        } else if (id == R.id.nav_experimental) {
+            startActivity(new Intent(this, Experimental.class));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(this, Settings.class));
+        } else if (id == R.id.nav_contacts) {
+            startActivity(new Intent(this, Contacts.class));
+        } else if (id == R.id.nav_dashboard) {
+            startActivity(new Intent(this, DashBoard.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.background;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,10 +20,10 @@ public class NotificationService {
         this.context = context;
     }
 
-    public void sendNotification(String title, String notificationMessage) {
+    public void sendNotification(String title, String notificationMessage, Class c) {
         int requestID = (int) System.currentTimeMillis();
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent notificationIntent = new Intent(context, OnlineHome.class);
+        Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)

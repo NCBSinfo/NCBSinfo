@@ -10,4 +10,9 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Event Update Adapter -->
+    <dimen name="event_log_date_size">60sp</dimen>
+    <dimen name="event_log_date_margin">10sp</dimen>
+    <dimen name="event_log_cal_font">12sp</dimen>
 </resources>

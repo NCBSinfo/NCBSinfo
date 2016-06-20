@@ -1,12 +1,16 @@
 package com.rohitsuratekar.NCBSinfo.online;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,20 +29,43 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
+import com.rohitsuratekar.NCBSinfo.online.login.Login;
+import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 import com.rohitsuratekar.NCBSinfo.online.maps.MapActivity;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
+
+    //Public constants
+    public static final String IS_OLD_VERSION = "isOldVersion";
+    public static final String ONE_SHOT = "oneShotinfo";
+
+    private final String TAG = this.getClass().getSimpleName();
 
     GoogleMap googleMap;
     TextView title, timeLeft, nextText;
@@ -48,6 +75,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
     RelativeLayout homeLayout;
     TransportModel transport;
     SharedPreferences pref;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +92,83 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         //Set up transport
         transport = new TransportHelper().getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
+
+        //Set up remote configuration and firebase
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        //TODO: Change debug mode while production
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    if (pref.getBoolean(ONE_SHOT, true)) {
+
+                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(Registration.USERNAME, "Username"));
+                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(Registration.EMAIL, "email@domain.com"));
+                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(Registration.RESEARCH_TALK, 1));
+
+
+                        final String fieldEMail = user.getEmail().replace("@", "_").replace(".", "_");
+                        mDatabase.child(RemoteConstants.CAMP_NODE).child(fieldEMail).addListenerForSingleValueEvent(
+                                new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                            if (child.getKey().equals(fieldEMail)) {
+                                                Log.i("Key value", child.getValue().toString());
+                                            }
+                                        }
+                                        pref.edit().putBoolean(Login.CAMPUSER, true).apply();
+                                        pref.edit().putBoolean(ONE_SHOT, false).apply();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                                        Log.i(TAG, databaseError.toException().getMessage());
+                                        if (databaseError.toException().getMessage().contains("Permission denied")) {
+                                            pref.edit().putBoolean(Login.CAMPUSER, false).apply();
+                                            pref.edit().putBoolean(ONE_SHOT, false).apply();
+                                        }
+
+                                    }
+                                });
+                    }
+
+
+                }
+
+            }
+        };
+
+        //Notify CAMP users
+        if (pref.getBoolean(Login.CAMPUSER, false) && pref.getBoolean(CAMP.AUTO_NOTIFY, true)) {
+            final AlertDialog alertDialog = new AlertDialog.Builder(OnlineHome.this).create();
+            alertDialog.setTitle("CAMP 2016");
+            alertDialog.setMessage("We have detected that you are CAMP 2016 user, you want to change mode to CAMP?");
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    pref.edit().putBoolean(CAMP.AUTO_NOTIFY, false).apply();
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Not now", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    pref.edit().putBoolean(CAMP.AUTO_NOTIFY, false).apply();
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
+        }
 
         //Initialize Map
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.home_map);
@@ -126,6 +234,26 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         }, 0, 1000); //1000 is milliseconds for each time tick
 
+        //Get configuration
+        getConfiguration();
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mAuthListener != null) {
+            mAuth.addAuthStateListener(mAuthListener);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
 
@@ -256,4 +384,59 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         timeLeft.setText(getResources().getString(R.string.time_left, (int) Difference[2], ((int) Difference[1]), ((int) Difference[0])));
 
     }
+
+    private void getConfiguration() {
+
+        long cacheExpiration = RemoteConstants.CACHE_EXPIRATION;
+
+        // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
+        // the server.
+        if (mFirebaseRemoteConfig != null) {
+            if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+                cacheExpiration = 0;
+            }
+            if (new Utilities().isOnline(getBaseContext())) {
+                mFirebaseRemoteConfig.fetch(cacheExpiration)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Fetch Succeeded");
+                                    // Once the config is successfully fetched it must be activated before newly fetched
+                                    // values are returned.
+                                    mFirebaseRemoteConfig.activateFetched();
+                                    setTransportValue();
+                                    pref.edit().putBoolean(IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(IS_OLD_VERSION)).apply();
+                                } else {
+                                    Log.d(TAG, "Fetch failed");
+                                }
+                            }
+                        });
+            } else {
+                Log.e(TAG, "No connection detected!");
+            }
+        }
+
+    }
+
+    public void setTransportValue() {
+
+        pref.edit().putString(TransportConstants.NCBS_IISC_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_WEEK)).apply();
+        pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.IISC_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.IISC_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.NCBS_MANDARA_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_WEEK)).apply();
+        pref.edit().putString(TransportConstants.NCBS_MANDARA_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.MANDARA_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.MANDARA_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.NCBS_ICTS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.NCBS_ICTS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.ICTS_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_WEEK)).apply();
+        pref.edit().putString(TransportConstants.ICTS_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_SUNDAY)).apply();
+        pref.edit().putString(TransportConstants.NCBS_CBL, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_CBL)).apply();
+        pref.edit().putString(TransportConstants.BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_NCBS)).apply();
+        pref.edit().putString(TransportConstants.BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_MANDARA)).apply();
+
+    }
+
 }

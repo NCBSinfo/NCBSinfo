@@ -1,6 +1,5 @@
-package com.rohitsuratekar.NCBSinfo.common.lecturehalls;
+package com.rohitsuratekar.NCBSinfo.common;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,45 +10,43 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
-import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
-import com.rohitsuratekar.NCBSinfo.online.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 
-import java.util.ArrayList;
-
-public class LectureHalls extends AppCompatActivity
+public class Information extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //Public constants
-    public static final String MODE_CONSTANT = "lecturehall";
+    //Public
+    public static final String MODE_CONSTANT = "information";
+    public static final String INTENT = "informationIntend";
 
     SharedPreferences pref;
     CurrentMode mode;
-    ExpandableListView expListView;
-    private int lastExpandedPosition = -1;
-    LectureHallAdapter mLectureAdapter;
+    TextView aboutus, terms, faq;
+    LinearLayout aboutLayout, termsLayout, faqLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lecture_halls);
+        setContentView(R.layout.information);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //Initialization
+
+//Initialization
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mode = new CurrentMode(getBaseContext(), MODE_CONSTANT);
 
@@ -63,50 +60,30 @@ public class LectureHalls extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         new CustomNavigationView(navigationView, this, mode);
 
-        expListView = (ExpandableListView) findViewById(R.id.LectureHallList);
+        aboutus = (TextView) findViewById(R.id.about_us_text);
+        terms = (TextView) findViewById(R.id.terms_and_conditions);
+        faq = (TextView)findViewById(R.id.faq_text);
 
-        setGroupData();
-        //setChildGroupData();
-        mLectureAdapter = new LectureHallAdapter(groupItem, childItem);
-        mLectureAdapter
-                .setInflater(
-                        (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE),
-                        this);
+        aboutus.setText(Html.fromHtml(getResources().getString(R.string.about_us)));
+        terms.setText(Html.fromHtml(getResources().getString(R.string.terms)));
+        faq.setText(Html.fromHtml(getResources().getString(R.string.faq)));
 
-        // setting list adapter
-        expListView.setAdapter(mLectureAdapter);
-        registerForContextMenu(expListView);
-        // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        aboutLayout = (LinearLayout) findViewById(R.id.information_aboutus);
+        termsLayout = (LinearLayout) findViewById(R.id.information_conditions);
+        faqLayout = (LinearLayout) findViewById(R.id.information_faqs);
 
-
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                return false;
-            }
-        });
-        // Listview Group collasped listener
-        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-
-            }
-        });
-
-        // Listview Group expanded listener
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if (lastExpandedPosition != -1
-                        && groupPosition != lastExpandedPosition) {
-                    expListView.collapseGroup(lastExpandedPosition);
-                }
-                lastExpandedPosition = groupPosition;
-            }
-        });
+        Intent intent = getIntent();
+        int currentSwitch = intent.getExtras().getInt(INTENT, 0);
+        termsLayout.setVisibility(View.GONE);
+        faqLayout.setVisibility(View.GONE);
+        aboutLayout.setVisibility(View.GONE);
+        if (currentSwitch == 0) {
+            aboutLayout.setVisibility(View.VISIBLE);
+        } else if (currentSwitch == 1) {
+            termsLayout.setVisibility(View.VISIBLE);
+        } else if (currentSwitch == 2) {
+            faqLayout.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -123,7 +100,7 @@ public class LectureHalls extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.lecture_halls, menu);
+        getMenuInflater().inflate(R.menu.information, menu);
         return true;
     }
 
@@ -136,7 +113,7 @@ public class LectureHalls extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this, Settings.class));
+            startActivity(new Intent(this,Settings.class));
             return true;
         }
 
@@ -148,6 +125,7 @@ public class LectureHalls extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         if (id == R.id.nav_home) {
             startActivity(new Intent(this, Home.class));
         } else if (id == R.id.nav_transport) {
@@ -162,30 +140,11 @@ public class LectureHalls extends AppCompatActivity
             startActivity(new Intent(this, Settings.class));
         } else if (id == R.id.nav_contacts) {
             startActivity(new Intent(this, Contacts.class));
-        } else if (id == R.id.nav_dashboard) {
-            startActivity(new Intent(this, DashBoard.class));
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    ArrayList<String> groupItem = new ArrayList<String>();
-    ArrayList<Object> childItem = new ArrayList<Object>();
-
-    public void setGroupData() {
-
-        groupItem.clear();
-        ArrayList<String> child;
-        ArrayList<String[]> temparray = new LectureHallsList().listHalls();
-        for (int i = 0; i < temparray.size(); i++) {
-            child = new ArrayList<String>();
-            groupItem.add("<b>" + temparray.get(i)[0] + "</b><small> (" + temparray.get(i)[1] + ")</small>");
-            child.add(temparray.get(i)[3] + " , " + temparray.get(i)[2]);
-            child.add("<small>" + temparray.get(i)[4] + "</small>");
-            childItem.add(child);
-        }
-
     }
 }

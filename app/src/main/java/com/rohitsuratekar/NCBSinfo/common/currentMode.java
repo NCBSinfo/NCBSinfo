@@ -8,6 +8,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.online.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
@@ -42,6 +43,8 @@ public class CurrentMode {
             case Experimental.MODE_CONSTANT: activateExperimental(mode); break;
             case CAMP.MODE_CONSTANT: activateCAMP(mode); break;
             case Events.MODE_CONSTANT: activateEvents(mode); break;
+            case Information.MODE_CONSTANT: activateInformation(mode); break;
+            case DashBoard.MODE_CONSTANT: activateDashboard(mode); break;
             default: activateContacts(mode);
         }
 
@@ -87,7 +90,13 @@ public class CurrentMode {
             this.DrawerMenu = R.menu.lecture_halls_drawer_offline;
         }
     }
-
+    private void activateDashboard(int mode){
+        if (mode==1) {
+            this.DrawerMenu = R.menu.dash_board_drawer;
+        } else {
+            this.DrawerMenu = R.menu.dash_board_drawer;
+        }
+    }
     private void activateExperimental(int mode){
         if (mode==1) {
             this.DrawerMenu = R.menu.experimental_drawer;
@@ -109,6 +118,14 @@ public class CurrentMode {
             this.DrawerMenu = R.menu.events_drawer;
         } else {
             this.DrawerMenu = R.menu.events_drawer;
+        }
+    }
+
+    private void activateInformation(int mode){
+        if (mode==1) {
+            this.DrawerMenu = R.menu.information_drawer_online;
+        } else {
+            this.DrawerMenu = R.menu.information_drawer_offline;
         }
     }
 }
