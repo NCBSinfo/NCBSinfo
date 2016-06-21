@@ -16,6 +16,8 @@ public interface UserInformation {
 
         interface camp16 {
             String IS_CAMP_USER = "isCampUser";
+            String CAMP_PATTERN = "camp.ncbs.res.in";
+            String CAMP_MODE = "camp_mode";
         }
 
     }
@@ -34,10 +36,8 @@ public interface UserInformation {
     }
 
     interface firstTime{
-
         String APP_OPEN = "firstTimeAppOpen";
         String CAMP_NOTICE = "camp_notice_firstTime";
-
     }
 
 

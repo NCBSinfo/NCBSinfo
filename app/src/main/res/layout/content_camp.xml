@@ -12,4 +12,20 @@
     tools:context="com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP"
     tools:showIn="@layout/app_bar_camp">
 
+    <ImageView
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        android:id="@+id/imageView3"
+        android:src="@drawable/icon_camp_header"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/removeCamp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp" />
 </RelativeLayout>

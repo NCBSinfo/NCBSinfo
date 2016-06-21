@@ -11,6 +11,7 @@
     <string name="warning_mode_change">Change mode</string>
     <string name="warning_mode_change_online">Are you sure you want to change online mode ? You can switch back again anytime :)</string>
     <string name="warning_mode_change_offline">Are you sure you want to change offline mode ? You can switch back again anytime :)</string>
+    <string name="warning_mode_change_camp">Are you sure you want to change CAMP16 mode ? You can switch back again anytime :)</string>
 
     <string name="warning_registration_empty_password">Password can not be empty</string>
     <string name="warning_registration_bad_password">Password must be at least 6 character long</string>

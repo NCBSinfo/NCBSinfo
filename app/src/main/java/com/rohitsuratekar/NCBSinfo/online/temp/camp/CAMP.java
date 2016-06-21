@@ -12,15 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 
 public class CAMP extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener , UserInformation{
 
 
     public static final String MODE_CONSTANT = "camp16";
@@ -48,6 +51,14 @@ public class CAMP extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         new CustomNavigationView(navigationView, this, mode);
+
+        Button cam = (Button)findViewById(R.id.removeCamp);
+        cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pref.edit().putString(MODE, ONLINE).apply();
+            }
+        });
 
     }
 

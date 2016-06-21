@@ -113,14 +113,16 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             }
         };
 
+        //TODO: when database is up running, remove authentication with just email address
         //Notify CAMP users
-        if (pref.getBoolean(registration.camp16.IS_CAMP_USER, false) && pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
+        if ((pref.getBoolean(registration.camp16.IS_CAMP_USER, false) || isCampUser())&& pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
             final AlertDialog alertDialog = new AlertDialog.Builder(OnlineHome.this).create();
             alertDialog.setTitle("CAMP 2016");
             alertDialog.setMessage("We have detected that you are CAMP 2016 user, you want to change mode to CAMP?");
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
+                    pref.edit().putString(MODE, registration.camp16.CAMP_MODE).apply();
                     alertDialog.dismiss();
                     //TODO: implement
                 }
@@ -414,6 +416,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         pref.edit().putString(TransportConstants.BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_NCBS)).apply();
         pref.edit().putString(TransportConstants.BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_MANDARA)).apply();
 
+    }
+
+    private boolean isCampUser(){
+        return pref.getString(registration.EMAIL,"email@domain.com").split("@")[1].equals(registration.camp16.CAMP_PATTERN);
     }
 
 }

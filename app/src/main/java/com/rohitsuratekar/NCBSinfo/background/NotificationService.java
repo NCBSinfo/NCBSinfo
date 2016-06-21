@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.rohitsuratekar.NCBSinfo.R;
@@ -17,7 +16,7 @@ import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
-public class NotificationService implements UserInformation{
+public class NotificationService implements UserInformation, NetworkConstants {
 
     public static final String NOTIFICATION_SENT = "sent";
 
@@ -51,15 +50,20 @@ public class NotificationService implements UserInformation{
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String title, message;
+        String title, message, extra;
         if (remoteMessage.getNotification() != null) {
             title = remoteMessage.getNotification().getTitle();
             message = remoteMessage.getNotification().getBody();
+            extra = keys.values.EXTRA_PERSONAL;
         } else {
-            title = remoteMessage.getData().get("title");
-            message = remoteMessage.getData().get("message");
+            title = remoteMessage.getData().get(keys.TITLE);
+            message = remoteMessage.getData().get(keys.MESSAGE);
+            if (remoteMessage.getData().get(keys.EXTRA) != null) {
+                extra = remoteMessage.getData().get(keys.EXTRA);
+            } else {
+                extra = keys.values.EXTRA_PERSONAL;
+            }
         }
-
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(title)
@@ -76,11 +80,11 @@ public class NotificationService implements UserInformation{
         note.setTitle(title);
         note.setMessage(message);
         note.setFrom(remoteMessage.getFrom());
-        note.setExtraVariables(NOTIFICATION_SENT);
+        note.setExtraVariables(extra);
         new NotificationData(context).add(note);
     }
 
-    private void notifySystem(NotificationCompat.Builder mBuilder){
+    private void notifySystem(NotificationCompat.Builder mBuilder) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
     }

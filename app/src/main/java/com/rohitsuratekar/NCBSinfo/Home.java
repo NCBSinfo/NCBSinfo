@@ -17,6 +17,7 @@ import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.login.Registration;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 public class Home extends AppCompatActivity implements UserInformation {
 
@@ -34,7 +35,6 @@ public class Home extends AppCompatActivity implements UserInformation {
 
 
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE, "none")) {
             case ONLINE:
                 startActivity(new Intent(Home.this, OnlineHome.class));
@@ -43,6 +43,11 @@ public class Home extends AppCompatActivity implements UserInformation {
 
             case OFFLINE:
                 startActivity(new Intent(Home.this, OfflineHome.class));
+                overridePendingTransition(0, 0);
+                break;
+
+            case registration.camp16.CAMP_MODE:
+                startActivity(new Intent(Home.this, CAMP.class));
                 overridePendingTransition(0, 0);
                 break;
 

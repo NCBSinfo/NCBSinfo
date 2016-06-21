@@ -26,7 +26,9 @@ public class CustomNavigationView implements UserInformation {
         navigationView.inflateMenu(mode.getDrawerMenu());
         MenuItem currentMenu = navigationView.getMenu().findItem(R.id.nav_dashboard);
         if (currentMenu != null) {
-            currentMenu.setTitle(pref.getString(registration.USERNAME, "User").trim().split(" ")[0] + "\'s " + activity.getString(R.string.dashboard));
+            if(!pref.getString(MODE,ONLINE).equals(registration.camp16.CAMP_MODE)) {
+                currentMenu.setTitle(pref.getString(registration.USERNAME, "User").trim().split(" ")[0] + "\'s " + activity.getString(R.string.dashboard));
+            }
         }
         View header = navigationView.getHeaderView(0);
         TextView name = (TextView) header.findViewById(R.id.Navigation_Name);
