@@ -246,7 +246,7 @@ public class Settings extends AppCompatPreferenceActivity {
                 }
             });
 
-            Preference myPref3 = (Preference) findPreference("change_mode_settings");
+            final Preference myPref3 = (Preference) findPreference("change_mode_settings");
             myPref3.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     //open browser or intent here
@@ -255,9 +255,8 @@ public class Settings extends AppCompatPreferenceActivity {
                             .setMessage(new CurrentMode(getActivity(), Transport.MODE_CONSTANT).getSwitchModeMessage())
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-
-                                    Toast.makeText(getActivity(), "User Preferences Cleared", Toast.LENGTH_LONG).show();
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).edit().remove(Home.MODE).apply();
+                                    startActivity(new Intent(getActivity(), Home.class));
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

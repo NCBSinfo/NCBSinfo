@@ -2,13 +2,16 @@ package com.rohitsuratekar.NCBSinfo.offline;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactColors;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
@@ -25,6 +30,7 @@ import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,10 +39,14 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
     TextView title, timeLeft, nextText, footerNotice;
     ImageView image, previous, next;
     ImageView icon_transport, icon_settings, icon_lecturehall, icon_contacts;
-    LinearLayout footerHolder, homeFooter, titleHolder;
+    LinearLayout footerHolder, homeFooter, titleHolder, cardLayout;
     RelativeLayout homeLayout;
     TransportModel transport;
     SharedPreferences pref;
+    LinearLayout hour_back, min_back, sec_back;
+    LinearLayout hour, min, sec;
+    TextView hourText, minText, secText;
+    LinearLayout.LayoutParams params1,params2,params3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +67,6 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
         homeFooter = (LinearLayout) findViewById(R.id.off_home_footer);
         titleHolder = (LinearLayout) findViewById(R.id.off_home_title_holder);
         title = (TextView) findViewById(R.id.off_home_cardview_title);
-        timeLeft = (TextView) findViewById(R.id.off_home_timeleft_text);
         nextText = (TextView) findViewById(R.id.off_home_cardView_nextText);
         footerNotice = (TextView) findViewById(R.id.off_home_footer_notice);
         image = (ImageView) findViewById(R.id.off_home_cardView_selector);
@@ -67,6 +76,21 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
         icon_settings = (ImageView) findViewById(R.id.off_home_icon_settings);
         icon_lecturehall = (ImageView) findViewById(R.id.off_home_icon_lecture);
         icon_contacts = (ImageView) findViewById(R.id.off_home_icon_contacts);
+        hour_back = (LinearLayout)findViewById(R.id.hour_background);
+        hour = (LinearLayout)findViewById(R.id.hour_layout);
+        min_back = (LinearLayout)findViewById(R.id.minute_background);
+        min = (LinearLayout)findViewById(R.id.minute_layout);
+        sec_back = (LinearLayout)findViewById(R.id.seconds_background);
+        sec = (LinearLayout)findViewById(R.id.seconds_layout);
+        cardLayout = (LinearLayout)findViewById(R.id.off_card_layout);
+        hourText = (TextView)findViewById(R.id.off_hour_text);
+        minText = (TextView)findViewById(R.id.off_min_text);
+        secText = (TextView)findViewById(R.id.off_sec_text);
+
+        params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
 
 
         footerNotice.setText(getResources().getString(R.string.home_offline).toUpperCase());
@@ -112,6 +136,13 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
 
         }, 0, 1000); //1000 is milliseconds for each time tick
 
+        cardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeColor();
+            }
+        });
+
     }
 
     private void runTimer() {
@@ -140,7 +171,7 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
                 changeTransport();
                 break;
             case R.id.off_home_icon_settings:
-                //startActivity(new Intent(this, Experimental.class));
+                startActivity(new Intent(this, Settings.class));
                 break;
             case R.id.off_home_icon_lecture:
                 startActivity(new Intent(this, LectureHalls.class));
@@ -169,9 +200,32 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
         title.setText(getString(R.string.home_trasnport_title, transport.getFrom().toUpperCase(), transport.getTo().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
                 transport.getType(), new TransportHelper().convertToSimpleDate(transport.getNextTrip())));
-        float[] Difference = transport.getTimeLeft();
-        timeLeft.setText(getResources().getString(R.string.time_left, (int) Difference[2], ((int) Difference[1]), ((int) Difference[0])));
 
+        float[] Difference = transport.getTimeLeft();
+
+        //Update transport of timeleft goes in negative
+        float sum = 0;
+        for(float f : Difference){ sum = sum+f;}
+        if(sum<0){transport = new TransportHelper().getTransport(getBaseContext(),transport.getRouteNo());}
+
+        hourText.setText((int) Difference[2]+" Hrs");
+        minText.setText((int) Difference[1]+" Min");
+        secText.setText((int) Difference[0]+" Sec");
+        if(Difference[2]>12){
+            Difference[2]=12;
+        }
+        params1.weight = (Difference[2]/12)*100;  hour.setLayoutParams(params1);
+        params2.weight = (Difference[1]/60)*100;  min.setLayoutParams(params2);
+        params3.weight = (Difference[0]/60)*100;  sec.setLayoutParams(params3);
+
+    }
+
+    public void changeColor(){
+        Random r = new Random();
+        char c = (char)(r.nextInt(26)+'a');
+        hour.setBackgroundColor(new ContactColors(getBaseContext(), String.valueOf(c).toLowerCase()).getColor());
+        min.setBackgroundColor(new ContactColors(getBaseContext(), String.valueOf(c).toLowerCase()).getColor());
+        sec.setBackgroundColor(new ContactColors(getBaseContext(), String.valueOf(c).toLowerCase()).getColor());
     }
 
 }

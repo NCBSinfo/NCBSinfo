@@ -23,11 +23,12 @@
             android:id="@+id/nav_contacts"
             android:icon="@drawable/icon_contacts"
             android:title="@string/contacts"
-            android:checked="true"/>
+            />
         <item
             android:id="@+id/nav_experimental"
             android:icon="@drawable/icon_experimental"
-            android:title="@string/experimental" />
+            android:title="@string/experimental"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_settings"
             android:title="@string/settings"

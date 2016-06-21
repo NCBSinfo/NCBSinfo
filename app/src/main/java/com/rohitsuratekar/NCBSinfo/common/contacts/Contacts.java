@@ -1,6 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.common.contacts;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,19 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
+import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 import com.rohitsuratekar.NCBSinfo.common.utilities.ViewpagerAdapter;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
-import com.rohitsuratekar.NCBSinfo.database.TalkData;
-import com.rohitsuratekar.NCBSinfo.online.DashBoard;
-import com.rohitsuratekar.NCBSinfo.online.events.Events;
-import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 
 public class Contacts extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -147,27 +140,7 @@ public class Contacts extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.nav_home) {
-            startActivity(new Intent(this, Home.class));
-        } else if (id == R.id.nav_transport) {
-            Intent i = new Intent(this, Transport.class);
-            i.putExtra(Transport.INDENT, TransportConstants.ROUTE_NCBS_IISC);
-            startActivity(i);
-        } else if (id == R.id.nav_updates) {
-            startActivity(new Intent(this, Events.class));
-        } else if (id == R.id.nav_experimental) {
-            startActivity(new Intent(this, Experimental.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, Settings.class));
-        } else if (id == R.id.nav_contacts) {
-            startActivity(new Intent(this, Contacts.class));
-        } else if (id == R.id.nav_dashboard) {
-            startActivity(new Intent(this, DashBoard.class));
-        }
-
-
+        startActivity(new NavigationIDs(item.getItemId(), Contacts.this).getIntent());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

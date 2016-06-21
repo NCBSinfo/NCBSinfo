@@ -18,7 +18,7 @@ public class ContactColors {
 
     }
 
-    private int getColor() {
+    public int getColor() {
         switch (letter) {
             case "a":
                 return context.getResources().getColor(R.color.a);

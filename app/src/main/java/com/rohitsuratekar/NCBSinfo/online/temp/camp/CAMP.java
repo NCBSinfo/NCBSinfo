@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.online.temp.camp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
+import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 
 public class CAMP extends AppCompatActivity
@@ -46,6 +49,7 @@ public class CAMP extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         new CustomNavigationView(navigationView, this, mode);
+
     }
 
     @Override
@@ -71,9 +75,9 @@ public class CAMP extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(CAMP.this,Settings.class));
             return true;
         }
 
@@ -83,9 +87,7 @@ public class CAMP extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
+        startActivity(new NavigationIDs(item.getItemId(), CAMP.this).getIntent());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

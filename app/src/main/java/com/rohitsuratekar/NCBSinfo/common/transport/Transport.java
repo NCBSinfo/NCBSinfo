@@ -22,7 +22,9 @@ import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
+import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 import com.rohitsuratekar.NCBSinfo.online.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
@@ -127,21 +129,7 @@ public class Transport extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         int newIndex = 0;
-        if (id == R.id.nav_home) {
-            startActivity(new Intent(this, Home.class));
-        } else if (id == R.id.nav_transport) {
-            Intent i = new Intent(this, Transport.class);
-            i.putExtra(Transport.INDENT, TransportConstants.ROUTE_NCBS_IISC);
-            startActivity(i);
-        } else if (id == R.id.nav_updates) {
-            startActivity(new Intent(this, Events.class));
-        } else if (id == R.id.nav_experimental) {
-            startActivity(new Intent(this, Experimental.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, Settings.class));
-        } else if (id == R.id.nav_contacts) {
-            startActivity(new Intent(this, Contacts.class));
-        } else if (id == R.id.nav_shuttle_ncbs_iisc) {
+        if (id == R.id.nav_shuttle_ncbs_iisc) {
             newIndex = 0;
         } else if (id == R.id.nav_shuttle_iisc_ncbs) {
             newIndex = 1;
@@ -157,8 +145,8 @@ public class Transport extends AppCompatActivity
             newIndex = 6;
         } else if (id == R.id.nav_shuttle_ncbs_cbl) {
             newIndex = 7;
-        } else if (id == R.id.nav_dashboard) {
-            startActivity(new Intent(this, DashBoard.class));
+        } else {
+            startActivity(new Intent(new NavigationIDs(id, Transport.this).getIntent()));
         }
 
         TabLayout.Tab tab = tabLayout.getTabAt(newIndex);

@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Something awesome is\nComming Soon..."
+                android:text="Something awesome is\ncomming soon..."
                 android:id="@+id/textView15"
                 android:layout_gravity="center_horizontal"
                 android:textAlignment="center" />

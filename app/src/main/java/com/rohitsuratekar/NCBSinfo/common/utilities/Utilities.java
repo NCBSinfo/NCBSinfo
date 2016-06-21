@@ -1,27 +1,16 @@
 package com.rohitsuratekar.NCBSinfo.common.utilities;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.XmlResourceParser;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
-import android.util.Log;
 
-import org.xmlpull.v1.XmlPullParser;
-
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class Utilities {
 

@@ -176,56 +176,17 @@ public class Registration extends AppCompatActivity {
         });
 
         Button gotoSignin = (Button) findViewById(R.id.button_goto_signin);
-        gotoSignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Registration.this, Login.class));
-            }
-        });
 
-
-
-
-    }
-
-    public void putData(){
-
-        if (mAuth.getCurrentUser() != null) {
-            if (pref.getBoolean(OnlineHome.ONE_SHOT, true)) {
-
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + mAuth.getCurrentUser().getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(Registration.USERNAME, "Username"));
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + mAuth.getCurrentUser().getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(Registration.EMAIL, "email@domain.com"));
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + mAuth.getCurrentUser().getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(Registration.RESEARCH_TALK, 1));
-
-
-                final String fieldEMail = mAuth.getCurrentUser().getEmail().replace("@", "_").replace(".", "_");
-                mDatabase.child(RemoteConstants.CAMP_NODE).child(fieldEMail).addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                    if (child.getKey().equals(fieldEMail)) {
-                                        Log.i("Key value", child.getValue().toString());
-                                    }
-                                }
-                                pref.edit().putBoolean(Login.CAMPUSER, true).apply();
-                                pref.edit().putBoolean(OnlineHome.ONE_SHOT, false).apply();
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                Log.i(TAG, databaseError.toException().getMessage());
-                                if (databaseError.toException().getMessage().contains("Permission denied")) {
-                                    pref.edit().putBoolean(Login.CAMPUSER, false).apply();
-                                    pref.edit().putBoolean(OnlineHome.ONE_SHOT, false).apply();
-                                }
-
-                            }
-                        });
-            }
-
+        if (gotoSignin != null) {
+            gotoSignin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Registration.this, Login.class));
+                }
+            });
         }
+
+
     }
 
 

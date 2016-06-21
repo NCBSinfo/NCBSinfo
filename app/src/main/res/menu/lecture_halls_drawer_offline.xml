@@ -17,7 +17,7 @@
             android:id="@+id/nav_lecturehall"
             android:icon="@drawable/icon_lecturehall"
             android:title="@string/lecture_hall"
-            android:checkable="true"/>
+            android:checked="true"/>
         <item
             android:id="@+id/nav_settings"
             android:title="@string/settings"
