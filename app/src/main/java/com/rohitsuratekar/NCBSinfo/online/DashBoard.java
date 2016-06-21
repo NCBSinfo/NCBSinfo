@@ -12,30 +12,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
-import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
-import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
-import com.rohitsuratekar.NCBSinfo.online.events.Events;
-import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
-import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 
 public class DashBoard extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, UserInformation {
 
     public static final String MODE_CONSTANT = "dashBoard";
     SharedPreferences pref;
@@ -68,8 +58,8 @@ public class DashBoard extends AppCompatActivity
         name = (TextView) findViewById(R.id.dashboard_name);
         email = (TextView) findViewById(R.id.dashboard_email);
 
-        name.setText(pref.getString(Registration.USERNAME, "Username"));
-        email.setText(pref.getString(Registration.EMAIL, "email@domain.com"));
+        name.setText(pref.getString(registration.USERNAME, "Username"));
+        email.setText(pref.getString(registration.EMAIL, "email@domain.com"));
 
         ImageView myImageView = (ImageView) findViewById(R.id.dashboard_logo);
         Animation myFadeInAnimation = AnimationUtils.loadAnimation(DashBoard.this, R.anim.alpha_repeate);

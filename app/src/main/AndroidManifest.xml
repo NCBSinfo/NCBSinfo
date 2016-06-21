@@ -51,6 +51,9 @@
             </intent-filter>
         </service>
 
+        <service android:name=".background.NetworkOperations" />
+        <service android:name=".background.DataManagement" />
+
         <receiver
             android:name=".background.AfterBoot"
             android:enabled="true"

@@ -63,7 +63,6 @@ public class Tables {
                 + NotificationData.TIMESTAMP + " TEXT,"
                 + NotificationData.TITLE + " TEXT,"
                 + NotificationData.MESSAGE + " TEXT,"
-                + NotificationData.TOPIC + " TEXT,"
                 + NotificationData.FROM + " TEXT,"
                 + NotificationData.EXTRA_VARIABLES + " TEXT " + ")";
         db.execSQL(CREATE_NOTIFICATION_TABLE);

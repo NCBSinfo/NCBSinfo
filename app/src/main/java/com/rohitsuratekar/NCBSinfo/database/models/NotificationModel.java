@@ -7,16 +7,14 @@ public class NotificationModel {
     String timestamp;
     String title;
     String message;
-    String topic;
     String from;
     String extraVariables;
 
-    public NotificationModel(int id, String timestamp, String title, String message, String topic, String from, String extraVariables) {
+    public NotificationModel(int id, String timestamp, String title, String message, String from, String extraVariables) {
         this.id = id;
         this.timestamp = timestamp;
         this.title = title;
         this.message = message;
-        this.topic = topic;
         this.from = from;
         this.extraVariables = extraVariables;
     }
@@ -54,14 +52,6 @@ public class NotificationModel {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
     }
 
     public String getFrom() {

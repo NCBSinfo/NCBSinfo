@@ -7,12 +7,20 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.database.NotificationData;
+import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
-public class NotificationService {
+public class NotificationService implements UserInformation{
+
+    public static final String NOTIFICATION_SENT = "sent";
+
     private Context context;
 
     public NotificationService(Context context) {
@@ -33,8 +41,7 @@ public class NotificationService {
                 .setSound(sound)
                 .setContentText(notificationMessage).setAutoCancel(true)
                 .setContentIntent(contentIntent);
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(1, mBuilder.build());
+        notifySystem(mBuilder);
     }
 
     public void sendNotification(RemoteMessage remoteMessage) {
@@ -43,14 +50,37 @@ public class NotificationService {
         Intent notificationIntent = new Intent(context, OnlineHome.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        String title, message;
+        if (remoteMessage.getNotification() != null) {
+            title = remoteMessage.getNotification().getTitle();
+            message = remoteMessage.getNotification().getBody();
+        } else {
+            title = remoteMessage.getData().get("title");
+            message = remoteMessage.getData().get("message");
+        }
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(remoteMessage.getNotification().getBody()))
+                .setContentTitle(title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setColor(context.getResources().getColor(R.color.colorPrimary))
                 .setSound(sound)
-                .setContentText(remoteMessage.getNotification().getBody()).setAutoCancel(true)
+                .setContentText(message).setAutoCancel(true)
                 .setContentIntent(contentIntent);
+        notifySystem(mBuilder);
+
+        //Add to notification data
+        NotificationModel note = new NotificationModel();
+        note.setTimestamp(new Utilities().timeStamp());
+        note.setTitle(title);
+        note.setMessage(message);
+        note.setFrom(remoteMessage.getFrom());
+        note.setExtraVariables(NOTIFICATION_SENT);
+        new NotificationData(context).add(note);
+    }
+    
+    private void notifySystem(NotificationCompat.Builder mBuilder){
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
     }

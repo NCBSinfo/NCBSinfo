@@ -12,7 +12,7 @@ public class FireBaseMessage extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        if (!remoteMessage.getData().get("rcode").equals("null")) {
+        if (remoteMessage.getData().get("rcode")!=null) {
 
             //Special action by with "rcode" field
             switch (remoteMessage.getData().get("rcode")) {

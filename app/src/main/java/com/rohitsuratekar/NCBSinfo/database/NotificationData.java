@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ public class NotificationData {
     public static final String TIMESTAMP = "notification_timestamp";
     public static final String TITLE = "notification_title";
     public static final String MESSAGE = "notification_message";
-    public static final String TOPIC = "notification_topic";
     public static final String FROM = "notification_from";
     public static final String EXTRA_VARIABLES = "notification_extravariables";
 
@@ -36,7 +34,6 @@ public class NotificationData {
         values.put(TIMESTAMP, notification.getTimestamp());
         values.put(TITLE, notification.getTitle());
         values.put(MESSAGE, notification.getMessage());
-        values.put(TOPIC, notification.getTopic());
         values.put(FROM, notification.getFrom());
         values.put(EXTRA_VARIABLES, notification.getExtraVariables());
         // Inserting Row
@@ -45,13 +42,13 @@ public class NotificationData {
     }
 
     public NotificationModel get(int id) {
-        Cursor cursor = db.query(TABLE_NOTIFICATIONS, new String[] { KEY_ID, TIMESTAMP, TITLE, MESSAGE, TOPIC, FROM, EXTRA_VARIABLES }, KEY_ID + "=?",
+        Cursor cursor = db.query(TABLE_NOTIFICATIONS, new String[] { KEY_ID, TIMESTAMP, TITLE, MESSAGE, FROM, EXTRA_VARIABLES }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null){
             cursor.moveToFirst();
 
         }
-        NotificationModel notification = new NotificationModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6));
+        NotificationModel notification = new NotificationModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return contact
         cursor.close();
         return notification;
@@ -70,9 +67,8 @@ public class NotificationData {
                 notificationModel.setTimestamp(cursor.getString(1));
                 notificationModel.setTitle(cursor.getString(2));
                 notificationModel.setMessage(cursor.getString(3));
-                notificationModel.setTopic(cursor.getString(4));
-                notificationModel.setFrom(cursor.getString(5));
-                notificationModel.setExtraVariables(cursor.getString(6));
+                notificationModel.setFrom(cursor.getString(4));
+                notificationModel.setExtraVariables(cursor.getString(5));
                 // Adding contact to list
                 notificationModelList.add(notificationModel);
             } while (cursor.moveToNext());

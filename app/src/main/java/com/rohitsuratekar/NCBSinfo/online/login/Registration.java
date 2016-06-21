@@ -26,19 +26,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.FirebaseErrors;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 
-public class Registration extends AppCompatActivity {
+public class Registration extends AppCompatActivity implements UserInformation {
 
     //Public
-    public static final String REGISTERED = "registeredUser";
-    public static final String USERNAME = "currentUsername";
-    public static final String EMAIL = "currentEmail";
-    public static final String RESEARCH_TALK = "currentResearchTalk";
-
-    //Local
     private static String TAG = "RegisterFragment";
     private ProgressDialog progress;
 
@@ -46,7 +41,6 @@ public class Registration extends AppCompatActivity {
     TextInputLayout user_layout, email_layout, password_layout;
     SharedPreferences pref;
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
     Button registerBtn;
 
 
@@ -57,7 +51,6 @@ public class Registration extends AppCompatActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         progress = new ProgressDialog(Registration.this);
 
         //UI components
@@ -116,9 +109,6 @@ public class Registration extends AppCompatActivity {
                                     } else {
                                         progress.setMessage("Signing in...");
                                         pref.edit().clear().apply();
-                                        pref.edit().putString(USERNAME, username.getText().toString()).apply();
-                                        pref.edit().putString(EMAIL, email.getText().toString()).apply();
-                                        pref.edit().putBoolean(REGISTERED, true).apply();
                                         mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(Registration.this, new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -128,42 +118,12 @@ public class Registration extends AppCompatActivity {
                                                     FirebaseErrors firebaseErrors = new FirebaseErrors(getBaseContext(), task.getException(), Registration.this);
                                                     firebaseErrors.dialogWarning();
                                                 } else {
-                                                    //Change Firebase Instance for new user
-                                                    mDatabase.child(RemoteConstants.USER_NODE + "/" + mAuth.getCurrentUser().getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(USERNAME, "Username"));
-                                                    mDatabase.child(RemoteConstants.USER_NODE + "/" + mAuth.getCurrentUser().getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(EMAIL, "email@domain.com"));
-                                                    mDatabase.child(RemoteConstants.USER_NODE + "/" + mAuth.getCurrentUser().getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(RESEARCH_TALK, 1));
-
-                                                    final String fieldEMail = mAuth.getCurrentUser().getEmail().replace("@", "_").replace(".", "_");
-                                                    mDatabase.child(RemoteConstants.CAMP_NODE).child(fieldEMail).addListenerForSingleValueEvent(
-                                                            new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                                                        if (child.getKey().equals(fieldEMail)) {
-                                                                            Log.i("Key value", child.getValue().toString());
-                                                                        }
-                                                                    }
-                                                                    pref.edit().putBoolean(Login.CAMPUSER, true).apply();
-                                                                    pref.edit().putBoolean(OnlineHome.ONE_SHOT, false).apply();
-                                                                    progress.dismiss();
-                                                                    pref.edit().putString(Home.MODE, Home.ONLINE).apply();
-                                                                    startActivity(new Intent(Registration.this, OnlineHome.class));
-                                                                }
-
-                                                                @Override
-                                                                public void onCancelled(DatabaseError databaseError) {
-                                                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                                                    Log.i(TAG, databaseError.toException().getMessage());
-                                                                    if (databaseError.toException().getMessage().contains("Permission denied")) {
-                                                                        pref.edit().putBoolean(Login.CAMPUSER, false).apply();
-                                                                        pref.edit().putBoolean(OnlineHome.ONE_SHOT, false).apply();
-                                                                        progress.dismiss();
-                                                                        pref.edit().putString(Home.MODE, Home.ONLINE).apply();
-                                                                        startActivity(new Intent(Registration.this, OnlineHome.class));
-                                                                    }
-
-                                                                }
-                                                            });
+                                                    progress.dismiss();
+                                                    pref.edit().putString(registration.USERNAME, username.getText().toString()).apply();
+                                                    pref.edit().putString(registration.EMAIL, email.getText().toString()).apply();
+                                                    pref.edit().putBoolean(registration.REGISTERED, true).apply();
+                                                    pref.edit().putString(Home.MODE, Home.ONLINE).apply();
+                                                    startActivity(new Intent(Registration.this, OnlineHome.class));
 
                                                 }
                                             }
@@ -233,4 +193,5 @@ public class Registration extends AppCompatActivity {
         }
         return true;
     }
+
 }

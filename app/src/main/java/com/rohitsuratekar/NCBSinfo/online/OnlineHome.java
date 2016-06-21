@@ -32,16 +32,19 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
+import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
+import com.rohitsuratekar.NCBSinfo.background.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
@@ -51,19 +54,12 @@ import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
-import com.rohitsuratekar.NCBSinfo.online.login.Login;
-import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 import com.rohitsuratekar.NCBSinfo.online.maps.MapActivity;
-import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
-
-    //Public constants
-    public static final String IS_OLD_VERSION = "isOldVersion";
-    public static final String ONE_SHOT = "oneShotinfo";
+public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener, UserInformation {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -108,62 +104,30 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    if (pref.getBoolean(ONE_SHOT, true)) {
-
-                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(Registration.USERNAME, "Username"));
-                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(Registration.EMAIL, "email@domain.com"));
-                        mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(Registration.RESEARCH_TALK, 1));
-
-
-                        final String fieldEMail = user.getEmail().replace("@", "_").replace(".", "_");
-                        mDatabase.child(RemoteConstants.CAMP_NODE).child(fieldEMail).addListenerForSingleValueEvent(
-                                new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                            if (child.getKey().equals(fieldEMail)) {
-                                                Log.i("Key value", child.getValue().toString());
-                                            }
-                                        }
-                                        pref.edit().putBoolean(Login.CAMPUSER, true).apply();
-                                        pref.edit().putBoolean(ONE_SHOT, false).apply();
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                        Log.i(TAG, databaseError.toException().getMessage());
-                                        if (databaseError.toException().getMessage().contains("Permission denied")) {
-                                            pref.edit().putBoolean(Login.CAMPUSER, false).apply();
-                                            pref.edit().putBoolean(ONE_SHOT, false).apply();
-                                        }
-
-                                    }
-                                });
-                    }
-
-
+                Log.i(TAG, "Login state changed");
+                if (firebaseAuth.getCurrentUser() != null) {
+                    Intent service = new Intent(getBaseContext(), NetworkOperations.class);
+                    service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                    getBaseContext().startService(service);
                 }
-
             }
         };
 
         //Notify CAMP users
-        if (pref.getBoolean(Login.CAMPUSER, false) && pref.getBoolean(CAMP.AUTO_NOTIFY, true)) {
+        if (pref.getBoolean(registration.camp16.IS_CAMP_USER, false) && pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
             final AlertDialog alertDialog = new AlertDialog.Builder(OnlineHome.this).create();
             alertDialog.setTitle("CAMP 2016");
             alertDialog.setMessage("We have detected that you are CAMP 2016 user, you want to change mode to CAMP?");
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    pref.edit().putBoolean(CAMP.AUTO_NOTIFY, false).apply();
+                    pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
                     alertDialog.dismiss();
+                    //TODO: implement
                 }
             });
             alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Not now", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    pref.edit().putBoolean(CAMP.AUTO_NOTIFY, false).apply();
+                    pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
                     alertDialog.dismiss();
                 }
             });
@@ -236,6 +200,18 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         //Get configuration
         getConfiguration();
+
+        //Submit registration details
+        if (!pref.getBoolean(netwrok.REGISTRATION_DETAILS_SENT, false)) {
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            pref.edit().putString(registration.FIREBASE_TOKEN, refreshedToken).apply();
+            pref.edit().putString(registration.USER_TYPE, FireBaseID.REGULAR_USER).apply();
+            FirebaseMessaging.getInstance().subscribeToTopic(NetworkConstants.topics.PUBLIC);
+            Intent service = new Intent(getBaseContext(), NetworkOperations.class);
+            service.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
+            getBaseContext().startService(service);
+            Log.d(TAG, "Subscribed with topic");
+        }
 
 
     }
@@ -406,7 +382,8 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
                                     // values are returned.
                                     mFirebaseRemoteConfig.activateFetched();
                                     setTransportValue();
-                                    pref.edit().putBoolean(IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(IS_OLD_VERSION)).apply();
+                                    pref.edit().putBoolean(netwrok.IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(netwrok.IS_OLD_VERSION)).apply();
+                                    pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
                                 } else {
                                     Log.d(TAG, "Fetch failed");
                                 }

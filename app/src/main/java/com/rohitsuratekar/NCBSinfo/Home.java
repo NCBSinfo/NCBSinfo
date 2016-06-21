@@ -11,18 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 
-public class Home extends AppCompatActivity {
-
-    //Public Constants
-    public static final String MODE = "app_mode";
-    public static final String ONLINE = "online";
-    public static final String OFFLINE = "offline";
-    public static final String FIRST_TIME = "firstTimeOpen";
+public class Home extends AppCompatActivity implements UserInformation {
 
     //UI elements
     Button onlineButton, offlineButton;
@@ -41,11 +37,13 @@ public class Home extends AppCompatActivity {
 
         switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE, "none")) {
             case ONLINE:
-               startActivity(new Intent(Home.this, OnlineHome.class));
+                startActivity(new Intent(Home.this, OnlineHome.class));
+                overridePendingTransition(0, 0);
                 break;
 
             case OFFLINE:
                 startActivity(new Intent(Home.this, OfflineHome.class));
+                overridePendingTransition(0, 0);
                 break;
 
         }
@@ -102,9 +100,9 @@ public class Home extends AppCompatActivity {
         });
 
         //Set transport timings first time app is open
-        if (pref.getBoolean(FIRST_TIME, true)) {
+        if (pref.getBoolean(firstTime.APP_OPEN, true)) {
             setTransportValue();
-            pref.edit().putBoolean(FIRST_TIME, false).apply();
+            pref.edit().putBoolean(firstTime.APP_OPEN, false).apply();
         }
     }
 
@@ -126,6 +124,6 @@ public class Home extends AppCompatActivity {
         pref.edit().putString(TransportConstants.NCBS_CBL, getResources().getString(R.string.def_ncbs_cbl)).apply();
         pref.edit().putString(TransportConstants.BUGGY_NCBS, getResources().getString(R.string.def_buggy_from_ncbs)).apply();
         pref.edit().putString(TransportConstants.BUGGY_MANDARA, getResources().getString(R.string.def_buggy_from_mandara)).apply();
-
+        pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
     }
 }

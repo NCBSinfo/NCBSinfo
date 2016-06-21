@@ -28,16 +28,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.FirebaseErrors;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements UserInformation{
 
-    //Public
-    public static final String CAMPUSER = "camp16User";
     //Local
     private static String TAG = "SignInFragment";
     private ProgressDialog progress;
@@ -103,78 +102,11 @@ public class Login extends AppCompatActivity {
                                     pref.edit().clear().apply();
                                     Database db = new Database(getBaseContext());
                                     db.restartDatabase(db.getWritableDatabase());
-                                    progress.setMessage("Updating data...");
+                                    pref.edit().putString(registration.EMAIL,username.getText().toString()).apply();
+                                    pref.edit().putString(Home.MODE, Home.ONLINE).apply();
+                                    progress.dismiss();
+                                    startActivity(new Intent(Login.this, OnlineHome.class));
                                     //Retrieve data from database here
-                                    mDatabase.child(RemoteConstants.USER_NODE).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(
-                                            new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                                        switch (child.getKey()) {
-                                                            case RemoteConstants.USERNAME:
-                                                                pref.edit().putString(Registration.USERNAME, child.getValue().toString()).apply();
-                                                                break;
-                                                            case RemoteConstants.EMAIL:
-                                                                pref.edit().putString(Registration.EMAIL, child.getValue().toString()).apply();
-                                                                break;
-                                                            case RemoteConstants.RESEARCH_TALK:
-                                                                pref.edit().putInt(Registration.RESEARCH_TALK, Integer.parseInt(child.getValue().toString())).apply();
-                                                                break;
-                                                            default:
-                                                                Log.i(TAG, "Unknown Key :" + child.getKey());
-                                                        }
-                                                    }
-                                                    //Always keep registration true after sign in
-                                                    pref.edit().putBoolean(Registration.REGISTERED, true).apply();
-                                                    pref.edit().putString(Home.MODE, Home.ONLINE).apply();
-                                                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                                        switch (child.getKey()) {
-                                                            case RemoteConstants.USERNAME:
-                                                                pref.edit().putString(Registration.USERNAME, child.getValue().toString()).apply();
-                                                                break;
-                                                            case RemoteConstants.EMAIL:
-                                                                pref.edit().putString(Registration.EMAIL, child.getValue().toString()).apply();
-                                                                break;
-                                                            case RemoteConstants.RESEARCH_TALK:
-                                                                pref.edit().putInt(Registration.RESEARCH_TALK, Integer.parseInt(child.getValue().toString())).apply();
-                                                                break;
-                                                            default:
-                                                                Log.i(TAG, "Unknown Key :" + child.getKey());
-                                                        }
-                                                    }
-                                                    final String fieldEMail = mAuth.getCurrentUser().getEmail().replace("@", "_").replace(".", "_");
-                                                    mDatabase.child(RemoteConstants.CAMP_NODE).child(fieldEMail).addListenerForSingleValueEvent(
-                                                            new ValueEventListener() {
-                                                                @Override
-                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                                                        if (child.getKey().equals(fieldEMail)) {
-                                                                            Log.i("Key value", child.getValue().toString());
-                                                                        }
-                                                                    }
-                                                                    pref.edit().putBoolean(CAMPUSER, true).apply();
-                                                                    progress.dismiss();
-                                                                    startActivity(new Intent(Login.this, OnlineHome.class));
-                                                                }
-
-                                                                @Override
-                                                                public void onCancelled(DatabaseError databaseError) {
-                                                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                                                    if (databaseError.toException().getMessage().contains("Permission denied")) {
-                                                                        pref.edit().putBoolean(CAMPUSER, false).apply();
-                                                                    }
-                                                                    progress.dismiss();
-                                                                    startActivity(new Intent(Login.this, OnlineHome.class));
-                                                                }
-                                                            });
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
-                                                    Log.w(TAG, "getUser:onCancelled", databaseError.toException());
-                                                    progress.dismiss();
-                                                }
-                                            });
                                 }//Successful Login2
                             }
                         });
