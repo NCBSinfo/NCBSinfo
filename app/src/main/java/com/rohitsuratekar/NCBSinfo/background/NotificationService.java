@@ -79,7 +79,7 @@ public class NotificationService implements UserInformation{
         note.setExtraVariables(NOTIFICATION_SENT);
         new NotificationData(context).add(note);
     }
-    
+
     private void notifySystem(NotificationCompat.Builder mBuilder){
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
