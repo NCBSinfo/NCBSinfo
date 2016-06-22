@@ -31,6 +31,7 @@ import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 import com.rohitsuratekar.NCBSinfo.common.utilities.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 import java.util.Collections;
 import java.util.List;
@@ -82,7 +83,7 @@ public class DashBoard extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-         recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerDecoration(DashBoard.this, LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
@@ -97,9 +98,9 @@ public class DashBoard extends AppCompatActivity
                 TextView NoteMessage = (TextView) dialog.findViewById(R.id.notificationViewer_message);
                 TextView NoteTimestamp = (TextView) dialog.findViewById(R.id.notificationViewer_timestamp);
                 String title = fullList.get(position).getTitle();
-                if(title.length()<100) {
+                if (title.length() < 100) {
                     //This is to keep width of dialog long enough
-                    title = String.format("%1$-" + (100-title.length()) + "s", title);
+                    title = String.format("%1$-" + (100 - title.length()) + "s", title);
                 }
                 NoteMessage.setText(fullList.get(position).getMessage());
                 NoteTitle.setText(title);
@@ -108,6 +109,12 @@ public class DashBoard extends AppCompatActivity
 
             }
         });
+
+        if (pref.getString(MODE, ONLINE).equals(registration.camp16.CAMP_MODE)) {
+            Intent i = new Intent(DashBoard.this, CAMP.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
 
 
     }

@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camp"
-            android:icon="@drawable/icon_camp"
+            android:icon="@drawable/icon_home"
             android:title="@string/camp_home" />
     </group>
     <group android:checkableBehavior="single" android:id="@+id/random342342">
@@ -12,10 +12,6 @@
             android:id="@+id/nav_transport"
             android:title="@string/transport" />
         <item
-            android:id="@+id/nav_updates"
-            android:icon="@drawable/icon_updates"
-            android:title="@string/event_updates" />
-        <item
             android:id="@+id/nav_contacts"
             android:icon="@drawable/icon_contacts"
             android:title="@string/contacts" />
@@ -23,6 +19,11 @@
             android:id="@+id/nav_lecturehall"
             android:icon="@drawable/icon_lecturehall"
             android:title="@string/lecture_hall" />
+        <item
+            android:id="@+id/nav_camp_events"
+            android:title="@string/event_updates"
+            android:icon="@drawable/icon_camp"
+            />
         <item
             android:id="@+id/nav_settings"
             android:title="@string/settings"

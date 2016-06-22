@@ -13,6 +13,7 @@ import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMPevents;
 
 public class NavigationIDs {
 
@@ -47,6 +48,8 @@ public class NavigationIDs {
                 return new Intent(activity, Events.class);
             case R.id.nav_camp:
                 return new Intent(activity, CAMP.class);
+            case R.id.nav_camp_events:
+                return new Intent(activity, CAMPevents.class);
             default:
                 return new Intent(activity, Home.class);
         }

@@ -12,6 +12,7 @@ import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMPevents;
 
 public class CurrentMode implements UserInformation {
 
@@ -31,7 +32,6 @@ public class CurrentMode implements UserInformation {
             this.DrawerHeader = R.layout.nav_header_online;
             mode = 1;
         } else if (currentMode.equals(registration.camp16.CAMP_MODE)) {
-
             this.switchModeMessage = context.getResources().getString(R.string.warning_mode_change_camp);
             this.icon = R.drawable.icon_camp;
             this.DrawerHeader = R.layout.nav_header_online;
@@ -67,6 +67,9 @@ public class CurrentMode implements UserInformation {
                 break;
             case DashBoard.MODE_CONSTANT:
                 activateDashboard(mode);
+                break;
+            case CAMPevents.MODE_CONSTANT:
+                activateCampEvents(mode);
                 break;
             default:
                 activateContacts(mode);
@@ -165,5 +168,9 @@ public class CurrentMode implements UserInformation {
         } else {
             this.DrawerMenu = R.menu.information_drawer_offline;
         }
+    }
+
+    private void activateCampEvents(int mode) {
+       this.DrawerMenu = R.menu.camp_events_drawer;
     }
 }

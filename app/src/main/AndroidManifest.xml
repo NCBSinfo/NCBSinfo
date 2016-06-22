@@ -50,7 +50,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".background.NetworkOperations" />
         <service android:name=".background.DataManagement" />
 
@@ -141,6 +140,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".online.temp.camp.CAMPevents"
+            android:label="@string/title_activity_campevents"
+            android:parentActivityName=".online.temp.camp.CAMP"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP" />
         </activity>
     </application>
 

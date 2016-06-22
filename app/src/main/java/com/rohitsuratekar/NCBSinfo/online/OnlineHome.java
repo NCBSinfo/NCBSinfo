@@ -39,6 +39,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
@@ -125,7 +126,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
-                    pref.edit().putString(MODE, registration.camp16.CAMP_MODE).apply();
+                    pref.edit().putString(MODE,registration.camp16.CAMP_MODE).apply();
+                    Intent i = new Intent(OnlineHome.this, Home.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                     alertDialog.dismiss();
                     //TODO: implement
                 }
@@ -430,7 +434,5 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
     private boolean isCampUser() {
         return pref.getString(registration.EMAIL, "email@domain.com").split("@")[1].equals(registration.camp16.CAMP_PATTERN);
     }
-
-
 
 }

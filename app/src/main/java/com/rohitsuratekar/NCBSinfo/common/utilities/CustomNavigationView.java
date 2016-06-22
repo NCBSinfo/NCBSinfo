@@ -48,6 +48,7 @@ public class CustomNavigationView implements UserInformation {
                     alertDialog.setMessage(mode.getSwitchModeMessage());
                     alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            //TODO : unsubscribe topics
                             pref.edit().remove(Home.MODE).apply();
                             activity.startActivity(new Intent(activity, Home.class));
                             alertDialog.dismiss();

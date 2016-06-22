@@ -8,14 +8,21 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
 import com.secretbiology.retro.google.fusiontable.reponse.RowModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -35,6 +42,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     public static final String INTENT = "networkIntent";
     public static final String REGISTER = "register";
     public static final String RESEARCH_TALKS = "research_talks";
+    public static final String CAMP16 = "camp16Data";
     public static final int ACTIONCODE_RETRIVED = 1;
     public static final int ACTIONCODE_UPDATED = 2;
 
@@ -66,6 +74,9 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     break;
                 case RESEARCH_TALKS:
                     researchTalk();
+                    break;
+                case CAMP16:
+                    campData();
                     break;
             }
         }
@@ -166,5 +177,82 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
             }
         });
+    }
+
+    private void campData() {
+
+        FirebaseMessaging.getInstance().subscribeToTopic(topics.CAMP16);
+        String sql_query = "SELECT * FROM " + tables.CAMP_TABLE;
+        com.secretbiology.retro.google.fusiontable.Commands Commands =
+                com.secretbiology.retro.google.fusiontable.Service.createService
+                        (com.secretbiology.retro.google.fusiontable.Commands.class);
+        Call<RowModel> call = Commands.getPublicRows(sql_query, API_KEY);
+
+        call.enqueue(new Callback<RowModel>() {
+            @Override
+            public void onResponse(Call<RowModel> call, Response<RowModel> response) {
+                if (response.isSuccess()) {
+
+                    Database db = new Database(context);
+
+                    for (int i = 0; i < response.body().getRows().size(); i++) {
+                        String conferenceCode = response.body().getRows().get(i).get(0);
+                        String eventID = response.body().getRows().get(i).get(1);
+                        String eventTitle = response.body().getRows().get(i).get(2);
+                        String eventSpeaker = response.body().getRows().get(i).get(3);
+                        String eventHost = response.body().getRows().get(i).get(4);
+                        String startTime = response.body().getRows().get(i).get(5);
+                        String endTime = response.body().getRows().get(i).get(6);
+                        String date = response.body().getRows().get(i).get(7);
+                        String venue = response.body().getRows().get(i).get(8);
+                        String message = response.body().getRows().get(i).get(9);
+                        String eventCode = response.body().getRows().get(i).get(10);
+                        String updateCounter = response.body().getRows().get(i).get(11);
+
+                        ConferenceModel entry = new ConferenceModel(0, new Utilities().timeStamp(), conferenceCode,
+                                eventID, eventTitle, eventSpeaker, eventHost, startTime, endTime, date,
+                                venue, message, eventCode, Integer.valueOf(updateCounter));
+
+                        if (new Database(getBaseContext()).isAlreadyThere(ConferenceData.TABLE_CONFERENCE, ConferenceData.CONFERENCE_CODE, conferenceCode)) {
+                            //If entry is already present in database, check for Datacode
+                            List<ConferenceModel> allData = new ConferenceData(getBaseContext()).getAll();
+                            List<ConferenceModel> refine1 = new ArrayList<ConferenceModel>();
+                            for (ConferenceModel a : allData) {
+                                if (a.getCode().equals(registration.camp16.events.EXTERNAL_CONSTANT)) {
+                                    refine1.add(a);
+                                }
+                            }
+                            boolean newdataFound = true;
+                            for (ConferenceModel b : refine1) {
+
+                                if (b.getEventID().equals(eventID)) {
+                                    if (b.getUpdateCounter() != Integer.valueOf(updateCounter)) {
+                                        entry.setId(b.getId());
+                                        new ConferenceData(getBaseContext()).update(entry);
+                                        newdataFound = false;
+                                    } else {
+                                        newdataFound = false;
+                                    }
+                                }
+                            }
+                            if (newdataFound) {
+                                new ConferenceData(getBaseContext()).add(entry);
+                            }
+                        } else {
+                            //Else create new entry
+                            new ConferenceData(getBaseContext()).add(entry);
+                            Log.i(TAG, "New Conference entry added");
+                        }
+
+                    }
+                    pref.edit().putBoolean(firstTime.CAMP_EVENTS_FETCHED, true).apply();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RowModel> call, Throwable t) {
+            }
+        });
+
     }
 }
