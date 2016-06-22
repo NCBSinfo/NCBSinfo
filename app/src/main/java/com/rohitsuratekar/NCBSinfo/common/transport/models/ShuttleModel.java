@@ -1,6 +1,8 @@
 package com.rohitsuratekar.NCBSinfo.common.transport.models;
 
 
+import android.content.Context;
+
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 
 import java.util.List;
@@ -15,24 +17,27 @@ public class ShuttleModel {
     SundayModel rawSunday;
     WeekDayModel rawWeekday;
     String[] nextTrip;
+    Context context;
 
-    public ShuttleModel(int routeNo) {
+    public ShuttleModel(int routeNo, Context context) {
+        this.context = context;
         this.routeNo = routeNo;
-        this.from = new TransportHelper().routeToStrings(routeNo)[0];
-        this.to = new TransportHelper().routeToStrings(routeNo)[1];
+        this.from = new TransportHelper(context).routeToStrings(routeNo)[0];
+        this.to = new TransportHelper(context).routeToStrings(routeNo)[1];
     }
 
-    public ShuttleModel(int routeNo, SundayModel rawSunday, WeekDayModel rawWeekday) {
+    public ShuttleModel(int routeNo, SundayModel rawSunday, WeekDayModel rawWeekday, Context context) {
+        this.context = context;
         this.routeNo = routeNo;
         this.rawSunday = rawSunday;
         this.rawWeekday = rawWeekday;
-        this.from = new TransportHelper().routeToStrings(routeNo)[0];
-        this.to = new TransportHelper().routeToStrings(routeNo)[1];
-        List<List<String>> allModels = new TransportHelper().rawToRegular(rawSunday.getTrips(),rawWeekday.getTrips());
+        this.from = new TransportHelper(context).routeToStrings(routeNo)[0];
+        this.to = new TransportHelper(context).routeToStrings(routeNo)[1];
+        List<List<String>> allModels = new TransportHelper(context).rawToRegular(rawSunday.getTrips(),rawWeekday.getTrips());
         this.sundayTrips = new SundayModel(allModels.get(0));
         this.mondayTrips = new MondayModel(allModels.get(1));
         this.weekdayTrips = new WeekDayModel(allModels.get(2));
-        this.nextTrip = new TransportHelper().nextTrip(sundayTrips,mondayTrips,weekdayTrips);
+        this.nextTrip = new TransportHelper(context).nextTrip(sundayTrips,mondayTrips,weekdayTrips);
 
     }
 

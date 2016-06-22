@@ -1,5 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.common.transport.models;
 
+import android.content.Context;
+
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 
@@ -14,8 +16,10 @@ public class BuggyModel {
     String from;
     String to;
     int routeNo;
+    Context context;
 
-    public BuggyModel(String[] tripsFromNCBS, String[] tripsFromMandara, String from, String to) {
+    public BuggyModel(String[] tripsFromNCBS, String[] tripsFromMandara, String from, String to, Context context) {
+        this.context = context;
         this.tripsFromNCBS = tripsFromNCBS;
         this.tripsFromMandara = tripsFromMandara;
         this.nextTrip = nextTrip();
@@ -56,7 +60,7 @@ public class BuggyModel {
     }
 
     private String[] nextTrip() {
-        int ncbs_trip = new TransportHelper().getTripNumber(Arrays.asList(tripsFromNCBS));
+        int ncbs_trip = new TransportHelper(context).getTripNumber(Arrays.asList(tripsFromNCBS));
         Calendar cal = Calendar.getInstance();
         int today = cal.get(Calendar.DAY_OF_WEEK);
         cal.add(Calendar.DATE,1);
@@ -67,7 +71,7 @@ public class BuggyModel {
             ncbs_trip = 0;
             ncbsDay = tomorrow;
         }
-        int mandara_trip = new TransportHelper().getTripNumber(Arrays.asList(tripsFromMandara));
+        int mandara_trip = new TransportHelper(context).getTripNumber(Arrays.asList(tripsFromMandara));
         if (mandara_trip == TransportHelper.DEFAULT_NO) {
             mandara_trip = 0;
             mandaraDay = tomorrow;

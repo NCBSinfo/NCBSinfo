@@ -15,6 +15,7 @@ public class RemoteConstants {
     //User Specific data
     public static final String USERNAME = "username";
     public static final String EMAIL = "email";
+    public static final String TOKEN = "token";
     public static final String RESEARCH_TALK = "ResearchTalk";
 
 

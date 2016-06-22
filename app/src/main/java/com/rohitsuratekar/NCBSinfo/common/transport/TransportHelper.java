@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.BuggyModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.MondayModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.ShuttleModel;
@@ -23,9 +24,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class TransportHelper {
+public class TransportHelper implements UserInformation {
 
     public static final int DEFAULT_NO = 1989;
+
+    Context context;
+
+    public TransportHelper(Context context) {
+        this.context = context;
+    }
 
     /**
      * @param route : Route number
@@ -39,6 +46,7 @@ public class TransportHelper {
         String to;
         String weekPreferenceKey;
         String sundayPreferenceKey;
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         switch (route) {
             case TransportConstants.ROUTE_NCBS_IISC:
                 from = "ncbs";
@@ -57,24 +65,36 @@ public class TransportHelper {
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.NCBS_MANDARA_WEEK;
                 sundayPreferenceKey = TransportConstants.NCBS_MANDARA_SUNDAY;
+                if (isCAMPactivited()) {
+                    weekPreferenceKey = TransportConstants.CAMP_SHUTTLE_NCBS;
+                }
                 break;
             case TransportConstants.ROUTE_MANDARA_NCBS:
                 from = "mandara";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.MANDARA_NCBS_WEEK;
                 sundayPreferenceKey = TransportConstants.MANDARA_NCBS_SUNDAY;
+                if (isCAMPactivited()) {
+                    weekPreferenceKey = TransportConstants.CAMP_SHUTTLE_MANDARA;
+                }
                 break;
             case TransportConstants.ROUTE_BUGGY_NCBS:
                 from = "ncbs";
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
                 sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
+                if (isCAMPactivited()) {
+                    weekPreferenceKey = TransportConstants.CAMP_BUGGY_NCBS;
+                }
                 break;
             case TransportConstants.ROUTE_BUGGY_MANDARA:
                 from = "mandara";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
                 sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
+                if (isCAMPactivited()) {
+                    weekPreferenceKey = TransportConstants.CAMP_BUGGY_MANDARA;
+                }
                 break;
             case TransportConstants.ROUTE_NCBS_ICTS:
                 from = "ncbs";
@@ -404,19 +424,19 @@ public class TransportHelper {
             buggy = new BuggyModel(
                     new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_buggy_from_ncbs))),
                     new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_buggy_from_mandara)))
-                    , from, to);
+                    , from, to, context);
             transport = new TransportModel(context, buggy);
         } else {
             weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_ncbs_iisc_week)))));
             sunday = new SundayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_ncbs_iisc_week)))));
-            shuttle = new ShuttleModel(route, sunday, weekday);
+            shuttle = new ShuttleModel(route, sunday, weekday,context);
             transport = new TransportModel(context, shuttle);
         }
         return transport;
     }
 
     //Function will return time left [Seconds, Minutes, Hours, Days]
-    public float[] TimeLeft (String currentTime, String DestinationTime) {
+    public float[] TimeLeft(String currentTime, String DestinationTime) {
 
         float[] timeLeft = new float[4];
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
@@ -438,6 +458,18 @@ public class TransportHelper {
             e.printStackTrace();
         }
         return timeLeft;
+    }
+
+    public boolean isCAMPactivited() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
+        Date d1 = new Date();
+        try {
+            d1 = format.parse("07/17/2016 05:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d1.after(new Date()) && pref.getString(MODE, ONLINE).equals(registration.camp16.CAMP_MODE);
     }
 
 

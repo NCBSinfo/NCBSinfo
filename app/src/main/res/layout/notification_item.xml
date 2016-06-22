@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="80sp"
+    android:gravity="center_vertical"
+    android:id="@+id/notification_layout">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="@dimen/event_log_date_size"
+        android:layout_height="@dimen/event_log_date_size"
+        android:layout_margin="@dimen/event_log_date_margin"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:alpha="0.8"
+        android:id="@+id/notification_holder">
+
+        <ImageView
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:id="@+id/notification_icon"
+            android:src="@drawable/icon_favorite"
+            android:scaleType="fitXY"
+            android:tint="#ffffff" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="MAY"
+                android:id="@+id/notificatiob_type"
+                android:textSize="@dimen/event_log_cal_font"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:layout_marginTop="5sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textView18"
+                android:textSize="10sp"
+                android:layout_marginRight="10sp"
+                android:alpha="0.6"
+                android:visibility="invisible"
+                android:textColor="#2e7d32" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/notification_title"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Details"
+            android:id="@+id/notification_details"
+            android:layout_gravity="center_horizontal"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/notification_timestamp"
+                android:textSize="10sp"
+                android:layout_marginRight="10sp"
+                android:alpha="0.6" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

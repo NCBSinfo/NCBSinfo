@@ -24,7 +24,7 @@ import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
  * This can be triggered by alarm manager
  */
 
-public class DataManagement extends IntentService implements UserInformation{
+public class DataManagement extends IntentService implements UserInformation {
 
     //Public Constants
     public static final String INTENT = "dataIntent";
@@ -40,6 +40,7 @@ public class DataManagement extends IntentService implements UserInformation{
     public DataManagement(String name) {
         super(name);
     }
+
     public DataManagement() {
         super(DataManagement.class.getName());
     }
@@ -61,15 +62,18 @@ public class DataManagement extends IntentService implements UserInformation{
 
     }
 
-    private void sendDetails(){
+    private void sendDetails() {
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(registration.USERNAME, "Username"));
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(registration.EMAIL, "email@domain.com"));
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(registration.FIREBASE_TOKEN, "null"));
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(registration.RESEARCH_TALK, 1));
-                final String fieldEMail = user.getEmail().replace("@", "_").replace(".", "_");
+            mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(registration.USERNAME, "Username"));
+            mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(registration.EMAIL, "email@domain.com"));
+            mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.TOKEN).setValue(pref.getString(registration.FIREBASE_TOKEN, "null"));
+            mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(registration.RESEARCH_TALK, 1));
+            final String fieldEMail = user.getEmail().replace("@", "_").replace(".", "_");
+            //This boolen is set by remote config and will be switched off after camp is done
+            if (pref.getBoolean(registration.camp16.CAMP_ACCESS, false)) {
+                Log.i(TAG, "Fetching CAMP database");
                 mDatabase.child(RemoteConstants.CAMP_NODE).child(fieldEMail).addListenerForSingleValueEvent(
                         new ValueEventListener() {
                             @Override
@@ -93,7 +97,8 @@ public class DataManagement extends IntentService implements UserInformation{
                             }
                         });
             }
-
-
         }
+
+
+    }
 }

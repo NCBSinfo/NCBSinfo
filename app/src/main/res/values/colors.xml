@@ -24,4 +24,8 @@
     <color name="sec_background">#009688</color>
     <color name="sec_layout">#f44336</color>
 
+    <color name="general_message">#009688</color>
+    <color name="imp_message">#f44336</color>
+    <color name="personal_message">#2e7d32</color>
+
 </resources>

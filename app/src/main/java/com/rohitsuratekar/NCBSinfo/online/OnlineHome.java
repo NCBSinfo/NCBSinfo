@@ -44,13 +44,16 @@ import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
 import com.rohitsuratekar.NCBSinfo.background.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
+import com.rohitsuratekar.NCBSinfo.background.NotificationService;
 import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
@@ -59,7 +62,7 @@ import com.rohitsuratekar.NCBSinfo.online.maps.MapActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener, UserInformation {
+public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener, UserInformation, NetworkConstants {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -87,7 +90,7 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         //Set up transport
-        transport = new TransportHelper().getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
+        transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
 
         //Set up remote configuration and firebase
 
@@ -106,7 +109,7 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 Log.i(TAG, "Login state changed");
                 if (firebaseAuth.getCurrentUser() != null) {
-                    Intent service = new Intent(getBaseContext(), NetworkOperations.class);
+                    Intent service = new Intent(getBaseContext(), DataManagement.class);
                     service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
                     getBaseContext().startService(service);
                 }
@@ -115,7 +118,7 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         //TODO: when database is up running, remove authentication with just email address
         //Notify CAMP users
-        if ((pref.getBoolean(registration.camp16.IS_CAMP_USER, false) || isCampUser())&& pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
+        if ((pref.getBoolean(registration.camp16.IS_CAMP_USER, false) || isCampUser()) && pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
             final AlertDialog alertDialog = new AlertDialog.Builder(OnlineHome.this).create();
             alertDialog.setTitle("CAMP 2016");
             alertDialog.setMessage("We have detected that you are CAMP 2016 user, you want to change mode to CAMP?");
@@ -138,8 +141,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         //Initialize Map
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.home_map);
-        mapFragment.getMapAsync(this);
-        mapFragment.getMap().setOnMapClickListener(this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+            mapFragment.getMap().setOnMapClickListener(this);
+        }
 
         //Find UI Elements
         homeLayout = (RelativeLayout) findViewById(R.id.home_layout);
@@ -211,11 +216,13 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             FirebaseMessaging.getInstance().subscribeToTopic(NetworkConstants.topics.PUBLIC);
             Intent service = new Intent(getBaseContext(), NetworkOperations.class);
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
-            getBaseContext().startService(service);
+           startService(service);
             Log.d(TAG, "Subscribed with topic");
         }
 
-
+        if (pref.getBoolean(firstTime.FIRST_NOTIFICATION_DASHBOARD, true)) {
+            new AutoConfiguration(getBaseContext()).nameNotifications();
+        }
     }
 
     @Override
@@ -301,13 +308,13 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         int id = v.getId();
         switch (id) {
             case R.id.previousRoute:
-                transport = new TransportHelper().getTransport(getBaseContext(),
+                transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(),
                         changeRoute(transport.getRouteNo(), false));
                 changeTransport();
                 updateMapContents(transport.getDestinationLocation());
                 break;
             case R.id.nextRoute:
-                transport = new TransportHelper().getTransport(getBaseContext(),
+                transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(),
                         changeRoute(transport.getRouteNo(), true));
                 changeTransport();
                 updateMapContents(transport.getDestinationLocation());
@@ -357,7 +364,7 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
     public void changeTransport() {
         title.setText(getString(R.string.home_trasnport_title, transport.getFrom().toUpperCase(), transport.getTo().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
-                transport.getType(), new TransportHelper().convertToSimpleDate(transport.getNextTrip())));
+                transport.getType(), new TransportHelper(getBaseContext()).convertToSimpleDate(transport.getNextTrip())));
         float[] Difference = transport.getTimeLeft();
         timeLeft.setText(getResources().getString(R.string.time_left, (int) Difference[2], ((int) Difference[1]), ((int) Difference[0])));
 
@@ -385,7 +392,9 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
                                     mFirebaseRemoteConfig.activateFetched();
                                     setTransportValue();
                                     pref.edit().putBoolean(netwrok.IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(netwrok.IS_OLD_VERSION)).apply();
+                                    pref.edit().putBoolean(registration.camp16.CAMP_ACCESS, false).apply();
                                     pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
+
                                 } else {
                                     Log.d(TAG, "Fetch failed");
                                 }
@@ -418,8 +427,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
     }
 
-    private boolean isCampUser(){
-        return pref.getString(registration.EMAIL,"email@domain.com").split("@")[1].equals(registration.camp16.CAMP_PATTERN);
+    private boolean isCampUser() {
+        return pref.getString(registration.EMAIL, "email@domain.com").split("@")[1].equals(registration.camp16.CAMP_PATTERN);
     }
+
+
 
 }

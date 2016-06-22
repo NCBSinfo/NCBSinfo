@@ -2,10 +2,8 @@ package com.rohitsuratekar.NCBSinfo.offline;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -59,7 +57,7 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         //Set up transport
-        transport = new TransportHelper().getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
+        transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
 
         //Find UI Elements
         homeLayout = (RelativeLayout) findViewById(R.id.off_home_layout);
@@ -161,12 +159,12 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
         int id = v.getId();
         switch (id) {
             case R.id.off_previousRoute:
-                transport = new TransportHelper().getTransport(getBaseContext(),
+                transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(),
                         new OnlineHome().changeRoute(transport.getRouteNo(), false));
                 changeTransport();
                 break;
             case R.id.off_nextRoute:
-                transport = new TransportHelper().getTransport(getBaseContext(),
+                transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(),
                         new OnlineHome().changeRoute(transport.getRouteNo(), true));
                 changeTransport();
                 break;
@@ -199,14 +197,14 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
     public void changeTransport() {
         title.setText(getString(R.string.home_trasnport_title, transport.getFrom().toUpperCase(), transport.getTo().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
-                transport.getType(), new TransportHelper().convertToSimpleDate(transport.getNextTrip())));
+                transport.getType(), new TransportHelper(getBaseContext()).convertToSimpleDate(transport.getNextTrip())));
 
         float[] Difference = transport.getTimeLeft();
 
         //Update transport of timeleft goes in negative
         float sum = 0;
         for(float f : Difference){ sum = sum+f;}
-        if(sum<0){transport = new TransportHelper().getTransport(getBaseContext(),transport.getRouteNo());}
+        if(sum<0){transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(),transport.getRouteNo());}
 
         hourText.setText((int) Difference[2]+" Hrs");
         minText.setText((int) Difference[1]+" Min");

@@ -33,6 +33,12 @@ public class TransportConstants {
     public static final int ROUTE_ICTS_NCBS = 7;
     public static final int ROUTE_NCBS_CBL = 8;
 
+    //Special transport
+    public static final String CAMP_BUGGY_NCBS = "camp_buggyNCBS";
+    public static final String CAMP_BUGGY_MANDARA = "camp_buggyMandara";
+    public static final String CAMP_SHUTTLE_NCBS = "camp_shuttleNCBS";
+    public static final String CAMP_SHUTTLE_MANDARA = "camp_shuttleMandara";
+
 
 
 }

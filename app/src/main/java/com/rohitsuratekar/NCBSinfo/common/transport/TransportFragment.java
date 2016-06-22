@@ -60,14 +60,14 @@ public class TransportFragment extends Fragment {
 
         if (isBuggy) {
             buggy = new BuggyModel(
-                    new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[3], getString(R.string.def_buggy_from_ncbs))),
-                    new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[2], getString(R.string.def_buggy_from_mandara))),
-                    new TransportHelper().routeToStrings(index)[0],new TransportHelper().routeToStrings(index)[1] );
+                    new Utilities().stringToarray(pref.getString(new TransportHelper(getContext()).routeToStrings(index)[3], getString(R.string.def_buggy_from_ncbs))),
+                    new Utilities().stringToarray(pref.getString(new TransportHelper(getContext()).routeToStrings(index)[2], getString(R.string.def_buggy_from_mandara))),
+                    new TransportHelper(getContext()).routeToStrings(index)[0],new TransportHelper(getContext()).routeToStrings(index)[1], getContext() );
             transport = new TransportModel(getContext(), buggy);
         } else {
-            weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[3], getString(R.string.def_ncbs_iisc_week)))));
-            sunday = new SundayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(new TransportHelper().routeToStrings(index)[2], getString(R.string.def_ncbs_iisc_week)))));
-            shuttle = new ShuttleModel(index, sunday, weekday);
+            weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(new TransportHelper(getContext()).routeToStrings(index)[3], getString(R.string.def_ncbs_iisc_week)))));
+            sunday = new SundayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(new TransportHelper(getContext()).routeToStrings(index)[2], getString(R.string.def_ncbs_iisc_week)))));
+            shuttle = new ShuttleModel(index, sunday, weekday, getContext());
             transport = new TransportModel(getContext(), shuttle);
         }
 
@@ -91,28 +91,28 @@ public class TransportFragment extends Fragment {
         String[] rawSundayTrips = transport.getRawTripsSunday();
 
         //Convert to regular format
-        rawWeekTrips = new TransportHelper().convertToSimpleDate(rawWeekTrips);
-        rawSundayTrips = new TransportHelper().convertToSimpleDate(rawSundayTrips);
+        rawWeekTrips = new TransportHelper(getContext()).convertToSimpleDate(rawWeekTrips);
+        rawSundayTrips = new TransportHelper(getContext()).convertToSimpleDate(rawSundayTrips);
 
         if (isBuggy) {
             String[] nextTrips = buggy.getNextTrip();
 
             for (int i = 0; i < rawWeekTrips.length; i++) {
-                if (rawWeekTrips[i].equals(new TransportHelper().convertToSimpleDate(nextTrips[0]))) {
+                if (rawWeekTrips[i].equals(new TransportHelper(getContext()).convertToSimpleDate(nextTrips[0]))) {
                     rawWeekTrips[i] = coloredText(rawWeekTrips[i]);
                     break;
                 }
             }
 
             for (int i = 0; i < rawSundayTrips.length; i++) {
-                if (rawSundayTrips[i].equals(new TransportHelper().convertToSimpleDate(nextTrips[1]))) {
+                if (rawSundayTrips[i].equals(new TransportHelper(getContext()).convertToSimpleDate(nextTrips[1]))) {
                     rawSundayTrips[i] = coloredText(rawSundayTrips[i]);
                     break;
                 }
             }
         } else {
             String[] nextTrips = shuttle.getNextTrip();
-            String targetString = new TransportHelper().convertToSimpleDate(nextTrips[1]);
+            String targetString = new TransportHelper(getContext()).convertToSimpleDate(nextTrips[1]);
             if (nextTrips[0].equals(String.valueOf(Calendar.SUNDAY))) {
                 boolean gotDate = false;
                 for (int i = 0; i < rawSundayTrips.length; i++) {

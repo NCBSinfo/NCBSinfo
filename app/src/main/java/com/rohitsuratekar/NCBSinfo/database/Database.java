@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -39,9 +40,11 @@ public class Database extends SQLiteOpenHelper {
                 case 4:
                         new Tables(db).makeConferenceTable();
                 case 5:
+                    new Tables(db).makeTalkTable();
                     db.execSQL("DROP TABLE IF EXISTS 'table_log'"); //Removing log table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_database'"); //Removing JC database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_external'"); //Removing External database table from this version
+                    new DataMigration(mContext).migrateTalkTable(); //Migrate all Talk data to new Table with extra column
                     new Tables(db).makeNotificationTable();
             }
         }
@@ -57,5 +60,12 @@ public class Database extends SQLiteOpenHelper {
         new Tables(db).dropAllTables();
         onCreate(db);
     }
+
+    public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String Query = "SELECT * FROM " + TableName + " WHERE " + dbfield + " = '" + fieldValue+"'";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){ cursor.close(); db.close(); return false;
+        } cursor.close(); db.close();return true; }
 }
 

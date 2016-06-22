@@ -13,7 +13,8 @@ import java.util.List;
 public class TalkData {
 
     //Public constants
-    public static final String TABLE_TALK = "table_talkdata";
+    public static final String TABLE_OLD_TALK = "table_talkdata"; //Old table
+    public static final String TABLE_TALK = "table_research_talk";
     public static final String TALK_KEY_ID = "talk_id";
     public static final String TALK_TIMESTAMP = "talk_timestamp";
     public static final String TALK_NOTIFICATION_TITLE = "talk_notificationTitle";
@@ -25,6 +26,7 @@ public class TalkData {
     public static final String TALK_TITLE = "talk_url";
     public static final String TALK_HOST = "talk_nextspeaker";
     public static final String TALK_DATACODE = "talk_talkcode";
+    public static final String TALK_DATA_ACTION = "talk_data_action";
     public static final String TALK_ACTIONCODE = "talk_actioncode";
 
     SQLiteDatabase db;
@@ -45,8 +47,9 @@ public class TalkData {
         values.put(TALK_AFFILICATION, entry.getAffilication());
         values.put(TALK_TITLE, entry.getTitle());
         values.put(TALK_HOST, entry.getHost());
-        values.put(TALK_DATACODE, entry.getDatacode());
-        values.put(TALK_ACTIONCODE, entry.getActioncode());
+        values.put(TALK_DATACODE, entry.getDataCode());
+        values.put(TALK_ACTIONCODE, entry.getActionCode());
+        values.put(TALK_DATA_ACTION, entry.getDataAction());
         db.insert(TABLE_TALK, null, values);
         db.close();
     }
@@ -54,12 +57,12 @@ public class TalkData {
     // Getting single entry
     public TalkModel getEntry(int id) {
         Cursor cursor = db.query(TABLE_TALK, new String[]{TALK_KEY_ID, TALK_TIMESTAMP, TALK_NOTIFICATION_TITLE, TALK_DATE,
-                        TALK_TIME, TALK_VENUE, TALK_SPEAKER, TALK_AFFILICATION, TALK_TITLE, TALK_HOST, TALK_DATACODE, TALK_ACTIONCODE}, TALK_KEY_ID + "=?",
+                        TALK_TIME, TALK_VENUE, TALK_SPEAKER, TALK_AFFILICATION, TALK_TITLE, TALK_HOST, TALK_DATACODE, TALK_ACTIONCODE, TALK_DATA_ACTION}, TALK_KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11));
+        TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getString(12));
         cursor.close();
         db.close();
         return entry;
@@ -85,8 +88,9 @@ public class TalkData {
                 model.setAffilication(cursor.getString(7));
                 model.setTitle(cursor.getString(8));
                 model.setHost(cursor.getString(9));
-                model.setDatacode(cursor.getString(10));
-                model.setActioncode(cursor.getInt(11));
+                model.setDataCode(cursor.getString(10));
+                model.setActionCode(cursor.getInt(11));
+                model.setDataAction(cursor.getString(12));
                 // Adding database to list
                 entryList.add(model);
             } while (cursor.moveToNext());
@@ -108,8 +112,9 @@ public class TalkData {
         values.put(TALK_AFFILICATION, entry.getAffilication());
         values.put(TALK_TITLE, entry.getTitle());
         values.put(TALK_HOST, entry.getHost());
-        values.put(TALK_DATACODE, entry.getDatacode());
-        values.put(TALK_ACTIONCODE, entry.getActioncode());
+        values.put(TALK_DATACODE, entry.getDataCode());
+        values.put(TALK_ACTIONCODE, entry.getActionCode());
+        values.put(TALK_DATA_ACTION, entry.getDataAction());
         db.update(TABLE_TALK, values, TALK_KEY_ID + " = ?", new String[]{String.valueOf(entry.getDataID())});
         db.close();
     }
@@ -125,5 +130,19 @@ public class TalkData {
     public void delete(TalkModel data) {
         db.delete(TABLE_TALK, TALK_KEY_ID + " = ?", new String[]{String.valueOf(data.getDataID())});
         db.close();
+    }
+
+    // Getting single entry by timestamp
+    public TalkModel getEntry(String timestamp) {
+        Cursor cursor = db.query(TABLE_TALK, new String[]{TALK_KEY_ID, TALK_TIMESTAMP, TALK_NOTIFICATION_TITLE, TALK_DATE,
+                        TALK_TIME, TALK_VENUE, TALK_SPEAKER, TALK_AFFILICATION, TALK_TITLE, TALK_HOST, TALK_DATACODE, TALK_ACTIONCODE, TALK_DATA_ACTION}, TALK_TIMESTAMP + "=?",
+                new String[]{String.valueOf(timestamp)}, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getString(12));
+        cursor.close();
+        db.close();
+        return entry;
     }
 }

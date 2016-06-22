@@ -48,6 +48,7 @@ public class FireBaseID extends FirebaseInstanceIdService implements NetworkCons
             pref.edit().putString(registration.FIREBASE_TOKEN, token).apply();
             pref.edit().putString(registration.USER_TYPE, REGULAR_USER).apply();
             FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
+            FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
             Intent service = new Intent(getBaseContext(), NetworkOperations.class);
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
             getBaseContext().startService(service);

@@ -12,10 +12,11 @@ public class TalkModel {
     private String affilication;
     private String title;
     private String host;
-    private String datacode;
-    private int actioncode;
+    private String dataCode;
+    private int actionCode;
+    private String dataAction;
 
-    public TalkModel(int dataID, String timestamp, String notificationTitle, String date, String time, String venue, String speaker, String affilication, String title, String host, String datacode, int actioncode) {
+    public TalkModel(int dataID, String timestamp, String notificationTitle, String date, String time, String venue, String speaker, String affilication, String title, String host, String dataCode, int actionCode, String dataAction) {
         this.dataID = dataID;
         this.timestamp = timestamp;
         this.notificationTitle = notificationTitle;
@@ -26,13 +27,12 @@ public class TalkModel {
         this.affilication = affilication;
         this.title = title;
         this.host = host;
-        this.datacode = datacode;
-        this.actioncode = actioncode;
+        this.dataCode = dataCode;
+        this.actionCode = actionCode;
+        this.dataAction = dataAction;
     }
 
     public TalkModel() {
-
-
     }
 
     public int getDataID() {
@@ -115,19 +115,27 @@ public class TalkModel {
         this.host = host;
     }
 
-    public String getDatacode() {
-        return datacode;
+    public String getDataCode() {
+        return dataCode;
     }
 
-    public void setDatacode(String datacode) {
-        this.datacode = datacode;
+    public void setDataCode(String dataCode) {
+        this.dataCode = dataCode;
     }
 
-    public int getActioncode() {
-        return actioncode;
+    public int getActionCode() {
+        return actionCode;
     }
 
-    public void setActioncode(int actioncode) {
-        this.actioncode = actioncode;
+    public void setActionCode(int actionCode) {
+        this.actionCode = actionCode;
+    }
+
+    public String getDataAction() {
+        return dataAction;
+    }
+
+    public void setDataAction(String dataAction) {
+        this.dataAction = dataAction;
     }
 }

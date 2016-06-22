@@ -1,5 +1,6 @@
-package com.rohitsuratekar.NCBSinfo.online;
+package com.rohitsuratekar.NCBSinfo.online.dashboard;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,12 +10,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
@@ -23,6 +28,12 @@ import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
 import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.common.utilities.DividerDecoration;
+import com.rohitsuratekar.NCBSinfo.database.NotificationData;
+import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
+
+import java.util.Collections;
+import java.util.List;
 
 public class DashBoard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, UserInformation {
@@ -32,6 +43,9 @@ public class DashBoard extends AppCompatActivity
     CurrentMode mode;
 
     TextView name, email;
+    RecyclerView recyclerView;
+    List<NotificationModel> fullList;
+    NotificationAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +75,39 @@ public class DashBoard extends AppCompatActivity
         name.setText(pref.getString(registration.USERNAME, "Username"));
         email.setText(pref.getString(registration.EMAIL, "email@domain.com"));
 
-        ImageView myImageView = (ImageView) findViewById(R.id.dashboard_logo);
-        Animation myFadeInAnimation = AnimationUtils.loadAnimation(DashBoard.this, R.anim.alpha_repeate);
-        myImageView.startAnimation(myFadeInAnimation);
+        recyclerView = (RecyclerView) findViewById(R.id.dashboard_recycleview);
+        fullList = new NotificationData(getBaseContext()).getAll();
+        Collections.reverse(fullList);
+        adapter = new NotificationAdapter(fullList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getBaseContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+         recyclerView.setAdapter(adapter);
+        RecyclerView.ItemDecoration itemDecoration = new DividerDecoration(DashBoard.this, LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
+
+        adapter.setOnItemClickListener(new NotificationAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+                final Dialog dialog = new Dialog(DashBoard.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.notification_viewer);
+                dialog.setCanceledOnTouchOutside(true);
+                TextView NoteTitle = (TextView) dialog.findViewById(R.id.notificationViewer_title);
+                TextView NoteMessage = (TextView) dialog.findViewById(R.id.notificationViewer_message);
+                TextView NoteTimestamp = (TextView) dialog.findViewById(R.id.notificationViewer_timestamp);
+                String title = fullList.get(position).getTitle();
+                if(title.length()<100) {
+                    //This is to keep width of dialog long enough
+                    title = String.format("%1$-" + (100-title.length()) + "s", title);
+                }
+                NoteMessage.setText(fullList.get(position).getMessage());
+                NoteTitle.setText(title);
+                NoteTimestamp.setText(fullList.get(position).getTimestamp());
+                dialog.show();
+
+            }
+        });
 
 
     }

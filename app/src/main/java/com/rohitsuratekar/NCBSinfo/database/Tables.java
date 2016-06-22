@@ -34,7 +34,8 @@ public class Tables {
                 + TalkData.TALK_TITLE + " TEXT,"
                 + TalkData.TALK_HOST + " TEXT,"
                 + TalkData.TALK_DATACODE + " TEXT,"
-                + TalkData.TALK_ACTIONCODE + " INTEGER )";
+                + TalkData.TALK_ACTIONCODE + " INTEGER,"
+                + TalkData.TALK_DATA_ACTION + " TEXT )";
         db.execSQL(CREATE_TALK_TABLE);
     }
 
@@ -74,6 +75,7 @@ public class Tables {
         db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_TALK);
         db.execSQL("DROP TABLE IF EXISTS " + ConferenceData.TABLE_CONFERENCE);
         db.execSQL("DROP TABLE IF EXISTS " + NotificationData.TABLE_NOTIFICATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_OLD_TALK);
     }
 
 }

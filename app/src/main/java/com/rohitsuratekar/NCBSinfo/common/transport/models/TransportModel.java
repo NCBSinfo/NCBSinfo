@@ -45,8 +45,8 @@ public class TransportModel {
         this.sundayTitle = context.getResources().getString(R.string.transport_list_sunday_title);
         this.footnote1 = context.getResources().getString(R.string.transport_footer1);
         this.footnote2 = context.getResources().getString(R.string.transport_footer2, currentTime);
-        this.originLocation = new TransportHelper().getLocation(context, shuttle.from, false);
-        this.destinationLocation = new TransportHelper().getLocation(context, shuttle.to, false);
+        this.originLocation = new TransportHelper(context).getLocation(context, shuttle.from, false);
+        this.destinationLocation = new TransportHelper(context).getLocation(context, shuttle.to, false);
         this.nextTrip = shuttle.getNextTrip()[1];
         this.nextTripDay = Integer.parseInt(shuttle.getNextTrip()[0]);
         this.routeNo = shuttle.getRouteNo();
@@ -69,8 +69,8 @@ public class TransportModel {
         if (buggy.from != null) {
             this.from = buggy.from;
             this.to = buggy.to;
-            this.originLocation = new TransportHelper().getLocation(context,buggy.from,true);
-            this.destinationLocation = new TransportHelper().getLocation(context,buggy.to,true);
+            this.originLocation = new TransportHelper(context).getLocation(context,buggy.from,true);
+            this.destinationLocation = new TransportHelper(context).getLocation(context,buggy.to,true);
             this.routeNo = buggy.getRouteNo();
             if (buggy.from.equals("ncbs")) {
                 this.nextTrip = buggy.getNextTrip()[0];
@@ -174,7 +174,7 @@ public class TransportModel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return new TransportHelper().TimeLeft(now, target);
+        return new TransportHelper(context).TimeLeft(now, target);
     }
 
 }
