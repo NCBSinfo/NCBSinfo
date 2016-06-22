@@ -17,16 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 import com.rohitsuratekar.NCBSinfo.common.utilities.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;

@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.BuggyModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.MondayModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.ShuttleModel;

@@ -9,13 +9,15 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
@@ -36,15 +38,19 @@ import retrofit2.Response;
  * For Firebase , use DataManagement service.
  * This can be triggered by alarm manager
  */
-public class NetworkOperations extends IntentService implements NetworkConstants, UserInformation {
+public class NetworkOperations extends IntentService implements NetworkConstants, UserInformation, AlarmConstants {
 
     //Public Constants
     public static final String INTENT = "networkIntent";
+    public static final String ALL_DATA = "all_data";
+
     public static final String REGISTER = "register";
     public static final String RESEARCH_TALKS = "research_talks";
     public static final String CAMP16 = "camp16Data";
     public static final int ACTIONCODE_RETRIVED = 1;
     public static final int ACTIONCODE_UPDATED = 2;
+    public static final int ACTIONCODE_NOTIFIED = 3;
+
 
 
     //Local constants
@@ -77,6 +83,9 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     break;
                 case CAMP16:
                     campData();
+                    break;
+                case ALL_DATA:
+                    fetchAllData();
                     break;
             }
         }
@@ -169,6 +178,11 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     pref.edit().putBoolean(firstTime.FIRST_NOTIFICATION_EVENTS, false).apply();
                 }
 
+                //start notification service
+                Intent i = new Intent(NetworkOperations.this, Alarms.class);
+                i.putExtra(Alarms.INTENT, SEND_UPCOMINGS );
+                startService(i);
+
             }
 
             @Override
@@ -192,8 +206,6 @@ public class NetworkOperations extends IntentService implements NetworkConstants
             @Override
             public void onResponse(Call<RowModel> call, Response<RowModel> response) {
                 if (response.isSuccess()) {
-
-                    Database db = new Database(context);
 
                     for (int i = 0; i < response.body().getRows().size(); i++) {
                         String conferenceCode = response.body().getRows().get(i).get(0);
@@ -255,4 +267,16 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         });
 
     }
+
+    public void fetchAllData(){
+
+        switch (pref.getString(MODE, ONLINE)){
+            case ONLINE:
+                researchTalk(); break;
+            case CAMP16:
+                campData(); break;
+        }
+
+    }
+
 }

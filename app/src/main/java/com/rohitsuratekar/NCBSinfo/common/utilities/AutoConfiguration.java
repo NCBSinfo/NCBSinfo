@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.rohitsuratekar.NCBSinfo.background.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.background.NotificationService;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;

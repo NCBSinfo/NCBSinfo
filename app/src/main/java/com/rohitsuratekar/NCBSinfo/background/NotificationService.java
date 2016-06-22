@@ -13,25 +13,33 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;
+import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
+import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;
+import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
+/**
+ * All notifications should be handled by this class
+ * All notifications should use one universal notifier 'notifySystem'
+ * Notifications will be send only in following conditions
+ * (1) No notification will be send in 'Offline' mode
+ * (2) Research Talk notifications will be sent only in 'Online' mode
+ * (3) FCM notifications will be send in all modes except 'Offline'. (FCM data can still be accessed in 'Offline' mode)
+ */
 public class NotificationService implements UserInformation, NetworkConstants {
 
-    public static final String NOTIFICATION_SENT = "sent";
-
     private Context context;
+    private final String TAG = getClass().getSimpleName();
 
     public NotificationService(Context context) {
         this.context = context;
-
-        //Common part of notification builder
-
-
+        Log.i(TAG, "Notification service called at" + new Utilities().timeStamp());
     }
 
     //Regular Notification
@@ -103,6 +111,31 @@ public class NotificationService implements UserInformation, NetworkConstants {
         notifySystem(mBuilder);
     }
 
+    //Event Notification
+    public void sendNotification(int code) {
+        int requestID = (int) System.currentTimeMillis();
+        Intent notificationIntent = new Intent(context, Events.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        TalkModel talk = new TalkData(context).getEntry(code);
+        if (talk != null) {
+            if (talk.getActionCode() != NetworkOperations.ACTIONCODE_NOTIFIED) {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.notification_icon)
+                        .setColor(context.getResources().getColor(R.color.colorPrimary))
+                        .setSound(sound)
+                        .setContentTitle(talk.getNotificationTitle())
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(talk.getTitle()))
+                        .setContentText(talk.getTitle()).setAutoCancel(true)
+                        .setContentIntent(contentIntent);
+                notifySystem(mBuilder);
+                talk.setActionCode(NetworkOperations.ACTIONCODE_NOTIFIED);
+                new TalkData(context).update(talk); //Update event as notified to avoid further spam
+            }
+        }
+    }
+
     //Update notification
     public void updateNotification(String title, String notificationMessage) {
         int requestID = (int) System.currentTimeMillis();
@@ -144,4 +177,5 @@ public class NotificationService implements UserInformation, NetworkConstants {
             mNotificationManager.notify(1, mBuilder.build());
         }
     }
+
 }

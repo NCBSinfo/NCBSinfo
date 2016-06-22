@@ -8,6 +8,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;

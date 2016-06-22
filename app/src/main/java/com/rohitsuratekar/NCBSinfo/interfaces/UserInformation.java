@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.common;
+package com.rohitsuratekar.NCBSinfo.interfaces;
 
 public interface UserInformation {
 
@@ -33,6 +33,7 @@ public interface UserInformation {
     interface preferences {
 
         String NOTIFICATIONS = "notification_preference";
+        String NOTIFICANTION_ONSET = "pref_notificationOnset";
 
     }
 

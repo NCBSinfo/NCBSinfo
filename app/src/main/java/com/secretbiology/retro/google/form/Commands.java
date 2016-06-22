@@ -1,6 +1,6 @@
 package com.secretbiology.retro.google.form;
 
-import com.rohitsuratekar.NCBSinfo.background.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

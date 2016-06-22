@@ -52,6 +52,7 @@
         </service>
         <service android:name=".background.NetworkOperations" />
         <service android:name=".background.DataManagement" />
+        <receiver android:name=".background.Alarms" />
 
         <receiver
             android:name=".background.AfterBoot"

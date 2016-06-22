@@ -8,7 +8,8 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 
 public class FireBaseID extends FirebaseInstanceIdService implements NetworkConstants, UserInformation {
 

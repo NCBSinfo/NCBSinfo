@@ -15,8 +15,7 @@ import android.widget.TextView;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
-import com.rohitsuratekar.NCBSinfo.online.login.Registration;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 
 public class CustomNavigationView implements UserInformation {
 

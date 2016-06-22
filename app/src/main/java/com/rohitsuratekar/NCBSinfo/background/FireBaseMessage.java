@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 
 public class FireBaseMessage extends FirebaseMessagingService implements NetworkConstants {
 

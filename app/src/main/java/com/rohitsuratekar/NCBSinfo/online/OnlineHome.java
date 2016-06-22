@@ -32,8 +32,6 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -43,10 +41,9 @@ import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
-import com.rohitsuratekar.NCBSinfo.background.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
-import com.rohitsuratekar.NCBSinfo.background.NotificationService;
-import com.rohitsuratekar.NCBSinfo.common.UserInformation;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
@@ -54,7 +51,6 @@ import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
-import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
@@ -78,7 +74,6 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +91,6 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         //Set up remote configuration and firebase
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         //TODO: Change debug mode while production
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
