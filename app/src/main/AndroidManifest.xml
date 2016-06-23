@@ -2,18 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rohitsuratekar.NCBSinfo">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <permission
-        android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.rohitsuratekar.NCBSinfo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -32,7 +26,7 @@
 
         <activity
             android:name=".Home"
-            android:screenOrientation="portrait">
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,18 +34,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.Registration"
+            android:name=".offline.OfflineHome"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.DevelopersOptions"
-            android:label="@string/developers_options"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".online.OnlineHome"
+            android:screenOrientation="portrait" />
 
-        <service android:name=".background.DataFetch" />
-
-        <receiver android:name=".background.Notifications" />
+        <service android:name=".background.FireBaseMessage">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".background.FireBaseID">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".background.NetworkOperations" />
+        <service android:name=".background.DataManagement" />
         <receiver android:name=".background.Alarms" />
+        <receiver android:name=".background.ChangedState" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".background.AfterBoot"
             android:enabled="true"
@@ -71,50 +77,56 @@
             </intent-filter>
         </receiver>
 
-        <!-- Declare Service -->
-        <service
-            android:name=".background.GCM"
-            android:permission="android.permission.c2dm.intent.RECEIVE">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <!-- for Gingerbread GSF backward compat -->
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.rohitsuratekar.NCBSinfo" />
-            </intent-filter>
-        </receiver>
-
         <activity
-            android:name=".activity.EventUpdates"
-            android:label="@string/event_updates"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.EventDetails"
-            android:label="@string/event_details"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.Transport"
+            android:name=".common.transport.Transport"
             android:label="@string/transport"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
         <activity
-            android:name=".activity.LectureHalls"
+            android:name=".common.contacts.Contacts"
+            android:label="@string/contacts"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".common.contacts.ContactAdd" />
+        <activity
+            android:name=".common.lecturehalls.LectureHalls"
             android:label="@string/lecture_hall"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.Experimental"
+            android:name=".online.experimental.Experimental"
             android:label="@string/experimental"
-            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".online.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".online.maps.MapActivity"
+            android:label="@string/map">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".online.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".online.temp.camp.CAMP"
+            android:label="@string/camp"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".online.events.Events"
+            android:label="@string/event_updates"
+            android:parentActivityName=".online.OnlineHome"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".common.Information"
+            android:label="@string/information"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Settings"
@@ -123,48 +135,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rohitsuratekar.NCBSinfo.Home" />
         </activity>
+        <activity android:name=".online.login.Registration" />
+        <activity android:name=".online.login.Login" />
         <activity
-            android:name=".maplist.MapActivity"
-            android:label="@string/map">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Home" />
-        </activity>
-        <activity
-            android:name=".maplist.MapListActivityImpl"
-            android:label="Maps"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.Information"
-            android:label="@string/information"
-            android:parentActivityName=".Home"
+            android:name=".online.dashboard.DashBoard"
+            android:label="@string/dashboard"
+            android:parentActivityName=".online.OnlineHome"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+                android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
         </activity>
         <activity
-            android:name=".activity.Contacts"
-            android:label="@string/contacts"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity android:name=".activity.ContactAdd" />
-        <activity android:name=".activity.JustNotify" />
-        <activity
-            android:name=".tempActivitites.CAMP"
-            android:label="@string/camp"
-            android:parentActivityName=".activity.Experimental"
+            android:name=".online.temp.camp.CAMPevents"
+            android:label="@string/title_activity_campevents"
+            android:parentActivityName=".online.temp.camp.CAMP"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.activity.Experimental" />
+                android:value="com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP" />
         </activity>
-        <activity android:name=".tempActivitites.ExternalRegistrations"></activity>
     </application>
 
 </manifest>

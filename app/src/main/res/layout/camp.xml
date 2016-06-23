@@ -18,10 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/camp_drawer" />
-
-
+        android:fitsSystemWindows="true" />
 
 </android.support.v4.widget.DrawerLayout>

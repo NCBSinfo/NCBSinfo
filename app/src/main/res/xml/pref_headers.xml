@@ -11,15 +11,6 @@
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$TransportPreferenceFragment"
         android:icon="@drawable/icon_shuttle"
         android:title="@string/transport" />
-    <header
-        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$NotificationPreferenceFragment"
-        android:icon="@drawable/icon_updates"
-        android:title="@string/settings_change_notification_preference"/>
-
-    <header
-        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$DeveloperPreferenceFragment"
-        android:icon="@drawable/icon_dev"
-        android:title="@string/developers_options" />
 
     <header
         android:fragment="com.rohitsuratekar.NCBSinfo.Settings$AboutusPreferenceFragment"

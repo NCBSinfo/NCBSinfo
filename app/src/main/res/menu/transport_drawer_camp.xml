@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camp"
+            android:icon="@drawable/icon_home"
+            android:title="@string/camp_home" />
+    </group>
+    <group
+        android:id="@+id/random342342"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_transport"
+            android:checked="true"
+            android:icon="@drawable/icon_shuttle"
+            android:title="@string/transport" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/icon_contacts"
+            android:title="@string/contacts" />
+        <item
+            android:id="@+id/nav_lecturehall"
+            android:icon="@drawable/icon_lecturehall"
+            android:title="@string/lecture_hall" />
+        <item
+            android:id="@+id/nav_camp_events"
+            android:icon="@drawable/icon_camp"
+            android:title="@string/event_updates" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/icon_settings"
+            android:title="@string/settings" />
+    </group>
+
+</menu>
