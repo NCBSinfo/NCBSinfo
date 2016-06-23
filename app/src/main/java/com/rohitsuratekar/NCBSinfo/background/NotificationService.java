@@ -36,6 +36,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
 
     private Context context;
     private final String TAG = getClass().getSimpleName();
+    private int notificationNumber = 1; //Default
 
     public NotificationService(Context context) {
         this.context = context;
@@ -57,7 +58,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMessage))
                 .setContentText(notificationMessage).setAutoCancel(true)
                 .setContentIntent(contentIntent);
-        notifySystem(mBuilder);
+        notifySystem(mBuilder, notificationNumber);
     }
 
     //Notification from FCM
@@ -108,7 +109,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
                 .setContentIntent(contentIntent);
 
         //Notify
-        notifySystem(mBuilder);
+        notifySystem(mBuilder, notificationNumber);
     }
 
     //Event Notification
@@ -129,7 +130,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(talk.getTitle()))
                         .setContentText(talk.getTitle()).setAutoCancel(true)
                         .setContentIntent(contentIntent);
-                notifySystem(mBuilder);
+                notifySystem(mBuilder, notificationNumber);
                 talk.setActionCode(NetworkOperations.ACTIONCODE_NOTIFIED);
                 new TalkData(context).update(talk); //Update event as notified to avoid further spam
             }
@@ -165,16 +166,34 @@ public class NotificationService implements UserInformation, NetworkConstants {
                 .setContentText(notificationMessage).setAutoCancel(true)
                 .setContentIntent(contentIntent);
 
-        notifySystem(mBuilder);
+        notifySystem(mBuilder, notificationNumber);
 
     }
 
-    private void notifySystem(NotificationCompat.Builder mBuilder) {
+    //Multiple Notification
+    public void sendNotification(String title, String notificationMessage, Class c, int notificationNumber) {
+        int requestID = (int) System.currentTimeMillis();
+        Intent notificationIntent = new Intent(context, c);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setSound(sound)
+                .setContentTitle(title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMessage))
+                .setContentText(notificationMessage).setAutoCancel(true)
+                .setContentIntent(contentIntent);
+        notifySystem(mBuilder, notificationNumber);
+    }
+
+    private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.
         if (pref.getBoolean(preferences.NOTIFICATIONS, true) && !pref.getString(MODE, ONLINE).equals(OFFLINE)) {
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(1, mBuilder.build());
+            mNotificationManager.notify(notificationNumber, mBuilder.build());
         }
     }
 

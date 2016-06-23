@@ -13,8 +13,6 @@ import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 
 public class FireBaseID extends FirebaseInstanceIdService implements NetworkConstants, UserInformation {
 
-    public static String REGULAR_USER = "normal";
-
     private static final String TAG = "MyFirebaseIIDService";
     SharedPreferences pref;
 
@@ -47,7 +45,6 @@ public class FireBaseID extends FirebaseInstanceIdService implements NetworkCons
         //Subscribe ID to public topic. All devices will be part of public group
         if (pref.getBoolean(registration.REGISTERED, false)) {
             pref.edit().putString(registration.FIREBASE_TOKEN, token).apply();
-            pref.edit().putString(registration.USER_TYPE, REGULAR_USER).apply();
             FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
             FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
             Intent service = new Intent(getBaseContext(), NetworkOperations.class);

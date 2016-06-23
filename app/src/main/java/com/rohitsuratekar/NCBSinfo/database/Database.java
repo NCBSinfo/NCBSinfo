@@ -35,37 +35,42 @@ public class Database extends SQLiteOpenHelper {
     //No "break" statements are given to upgrade database serials
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(oldVersion>3) {
+        if (oldVersion > 3) {
             switch (oldVersion) {
                 case 4:
-                        new Tables(db).makeConferenceTable();
+                    new Tables(db).makeConferenceTable();
                 case 5:
                     new Tables(db).makeTalkTable();
+                    new Tables(db).makeNotificationTable();
                     db.execSQL("DROP TABLE IF EXISTS 'table_log'"); //Removing log table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_database'"); //Removing JC database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_external'"); //Removing External database table from this version
-                    new DataMigration(mContext).migrateTalkTable(); //Migrate all Talk data to new Table with extra column
-                    new Tables(db).makeNotificationTable();
             }
         }
         //Remove support from previous databases
-        else
-        {
+        else {
             new Tables(db).dropAllTables();
             onCreate(db);
         }
     }
 
-    public void restartDatabase(SQLiteDatabase db){
+    public void restartDatabase(SQLiteDatabase db) {
         new Tables(db).dropAllTables();
         onCreate(db);
     }
 
     public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String Query = "SELECT * FROM " + TableName + " WHERE " + dbfield + " = '" + fieldValue+"'";
+        String Query = "SELECT * FROM " + TableName + " WHERE " + dbfield + " = '" + fieldValue + "'";
         Cursor cursor = db.rawQuery(Query, null);
-        if(cursor.getCount() <= 0){ cursor.close(); db.close(); return false;
-        } cursor.close(); db.close();return true; }
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            db.close();
+            return false;
+        }
+        cursor.close();
+        db.close();
+        return true;
+    }
 }
 

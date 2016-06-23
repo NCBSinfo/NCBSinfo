@@ -92,17 +92,12 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        //TODO: Change debug mode while production
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                .build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                Log.i(TAG, "Login state changed");
+                Log.i(TAG, "Login state changed to ");
                 if (firebaseAuth.getCurrentUser() != null) {
                     Intent service = new Intent(getBaseContext(), DataManagement.class);
                     service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
@@ -120,12 +115,11 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
-                    pref.edit().putString(MODE,registration.camp16.CAMP_MODE).apply();
+                    pref.edit().putString(MODE, registration.camp16.CAMP_MODE).apply();
                     Intent i = new Intent(OnlineHome.this, Home.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                     alertDialog.dismiss();
-                    //TODO: implement
                 }
             });
             alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Not now", new DialogInterface.OnClickListener() {
@@ -206,17 +200,19 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         //Get configuration
         getConfiguration();
 
-        //Submit registration details
+        //Submit registration details for new user
+
         if (!pref.getBoolean(netwrok.REGISTRATION_DETAILS_SENT, false)) {
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
+            FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
             pref.edit().putString(registration.FIREBASE_TOKEN, refreshedToken).apply();
-            pref.edit().putString(registration.USER_TYPE, FireBaseID.REGULAR_USER).apply();
-            FirebaseMessaging.getInstance().subscribeToTopic(NetworkConstants.topics.PUBLIC);
             Intent service = new Intent(getBaseContext(), NetworkOperations.class);
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
-           startService(service);
+            startService(service);
             Log.d(TAG, "Subscribed with topic");
         }
+
 
         if (pref.getBoolean(firstTime.FIRST_NOTIFICATION_DASHBOARD, true)) {
             new AutoConfiguration(getBaseContext()).nameNotifications();
@@ -388,7 +384,7 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
                                     // Once the config is successfully fetched it must be activated before newly fetched
                                     // values are returned.
                                     mFirebaseRemoteConfig.activateFetched();
-                                    setTransportValue();
+                                    setTransportValue(mFirebaseRemoteConfig, pref);
                                     pref.edit().putBoolean(netwrok.IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(netwrok.IS_OLD_VERSION)).apply();
                                     pref.edit().putBoolean(registration.camp16.CAMP_ACCESS, false).apply();
                                     pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
@@ -405,8 +401,7 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
     }
 
-    public void setTransportValue() {
-
+    public void setTransportValue(FirebaseRemoteConfig mFirebaseRemoteConfig, SharedPreferences pref) {
         pref.edit().putString(TransportConstants.NCBS_IISC_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_WEEK)).apply();
         pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_SUNDAY)).apply();
         pref.edit().putString(TransportConstants.IISC_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_WEEK)).apply();
@@ -423,6 +418,11 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         pref.edit().putString(TransportConstants.BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_NCBS)).apply();
         pref.edit().putString(TransportConstants.BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_MANDARA)).apply();
 
+        pref.edit().putString(TransportConstants.CAMP_BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_BUGGY_NCBS)).apply();
+        pref.edit().putString(TransportConstants.CAMP_BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_BUGGY_MANDARA)).apply();
+        pref.edit().putString(TransportConstants.CAMP_SHUTTLE_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_SHUTTLE_MANDARA)).apply();
+        pref.edit().putString(TransportConstants.CAMP_SHUTTLE_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_SHUTTLE_NCBS)).apply();
+        pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
     }
 
     private boolean isCampUser() {

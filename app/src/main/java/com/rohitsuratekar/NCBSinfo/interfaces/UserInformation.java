@@ -12,7 +12,6 @@ public interface UserInformation {
         String EMAIL = "currentEmail"; //String
         String RESEARCH_TALK = "currentResearchTalk"; //Int
         String FIREBASE_TOKEN = "firebaseRegistrationToken";
-        String USER_TYPE = "userType";
 
         interface camp16 {
             String CAMP_ACCESS = "camp_access";
@@ -28,6 +27,18 @@ public interface UserInformation {
 
             }
         }
+    }
+
+    /**
+     * All newly registered will be "New Users" first, Once then sent registration details, they will become "Regular Users"
+     * All users logged in successfully will be "Old users" first, Once then sent registration details, they will become "Regular Users"
+     */
+
+    String USER_TYPE = "userType";
+    interface currentUser{
+        String NEW_USER = "newUser";
+        String OLD_USER = "oldUser";
+        String REGULAR_USER = "regularUser";
     }
 
     interface preferences {
@@ -46,6 +57,7 @@ public interface UserInformation {
 
     interface firstTime {
         String APP_OPEN = "firstTimeAppOpen";
+        String DATA_MIGRATED = "dataMIgrated";
         String CAMP_NOTICE = "camp_notice_firstTime";
         String CAMP_EVENTS_FETCHED = "campEventFetched";
         String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents";

@@ -35,9 +35,9 @@ public class AutoConfiguration implements NetworkConstants, UserInformation {
         note.setMessage("Telephone lines or Internet link down, GOT next episode is leaked etc");
         note.setId(0);
         new NotificationData(context).add(note);
-        String title = "Hey " + pref.getString(registration.USERNAME, "User")
-                + ", check your new dashboard.";
-        String message = "New functionality of NCBSinfo app";
+        String message = "Hey " + pref.getString(registration.USERNAME, "User")
+                + ", check your brand new dashboard.";
+        String title = "New Dashboard!";
         new NotificationService(context).sendNotification(title, message, DashBoard.class);
         pref.edit().putBoolean(firstTime.FIRST_NOTIFICATION_DASHBOARD, false).apply();
     }

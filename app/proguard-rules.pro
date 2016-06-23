@@ -16,10 +16,13 @@
 #   public *;
 #}
 -repackageclasses 'obfuscated'
--keepattributes Signature
 -keepattributes *Annotation*
 # Add this global rule
 -keepattributes Signature
+-keep class sun.misc.Unsafe { *; }
+-keep class com.secretbiology.retro.google.** { *; }
+-dontwarn okio.**
+-dontwarn retrofit2.**
 
 # This rule will properly ProGuard all the model classes in
 # the package com.yourcompany.models. Modify to fit the structure

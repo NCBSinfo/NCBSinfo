@@ -46,6 +46,8 @@ public class Registration extends AppCompatActivity implements UserInformation {
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mAuth = FirebaseAuth.getInstance();
         progress = new ProgressDialog(Registration.this);
+        progress.setCanceledOnTouchOutside(false);
+
 
         //UI components
         registerBtn = (Button) findViewById(R.id.button_register);
@@ -116,8 +118,11 @@ public class Registration extends AppCompatActivity implements UserInformation {
                                                     pref.edit().putString(registration.USERNAME, username.getText().toString()).apply();
                                                     pref.edit().putString(registration.EMAIL, email.getText().toString()).apply();
                                                     pref.edit().putBoolean(registration.REGISTERED, true).apply();
+                                                    pref.edit().putString(USER_TYPE, currentUser.NEW_USER).apply();
                                                     pref.edit().putString(Home.MODE, Home.ONLINE).apply();
-                                                    startActivity(new Intent(Registration.this, OnlineHome.class));
+                                                    Intent intent = new Intent(Registration.this, OnlineHome.class);
+                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(intent);
 
                                                 }
                                             }
@@ -138,6 +143,12 @@ public class Registration extends AppCompatActivity implements UserInformation {
                     startActivity(new Intent(Registration.this, Login.class));
                 }
             });
+        }
+
+        //If user has registered in previous app versions
+        if (pref.getBoolean("pref_registered", false)) {
+            username.setText(pref.getString("pref_username", ""));
+            email.setText(pref.getString("pref_email", ""));
         }
 
 

@@ -55,8 +55,8 @@ public class EventsListFragment extends Fragment {
         Collections.sort(talkList, new Comparator<TalkModel>() {
             @Override
             public int compare(TalkModel lhs, TalkModel rhs) {
-                Date entry1 = new Utilities().convertToDate(lhs.getDate(), lhs.getTime());
-                Date entry2 = new Utilities().convertToDate(rhs.getDate(), rhs.getTime());
+                Date entry1 = new Utilities().convertToTalkDate(lhs.getDate(), lhs.getTime());
+                Date entry2 = new Utilities().convertToTalkDate(rhs.getDate(), rhs.getTime());
                 return entry1.compareTo(entry2);
             }
         });
@@ -151,7 +151,7 @@ public class EventsListFragment extends Fragment {
         title.setText(talk.getTitle());
         speaker.setText(talk.getSpeaker());
 
-        Date dt = new Utilities().convertToDate(talk.getDate(), talk.getTime());
+        Date dt = new Utilities().convertToTalkDate(talk.getDate(), talk.getTime());
         DateFormat currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
         DateFormat currentTime = new SimpleDateFormat("hh:mm aaa", Locale.getDefault());
 

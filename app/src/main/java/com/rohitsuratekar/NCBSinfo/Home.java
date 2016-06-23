@@ -1,23 +1,34 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
+import com.rohitsuratekar.NCBSinfo.background.Alarms;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.login.Registration;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Home extends AppCompatActivity implements UserInformation {
 
@@ -108,7 +119,35 @@ public class Home extends AppCompatActivity implements UserInformation {
         if (pref.getBoolean(firstTime.APP_OPEN, true)) {
             setTransportValue();
             pref.edit().putBoolean(firstTime.APP_OPEN, false).apply();
+            //Start Alarms
+            Intent i = new Intent(getBaseContext(), Alarms.class);
+            i.putExtra(Alarms.INTENT, Alarms.RESET_ALL);
+            startService(i);
         }
+
+        //Data migration from old table
+        if(!pref.getBoolean(firstTime.DATA_MIGRATED, false)) {
+            Database database = new Database(getBaseContext());
+            SQLiteDatabase db = database.getWritableDatabase();
+            boolean migrate = false;
+            try {
+                String selectQuery = "SELECT  * FROM " + TalkData.TABLE_OLD_TALK;
+                Cursor cursor = db.rawQuery(selectQuery, null);
+                cursor.close();
+                migrate = true;
+            } catch (Exception e) {
+                Log.i("Database", " : null");
+            }
+            if(migrate){
+                List<TalkModel> oldList = getOldTalks(db);
+                for (TalkModel t : oldList) {
+                new TalkData(getBaseContext()).addEntry(t);
+                }
+                new TalkData(getBaseContext()).dropOldtable();
+                db.close();
+            }
+        }
+
     }
 
     //Sets default transport timings. Later on this will be overwritten by remote config values
@@ -135,5 +174,35 @@ public class Home extends AppCompatActivity implements UserInformation {
         pref.edit().putString(TransportConstants.CAMP_SHUTTLE_MANDARA, getResources().getString(R.string.def_camp_shuttle_mandara)).apply();
         pref.edit().putString(TransportConstants.CAMP_SHUTTLE_NCBS, getResources().getString(R.string.def_camp_shuttle_ncbs)).apply();
         pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
+    }
+
+
+    private List<TalkModel> getOldTalks(SQLiteDatabase db) {
+        List<TalkModel> entryList = new ArrayList<TalkModel>();
+        String selectQuery = "SELECT  * FROM " + TalkData.TABLE_OLD_TALK;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                TalkModel model = new TalkModel();
+                model.setDataID(Integer.parseInt(cursor.getString(0)));
+                model.setTimestamp(cursor.getString(1));
+                model.setNotificationTitle(cursor.getString(2));
+                model.setDate(cursor.getString(3));
+                model.setTime(cursor.getString(4));
+                model.setVenue(cursor.getString(5));
+                model.setSpeaker(cursor.getString(6));
+                model.setAffilication(cursor.getString(7));
+                model.setTitle(cursor.getString(8));
+                model.setHost(cursor.getString(9));
+                model.setDataCode(cursor.getString(10));
+                model.setActionCode(cursor.getInt(11));
+                // Adding database to list
+                model.setDataAction("send");
+                entryList.add(model);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return entryList;
     }
 }

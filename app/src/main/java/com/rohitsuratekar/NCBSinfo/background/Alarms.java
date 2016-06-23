@@ -18,6 +18,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * All alarms should be set and received from this receiver
+ * "Offline" mode should not fetch any data.
+ */
 public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInformation {
 
     public static final String INTENT = "alarmIntent";
@@ -42,16 +46,19 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
                 sendUpcomingAlarms();
                 break;
             case SEND_NOTIFICATION:
-                if(intent.getStringExtra(NOTIFICATION_CODE)!=null) {
+                if (intent.getStringExtra(NOTIFICATION_CODE) != null) {
                     new NotificationService(context).sendNotification(Integer.parseInt(intent.getStringExtra(NOTIFICATION_CODE)));
                 }
         }
     }
 
     private void startDataFetch(Context context) {
-        Intent service = new Intent(context, NetworkOperations.class);
-        service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
-        context.startService(service);
+        //Strict policy for data fetch. It will be fetched only when mode is not "offline".
+        if (!PreferenceManager.getDefaultSharedPreferences(context).getString(MODE, OFFLINE).equals(OFFLINE)) {
+            Intent service = new Intent(context, NetworkOperations.class);
+            service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
+            context.startService(service);
+        }
     }
 
     public void resetAll() {
@@ -96,40 +103,37 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
         return calendar.getTimeInMillis();
     }
 
-    private void sendUpcomingAlarms(){
+    private void sendUpcomingAlarms() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.DATE, 1);
         Date targetDate = new Date(calendar.getTimeInMillis());
         Intent intent = new Intent(context, Alarms.class);
         intent.putExtra(INTENT, SEND_NOTIFICATION);
 
-        List<TalkModel> list = new Utilities().getUpcomigTalks(context,targetDate);
-        for (TalkModel talk : list){
-            intent.putExtra(NOTIFICATION_CODE,talk.getDataID());
+        List<TalkModel> list = new Utilities().getUpcomigTalks(context, targetDate);
+        for (TalkModel talk : list) {
+            intent.putExtra(NOTIFICATION_CODE, talk.getDataID());
             int requestID = new Utilities().getMilliseconds(talk.getTimestamp());
-            Date tempDate = new Utilities().convertToDate(talk.getDate(),talk.getTime());
+            Date tempDate = new Utilities().convertToTalkDate(talk.getDate(), talk.getTime());
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             //Compatibility
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent,requestID));
-            }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,timeLeft(tempDate), getIndent(intent,requestID));
-            }
-            else
-            {
-                alarmMgr.set(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent,requestID));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent, requestID));
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent, requestID));
+            } else {
+                alarmMgr.set(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent, requestID));
             }
         }
     }
 
-    private long timeLeft(Date date){
+    private long timeLeft(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int onsetTime = PreferenceManager.getDefaultSharedPreferences(context).getInt(preferences.NOTIFICANTION_ONSET,10);
-        long time = calendar.getTimeInMillis() - onsetTime*60000; //Onset will be in min
+        int onsetTime = PreferenceManager.getDefaultSharedPreferences(context).getInt(preferences.NOTIFICANTION_ONSET, 10);
+        long time = calendar.getTimeInMillis() - onsetTime * 60000; //Onset will be in min
         calendar.setTimeInMillis(time);
-        if(calendar.before(Calendar.getInstance())){
+        if (calendar.before(Calendar.getInstance())) {
             calendar = Calendar.getInstance(); //If onset time is already past. Send notification immediately
         }
         return calendar.getTimeInMillis();

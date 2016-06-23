@@ -21,6 +21,14 @@ public class TransportConstants {
     public static final String BUGGY_NCBS = "buggy_from_ncbs";
     public static final String BUGGY_MANDARA = "buggy_from_mandara";
 
+    //Special transport
+    public static final String CAMP_BUGGY_NCBS = "camp_buggy_ncbs";
+    public static final String CAMP_BUGGY_MANDARA = "camp_buggy_mandara";
+    public static final String CAMP_SHUTTLE_NCBS = "camp_shuttle_ncbs";
+    public static final String CAMP_SHUTTLE_MANDARA = "camp_shuttle_mandara";
+
+
+
 
     //Route Nos
     public static final int ROUTE_NCBS_IISC = 0;
@@ -33,11 +41,7 @@ public class TransportConstants {
     public static final int ROUTE_ICTS_NCBS = 7;
     public static final int ROUTE_NCBS_CBL = 8;
 
-    //Special transport
-    public static final String CAMP_BUGGY_NCBS = "camp_buggyNCBS";
-    public static final String CAMP_BUGGY_MANDARA = "camp_buggyMandara";
-    public static final String CAMP_SHUTTLE_NCBS = "camp_shuttleNCBS";
-    public static final String CAMP_SHUTTLE_MANDARA = "camp_shuttleMandara";
+
 
 
 

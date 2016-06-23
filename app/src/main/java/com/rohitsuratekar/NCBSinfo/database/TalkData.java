@@ -145,4 +145,10 @@ public class TalkData {
         db.close();
         return entry;
     }
+
+    //Delete old table
+    public void dropOldtable(){
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OLD_TALK);
+        db.close();
+    }
 }

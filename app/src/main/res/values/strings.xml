@@ -84,7 +84,7 @@
     <string name="action_select_category">Select Category</string>
     <string name="action_clear_contact">Clear All Contacts</string>
 
-    <string name="events_empty">No more events are retrieved yet !\nDon\'t worry,\nwe will update you soon :)</string>
+    <string name="events_empty">No more events are retrieved yet !\nwe will update you soon :)</string>
     <string name="camp_message">To activate CAMP mode, please sign in with your CAMP email ID.  With this mode, you will be able to receive updates about CAMP16 events as well as notifications from TAs. </string>
     <string name="title_activity_campevents">CAMP Events</string>
 

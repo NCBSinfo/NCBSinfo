@@ -78,7 +78,6 @@
             android:layout_weight="79"
             android:weightSum="100"
             android:gravity="bottom"
-            android:background="#19009688"
             android:layout_marginBottom="10sp">
 
             <TextView

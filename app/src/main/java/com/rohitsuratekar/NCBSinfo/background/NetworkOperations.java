@@ -25,6 +25,7 @@ import com.secretbiology.retro.google.fusiontable.reponse.RowModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -50,7 +51,6 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     public static final int ACTIONCODE_RETRIVED = 1;
     public static final int ACTIONCODE_UPDATED = 2;
     public static final int ACTIONCODE_NOTIFIED = 3;
-
 
 
     //Local constants
@@ -103,13 +103,15 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                             pref.getString(registration.EMAIL, "Email@domain.com"),
                             pref.getString(registration.FIREBASE_TOKEN, "null"),
                             mAuth.getCurrentUser().getUid(),
-                            pref.getString(registration.USER_TYPE, FireBaseID.REGULAR_USER),
+                            pref.getString(USER_TYPE, currentUser.NEW_USER),
                             "Submit");
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Log.i(TAG, response.body().toString());
                     pref.edit().putBoolean(netwrok.REGISTRATION_DETAILS_SENT, true).apply();
+                    //Start fetching event details
+                    researchTalk();
                 }
 
                 @Override
@@ -148,39 +150,45 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     TalkModel talk = new TalkModel(0, timestamp, notificationtitle, date, time, venue, speaker, affliations, title, host, dataCode, actionCode, dataAction);
 
                     if (new Database(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TALK_TIMESTAMP, timestamp)) {
-                        //If entry is already present in database, check for Datacode
-                        if (!dataAction.equals("send")) {
-                            //If datacode is other than "Send", Take appropriate actions
-                            TalkModel oldEntry = new TalkData(getBaseContext()).getEntry(timestamp);
-                            if (dataAction.equals("update")) {
-                                talk.setDataID(oldEntry.getDataID()); //Add DataID to new entry
-                                talk.setActionCode(ACTIONCODE_UPDATED); //Change action code
-                                new TalkData(getBaseContext()).update(talk); //Update entry
-                                Log.i(TAG, "Research Talk entry updated");
-                            }
-                            if (dataAction.equals("delete")) {
-                                new TalkData(getBaseContext()).delete(oldEntry); //Delete entry
-                                Log.i(TAG, "Research Talk entry deleted");
+                        //If entry is already present in database, check for Datacode and is not empty
+                        if (talk.getTimestamp().trim().length() != 0) {
+                            if (!dataAction.equals("send")) {
+                                //If datacode is other than "Send", Take appropriate actions
+                                TalkModel oldEntry = new TalkData(getBaseContext()).getEntry(timestamp);
+                                if (dataAction.equals("update")) {
+                                    talk.setDataID(oldEntry.getDataID()); //Add DataID to new entry
+                                    talk.setActionCode(ACTIONCODE_UPDATED); //Change action code
+                                    new TalkData(getBaseContext()).update(talk); //Update entry
+                                    Log.i(TAG, "Research Talk entry updated");
+                                }
+                                if (dataAction.equals("delete")) {
+                                    new TalkData(getBaseContext()).delete(oldEntry); //Delete entry
+                                    Log.i(TAG, "Research Talk entry deleted");
+                                }
                             }
                         }
                     } else {
-                        //Else create new entry
-                        new TalkData(getBaseContext()).addEntry(talk);
-                        Log.i(TAG, "New Research Talk entry added");
+                        //Else create new entry if it is not empty
+                        if (talk.getTimestamp().trim().length() != 0) {
+                            new TalkData(getBaseContext()).addEntry(talk);
+                            Log.i(TAG, "New Research Talk entry added");
+                        }
                     }
                 }
 
                 //Give notification to user when they receive event data for the first time
                 if (pref.getBoolean(firstTime.FIRST_NOTIFICATION_EVENTS, true)) {
-                    String title = "Check upcoming events right from NCBSinfo app";
-                    String message = "Now you will receive notifications for events at NCBS";
-                    new NotificationService(getBaseContext()).sendNotification(title, message, Events.class);
+                    String title = "Check upcoming events";
+                    String message = "Now you can check upcoming events at NCBS right from this app. You will receive notifications for events at NCBS";
+                    Random random = new Random();
+                    int m = random.nextInt(9999 - 1000) + 1000; //Random number to send separate notification
+                    new NotificationService(getBaseContext()).sendNotification(title, message, Events.class, m);
                     pref.edit().putBoolean(firstTime.FIRST_NOTIFICATION_EVENTS, false).apply();
                 }
 
                 //start notification service
                 Intent i = new Intent(NetworkOperations.this, Alarms.class);
-                i.putExtra(Alarms.INTENT, SEND_UPCOMINGS );
+                i.putExtra(Alarms.INTENT, SEND_UPCOMINGS);
                 startService(i);
 
             }
@@ -268,13 +276,15 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     }
 
-    public void fetchAllData(){
+    public void fetchAllData() {
 
-        switch (pref.getString(MODE, ONLINE)){
+        switch (pref.getString(MODE, ONLINE)) {
             case ONLINE:
-                researchTalk(); break;
+                researchTalk();
+                break;
             case CAMP16:
-                campData(); break;
+                campData();
+                break;
         }
 
     }

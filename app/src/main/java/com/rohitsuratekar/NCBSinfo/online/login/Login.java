@@ -23,15 +23,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.common.utilities.FirebaseErrors;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
-public class Login extends AppCompatActivity implements UserInformation{
+public class Login extends AppCompatActivity implements UserInformation {
 
     //Local
     private static String TAG = "SignInFragment";
@@ -53,6 +53,7 @@ public class Login extends AppCompatActivity implements UserInformation{
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         progress = new ProgressDialog(Login.this);
+        progress.setCanceledOnTouchOutside(false);
 
         //UI
         signInButton = (Button) findViewById(R.id.button_sign_in);
@@ -98,10 +99,19 @@ public class Login extends AppCompatActivity implements UserInformation{
                                     pref.edit().clear().apply();
                                     Database db = new Database(getBaseContext());
                                     db.restartDatabase(db.getWritableDatabase());
-                                    pref.edit().putString(registration.EMAIL,username.getText().toString()).apply();
-                                    pref.edit().putString(Home.MODE, Home.ONLINE).apply();
+                                    pref.edit().putString(registration.EMAIL, username.getText().toString()).apply();
+                                    pref.edit().putString(MODE, ONLINE).apply();
+                                    pref.edit().putBoolean(registration.REGISTERED, true).apply();
                                     progress.dismiss();
-                                    startActivity(new Intent(Login.this, OnlineHome.class));
+                                    //Start service to retrieve user data
+                                    pref.edit().putString(USER_TYPE, currentUser.OLD_USER).apply();
+                                    Intent service = new Intent(Login.this, DataManagement.class);
+                                    service.putExtra(DataManagement.INTENT, DataManagement.FETCH_FIREBASE_DATA);
+                                    startService(service);
+                                    //Start UI and let system run in background.
+                                    Intent intent = new Intent(Login.this, OnlineHome.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
                                     //Retrieve data from database here
                                 }//Successful Login2
                             }

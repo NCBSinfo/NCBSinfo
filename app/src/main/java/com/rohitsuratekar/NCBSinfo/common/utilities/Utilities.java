@@ -39,14 +39,15 @@ public class Utilities {
     }
 
 
-    public Date convertToDate(String Date, String Time) {
+    public Date convertToTalkDate(String Date, String Time) {
         Date returnDate = new Date();
         DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+        String DateString = Date + " " + Time;
         try {
-            returnDate = eventFormat.parse(Date + " " + Time);
+            returnDate = eventFormat.parse(DateString);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e(TAG, "Date parsing failed in convertToDate");
+            Log.e(TAG, "Date parsing failed in convertToDate :"+DateString);
         }
         return returnDate;
     }
@@ -102,7 +103,7 @@ public class Utilities {
         List<TalkModel> allList = new TalkData(context).getAll();
         List<TalkModel> returnList = new ArrayList<>();
         for( TalkModel talk : allList){
-            Date tempdate = new Utilities().convertToDate(talk.getDate(),talk.getTime());
+            Date tempdate = new Utilities().convertToTalkDate(talk.getDate(),talk.getTime());
             if(tempdate.before(targetDate)){
                 returnList.add(talk);
             }
