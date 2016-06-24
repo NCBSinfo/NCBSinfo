@@ -3,18 +3,21 @@ package com.rohitsuratekar.NCBSinfo.background;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
-public class OnUpgrade extends BroadcastReceiver {
+import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
+
+public class OnUpgrade extends BroadcastReceiver implements AlarmConstants {
+
+    private final String TAG = getClass().getSimpleName();
+
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        Log.i(TAG, "Services started after app upgrade");
         //Start daily data fetching
         Intent i = new Intent(context, Alarms.class);
-        i.putExtra(Alarms.INTENT, Alarms.RESET_ALL);
-        context.startService(i);
-
-        //Fetch data now
-        Intent i2 = new Intent(context, Alarms.class);
-        i2.putExtra(Alarms.INTENT, Alarms.DAILY_FETCH);
-        context.startService(i2);
+        i.putExtra(Alarms.INTENT, RESET_ALL);
+        context.sendBroadcast(i);
     }
 }

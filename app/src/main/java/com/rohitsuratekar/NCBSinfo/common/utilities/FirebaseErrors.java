@@ -43,7 +43,7 @@ public class FirebaseErrors {
     private void CheckException(){
 
         if(exception.contains("FirebaseAuthInvalidUserException")){
-            this.warningMessage = e.getLocalizedMessage();
+            this.warningMessage = context.getString(R.string.warning_firebase_user_does_not_exist);
             this.type = INVALID_USER;
         }
         else if(exception.contains("FirebaseAuthInvalidCredentialsException")){

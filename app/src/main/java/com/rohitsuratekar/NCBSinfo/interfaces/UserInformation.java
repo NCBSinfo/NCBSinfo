@@ -35,7 +35,8 @@ public interface UserInformation {
      */
 
     String USER_TYPE = "userType";
-    interface currentUser{
+
+    interface currentUser {
         String NEW_USER = "newUser";
         String OLD_USER = "oldUser";
         String REGULAR_USER = "regularUser";
@@ -45,6 +46,7 @@ public interface UserInformation {
 
         String NOTIFICATIONS = "notification_preference";
         String NOTIFICANTION_ONSET = "pref_notificationOnset";
+        String DEFAULT_ROUTE = "defaultRoute";
 
     }
 
@@ -63,6 +65,5 @@ public interface UserInformation {
         String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents";
         String FIRST_NOTIFICATION_DASHBOARD = "sendFirstNotificationDashboard";
     }
-
 
 }

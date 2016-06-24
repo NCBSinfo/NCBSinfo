@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,10 +15,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
+import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.database.ContactsData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
@@ -76,7 +79,6 @@ public class Home extends AppCompatActivity implements UserInformation {
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Home.this, Registration.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         alertDialog.dismiss();
                     }
@@ -102,7 +104,9 @@ public class Home extends AppCompatActivity implements UserInformation {
                     public void onClick(DialogInterface dialog, int which) {
                         pref.edit().putString(Home.MODE, Home.OFFLINE).apply();
                         alertDialog.dismiss();
-                        startActivity(new Intent(Home.this, OfflineHome.class));
+                        Intent intent = new Intent(Home.this, OfflineHome.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }
                 });
                 alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "GO BACK", new DialogInterface.OnClickListener() {
@@ -126,7 +130,7 @@ public class Home extends AppCompatActivity implements UserInformation {
         }
 
         //Data migration from old table
-        if(!pref.getBoolean(firstTime.DATA_MIGRATED, false)) {
+        if (!pref.getBoolean(firstTime.DATA_MIGRATED, false)) {
             Database database = new Database(getBaseContext());
             SQLiteDatabase db = database.getWritableDatabase();
             boolean migrate = false;
@@ -138,14 +142,23 @@ public class Home extends AppCompatActivity implements UserInformation {
             } catch (Exception e) {
                 Log.i("Database", " : null");
             }
-            if(migrate){
+            if (migrate) {
                 List<TalkModel> oldList = getOldTalks(db);
                 for (TalkModel t : oldList) {
-                new TalkData(getBaseContext()).addEntry(t);
+                    new TalkData(getBaseContext()).addEntry(t);
                 }
                 new TalkData(getBaseContext()).dropOldtable();
                 db.close();
             }
+        }
+
+        //Fill contacts
+        if (pref.getBoolean(Contacts.FIRST_TIME_CONTACT, true)) {
+            String[][] clist = new ContactList().allContacts();
+            for (int i = 0; i < clist.length; i++) {
+                new ContactsData(getBaseContext()).add(new ContactModel(1, clist[i][0], clist[i][1], clist[i][2], clist[i][3], "0"));
+            }
+            pref.edit().putBoolean(Contacts.FIRST_TIME_CONTACT, false).apply();
         }
 
     }

@@ -34,7 +34,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         String currentIntent = intent.getStringExtra(INTENT);
-
+        Log.i(TAG, "Received intent: "+ currentIntent);
         switch (currentIntent) {
             case DAILY_FETCH:
                 startDataFetch(context);
@@ -49,6 +49,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
                 if (intent.getStringExtra(NOTIFICATION_CODE) != null) {
                     new NotificationService(context).sendNotification(Integer.parseInt(intent.getStringExtra(NOTIFICATION_CODE)));
                 }
+                break;
         }
     }
 
@@ -86,6 +87,8 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
                 getIndent(intent, dailyAlarms.evening.ID));
 
         Log.i(TAG, "All alarms are reset");
+        //Start data fetch after reset alarms
+        startDataFetch(context);
 
     }
 
@@ -104,6 +107,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
     }
 
     private void sendUpcomingAlarms() {
+
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
         Date targetDate = new Date(calendar.getTimeInMillis());
@@ -112,7 +116,8 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
 
         List<TalkModel> list = new Utilities().getUpcomigTalks(context, targetDate);
         for (TalkModel talk : list) {
-            intent.putExtra(NOTIFICATION_CODE, talk.getDataID());
+            Log.i(TAG,"sending event "+ talk.getDataID() + " : " + talk.getNotificationTitle());
+            intent.putExtra(NOTIFICATION_CODE, String.valueOf(talk.getDataID()));
             int requestID = new Utilities().getMilliseconds(talk.getTimestamp());
             Date tempDate = new Utilities().convertToTalkDate(talk.getDate(), talk.getTime());
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

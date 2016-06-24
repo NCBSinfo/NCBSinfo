@@ -24,12 +24,16 @@ import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 import com.rohitsuratekar.NCBSinfo.common.utilities.ViewpagerAdapter;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMPevents;
 
 public class Events extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, UserInformation {
 
     //Public constants
     public static final String MODE_CONSTANT = "events";
+    public static final String EVENT_CODE = "event_code";
 
     SharedPreferences pref;
     CurrentMode mode;
@@ -40,10 +44,24 @@ public class Events extends AppCompatActivity
         setContentView(R.layout.events);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         //Initialization
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         mode = new CurrentMode(getBaseContext(), MODE_CONSTANT);
+
+
+        if (pref.getString(MODE, ONLINE).equals(registration.camp16.CAMP_MODE)) {
+            Intent intent = new Intent(Events.this, CAMPevents.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+        //If intent is received through notification, check for event and show dialog box
+        Intent i = getIntent();
+        String eventCode = i.getStringExtra(EVENT_CODE);
+        if (eventCode != null) {
+            TalkModel talk = new TalkData(getBaseContext()).getEntry(Integer.parseInt(eventCode));
+            new EventsListFragment().showDialog(Events.this, talk);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

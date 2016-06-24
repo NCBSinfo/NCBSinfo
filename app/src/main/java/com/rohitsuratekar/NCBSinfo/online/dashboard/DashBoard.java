@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.online.dashboard;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,11 +26,11 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
 import com.rohitsuratekar.NCBSinfo.common.utilities.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 import java.util.Collections;
@@ -145,6 +147,28 @@ public class DashBoard extends AppCompatActivity
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
             return true;
+        } else if (id == R.id.action_clear_notifications) {
+
+            new AlertDialog.Builder(DashBoard.this)
+                    .setTitle("Are you sure?")
+                    .setMessage("You are about to delete all notifications?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            new NotificationData(getBaseContext()).clearAll();
+                            finish();
+                            Intent intent = new Intent(getBaseContext(), DashBoard.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
         }
 
         return super.onOptionsItemSelected(item);

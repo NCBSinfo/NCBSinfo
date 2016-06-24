@@ -52,8 +52,9 @@
         </service>
         <service android:name=".background.NetworkOperations" />
         <service android:name=".background.DataManagement" />
+
         <receiver android:name=".background.Alarms" />
-        <receiver android:name=".background.ChangedState" >
+        <receiver android:name=".background.ChangedState">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -70,7 +71,6 @@
         <receiver android:name=".background.OnUpgrade">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
-
                 <data
                     android:path="com.rohitsuratekar.NCBSinfo"
                     android:scheme="package" />

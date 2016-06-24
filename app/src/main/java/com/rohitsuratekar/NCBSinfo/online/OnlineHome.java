@@ -39,8 +39,11 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.background.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
+import com.rohitsuratekar.NCBSinfo.background.NotificationService;
+import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
@@ -59,7 +62,7 @@ import com.rohitsuratekar.NCBSinfo.online.maps.MapActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener, UserInformation, NetworkConstants {
+public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener, UserInformation, NetworkConstants, AlarmConstants {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -88,8 +91,11 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         //Set up transport
         transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
 
-        //Set up remote configuration and firebase
+        Intent i = new Intent(getBaseContext(), Alarms.class);
+        i.putExtra(Alarms.INTENT, RESET_ALL);
+        getBaseContext().sendBroadcast(i);
 
+        //Set up remote configuration and firebase
         mAuth = FirebaseAuth.getInstance();
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
