@@ -22,13 +22,12 @@
     <string name="home_title">Select what suits your needs!</string>
     <string name="home_note">You can switch anytime :)</string>
     <string name="home_online">Online Mode</string>
-    <string name="home_online_features">Experience all features</string>
-    <string name="home_online_details">All offline features\n
-    NCBS event updates\nImportant Notifications\nStudent Activities\nConference updates\n and more coming</string>
-    <string name="home_select_online">I want online</string>
+    <string name="home_online_features">Experience all\nthe features</string>
+    <string name="home_online_details">All offline features\nNCBS event updates\nImportant notifications\nStudent activities\nConference updates\nand more…</string>
+    <string name="home_select_online">I want to go online</string>
     <string name="home_offline">Offline Mode</string>
-    <string name="home_offline_features">Lightweight and Essential</string>
-    <string name="home_offline_details">Shuttle Timings\nImportant Contacts\nLecture Hall Locations</string>
+    <string name="home_offline_features">Lightweight and\nessentials</string>
+    <string name="home_offline_details">Shuttle timings\nImportant contacts\nLecture hall locations</string>
     <string name="home_select_offline">Offline is fine</string>
 
     <string name="home_trasnport_title">%1$s - %2$s</string>

@@ -80,7 +80,7 @@ public class DataManagement extends IntentService implements UserInformation {
                 mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.USERNAME).setValue(pref.getString(registration.USERNAME, "Username"));
                 mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.EMAIL).setValue(pref.getString(registration.EMAIL, "email@domain.com"));
                 mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.TOKEN).setValue(pref.getString(registration.FIREBASE_TOKEN, "null"));
-                mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.DEFAULT_ROUTE).setValue(pref.getString(preferences.DEFAULT_ROUTE, "0"));
+                mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.DEFAULT_ROUTE).setValue(pref.getInt(preferences.DEFAULT_ROUTE, 0));
                 mDatabase.child(RemoteConstants.USER_NODE + "/" + user.getUid() + "/" + RemoteConstants.RESEARCH_TALK).setValue(pref.getInt(registration.RESEARCH_TALK, 1)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -144,7 +144,7 @@ public class DataManagement extends IntentService implements UserInformation {
                         pref.edit().putInt(registration.RESEARCH_TALK, Integer.parseInt(data.get(RemoteConstants.RESEARCH_TALK).toString())).apply();
                     }
                     if (data.get(RemoteConstants.DEFAULT_ROUTE) != null) {
-                        pref.edit().putString(preferences.DEFAULT_ROUTE, data.get(RemoteConstants.DEFAULT_ROUTE).toString()).apply();
+                        pref.edit().putInt(preferences.DEFAULT_ROUTE, Integer.parseInt(data.get(RemoteConstants.DEFAULT_ROUTE).toString())).apply();
                     }
                     pref.edit().putString(USER_TYPE, currentUser.REGULAR_USER).apply();
                 }

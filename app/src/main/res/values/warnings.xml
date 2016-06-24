@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="warning_online">ONLINE mode</string>
-    <string name="warning_online_details">This mode will required internet connection. You will be able to access full features
-    of this application. Internet and battery usage is already optimized for good user experience. Don\'t worry, you can switch
-    anytime from settings.</string>
-    <string name="warning_offline">OFFLINE mode</string>
-    <string name="warning_offline_details">This is lightweight mode and do not require internet connection. Only basic features
-         will be available. Don\'t worry, you can switch anytime from settings.</string>
+    <string name="warning_online">Online mode</string>
+    <string name="warning_online_details">This mode will require internet connection. You will be able to access the full features
+    of this application from here. Internet and battery usage is already optimized for good user experience. You can switch to the Offline Mode anytime from the Settings.</string>
+    <string name="warning_offline">Offline mode</string>
+    <string name="warning_offline_details">This is the lightweight mode and does not require internet connection. Only basic features
+         will be available in this mode. You can switch to the Online Mode anytime from the Settings.</string>
 
     <string name="warning_mode_change">Change mode</string>
-    <string name="warning_mode_change_online">Are you sure you want to change online mode ? You can switch back again anytime :)</string>
-    <string name="warning_mode_change_offline">Are you sure you want to change offline mode ? You can switch back again anytime :)</string>
-    <string name="warning_mode_change_camp">Are you sure you want to change CAMP16 mode ? You can switch back again anytime :)</string>
+    <string name="warning_mode_change_online">Are you sure you want to leave the Online Mode? You can switch back again anytime :)</string>
+    <string name="warning_mode_change_offline">Are you sure you want to leave the Offline Mode? You can switch back again anytime :)</string>
+    <string name="warning_mode_change_camp">Are you sure you want to leave the CAMP16 Mode? You can switch back again anytime :)</string>
 
     <string name="warning_registration_empty_password">Password can not be empty</string>
     <string name="warning_registration_bad_password">Password must be at least 6 character long</string>

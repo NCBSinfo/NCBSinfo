@@ -92,7 +92,7 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/home_online_details"
@@ -165,12 +165,11 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_weight="60"
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/home_offline_details"

@@ -26,7 +26,8 @@
 
         <activity
             android:name=".Home"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -114,6 +115,7 @@
         <activity
             android:name=".online.temp.camp.CAMP"
             android:label="@string/camp"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".online.events.Events"
@@ -141,6 +143,7 @@
             android:name=".online.dashboard.DashBoard"
             android:label="@string/dashboard"
             android:parentActivityName=".online.OnlineHome"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

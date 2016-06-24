@@ -246,6 +246,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/camp_message"
             android:id="@+id/textView23"
+            android:textSize="15sp"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:layout_marginTop="20sp" />

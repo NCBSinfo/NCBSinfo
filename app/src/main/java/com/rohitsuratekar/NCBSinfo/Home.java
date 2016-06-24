@@ -35,6 +35,7 @@ import java.util.List;
 
 public class Home extends AppCompatActivity implements UserInformation {
 
+
     //UI elements
     Button onlineButton, offlineButton;
     SharedPreferences pref;
@@ -150,6 +151,8 @@ public class Home extends AppCompatActivity implements UserInformation {
                 new TalkData(getBaseContext()).dropOldtable();
                 db.close();
             }
+
+            pref.edit().putBoolean(firstTime.DATA_MIGRATED, true).apply();
         }
 
         //Fill contacts
