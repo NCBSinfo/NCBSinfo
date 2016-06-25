@@ -64,6 +64,7 @@ public interface UserInformation {
         String CAMP_EVENTS_FETCHED = "campEventFetched";
         String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents";
         String FIRST_NOTIFICATION_DASHBOARD = "sendFirstNotificationDashboard";
+        String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
     }
 
 }

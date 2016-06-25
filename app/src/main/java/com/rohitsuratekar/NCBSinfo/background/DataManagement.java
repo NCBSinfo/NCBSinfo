@@ -134,19 +134,28 @@ public class DataManagement extends IntentService implements UserInformation {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Map<String, Object> data = (Map<String, Object>) dataSnapshot.getValue();
-                    if (data.get(RemoteConstants.USERNAME) != null) {
-                        pref.edit().putString(registration.USERNAME, data.get(RemoteConstants.USERNAME).toString()).apply();
+                    if(data!=null) {
+                        if (data.get(RemoteConstants.USERNAME) != null) {
+                            pref.edit().putString(registration.USERNAME, data.get(RemoteConstants.USERNAME).toString()).apply();
+                        }
+                        if (data.get(RemoteConstants.EMAIL) != null) {
+                            pref.edit().putString(registration.EMAIL, data.get(RemoteConstants.EMAIL).toString()).apply();
+                        }
+                        if (data.get(RemoteConstants.RESEARCH_TALK) != null) {
+                            pref.edit().putInt(registration.RESEARCH_TALK, Integer.parseInt(data.get(RemoteConstants.RESEARCH_TALK).toString())).apply();
+                        }
+                        if (data.get(RemoteConstants.DEFAULT_ROUTE) != null) {
+                            pref.edit().putInt(preferences.DEFAULT_ROUTE, Integer.parseInt(data.get(RemoteConstants.DEFAULT_ROUTE).toString())).apply();
+                        }
+                        pref.edit().putString(USER_TYPE, currentUser.REGULAR_USER).apply();
                     }
-                    if (data.get(RemoteConstants.EMAIL) != null) {
-                        pref.edit().putString(registration.EMAIL, data.get(RemoteConstants.EMAIL).toString()).apply();
+                    else {
+                        //If user has not registered with their data last time, send now.
+                        //However this will not sync their previous data
+                        //TODO: implement something here when Firebase will start working with proxy
+                        pref.edit().putString(USER_TYPE, currentUser.NEW_USER).apply();
+                        sendDetails();
                     }
-                    if (data.get(RemoteConstants.RESEARCH_TALK) != null) {
-                        pref.edit().putInt(registration.RESEARCH_TALK, Integer.parseInt(data.get(RemoteConstants.RESEARCH_TALK).toString())).apply();
-                    }
-                    if (data.get(RemoteConstants.DEFAULT_ROUTE) != null) {
-                        pref.edit().putInt(preferences.DEFAULT_ROUTE, Integer.parseInt(data.get(RemoteConstants.DEFAULT_ROUTE).toString())).apply();
-                    }
-                    pref.edit().putString(USER_TYPE, currentUser.REGULAR_USER).apply();
                 }
 
                 @Override
