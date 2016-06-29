@@ -45,12 +45,9 @@ public class FireBaseID extends FirebaseInstanceIdService implements NetworkCons
         //Subscribe ID to public topic. All devices will be part of public group
         if (pref.getBoolean(registration.REGISTERED, false)) {
             pref.edit().putString(registration.FIREBASE_TOKEN, token).apply();
-            FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
-            FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
             Intent service = new Intent(getBaseContext(), NetworkOperations.class);
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
             getBaseContext().startService(service);
-            Log.d(TAG, "Subscribed with topic");
         }
     }
 }

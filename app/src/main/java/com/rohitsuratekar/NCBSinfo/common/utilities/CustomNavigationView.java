@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 
-public class CustomNavigationView implements UserInformation {
+public class CustomNavigationView implements UserInformation, NetworkConstants {
 
     public CustomNavigationView(NavigationView navigationView, final Activity activity, final CurrentMode mode) {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -47,7 +49,9 @@ public class CustomNavigationView implements UserInformation {
                     alertDialog.setMessage(mode.getSwitchModeMessage());
                     alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            //TODO : unsubscribe topics
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(topics.PUBLIC);
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(topics.EMERGENCY);
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(topics.CAMP16);
                             pref.edit().remove(Home.MODE).apply();
                             activity.startActivity(new Intent(activity, Home.class));
                             alertDialog.dismiss();

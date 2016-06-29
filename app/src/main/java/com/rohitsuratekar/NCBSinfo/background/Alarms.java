@@ -65,6 +65,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, UserInf
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
             context.startService(service);
         }
+
     }
 
     public void resetAll() {

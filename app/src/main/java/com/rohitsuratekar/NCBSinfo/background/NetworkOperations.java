@@ -95,6 +95,12 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     private void userRegistration() {
         Log.d(TAG, "Registration Process Started");
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        //Subscribe to general topics
+        FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
+        FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
+        Log.d(TAG, "Subscribed with topic");
+
         if (mAuth.getCurrentUser() != null) {
             Commands formservice = Service.createService(Commands.class);
             Call<ResponseBody> call = formservice

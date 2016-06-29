@@ -371,6 +371,8 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
     private void getConfiguration() {
 
+        //TODO: Handle this with background services
+
         long cacheExpiration = RemoteConstants.CACHE_EXPIRATION;
 
         // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
