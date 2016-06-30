@@ -32,7 +32,7 @@ public class AutoConfiguration implements NetworkConstants, UserInformation {
         note.setFrom(topics.EMERGENCY);
         note.setTitle("Important notifications");
         note.setExtraVariables("automatic");
-        note.setMessage("Telephone lines or Internet link down, GOT next episode is leaked etc");
+        note.setMessage("Telephone line or Internet link is down, GOT next episode is leaked etc");
         note.setId(0);
         new NotificationData(context).add(note);
         String message = "Hey " + pref.getString(registration.USERNAME, "User")

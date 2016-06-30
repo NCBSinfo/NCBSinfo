@@ -9,15 +9,15 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
@@ -95,6 +95,12 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     private void userRegistration() {
         Log.d(TAG, "Registration Process Started");
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        //Subscribe to general topics
+        FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
+        FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
+        Log.d(TAG, "Subscribed with topic");
+
         if (mAuth.getCurrentUser() != null) {
             Commands formservice = Service.createService(Commands.class);
             Call<ResponseBody> call = formservice
@@ -187,9 +193,10 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                 }
 
                 //start notification service
+                pref.edit().putString(netwrok.LAST_DATA_FETCH, new Utilities().timeStamp()).apply();
                 Intent i = new Intent(NetworkOperations.this, Alarms.class);
                 i.putExtra(Alarms.INTENT, SEND_UPCOMINGS);
-                startService(i);
+                context.sendBroadcast(i);
 
             }
 
@@ -248,20 +255,29 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                                 if (b.getEventID().equals(eventID)) {
                                     if (b.getUpdateCounter() != Integer.valueOf(updateCounter)) {
                                         entry.setId(b.getId());
-                                        new ConferenceData(getBaseContext()).update(entry);
+                                        if (Integer.valueOf(updateCounter) == 1989) { //Delete counter
+                                            new ConferenceData(getBaseContext()).delete(entry);
+                                        } else {
+                                            new ConferenceData(getBaseContext()).update(entry);
+                                        }
                                         newdataFound = false;
+                                        //For deleting
                                     } else {
                                         newdataFound = false;
                                     }
                                 }
                             }
                             if (newdataFound) {
-                                new ConferenceData(getBaseContext()).add(entry);
+                                if (Integer.valueOf(updateCounter) != 1989) {
+                                    new ConferenceData(getBaseContext()).add(entry);
+                                }
                             }
                         } else {
-                            //Else create new entry
-                            new ConferenceData(getBaseContext()).add(entry);
-                            Log.i(TAG, "New Conference entry added");
+                            //Else create new entry if update counter is not 1989
+                            if (Integer.valueOf(updateCounter) != 1989) {
+                                new ConferenceData(getBaseContext()).add(entry);
+                                Log.i(TAG, "New Conference entry added");
+                            }
                         }
 
                     }
@@ -277,12 +293,11 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     }
 
     public void fetchAllData() {
-
         switch (pref.getString(MODE, ONLINE)) {
             case ONLINE:
                 researchTalk();
                 break;
-            case CAMP16:
+            case registration.camp16.CAMP_MODE:
                 campData();
                 break;
         }

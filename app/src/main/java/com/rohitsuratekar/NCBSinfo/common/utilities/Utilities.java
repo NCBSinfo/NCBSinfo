@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +46,7 @@ public class Utilities {
             returnDate = eventFormat.parse(DateString);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e(TAG, "Date parsing failed in convertToDate :"+DateString);
+            Log.e(TAG, "Date parsing failed in convertToDate :" + DateString);
         }
         return returnDate;
     }
@@ -85,7 +84,7 @@ public class Utilities {
             returnString = "Few minutes ago";
         } else if (hour == 0 && min > 10) {
             returnString = min + " minutes ago";
-        }   else if (hour >= 1 && hour < 5) {
+        } else if (hour >= 1 && hour < 5) {
             returnString = "Few hours ago";
         } else if (hour >= 5 && hour < 24) {
             returnString = hour + " hours ago";
@@ -99,21 +98,22 @@ public class Utilities {
         return returnString;
     }
 
-    public List<TalkModel> getUpcomigTalks (Context context, Date targetDate){
+    public List<TalkModel> getUpcomigTalks(Context context, Date targetDate) {
         List<TalkModel> allList = new TalkData(context).getAll();
         List<TalkModel> returnList = new ArrayList<>();
-        for( TalkModel talk : allList){
-            Date tempdate = new Utilities().convertToTalkDate(talk.getDate(),talk.getTime());
-            if(tempdate.before(targetDate)){
+        for (TalkModel talk : allList) {
+            Date tempdate = new Utilities().convertToTalkDate(talk.getDate(), talk.getTime());
+            //Upcoming events will be before target date and after current date
+            if (tempdate.before(targetDate) && tempdate.after(new Date())) {
                 returnList.add(talk);
             }
         }
         return returnList;
     }
 
-    public int getMilliseconds(String timestamp){
+    public int getMilliseconds(String timestamp) {
         Date dt = new Date();
-        DateFormat currentformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss",Locale.getDefault());
+        DateFormat currentformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
         try {
             dt = currentformat.parse(timestamp);
         } catch (ParseException e) {

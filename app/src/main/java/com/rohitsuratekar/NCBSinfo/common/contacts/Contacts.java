@@ -32,7 +32,7 @@ public class Contacts extends AppCompatActivity
 
     //Public constants
     public static final String MODE_CONSTANT = "contacts";
-    public static final String FIRST_TIME_CONTACT = "firstTimeContact";
+    public static final String FIRST_TIME_CONTACT = "pref_firsttimecontact"; //Use old key from previous versions.
 
     //Local variables
     CurrentMode mode;

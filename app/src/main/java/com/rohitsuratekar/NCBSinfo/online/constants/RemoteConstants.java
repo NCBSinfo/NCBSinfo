@@ -17,8 +17,9 @@ public class RemoteConstants {
     public static final String EMAIL = "email";
     public static final String TOKEN = "token";
     public static final String RESEARCH_TALK = "ResearchTalk";
+    public static final String DEFAULT_ROUTE = "defaultRoute";
 
 
     //Cache expiration
-    public static final long CACHE_EXPIRATION = 3600*24; //Seconds
+    public static final long CACHE_EXPIRATION = 3600*12; //Seconds
 }

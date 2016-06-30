@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.online.events;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -80,7 +81,7 @@ public class EventsListFragment extends Fragment {
         log_adapter.setOnItemClickListener(new EventsAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                showDialog(refined_list.get(position));
+                showDialog(getContext(), refined_list.get(position));
 
             }
         });
@@ -134,8 +135,8 @@ public class EventsListFragment extends Fragment {
         Collections.reverse(refined_list);
     }
 
-    public void showDialog(TalkModel talk) {
-        final Dialog dialog = new Dialog(getContext());
+    public void showDialog(Context context, TalkModel talk) {
+        final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.events_details_viewer);
         dialog.setCanceledOnTouchOutside(true);

@@ -22,7 +22,7 @@ import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
-import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
+import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMPevents;
 
 /**
  * All notifications should be handled by this class
@@ -91,7 +91,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
 
         Intent notificationIntent;
         if (note.getFrom().contains(topics.CAMP16)) {
-            notificationIntent = new Intent(context, CAMP.class);
+            notificationIntent = new Intent(context, CAMPevents.class);
         } else {
             notificationIntent = new Intent(context, DashBoard.class);
         }
@@ -116,6 +116,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
     public void sendNotification(int code) {
         int requestID = (int) System.currentTimeMillis();
         Intent notificationIntent = new Intent(context, Events.class);
+        notificationIntent.putExtra(Events.EVENT_CODE, String.valueOf(code));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

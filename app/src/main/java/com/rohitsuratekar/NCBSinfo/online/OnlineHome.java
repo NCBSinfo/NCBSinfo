@@ -35,15 +35,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.background.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
-import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
@@ -51,6 +47,9 @@ import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
@@ -59,9 +58,12 @@ import com.rohitsuratekar.NCBSinfo.online.maps.MapActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener, UserInformation, NetworkConstants {
+public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener,
+        View.OnClickListener, UserInformation, NetworkConstants, AlarmConstants {
 
     private final String TAG = this.getClass().getSimpleName();
+
+    public static final String MODE_CONSTANT = "onlineHome";
 
     GoogleMap googleMap;
     TextView title, timeLeft, nextText;
@@ -88,8 +90,11 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
         //Set up transport
         transport = new TransportHelper(getBaseContext()).getTransport(getBaseContext(), pref.getInt(Transport.DEFAULT_ROUTE, TransportConstants.ROUTE_NCBS_IISC));
 
-        //Set up remote configuration and firebase
+        Intent i = new Intent(getBaseContext(), Alarms.class);
+        i.putExtra(Alarms.INTENT, RESET_ALL);
+        getBaseContext().sendBroadcast(i);
 
+        //Set up remote configuration and firebase
         mAuth = FirebaseAuth.getInstance();
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
@@ -365,6 +370,8 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
     }
 
     private void getConfiguration() {
+
+        //TODO: Handle this with background services
 
         long cacheExpiration = RemoteConstants.CACHE_EXPIRATION;
 
