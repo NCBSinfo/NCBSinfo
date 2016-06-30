@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">NCBS info</string>
+    <string name="app_version">v %1$s</string>
+    <string name="navigation_footer">Made in NCBS :)</string>
     <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
 
     <!-- Titles -->
@@ -14,8 +16,6 @@
     <string name="lecture_hall">Locations</string>
     <string name="information">Information</string>
     <string name="map">Map</string>
-    <string name="camp">CAMP</string>
-    <string name="camp_home">CAMP16 Home</string>
 
 
     <!-- Home -->

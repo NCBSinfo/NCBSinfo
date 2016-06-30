@@ -12,26 +12,39 @@ import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
 
+/**
+ * This is base UI for all activities. All activities should should implement this except special need (e.g. Settings Activity)
+ * Each activity has identifier set in  'CurrentActivity' enum. This identifier will set UI and activity related variables.
+ * This will ensure homogeneous UI in highly customizable fashion. This will also reduce unnecessary layouts and xml.
+ */
+
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    NavigationView navigationView;
+    CurrentActivity currentActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_layout);
+        setContentView(R.layout.base_layout); //Base layout
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); //Base toolbar
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout); //Base drawer layout
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view); //Base navigation view
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Variables should come from child activity
+        this.currentActivity = setCurrentActivity();
+        //Set navigation drawer
+        new CurrentNavigationDrawer(currentActivity,navigationView, getBaseContext()).set();
+
     }
 
     @Override
@@ -47,7 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.base, menu);
+        getMenuInflater().inflate(new CurrentMenu(currentActivity).set(), menu);
         return true;
     }
 
@@ -75,5 +88,10 @@ public abstract class BaseActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This will set current activity and UI will set accordingly
+     * @return CurrentActivity (enum)
+     */
+    protected abstract CurrentActivity setCurrentActivity();
 
 }
