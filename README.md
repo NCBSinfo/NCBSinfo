@@ -28,4 +28,6 @@ Stable version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/ba5a237072a81
 > Special note for developers :  app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces//NetworkConstants.java file is un-tracked for security purpose. This file contains all network related constants. 
 
 </br>
-See <a href = https://github.com/NCBSinfo/NCBSinfo/wiki >NCBSinfo wiki</a> for more details
+See <a href = https://github.com/NCBSinfo/NCBSinfo/wiki >NCBSinfo wiki</a> for more details related to app and development.
+</br>
+See <a href = https://github.com/NCBSinfo/NCBSinfo/wiki/Terms-and-Conditions#for-using-code > License </a> details. 
