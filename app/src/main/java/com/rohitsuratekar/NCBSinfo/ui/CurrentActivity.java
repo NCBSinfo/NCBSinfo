@@ -64,7 +64,7 @@ public enum CurrentActivity {
 
     EXPERIMENTAL(
             R.string.experimental,
-            R.layout.home,
+            R.layout.experimental,
             R.id.nav_experimental,
             false);
 

@@ -38,18 +38,20 @@
         <!-- Activities -->
         <activity android:name=".activities.OnlineHome" />
         <activity android:name=".activities.OfflineHome" />
-        <activity android:name=".activities.transport.Transport"/>
-        <activity android:name=".activities.contacts.Contacts"/>
-        <activity android:name=".activities.login.Login"/>
-        <activity android:name=".activities.login.Registration"/>
-        <activity android:name=".activities.events.Events"/>
-        <activity android:name=".activities.dashboard.DashBoard"/>
+        <activity android:name=".activities.transport.Transport" />
+        <activity android:name=".activities.contacts.Contacts" />
+        <activity android:name=".activities.login.Login" />
+        <activity android:name=".activities.login.Registration" />
+        <activity android:name=".activities.events.Events" />
+        <activity android:name=".activities.dashboard.DashBoard" />
+        <activity android:name=".activities.experimental.Experimental" />
 
         <!-- Receivers and Services -->
         <receiver android:name=".background.Alarms" />
-        <service android:name=".background.NetworkOperations" />
-        <service android:name=".background.DataManagement" />
 
+        <service android:name=".background.NetworkOperations" />
+        <service android:name=".background.TransportHandler" />
+        <service android:name=".background.DataManagement" />
         <service android:name=".background.FireBaseMessage">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -60,7 +62,6 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

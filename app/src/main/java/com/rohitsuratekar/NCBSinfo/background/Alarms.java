@@ -158,6 +158,10 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, User {
         return calendar.getTimeInMillis();
     }
 
+    /**
+     * Cancel all old alarms which were set by versions before this.
+     * Remove this method when sufficient number of users uninstalls app version before 21
+     */
     private void cancelOld() {
         Intent intent = new Intent(context, Alarms.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

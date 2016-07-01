@@ -44,4 +44,28 @@ public class Converters {
         return output.toArray(new String[output.size()]);
     }
 
+    //Converts "HH:mm" format to "hh:mm a" format
+    public String[] convertToSimpleDate(String[] trips) {
+        String[] finalStrings = new String[trips.length];
+        for (int i = 0; i < trips.length; i++) {
+            finalStrings[i] = convertToSimpleDate(trips[i]);
+        }
+        return finalStrings;
+    }
+
+    //Converts "HH:mm" format to "hh:mm a" format
+    public String convertToSimpleDate(String trip) {
+        String finalStrings = "";
+        SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        try {
+            Date date = inputFormat.parse(trip);
+            finalStrings = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Date parsing failed in convertToDate :" + trip);
+        }
+        return finalStrings;
+    }
+
 }

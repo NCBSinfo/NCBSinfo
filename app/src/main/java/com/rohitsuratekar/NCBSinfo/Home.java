@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.background.TransportHandler;
 import com.rohitsuratekar.NCBSinfo.interfaces.User;
 
 public class Home extends AppCompatActivity implements User {
@@ -34,6 +37,11 @@ public class Home extends AppCompatActivity implements User {
         online = (Button) findViewById(R.id.button_home_online);
         offline = (Button) findViewById(R.id.button_home_offline);
 
+        Intent intent = new Intent(this, TransportHandler.class);
+        intent.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
+        startService(intent);
+
+
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,5 +59,6 @@ public class Home extends AppCompatActivity implements User {
         });
 
     }
+
 
 }
