@@ -8,6 +8,17 @@
             android:title="@string/dashboard" />
     </group>
 
+
+    <group android:id="@+id/nav_subgroup_login"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:title="@string/login" />
+        <item
+            android:id="@+id/nav_register"
+            android:title="@string/register" />
+    </group>
+
     <group
         android:id="@+id/nav_main_group"
         android:checkableBehavior="single">
@@ -20,7 +31,7 @@
             android:icon="@drawable/icon_shuttle"
             android:title="@string/transport" />
         <item
-            android:id="@+id/nav_updates"
+            android:id="@+id/nav_events"
             android:icon="@drawable/icon_updates"
             android:title="@string/event_updates" />
         <item
@@ -41,6 +52,19 @@
             android:title="@string/settings" />
     </group>
 
+    <group android:id="@+id/nav_subgroup_experimental"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_location"
+            android:icon="@drawable/icon_lecturehall"
+            android:title="@string/lecture_hall" />
+        <item
+            android:id="@+id/nav_canteen"
+            android:icon="@drawable/icon_canteen"
+            android:title="@string/canteen" />
+    </group>
+
+
     <group>
         <item
             android:id="@+id/nav_change_mode"
@@ -48,10 +72,20 @@
             android:title="@string/settings_change_mode" />
     </group>
 
+    <group
+        android:checkableBehavior="single">
+
         <item
-            android:checkable="false"
+            android:id="@+id/tempid1"
             android:enabled="false"
-            android:titleCondensed="@string/navigation_footer"
+            android:title=" " />
+
+        <item
+            android:id="@+id/tempid2"
+            android:enabled="false"
             android:title="@string/navigation_footer" />
+    </group>
+
+
 
 </menu>

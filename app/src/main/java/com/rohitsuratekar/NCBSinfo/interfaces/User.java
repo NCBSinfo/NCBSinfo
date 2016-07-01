@@ -22,7 +22,7 @@ public interface User {
 
     String USER_TYPE = "userType";
 
-    interface currentUser {
+    interface currentUserType {
         String NEW_USER = "newUser";
         String OLD_USER = "oldUser";
         String REGULAR_USER = "regularUser";
@@ -30,9 +30,9 @@ public interface User {
 
     interface preferences {
 
-        String NOTIFICATIONS = "notification_preference";
-        String NOTIFICANTION_ONSET = "pref_notificationOnset";
-        String DEFAULT_ROUTE = "defaultRoute";
+        String NOTIFICATIONS = "notification_preference"; //boolean
+        String NOTIFICANTION_ONSET = "pref_notificationOnset"; //int
+        String DEFAULT_ROUTE = "defaultRoute"; //int
 
     }
 

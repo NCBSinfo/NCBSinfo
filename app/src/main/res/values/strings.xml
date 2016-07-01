@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NCBS info</string>
     <string name="app_version">v %1$s</string>
-    <string name="navigation_footer">Made in NCBS :)</string>
+    <string name="navigation_footer">Made in NCBS with love :)</string>
     <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
 
     <!-- Titles -->
@@ -15,6 +15,8 @@
     <string name="canteen">Canteen</string>
     <string name="lecture_hall">Locations</string>
     <string name="information">Information</string>
+    <string name="login">Sign In</string>
+    <string name="register">Register</string>
     <string name="map">Map</string>
 
 
