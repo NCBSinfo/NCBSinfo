@@ -41,6 +41,13 @@ public class TransportConstants {
     public static final int ROUTE_ICTS_NCBS = 7;
     public static final int ROUTE_NCBS_CBL = 8;
 
+    public static final int ROUTE_CAMP_BUGGY_NCBS = 9;
+    public static final int ROUTE_CAMP_BUGGY_MANDARA = 10;
+    public static final int ROUTE_CAMP_NCBS = 11;
+    public static final int ROUTE_CAMP_MANDARA = 12;
+
+
+
 
 
 

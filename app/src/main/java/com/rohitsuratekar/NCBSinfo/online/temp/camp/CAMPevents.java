@@ -59,6 +59,7 @@ public class CAMPevents extends AppCompatActivity
         ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new CAMPEventFragment(), "Events");
         adapter.addFragment(new CAMPnotificationFragment(), "Notifications");
+        adapter.addFragment(new CAMPPastevents(), "Past Events");
         viewPager.setAdapter(adapter);
     }
 

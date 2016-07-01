@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,31 +20,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
-import com.rohitsuratekar.NCBSinfo.background.FireBaseID;
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
-import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
-import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.login.Login;
 
 public class CAMP extends AppCompatActivity
@@ -61,7 +52,6 @@ public class CAMP extends AppCompatActivity
     RelativeLayout mainLayout;
     LinearLayout warningLayout;
     Button signIn;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -76,8 +66,6 @@ public class CAMP extends AppCompatActivity
         mode = new CurrentMode(getBaseContext(), MODE_CONSTANT);
 
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -131,7 +119,6 @@ public class CAMP extends AppCompatActivity
                 startService(service);
             }
 
-            getConfiguration();
             //Submit registration details
             if (!pref.getBoolean(netwrok.REGISTRATION_DETAILS_SENT, false)) {
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
@@ -261,42 +248,8 @@ public class CAMP extends AppCompatActivity
                 || pref.getBoolean(registration.camp16.IS_CAMP_USER, false);
     }
 
-    private void getConfiguration() {
-
-        long cacheExpiration = RemoteConstants.CACHE_EXPIRATION;
-
-        // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
-        // the server.
-        if (mFirebaseRemoteConfig != null) {
-            if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
-                cacheExpiration = 0;
-            }
-            if (new Utilities().isOnline(getBaseContext())) {
-                mFirebaseRemoteConfig.fetch(cacheExpiration)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "Fetch Succeeded");
-                                    // Once the config is successfully fetched it must be activated before newly fetched
-                                    // values are returned.
-                                    mFirebaseRemoteConfig.activateFetched();
-                                    new OnlineHome().setTransportValue(mFirebaseRemoteConfig, pref);
-                                    pref.edit().putBoolean(netwrok.IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(netwrok.IS_OLD_VERSION)).apply();
-                                    pref.edit().putBoolean(registration.camp16.CAMP_ACCESS, false).apply();
-                                    pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
-
-                                } else {
-                                    Log.d(TAG, "Fetch failed");
-                                }
-                            }
-                        });
-            } else {
-                Log.e(TAG, "No connection detected!");
-            }
-        }
-
-    }
-
 
 }
+
+
+

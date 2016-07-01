@@ -65,7 +65,7 @@ public class TransportHelper implements UserInformation {
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.NCBS_MANDARA_WEEK;
                 sundayPreferenceKey = TransportConstants.NCBS_MANDARA_SUNDAY;
-                if (isCAMPactivited()) {
+                if (isCAMPtime()) {
                     weekPreferenceKey = TransportConstants.CAMP_SHUTTLE_NCBS;
                 }
                 break;
@@ -74,7 +74,7 @@ public class TransportHelper implements UserInformation {
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.MANDARA_NCBS_WEEK;
                 sundayPreferenceKey = TransportConstants.MANDARA_NCBS_SUNDAY;
-                if (isCAMPactivited()) {
+                if (isCAMPtime()) {
                     weekPreferenceKey = TransportConstants.CAMP_SHUTTLE_MANDARA;
                 }
                 break;
@@ -83,7 +83,7 @@ public class TransportHelper implements UserInformation {
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
                 sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
-                if (isCAMPactivited()) {
+                if (isCAMPtime()) {
                     weekPreferenceKey = TransportConstants.CAMP_BUGGY_NCBS;
                 }
                 break;
@@ -92,7 +92,7 @@ public class TransportHelper implements UserInformation {
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
                 sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
-                if (isCAMPactivited()) {
+                if (isCAMPtime()) {
                     weekPreferenceKey = TransportConstants.CAMP_BUGGY_MANDARA;
                 }
                 break;
@@ -460,19 +460,16 @@ public class TransportHelper implements UserInformation {
         return timeLeft;
     }
 
-    public boolean isCAMPactivited() {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+    public boolean isCAMPtime() {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
         Date d1 = new Date();
         try {
-            d1 = format.parse("07/17/2016 05:00:00");
+            d1 = format.parse("07/17/2016 04:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return d1.after(new Date()) && pref.getString(MODE, ONLINE).equals(registration.camp16.CAMP_MODE);
+        return d1.after(new Date());
     }
-
-
 }
 
 

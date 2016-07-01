@@ -27,6 +27,12 @@ public class FireBaseMessage extends FirebaseMessagingService implements Network
                     service.putExtra(NetworkOperations.INTENT, NetworkOperations.RESEARCH_TALKS);
                     startService(service);
                     break;
+                case triggers.CHANGE_TRANSPORT:
+                    Intent service2 = new Intent(getBaseContext(), ChangeTransport.class);
+                    service2.putExtra(ChangeTransport.ROUTE_NO, remoteMessage.getData().get(keys.transport.ROUTE)  );
+                    service2.putExtra(ChangeTransport.CHANGE_VALUE, remoteMessage.getData().get(keys.transport.ROUTE_VALUE));
+                    service2.putExtra(ChangeTransport.VALIDITY, remoteMessage.getData().get(keys.transport.VALIDITY));
+                    startService(service2);
             }
         } else {
             //Normal notification without any "rcode" field.
