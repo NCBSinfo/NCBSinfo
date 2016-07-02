@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#004d40</color>
     <color name="colorAccent">#f44336</color>
 
+    <color name="home_fragment1">#e8aa0f</color>
+    <color name="home_fragment2">#ffc107</color>
+    <color name="home_fragment3">#d89b12</color>
+
     <color name="login_box">#26a69a</color>
     <color name="login_input_box">#e0f2f1</color>
     <color name="login_input_activated">#388e3c</color>

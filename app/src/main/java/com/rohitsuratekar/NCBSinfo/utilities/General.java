@@ -29,6 +29,10 @@ public class General implements User {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    public int randInt(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
+    }
+
 
     public String timeStamp() {
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss a d MMM yy", Locale.getDefault());
