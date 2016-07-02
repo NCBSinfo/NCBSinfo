@@ -21,8 +21,8 @@ public interface RemoteData {
         String USERNAME = "username";
         String EMAIL = "email";
         String TOKEN = "token";
-        String RESEARCH_TALK = "ResearchTalk";
         String DEFAULT_ROUTE = "defaultRoute";
+        String LATEST_APP = "latestApp";
     }
 
 

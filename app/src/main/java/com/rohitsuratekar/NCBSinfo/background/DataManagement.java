@@ -83,6 +83,7 @@ public class DataManagement extends IntentService implements User, RemoteData {
                 mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(userData.getName());
                 mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(userData.getEmail());
                 mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.TOKEN).setValue(userData.getToken());
+                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.LATEST_APP).setValue(pref.getInt(APP_VERSION, 0));
                 mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.DEFAULT_ROUTE).setValue(userData.getDefaultRoute()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

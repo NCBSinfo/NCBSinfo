@@ -18,4 +18,13 @@
 
     <dimen name="conference_title">18sp</dimen>
     <dimen name="conference_speaker">14sp</dimen>
+
+    <dimen name="login_logo">100sp</dimen>
+    <dimen name="login_vertical_spacing">20sp</dimen>
+    <dimen name="login_horizontal_spacing">20sp</dimen>
+    <dimen name="login_image_spacer">20sp</dimen>
+
+    <dimen name="login_box_height">400sp</dimen>
+    <dimen name="login_box_width">300sp</dimen>
+    <dimen name="login_box_padding">10sp</dimen>
 </resources>

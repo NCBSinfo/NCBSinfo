@@ -5,12 +5,12 @@ public interface User {
     String MODE = "app_mode";
     String ONLINE = "online";
     String OFFLINE = "offline";
+    String APP_VERSION = "latestAppVersion";
 
     interface profile {
         String REGISTERED = "registeredUser";  //Boolen
         String NAME = "currentUsername"; //String
         String EMAIL = "currentEmail"; //String
-        String RESEARCH_TALK = "currentResearchTalk"; //Int
         String FIREBASE_TOKEN = "firebaseRegistrationToken"; //String
     }
 
@@ -51,5 +51,9 @@ public interface User {
         String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents";
         String FIRST_NOTIFICATION_DASHBOARD = "sendFirstNotificationDashboard";
         String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
+    }
+
+    interface old {
+        String RESEARCH_TALK = "currentResearchTalk"; //Int
     }
 }

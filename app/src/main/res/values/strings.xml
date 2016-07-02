@@ -19,6 +19,13 @@
     <string name="register">Register</string>
     <string name="map">Map</string>
 
+    <string name="name">Name</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="already_have_Account">Already have account?</string>
+    <string name="login_message">Enter your email address</string>
+
 
     <!-- Home -->
     <string name="home_title">Select what suits your needs!</string>

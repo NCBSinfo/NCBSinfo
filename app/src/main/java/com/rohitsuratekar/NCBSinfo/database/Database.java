@@ -54,9 +54,10 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-    public void restartDatabase(SQLiteDatabase db) {
-        new Tables(db).dropAllTables();
-        onCreate(db);
+
+    public void restartDatabase() {
+        new Tables(getWritableDatabase()).dropAllTables();
+        onCreate(getWritableDatabase());
     }
 
     public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {

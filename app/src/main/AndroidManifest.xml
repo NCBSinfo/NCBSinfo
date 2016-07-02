@@ -4,6 +4,7 @@
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -40,7 +41,8 @@
         <activity android:name=".activities.OfflineHome" />
         <activity android:name=".activities.transport.Transport" />
         <activity android:name=".activities.contacts.Contacts" />
-        <activity android:name=".activities.login.Login" />
+        <activity android:name=".activities.login.Login"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activities.login.Registration" />
         <activity android:name=".activities.events.Events" />
         <activity android:name=".activities.dashboard.DashBoard" />

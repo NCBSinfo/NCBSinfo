@@ -1,6 +1,8 @@
 package com.rohitsuratekar.NCBSinfo.utilities;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
@@ -18,6 +20,15 @@ import java.util.Locale;
 public class General implements User {
 
     private final String TAG = getClass().getSimpleName();
+
+    //Check network condition
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 
     public String timeStamp() {
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss a d MMM yy", Locale.getDefault());
