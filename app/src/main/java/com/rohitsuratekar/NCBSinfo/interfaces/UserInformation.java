@@ -58,7 +58,7 @@ public interface UserInformation {
     }
 
     interface firstTime {
-        String APP_OPEN = "firstTimeAppOpen";
+        String APP_OPEN = "firstTimeAppOpen_01July";
         String DATA_MIGRATED = "dataMIgrated";
         String CAMP_NOTICE = "camp_notice_firstTime";
         String CAMP_EVENTS_FETCHED = "campEventFetched";

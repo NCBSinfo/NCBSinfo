@@ -53,6 +53,7 @@
         </service>
         <service android:name=".background.NetworkOperations" />
         <service android:name=".background.DataManagement" />
+        <service android:name=".background.ChangeTransport" />
 
         <receiver android:name=".background.Alarms" />
         <receiver android:name=".background.ChangedState">

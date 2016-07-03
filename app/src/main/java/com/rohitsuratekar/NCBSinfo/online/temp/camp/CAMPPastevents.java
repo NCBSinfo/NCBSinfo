@@ -12,10 +12,9 @@ import android.view.ViewGroup;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
-import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +22,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class CAMPEventFragment extends Fragment implements UserInformation{
+/**
+ * NCBSinfo © 2016, Secret Biology
+ * https://github.com/NCBSinfo/NCBSinfo
+ * Created by Rohit Suratekar on 01-07-16.
+ */
+public class CAMPPastevents extends Fragment implements UserInformation {
     RecyclerView recyclerView;
     List<ConferenceModel> fullList;
     CAMPadapter adapter;
@@ -54,10 +58,12 @@ public class CAMPEventFragment extends Fragment implements UserInformation{
         for (ConferenceModel c : fullList){
 
             Date targetDate =  new Utilities().convertToTalkDate(c.getEventDate(), c.getEventStartTime());
-            if(targetDate.after(new Date())){
+            if(targetDate.before(new Date())){
                 refinedList.add(c);
             }
         }
+
+        Collections.reverse(refinedList);
 
         adapter = new CAMPadapter(refinedList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(rootView.getContext());

@@ -29,12 +29,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
@@ -46,11 +43,9 @@ import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
-import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
 import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
-import com.rohitsuratekar.NCBSinfo.online.constants.RemoteConstants;
 import com.rohitsuratekar.NCBSinfo.online.events.Events;
 import com.rohitsuratekar.NCBSinfo.online.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.online.maps.MapActivity;
@@ -73,7 +68,6 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
     RelativeLayout homeLayout;
     TransportModel transport;
     SharedPreferences pref;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -96,8 +90,6 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
         //Set up remote configuration and firebase
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -201,9 +193,6 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             }
 
         }, 0, 1000); //1000 is milliseconds for each time tick
-
-        //Get configuration
-        getConfiguration();
 
         //Submit registration details for new user
 
@@ -369,68 +358,6 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
     }
 
-    private void getConfiguration() {
-
-        //TODO: Handle this with background services
-
-        long cacheExpiration = RemoteConstants.CACHE_EXPIRATION;
-
-        // If in developer mode cacheExpiration is set to 0 so each fetch will retrieve values from
-        // the server.
-        if (mFirebaseRemoteConfig != null) {
-            if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
-                cacheExpiration = 0;
-            }
-            if (new Utilities().isOnline(getBaseContext())) {
-                mFirebaseRemoteConfig.fetch(cacheExpiration)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "Fetch Succeeded");
-                                    // Once the config is successfully fetched it must be activated before newly fetched
-                                    // values are returned.
-                                    mFirebaseRemoteConfig.activateFetched();
-                                    setTransportValue(mFirebaseRemoteConfig, pref);
-                                    pref.edit().putBoolean(netwrok.IS_OLD_VERSION, mFirebaseRemoteConfig.getBoolean(netwrok.IS_OLD_VERSION)).apply();
-                                    pref.edit().putBoolean(registration.camp16.CAMP_ACCESS, false).apply();
-                                    pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
-
-                                } else {
-                                    Log.d(TAG, "Fetch failed");
-                                }
-                            }
-                        });
-            } else {
-                Log.e(TAG, "No connection detected!");
-            }
-        }
-
-    }
-
-    public void setTransportValue(FirebaseRemoteConfig mFirebaseRemoteConfig, SharedPreferences pref) {
-        pref.edit().putString(TransportConstants.NCBS_IISC_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_WEEK)).apply();
-        pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_IISC_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.IISC_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.IISC_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.IISC_NCBS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.NCBS_MANDARA_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_WEEK)).apply();
-        pref.edit().putString(TransportConstants.NCBS_MANDARA_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_MANDARA_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.MANDARA_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.MANDARA_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.MANDARA_NCBS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.NCBS_ICTS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.NCBS_ICTS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_ICTS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.ICTS_NCBS_WEEK, mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_WEEK)).apply();
-        pref.edit().putString(TransportConstants.ICTS_NCBS_SUNDAY, mFirebaseRemoteConfig.getString(TransportConstants.ICTS_NCBS_SUNDAY)).apply();
-        pref.edit().putString(TransportConstants.NCBS_CBL, mFirebaseRemoteConfig.getString(TransportConstants.NCBS_CBL)).apply();
-        pref.edit().putString(TransportConstants.BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_NCBS)).apply();
-        pref.edit().putString(TransportConstants.BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.BUGGY_MANDARA)).apply();
-
-        pref.edit().putString(TransportConstants.CAMP_BUGGY_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_BUGGY_NCBS)).apply();
-        pref.edit().putString(TransportConstants.CAMP_BUGGY_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_BUGGY_MANDARA)).apply();
-        pref.edit().putString(TransportConstants.CAMP_SHUTTLE_MANDARA, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_SHUTTLE_MANDARA)).apply();
-        pref.edit().putString(TransportConstants.CAMP_SHUTTLE_NCBS, mFirebaseRemoteConfig.getString(TransportConstants.CAMP_SHUTTLE_NCBS)).apply();
-        pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
-    }
 
     private boolean isCampUser() {
         return pref.getString(registration.EMAIL, "email@domain.com").split("@")[1].equals(registration.camp16.CAMP_PATTERN);
