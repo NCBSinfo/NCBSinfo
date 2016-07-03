@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
+import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
@@ -40,10 +41,6 @@ public class Home extends AppCompatActivity implements AppConstants {
 
         //Initialization
         pref = new Preferences(getBaseContext());
-
-        Intent s = new Intent(this, ServiceCentre.class);
-        s.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-        startService(s);
 
         homeIcon = (ImageView) findViewById(R.id.home_icon);
         fragment1 = (ImageView) findViewById(R.id.home_fragment1);
@@ -74,8 +71,7 @@ public class Home extends AppCompatActivity implements AppConstants {
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pref.app().setMode(modes.ONLINE);
-                startActivity(new Intent(Home.this, Login.class));
+                startActivity(new Intent(Home.this, Registration.class));
             }
         });
 

@@ -3,4 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/experimental_grid"
+            android:layout_gravity="center_horizontal"
+            android:numColumns="3"
+            android:choiceMode="singleChoice" />
+    </LinearLayout>
+
 </LinearLayout>

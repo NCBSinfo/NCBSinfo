@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="no_internet">Please check your internet connection.</string>
+
     <string name="warning_online">Online mode</string>
     <string name="warning_online_details">This mode will require internet connection. You will be able to access the full features
     of this application from here. Internet and battery usage is already optimized for good user experience. You can switch to the Offline Mode anytime from the Settings.</string>

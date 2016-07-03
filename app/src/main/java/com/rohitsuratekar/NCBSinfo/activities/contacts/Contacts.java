@@ -45,8 +45,8 @@ public class Contacts extends BaseActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ImportantContactFragment(), "Important");
+        adapter.addFragment(new PinnedContactsFragment(), "Sections");
         adapter.addFragment(new FavoriteContactsFragment(), "Favorites");
-        adapter.addFragment(new PinnedContactsFragment(), "Departments");
         adapter.addFragment(new ContactListFragment(), "All contacts");
         viewPager.setAdapter(adapter);
     }

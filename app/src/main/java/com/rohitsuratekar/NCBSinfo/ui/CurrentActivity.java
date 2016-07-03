@@ -50,7 +50,7 @@ public enum CurrentActivity {
             R.id.nav_login,
             false), //Login
 
-    REGISTRATION (
+    REGISTRATION(
             R.string.register,
             R.layout.register,
             R.id.nav_register,
@@ -72,6 +72,11 @@ public enum CurrentActivity {
             R.string.experimental,
             R.layout.experimental,
             R.id.nav_experimental,
+            false),
+    LECTUREHALLS(
+            R.string.lecture_hall,
+            R.layout.lecturehalls,
+            R.id.nav_location,
             false);
 
 
@@ -82,9 +87,10 @@ public enum CurrentActivity {
 
     /**
      * Need this for setting up UI fo respective activity
-     * @param Title : Name of activity
-     * @param Layout : Layout resource of activity
-     * @param DrawerItem : ID of navigation item which will be highlighted
+     *
+     * @param Title         : Name of activity
+     * @param Layout        : Layout resource of activity
+     * @param DrawerItem    : ID of navigation item which will be highlighted
      * @param needTabLayout : Do this activity need tab host for fragment hosting
      */
 

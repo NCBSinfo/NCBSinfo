@@ -40,7 +40,7 @@
         <activity android:name=".activities.OnlineHome" />
         <activity android:name=".activities.OfflineHome" />
         <activity android:name=".activities.transport.Transport" />
-
+        <activity android:name=".activities.locations.LectureHalls" />
         <activity android:name=".activities.events.Events" />
         <activity android:name=".activities.dashboard.DashBoard" />
         <activity android:name=".activities.experimental.Experimental" />

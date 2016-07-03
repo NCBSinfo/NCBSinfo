@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +37,7 @@ public class Login extends BaseActivity implements AppConstants {
         return CurrentActivity.LOGIN;
     }
 
+    public static final String INTENT = Login.class.getName();
     private final String TAG = getClass().getSimpleName();
 
     private ProgressDialog progress;
@@ -64,40 +66,50 @@ public class Login extends BaseActivity implements AppConstants {
         passwordLayout = (TextInputLayout) findViewById(R.id.input_layout_signin_pass);
         forgotPass = (TextView) findViewById(R.id.login_forgotPass_text);
 
+        Intent intent = getIntent();
+        String userEmail = intent.getStringExtra(INTENT);
+        if (userEmail != null) {
+            email.setText(userEmail);
+        }
         forgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateEmail()) {
-                    new AlertDialog.Builder(Login.this)
-                            .setTitle("Password reset")
-                            .setMessage(getString(R.string.warning_password_reset, email.getText().toString()))
-                            .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    showProgressDialog();
-                                    progress.setMessage("Sending email...");
-                                    mAuth.sendPasswordResetEmail(email.getText().toString())
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (!task.isSuccessful()) {
-                                                        hideProgressDialog();
-                                                        new FirebaseErrors(getBaseContext(),
-                                                                task.getException(), Login.this, R.drawable.icon_sign)
-                                                                .dialogWarning();
-                                                    } else {
-                                                        hideProgressDialog();
-                                                        redirectToInternet();
+                    if (new General().isNetworkAvailable(getBaseContext())) {
+                        new AlertDialog.Builder(Login.this)
+                                .setTitle("Password reset")
+                                .setMessage(getString(R.string.warning_password_reset, email.getText().toString()))
+                                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        showProgressDialog();
+                                        progress.setMessage("Sending email...");
+                                        mAuth.sendPasswordResetEmail(email.getText().toString())
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (!task.isSuccessful()) {
+                                                            hideProgressDialog();
+                                                            new FirebaseErrors(getBaseContext(),
+                                                                    task.getException(), Login.this, R.drawable.icon_sign)
+                                                                    .dialogWarning();
+                                                        } else {
+                                                            hideProgressDialog();
+                                                            redirectToInternet();
+                                                        }
                                                     }
-                                                }
-                                            });
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .show();
+                                                });
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .show();
+                    }//Network
+                    else {
+                        Toast.makeText(getBaseContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
@@ -129,6 +141,22 @@ public class Login extends BaseActivity implements AppConstants {
                                                 case FirebaseErrors.INVALID_USER:
                                                     emailLayout.setError(warning);
                                                     requestFocus(email);
+                                                    new AlertDialog.Builder(Login.this)
+                                                            .setTitle(email.getText().toString() + " ?")
+                                                            .setMessage(warning)
+                                                            .setPositiveButton("Register", new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    Intent intent = new Intent(Login.this, Registration.class);
+                                                                    intent.putExtra(Registration.INTENT, email.getText().toString());
+                                                                    startActivity(intent);
+                                                                }
+                                                            })
+                                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                }
+                                                            })
+                                                            .show();
                                                     break;
                                                 case FirebaseErrors.WRONG_PASSWORD:
                                                     passwordLayout.setError(warning);
@@ -161,6 +189,9 @@ public class Login extends BaseActivity implements AppConstants {
                         );
 
                     }
+                }//Network Available
+                else {
+                    Toast.makeText(getBaseContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
                 }
             }
         });
