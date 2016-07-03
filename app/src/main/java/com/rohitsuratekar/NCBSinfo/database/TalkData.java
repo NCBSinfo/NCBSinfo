@@ -13,7 +13,6 @@ import java.util.List;
 public class TalkData {
 
     //Public constants
-    public static final String TABLE_OLD_TALK = "table_talkdata"; //Old table
     public static final String TABLE_TALK = "table_research_talk";
     public static final String TALK_KEY_ID = "talk_id";
     public static final String TALK_TIMESTAMP = "talk_timestamp";
@@ -146,9 +145,4 @@ public class TalkData {
         return entry;
     }
 
-    //Delete old table
-    public void dropOldtable(){
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OLD_TALK);
-        db.close();
-    }
 }

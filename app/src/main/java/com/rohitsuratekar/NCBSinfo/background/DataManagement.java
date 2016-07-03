@@ -3,8 +3,6 @@ package com.rohitsuratekar.NCBSinfo.background;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -17,9 +15,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rohitsuratekar.NCBSinfo.interfaces.RemoteData;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
-import com.rohitsuratekar.NCBSinfo.utilities.CurrentUser;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.constants.RemoteData;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 import java.util.Map;
 
@@ -30,20 +29,19 @@ import java.util.Map;
  * This can be triggered by alarm manager
  */
 
-public class DataManagement extends IntentService implements User, RemoteData {
+public class DataManagement extends IntentService implements RemoteData, AppConstants {
 
     //Public Constants
-    public static final String INTENT = "dataIntent";
+    public static final String INTENT = DataManagement.class.getName();
     public static final String SEND_FIREBASEDATE = "send_firebaseData";
     public static final String FETCH_FIREBASE_DATA = "fetch_firebaseData";
 
     //Local constants
     private final String TAG = getClass().getSimpleName();
     private Context context;
-    private SharedPreferences pref;
+    private Preferences pref;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private CurrentUser userData;
 
     public DataManagement(String name) {
         super(name);
@@ -57,8 +55,7 @@ public class DataManagement extends IntentService implements User, RemoteData {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "Data Service started");
         this.context = getBaseContext();
-        this.pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        this.userData = new CurrentUser(context);
+        this.pref = new Preferences(context);
         //Initialize Firebase
         this.mAuth = FirebaseAuth.getInstance();
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -78,17 +75,17 @@ public class DataManagement extends IntentService implements User, RemoteData {
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Log.i(TAG, pref.getString(USER_TYPE, currentUserType.NEW_USER));
-            if (!pref.getString(USER_TYPE, currentUserType.NEW_USER).equals(currentUserType.OLD_USER)) {
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(userData.getName());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(userData.getEmail());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.TOKEN).setValue(userData.getToken());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.LATEST_APP).setValue(pref.getInt(APP_VERSION, 0));
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.DEFAULT_ROUTE).setValue(userData.getDefaultRoute()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            Log.i(TAG, pref.user().getUserType());
+            if (!pref.user().getUserType().equals(userType.OLD_USER.getValue())) {
+                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(pref.user().getName());
+                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(pref.user().getEmail());
+                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.TOKEN).setValue(pref.user().getToken());
+                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.LATEST_APP).setValue(pref.app().getAppVesion());
+                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.DEFAULT_ROUTE).setValue(pref.user().getDefaultRoute()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isComplete()) {
-                            pref.edit().putString(USER_TYPE, currentUserType.REGULAR_USER).apply();
+                            pref.user().setUserType(userType.REGULAR_USER);
                         }
                     }
                 });
@@ -112,23 +109,24 @@ public class DataManagement extends IntentService implements User, RemoteData {
                     Map<String, Object> data = (Map<String, Object>) dataSnapshot.getValue();
                     if (data != null) {
                         if (data.get(RemoteData.data.USERNAME) != null) {
-                            pref.edit().putString(profile.NAME, data.get(RemoteData.data.USERNAME).toString()).apply();
+                            pref.user().setName(data.get(RemoteData.data.USERNAME).toString());
                         }
                         if (data.get(RemoteData.data.EMAIL) != null) {
-                            pref.edit().putString(profile.EMAIL, data.get(RemoteData.data.EMAIL).toString()).apply();
+                            pref.user().setEmail(data.get(RemoteData.data.EMAIL).toString());
                         }
                         if (data.get(RemoteData.data.DEFAULT_ROUTE) != null) {
-                            pref.edit().putInt(preferences.DEFAULT_ROUTE, Integer.parseInt(data.get(RemoteData.data.DEFAULT_ROUTE).toString())).apply();
+                            pref.user().setDefaultRoute(new TransportHelper(context).getRoute(Integer.parseInt(data.get(RemoteData.data.DEFAULT_ROUTE).toString())));
                         }
-                        pref.edit().putString(USER_TYPE, currentUserType.REGULAR_USER).apply();
+                        pref.user().setUserType(userType.REGULAR_USER);
                     } else {
                         //If user has not registered with their data last time, send now.
                         //However this will not sync their previous data
                         //TODO: implement something here when Firebase will start working with proxy
-                        pref.edit().putString(USER_TYPE, currentUserType.NEW_USER).apply();
+                        pref.user().setUserType(userType.NEW_USER);
                         sendDetails();
                     }
                 }
+
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {

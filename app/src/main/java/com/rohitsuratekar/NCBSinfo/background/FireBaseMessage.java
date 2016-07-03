@@ -2,7 +2,7 @@ package com.rohitsuratekar.NCBSinfo.background;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 
 /**
  * NCBSinfo © 2016, Secret Biology

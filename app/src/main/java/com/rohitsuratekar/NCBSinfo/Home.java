@@ -1,11 +1,9 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -18,27 +16,34 @@ import android.widget.ImageView;
 
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
+import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
-public class Home extends AppCompatActivity implements User {
+public class Home extends AppCompatActivity implements AppConstants {
 
     public final String TAG = getClass().getSimpleName();
 
     ImageView homeIcon;
     ImageView fragment1, fragment2, fragment3;
-    SharedPreferences pref;
     DisplayMetrics metrics;
     int f1_x, f1_y, f2_x, f2_y, f3_x, f3_y;
     Button online, offline;
+    Preferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-        //Initialization
-        pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+
+        //Initialization
+        pref = new Preferences(getBaseContext());
+
+        Intent i = new Intent(this, ServiceCentre.class);
+        i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+        startService(i);
 
         homeIcon = (ImageView) findViewById(R.id.home_icon);
         fragment1 = (ImageView) findViewById(R.id.home_fragment1);
@@ -48,7 +53,7 @@ public class Home extends AppCompatActivity implements User {
 
         //Initialize app with latest app version
         try {
-            pref.edit().putInt(APP_VERSION, getPackageManager().getPackageInfo(getPackageName(), 0).versionCode).apply();
+            pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -69,7 +74,7 @@ public class Home extends AppCompatActivity implements User {
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pref.edit().putString(MODE, ONLINE).apply();
+                pref.app().setMode(modes.ONLINE);
                 startActivity(new Intent(Home.this, Login.class));
             }
         });
@@ -77,7 +82,7 @@ public class Home extends AppCompatActivity implements User {
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pref.edit().putString(MODE, OFFLINE).apply();
+                pref.app().setMode(modes.OFFLINE);
                 startActivity(new Intent(Home.this, OfflineHome.class));
             }
         });

@@ -4,10 +4,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -15,12 +13,13 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 /**
@@ -31,7 +30,7 @@ import com.rohitsuratekar.NCBSinfo.utilities.General;
  * (2) Research Talk notifications will be sent only in 'Online' mode
  * (3) FCM notifications will be send in all modes except 'Offline'. (FCM data can still be accessed in 'Offline' mode)
  */
-public class NotificationService implements User, NetworkConstants {
+public class NotificationService implements NetworkConstants, AppConstants {
 
     private Context context;
     private final String TAG = getClass().getSimpleName();
@@ -185,9 +184,9 @@ public class NotificationService implements User, NetworkConstants {
     }
 
     private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        Preferences pref = new Preferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.
-        if (pref.getBoolean(preferences.NOTIFICATIONS, true) && !pref.getString(MODE, ONLINE).equals(OFFLINE)) {
+        if (pref.user().isNotificationAllowed() && !pref.app().getMode().equals(modes.OFFLINE.getValue())) {
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(notificationNumber, mBuilder.build());
         }

@@ -3,11 +3,9 @@ package com.rohitsuratekar.NCBSinfo.activities.login;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -25,13 +23,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.Database;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
-public class Login extends BaseActivity implements User {
+public class Login extends BaseActivity implements AppConstants {
     @Override
     protected CurrentActivity setCurrentActivity() {
         return CurrentActivity.LOGIN;
@@ -46,7 +45,7 @@ public class Login extends BaseActivity implements User {
     TextInputLayout emailLayout, passwordLayout;
     TextView forgotPass;
     FirebaseAuth mAuth;
-    SharedPreferences pref;
+    Preferences pref;
     int cancelProgress;
 
     @Override
@@ -54,7 +53,7 @@ public class Login extends BaseActivity implements User {
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
-        pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        pref = new Preferences(getBaseContext());
         progress = new ProgressDialog(Login.this);
         cancelProgress = 1;
 
@@ -142,17 +141,16 @@ public class Login extends BaseActivity implements User {
                                                     firebaseErrors.dialogWarning();
                                             }
                                         } else {
-                                            pref.edit().clear().apply();
+                                            pref.clearAll();
                                             new Database(getBaseContext()).restartDatabase();
                                             //TODO: network operations
 
                                             //Put all shared preferences
-                                            pref.edit().putString(MODE, ONLINE).apply();
-                                            pref.edit().putString(profile.EMAIL, email.getText().toString()).apply();
-                                            pref.edit().putBoolean(profile.REGISTERED, true).apply();
-                                            pref.edit().putString(USER_TYPE, currentUserType.OLD_USER).apply();
-                                            pref.edit().putString(profile.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken()).apply();
-
+                                            pref.app().setMode(modes.ONLINE);
+                                            pref.user().setEmail(email.getText().toString());
+                                            pref.user().setAuthorization(loginStatus.SUCCESS);
+                                            pref.user().setUserType(userType.OLD_USER);
+                                            pref.user().setToken(FirebaseInstanceId.getInstance().getToken());
                                             Intent intent = new Intent(Login.this, OnlineHome.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
@@ -247,20 +245,19 @@ public class Login extends BaseActivity implements User {
 
         public void run() {
 
-            if(cancelProgress==1){
+            if (cancelProgress == 1) {
                 progress.setMessage("It is taking longer than expected...");
-            }
-            else {
+            } else {
                 stopProgress();
             }
 
-            cancelProgress = cancelProgress+1;
+            cancelProgress = cancelProgress + 1;
 
             handler.postDelayed(this, 5000);
         }
     };
 
-    private void stopProgress(){
+    private void stopProgress() {
         hideProgressDialog();
         handler.removeCallbacks(runnable);
         cancelProgress = 1;

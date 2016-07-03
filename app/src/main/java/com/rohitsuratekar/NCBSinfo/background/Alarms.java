@@ -10,9 +10,10 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
@@ -25,19 +26,18 @@ import java.util.List;
  * https://github.com/NCBSinfo/NCBSinfo
  * Created by Rohit Suratekar on 01-07-16.
  */
-public class Alarms extends BroadcastReceiver implements AlarmConstants, User {
+public class Alarms extends BroadcastReceiver implements AlarmConstants, AppConstants {
 
-    public static final String INTENT = "alarmIntent";
-
+    public static final String INTENT = Alarms.class.getName();
     private final String TAG = getClass().getSimpleName();
 
     Context context;
-    SharedPreferences pref;
+    Preferences pref;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
+        pref = new Preferences(context);
         String currentIntent = intent.getStringExtra(INTENT);
         if (currentIntent != null) {
             Log.i(TAG, "Received intent: " + currentIntent);
@@ -62,7 +62,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, User {
 
     private void startDataFetch(Context context) {
         //Strict policy for data fetch. It will be fetched only when mode is not "offline".
-        if (!PreferenceManager.getDefaultSharedPreferences(context).getString(MODE, OFFLINE).equals(OFFLINE)) {
+        if (!pref.app().getMode().equals(modes.OFFLINE.getValue())) {
             Intent service = new Intent(context, NetworkOperations.class);
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
             context.startService(service);
@@ -73,7 +73,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, User {
     public void resetAll() {
 
         //Cancel past alarms
-        if (!pref.getBoolean(firstTime.CANCELED_PAST_ALARMS, false)) {
+        if (!pref.app().arePastAlarmsCancelled()) {
             cancelOld();
         }
 
@@ -149,7 +149,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, User {
     private long timeLeft(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int onsetTime = PreferenceManager.getDefaultSharedPreferences(context).getInt(preferences.NOTIFICANTION_ONSET, 10);
+        int onsetTime = pref.user().getNotificationOnset();
         long time = calendar.getTimeInMillis() - onsetTime * 60000; //Onset will be in min
         calendar.setTimeInMillis(time);
         if (calendar.before(Calendar.getInstance())) {
@@ -185,7 +185,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, User {
         if (sender5 != null) {
             alarmManager.cancel(sender5);
         }
-        pref.edit().putBoolean(firstTime.CANCELED_PAST_ALARMS, true).apply();
+        pref.app().setPastAlarmsCancelled();
         Log.i(TAG, "Cancelled all past alarms!");
     }
 }

@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.interfaces;
+package com.rohitsuratekar.NCBSinfo.constants;
 
 /**
  * NCBSinfo © 2016, Secret Biology

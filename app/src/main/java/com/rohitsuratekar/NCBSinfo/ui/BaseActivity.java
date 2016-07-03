@@ -19,7 +19,6 @@ import android.view.ViewStub;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
 /**
@@ -29,7 +28,7 @@ import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
  */
 
 public abstract class BaseActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, User {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     CurrentActivity currentActivity;
 

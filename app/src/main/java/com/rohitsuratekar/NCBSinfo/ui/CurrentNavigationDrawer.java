@@ -1,18 +1,15 @@
 package com.rohitsuratekar.NCBSinfo.ui;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
-import com.rohitsuratekar.NCBSinfo.utilities.CurrentUser;
 
 /**
  * Custom navigation drawer
@@ -21,30 +18,29 @@ import com.rohitsuratekar.NCBSinfo.utilities.CurrentUser;
  * Create different functions for any new mode
  */
 
-public class CurrentNavigationDrawer implements User {
+public class CurrentNavigationDrawer {
 
     CurrentActivity currentActivity;
     NavigationView navigationView;
-    SharedPreferences pref;
+    Preferences pref;
     String versionName;
     Context context;
     View header;
     TextView name, email;
     CurrentMode mode;
-    CurrentUser user;
+
 
     public CurrentNavigationDrawer(CurrentActivity currentActivity, NavigationView navigationView, Context context) {
         this.currentActivity = currentActivity;
         this.navigationView = navigationView;
         this.context = context;
-        this.pref = PreferenceManager.getDefaultSharedPreferences(context);
+        this.pref = new Preferences(context);
         try {
             versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         this.mode = new CurrentMode(context);
-        this.user = new CurrentUser(context);
     }
 
     //Call this activity from outside class
@@ -93,29 +89,34 @@ public class CurrentNavigationDrawer implements User {
     private void setOnline() {
         MenuItem currentMenu = navigationView.getMenu().findItem(R.id.nav_dashboard);
         if (currentMenu != null) {
-            currentMenu.setTitle(user.getName().trim().split(" ")[0] + "\'s " + context.getString(R.string.dashboard));
+            currentMenu.setTitle(pref.user().getName().trim().split(" ")[0] + "\'s " + context.getString(R.string.dashboard));
         }
         if (name != null) {
-            name.setText(user.getName());
-            email.setText(user.getEmail());
+            name.setText(pref.user().getName());
+            email.setText(pref.user().getEmail());
         }
         navigationView.getMenu().removeItem(R.id.nav_offline_location);
         navigationView.getMenu().findItem(R.id.nav_change_mode).setIcon(R.drawable.icon_wifi_on);
     }
 
-    private void setSubgroups(){
-        switch (currentActivity){
+    private void setSubgroups() {
+        switch (currentActivity) {
             case HOME:
-                navigationView.getMenu().setGroupEnabled(R.id.nav_main_group,false); break;
-            case EXPERIMENTAL: navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true); break;
+                navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
+                break;
+            case EXPERIMENTAL:
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
+                break;
             case LOGIN:
                 navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
                 navigationView.getMenu().findItem(R.id.nav_settings).setEnabled(true);
-                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true); break;
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true);
+                break;
             case REGISTRATION:
                 navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
                 navigationView.getMenu().findItem(R.id.nav_settings).setEnabled(true);
-                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true); break;
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true);
+                break;
         }
     }
 }

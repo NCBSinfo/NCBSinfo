@@ -41,16 +41,21 @@
         <activity android:name=".activities.OfflineHome" />
         <activity android:name=".activities.transport.Transport" />
         <activity android:name=".activities.contacts.Contacts" />
-        <activity android:name=".activities.login.Login"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.login.Registration" />
         <activity android:name=".activities.events.Events" />
         <activity android:name=".activities.dashboard.DashBoard" />
         <activity android:name=".activities.experimental.Experimental" />
+        <activity
+            android:name=".activities.login.Registration"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.login.Login"
+            android:windowSoftInputMode="stateHidden" />
+
 
         <!-- Receivers and Services -->
         <receiver android:name=".background.Alarms" />
 
+        <service android:name=".background.ServiceCentre" />
         <service android:name=".background.NetworkOperations" />
         <service android:name=".background.TransportHandler" />
         <service android:name=".background.DataManagement" />

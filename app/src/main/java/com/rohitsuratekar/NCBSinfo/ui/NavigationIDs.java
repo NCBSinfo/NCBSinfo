@@ -14,10 +14,9 @@ import com.rohitsuratekar.NCBSinfo.activities.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
-public class NavigationIDs implements User {
+public class NavigationIDs {
 
     int resourceID;
     Activity activity;

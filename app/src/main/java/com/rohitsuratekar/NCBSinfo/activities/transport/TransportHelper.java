@@ -9,7 +9,6 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.MondayModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.SundayModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.WeekDayModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
 import java.text.ParseException;
@@ -21,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class TransportHelper implements User {
+public class TransportHelper {
 
     public static final int DEFAULT_NO = 1989;
     public static final String DEFAULT_TRIPS = "{\"00:00\"}";
@@ -34,6 +33,15 @@ public class TransportHelper implements User {
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+
+    public Routes getRoute(int routeNo) {
+        for (Routes currentRoute : Routes.values()) {
+            if (currentRoute.getRouteNo() == routeNo) {
+                return currentRoute;
+            }
+        }
+        return Routes.NCBS_IISC;
+    }
 
     /**
      * Takes raw trip input
@@ -184,7 +192,7 @@ public class TransportHelper implements User {
 
         List<List<String>> allModels = new TransportHelper(context)
                 .rawToRegular(Arrays.asList(new Converters().stringToarray(pref.getString(currentRoute.getSundayKey(), DEFAULT_TRIPS)))
-                        , Arrays.asList(new Converters().stringToarray(pref.getString(currentRoute.getWeekKey(),DEFAULT_TRIPS))));
+                        , Arrays.asList(new Converters().stringToarray(pref.getString(currentRoute.getWeekKey(), DEFAULT_TRIPS))));
 
 
         SundayModel sunday = new SundayModel(allModels.get(0));

@@ -3,12 +3,10 @@ package com.rohitsuratekar.NCBSinfo.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
 import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class General implements User {
+public class General {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -64,8 +62,6 @@ public class General implements User {
         }
         return returnList;
     }
-
-
 
 
 }

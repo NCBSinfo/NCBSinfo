@@ -14,7 +14,7 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
  */
 public class TransportHandler extends IntentService {
 
-    public static final String INTENT = "transportHandler";
+    public static final String INTENT = TransportHandler.class.getName();
     public static final String RESET = "reset";
     public static final String CLEAR_PAST = "clearPast";
 

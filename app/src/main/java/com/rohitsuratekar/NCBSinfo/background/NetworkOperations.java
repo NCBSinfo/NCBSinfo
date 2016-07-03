@@ -10,15 +10,15 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
-import com.rohitsuratekar.NCBSinfo.utilities.CurrentUser;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
@@ -39,10 +39,10 @@ import retrofit2.Response;
  * For Firebase , use DataManagement service.
  * This can be triggered by alarm manager
  */
-public class NetworkOperations extends IntentService implements NetworkConstants, User, AlarmConstants {
+public class NetworkOperations extends IntentService implements NetworkConstants, AlarmConstants, AppConstants {
 
     //Public Constants
-    public static final String INTENT = "networkIntent";
+    public static final String INTENT = NetworkOperations.class.getName();
     public static final String ALL_DATA = "all_data";
 
     public static final String REGISTER = "register";
@@ -56,8 +56,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     //Local constants
     private final String TAG = getClass().getSimpleName();
     private Context context;
-    private SharedPreferences pref;
-    private CurrentUser currentUser;
+    private Preferences pref;
 
     public NetworkOperations() {
         super(NetworkOperations.class.getName());
@@ -71,11 +70,10 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "Network Service started");
         this.context = getBaseContext();
-        this.pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        this.pref = new Preferences(getBaseContext());
         String trigger = intent.getStringExtra(INTENT);
 
-        this.currentUser = new CurrentUser(context);
-
+        //Do not add default field here
         if (trigger != null) {
             switch (trigger) {
                 case REGISTER:
@@ -105,17 +103,18 @@ public class NetworkOperations extends IntentService implements NetworkConstants
             Commands formservice = Service.createService(Commands.class);
             Call<ResponseBody> call = formservice
                     .submitRegistration(
-                            currentUser.getName(),
-                            currentUser.getEmail(),
-                            currentUser.getToken(),
+                            pref.user().getName(),
+                            pref.user().getEmail(),
+                            pref.user().getToken(),
                             mAuth.getCurrentUser().getUid(),
-                            currentUser.getType(),
+                            pref.user().getUserType(),
                             "Submit");
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Log.i(TAG, response.body().toString());
-                    pref.edit().putBoolean(netwrok.REGISTRATION_DETAILS_SENT, true).apply();
+                    //TODO: network details
+                    //pref.edit().putBoolean(netwrok.REGISTRATION_DETAILS_SENT, true).apply();
                     //Start fetching event details
                     researchTalk();
                 }
@@ -183,17 +182,16 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                 }
 
                 //Give notification to user when they receive event data for the first time
-                if (pref.getBoolean(firstTime.FIRST_NOTIFICATION_EVENTS, true)) {
+                if (pref.app().isFirstEventNotificationSent()) {
                     String title = "Check upcoming events";
                     String message = "Now you can check upcoming events at NCBS right from this app. You will receive notifications for events at NCBS";
                     Random random = new Random();
                     int m = random.nextInt(9999 - 1000) + 1000; //Random number to send separate notification
                     new NotificationService(getBaseContext()).sendNotification(title, message, Events.class, m);
-                    pref.edit().putBoolean(firstTime.FIRST_NOTIFICATION_EVENTS, false).apply();
+                    pref.app().firstEventNotificationSent();
                 }
 
                 //start notification service
-                pref.edit().putString(netwrok.LAST_DATA_FETCH, new General().timeStamp()).apply();
                 Intent i = new Intent(NetworkOperations.this, Alarms.class);
                 i.putExtra(Alarms.INTENT, SEND_UPCOMINGS);
                 context.sendBroadcast(i);
@@ -281,7 +279,6 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                         }
 
                     }
-                    pref.edit().putBoolean(firstTime.CAMP_EVENTS_FETCHED, true).apply();
                 }
             }
 
@@ -293,12 +290,12 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     }
 
     public void fetchAllData() {
-        switch (pref.getString(MODE, ONLINE)) {
+
+        switch (modes.valueOf(pref.app().getMode())) {
             case ONLINE:
                 researchTalk();
                 break;
         }
-
     }
 
 }

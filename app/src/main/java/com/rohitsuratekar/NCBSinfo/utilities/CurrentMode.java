@@ -1,12 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.utilities;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.interfaces.User;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
-public class CurrentMode implements User{
+public class CurrentMode implements AppConstants {
 
     String mode;
     int icon;
@@ -14,20 +14,21 @@ public class CurrentMode implements User{
     boolean isOffline;
 
     public CurrentMode(Context context) {
-        switch (PreferenceManager.getDefaultSharedPreferences(context).getString(MODE, OFFLINE)){
-            case OFFLINE:
-                this.mode = OFFLINE;
-                this.icon = R.drawable.icon_wifi_off;
-                this.warningMessage = context.getString(R.string.warning_mode_change_offline);
-                this.isOffline = true;
-                break;
-            case ONLINE:
-                this.mode = ONLINE;
-                this.icon = R.drawable.icon_wifi_on;
-                this.warningMessage = context.getString(R.string.warning_mode_change_online);
-                this.isOffline = false;
-                break;
+
+        String modeString = new Preferences(context).app().getMode();
+
+        if (modeString.equals(modes.OFFLINE.getValue())) {
+            this.mode = modes.OFFLINE.getValue();
+            this.icon = R.drawable.icon_wifi_off;
+            this.warningMessage = context.getString(R.string.warning_mode_change_offline);
+            this.isOffline = true;
+        } else if (modeString.equals(modes.ONLINE.getValue())) {
+            this.mode = modes.ONLINE.getValue();
+            this.icon = R.drawable.icon_wifi_on;
+            this.warningMessage = context.getString(R.string.warning_mode_change_online);
+            this.isOffline = false;
         }
+
     }
 
     public String getMode() {

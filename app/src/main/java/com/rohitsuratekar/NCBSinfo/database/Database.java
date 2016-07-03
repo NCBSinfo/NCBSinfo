@@ -45,6 +45,7 @@ public class Database extends SQLiteOpenHelper {
                     db.execSQL("DROP TABLE IF EXISTS 'table_log'"); //Removing log table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_database'"); //Removing JC database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_external'"); //Removing External database table from this version
+                    db.execSQL("DROP TABLE IF EXISTS 'table_talkdata'"); //Removing Old talk table
             }
         }
         //Remove support from previous databases

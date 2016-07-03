@@ -75,7 +75,6 @@ public class Tables {
         db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_TALK);
         db.execSQL("DROP TABLE IF EXISTS " + ConferenceData.TABLE_CONFERENCE);
         db.execSQL("DROP TABLE IF EXISTS " + NotificationData.TABLE_NOTIFICATIONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_OLD_TALK);
     }
 
 }
