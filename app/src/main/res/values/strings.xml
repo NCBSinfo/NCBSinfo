@@ -32,11 +32,11 @@
     <string name="home_note">You can switch anytime :)</string>
     <string name="home_online">Online Mode</string>
     <string name="home_online_features">Experience the all loaded features</string>
-    <string name="home_online_details">Experience the all loaded features</string>
+    <string name="home_online_details">Experience the full potential</string>
     <string name="home_select_online">I want to go online</string>
     <string name="home_offline">Offline Mode</string>
     <string name="home_offline_features">Lightweight and\nessentials</string>
-    <string name="home_offline_details">All essential features, zero internet use</string>
+    <string name="home_offline_details">Essential features, zero internet use</string>
     <string name="home_select_offline">Offline is fine</string>
 
     <string name="home_trasnport_title">%1$s - %2$s</string>

@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Handler;
 import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
@@ -63,5 +64,8 @@ public class General implements User {
         }
         return returnList;
     }
+
+
+
 
 }

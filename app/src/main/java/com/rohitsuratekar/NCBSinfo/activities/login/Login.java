@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -46,6 +47,7 @@ public class Login extends BaseActivity implements User {
     TextView forgotPass;
     FirebaseAuth mAuth;
     SharedPreferences pref;
+    int cancelProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class Login extends BaseActivity implements User {
         mAuth = FirebaseAuth.getInstance();
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         progress = new ProgressDialog(Login.this);
+        cancelProgress = 1;
 
         loginButton = (Button) findViewById(R.id.button_login);
         email = (TextInputEditText) findViewById(R.id.edittext_signin_email);
@@ -109,6 +112,7 @@ public class Login extends BaseActivity implements User {
                 if (new General().isNetworkAvailable(getBaseContext())) {
                     if (validateEmail() && validatePass()) {
                         showProgressDialog();
+                        runnable.run();
                         progress.setMessage("Signing in...");
 
                         mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(
@@ -236,6 +240,30 @@ public class Login extends BaseActivity implements User {
                 })
                 .show();
 
+    }
+
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+
+        public void run() {
+
+            if(cancelProgress==1){
+                progress.setMessage("It is taking longer than expected...");
+            }
+            else {
+                stopProgress();
+            }
+
+            cancelProgress = cancelProgress+1;
+
+            handler.postDelayed(this, 5000);
+        }
+    };
+
+    private void stopProgress(){
+        hideProgressDialog();
+        handler.removeCallbacks(runnable);
+        cancelProgress = 1;
     }
 
 }

@@ -10,14 +10,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
@@ -31,8 +28,6 @@ public class Home extends AppCompatActivity implements User {
     ImageView homeIcon;
     ImageView fragment1, fragment2, fragment3;
     SharedPreferences pref;
-    LinearLayout footer;
-    TextView footerText;
     DisplayMetrics metrics;
     int f1_x, f1_y, f2_x, f2_y, f3_x, f3_y;
     Button online, offline;
@@ -45,25 +40,15 @@ public class Home extends AppCompatActivity implements User {
         pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
 
-        footer = (LinearLayout) findViewById(R.id.home_footerLayout);
-        footerText = (TextView) findViewById(R.id.home_footerText);
         homeIcon = (ImageView) findViewById(R.id.home_icon);
         fragment1 = (ImageView) findViewById(R.id.home_fragment1);
         fragment2 = (ImageView) findViewById(R.id.home_fragment2);
         fragment3 = (ImageView) findViewById(R.id.home_fragment3);
 
 
-        ViewGroup.LayoutParams params = footer.getLayoutParams();
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            params.height = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        }
-        footer.setLayoutParams(params);
-
         //Initialize app with latest app version
         try {
             pref.edit().putInt(APP_VERSION, getPackageManager().getPackageInfo(getPackageName(), 0).versionCode).apply();
-            footerText.setText(getResources().getString(R.string.app_version, getPackageManager().getPackageInfo(getPackageName(), 0).versionName));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -135,7 +120,6 @@ public class Home extends AppCompatActivity implements User {
         f3_y = temp6;
 
 
-
     }
 
     private int getX() {
@@ -145,7 +129,7 @@ public class Home extends AppCompatActivity implements User {
 
     private int getY() {
         ViewGroup.LayoutParams params = fragment1.getLayoutParams();
-        return new General().randInt(params.height, metrics.heightPixels/2 - params.height);
+        return new General().randInt(params.height, metrics.heightPixels / 2 - params.height);
     }
 
     private void Translate(ImageView view, int x, int y, int newX, int newY) {
