@@ -53,9 +53,10 @@ public class ServiceCentre extends IntentService {
         //Reset Contact Data
         //TODO: Save favorite contacts on remote data and retrieve them on login
         new ContactsData(getBaseContext()).clearAll();
-        String[][] clist = new ContactList().allContacts();
-        for (String[] aClist : clist) {
-            new ContactsData(getBaseContext()).add(new ContactModel(1, aClist[0], aClist[1], aClist[2], aClist[3], "0"));
+
+        String[][] clist2 = new ContactList().allContacts();
+        for (String[] aClist2 : clist2) {
+            new ContactsData(getBaseContext()).add(new ContactModel(1, aClist2[0], aClist2[1], aClist2[2], aClist2[3], "0"));
         }
 
         //Reset Alarms

@@ -56,6 +56,8 @@ public class TransportFragment extends Fragment {
         footnote1 = (TextView) rootView.findViewById(R.id.transport_footnote1);
         footnote2 = (TextView) rootView.findViewById(R.id.transport_footnote2);
         perform(rootView);
+
+
         return rootView;
     }
 
@@ -81,6 +83,8 @@ public class TransportFragment extends Fragment {
         rawWeekTrips = new Converters().convertToSimpleDate(rawWeekTrips);
         rawSundayTrips = new Converters().convertToSimpleDate(rawSundayTrips);
 
+        int focusPoint = 0;
+
         if (transport.isBuggy()) {
 
             for (int i = 0; i < rawWeekTrips.length; i++) {
@@ -88,6 +92,7 @@ public class TransportFragment extends Fragment {
                         new TransportHelper(getContext()).nextTrip(Routes.BUGGY_FROM_NCBS)[1]
                 ))) {
                     rawWeekTrips[i] = coloredText(rawWeekTrips[i]);
+                    focusPoint = i;
                     break;
                 }
             }
@@ -97,6 +102,7 @@ public class TransportFragment extends Fragment {
                         new TransportHelper(getContext()).nextTrip(Routes.BUGGY_FROM_MANDARA)[1]
                 ))) {
                     rawSundayTrips[i] = coloredText(rawSundayTrips[i]);
+                    focusPoint = i;
                     break;
                 }
             }
@@ -108,6 +114,7 @@ public class TransportFragment extends Fragment {
                 for (int i = 0; i < rawSundayTrips.length; i++) {
                     if (rawSundayTrips[i].equals(targetString)) {
                         rawSundayTrips[i] = coloredText(rawSundayTrips[i]);
+                        focusPoint = i;
                         gotDate = true;
                         break;
                     }
@@ -116,6 +123,7 @@ public class TransportFragment extends Fragment {
                     for (int i = 0; i < rawWeekTrips.length; i++) {
                         if (rawWeekTrips[i].equals(targetString)) {
                             rawWeekTrips[i] = coloredText(rawWeekTrips[i]);
+                            focusPoint = i;
                             break;
                         }
                     }
@@ -125,6 +133,7 @@ public class TransportFragment extends Fragment {
                 for (int i = 0; i < rawWeekTrips.length; i++) {
                     if (rawWeekTrips[i].equals(targetString)) {
                         rawWeekTrips[i] = coloredText(rawWeekTrips[i]);
+                        focusPoint = i;
                         gotDate = true;
                         break;
                     }
@@ -133,6 +142,7 @@ public class TransportFragment extends Fragment {
                     for (int i = 0; i < rawSundayTrips.length; i++) {
                         if (rawSundayTrips[i].equals(targetString)) {
                             rawSundayTrips[i] = coloredText(rawSundayTrips[i]);
+                            focusPoint = i;
                             break;
                         }
                     }
@@ -148,6 +158,10 @@ public class TransportFragment extends Fragment {
         sundayTitle.setText(transport.getGetSundayTitle());
         footnote1.setText(transport.getGetFootnote1());
         footnote2.setText(transport.getGetFootnote2());
+        weekList.requestFocus(focusPoint);
+        weekList.setSelection(focusPoint);
+        sundayList.setSelection(focusPoint);
+        sundayList.requestFocus(focusPoint);
 
     }
 

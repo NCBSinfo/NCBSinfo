@@ -38,6 +38,12 @@ public enum CurrentActivity {
             R.id.nav_contacts,
             true), //Contacts
 
+    CONTACTS_ADD(
+            R.string.contacts,
+            R.layout.contact_add,
+            R.id.nav_contacts,
+            false), //Add contacts
+
     LOGIN(
             R.string.login,
             R.layout.login,

@@ -3,21 +3,19 @@ package com.rohitsuratekar.NCBSinfo.background;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
-import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 import com.secretbiology.retro.google.form.Commands;
@@ -182,7 +180,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                 }
 
                 //Give notification to user when they receive event data for the first time
-                if (pref.app().isFirstEventNotificationSent()) {
+                if (!pref.app().isFirstEventNotificationSent()) {
                     String title = "Check upcoming events";
                     String message = "Now you can check upcoming events at NCBS right from this app. You will receive notifications for events at NCBS";
                     Random random = new Random();
@@ -291,10 +289,8 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     public void fetchAllData() {
 
-        switch (modes.valueOf(pref.app().getMode())) {
-            case ONLINE:
-                researchTalk();
-                break;
+        if (pref.app().getMode().equals(modes.ONLINE.getValue())) {
+            researchTalk();
         }
     }
 

@@ -7,19 +7,42 @@ package com.rohitsuratekar.NCBSinfo.activities.contacts;
  */
 public class ContactList {
 
-    public String[][] allContacts() {
-
-
+    public String[][] getEssentials() {
         return new String[][]{
+                {"Emergency", "Reception", "Helpdesk", "080-2366-6666"},
+
                 {"NCBS Reception 1", "Reception", "Helpdesk", "080-2366-6001"},
 
                 {"NCBS Reception 2", "Reception", "Helpdesk", "080-2366-6002"},
 
                 {"NCBS Reception 3", "Reception", "Helpdesk", "080-2366-6018"},
 
-                {"Emergency", "Reception", "Helpdesk", "080-2366-6666"},
+                {"Substation", "substation", "Emergency", "080-2366-6425"}
 
-                {"Substation", "substation", "Emergency", "080-2366-6425"},
+        };
+    }
+
+
+    //TODO: Check this
+    public String[][] getPinned() {
+        return new String[][]{
+                {"Accounts", "accountshelp@ncbs.res.in", "Purushottam.V.Surya Rao", "080-2366-6001"},
+
+                {"Admin", "adminhelp@ncbs.res.in", " S. Ashok Rao", "080-2366-6001"},
+
+                {"Air Conditioning", "achelp@ncbs.res.in", "H S Venkatramana", "080-2366-6001"},
+
+                {"Civil and Architecture", "civilint@ncbs.res.in", "Civil Head", "080-2366-6001"},
+
+                {"Electrical", "elechelp@ncbs.res.in", "Suresh Kumar", "080-2366-6001"}
+
+        };
+    }
+
+    public String[][] allContacts() {
+
+
+        return new String[][]{
 
                 {"Satyajit Mayor", "NCBS Director", "Director&#039;s Office", "080-2366-6301"},
 

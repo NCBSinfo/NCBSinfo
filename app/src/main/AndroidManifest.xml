@@ -40,10 +40,14 @@
         <activity android:name=".activities.OnlineHome" />
         <activity android:name=".activities.OfflineHome" />
         <activity android:name=".activities.transport.Transport" />
-        <activity android:name=".activities.contacts.Contacts" />
+
         <activity android:name=".activities.events.Events" />
         <activity android:name=".activities.dashboard.DashBoard" />
         <activity android:name=".activities.experimental.Experimental" />
+        <activity android:name=".activities.contacts.ContactAdd" />
+        <activity
+            android:name=".activities.contacts.Contacts"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.login.Registration"
             android:windowSoftInputMode="stateHidden" />

@@ -53,6 +53,7 @@ public class ContactsData {
         ContactModel contact = new ContactModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return contact
         cursor.close();
+        db.close();
         return contact;
     }
 
@@ -78,6 +79,7 @@ public class ContactsData {
         }
 
         // return contact list
+        db.close();
         cursor.close();
         return contactList;
     }

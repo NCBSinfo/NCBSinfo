@@ -41,9 +41,9 @@ public class Home extends AppCompatActivity implements AppConstants {
         //Initialization
         pref = new Preferences(getBaseContext());
 
-        Intent i = new Intent(this, ServiceCentre.class);
-        i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-        startService(i);
+        Intent s = new Intent(this, ServiceCentre.class);
+        s.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+        startService(s);
 
         homeIcon = (ImageView) findViewById(R.id.home_icon);
         fragment1 = (ImageView) findViewById(R.id.home_fragment1);
