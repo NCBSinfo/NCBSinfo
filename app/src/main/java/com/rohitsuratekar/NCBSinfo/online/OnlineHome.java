@@ -37,12 +37,15 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
+import com.rohitsuratekar.NCBSinfo.database.ContactsData;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
@@ -184,6 +187,14 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
 
         changeTransport();
+
+        if (pref.getBoolean(Contacts.FIRST_TIME_CONTACT, true)) {
+            String[][] clist = new ContactList().allContacts();
+            for (int j = 0; j < clist.length; j++) {
+                new ContactsData(getBaseContext()).add(new ContactModel(1, clist[j][0], clist[j][1], clist[j][2], clist[j][3], "0"));
+            }
+            pref.edit().putBoolean(Contacts.FIRST_TIME_CONTACT, false).apply();
+        }
 
         Timer timeLeft = new Timer();
         timeLeft.schedule(new TimerTask() {

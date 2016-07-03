@@ -8,8 +8,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 25
-        versionName "4.4"
+        versionCode 26
+        versionName "4.5"
     }
     buildTypes {
         release {

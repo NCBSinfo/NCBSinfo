@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
+import com.rohitsuratekar.NCBSinfo.background.ChangeTransport;
 import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
@@ -104,6 +105,7 @@ public class Home extends AppCompatActivity implements UserInformation {
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         pref.edit().putString(Home.MODE, Home.OFFLINE).apply();
+                        setTransportValue(); //Reset transport values
                         alertDialog.dismiss();
                         Intent intent = new Intent(Home.this, OfflineHome.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
