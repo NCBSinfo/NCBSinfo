@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
@@ -119,6 +120,14 @@ public class CurrentNavigationDrawer {
                 navigationView.getMenu().findItem(R.id.nav_settings).setEnabled(true);
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true);
                 break;
+            case LECTUREHALLS:
+                if(pref.app().getMode().equals(AppConstants.modes.OFFLINE)){
+                    navigationView.getMenu().findItem(R.id.nav_offline_location).setChecked(true);
+                }
+                else {
+                    navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
+                    navigationView.getMenu().findItem(R.id.nav_location).setChecked(true);
+                }
         }
     }
 }

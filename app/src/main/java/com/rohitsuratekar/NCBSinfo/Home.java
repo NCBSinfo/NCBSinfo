@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
+import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
@@ -54,6 +56,8 @@ public class Home extends AppCompatActivity implements AppConstants {
         ButterKnife.bind(this);
         //Initialization
         pref = new Preferences(getBaseContext());
+
+
 
         //Initialize app with latest app version
         try {
@@ -112,16 +116,10 @@ public class Home extends AppCompatActivity implements AppConstants {
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Home.this, Login.class));
+                Intent intent = new Intent(Home.this, LectureHalls.class);
+                startActivity(intent);
             }
         });
-
-//        UpdateUser ee = new UpdateUser("email","ttt","kio");
-//        Map<String, Object> postValues = ee.toMap();
-//        Map<String, Object> childUpdates = new HashMap<>();
-//        childUpdates.put("debug",postValues);
-//        mDatabase.updateChildren(childUpdates);
-
 
     }
 

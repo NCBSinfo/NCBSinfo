@@ -31,6 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     CurrentActivity currentActivity;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view); //Base navigation view
+        navigationView = (NavigationView) findViewById(R.id.nav_view); //Base navigation view
         navigationView.setNavigationItemSelectedListener(this);
 
         //Variables should come from child activity
@@ -58,9 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity
         viewStub.inflate();
         setTitle(getString(currentActivity.getTitle()));
 
-        //Set navigation drawer
         new CurrentNavigationDrawer(currentActivity, navigationView, getBaseContext()).set();
-
         //Hide unwanted items from layout
         setLayout();
 
@@ -97,6 +96,15 @@ public abstract class BaseActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (navigationView != null) {
+            navigationView.getMenu().findItem(currentActivity.getDrawerItem()).setChecked(true);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

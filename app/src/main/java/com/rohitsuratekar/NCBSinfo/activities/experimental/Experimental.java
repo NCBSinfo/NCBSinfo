@@ -8,6 +8,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.canteen.Canteen;
 import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
@@ -50,7 +51,7 @@ public class Experimental extends BaseActivity {
                         startActivity(new Intent(Experimental.this, LectureHalls.class));
                         break;
                     case 1:
-                        Toast.makeText(Experimental.this, "Coming soon", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Experimental.this, Canteen.class));
                         break;
                 }
             }

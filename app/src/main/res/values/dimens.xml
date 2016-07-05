@@ -26,4 +26,6 @@
     <dimen name="login_horizontal_spacing">20sp</dimen>
     <dimen name="login_image_spacer">20sp</dimen>
 
+    <dimen name="canteen_icons">50sp</dimen>
+
 </resources>

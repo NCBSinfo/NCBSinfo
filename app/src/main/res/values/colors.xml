@@ -35,4 +35,7 @@
     <color name="imp_message">#f44336</color>
     <color name="personal_message">#2e7d32</color>
 
+    <color name="canteen_active">#2e7d32</color>
+    <color name="canteen_inactive">#e0f2f1</color>
+
 </resources>

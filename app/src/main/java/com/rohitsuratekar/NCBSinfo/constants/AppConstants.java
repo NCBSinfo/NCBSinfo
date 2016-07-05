@@ -1,5 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.constants;
 
+import com.rohitsuratekar.NCBSinfo.R;
+
 /**
  * NCBSinfo © 2016, Secret Biology
  * https://github.com/NCBSinfo/NCBSinfo
@@ -47,6 +49,25 @@ public interface AppConstants {
 
         public String getValue() {
             return value;
+        }
+    }
+
+    enum canteens {
+        MAIN_CANTEEN_GROUND(R.string.canteen_main_canteen),
+        MAIN_CANTEEN_FIRST(R.string.canteen_main_canteen_firstfloor),
+        MAIN_CANTEEN_FASTFOOD(R.string.canteen_main_canteen_fastfood),
+        ACADEMIC_CAFETERIA(R.string.canteen_academic_cafeteria),
+        ADMIN_CAFETERIA(R.string.canteen_admin_cafeteria),
+        PARKING_CAFETERIA(R.string.canteen_parking_cafeteria);
+
+        private final int nameID;
+
+        canteens(int name) {
+            this.nameID = name;
+        }
+
+        public int getNameID() {
+            return nameID;
         }
     }
 

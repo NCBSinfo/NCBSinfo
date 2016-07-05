@@ -3,7 +3,10 @@ package com.rohitsuratekar.NCBSinfo.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
@@ -61,6 +64,36 @@ public class General {
             }
         }
         return returnList;
+    }
+
+    /**
+     * Sets color to imageview considering compatibility issues
+     * @param context : to get resources
+     * @param imageView : Imageview
+     * @param color : Color resources
+     */
+    public void setColorToIcon(Context context, ImageView imageView, int color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            imageView.setColorFilter(context.getResources().getColor(color, context.getTheme()));
+        }
+        else {
+            imageView.setColorFilter(context.getResources().getColor(color));
+        }
+    }
+
+    /**
+     * Sets color to textview considering compatibility issues
+     * @param context : to get resources
+     * @param textView : TextView
+     * @param color : Color resources
+     */
+    public void setColorToText(Context context, TextView textView, int color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            textView.setTextColor(context.getResources().getColor(color, context.getTheme()));
+        }
+        else {
+            textView.setTextColor(context.getResources().getColor(color));
+        }
     }
 
 

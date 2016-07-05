@@ -45,6 +45,7 @@
         <activity android:name=".activities.dashboard.DashBoard" />
         <activity android:name=".activities.experimental.Experimental" />
         <activity android:name=".activities.contacts.ContactAdd" />
+        <activity android:name=".activities.canteen.Canteen" />
         <activity
             android:name=".activities.contacts.Contacts"
             android:windowSoftInputMode="stateHidden" />

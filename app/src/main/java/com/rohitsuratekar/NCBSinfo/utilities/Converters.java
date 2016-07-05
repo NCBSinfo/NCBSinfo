@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -66,6 +67,27 @@ public class Converters {
             Log.e(TAG, "Date parsing failed in convertToDate :" + trip);
         }
         return finalStrings;
+    }
+
+    /**
+     * @param time : Simple "HH:mm" time
+     * @return : Calender with today's date and that time
+     */
+
+    public Calendar convertToCalender(String time) {
+        SimpleDateFormat fullFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date outPutDate = new Date();
+        try {
+            String day = dateFormat.format(new Date());
+            outPutDate = fullFormat.parse(day +" "+ time.trim().replace(".", ":"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Date parsing failed in convertToCalender :" + time);
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(outPutDate);
+        return cal;
     }
 
 }

@@ -7,6 +7,7 @@ import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.activities.canteen.Canteen;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
@@ -51,6 +52,8 @@ public class NavigationIDs {
                 return new Intent(activity, LectureHalls.class);
             case R.id.nav_offline_location:
                 return new Intent(activity, LectureHalls.class);
+            case R.id.nav_canteen:
+                return new Intent(activity, Canteen.class);
             default:
                 return new Intent(activity, Home.class);
         }

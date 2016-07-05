@@ -73,10 +73,17 @@ public enum CurrentActivity {
             R.layout.experimental,
             R.id.nav_experimental,
             false),
+
     LECTUREHALLS(
             R.string.lecture_hall,
             R.layout.lecturehalls,
             R.id.nav_location,
+            false),
+
+    CANTEEN(
+            R.string.canteen,
+            R.layout.canteen,
+            R.id.nav_canteen,
             false);
 
 

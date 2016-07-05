@@ -24,6 +24,8 @@ public class CurrentMenu {
                 return R.menu.blank_menu;
             case CONTACTS_ADD:
                 return R.menu.blank_menu;
+            case EXPERIMENTAL:
+                return R.menu.blank_menu;
             default:
                 return R.menu.base;
         }

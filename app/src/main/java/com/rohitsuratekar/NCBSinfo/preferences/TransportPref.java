@@ -7,6 +7,7 @@ import android.util.Log;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
 /**
@@ -19,6 +20,8 @@ public class TransportPref {
     private final String TAG = getClass().getSimpleName();
     SharedPreferences pref;
     Context context;
+
+    String LAST_UPDATE = "transportLastUpdated";
 
     protected TransportPref(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -63,8 +66,8 @@ public class TransportPref {
                 pref.edit().putBoolean(Routes.buggy.B.isRunning(), true).apply();
                 break;
             default:
-                pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false)));
-                pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, true)));
+                pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false))).apply();
+                pref.edit().putString(routes.getSundayKey(), context.getString(getDefault(routes, true))).apply();
 
         }
     }
@@ -116,6 +119,14 @@ public class TransportPref {
                 return R.string.def_ncbs_cbl;
             default:
                 return R.string.transport_default_trip;
+        }
+    }
+
+    public String getLastUpdate(){
+        if(new App(pref).getMode().equals(AppConstants.modes.OFFLINE)){
+            return "N/A (offline mode)";
+        }
+        else {return pref.getString(LAST_UPDATE,"Never");
         }
     }
 

@@ -15,7 +15,6 @@ import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
 import java.util.Calendar;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -43,15 +42,10 @@ public class TransportFragment extends Fragment {
     Preferences pref;
 
     //UI elements
-    @BindView(R.id.weekday_trip_title)
-    TextView weekTitle;
-    @BindView(R.id.sunday_trip_title)
-    TextView sundayTitle;
-    @BindView(R.id.transport_footnote1)
-    TextView footnote1;
-    @BindView(R.id.transport_footnote2)
-    TextView footnote2;
 
+    TextView weekTitle, sundayTitle;
+    TextView footnote1, footnote2, lastUpdated;
+    private Unbinder unbinder;
 
 
     @Override
@@ -62,7 +56,7 @@ public class TransportFragment extends Fragment {
         pref = new Preferences(getContext());
         Bundle args = getArguments();
         String name = args.getString("route", Routes.NCBS_IISC.toString());
-        if(name==null){
+        if (name == null) {
             name = Routes.NCBS_IISC.toString();
         }
 
@@ -71,7 +65,13 @@ public class TransportFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.transport_list, container, false);
 
-        ButterKnife.bind(this, rootView);
+        weekTitle = (TextView) rootView.findViewById(R.id.weekday_trip_title);
+        sundayTitle = (TextView) rootView.findViewById(R.id.sunday_trip_title);
+        footnote1 = (TextView) rootView.findViewById(R.id.transport_footnote1);
+        footnote2 = (TextView) rootView.findViewById(R.id.transport_footnote2);
+        lastUpdated = (TextView) rootView.findViewById(R.id.transport_last_update);
+
+        unbinder = ButterKnife.bind(this, rootView);
 
         perform(rootView);
 
@@ -79,8 +79,15 @@ public class TransportFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 
     public void perform(View v) {
+
+        lastUpdated.setText(getString(R.string.transport_last_updated,pref.transport().getLastUpdate()));
 
         //UI initialization
         ListView weekList = (ListView) v.findViewById(R.id.weekdays_trips);
@@ -178,13 +185,11 @@ public class TransportFragment extends Fragment {
         footnote1.setText(transport.getGetFootnote1());
         footnote2.setText(transport.getGetFootnote2());
 
-        if (focusPoint < 4) { //4 is magic number, chosen randomly near 0
-            weekList.smoothScrollToPositionFromTop(focusPoint, 0);
-            sundayList.smoothScrollToPositionFromTop(focusPoint, 0);
-        } else {
-            weekList.smoothScrollToPosition(focusPoint);
-            sundayList.smoothScrollToPosition(focusPoint);
-        }
+        weekList.setSelection(focusPoint);
+        sundayList.setSelection(focusPoint);
+        weekList.smoothScrollToPositionFromTop(focusPoint, 0);
+        sundayList.smoothScrollToPositionFromTop(focusPoint, 0);
+
 
     }
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">NCBS info</string>
     <string name="app_version">v %1$s</string>
-    <string name="navigation_footer">Made in NCBS with love :)</string>
+    <string name="navigation_footer">Made in NCBS :)</string>
     <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
 
     <!-- Titles -->
@@ -66,6 +66,7 @@
     <string name="transport_footer1">*Including Saturday</string>
     <string name="transport_footer2">**Next shuttle after %1$s</string>
     <string name="transport_buggy_footer">**Next buggy after %1$s</string>
+    <string name="transport_last_updated">Timings last updated on : %1$s</string>
 
     <string name="contact_name">Contact Name</string>
     <string name="contact_number">Contact Number</string>
@@ -75,6 +76,19 @@
     <string name="contact_error2">Contact number can not be empty</string>
     <string name="contact_add">Add Contact</string>
     <string name="contact_edit">Edit Contact</string>
+
+    <string name="canteen_welcome">Currently Available Options</string>
+    <string name="canteen_breakfast">Breakfast</string>
+    <string name="canteen_morningTea">Morning Tea</string>
+    <string name="canteen_lunch">Lunch</string>
+    <string name="canteen_eveningTea">Evening Tea</string>
+    <string name="canteen_dinner">Dinner</string>
+    <string name="canteen_main_canteen">Main Canteen Ground Floor</string>
+    <string name="canteen_main_canteen_firstfloor">Main Canteen First Floor</string>
+    <string name="canteen_main_canteen_fastfood">Main Canteen Fast Food Counter</string>
+    <string name="canteen_academic_cafeteria">Academic Cafeteria</string>
+    <string name="canteen_admin_cafeteria">Admin Cafeteria</string>
+    <string name="canteen_parking_cafeteria">Parking Cafeteria</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
