@@ -31,6 +31,9 @@ import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class Login extends BaseActivity implements AppConstants {
     @Override
     protected CurrentActivity setCurrentActivity() {
@@ -39,32 +42,36 @@ public class Login extends BaseActivity implements AppConstants {
 
     public static final String INTENT = Login.class.getName();
     private final String TAG = getClass().getSimpleName();
-
     private ProgressDialog progress;
-
-    Button loginButton;
-    TextInputEditText email, password;
-    TextInputLayout emailLayout, passwordLayout;
-    TextView forgotPass;
     FirebaseAuth mAuth;
     Preferences pref;
+
+    //UI elements
+    @BindView(R.id.button_login)
+    Button loginButton;
+    @BindView(R.id.edittext_signin_email)
+    TextInputEditText email;
+    @BindView(R.id.edittext_signin_password)
+    TextInputEditText password;
+    @BindView(R.id.input_layout_signin_email)
+    TextInputLayout emailLayout;
+    @BindView(R.id.input_layout_signin_pass)
+    TextInputLayout passwordLayout;
+    @BindView(R.id.login_forgotPass_text)
+    TextView forgotPass;
+
     int cancelProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
 
+        //Initialization
         mAuth = FirebaseAuth.getInstance();
         pref = new Preferences(getBaseContext());
         progress = new ProgressDialog(Login.this);
-        cancelProgress = 1;
-
-        loginButton = (Button) findViewById(R.id.button_login);
-        email = (TextInputEditText) findViewById(R.id.edittext_signin_email);
-        password = (TextInputEditText) findViewById(R.id.edittext_signin_password);
-        emailLayout = (TextInputLayout) findViewById(R.id.input_layout_signin_email);
-        passwordLayout = (TextInputLayout) findViewById(R.id.input_layout_signin_pass);
-        forgotPass = (TextView) findViewById(R.id.login_forgotPass_text);
+        cancelProgress = 0;
 
         Intent intent = getIntent();
         String userEmail = intent.getStringExtra(INTENT);
@@ -123,7 +130,8 @@ public class Login extends BaseActivity implements AppConstants {
                 if (new General().isNetworkAvailable(getBaseContext())) {
                     if (validateEmail() && validatePass()) {
                         showProgressDialog();
-                        runnable.run();
+                        cancelProgress = 0;
+                        runnable.run(); //Start timer for connection timeout
                         progress.setMessage("Signing in...");
 
                         mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(
@@ -276,22 +284,36 @@ public class Login extends BaseActivity implements AppConstants {
 
         public void run() {
 
+            if (cancelProgress > 2) {
+                return;
+            }
             if (cancelProgress == 1) {
                 progress.setMessage("It is taking longer than expected...");
-            } else {
+            } else if (cancelProgress == 2) {
+                cancelProgress = cancelProgress + 1;
                 stopProgress();
             }
-
             cancelProgress = cancelProgress + 1;
 
-            handler.postDelayed(this, 5000);
+            handler.postDelayed(this, 8000);
         }
     };
 
     private void stopProgress() {
         hideProgressDialog();
         handler.removeCallbacks(runnable);
-        cancelProgress = 1;
+        Toast.makeText(getBaseContext(), "Unexpected delay.", Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacks(runnable);
+        super.onDestroy();
+    }
 }

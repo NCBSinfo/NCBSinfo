@@ -19,6 +19,7 @@ public class User implements AppConstants {
     String DEFAULT_ROUTE = "defaultRoute";
     String NOTIFICATIONS = "notification_preference";
     String NOTIFICANTION_ONSET = "pref_notificationOnset";
+    String FIREBASE_ID = "fireBaseID";
 
     protected User(SharedPreferences pref) {
         this.pref = pref;
@@ -63,8 +64,22 @@ public class User implements AppConstants {
         }
     }
 
-    public String getUserType() {
-        return pref.getString(USER_TYPE, userType.VISITOR.getValue());
+    public String getFirebaseID() {
+        return pref.getString(FIREBASE_ID, "none");
+    }
+
+    public void setFirebaseID(String id) {
+        pref.edit().putString(FIREBASE_ID, id).apply();
+    }
+
+    public userType getUserType() {
+
+        for (userType u : userType.values()) {
+            if (u.getValue().equals(pref.getString(USER_TYPE, userType.VISITOR.getValue()))) {
+                return u;
+            }
+        }
+        return userType.VISITOR; //Default
     }
 
     public void setUserType(userType user) {

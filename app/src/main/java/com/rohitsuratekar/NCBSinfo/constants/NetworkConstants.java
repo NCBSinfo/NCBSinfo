@@ -36,7 +36,7 @@ public interface NetworkConstants {
     //All fusion tables
     interface tables {
         String RESEARCH_TALK = "1ZpvvQjpUK5pfls4yENudDtKYRxXWWTg9Zr_PtqFN";
-        String CAMP_TABLE = "1RSrIeQIrQGyxsJLeCkL4uwcfBj-ZeQBVYvGzIS9g";
+        String REMOTE_TABLE = "1NzS2kS0w1_kYMAHGR1iAtQ-uNUi-OqsexXhP-c5-";
     }
 
     //All triggers

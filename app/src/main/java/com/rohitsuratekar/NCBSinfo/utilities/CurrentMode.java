@@ -15,18 +15,19 @@ public class CurrentMode implements AppConstants {
 
     public CurrentMode(Context context) {
 
-        String modeString = new Preferences(context).app().getMode();
-
-        if (modeString.equals(modes.OFFLINE.getValue())) {
-            this.mode = modes.OFFLINE.getValue();
-            this.icon = R.drawable.icon_wifi_off;
-            this.warningMessage = context.getString(R.string.warning_mode_change_offline);
-            this.isOffline = true;
-        } else if (modeString.equals(modes.ONLINE.getValue())) {
-            this.mode = modes.ONLINE.getValue();
-            this.icon = R.drawable.icon_wifi_on;
-            this.warningMessage = context.getString(R.string.warning_mode_change_online);
-            this.isOffline = false;
+        switch (new Preferences(context).app().getMode()) {
+            case OFFLINE:
+                this.mode = modes.OFFLINE.getValue();
+                this.icon = R.drawable.icon_wifi_off;
+                this.warningMessage = context.getString(R.string.warning_mode_change_offline);
+                this.isOffline = true;
+                break;
+            case ONLINE:
+                this.mode = modes.ONLINE.getValue();
+                this.icon = R.drawable.icon_wifi_on;
+                this.warningMessage = context.getString(R.string.warning_mode_change_online);
+                this.isOffline = false;
+                break;
         }
 
     }

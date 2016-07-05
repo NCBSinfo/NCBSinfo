@@ -1,14 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.models;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,7 +15,7 @@ import java.util.Locale;
 public class TransportModel {
 
     Routes currentRoute;
-    SharedPreferences pref;
+    Preferences pref;
     Context context;
     String getWeekTitle;
     String getSundayTitle;
@@ -34,7 +32,7 @@ public class TransportModel {
     public TransportModel(Routes currentRoute, Context context) {
         this.currentRoute = currentRoute;
         this.context = context;
-        this.pref = PreferenceManager.getDefaultSharedPreferences(context);
+        this.pref = new Preferences(context);
         String currentTime = new SimpleDateFormat("hh:mm a", Locale.getDefault())
                 .format(Calendar.getInstance().getTime());
         if (currentRoute.isBuggy()) {
@@ -44,8 +42,8 @@ public class TransportModel {
         }
         this.originLocation = new TransportHelper(context).getLocation(context, currentRoute.getFrom(), false);
         this.destinationLocation = new TransportHelper(context).getLocation(context, currentRoute.getTo(), false);
-        this.rawTripsWeekDays = new Converters().stringToarray(pref.getString(currentRoute.getWeekKey(), TransportHelper.DEFAULT_TRIPS));
-        this.rawTripsSunday = new Converters().stringToarray(pref.getString(currentRoute.getSundayKey(), TransportHelper.DEFAULT_TRIPS));
+        this.rawTripsWeekDays = pref.transport().getWeekdayTrips(currentRoute);
+        this.rawTripsSunday = pref.transport().getSundayTrips(currentRoute);
 
         String[] t = new TransportHelper(context).nextTrip(currentRoute);
         this.nextTripDay = Integer.parseInt(t[0]);

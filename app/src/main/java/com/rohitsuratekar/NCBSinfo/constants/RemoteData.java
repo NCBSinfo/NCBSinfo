@@ -12,8 +12,6 @@ public interface RemoteData {
         //Path data
         String USER_NODE = "users";
         String PUBLIC_NODE = "public";
-        String CAMP_NODE = "camp2016";
-
     }
 
     interface data {
@@ -25,7 +23,4 @@ public interface RemoteData {
         String LATEST_APP = "latestApp";
     }
 
-
-    //Cache expiration
-    long CACHE_EXPIRATION = 3600 * 12; //Seconds
 }

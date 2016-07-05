@@ -42,6 +42,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     //Public Constants
     public static final String INTENT = NetworkOperations.class.getName();
     public static final String ALL_DATA = "all_data";
+    public static final String REMOTE_DATA = "remoteData";
 
     public static final String REGISTER = "register";
     public static final String RESEARCH_TALKS = "research_talks";
@@ -83,6 +84,9 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                 case ALL_DATA:
                     fetchAllData();
                     break;
+                case REMOTE_DATA:
+                    remoteData();
+                    break;
             }
         }
 
@@ -105,7 +109,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                             pref.user().getEmail(),
                             pref.user().getToken(),
                             mAuth.getCurrentUser().getUid(),
-                            pref.user().getUserType(),
+                            pref.user().getUserType().getValue(),
                             "Submit");
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -204,10 +208,9 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         });
     }
 
-    private void conferenceData() {
+    private void remoteData() {
 
-        FirebaseMessaging.getInstance().subscribeToTopic(topics.CAMP16);
-        String sql_query = "SELECT * FROM " + tables.CAMP_TABLE;
+        String sql_query = "SELECT * FROM " + tables.REMOTE_TABLE;
         com.secretbiology.retro.google.fusiontable.Commands Commands =
                 com.secretbiology.retro.google.fusiontable.Service.createService
                         (com.secretbiology.retro.google.fusiontable.Commands.class);
@@ -219,63 +222,10 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                 if (response.isSuccess()) {
 
                     for (int i = 0; i < response.body().getRows().size(); i++) {
-                        String conferenceCode = response.body().getRows().get(i).get(0);
-                        String eventID = response.body().getRows().get(i).get(1);
-                        String eventTitle = response.body().getRows().get(i).get(2);
-                        String eventSpeaker = response.body().getRows().get(i).get(3);
-                        String eventHost = response.body().getRows().get(i).get(4);
-                        String startTime = response.body().getRows().get(i).get(5);
-                        String endTime = response.body().getRows().get(i).get(6);
-                        String date = response.body().getRows().get(i).get(7);
-                        String venue = response.body().getRows().get(i).get(8);
-                        String message = response.body().getRows().get(i).get(9);
-                        String eventCode = response.body().getRows().get(i).get(10);
-                        String updateCounter = response.body().getRows().get(i).get(11);
-
-                        ConferenceModel entry = new ConferenceModel(0, new General().timeStamp(), conferenceCode,
-                                eventID, eventTitle, eventSpeaker, eventHost, startTime, endTime, date,
-                                venue, message, eventCode, Integer.valueOf(updateCounter));
-
-                        if (new Database(getBaseContext()).isAlreadyThere(ConferenceData.TABLE_CONFERENCE, ConferenceData.CONFERENCE_CODE, conferenceCode)) {
-                            //If entry is already present in database, check for Datacode
-                            List<ConferenceModel> allData = new ConferenceData(getBaseContext()).getAll();
-                            List<ConferenceModel> refine1 = new ArrayList<ConferenceModel>();
-                            for (ConferenceModel a : allData) {
-                                //    if (a.getCode().equals(camp16.events.EXTERNAL_CONSTANT)) {
-                                //      refine1.add(a);
-                                // }
-                            }
-                            boolean newdataFound = true;
-                            for (ConferenceModel b : refine1) {
-
-                                if (b.getEventID().equals(eventID)) {
-                                    if (b.getUpdateCounter() != Integer.valueOf(updateCounter)) {
-                                        entry.setId(b.getId());
-                                        if (Integer.valueOf(updateCounter) == 1989) { //Delete counter
-                                            new ConferenceData(getBaseContext()).delete(entry);
-                                        } else {
-                                            new ConferenceData(getBaseContext()).update(entry);
-                                        }
-                                        newdataFound = false;
-                                        //For deleting
-                                    } else {
-                                        newdataFound = false;
-                                    }
-                                }
-                            }
-                            if (newdataFound) {
-                                if (Integer.valueOf(updateCounter) != 1989) {
-                                    new ConferenceData(getBaseContext()).add(entry);
-                                }
-                            }
-                        } else {
-                            //Else create new entry if update counter is not 1989
-                            if (Integer.valueOf(updateCounter) != 1989) {
-                                new ConferenceData(getBaseContext()).add(entry);
-                                Log.i(TAG, "New Conference entry added");
-                            }
-                        }
-
+                        String status = response.body().getRows().get(i).get(0);
+                        String trigger = response.body().getRows().get(i).get(1);
+                        String key = response.body().getRows().get(i).get(2);
+                        String value = response.body().getRows().get(i).get(3);
                     }
                 }
             }

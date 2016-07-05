@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,18 +29,34 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class Registration extends BaseActivity implements AppConstants {
 
     public static final String INTENT = Registration.class.getName();
     private final String TAG = getClass().getSimpleName();
     private ProgressDialog progress;
-
     Preferences pref;
     FirebaseAuth mAuth;
+
+    //UI elements
+    @BindView(R.id.button_register)
     Button registerBtn;
+    @BindView(R.id.edittext_register_name)
+    TextInputEditText username;
+    @BindView(R.id.edittext_register_password)
+    TextInputEditText password;
+    @BindView(R.id.edittext_register_email)
+    TextInputEditText email;
+    @BindView(R.id.input_layout_register_name)
+    TextInputLayout userLayout;
+    @BindView(R.id.input_layout_register_pass)
+    TextInputLayout passwordLayout;
+    @BindView(R.id.input_layout_register_email)
+    TextInputLayout emailLayout;
+    @BindView(R.id.register_switchToLogin)
     TextView switchToLogin;
-    TextInputEditText username, email, password;
-    TextInputLayout userLayout, emailLayout, passwordLayout;
     int cancelProgress;
 
     @Override
@@ -49,21 +67,11 @@ public class Registration extends BaseActivity implements AppConstants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ButterKnife.bind(this);
         pref = new Preferences(getBaseContext());
         mAuth = FirebaseAuth.getInstance();
         progress = new ProgressDialog(Registration.this);
-        cancelProgress = 1;
-
-        //UI components
-        registerBtn = (Button) findViewById(R.id.button_register);
-        username = (TextInputEditText) findViewById(R.id.edittext_register_name);
-        password = (TextInputEditText) findViewById(R.id.edittext_register_password);
-        email = (TextInputEditText) findViewById(R.id.edittext_register_email);
-        userLayout = (TextInputLayout) findViewById(R.id.input_layout_register_name);
-        passwordLayout = (TextInputLayout) findViewById(R.id.input_layout_register_pass);
-        emailLayout = (TextInputLayout) findViewById(R.id.input_layout_register_email);
-        switchToLogin = (TextView) findViewById(R.id.register_switchToLogin);
+        cancelProgress = 0;
 
         switchToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +90,8 @@ public class Registration extends BaseActivity implements AppConstants {
             @Override
             public void onClick(View v) {
                 if (validateEmail() && validatePass() && validateUser()) {
+                    cancelProgress = 0;
+                    runnable.run(); //Start timer for connection timeout
                     progress.setMessage("Registering ...");
                     showProgressDialog();
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -226,4 +236,41 @@ public class Registration extends BaseActivity implements AppConstants {
         }
     }
 
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+
+        public void run() {
+
+            if (cancelProgress > 2) {
+                return;
+            }
+            if (cancelProgress == 1) {
+                progress.setMessage("It is taking longer than expected...");
+            } else if (cancelProgress == 2) {
+                cancelProgress = cancelProgress + 1;
+                stopProgress();
+            }
+            cancelProgress = cancelProgress + 1;
+
+            handler.postDelayed(this, 8000);
+        }
+    };
+
+    private void stopProgress() {
+        hideProgressDialog();
+        handler.removeCallbacks(runnable);
+        Toast.makeText(getBaseContext(), "Unexpected delay.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onPause() {
+        handler.removeCallbacks(runnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacks(runnable);
+        super.onDestroy();
+    }
 }

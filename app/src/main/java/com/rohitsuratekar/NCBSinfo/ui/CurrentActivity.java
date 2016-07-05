@@ -58,7 +58,7 @@ public enum CurrentActivity {
 
     EVENTS(
             R.string.event_updates,
-            R.layout.events,
+            R.layout.base_viewpager,
             R.id.nav_events,
             true), //Events
 

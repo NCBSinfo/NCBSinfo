@@ -29,6 +29,8 @@ public class Preferences {
         return new App(pref);
     }
 
+    public TransportPref transport(){return new TransportPref(pref, context);}
+
     public void clearAll(){
         pref.edit().clear().apply();
     }

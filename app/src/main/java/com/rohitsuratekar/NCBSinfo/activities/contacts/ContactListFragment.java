@@ -29,7 +29,6 @@ import android.widget.SearchView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
-import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.ui.DividerDecoration;
 

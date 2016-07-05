@@ -60,9 +60,10 @@ public class ServiceCentre extends IntentService {
         }
 
         //Reset Alarms
-        Intent alarms = new Intent(ServiceCentre.this, Alarms.class);
-        alarms.putExtra(Alarms.INTENT, Alarms.RESET_ALL);
-        sendBroadcast(alarms);
+        //TODO: uncomment
+//        Intent alarms = new Intent(ServiceCentre.this, Alarms.class);
+//        alarms.putExtra(Alarms.INTENT, Alarms.RESET_ALL);
+//        sendBroadcast(alarms);
 
         //Reset Transport values
         Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);

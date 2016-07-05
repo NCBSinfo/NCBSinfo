@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.preferences;
 import android.content.SharedPreferences;
 
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 /**
  * This class deals with app related shared preferences
@@ -16,13 +17,20 @@ public class App implements AppConstants {
     String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
     String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents"; //Only for newly registered users
     String FIRST_NOTIFICATION_DASHBOARD = "sendFirstNotificationDashboard"; //Only for newly registered users
+    String LAST_LOGIN = "lastLogin";
+    String OPEN_COUNT = "openCount";
 
     protected App(SharedPreferences pref) {
         this.pref = pref;
     }
 
-    public String getMode() {
-        return pref.getString(APP_MODE, modes.OFFLINE.getValue());
+    public modes getMode() {
+        for (modes m : modes.values()) {
+            if (m.getValue().equals(pref.getString(APP_MODE, modes.OFFLINE.getValue()))) {
+                return m;
+            }
+        }
+        return modes.OFFLINE; //Default
     }
 
     public void setMode(modes mode) {
@@ -76,6 +84,22 @@ public class App implements AppConstants {
 
     public void firstDashboardNotificationSent() {
         pref.edit().putBoolean(FIRST_NOTIFICATION_DASHBOARD, true).apply();
+    }
+
+    public String getLastLogin() {
+        return pref.getString(LAST_LOGIN, new General().timeStamp());
+    }
+
+    public void setLastLogin(String time) {
+        pref.edit().putString(LAST_LOGIN, time).apply();
+    }
+
+    public void setOpenCount(int count) {
+        pref.edit().putInt(OPEN_COUNT, count).apply();
+    }
+
+    public int getOpenCount() {
+        return pref.getInt(OPEN_COUNT, 1);
     }
 
 }

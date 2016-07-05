@@ -3,8 +3,6 @@ package com.rohitsuratekar.NCBSinfo.activities.transport;
 public enum Routes {
 
 
-
-
     NCBS_IISC(0, false, "r0_week", "r0_sunday", "ncbs", "iisc"),
     IISC_NCBS(1, false, "r1_week", "r1_sunday", "iisc", "ncbs"),
     NCBS_MANDARA(2, false, "r2_week", "r2_sunday", "ncbs", "mandara"),
@@ -63,5 +61,41 @@ public enum Routes {
 
     public String getTo() {
         return to;
+    }
+
+
+    public enum buggy {
+
+        A("isbA_running", "bA_ncbs", "bA_mandara"),
+        B("isbB_running", "bB_ncbs", "bB_mandara");
+
+
+        private final String isRunning;
+        private final String fromNCBS;
+        private final String fromMandara;
+
+        /**
+         * @param isRunning   : Is this buggy running ?
+         * @param fromNCBS    : Trips from NCBS
+         * @param fromMandara : Trips from Mandara
+         */
+
+        buggy(String isRunning, String fromNCBS, String fromMandara) {
+            this.isRunning = isRunning;
+            this.fromNCBS = fromNCBS;
+            this.fromMandara = fromMandara;
+        }
+
+        public String getFromNCBS() {
+            return fromNCBS;
+        }
+
+        public String getFromMandara() {
+            return fromMandara;
+        }
+
+        public String isRunning() {
+            return isRunning;
+        }
     }
 }

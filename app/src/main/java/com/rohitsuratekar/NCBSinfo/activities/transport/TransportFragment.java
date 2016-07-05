@@ -1,8 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +10,14 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
 import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class TransportFragment extends Fragment {
 
@@ -37,29 +40,45 @@ public class TransportFragment extends Fragment {
     }
 
     TransportModel transport;
-    TextView weekTitle, sundayTitle, footnote1, footnote2;
-    SharedPreferences pref;
+    Preferences pref;
+
+    //UI elements
+    @BindView(R.id.weekday_trip_title)
+    TextView weekTitle;
+    @BindView(R.id.sunday_trip_title)
+    TextView sundayTitle;
+    @BindView(R.id.transport_footnote1)
+    TextView footnote1;
+    @BindView(R.id.transport_footnote2)
+    TextView footnote2;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        pref = new Preferences(getContext());
         Bundle args = getArguments();
         String name = args.getString("route", Routes.NCBS_IISC.toString());
+        if(name==null){
+            name = Routes.NCBS_IISC.toString();
+        }
+
 
         transport = new TransportModel(Routes.valueOf(name), getContext());
 
         View rootView = inflater.inflate(R.layout.transport_list, container, false);
-        weekTitle = (TextView) rootView.findViewById(R.id.weekday_trip_title);
-        sundayTitle = (TextView) rootView.findViewById(R.id.sunday_trip_title);
-        footnote1 = (TextView) rootView.findViewById(R.id.transport_footnote1);
-        footnote2 = (TextView) rootView.findViewById(R.id.transport_footnote2);
+
+        ButterKnife.bind(this, rootView);
+
         perform(rootView);
 
 
         return rootView;
     }
+
 
     public void perform(View v) {
 
@@ -71,8 +90,8 @@ public class TransportFragment extends Fragment {
         String[] rawSundayTrips;
         //Get raw trips
         if (transport.isBuggy()) {
-            rawWeekTrips = new Converters().stringToarray(pref.getString(Routes.BUGGY_FROM_NCBS.getWeekKey(), TransportHelper.DEFAULT_TRIPS));
-            rawSundayTrips = new Converters().stringToarray(pref.getString(Routes.BUGGY_FROM_MANDARA.getWeekKey(), TransportHelper.DEFAULT_TRIPS));
+            rawWeekTrips = pref.transport().getWeekdayTrips(Routes.BUGGY_FROM_NCBS);
+            rawSundayTrips = pref.transport().getWeekdayTrips(Routes.BUGGY_FROM_MANDARA);
         } else {
             rawWeekTrips = transport.getRawTripsWeekDays();
             rawSundayTrips = transport.getRawTripsSunday();
@@ -158,10 +177,14 @@ public class TransportFragment extends Fragment {
         sundayTitle.setText(transport.getGetSundayTitle());
         footnote1.setText(transport.getGetFootnote1());
         footnote2.setText(transport.getGetFootnote2());
-        weekList.requestFocus(focusPoint);
-        weekList.setSelection(focusPoint);
-        sundayList.setSelection(focusPoint);
-        sundayList.requestFocus(focusPoint);
+
+        if (focusPoint < 4) { //4 is magic number, chosen randomly near 0
+            weekList.smoothScrollToPositionFromTop(focusPoint, 0);
+            sundayList.smoothScrollToPositionFromTop(focusPoint, 0);
+        } else {
+            weekList.smoothScrollToPosition(focusPoint);
+            sundayList.smoothScrollToPosition(focusPoint);
+        }
 
     }
 

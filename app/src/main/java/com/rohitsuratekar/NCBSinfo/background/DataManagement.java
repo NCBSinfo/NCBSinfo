@@ -75,7 +75,7 @@ public class DataManagement extends IntentService implements RemoteData, AppCons
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Log.i(TAG, pref.user().getUserType());
+            Log.i(TAG, pref.user().getUserType().getValue());
             if (!pref.user().getUserType().equals(userType.OLD_USER.getValue())) {
                 mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(pref.user().getName());
                 mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(pref.user().getEmail());
