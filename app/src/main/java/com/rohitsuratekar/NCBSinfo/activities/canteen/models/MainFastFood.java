@@ -1,5 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.canteen.models;
 
+import java.util.Calendar;
+
 /**
  * NCBSinfo © 2016, Secret Biology
  * https://github.com/NCBSinfo/NCBSinfo
@@ -13,12 +15,17 @@ public class MainFastFood {
     Lunch lunch;
     Dinner dinner;
 
-    public MainFastFood() {
+    public MainFastFood(int DayofWeek) {
 
         this.midMorningTea = new MidMorningTea(false, true, "10:00", "12:30");
-        this.lunch = new Lunch(true, true, "12:30", "14:00");
+        this.lunch = new Lunch(false, true, "12:30", "14:00");
         this.midEveningTea = new MidEveningTea(true, true, "15:00", "18:30");
-        this.dinner = new Dinner(true, true, "18:30", "23:30");
+        if(DayofWeek== Calendar.SUNDAY){
+            this.dinner = new Dinner(true, true, "18:30", "23:30");
+        }
+        else {
+            this.dinner = new Dinner(true, true, "18:30", "23:30");
+        }
 
     }
 

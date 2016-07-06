@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
@@ -56,6 +58,10 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
     TextView dinnerText;
     @BindView(R.id.canteen_welcome_text)
     TextView welcomeText;
+    @BindView(R.id.canteen_message)
+    TextView secondMessage;
+    @BindView(R.id.canteen_check_menu)
+    Button checkMenu;
 
     Context context;
     Calendar calendar;
@@ -73,10 +79,13 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
         lunchIcon.setOnClickListener(this);
         eveningTeaIcon.setOnClickListener(this);
         dinnerIcon.setOnClickListener(this);
+        checkMenu.setOnClickListener(this);
 
         if(!new CanteenData(calendar).isFoodAvailable()){
             welcomeText.setText(getResources().getString(R.string.canteen_welcome_empty));
+            secondMessage.setText("");
         }
+
 
 
     }
@@ -109,6 +118,9 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
                 if (canteen.isDinner()) {
                     showDialog(getString(R.string.canteen_dinner), canteen.getAllDinnerLocations(), dinnerIcon);
                 }
+                break;
+            case R.id.canteen_check_menu:
+                Toast.makeText(getBaseContext(), "Working on this!", Toast.LENGTH_SHORT).show();
                 break;
 
         }

@@ -1,5 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.canteen.models;
 
+import java.util.Calendar;
+
 /**
  * NCBSinfo © 2016, Secret Biology
  * https://github.com/NCBSinfo/NCBSinfo
@@ -11,11 +13,16 @@ public class AcademicCafeteria {
     MidEveningTea midEveningTea;
     Lunch lunch;
 
-    public AcademicCafeteria() {
+    public AcademicCafeteria(int DayofWeek) {
 
-        this.midMorningTea = new MidMorningTea(false, true, "10:15", "12:45");
+        this.midMorningTea = new MidMorningTea(false, true, "09:30", "12:45");
         this.lunch = new Lunch(false, true, "12:45", "13:45");
-        this.midEveningTea = new MidEveningTea(false, true, "15:00", "18:00");
+
+        if (DayofWeek == Calendar.SATURDAY) {
+            this.midEveningTea = new MidEveningTea(false, true, "15:00", "17:30");
+        } else {
+            this.midEveningTea = new MidEveningTea(false, true, "15:00", "18:00");
+        }
     }
 
 

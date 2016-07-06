@@ -33,7 +33,7 @@ public class CanteenData implements AppConstants {
     public List<canteens> getAllBreakfastLocations() {
         List<canteens> allLocations = new ArrayList<>();
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getBreakfast() != null) {
                 if (isThereBreakFast(place.getBreakfast())) {
                     allLocations.add(c);
@@ -46,7 +46,7 @@ public class CanteenData implements AppConstants {
     public List<canteens> getAllMorningTeaLocations() {
         List<canteens> allLocations = new ArrayList<>();
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getMidMorningTea() != null) {
                 if (isThereMorningTea(place.getMidMorningTea())) {
                     allLocations.add(c);
@@ -59,7 +59,7 @@ public class CanteenData implements AppConstants {
     public List<canteens> getAllLunchLocations() {
         List<canteens> allLocations = new ArrayList<>();
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getLunch() != null) {
                 if (isThereLunch(place.getLunch())) {
                     allLocations.add(c);
@@ -72,7 +72,7 @@ public class CanteenData implements AppConstants {
     public List<canteens> getAllEveningTeaLocations() {
         List<canteens> allLocations = new ArrayList<>();
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getMidEveningTea() != null) {
                 if (isThereEveningTea(place.getMidEveningTea())) {
                     allLocations.add(c);
@@ -85,7 +85,7 @@ public class CanteenData implements AppConstants {
     public List<canteens> getAllDinnerLocations() {
         List<canteens> allLocations = new ArrayList<>();
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getDinner() != null) {
                 if (isThereDinner(place.getDinner())) {
                     allLocations.add(c);
@@ -97,7 +97,7 @@ public class CanteenData implements AppConstants {
 
     public boolean isBreakfast() {
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getBreakfast() != null) {
                 if (isThereBreakFast(place.getBreakfast())) {
                     return true;
@@ -109,7 +109,7 @@ public class CanteenData implements AppConstants {
 
     public boolean isMidMorningTea() {
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getMidMorningTea() != null) {
                 if (isThereMorningTea(place.getMidMorningTea())) {
                     return true;
@@ -121,7 +121,7 @@ public class CanteenData implements AppConstants {
 
     public boolean isLunch() {
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getLunch() != null) {
                 if (isThereLunch(place.getLunch())) {
                     return true;
@@ -135,7 +135,7 @@ public class CanteenData implements AppConstants {
 
         for (canteens c : canteens.values()) {
 
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getMidEveningTea() != null) {
                 if (isThereEveningTea(place.getMidEveningTea())) {
                     return true;
@@ -147,7 +147,7 @@ public class CanteenData implements AppConstants {
 
     public boolean isDinner() {
         for (canteens c : canteens.values()) {
-            CanteenModel place = new CanteenModel(c);
+            CanteenModel place = new CanteenModel(c, today);
             if (place.getDinner() != null) {
                 if (isThereDinner(place.getDinner())) {
                     return true;

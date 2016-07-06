@@ -9,10 +9,12 @@ import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
  */
 public class CanteenModel implements AppConstants {
 
+    int dayOfWeek;
+
     MainCanteen mainCanteen = new MainCanteen();
     MainCanteenFirst mainCanteenFirst = new MainCanteenFirst();
-    MainFastFood mainFastFood = new MainFastFood();
-    AcademicCafeteria academicCafeteria = new AcademicCafeteria();
+    MainFastFood mainFastFood = new MainFastFood(dayOfWeek);
+    AcademicCafeteria academicCafeteria = new AcademicCafeteria(dayOfWeek);
     AdminCafeteria adminCafeteria = new AdminCafeteria();
     ParkingCafeteria parkingCafeteria = new ParkingCafeteria();
 
@@ -23,8 +25,10 @@ public class CanteenModel implements AppConstants {
     Lunch lunch;
     Dinner dinner;
 
-    public CanteenModel(canteens place) {
+
+    public CanteenModel(canteens place, int DayOfWeek) {
         this.place = place;
+        this.dayOfWeek = DayOfWeek;
         convertToOne(place);
     }
 

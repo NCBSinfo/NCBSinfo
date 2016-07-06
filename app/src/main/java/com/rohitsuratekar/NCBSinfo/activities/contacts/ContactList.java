@@ -45,7 +45,7 @@ public class ContactList {
 
                 {"Instrumentation", "ins@ncbs.res.in", "P C Gautam", "080-2366-6052"},
 
-                {"IT Services", "ithelp@ncbs.res.in", "Prasanta Kumar", "080-2366-6421"},
+                {"IT Services", "ithelp@ncbs.res.in", "Prasanta Kumar", "080-2366-6420"},
 
                 {"Lab Kitchen", "labkitchen@ncbs.res.in", "P P Ranjith", "080-2366-6001"},
 

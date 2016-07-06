@@ -87,7 +87,6 @@ public class Converters {
         }
         Calendar cal = Calendar.getInstance();
         cal.setTime(outPutDate);
-        cal.set(Calendar.HOUR_OF_DAY, 11);
         return cal;
     }
 
