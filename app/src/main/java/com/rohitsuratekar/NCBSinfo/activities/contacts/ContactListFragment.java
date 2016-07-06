@@ -156,12 +156,13 @@ public class ContactListFragment extends Fragment implements SearchView.OnQueryT
             results.add(new ContactRowModel(cn.getName(), cn.getExtension(), cn.getDepartment(), cn.getId()));
         }
 
-        Collections.sort(results, new Comparator<ContactRowModel>() {
+        //For alphabetical sorting
+        /*Collections.sort(results, new Comparator<ContactRowModel>() {
             @Override
             public int compare(ContactRowModel lhs, ContactRowModel rhs) {
                 return lhs.getName().compareTo(rhs.getName());
             }
-        });
+        });*/
 
         mAllData.addAll(results);
         return results;

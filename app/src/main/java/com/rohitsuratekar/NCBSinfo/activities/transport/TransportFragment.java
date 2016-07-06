@@ -185,10 +185,12 @@ public class TransportFragment extends Fragment {
         footnote1.setText(transport.getGetFootnote1());
         footnote2.setText(transport.getGetFootnote2());
 
-        weekList.setSelection(focusPoint);
-        sundayList.setSelection(focusPoint);
-        weekList.smoothScrollToPositionFromTop(focusPoint, 0);
-        sundayList.smoothScrollToPositionFromTop(focusPoint, 0);
+        if(focusPoint>3) { //3 is magic number but it works
+            weekList.setSelection(focusPoint);
+            sundayList.setSelection(focusPoint);
+            weekList.smoothScrollToPositionFromTop(focusPoint, 0);
+            sundayList.smoothScrollToPositionFromTop(focusPoint, 0);
+        }
 
 
     }

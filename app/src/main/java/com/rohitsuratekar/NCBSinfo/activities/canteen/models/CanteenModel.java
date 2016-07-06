@@ -59,13 +59,10 @@ public class CanteenModel implements AppConstants {
                 this.dinner = mainCanteen.getDinner();
                 break;
             case MAIN_CANTEEN_FIRST:
-                this.breakfast = mainCanteenFirst.getBreakfast();
-                this.midMorningTea = mainCanteenFirst.getMidMorningTea();
                 this.lunch = mainCanteenFirst.getLunch();
-                this.midEveningTea = mainCanteenFirst.getMidEveningTea();
-                this.dinner = mainCanteenFirst.getDinner();
                 break;
             case MAIN_CANTEEN_FASTFOOD:
+                this.midMorningTea = mainFastFood.getMidMorningTea();
                 this.lunch = mainFastFood.getLunch();
                 this.midEveningTea = mainFastFood.getMidEveningTea();
                 this.dinner = mainFastFood.getDinner();

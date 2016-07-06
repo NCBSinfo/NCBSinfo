@@ -2,7 +2,7 @@
     <string name="app_name">NCBS info</string>
     <string name="app_version">v %1$s</string>
     <string name="navigation_footer">Made in NCBS :)</string>
-    <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
+    <string name="google_map">AIzaSyDLRyC8K8PsgDg2ynCWVFfNeB8dGRlrSU0</string>
 
     <!-- Titles -->
     <string name="dashboard">Dashboard</string>
@@ -66,7 +66,7 @@
     <string name="transport_footer1">*Including Saturday</string>
     <string name="transport_footer2">**Next shuttle after %1$s</string>
     <string name="transport_buggy_footer">**Next buggy after %1$s</string>
-    <string name="transport_last_updated">Timings last updated on : %1$s</string>
+    <string name="transport_last_updated">Last updated on : %1$s</string>
 
     <string name="contact_name">Contact Name</string>
     <string name="contact_number">Contact Number</string>
@@ -78,10 +78,11 @@
     <string name="contact_edit">Edit Contact</string>
 
     <string name="canteen_welcome">Currently Available Options</string>
+    <string name="canteen_welcome_empty">Looks like there are no food options available at this moment. Try maggi instead ;)</string>
     <string name="canteen_breakfast">Breakfast</string>
-    <string name="canteen_morningTea">Morning Tea</string>
+    <string name="canteen_morningTea">Morning Snacks</string>
     <string name="canteen_lunch">Lunch</string>
-    <string name="canteen_eveningTea">Evening Tea</string>
+    <string name="canteen_eveningTea">Evening Snacks</string>
     <string name="canteen_dinner">Dinner</string>
     <string name="canteen_main_canteen">Main Canteen Ground Floor</string>
     <string name="canteen_main_canteen_firstfloor">Main Canteen First Floor</string>

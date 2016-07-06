@@ -128,6 +128,10 @@ public class CurrentNavigationDrawer {
                     navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                     navigationView.getMenu().findItem(R.id.nav_location).setChecked(true);
                 }
+                break;
+            case CANTEEN:
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
+                break;
         }
     }
 }

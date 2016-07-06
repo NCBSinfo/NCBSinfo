@@ -54,14 +54,18 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
     TextView eveningTeaText;
     @BindView(R.id.canteen_dinnerText)
     TextView dinnerText;
+    @BindView(R.id.canteen_welcome_text)
+    TextView welcomeText;
 
     Context context;
+    Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         context = getBaseContext();
+        calendar = Calendar.getInstance();
 
         setIcons();
         breakfastIcon.setOnClickListener(this);
@@ -70,16 +74,20 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
         eveningTeaIcon.setOnClickListener(this);
         dinnerIcon.setOnClickListener(this);
 
+        if(!new CanteenData(calendar).isFoodAvailable()){
+            welcomeText.setText(getResources().getString(R.string.canteen_welcome_empty));
+        }
+
 
     }
 
     @Override
     public void onClick(View view) {
-        CanteenData canteen = new CanteenData(Calendar.getInstance());
+        CanteenData canteen = new CanteenData(calendar);
         switch (view.getId()) {
             case R.id.canteen_breakfastIcon:
                 if (canteen.isBreakfast()) {
-                    showDialog(getString(R.string.canteen_breakfast),canteen.getAllBreakfastLocations(), breakfastIcon);
+                    showDialog(getString(R.string.canteen_breakfast), canteen.getAllBreakfastLocations(), breakfastIcon);
                 }
                 break;
             case R.id.canteen_morningTeaIcon:
@@ -94,12 +102,12 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
                 break;
             case R.id.canteen_eveningTeaIcon:
                 if (canteen.isMidEveningTea()) {
-                    showDialog(getString(R.string.canteen_eveningTea),canteen.getAllEveningTeaLocations(), eveningTeaIcon);
+                    showDialog(getString(R.string.canteen_eveningTea), canteen.getAllEveningTeaLocations(), eveningTeaIcon);
                 }
                 break;
             case R.id.canteen_dinnerIcon:
                 if (canteen.isDinner()) {
-                    showDialog(getString(R.string.canteen_dinner),canteen.getAllDinnerLocations(), dinnerIcon);
+                    showDialog(getString(R.string.canteen_dinner), canteen.getAllDinnerLocations(), dinnerIcon);
                 }
                 break;
 
@@ -110,7 +118,9 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
 
     private void setIcons() {
 
-        CanteenData canteen = new CanteenData(Calendar.getInstance());
+        CanteenData canteen = new CanteenData(calendar);
+
+
         setColors(breakfastIcon, breakfastText, canteen.isBreakfast());
         setColors(morningTeaIcon, morningTeaText, canteen.isMidMorningTea());
         setColors(lunchIcon, lunchText, canteen.isLunch());
@@ -132,7 +142,7 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
     private void showDialog(String location, List<canteens> places, ImageView view) {
 
         String locationString = "Available at following location(s)\n\n";
-        for (canteens c : places){
+        for (canteens c : places) {
             locationString = locationString + getString(c.getNameID()) + "\n";
         }
         new AlertDialog.Builder(Canteen.this)

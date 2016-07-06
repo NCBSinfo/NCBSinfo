@@ -15,9 +15,12 @@ public class ContactList {
 
                 {"NCBS Reception 2", "Reception", "Helpdesk", "080-2366-6002"},
 
-                {"NCBS Reception 3", "Reception", "Helpdesk", "080-2366-6018"},
+                {"Medical Centre", "medical", "Emergency", "080-2366-6450"},
 
-                {"Substation", "substation", "Emergency", "080-2366-6425"}
+                {"Substation", "substation", "Emergency", "080-2366-6425"},
+
+                {"NCBS Reception 3", "Reception", "Helpdesk", "080-2366-6018"}
+
 
         };
     }
@@ -32,9 +35,31 @@ public class ContactList {
 
                 {"Air Conditioning", "achelp@ncbs.res.in", "H S Venkatramana", "080-2366-6001"},
 
-                {"Civil and Architecture", "civilint@ncbs.res.in", "Civil Head", "080-2366-6001"},
+                {"Civil and Architecture", "civilint@ncbs.res.in", "Civil Head", "080-2366-6352"},
 
-                {"Electrical", "elechelp@ncbs.res.in", "Suresh Kumar", "080-2366-6001"}
+                {"Electrical", "elechelp@ncbs.res.in", "Suresh Kumar", "080-2366-6425"},
+
+                {"Hospitality", "hospitality@ncbs.res.in", "Shaju Varghese", "080-2366-6001"},
+
+                {"Housing", "housing@ncbs.res.in", "N/A", "080-2366-6001"},
+
+                {"Instrumentation", "ins@ncbs.res.in", "P C Gautam", "080-2366-6052"},
+
+                {"IT Services", "ithelp@ncbs.res.in", "Prasanta Kumar", "080-2366-6421"},
+
+                {"Lab Kitchen", "labkitchen@ncbs.res.in", "P P Ranjith", "080-2366-6001"},
+
+                {"Mechanical", "mechworkshop@ncbs.res.in", "S.Devakumar", "080-2366-6422"},
+
+                {"Purchase", "purchasehelp@ncbs.res.in", "K.Venkata Ramanathan", "080-2366-6001"},
+
+                {"Security", "security@ncbs.res.in", "Shaju Varghese", "080-2366-6001"},
+
+                {"Sports", "sports@ncbs.res.in", "J.Baba Saheb", "080-2366-6001"},
+
+                {"Transport", "transport@ncbs.res.in", "Ashok Rao", "080-2366-6001"},
+
+                {"Electronic Workshop", "elecworkshop@ncbs.res.in", "Mr. A.Dorababu", "080-2366-6001"}
 
         };
     }
