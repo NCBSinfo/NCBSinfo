@@ -33,101 +33,11 @@ public class TransportHelper {
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-<<<<<<< HEAD:app/src/main/java/com/rohitsuratekar/NCBSinfo/activities/transport/TransportHelper.java
-
     public Routes getRoute(int routeNo) {
         for (Routes currentRoute : Routes.values()) {
             if (currentRoute.getRouteNo() == routeNo) {
                 return currentRoute;
             }
-=======
-    /**
-     * @param route : Route number
-     * @return String[0] : Where is transport from
-     * String[1] : Where is transport going
-     * String[2] : SharedPreference key for Sunday Trips
-     * String[3] : SharedPreference key for Weekday Trips
-     */
-    public String[] routeToStrings(int route) {
-        String from;
-        String to;
-        String weekPreferenceKey;
-        String sundayPreferenceKey;
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        switch (route) {
-            case TransportConstants.ROUTE_NCBS_IISC:
-                from = "ncbs";
-                to = "iisc";
-                weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_IISC_NCBS:
-                from = "iisc";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.IISC_NCBS_WEEK;
-                sundayPreferenceKey = TransportConstants.IISC_NCBS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_NCBS_MANDARA:
-                from = "ncbs";
-                to = "mandara";
-                weekPreferenceKey = TransportConstants.NCBS_MANDARA_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_MANDARA_SUNDAY;
-                if (isCAMPtime()) {
-                    weekPreferenceKey = TransportConstants.CAMP_SHUTTLE_NCBS;
-                }
-                break;
-            case TransportConstants.ROUTE_MANDARA_NCBS:
-                from = "mandara";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.MANDARA_NCBS_WEEK;
-                sundayPreferenceKey = TransportConstants.MANDARA_NCBS_SUNDAY;
-                if (isCAMPtime()) {
-                    weekPreferenceKey = TransportConstants.CAMP_SHUTTLE_MANDARA;
-                }
-                break;
-            case TransportConstants.ROUTE_BUGGY_NCBS:
-                from = "ncbs";
-                to = "mandara";
-                weekPreferenceKey = TransportConstants.BUGGY_NCBS;
-                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
-                if (isCAMPtime()) {
-                    weekPreferenceKey = TransportConstants.CAMP_BUGGY_NCBS;
-                }
-                break;
-            case TransportConstants.ROUTE_BUGGY_MANDARA:
-                from = "mandara";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.BUGGY_NCBS;
-                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
-                if (isCAMPtime()) {
-                    weekPreferenceKey = TransportConstants.CAMP_BUGGY_MANDARA;
-                }
-                break;
-            case TransportConstants.ROUTE_NCBS_ICTS:
-                from = "ncbs";
-                to = "icts";
-                weekPreferenceKey = TransportConstants.NCBS_ICTS_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_ICTS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_ICTS_NCBS:
-                from = "icts";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.ICTS_NCBS_WEEK;
-                sundayPreferenceKey = TransportConstants.ICTS_NCBS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_NCBS_CBL:
-                from = "ncbs";
-                to = "cbl";
-                weekPreferenceKey = TransportConstants.NCBS_CBL;
-                sundayPreferenceKey = TransportConstants.NCBS_CBL;
-                break;
-            default:
-                from = "ncbs";
-                to = "iisc";
-                weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY;
-                break;
->>>>>>> 967322440fd386589f53e2e9bfbdf152fcee8323:app/src/main/java/com/rohitsuratekar/NCBSinfo/common/transport/TransportHelper.java
         }
         return Routes.NCBS_IISC;
     }
@@ -421,21 +331,6 @@ public class TransportHelper {
         }
         return timeLeft;
     }
-
-<<<<<<< HEAD:app/src/main/java/com/rohitsuratekar/NCBSinfo/activities/transport/TransportHelper.java
-
-=======
-    public boolean isCAMPtime() {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Date d1 = new Date();
-        try {
-            d1 = format.parse("07/17/2016 04:00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return d1.after(new Date());
-    }
->>>>>>> 967322440fd386589f53e2e9bfbdf152fcee8323:app/src/main/java/com/rohitsuratekar/NCBSinfo/common/transport/TransportHelper.java
 }
 
 
