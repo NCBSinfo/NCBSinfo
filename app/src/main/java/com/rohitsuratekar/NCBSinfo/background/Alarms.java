@@ -26,6 +26,9 @@ import java.util.List;
  * https://github.com/NCBSinfo/NCBSinfo
  * Created by Rohit Suratekar on 01-07-16.
  */
+
+//TODO: Give notification if tomorrow is holiday
+
 public class Alarms extends BroadcastReceiver implements AlarmConstants, AppConstants {
 
     public static final String INTENT = Alarms.class.getName();

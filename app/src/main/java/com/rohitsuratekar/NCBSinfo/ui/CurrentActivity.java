@@ -84,7 +84,13 @@ public enum CurrentActivity {
             R.string.canteen,
             R.layout.canteen,
             R.id.nav_canteen,
-            false);
+            false),
+
+    HOLIDAYS(
+            R.string.holidays,
+            R.layout.base_viewpager,
+            R.id.nav_holidays,
+            true);
 
 
     private final int Title;

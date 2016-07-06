@@ -80,7 +80,7 @@ public class Converters {
         Date outPutDate = new Date();
         try {
             String day = dateFormat.format(new Date());
-            outPutDate = fullFormat.parse(day +" "+ time.trim().replace(".", ":"));
+            outPutDate = fullFormat.parse(day + " " + time.trim().replace(".", ":"));
         } catch (ParseException e) {
             e.printStackTrace();
             Log.e(TAG, "Date parsing failed in convertToCalender :" + time);
@@ -88,6 +88,23 @@ public class Converters {
         Calendar cal = Calendar.getInstance();
         cal.setTime(outPutDate);
         return cal;
+    }
+
+    /**
+     *
+     * @param date : String in "dd/MM/yyyy" format
+     * @return : Date with today's time attached
+     */
+    public Date convertToDate(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date outPutDate = new Date();
+        try {
+            outPutDate = dateFormat.parse(date.trim());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Date parsing failed in convertToDate :" + date);
+        }
+        return outPutDate;
     }
 
 }

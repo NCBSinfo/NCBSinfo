@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.canteen.Canteen;
+import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
 import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
@@ -33,6 +34,7 @@ public class Experimental extends BaseActivity {
         final int[] icons = {
                 R.drawable.icon_lecturehall,
                 R.drawable.icon_canteen,
+                R.drawable.icon_holidays
         };
         //Auto adjust columns. Max 3
         if(icons.length<3){
@@ -53,6 +55,8 @@ public class Experimental extends BaseActivity {
                     case 1:
                         startActivity(new Intent(Experimental.this, Canteen.class));
                         break;
+                    case 2:
+                        startActivity(new Intent(Experimental.this, Holidays.class));
                 }
             }
         });

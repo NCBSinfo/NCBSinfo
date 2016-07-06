@@ -22,14 +22,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.activities.canteen.Canteen;
+import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
 import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
+import com.rohitsuratekar.NCBSinfo.background.NotificationService;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.background.firebase.DataBuilder;
 import com.rohitsuratekar.NCBSinfo.background.firebase.DataStructure;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
@@ -58,7 +61,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         ButterKnife.bind(this);
         //Initialization
         pref = new Preferences(getBaseContext());
-
 
 
         //Initialize app with latest app version
@@ -123,6 +125,7 @@ public class Home extends AppCompatActivity implements AppConstants {
                 startActivity(intent);
             }
         });
+
 
     }
 

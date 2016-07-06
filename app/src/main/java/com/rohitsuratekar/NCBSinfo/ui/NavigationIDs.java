@@ -12,6 +12,7 @@ import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.activities.experimental.Experimental;
+import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
 import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
@@ -54,6 +55,8 @@ public class NavigationIDs {
                 return new Intent(activity, LectureHalls.class);
             case R.id.nav_canteen:
                 return new Intent(activity, Canteen.class);
+            case R.id.nav_holidays:
+                return new Intent(activity, Holidays.class);
             default:
                 return new Intent(activity, Home.class);
         }

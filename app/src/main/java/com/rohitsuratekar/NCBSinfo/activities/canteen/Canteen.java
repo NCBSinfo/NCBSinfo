@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
@@ -81,11 +82,15 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
         dinnerIcon.setOnClickListener(this);
         checkMenu.setOnClickListener(this);
 
-        if(!new CanteenData(calendar).isFoodAvailable()){
+        if (!new CanteenData(calendar).isFoodAvailable()) {
             welcomeText.setText(getResources().getString(R.string.canteen_welcome_empty));
             secondMessage.setText("");
         }
 
+        //If today is holiday, give user waning
+        if (new Holidays().isTodayHoliday()) {
+            secondMessage.setText(getResources().getString(R.string.canteen_message_holiday));
+        }
 
 
     }

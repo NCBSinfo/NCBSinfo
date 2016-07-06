@@ -18,6 +18,7 @@
     <string name="login">Sign In</string>
     <string name="register">Register</string>
     <string name="map">Map</string>
+    <string name="holidays">Holidays</string>
 
     <string name="name">Name</string>
     <string name="email">Email address</string>
@@ -79,6 +80,7 @@
 
     <string name="canteen_welcome">Currently Available Options</string>
     <string name="canteen_message">Click on the icons to check where.</string>
+    <string name="canteen_message_holiday">Warning: Today is NCBS holiday. These timings may change.</string>
     <string name="canteen_welcome_empty">Looks like there are no food options available at this moment. Try maggi instead ;)</string>
     <string name="canteen_breakfast">Breakfast</string>
     <string name="canteen_morningTea">Morning Snacks</string>
@@ -94,6 +96,9 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="holidays_welcome">NCBS Holidays 2016</string>
+    <string name="holidays_note">(From TFR:NCB:165:15–16 Dated 13 April 2016)</string>
 
 
     <string name="action_add">Add</string>
