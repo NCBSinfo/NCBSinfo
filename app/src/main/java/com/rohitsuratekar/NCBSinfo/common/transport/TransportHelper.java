@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.BuggyModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.MondayModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.ShuttleModel;
@@ -14,6 +13,7 @@ import com.rohitsuratekar.NCBSinfo.common.transport.models.SundayModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.WeekDayModel;
 import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -82,18 +82,20 @@ public class TransportHelper implements UserInformation {
                 from = "ncbs";
                 to = "mandara";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
-                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
+                sundayPreferenceKey = TransportConstants.BUGGY_NCBS;
                 if (isCAMPtime()) {
                     weekPreferenceKey = TransportConstants.CAMP_BUGGY_NCBS;
+                    sundayPreferenceKey = TransportConstants.CAMP_BUGGY_NCBS;
                 }
                 break;
             case TransportConstants.ROUTE_BUGGY_MANDARA:
                 from = "mandara";
                 to = "ncbs";
                 weekPreferenceKey = TransportConstants.BUGGY_NCBS;
-                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
+                sundayPreferenceKey = TransportConstants.BUGGY_NCBS;
                 if (isCAMPtime()) {
                     weekPreferenceKey = TransportConstants.CAMP_BUGGY_MANDARA;
+                    sundayPreferenceKey = TransportConstants.CAMP_BUGGY_MANDARA;
                 }
                 break;
             case TransportConstants.ROUTE_NCBS_ICTS:
@@ -423,13 +425,13 @@ public class TransportHelper implements UserInformation {
             String to = routeToStrings(route)[1];
             buggy = new BuggyModel(
                     new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_buggy_from_ncbs))),
-                    new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_buggy_from_mandara)))
+                    new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_buggy_from_ncbs)))
                     , from, to, context);
             transport = new TransportModel(context, buggy);
         } else {
             weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_ncbs_iisc_week)))));
             sunday = new SundayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_ncbs_iisc_week)))));
-            shuttle = new ShuttleModel(route, sunday, weekday,context);
+            shuttle = new ShuttleModel(route, sunday, weekday, context);
             transport = new TransportModel(context, shuttle);
         }
         return transport;

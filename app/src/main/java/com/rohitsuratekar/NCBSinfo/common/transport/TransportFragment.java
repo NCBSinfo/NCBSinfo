@@ -60,8 +60,10 @@ public class TransportFragment extends Fragment {
 
         if (isBuggy) {
             buggy = new BuggyModel(
-                    new Utilities().stringToarray(pref.getString(new TransportHelper(getContext()).routeToStrings(index)[3], getString(R.string.def_buggy_from_ncbs))),
-                    new Utilities().stringToarray(pref.getString(new TransportHelper(getContext()).routeToStrings(index)[2], getString(R.string.def_buggy_from_mandara))),
+                    new Utilities().stringToarray(pref.getString(
+                            new TransportHelper(getContext()).routeToStrings(TransportConstants.ROUTE_BUGGY_NCBS)[3], getString(R.string.def_buggy_from_ncbs))),
+                    new Utilities().stringToarray(pref.getString(
+                            new TransportHelper(getContext()).routeToStrings(TransportConstants.ROUTE_BUGGY_MANDARA)[3], getString(R.string.def_buggy_from_mandara))),
                     new TransportHelper(getContext()).routeToStrings(index)[0],new TransportHelper(getContext()).routeToStrings(index)[1], getContext() );
             transport = new TransportModel(getContext(), buggy);
         } else {
