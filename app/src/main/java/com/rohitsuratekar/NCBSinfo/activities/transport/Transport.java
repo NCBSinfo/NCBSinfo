@@ -28,7 +28,11 @@ public class Transport extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
-        fab.setVisibility(View.GONE);
+        fab.setImageResource(R.drawable.icon_set_reminder);
+
+        if (new TransportHelper(getBaseContext()).getAllReminders().size() == 0) {
+            fab.setVisibility(View.GONE);
+        }
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager mViewPager = (ViewPager) findViewById(R.id.base_viewpager);

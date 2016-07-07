@@ -40,6 +40,7 @@
         <activity android:name=".activities.OnlineHome" />
         <activity android:name=".activities.OfflineHome" />
         <activity android:name=".activities.transport.Transport" />
+        <activity android:name=".activities.transport.TransportReminder" />
         <activity android:name=".activities.locations.LectureHalls" />
         <activity android:name=".activities.events.Events" />
         <activity android:name=".activities.dashboard.DashBoard" />
@@ -59,7 +60,7 @@
 
 
         <!-- Receivers and Services -->
-        <receiver android:name=".background.Alarms" />
+        <receiver android:name=".background.alarms.Alarms" />
 
         <service android:name=".background.ServiceCentre" />
         <service android:name=".background.NetworkOperations" />

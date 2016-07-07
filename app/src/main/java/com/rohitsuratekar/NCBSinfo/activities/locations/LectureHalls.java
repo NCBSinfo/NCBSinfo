@@ -1,8 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.activities.locations;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -35,6 +39,9 @@ public class LectureHalls extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
         expListView = (ExpandableListView) findViewById(R.id.lecturehall_expandableList);
 
@@ -120,5 +127,6 @@ public class LectureHalls extends BaseActivity {
         }
 
     }
+
 
 }

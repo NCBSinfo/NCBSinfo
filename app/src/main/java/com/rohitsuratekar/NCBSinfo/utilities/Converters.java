@@ -107,4 +107,16 @@ public class Converters {
         return outPutDate;
     }
 
+    public String calenderToDate(Calendar calendar){
+        Date date = new Date();
+        date.setTime(calendar.getTimeInMillis());
+        return new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(date);
+    }
+
+    public String calenderToTime(Calendar calendar){
+        Date date = new Date();
+        date.setTime(calendar.getTimeInMillis());
+        return new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
+    }
+
 }

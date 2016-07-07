@@ -51,7 +51,7 @@ public class TransportPref {
         switch (routes) {
             case BUGGY_FROM_NCBS:
                 pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(routes.getSundayKey(), context.getString(R.string.def_buggy_from_ncbs)).apply();
+                pref.edit().putString(routes.getSundayKey(), context.getString(getDefault(routes, false))).apply();
                 pref.edit().putString(Routes.buggy.A.getFromNCBS(), context.getString(R.string.def_b1_ncbs)).apply();
                 pref.edit().putString(Routes.buggy.B.getFromNCBS(), context.getString(R.string.def_b2_ncbs)).apply();
                 pref.edit().putBoolean(Routes.buggy.A.isRunning(), true).apply();
@@ -59,7 +59,7 @@ public class TransportPref {
                 break;
             case BUGGY_FROM_MANDARA:
                 pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(routes.getSundayKey(), context.getString(R.string.def_buggy_from_mandara)).apply();
+                pref.edit().putString(routes.getSundayKey(), context.getString(getDefault(routes, false))).apply();
                 pref.edit().putString(Routes.buggy.A.getFromMandara(), context.getString(R.string.def_b1_ncbs)).apply();
                 pref.edit().putString(Routes.buggy.B.getFromMandara(), context.getString(R.string.def_b2_ncbs)).apply();
                 pref.edit().putBoolean(Routes.buggy.A.isRunning(), true).apply();
@@ -122,11 +122,11 @@ public class TransportPref {
         }
     }
 
-    public String getLastUpdate(){
-        if(new App(pref).getMode().equals(AppConstants.modes.OFFLINE)){
+    public String getLastUpdate() {
+        if (new App(pref).getMode().equals(AppConstants.modes.OFFLINE)) {
             return "N/A (offline mode)";
-        }
-        else {return pref.getString(LAST_UPDATE,"Never");
+        } else {
+            return pref.getString(LAST_UPDATE, "Never");
         }
     }
 

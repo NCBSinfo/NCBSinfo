@@ -90,6 +90,12 @@ public enum CurrentActivity {
             R.string.holidays,
             R.layout.base_viewpager,
             R.id.nav_holidays,
+            true),
+
+    TRANSPORT_REMINDER(
+            R.string.transport_reminder,
+            R.layout.base_viewpager,
+            R.id.nav_transport_reminder,
             true);
 
 

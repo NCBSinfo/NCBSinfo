@@ -9,7 +9,7 @@ public class Database extends SQLiteOpenHelper {
 
     //Database Constants
     private static String DATABASE_NAME = "NCBSinfo";
-    private static int DATABASE_VERSION = 6; //Changed from 5 to 6 on 21 June 2016
+    private static int DATABASE_VERSION = 7; //Changed from 6 to 7 on 6 July 2016
 
     Context mContext;
 
@@ -30,6 +30,7 @@ public class Database extends SQLiteOpenHelper {
         new Tables(db).makeTalkTable();
         new Tables(db).makeConferenceTable();
         new Tables(db).makeNotificationTable();
+        new Tables(db).makeAlarmTable();
     }
 
     //No "break" statements are given to upgrade database serials
@@ -46,6 +47,8 @@ public class Database extends SQLiteOpenHelper {
                     db.execSQL("DROP TABLE IF EXISTS 'table_database'"); //Removing JC database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_external'"); //Removing External database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_talkdata'"); //Removing Old talk table
+                case 6:
+                    new Tables(db).makeAlarmTable();
             }
         }
         //Remove support from previous databases

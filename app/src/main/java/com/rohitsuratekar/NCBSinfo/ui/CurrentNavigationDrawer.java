@@ -71,6 +71,7 @@ public class CurrentNavigationDrawer {
         email = (TextView) header.findViewById(R.id.nav_header_email);
         navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, false);
         navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, false);
+        navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, false);
     }
 
     //Offline mode
@@ -105,6 +106,9 @@ public class CurrentNavigationDrawer {
             case HOME:
                 navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
                 break;
+            case TRANSPORT:
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, true);
+                break;
             case EXPERIMENTAL:
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                 break;
@@ -132,6 +136,13 @@ public class CurrentNavigationDrawer {
             case CANTEEN:
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                 break;
+            case HOLIDAYS:
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
+                break;
+            case TRANSPORT_REMINDER:
+                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, true);
+                break;
+
         }
     }
 }

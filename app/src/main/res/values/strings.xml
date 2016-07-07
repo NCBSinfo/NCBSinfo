@@ -19,6 +19,7 @@
     <string name="register">Register</string>
     <string name="map">Map</string>
     <string name="holidays">Holidays</string>
+    <string name="transport_reminder">Transport Reminders</string>
 
     <string name="name">Name</string>
     <string name="email">Email address</string>
@@ -68,6 +69,9 @@
     <string name="transport_footer2">**Next shuttle after %1$s</string>
     <string name="transport_buggy_footer">**Next buggy after %1$s</string>
     <string name="transport_last_updated">Last updated on : %1$s</string>
+    <string name="transport_reminder_dialog">Just click on any shuttle or buggy timing to set reminder about it!</string>
+    <string name="transport_reminder_message">Get notification %1$s %2$s before departure time ?</string>
+    <string name="transport_reminder_details"> You will be notified %1$s (%2$s) at %3$s </string>
 
     <string name="contact_name">Contact Name</string>
     <string name="contact_number">Contact Number</string>
@@ -80,7 +84,8 @@
 
     <string name="canteen_welcome">Currently Available Options</string>
     <string name="canteen_message">Click on the icons to check where.</string>
-    <string name="canteen_message_holiday">Warning: Today is NCBS holiday. These timings may change.</string>
+    <string name="canteen_message_holiday">Warning: Today is NCBS holiday.\nThese timings may change.</string>
+    <string name="canteen_quote"><b>\"</b><i>%s</i><b>\"</b></string>
     <string name="canteen_welcome_empty">Looks like there are no food options available at this moment. Try maggi instead ;)</string>
     <string name="canteen_breakfast">Breakfast</string>
     <string name="canteen_morningTea">Morning Snacks</string>

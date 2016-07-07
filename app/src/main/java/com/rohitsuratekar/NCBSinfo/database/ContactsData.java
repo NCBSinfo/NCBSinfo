@@ -79,8 +79,8 @@ public class ContactsData {
         }
 
         // return contact list
-        db.close();
         cursor.close();
+        db.close();
         return contactList;
     }
 

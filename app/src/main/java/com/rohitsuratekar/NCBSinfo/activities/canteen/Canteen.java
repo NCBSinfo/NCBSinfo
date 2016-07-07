@@ -61,6 +61,10 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
     TextView welcomeText;
     @BindView(R.id.canteen_message)
     TextView secondMessage;
+    @BindView(R.id.canteen_quote)
+    TextView quote;
+    @BindView(R.id.canteen_quote_author)
+    TextView author;
     @BindView(R.id.canteen_check_menu)
     Button checkMenu;
 
@@ -82,16 +86,22 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
         dinnerIcon.setOnClickListener(this);
         checkMenu.setOnClickListener(this);
 
-        if (!new CanteenData(calendar).isFoodAvailable()) {
-            welcomeText.setText(getResources().getString(R.string.canteen_welcome_empty));
-            secondMessage.setText("");
-        }
-
         //If today is holiday, give user waning
         if (new Holidays().isTodayHoliday()) {
             secondMessage.setText(getResources().getString(R.string.canteen_message_holiday));
         }
 
+        if (!new CanteenData(calendar).isFoodAvailable()) {
+            welcomeText.setText(getResources().getString(R.string.canteen_welcome_empty));
+            welcomeText.setTextSize(14);
+            secondMessage.setText("");
+        }
+
+
+
+        String[] q = quotes();
+        quote.setText(getResources().getString(R.string.canteen_quote,q[0]));
+        author.setText(q[1]);
 
     }
 
@@ -171,6 +181,27 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
                 })
                 .setIcon(view.getDrawable())
                 .show();
+    }
+
+    public String[] quotes() {
+        String[][] all = {{"One cannot think well, love well, sleep well, if one has not dined well.", "Virginia Woolf"},
+                {"Part of the secret of a success in life is to eat what you like and let the food fight it out inside.", "Mark Twain"},
+                {"You don't need a silver fork to eat good food.", "Paul Prudhomme"},
+                {"There is no sincerer love than the love of food.", "George Bernard Shaw"},
+                {"Food for the body is not enough. There must be food for the soul.", "Dorothy Day"},
+                {"Tell me what you eat, and I will tell you who you are.", "J A Brillat-Savarin"},
+                {"I come from a family where gravy is considered a beverage.", "Erma Bombeck"},
+                {"An Englishman teaching an American about food is like the blind leading the one-eyed.", "A. J. Liebling"},
+                {"Gluttony is an emotional escape, a sign something is eating us.", "Peter De Vries"},
+                {"My favorite time of day is to get up and eat leftovers from dinner, especially spicy food.", "David Byrne"},
+                {"Too many people just eat to consume calories. Try dining for a change.", "John Walters"},
+                {"You can tell alot about a fellow's character by his way of eating jellybeans.", "Ronald Reagan"},
+                {"A waffle is like a pancake with a syrup trap.", "Mitch Hedberg"},
+                {"The most dangerous food is wedding cake.", "James Thurber"},
+                {"Once, during Prohibition, I was forced to live for days on nothing but food and water.", "W. C. Fields"}};
+
+        return all[new General().randInt(0, all.length - 1)];
+
     }
 
 

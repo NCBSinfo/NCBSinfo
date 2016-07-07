@@ -69,12 +69,27 @@ public class Tables {
         db.execSQL(CREATE_NOTIFICATION_TABLE);
     }
 
+    public void makeAlarmTable() {
+        String CREATE_ALARM_TABLE = "CREATE TABLE " + AlarmData.TABLE_ALARMS + "("
+                + AlarmData.KEY + " INTEGER PRIMARY KEY,"
+                + AlarmData.ALARM_ID + " INTEGER,"
+                + AlarmData.TYPE + " TEXT,"
+                + AlarmData.TRIGGER + " TEXT,"
+                + AlarmData.LEVEL + " TEXT,"
+                + AlarmData.EXTRA_PARAMETER + " TEXT,"
+                + AlarmData.EXTRA_VALUE + " TEXT,"
+                + AlarmData.ALARM_TIME + " TEXT,"
+                + AlarmData.ALARM_DATE + " TEXT " + ")";
+        db.execSQL(CREATE_ALARM_TABLE);
+    }
+
 
     public void dropAllTables() {
         db.execSQL("DROP TABLE IF EXISTS " + ContactsData.TABLE_CONTACTS);
         db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_TALK);
         db.execSQL("DROP TABLE IF EXISTS " + ConferenceData.TABLE_CONFERENCE);
         db.execSQL("DROP TABLE IF EXISTS " + NotificationData.TABLE_NOTIFICATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + AlarmData.TABLE_ALARMS);
     }
 
 }

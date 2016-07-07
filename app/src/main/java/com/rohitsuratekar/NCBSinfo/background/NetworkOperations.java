@@ -8,22 +8,18 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
-import com.rohitsuratekar.NCBSinfo.database.ConferenceData;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
-import com.rohitsuratekar.NCBSinfo.database.models.ConferenceModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
 import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
 import com.secretbiology.retro.google.fusiontable.reponse.RowModel;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
@@ -195,7 +191,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
                 //start notification service
                 Intent i = new Intent(NetworkOperations.this, Alarms.class);
-                i.putExtra(Alarms.INTENT, SEND_UPCOMINGS);
+                i.putExtra(Alarms.INTENT, AlarmConstants.triggers.SEND_UPCOMING);
                 context.sendBroadcast(i);
 
             }

@@ -19,9 +19,9 @@ public class AcademicCafeteria {
         this.lunch = new Lunch(false, true, "12:45", "13:45");
 
         if (DayofWeek == Calendar.SATURDAY) {
-            this.midEveningTea = new MidEveningTea(false, true, "15:00", "17:30");
+            this.midEveningTea = new MidEveningTea(false, true, "13:45", "17:30");
         } else {
-            this.midEveningTea = new MidEveningTea(false, true, "15:00", "18:00");
+            this.midEveningTea = new MidEveningTea(false, true, "13:45", "18:00");
         }
     }
 

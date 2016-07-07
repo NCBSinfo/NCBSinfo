@@ -14,163 +14,206 @@
         android:layout_width="match_parent"
         android:layout_height="0sp"
         android:layout_weight="80"
+        android:gravity="bottom"
         android:orientation="vertical"
-        android:gravity="bottom">
+        android:weightSum="100">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10sp"
-            android:orientation="horizontal"
-            android:weightSum="100">
+            android:layout_height="0sp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:gravity="top|center_horizontal"
-                android:orientation="vertical">
+            <TextView
+                android:id="@+id/canteen_quote"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:text="Medium Text"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <ImageView
-                    android:id="@+id/canteen_breakfastIcon"
-                    android:layout_width="@dimen/canteen_icons"
-                    android:layout_height="@dimen/canteen_icons"
-                    android:src="@drawable/icon_breakfast" />
-
-                <TextView
-                    android:id="@+id/canteen_breakfastText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/canteen_breakfast"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:gravity="top|center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/canteen_morningTeaIcon"
-                    android:layout_width="@dimen/canteen_icons"
-                    android:layout_height="@dimen/canteen_icons"
-                    android:src="@drawable/icon_tea" />
-
-                <TextView
-                    android:id="@+id/canteen_morningTeaText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/canteen_morningTea"
-                    android:textAlignment="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:gravity="top|center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/canteen_lunchIcon"
-                    android:layout_width="@dimen/canteen_icons"
-                    android:layout_height="@dimen/canteen_icons"
-                    android:src="@drawable/icon_canteen" />
-
-                <TextView
-                    android:id="@+id/canteen_lunchText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/canteen_lunch"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:gravity="top|center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/canteen_eveningTeaIcon"
-                    android:layout_width="@dimen/canteen_icons"
-                    android:layout_height="@dimen/canteen_icons"
-                    android:src="@drawable/icon_drink" />
-
-                <TextView
-                    android:id="@+id/canteen_eveningTeaText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/canteen_eveningTea"
-                    android:textAlignment="center"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:gravity="top|center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/canteen_dinnerIcon"
-                    android:layout_width="@dimen/canteen_icons"
-                    android:layout_height="@dimen/canteen_icons"
-                    android:src="@drawable/icon_dinner" />
-
-                <TextView
-                    android:id="@+id/canteen_dinnerText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/canteen_dinner"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/canteen_quote_author"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Small Text"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                 />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/canteen_welcome_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/canteen_welcome"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_marginLeft="20sp"
-            android:layout_marginTop="20sp"
-            android:layout_marginRight="20sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0sp"
+            android:layout_weight="50"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/canteen_message"
-            android:id="@+id/canteen_message"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:layout_marginTop="5sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10sp"
+                android:orientation="horizontal"
+                android:weightSum="100"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:gravity="top|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/canteen_breakfastIcon"
+                        android:layout_width="@dimen/canteen_icons"
+                        android:layout_height="@dimen/canteen_icons"
+                        android:src="@drawable/icon_breakfast" />
+
+                    <TextView
+                        android:id="@+id/canteen_breakfastText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canteen_breakfast"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:gravity="top|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/canteen_morningTeaIcon"
+                        android:layout_width="@dimen/canteen_icons"
+                        android:layout_height="@dimen/canteen_icons"
+                        android:src="@drawable/icon_tea" />
+
+                    <TextView
+                        android:id="@+id/canteen_morningTeaText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canteen_morningTea"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:gravity="top|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/canteen_lunchIcon"
+                        android:layout_width="@dimen/canteen_icons"
+                        android:layout_height="@dimen/canteen_icons"
+                        android:src="@drawable/icon_canteen" />
+
+                    <TextView
+                        android:id="@+id/canteen_lunchText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canteen_lunch"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:gravity="top|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/canteen_eveningTeaIcon"
+                        android:layout_width="@dimen/canteen_icons"
+                        android:layout_height="@dimen/canteen_icons"
+                        android:src="@drawable/icon_drink" />
+
+                    <TextView
+                        android:id="@+id/canteen_eveningTeaText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canteen_eveningTea"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:gravity="top|center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/canteen_dinnerIcon"
+                        android:layout_width="@dimen/canteen_icons"
+                        android:layout_height="@dimen/canteen_icons"
+                        android:src="@drawable/icon_dinner" />
+
+                    <TextView
+                        android:id="@+id/canteen_dinnerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/canteen_dinner"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/canteen_welcome_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginTop="20sp"
+                android:text="@string/canteen_welcome"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/canteen_message"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5sp"
+                android:text="@string/canteen_message"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0sp"
         android:layout_weight="20"
-        android:orientation="vertical"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/canteen_check_menu"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20sp"
             android:background="@color/colorPrimary"
             android:text="Today&apos;s Menu"
-            android:textColor="#ffffff"
-            android:layout_marginBottom="20sp" />
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

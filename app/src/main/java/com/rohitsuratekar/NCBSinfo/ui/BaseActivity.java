@@ -3,7 +3,7 @@ package com.rohitsuratekar.NCBSinfo.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +19,7 @@ import android.view.ViewStub;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportReminder;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
@@ -74,6 +75,8 @@ public abstract class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            // overridePendingTransition(R.anim.activity_right_in, R.anim.activity_right_out);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
 
@@ -86,16 +89,11 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,14 +111,27 @@ public abstract class BaseActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
         if (item.getItemId() == R.id.nav_change_mode) {
             changeMode();
+        } else if (item.getItemId() == R.id.nav_transport_reminder) {
+            showTransportNotice(drawer);
         } else {
-            Intent intent = new NavigationIDs(item.getItemId(), this).getIntent();
+            final Intent intent = new NavigationIDs(item.getItemId(), this).getIntent();
             //Start activity only when current activity is not the same activity
             if (!intent.filterEquals(new Intent(this, this.getClass()))) {
-                startActivity(intent);
+
+                //Add delay for smooth transition
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }, 200);
+                drawer.closeDrawer(GravityCompat.START);
+                //overridePendingTransition(R.anim.activity_left_in, R.anim.activity_left_out);
+
             }
         }
         return true;
@@ -139,10 +150,11 @@ public abstract class BaseActivity extends AppCompatActivity
                 .setMessage(new CurrentMode(getBaseContext()).getWarningMessage())
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        new Preferences (getBaseContext()).clearAll();
+                        new Preferences(getBaseContext()).clearAll();
                         Intent intent = new Intent(getBaseContext(), Home.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 })
                 .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
@@ -152,6 +164,19 @@ public abstract class BaseActivity extends AppCompatActivity
                     }
                 })
                 .setIcon(new CurrentMode(getBaseContext()).getIcon())
+                .show();
+    }
+
+    private void showTransportNotice(final DrawerLayout drawer) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.transport_reminder))
+                .setMessage(getString(R.string.transport_reminder_dialog))
+                .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        drawer.closeDrawer(GravityCompat.START);
+                    }
+                })
+                .setIcon(R.drawable.icon_shuttle)
                 .show();
     }
 

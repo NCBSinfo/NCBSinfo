@@ -68,30 +68,30 @@ public class General {
 
     /**
      * Sets color to imageview considering compatibility issues
-     * @param context : to get resources
+     *
+     * @param context   : to get resources
      * @param imageView : Imageview
-     * @param color : Color resources
+     * @param color     : Color resources
      */
-    public void setColorToIcon(Context context, ImageView imageView, int color){
+    public void setColorToIcon(Context context, ImageView imageView, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             imageView.setColorFilter(context.getResources().getColor(color, context.getTheme()));
-        }
-        else {
+        } else {
             imageView.setColorFilter(context.getResources().getColor(color));
         }
     }
 
     /**
      * Sets color to textview considering compatibility issues
-     * @param context : to get resources
+     *
+     * @param context  : to get resources
      * @param textView : TextView
-     * @param color : Color resources
+     * @param color    : Color resources
      */
-    public void setColorToText(Context context, TextView textView, int color){
+    public void setColorToText(Context context, TextView textView, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             textView.setTextColor(context.getResources().getColor(color, context.getTheme()));
-        }
-        else {
+        } else {
             textView.setTextColor(context.getResources().getColor(color));
         }
     }

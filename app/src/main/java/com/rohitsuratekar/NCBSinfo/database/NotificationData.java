@@ -51,6 +51,7 @@ public class NotificationData {
         NotificationModel notification = new NotificationModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return contact
         cursor.close();
+        db.close();
         return notification;
     }
 
@@ -76,6 +77,7 @@ public class NotificationData {
 
         // return contact list
         cursor.close();
+        db.close();
         return notificationModelList;
     }
 

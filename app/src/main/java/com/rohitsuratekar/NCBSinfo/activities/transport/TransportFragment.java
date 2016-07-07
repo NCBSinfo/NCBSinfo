@@ -1,10 +1,15 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,9 +19,6 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
 import java.util.Calendar;
-
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class TransportFragment extends Fragment {
 
@@ -45,7 +47,6 @@ public class TransportFragment extends Fragment {
 
     TextView weekTitle, sundayTitle;
     TextView footnote1, footnote2, lastUpdated;
-    private Unbinder unbinder;
 
 
     @Override
@@ -71,7 +72,6 @@ public class TransportFragment extends Fragment {
         footnote2 = (TextView) rootView.findViewById(R.id.transport_footnote2);
         lastUpdated = (TextView) rootView.findViewById(R.id.transport_last_update);
 
-        unbinder = ButterKnife.bind(this, rootView);
 
         perform(rootView);
 
@@ -79,15 +79,10 @@ public class TransportFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     public void perform(View v) {
 
-        lastUpdated.setText(getString(R.string.transport_last_updated,pref.transport().getLastUpdate()));
+        lastUpdated.setText(getString(R.string.transport_last_updated, pref.transport().getLastUpdate()));
 
         //UI initialization
         ListView weekList = (ListView) v.findViewById(R.id.weekdays_trips);
@@ -104,10 +99,13 @@ public class TransportFragment extends Fragment {
             rawSundayTrips = transport.getRawTripsSunday();
         }
 
+        final String[] weekListwithoutFormat = rawWeekTrips;
 
         //Convert to regular format
         rawWeekTrips = new Converters().convertToSimpleDate(rawWeekTrips);
         rawSundayTrips = new Converters().convertToSimpleDate(rawSundayTrips);
+
+
 
         int focusPoint = 0;
 
@@ -185,12 +183,40 @@ public class TransportFragment extends Fragment {
         footnote1.setText(transport.getGetFootnote1());
         footnote2.setText(transport.getGetFootnote2());
 
-        if(focusPoint>3) { //3 is magic number but it works
+        if (focusPoint > 3) { //3 is magic number but it works
             weekList.setSelection(focusPoint);
             sundayList.setSelection(focusPoint);
             weekList.smoothScrollToPositionFromTop(focusPoint, 0);
             sundayList.smoothScrollToPositionFromTop(focusPoint, 0);
         }
+
+        weekList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Set reminder ?")
+                        .setMessage(Html.fromHtml("For " + transport.getType().toLowerCase() + "<br>from <b>" +
+                                transport.getFrom().toUpperCase() + "</b> to <b>" +
+                                transport.getTO().toUpperCase() + "</b> on " +
+                                new Converters().convertToSimpleDate(weekListwithoutFormat[i])))
+                        .setPositiveButton("Sure", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getActivity(), TransportReminder.class);
+                                intent.putExtra(TransportReminder.ROUTE, transport.getRouteNo());
+                                intent.putExtra(TransportReminder.ROUTE_TIME, weekListwithoutFormat[i]);
+                                startActivity(intent);
+                                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        })
+                        .setIcon(R.drawable.icon_shuttle)
+                        .show();
+            }
+        });
 
 
     }

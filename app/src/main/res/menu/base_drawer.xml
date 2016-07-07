@@ -52,6 +52,14 @@
             android:title="@string/settings" />
     </group>
 
+    <group android:id="@+id/nav_subgroup_transport"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_transport_reminder"
+            android:icon="@drawable/icon_set_reminder"
+            android:title="@string/transport_reminder" />
+    </group>
+
     <group android:id="@+id/nav_subgroup_experimental"
         android:checkableBehavior="single">
         <item

@@ -62,25 +62,26 @@ public class ConferenceData {
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
-                ConferenceModel enrty = new ConferenceModel();
-                enrty.setId(Integer.parseInt(cursor.getString(0)));
-                enrty.setTimestamp(cursor.getString(1));
-                enrty.setCode(cursor.getString(2));
-                enrty.setEventID(cursor.getString(3));
-                enrty.setEventTitle(cursor.getString(4));
-                enrty.setEventSpeaker(cursor.getString(5));
-                enrty.setEventHost(cursor.getString(6));
-                enrty.setEventStartTime(cursor.getString(7));
-                enrty.setEventEndTime(cursor.getString(8));
-                enrty.setEventDate(cursor.getString(9));
-                enrty.setEventVenue(cursor.getString(10));
-                enrty.setEventMessage(cursor.getString(11));
-                enrty.setEventCode(cursor.getString(12));
-                enrty.setUpdateCounter(Integer.parseInt(cursor.getString(13)));
-                fullList.add(enrty);
+                ConferenceModel entry = new ConferenceModel();
+                entry.setId(Integer.parseInt(cursor.getString(0)));
+                entry.setTimestamp(cursor.getString(1));
+                entry.setCode(cursor.getString(2));
+                entry.setEventID(cursor.getString(3));
+                entry.setEventTitle(cursor.getString(4));
+                entry.setEventSpeaker(cursor.getString(5));
+                entry.setEventHost(cursor.getString(6));
+                entry.setEventStartTime(cursor.getString(7));
+                entry.setEventEndTime(cursor.getString(8));
+                entry.setEventDate(cursor.getString(9));
+                entry.setEventVenue(cursor.getString(10));
+                entry.setEventMessage(cursor.getString(11));
+                entry.setEventCode(cursor.getString(12));
+                entry.setUpdateCounter(Integer.parseInt(cursor.getString(13)));
+                fullList.add(entry);
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
         return fullList;
     }
 
@@ -101,8 +102,11 @@ public class ConferenceData {
         values.put(CONFERENCE_EVENT_CODE, entry.getEventCode());
         values.put(CONFERENCE_UPDATE_COUNTER, entry.getUpdateCounter());
 
-        return db.update(TABLE_CONFERENCE, values, CONFERENCE_KEY_ID + " = ?",
+        int returnID = db.update(TABLE_CONFERENCE, values, CONFERENCE_KEY_ID + " = ?",
                 new String[]{String.valueOf(entry.getId())});
+        db.close();
+
+        return returnID;
     }
 
     // Delete all data

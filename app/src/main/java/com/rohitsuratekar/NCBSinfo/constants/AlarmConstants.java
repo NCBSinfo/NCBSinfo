@@ -8,34 +8,25 @@ package com.rohitsuratekar.NCBSinfo.constants;
 public interface AlarmConstants {
 
 
-    String DAILY_FETCH = "alarm_dailyFetch";
-    String RESET_ALL = "alarm_resetAll";
-    String SEND_UPCOMINGS = "alarm_sendUpcomings";
-    String SEND_NOTIFICATION = "alarm_sendNotifications";
-    String NOTIFICATION_CODE = "alarm_notificationCode";
+    enum alarmLevel {
 
-    interface dailyAlarms {
+        NETWORK,
+        NOTIFICATION,
+        TRANSPORT
+    }
 
-        interface earlyMorning {
-            int ID = 1989;
-            int TIME = 6;
-        }
+    enum alarmType {
 
-        interface morning {
-            int ID = 1990;
-            int TIME = 10;
-        }
+        REPEAT,
+        SINGLE_SHOT
+    }
 
-        interface afternoon {
-            int ID = 1991;
-            int TIME = 12;
-        }
+    enum triggers {
 
-        interface evening {
-            int ID = 1992;
-            int TIME = 18;
-        }
-
+        DAILY_FETCH,
+        RESET_ALL,
+        SEND_UPCOMING,
+        SEND_NOTIFICATION
     }
 
 

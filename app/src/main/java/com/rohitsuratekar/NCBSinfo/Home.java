@@ -14,25 +14,14 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.activities.canteen.Canteen;
-import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
-import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
-import com.rohitsuratekar.NCBSinfo.activities.login.Login;
-import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
-import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
-import com.rohitsuratekar.NCBSinfo.background.NotificationService;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
-import com.rohitsuratekar.NCBSinfo.background.firebase.DataBuilder;
-import com.rohitsuratekar.NCBSinfo.background.firebase.DataStructure;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
@@ -91,7 +80,7 @@ public class Home extends AppCompatActivity implements AppConstants {
             @Override
             public void onClick(View view) {
                 pref.app().setMode(modes.OFFLINE);
-                startActivity(new Intent(Home.this, OfflineHome.class));
+                startActivity(new Intent(Home.this, Transport.class));
             }
         });
 
@@ -120,7 +109,7 @@ public class Home extends AppCompatActivity implements AppConstants {
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, Canteen.class);
+                Intent intent = new Intent(Home.this, OnlineHome.class);
                 pref.app().setMode(modes.ONLINE);
                 startActivity(intent);
             }

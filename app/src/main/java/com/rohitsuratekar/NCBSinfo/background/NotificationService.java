@@ -32,6 +32,8 @@ import com.rohitsuratekar.NCBSinfo.utilities.General;
  */
 public class NotificationService implements NetworkConstants, AppConstants {
 
+    public static final String NOTIFICATION_CODE = "notificationCode";
+
     private Context context;
     private final String TAG = getClass().getSimpleName();
     private int notificationNumber = 1; //Default

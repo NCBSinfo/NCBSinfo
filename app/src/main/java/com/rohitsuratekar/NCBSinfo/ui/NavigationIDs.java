@@ -17,6 +17,7 @@ import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportReminder;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
 public class NavigationIDs {
@@ -57,6 +58,8 @@ public class NavigationIDs {
                 return new Intent(activity, Canteen.class);
             case R.id.nav_holidays:
                 return new Intent(activity, Holidays.class);
+            case R.id.nav_transport_reminder:
+                return new Intent(activity, TransportReminder.class);
             default:
                 return new Intent(activity, Home.class);
         }

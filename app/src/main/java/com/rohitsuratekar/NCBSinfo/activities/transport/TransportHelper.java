@@ -9,6 +9,9 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.MondayModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.SundayModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.WeekDayModel;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.database.AlarmData;
+import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
 import java.text.ParseException;
@@ -20,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class TransportHelper {
+public class TransportHelper implements AlarmConstants {
 
     public static final int DEFAULT_NO = 1989;
     public static final String DEFAULT_TRIPS = "{\"00:00\"}";
@@ -330,6 +333,17 @@ public class TransportHelper {
             e.printStackTrace();
         }
         return timeLeft;
+    }
+
+    public List<AlarmModel> getAllReminders() {
+        List<AlarmModel> allList = new AlarmData(context).getAll();
+        List<AlarmModel> returnList = new ArrayList<>();
+        for (AlarmModel alarm : allList) {
+            if (alarm.getLevel().equals(alarmLevel.TRANSPORT.name())) {
+                returnList.add(alarm);
+            }
+        }
+        return returnList;
     }
 }
 
