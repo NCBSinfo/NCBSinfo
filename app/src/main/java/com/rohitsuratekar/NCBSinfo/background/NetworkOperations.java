@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
+import com.rohitsuratekar.NCBSinfo.background.remote.RemoteModel;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
@@ -20,6 +21,8 @@ import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
 import com.secretbiology.retro.google.fusiontable.reponse.RowModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import okhttp3.ResponseBody;
@@ -205,22 +208,28 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     private void remoteData() {
 
-        String sql_query = "SELECT * FROM " + tables.REMOTE_TABLE;
+        String sql_query = "SELECT * FROM " + tables.REMOTE_TABLE + " WHERE 'Key'='version'";
         com.secretbiology.retro.google.fusiontable.Commands Commands =
                 com.secretbiology.retro.google.fusiontable.Service.createService
                         (com.secretbiology.retro.google.fusiontable.Commands.class);
         Call<RowModel> call = Commands.getPublicRows(sql_query, API_KEY);
 
+        final List<RemoteModel> remoteData = new ArrayList<>();
         call.enqueue(new Callback<RowModel>() {
             @Override
             public void onResponse(Call<RowModel> call, Response<RowModel> response) {
                 if (response.isSuccess()) {
 
                     for (int i = 0; i < response.body().getRows().size(); i++) {
-                        String status = response.body().getRows().get(i).get(0);
-                        String trigger = response.body().getRows().get(i).get(1);
-                        String key = response.body().getRows().get(i).get(2);
-                        String value = response.body().getRows().get(i).get(3);
+                        RemoteModel data = new RemoteModel();
+                        data.setStatus(response.body().getRows().get(i).get(0));
+                        data.setTrigger(response.body().getRows().get(i).get(1));
+                        data.setLevel(response.body().getRows().get(i).get(2));
+                        data.setCounter(response.body().getRows().get(i).get(3));
+                        data.setKey(response.body().getRows().get(i).get(4));
+                        data.setValue(response.body().getRows().get(i).get(5));
+                        data.setExtraParameter(response.body().getRows().get(i).get(6));
+                        remoteData.add(data);
                     }
                 }
             }
@@ -234,7 +243,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     public void fetchAllData() {
 
-        if (pref.app().getMode().equals(modes.ONLINE.getValue())) {
+        if (pref.app().getMode().getValue().equals(modes.ONLINE.getValue())) {
             researchTalk();
         }
     }

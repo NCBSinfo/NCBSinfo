@@ -16,16 +16,15 @@ import android.widget.ImageView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.activities.events.Events;
-import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
-import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
-import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,10 +34,14 @@ public class Home extends AppCompatActivity implements AppConstants {
     public final String TAG = getClass().getSimpleName();
 
     //Set UI
-    @BindView(R.id.home_icon) ImageView homeIcon;
-    @BindView(R.id.home_fragment1) ImageView fragment1;
-    @BindView(R.id.home_fragment2) ImageView fragment2;
-    @BindView(R.id.home_fragment3) ImageView fragment3;
+    @BindView(R.id.home_icon)
+    ImageView homeIcon;
+    @BindView(R.id.home_fragment1)
+    ImageView fragment1;
+    @BindView(R.id.home_fragment2)
+    ImageView fragment2;
+    @BindView(R.id.home_fragment3)
+    ImageView fragment3;
 
     DisplayMetrics metrics;
     int f1_x, f1_y, f2_x, f2_y, f3_x, f3_y;
@@ -52,10 +55,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         ButterKnife.bind(this);
         //Initialization
         pref = new Preferences(getBaseContext());
-
-        Intent intent = new Intent(this, ServiceCentre.class);
-        intent.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-        startService(intent);
 
 
         //Initialize app with latest app version
@@ -78,15 +77,22 @@ public class Home extends AppCompatActivity implements AppConstants {
         offline = (Button) findViewById(R.id.home_offlineBtn);
 
 
-     //  Intent i = new Intent(this, NetworkOperations.class);
-       //  i.putExtra(NetworkOperations.INTENT, NetworkOperations.REMOTE_DATA);
+        //  Intent i = new Intent(this, NetworkOperations.class);
+        //  i.putExtra(NetworkOperations.INTENT, NetworkOperations.REMOTE_DATA);
         // startService(i);
+
+        Log.i(TAG, new DateConverters().convertToString(new Date(), DateFormats.TIME_12_HOURS_STANDARD));
+
+
 
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pref.app().setMode(modes.OFFLINE);
-                startActivity(new Intent(Home.this, Transport.class));
+                Intent intent = new Intent(Home.this, NetworkOperations.class);
+                intent.putExtra(NetworkOperations.INTENT, NetworkOperations.REMOTE_DATA);
+                startService(intent);
+
             }
         });
 
@@ -109,7 +115,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         runnable.run();
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
 
         online.setOnClickListener(new View.OnClickListener() {

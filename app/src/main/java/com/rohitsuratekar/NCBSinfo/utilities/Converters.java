@@ -22,7 +22,7 @@ public class Converters {
 
     public Date convertToTalkDate(String Date, String Time) {
         Date returnDate = new Date();
-        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
+        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
         String DateString = Date + " " + Time;
         try {
             returnDate = eventFormat.parse(DateString);
