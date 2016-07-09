@@ -42,7 +42,6 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     public static final String REGISTER = "register";
     public static final String RESEARCH_TALKS = "research_talks";
-    public static final String CAMP16 = "camp16Data";
     public static final int ACTIONCODE_RETRIVED = 1;
     public static final int ACTIONCODE_UPDATED = 2;
     public static final int ACTIONCODE_NOTIFIED = 3;
@@ -67,7 +66,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         this.context = getBaseContext();
         this.pref = new Preferences(getBaseContext());
         String trigger = intent.getStringExtra(INTENT);
-
+        researchTalk();
         //Do not add default field here
         if (trigger != null) {
             switch (trigger) {
@@ -152,7 +151,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     int actionCode = ACTIONCODE_RETRIVED;
                     TalkModel talk = new TalkModel(0, timestamp, notificationtitle, date, time, venue, speaker, affliations, title, host, dataCode, actionCode, dataAction);
 
-                    if (new Database(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TALK_TIMESTAMP, timestamp)) {
+                    if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TALK_TIMESTAMP, timestamp)) {
                         //If entry is already present in database, check for Datacode and is not empty
                         if (talk.getTimestamp().trim().length() != 0) {
                             if (!dataAction.equals("send")) {

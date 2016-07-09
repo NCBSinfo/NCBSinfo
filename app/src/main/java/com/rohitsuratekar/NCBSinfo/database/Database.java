@@ -11,16 +11,48 @@ public class Database extends SQLiteOpenHelper {
     private static String DATABASE_NAME = "NCBSinfo";
     private static int DATABASE_VERSION = 7; //Changed from 6 to 7 on 6 July 2016
 
-    Context mContext;
-
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    public Database(Context context) {
+    private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.mContext = context;
     }
+
+    // Singleton pattern
+    private static Database instance;
+
+    private int mOpenCounter;
+
+    private SQLiteDatabase mDatabase;
+
+
+    public static synchronized Database getInstance(Context context) {
+        if (instance == null) {
+            instance = new Database(context.getApplicationContext());
+        }
+
+        return instance;
+    }
+
+    public synchronized SQLiteDatabase openDatabase() {
+        mOpenCounter++;
+        if (mOpenCounter == 1) {
+            // Opening new database
+            mDatabase = instance.getWritableDatabase();
+        }
+        return mDatabase;
+    }
+
+    public synchronized void closeDatabase() {
+        mOpenCounter--;
+        if (mOpenCounter == 0) {
+            // Closing database
+            mDatabase.close();
+
+        }
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -60,22 +92,25 @@ public class Database extends SQLiteOpenHelper {
 
 
     public void restartDatabase() {
-        new Tables(getWritableDatabase()).dropAllTables();
-        onCreate(getWritableDatabase());
+        new Tables(instance.openDatabase()).dropAllTables();
+        onCreate(instance.openDatabase());
+        instance.closeDatabase();
     }
 
     public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = instance.openDatabase();
         String Query = "SELECT * FROM " + TableName + " WHERE " + dbfield + " = '" + fieldValue + "'";
         Cursor cursor = db.rawQuery(Query, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
-            db.close();
+            instance.closeDatabase();
             return false;
         }
         cursor.close();
-        db.close();
+        instance.closeDatabase();
         return true;
     }
+
+
 }
 

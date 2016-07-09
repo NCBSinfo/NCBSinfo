@@ -140,7 +140,7 @@ public class EventsListFragment extends Fragment {
         Collections.reverse(refined_list);
     }
 
-    public void showDialog(Context context, TalkModel talk) {
+    public void showDialog(Context context, final TalkModel talk) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.events_details_viewer);
@@ -170,7 +170,10 @@ public class EventsListFragment extends Fragment {
         where.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LectureHalls.class));
+                dialog.dismiss();
+                Intent intent = new Intent(getActivity(), LectureHalls.class);
+                intent.putExtra(LectureHalls.INTENT, talk.getVenue());
+                startActivity(intent);
             }
         });
         dialog.show();

@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.background.alarms;
 
 import android.util.Log;
 
+import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 
@@ -55,6 +56,12 @@ public class AlarmsHelper implements AlarmConstants {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.getTimeInMillis();
+    }
+
+
+    public int createTransportID(Routes routes, int DayOfWeek, String time ){
+        String changed = time.trim().replace(":","");
+        return routes.getRouteNo()*100000 + DayOfWeek*1000 + Integer.parseInt(changed);
     }
 
 }

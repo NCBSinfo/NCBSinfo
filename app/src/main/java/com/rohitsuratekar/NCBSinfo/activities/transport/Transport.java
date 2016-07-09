@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,13 +11,21 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
+import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Transport extends BaseActivity {
 
     public static final String INDENT = "transportIntent";
     private final String TAG = getClass().getSimpleName();
+    private TransportModel transportModel;
+    FloatingActionButton fab;
 
     @Override
     protected CurrentActivity setCurrentActivity() {
@@ -26,13 +35,26 @@ public class Transport extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        transportModel = new TransportModel(getCurrentFragment(0), getBaseContext()); //default
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
+        fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         fab.setImageResource(R.drawable.icon_set_reminder);
 
-        if (new TransportHelper(getBaseContext()).getAllReminders().size() == 0) {
-            fab.setVisibility(View.GONE);
-        }
+       // List<AlarmModel> allList =  new TransportHelper(getBaseContext()).getAllReminders();
+        //if (allList.size() == 0) {
+          //  fab.setVisibility(View.GONE);
+        //}
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Transport.this, TransportReminder.class);
+                intent.putExtra(TransportReminder.ROUTE, transportModel.getRouteNo());
+                intent.putExtra(TransportReminder.ROUTE_TIME, transportModel.getNextTrip());
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
 
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         ViewPager mViewPager = (ViewPager) findViewById(R.id.base_viewpager);
@@ -41,6 +63,23 @@ public class Transport extends BaseActivity {
             mViewPager.setAdapter(mSectionsPagerAdapter);
             tabLayout.setupWithViewPager(mViewPager);
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+            //We need to know current fragment to assign default value for floating button
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    transportModel = new TransportModel(getCurrentFragment(position), getBaseContext());
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
         }
 
     }
@@ -104,6 +143,39 @@ public class Transport extends BaseActivity {
 
             }
             return null;
+        }
+    }
+
+
+    private Routes getCurrentFragment(int position) {
+
+        switch (position) {
+            case 0:
+                return Routes.NCBS_IISC;
+            case 1:
+                return Routes.IISC_NCBS;
+            case 2:
+                return Routes.NCBS_MANDARA;
+            case 3:
+                return Routes.MANDARA_NCBS;
+            case 4:
+                return Routes.BUGGY_FROM_NCBS; //This is buggy and also 6
+            case 5:
+                return Routes.NCBS_ICTS;
+            case 6:
+                return Routes.ICTS_NCBS;
+            case 7:
+                return Routes.NCBS_CBL;
+            default:
+                return Routes.NCBS_IISC;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (new TransportHelper(getBaseContext()).getAllReminders().size() == 0) {
+            fab.setVisibility(View.GONE);
         }
     }
 }

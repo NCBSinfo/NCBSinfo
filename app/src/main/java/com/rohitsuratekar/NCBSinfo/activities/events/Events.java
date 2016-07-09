@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
@@ -44,7 +45,7 @@ public class Events extends BaseActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.base_fab_button);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         fab.setVisibility(View.GONE);
     }
 
@@ -63,6 +64,21 @@ public class Events extends BaseActivity {
         adapter.addFragment(Upcomingevents, "Upcoming events");
         adapter.addFragment(pastEvents, "Past events");
         viewPager.setAdapter(adapter);
+    }
+
+
+    //Override this because this intent can be received through notifications.
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            Intent intent = new Intent(Events.this, OnlineHome.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            super.onBackPressed();
+        }
+
     }
 
 }

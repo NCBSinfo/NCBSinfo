@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
@@ -57,6 +59,8 @@ public class TransportFragment extends Fragment {
         pref = new Preferences(getContext());
         Bundle args = getArguments();
         String name = args.getString("route", Routes.NCBS_IISC.toString());
+
+
         if (name == null) {
             name = Routes.NCBS_IISC.toString();
         }
@@ -100,11 +104,11 @@ public class TransportFragment extends Fragment {
         }
 
         final String[] weekListwithoutFormat = rawWeekTrips;
+        final String[] sundayListwithoutFormat = rawSundayTrips;
 
         //Convert to regular format
         rawWeekTrips = new Converters().convertToSimpleDate(rawWeekTrips);
         rawSundayTrips = new Converters().convertToSimpleDate(rawSundayTrips);
-
 
 
         int focusPoint = 0;
@@ -193,28 +197,23 @@ public class TransportFragment extends Fragment {
         weekList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Set reminder ?")
-                        .setMessage(Html.fromHtml("For " + transport.getType().toLowerCase() + "<br>from <b>" +
-                                transport.getFrom().toUpperCase() + "</b> to <b>" +
-                                transport.getTO().toUpperCase() + "</b> on " +
-                                new Converters().convertToSimpleDate(weekListwithoutFormat[i])))
-                        .setPositiveButton("Sure", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(getActivity(), TransportReminder.class);
-                                intent.putExtra(TransportReminder.ROUTE, transport.getRouteNo());
-                                intent.putExtra(TransportReminder.ROUTE_TIME, weekListwithoutFormat[i]);
-                                startActivity(intent);
-                                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                            }
-                        })
-                        .setIcon(R.drawable.icon_shuttle)
-                        .show();
+
+                //No reminders for offline mode
+                if (!pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
+                    showWeek(weekListwithoutFormat[i], true);
+                }
+            }
+        });
+
+        sundayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //No reminders for offline mode
+                if (!pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
+                    showWeek(sundayListwithoutFormat[i], false);
+                }
+
             }
         });
 
@@ -226,4 +225,54 @@ public class TransportFragment extends Fragment {
     }
 
 
+    private void showWeek(final String trip, final boolean isWeekDay) {
+
+        String fromText = transport.getFrom().toUpperCase();
+        String toText = transport.getTO().toUpperCase();
+
+        if(transport.isBuggy()){
+            if(!isWeekDay){
+                fromText = Routes.BUGGY_FROM_MANDARA.getFrom().toUpperCase();
+                toText = Routes.BUGGY_FROM_MANDARA.getTo().toUpperCase();
+            }
+        }
+
+
+        new AlertDialog.Builder(getContext())
+                .setTitle("Set reminder ?")
+                .setMessage(Html.fromHtml("For " + transport.getType().toLowerCase() + "<br>from <b>" +
+                        fromText + "</b> to <b>" +
+                        toText + "</b> on " +
+                        new Converters().convertToSimpleDate(trip)))
+                .setPositiveButton("Sure", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(), TransportReminder.class);
+
+                        if (transport.isBuggy()) {
+                            if (isWeekDay) {
+                                intent.putExtra(TransportReminder.ROUTE, Routes.BUGGY_FROM_NCBS.getRouteNo());
+                            } else {
+                                intent.putExtra(TransportReminder.ROUTE, Routes.BUGGY_FROM_MANDARA.getRouteNo());
+                            }
+                        } else {
+                            intent.putExtra(TransportReminder.ROUTE, transport.getRouteNo());
+                        }
+                        if (isWeekDay) {
+                            intent.putExtra(TransportReminder.ROUTE_DAY, "weekday");
+                        } else {
+                            intent.putExtra(TransportReminder.ROUTE_DAY, "sunday");
+                        }
+                        intent.putExtra(TransportReminder.ROUTE_TIME, trip);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                })
+                .setIcon(R.drawable.icon_shuttle)
+                .show();
+    }
 }

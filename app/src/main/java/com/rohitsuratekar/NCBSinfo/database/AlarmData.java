@@ -32,10 +32,11 @@ public class AlarmData implements AlarmConstants {
 
 
     SQLiteDatabase db;
+    Database database;
 
     public AlarmData(Context context) {
-        Database db = new Database(context);
-        this.db = db.getWritableDatabase();
+        this.database = Database.getInstance(context);
+        this.db = database.openDatabase();
     }
 
 
@@ -50,7 +51,7 @@ public class AlarmData implements AlarmConstants {
         values.put(ALARM_TIME, entry.getAlarmTime());
         values.put(ALARM_DATE, entry.getAlarmDate());
         db.insert(TABLE_ALARMS, null, values);
-        db.close();
+        database.closeDatabase();
     }
 
     public List<AlarmModel> getAll() {
@@ -73,7 +74,7 @@ public class AlarmData implements AlarmConstants {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return fullList;
     }
 
@@ -90,19 +91,19 @@ public class AlarmData implements AlarmConstants {
         values.put(ALARM_DATE, entry.getAlarmDate());
         int returnID = db.update(TABLE_ALARMS, values, KEY + " = ?",
                 new String[]{String.valueOf(entry.getId())});
-        db.close();
+        database.closeDatabase();
         return returnID;
     }
 
     // Delete all data
     public void clearAll() {
         db.execSQL("DELETE FROM " + TABLE_ALARMS);
-        db.close();
+        database.closeDatabase();
     }
 
     public void delete(AlarmModel enrty) {
         db.delete(TABLE_ALARMS, KEY + " = ?", new String[]{String.valueOf(enrty.getId())});
-        db.close();
+        database.closeDatabase();
     }
 
 

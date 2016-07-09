@@ -119,7 +119,6 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
             public void onItemClick(int position, View v) {
                 ImageButton img = (ImageButton) v.findViewById(R.id.contact_fav_button);
 
-                Database db2 = new Database(getContext());
                 ContactModel doc = new ContactsData(getContext()).get(resultsFav.get(position).getId());
                 if (doc.getFavorite().equals("0")) {
                     img.setColorFilter(Color.RED);
@@ -160,7 +159,6 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
     private ArrayList<ContactRowModel> getDataSet() {
 
 
-        Database db2 = new Database(getContext());
         List<ContactModel> contacts = new ContactsData(getContext()).getAll();
 
         for (ContactModel cn : contacts) {
@@ -170,7 +168,6 @@ public class FavoriteContactsFragment extends Fragment implements SearchView.OnQ
         }
 
         mAllData.addAll(resultsFav);
-        db2.close();
         return resultsFav;
     }
 

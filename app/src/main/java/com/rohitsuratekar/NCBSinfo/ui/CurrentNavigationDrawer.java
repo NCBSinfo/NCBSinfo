@@ -107,7 +107,9 @@ public class CurrentNavigationDrawer {
                 navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
                 break;
             case TRANSPORT:
-                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, true);
+                if (!mode.isOffline()) {
+                    navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, true);
+                }
                 break;
             case EXPERIMENTAL:
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
@@ -125,10 +127,9 @@ public class CurrentNavigationDrawer {
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true);
                 break;
             case LECTUREHALLS:
-                if(pref.app().getMode().equals(AppConstants.modes.OFFLINE)){
+                if (pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
                     navigationView.getMenu().findItem(R.id.nav_offline_location).setChecked(true);
-                }
-                else {
+                } else {
                     navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                     navigationView.getMenu().findItem(R.id.nav_location).setChecked(true);
                 }
@@ -140,7 +141,9 @@ public class CurrentNavigationDrawer {
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                 break;
             case TRANSPORT_REMINDER:
-                navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, true);
+                if (!mode.isOffline()) {
+                    navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, true);
+                }
                 break;
 
         }

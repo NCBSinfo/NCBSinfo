@@ -178,7 +178,7 @@ public class Login extends BaseActivity implements AppConstants {
                                             }
                                         } else {
                                             pref.clearAll();
-                                            new Database(getBaseContext()).restartDatabase();
+                                            Database.getInstance(getBaseContext()).restartDatabase();
                                             //TODO: network operations
 
                                             //Put all shared preferences

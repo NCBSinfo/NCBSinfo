@@ -31,10 +31,11 @@ public class ConferenceData {
 
 
     SQLiteDatabase db;
+    Database database;
 
     public ConferenceData(Context context) {
-        Database db = new Database(context);
-        this.db = db.getWritableDatabase();
+        this.database = Database.getInstance(context);
+        this.db = database.openDatabase();
     }
 
     public void add(ConferenceModel entry) {
@@ -53,7 +54,7 @@ public class ConferenceData {
         values.put(CONFERENCE_EVENT_CODE, entry.getEventCode());
         values.put(CONFERENCE_UPDATE_COUNTER, entry.getUpdateCounter());
         db.insert(TABLE_CONFERENCE, null, values);
-        db.close();
+        database.closeDatabase();
     }
 
     public List<ConferenceModel> getAll() {
@@ -81,7 +82,7 @@ public class ConferenceData {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return fullList;
     }
 
@@ -104,7 +105,7 @@ public class ConferenceData {
 
         int returnID = db.update(TABLE_CONFERENCE, values, CONFERENCE_KEY_ID + " = ?",
                 new String[]{String.valueOf(entry.getId())});
-        db.close();
+        database.closeDatabase();
 
         return returnID;
     }
@@ -112,12 +113,12 @@ public class ConferenceData {
     // Delete all data
     public void clearAll() {
         db.execSQL("DELETE FROM " + TABLE_CONFERENCE);
-        db.close();
+        database.closeDatabase();
     }
 
     public void delete(ConferenceModel enrty) {
         db.delete(TABLE_CONFERENCE, CONFERENCE_KEY_ID + " = ?", new String[]{String.valueOf(enrty.getId())});
-        db.close();
+        database.closeDatabase();
     }
 
 }

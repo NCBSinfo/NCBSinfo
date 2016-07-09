@@ -26,7 +26,8 @@ public interface AlarmConstants {
         DAILY_FETCH,
         RESET_ALL,
         SEND_UPCOMING,
-        SEND_NOTIFICATION
+        SEND_NOTIFICATION,
+        TRANSPORT_REMINDER
     }
 
 

@@ -86,6 +86,7 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
         dinnerIcon.setOnClickListener(this);
         checkMenu.setOnClickListener(this);
 
+
         //If today is holiday, give user waning
         if (new Holidays().isTodayHoliday()) {
             secondMessage.setText(getResources().getString(R.string.canteen_message_holiday));
@@ -95,6 +96,8 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
             welcomeText.setText(getResources().getString(R.string.canteen_welcome_empty));
             welcomeText.setTextSize(14);
             secondMessage.setText("");
+            checkMenu.setEnabled(false);
+            checkMenu.setText("");
         }
 
 

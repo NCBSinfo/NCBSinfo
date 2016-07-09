@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +30,13 @@ public class TalkData {
     public static final String TALK_ACTIONCODE = "talk_actioncode";
 
     SQLiteDatabase db;
+    Context context;
+    Database database;
 
     public TalkData(Context context) {
-        Database db = new Database(context);
-        this.db = db.getWritableDatabase();
+        this.database = Database.getInstance(context);
+        this.db = database.openDatabase();
+        this.context = context;
     }
 
     public void addEntry(TalkModel entry) {
@@ -50,7 +54,7 @@ public class TalkData {
         values.put(TALK_ACTIONCODE, entry.getActionCode());
         values.put(TALK_DATA_ACTION, entry.getDataAction());
         db.insert(TABLE_TALK, null, values);
-        db.close();
+        database.closeDatabase();
     }
 
     // Getting single entry
@@ -63,7 +67,7 @@ public class TalkData {
         }
         TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getString(12));
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return entry;
     }
 
@@ -95,7 +99,7 @@ public class TalkData {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return entryList;
     }
 
@@ -115,20 +119,20 @@ public class TalkData {
         values.put(TALK_ACTIONCODE, entry.getActionCode());
         values.put(TALK_DATA_ACTION, entry.getDataAction());
         db.update(TABLE_TALK, values, TALK_KEY_ID + " = ?", new String[]{String.valueOf(entry.getDataID())});
-        db.close();
+        database.closeDatabase();
     }
 
     // Delete all data
     public void clearAll() {
         db.execSQL("DELETE FROM " + TABLE_TALK);
-        db.close();
+        database.closeDatabase();
     }
 
 
     // Deleting single data entry
     public void delete(TalkModel data) {
         db.delete(TABLE_TALK, TALK_KEY_ID + " = ?", new String[]{String.valueOf(data.getDataID())});
-        db.close();
+        database.closeDatabase();
     }
 
     // Getting single entry by timestamp
@@ -141,8 +145,16 @@ public class TalkData {
         }
         TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getString(12));
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return entry;
+    }
+
+    //All Events commands
+    public void removeOld() {
+        int currentLimit = new Preferences(context).user().getNumberOfEventsToKeep();
+        String Query = "DELETE FROM " + TABLE_TALK + " WHERE " + TALK_KEY_ID + " IN (SELECT " + TALK_KEY_ID + " FROM " + TABLE_TALK + " ORDER BY " + TALK_KEY_ID + " ASC LIMIT " + currentLimit + ")";
+        db.execSQL(Query);
+        database.closeDatabase();
     }
 
 }

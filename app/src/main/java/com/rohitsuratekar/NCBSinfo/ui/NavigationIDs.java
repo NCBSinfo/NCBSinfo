@@ -17,7 +17,7 @@ import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportReminder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
 public class NavigationIDs {

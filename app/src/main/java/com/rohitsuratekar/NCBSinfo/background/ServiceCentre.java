@@ -71,7 +71,7 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         }
 
         //Reset Alarms
-        makeDefaultAlarms();
+      //  makeDefaultAlarms();
 
         //Reset Transport values
         Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);

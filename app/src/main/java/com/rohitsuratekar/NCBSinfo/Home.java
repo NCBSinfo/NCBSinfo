@@ -18,7 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
@@ -51,6 +53,10 @@ public class Home extends AppCompatActivity implements AppConstants {
         //Initialization
         pref = new Preferences(getBaseContext());
 
+        Intent intent = new Intent(this, ServiceCentre.class);
+        intent.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+        startService(intent);
+
 
         //Initialize app with latest app version
         try {
@@ -72,9 +78,9 @@ public class Home extends AppCompatActivity implements AppConstants {
         offline = (Button) findViewById(R.id.home_offlineBtn);
 
 
-      Intent i = new Intent(this, ServiceCentre.class);
-        i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-        startService(i);
+     //  Intent i = new Intent(this, NetworkOperations.class);
+       //  i.putExtra(NetworkOperations.INTENT, NetworkOperations.REMOTE_DATA);
+        // startService(i);
 
         offline.setOnClickListener(new View.OnClickListener() {
             @Override

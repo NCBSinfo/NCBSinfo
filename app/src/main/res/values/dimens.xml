@@ -17,6 +17,9 @@
     <dimen name="event_log_date_margin">10sp</dimen>
     <dimen name="event_log_cal_font">12sp</dimen>
 
+    <dimen name="reminder_time_height">60sp</dimen>
+    <dimen name="reminder_time_width">80sp</dimen>
+
     <dimen name="conference_title">18sp</dimen>
     <dimen name="conference_speaker">14sp</dimen>
 

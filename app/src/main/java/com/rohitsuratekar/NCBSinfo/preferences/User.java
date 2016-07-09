@@ -20,6 +20,7 @@ public class User implements AppConstants {
     String NOTIFICATIONS = "notification_preference";
     String NOTIFICANTION_ONSET = "pref_notificationOnset";
     String FIREBASE_ID = "fireBaseID";
+    String NUMBER_OF_EVENTS = "numberOfEventsToKeep";
 
     protected User(SharedPreferences pref) {
         this.pref = pref;
@@ -123,5 +124,12 @@ public class User implements AppConstants {
         pref.edit().putInt(NOTIFICANTION_ONSET, minutes).apply();
     }
 
+    public int getNumberOfEventsToKeep() {
+        return pref.getInt(NUMBER_OF_EVENTS, 25); //25 is default
+    }
+
+    public void setNumberOfEventsToKeep(int numberOfEvents) {
+        pref.edit().putInt(NUMBER_OF_EVENTS, numberOfEvents).apply();
+    }
 
 }

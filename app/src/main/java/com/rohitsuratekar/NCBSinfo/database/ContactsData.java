@@ -23,10 +23,11 @@ public class ContactsData {
     public static final String CONTACT_KEY_FAVORITE = "contact_favorite";
 
     SQLiteDatabase db;
+    Database database;
 
     public ContactsData(Context context) {
-        Database db = new Database(context);
-        this.db = db.getWritableDatabase();
+        this.database = Database.getInstance(context);
+        this.db = database.openDatabase();
     }
 
     public void add(ContactModel contact) {
@@ -39,21 +40,21 @@ public class ContactsData {
         values.put(CONTACT_KEY_FAVORITE, contact.getFavorite()); // Contact favorite
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);
-        db.close();
+        database.closeDatabase();
     }
 
     // Getting single contact
     public ContactModel get(int id) {
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { CONTACT_KEY_ID, CONTACT_KEY_NAME, CONTACT_KEY_DEPARTMENT, CONTACT_KEY_POSITION, CONTACT_KEY_EXTENSION, CONTACT_KEY_FAVORITE }, CONTACT_KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null){
+        Cursor cursor = db.query(TABLE_CONTACTS, new String[]{CONTACT_KEY_ID, CONTACT_KEY_NAME, CONTACT_KEY_DEPARTMENT, CONTACT_KEY_POSITION, CONTACT_KEY_EXTENSION, CONTACT_KEY_FAVORITE}, CONTACT_KEY_ID + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null) {
             cursor.moveToFirst();
 
         }
-        ContactModel contact = new ContactModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+        ContactModel contact = new ContactModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return contact
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return contact;
     }
 
@@ -80,7 +81,7 @@ public class ContactsData {
 
         // return contact list
         cursor.close();
-        db.close();
+        database.closeDatabase();
         return contactList;
     }
 
@@ -94,21 +95,21 @@ public class ContactsData {
         values.put(CONTACT_KEY_EXTENSION, contact.getExtension()); // Contact extension
         values.put(CONTACT_KEY_FAVORITE, contact.getFavorite()); // Contact favorite
         int TempInt = db.update(TABLE_CONTACTS, values, CONTACT_KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getId()) });
-        db.close();
+                new String[]{String.valueOf(contact.getId())});
+        database.closeDatabase();
         return TempInt;
     }
 
     // Delete all data
     public void clearAll() {
         db.execSQL("DELETE FROM " + TABLE_CONTACTS);
-        db.close();
+        database.closeDatabase();
     }
 
     // Deleting single contact
     public void delete(ContactModel contact) {
-        db.delete(TABLE_CONTACTS, CONTACT_KEY_ID + " = ?", new String[] { String.valueOf(contact.getId()) });
-        db.close();
+        db.delete(TABLE_CONTACTS, CONTACT_KEY_ID + " = ?", new String[]{String.valueOf(contact.getId())});
+        database.closeDatabase();
     }
 
 

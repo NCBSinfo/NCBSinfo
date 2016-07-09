@@ -19,7 +19,6 @@ import android.view.ViewStub;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportReminder;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 

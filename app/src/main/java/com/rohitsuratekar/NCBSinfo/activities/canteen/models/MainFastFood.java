@@ -19,12 +19,12 @@ public class MainFastFood {
 
         this.midMorningTea = new MidMorningTea(false, true, "10:00", "12:30");
         this.lunch = new Lunch(false, true, "12:30", "14:00");
-        this.midEveningTea = new MidEveningTea(true, true, "15:00", "18:30");
+        this.midEveningTea = new MidEveningTea(true, true, "15:00", "19:15");
         if(DayofWeek== Calendar.SUNDAY){
-            this.dinner = new Dinner(true, true, "18:30", "23:30");
+            this.dinner = new Dinner(true, true, "19:15", "23:30");
         }
         else {
-            this.dinner = new Dinner(true, true, "18:30", "23:30");
+            this.dinner = new Dinner(true, true, "19:15", "23:30");
         }
 
     }

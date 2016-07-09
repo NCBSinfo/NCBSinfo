@@ -1,17 +1,14 @@
 package com.rohitsuratekar.NCBSinfo.activities.locations;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 
@@ -39,8 +36,6 @@ public class LectureHalls extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
         expListView = (ExpandableListView) findViewById(R.id.lecturehall_expandableList);
@@ -97,8 +92,8 @@ public class LectureHalls extends BaseActivity {
         if (incomingIntent != null) {
             int selectIndex = 1989;
             for (int i = 0; i < temparray.size(); i++) {
-                if (incomingIntent.trim().toUpperCase().contains(temparray.get(i)[0].toUpperCase()) ||
-                        incomingIntent.toUpperCase().contains(temparray.get(i)[1].replace("-", "").toUpperCase())) {
+                if (incomingIntent.trim().toUpperCase().replace("-", "").contains(temparray.get(i)[0].replace("-", "").toUpperCase()) ||
+                        incomingIntent.toUpperCase().replace("-", "").contains(temparray.get(i)[1].replace("-", "").toUpperCase())) {
                     selectIndex = i;
                 }
             }
@@ -127,6 +122,5 @@ public class LectureHalls extends BaseActivity {
         }
 
     }
-
 
 }
