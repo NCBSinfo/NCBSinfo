@@ -57,7 +57,7 @@ public class General {
         List<TalkModel> allList = new TalkData(context).getAll();
         List<TalkModel> returnList = new ArrayList<>();
         for (TalkModel talk : allList) {
-            Date tempdate = new Converters().convertToTalkDate(talk.getDate(), talk.getTime());
+            Date tempdate = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
             //Upcoming events will be before target date and after current date
             if (tempdate.before(targetDate) && tempdate.after(new Date())) {
                 returnList.add(talk);

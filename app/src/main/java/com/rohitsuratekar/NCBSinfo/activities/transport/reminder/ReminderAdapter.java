@@ -12,8 +12,9 @@ import android.widget.TextView;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -93,9 +94,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
         }
         Calendar showCal = Calendar.getInstance();
         showCal.setTime(eventDateTime);
-        holder.time.setText(new Converters().convertToSimpleDate(entry.getExtraValue()));
+        holder.time.setText(new DateConverters().convertFormat(entry.getExtraValue(), DateFormats.TIME_12_HOURS_STANDARD));
         holder.date.setText("at " +
-                new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(showCal.getTime()) + " on "+
+                new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(showCal.getTime()) + " on " +
                 new SimpleDateFormat("EEEE", Locale.ENGLISH).format(showCal.getTime()));
     }
 

@@ -22,9 +22,10 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmsHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
@@ -78,7 +79,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
         transport = new TransportModel(new TransportHelper(getActivity()).getRoute(bundle.getInt(BUNDLE_ROUTE)), getActivity());
         reminderTime = bundle.getString(BUNDLE_TIME);
         if (reminderTime != null) {
-            time.setText(new Converters().convertToSimpleDate(reminderTime));
+            time.setText(new DateConverters().convertFormat(reminderTime, DateFormats.TIME_12_HOURS_STANDARD));
         }
         finalCalender = getReminderTime(reminderTime);
 
@@ -159,7 +160,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
     private Calendar getReminderTime(String time) {
         if (bundle.getString(BUNDLE_DAY) != null) {
             if (bundle.getString(BUNDLE_DAY).equals("weekday") || transport.isBuggy()) {
-                Calendar calendar = new Converters().convertToCalender(time);
+                Calendar calendar = new DateConverters().convertToCalendar(time);
                 calendar.setTimeInMillis(calendar.getTimeInMillis() - offset * 60 * 1000);
                 if (calendar.before(Calendar.getInstance())) {
                     calendar.add(Calendar.DATE, 1);
@@ -168,7 +169,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
                 return calendar;
             } else {
 
-                Calendar calendar = new Converters().convertToCalender(time);
+                Calendar calendar = new DateConverters().convertToCalendar(time);
                 calendar.setTimeInMillis(calendar.getTimeInMillis() - offset * 60 * 1000);
                 calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 if (calendar.before(Calendar.getInstance())) {
@@ -196,7 +197,8 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
         }
 
         message.setText(Html.fromHtml(getResources().getString(R.string.transport_reminder_details, tempString,
-                new Converters().calenderToDate(finalCalender), new Converters().calenderToTime(finalCalender))));
+                new DateConverters().convertToString(finalCalender, DateFormats.READABLE_DATE),
+                new DateConverters().convertToString(finalCalender, DateFormats.READABLE_DATE))));
     }
 
     private void setOffset(int hour, int min) {
@@ -229,7 +231,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
     }
 
     private Calendar getTime(String time) {
-        Calendar calendar = new Converters().convertToCalender(time);
+        Calendar calendar = new DateConverters().convertToCalendar(time);
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 1);
             today = false;

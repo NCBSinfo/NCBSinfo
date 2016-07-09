@@ -7,7 +7,7 @@ import com.rohitsuratekar.NCBSinfo.activities.canteen.models.Lunch;
 import com.rohitsuratekar.NCBSinfo.activities.canteen.models.MidEveningTea;
 import com.rohitsuratekar.NCBSinfo.activities.canteen.models.MidMorningTea;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -160,60 +160,60 @@ public class CanteenData implements AppConstants {
     private boolean isThereDinner(Dinner dinner) {
         if (today == sunday) {
             return dinner.isSundayOpen()
-                    && calendar.after(new Converters().convertToCalender(dinner.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(dinner.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(dinner.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(dinner.getEndTime()));
         } else if (today == saturday) {
             return dinner.isSaturdayOpen()
-                    && calendar.after(new Converters().convertToCalender(dinner.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(dinner.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(dinner.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(dinner.getEndTime()));
         } else {
-            return calendar.after(new Converters().convertToCalender(dinner.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(dinner.getEndTime()));
+            return calendar.after(new DateConverters().convertToCalendar(dinner.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(dinner.getEndTime()));
         }
     }
 
     private boolean isThereLunch(Lunch lunch) {
         if (today == sunday) {
             return lunch.isSundayOpen()
-                    && calendar.after(new Converters().convertToCalender(lunch.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(lunch.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(lunch.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(lunch.getEndTime()));
         } else if (today == saturday) {
             return lunch.isSaturdayOpen()
-                    && calendar.after(new Converters().convertToCalender(lunch.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(lunch.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(lunch.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(lunch.getEndTime()));
         } else {
-            return calendar.after(new Converters().convertToCalender(lunch.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(lunch.getEndTime()));
+            return calendar.after(new DateConverters().convertToCalendar(lunch.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(lunch.getEndTime()));
         }
     }
 
     private boolean isThereBreakFast(Breakfast breakfast) {
         if (today == sunday) {
             return breakfast.isSundayOpen()
-                    && calendar.after(new Converters().convertToCalender(breakfast.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(breakfast.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(breakfast.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(breakfast.getEndTime()));
         } else if (today == saturday) {
             return breakfast.isSaturdayOpen()
-                    && calendar.after(new Converters().convertToCalender(breakfast.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(breakfast.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(breakfast.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(breakfast.getEndTime()));
         } else {
-            return calendar.after(new Converters().convertToCalender(breakfast.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(breakfast.getEndTime()));
+            return calendar.after(new DateConverters().convertToCalendar(breakfast.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(breakfast.getEndTime()));
         }
     }
 
     private boolean isThereMorningTea(MidMorningTea midMorningTea) {
         if (today == sunday) {
             return midMorningTea.isSundayOpen()
-                    && calendar.after(new Converters().convertToCalender(midMorningTea.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(midMorningTea.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(midMorningTea.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(midMorningTea.getEndTime()));
         } else if (today == saturday) {
             return midMorningTea.isSaturdayOpen()
-                    && calendar.after(new Converters().convertToCalender(midMorningTea.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(midMorningTea.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(midMorningTea.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(midMorningTea.getEndTime()));
         } else {
-            return calendar.after(new Converters().convertToCalender(midMorningTea.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(midMorningTea.getEndTime()));
+            return calendar.after(new DateConverters().convertToCalendar(midMorningTea.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(midMorningTea.getEndTime()));
         }
     }
 
@@ -221,20 +221,20 @@ public class CanteenData implements AppConstants {
 
         if (today == sunday) {
             return midEveningTea.isSundayOpen()
-                    && calendar.after(new Converters().convertToCalender(midEveningTea.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(midEveningTea.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(midEveningTea.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(midEveningTea.getEndTime()));
         } else if (today == saturday) {
 
             return midEveningTea.isSaturdayOpen()
-                    && calendar.after(new Converters().convertToCalender(midEveningTea.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(midEveningTea.getEndTime()));
+                    && calendar.after(new DateConverters().convertToCalendar(midEveningTea.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(midEveningTea.getEndTime()));
         } else {
-            return calendar.after(new Converters().convertToCalender(midEveningTea.getStartTime()))
-                    && calendar.before(new Converters().convertToCalender(midEveningTea.getEndTime()));
+            return calendar.after(new DateConverters().convertToCalendar(midEveningTea.getStartTime()))
+                    && calendar.before(new DateConverters().convertToCalendar(midEveningTea.getEndTime()));
         }
     }
 
-    public boolean isFoodAvailable(){
-        return isBreakfast()||isMidMorningTea()||isLunch()||isMidEveningTea()||isDinner();
+    public boolean isFoodAvailable() {
+        return isBreakfast() || isMidMorningTea() || isLunch() || isMidEveningTea() || isDinner();
     }
 }

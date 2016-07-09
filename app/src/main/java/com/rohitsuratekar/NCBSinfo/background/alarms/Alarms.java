@@ -16,7 +16,7 @@ import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 import java.util.Calendar;
@@ -145,7 +145,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
             intent.putExtra(INTENT, triggers.SEND_NOTIFICATION);
             intent.putExtra(NotificationService.NOTIFICATION_CODE, String.valueOf(talk.getDataID()));
             int requestID = new General().getMilliseconds(talk.getTimestamp());
-            Date tempDate = new Converters().convertToTalkDate(talk.getDate(), talk.getTime());
+            Date tempDate = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
             AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             //Compatibility
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {

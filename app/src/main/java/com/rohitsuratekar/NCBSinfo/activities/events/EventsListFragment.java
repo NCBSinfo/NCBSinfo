@@ -22,7 +22,7 @@ import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.ui.DividerDecoration;
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -61,8 +61,8 @@ public class EventsListFragment extends Fragment {
         Collections.sort(talkList, new Comparator<TalkModel>() {
             @Override
             public int compare(TalkModel lhs, TalkModel rhs) {
-                Date entry1 = new Converters().convertToTalkDate(lhs.getDate(), lhs.getTime());
-                Date entry2 = new Converters().convertToTalkDate(rhs.getDate(), rhs.getTime());
+                Date entry1 = new DateConverters().convertToDate(lhs.getDate() + " " + lhs.getTime());
+                Date entry2 = new DateConverters().convertToDate(rhs.getDate() + " " + rhs.getTime());
                 return entry1.compareTo(entry2);
             }
         });
@@ -157,7 +157,7 @@ public class EventsListFragment extends Fragment {
         title.setText(talk.getTitle());
         speaker.setText(talk.getSpeaker());
 
-        Date dt = new Converters().convertToTalkDate(talk.getDate(), talk.getTime());
+        Date dt = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
         DateFormat currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
         DateFormat currentTime = new SimpleDateFormat("hh:mm aaa", Locale.getDefault());
 

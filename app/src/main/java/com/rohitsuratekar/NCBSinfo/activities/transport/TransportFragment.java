@@ -17,8 +17,10 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.util.Calendar;
 
@@ -107,8 +109,8 @@ public class TransportFragment extends Fragment {
         final String[] sundayListwithoutFormat = rawSundayTrips;
 
         //Convert to regular format
-        rawWeekTrips = new Converters().convertToSimpleDate(rawWeekTrips);
-        rawSundayTrips = new Converters().convertToSimpleDate(rawSundayTrips);
+        rawWeekTrips = new Converters().convertToReadableTime(rawWeekTrips);
+        rawSundayTrips = new Converters().convertToReadableTime(rawSundayTrips);
 
 
         int focusPoint = 0;
@@ -116,8 +118,8 @@ public class TransportFragment extends Fragment {
         if (transport.isBuggy()) {
 
             for (int i = 0; i < rawWeekTrips.length; i++) {
-                if (rawWeekTrips[i].equals(new Converters().convertToSimpleDate(
-                        new TransportHelper(getContext()).nextTrip(Routes.BUGGY_FROM_NCBS)[1]
+                if (rawWeekTrips[i].equals(new DateConverters().convertFormat(
+                        new TransportHelper(getContext()).nextTrip(Routes.BUGGY_FROM_NCBS)[1], DateFormats.TIME_12_HOURS_STANDARD
                 ))) {
                     rawWeekTrips[i] = coloredText(rawWeekTrips[i]);
                     focusPoint = i;
@@ -126,9 +128,9 @@ public class TransportFragment extends Fragment {
             }
 
             for (int i = 0; i < rawSundayTrips.length; i++) {
-                if (rawSundayTrips[i].equals(new Converters().convertToSimpleDate(
-                        new TransportHelper(getContext()).nextTrip(Routes.BUGGY_FROM_MANDARA)[1]
-                ))) {
+                if (rawSundayTrips[i].equals(new DateConverters().convertFormat
+                        (new TransportHelper(getContext()).nextTrip(Routes.BUGGY_FROM_MANDARA)[1], DateFormats.TIME_12_HOURS_STANDARD
+                        ))) {
                     rawSundayTrips[i] = coloredText(rawSundayTrips[i]);
                     focusPoint = i;
                     break;
@@ -136,7 +138,7 @@ public class TransportFragment extends Fragment {
             }
         } else {
 
-            String targetString = new Converters().convertToSimpleDate(transport.getNextTrip());
+            String targetString = new DateConverters().convertFormat(transport.getNextTrip(), DateFormats.TIME_12_HOURS_STANDARD);
             if (transport.getNextTripDay() == Calendar.SUNDAY) {
                 boolean gotDate = false;
                 for (int i = 0; i < rawSundayTrips.length; i++) {
@@ -230,8 +232,8 @@ public class TransportFragment extends Fragment {
         String fromText = transport.getFrom().toUpperCase();
         String toText = transport.getTO().toUpperCase();
 
-        if(transport.isBuggy()){
-            if(!isWeekDay){
+        if (transport.isBuggy()) {
+            if (!isWeekDay) {
                 fromText = Routes.BUGGY_FROM_MANDARA.getFrom().toUpperCase();
                 toText = Routes.BUGGY_FROM_MANDARA.getTo().toUpperCase();
             }
@@ -243,7 +245,8 @@ public class TransportFragment extends Fragment {
                 .setMessage(Html.fromHtml("For " + transport.getType().toLowerCase() + "<br>from <b>" +
                         fromText + "</b> to <b>" +
                         toText + "</b> on " +
-                        new Converters().convertToSimpleDate(trip)))
+                        new DateConverters().convertFormat(trip, DateFormats.TIME_12_HOURS_STANDARD)))
+
                 .setPositiveButton("Sure", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), TransportReminder.class);
