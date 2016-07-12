@@ -19,7 +19,7 @@ import android.view.ViewStub;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
 /**
@@ -149,7 +149,9 @@ public abstract class BaseActivity extends AppCompatActivity
                 .setMessage(new CurrentMode(getBaseContext()).getWarningMessage())
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        new Preferences(getBaseContext()).clearAll();
+                        Intent service = new Intent(getBaseContext(), ServiceCentre.class);
+                        service.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+                        startService(service);
                         Intent intent = new Intent(getBaseContext(), Home.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

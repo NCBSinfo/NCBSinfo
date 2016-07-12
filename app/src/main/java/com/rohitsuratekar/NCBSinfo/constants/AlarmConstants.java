@@ -21,13 +21,14 @@ public interface AlarmConstants {
         SINGLE_SHOT
     }
 
-    enum triggers {
+    enum alarmTriggers {
 
         DAILY_FETCH,
         RESET_ALL,
         SEND_UPCOMING,
         SEND_NOTIFICATION,
-        TRANSPORT_REMINDER
+        TRANSPORT_REMINDER,
+        DELETE_ALARM
     }
 
 

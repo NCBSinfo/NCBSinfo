@@ -45,7 +45,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     public static final String REGISTER = "register";
     public static final String RESEARCH_TALKS = "research_talks";
-    public static final int ACTIONCODE_RETRIVED = 1;
+    public static final int ACTIONCODE_RETRIEVED = 1;
     public static final int ACTIONCODE_UPDATED = 2;
     public static final int ACTIONCODE_NOTIFIED = 3;
 
@@ -95,8 +95,8 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         //Subscribe to general topics
-        FirebaseMessaging.getInstance().subscribeToTopic(topics.PUBLIC);
-        FirebaseMessaging.getInstance().subscribeToTopic(topics.EMERGENCY);
+        FirebaseMessaging.getInstance().subscribeToTopic(fcmTopics.PUBLIC);
+        FirebaseMessaging.getInstance().subscribeToTopic(fcmTopics.EMERGENCY);
         Log.d(TAG, "Subscribed with topic");
 
         if (mAuth.getCurrentUser() != null) {
@@ -151,7 +151,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     String host = response.body().getRows().get(i).get(8);
                     String dataCode = response.body().getRows().get(i).get(9);
                     String dataAction = response.body().getRows().get(i).get(10);
-                    int actionCode = ACTIONCODE_RETRIVED;
+                    int actionCode = ACTIONCODE_RETRIEVED;
                     TalkModel talk = new TalkModel(0, timestamp, notificationtitle, date, time, venue, speaker, affliations, title, host, dataCode, actionCode, dataAction);
 
                     if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TALK_TIMESTAMP, timestamp)) {
@@ -191,9 +191,11 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     pref.app().firstEventNotificationSent();
                 }
 
+                //Remove old entries
+                new TalkData(context).removeOld();
                 //start notification service
                 Intent i = new Intent(NetworkOperations.this, Alarms.class);
-                i.putExtra(Alarms.INTENT, AlarmConstants.triggers.SEND_UPCOMING);
+                i.putExtra(Alarms.INTENT, AlarmConstants.alarmTriggers.SEND_UPCOMING);
                 context.sendBroadcast(i);
 
             }

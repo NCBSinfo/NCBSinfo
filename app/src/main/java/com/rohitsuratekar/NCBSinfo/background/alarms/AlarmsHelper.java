@@ -1,16 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.background.alarms;
 
-import android.util.Log;
-
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -21,8 +17,8 @@ public class AlarmsHelper implements AlarmConstants {
 
     private final String TAG = getClass().getSimpleName();
 
-    public triggers getTrigger(String name) {
-        for (triggers t : triggers.values()) {
+    public alarmTriggers getTrigger(String name) {
+        for (alarmTriggers t : alarmTriggers.values()) {
             if (t.name().equals(name)) {
                 return t;
             }
@@ -31,7 +27,7 @@ public class AlarmsHelper implements AlarmConstants {
     }
 
     public String getTodaysDate() {
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        return new DateConverters().convertToString(new Date(), DateFormats.DATE_STANDARD);
     }
 
     public String getTimeByHoursOfDay(int hourOfDay) {
@@ -44,24 +40,14 @@ public class AlarmsHelper implements AlarmConstants {
     }
 
     public long getAlarmMiliseconds(AlarmModel alarmModel) {
-        SimpleDateFormat alarmFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        String temp = alarmModel.getAlarmDate() + " " + alarmModel.getAlarmTime();
-        Date date = new Date();
-        try {
-            date = alarmFormat.parse(temp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Error parsing date in getAlarmString : " + temp);
-        }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.getTimeInMillis();
+        return new DateConverters().convertToCalendar(
+                alarmModel.getAlarmDate() + " " + alarmModel.getAlarmTime()).getTimeInMillis();
     }
 
 
-    public int createTransportID(Routes routes, int DayOfWeek, String time ){
-        String changed = time.trim().replace(":","");
-        return routes.getRouteNo()*100000 + DayOfWeek*1000 + Integer.parseInt(changed);
+    public int createTransportID(Routes routes, int DayOfWeek, String time) {
+        String changed = time.trim().replace(":", "");
+        return routes.getRouteNo() * 100000 + DayOfWeek * 1000 + Integer.parseInt(changed);
     }
 
 }

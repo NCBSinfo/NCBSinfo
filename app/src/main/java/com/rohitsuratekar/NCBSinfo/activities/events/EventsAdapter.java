@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,13 +72,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.MyViewHold
         TalkModel entry = entryList.get(position);
         holder.title.setText(entry.getNotificationTitle());
         holder.message.setText(entry.getTitle());
-        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
-        Date eventDateTime = Calendar.getInstance().getTime();
-        try {
-            eventDateTime = eventFormat.parse(entry.getDate() + " " + entry.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date eventDateTime = new DateConverters().convertToDate(entry.getDate() + " " + entry.getTime());
         Calendar showCal = Calendar.getInstance();
         showCal.setTime(eventDateTime);
         holder.event_date.setText(new SimpleDateFormat("dd", Locale.ENGLISH).format(showCal.getTime()));

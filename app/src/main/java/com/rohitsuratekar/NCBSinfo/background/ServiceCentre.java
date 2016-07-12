@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.activities.contacts.ContactList;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmIDs;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmsHelper;
@@ -16,6 +17,7 @@ import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 import java.util.List;
@@ -30,6 +32,9 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
     public final String TAG = getClass().getSimpleName();
 
     public static final String RESET_APP_DATA = "resetAppData";
+    public static final String RESET_PREFERENCES = "resetPreferences";
+
+    private Preferences pref;
 
     public ServiceCentre() {
         super(ServiceCentre.class.getName());
@@ -39,12 +44,16 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
     protected void onHandleIntent(Intent intent) {
 
         Log.i(TAG, "Service Centre trigger requested at " + new General().timeStamp());
+        pref = new Preferences(getBaseContext());
         //Do not add default field here
         String trigger = intent.getStringExtra(INTENT);
         if (trigger != null) {
             switch (trigger) {
                 case RESET_APP_DATA:
                     resetAppData();  //Warning : This will reset all data base, including personalized data
+                    break;
+                case RESET_PREFERENCES:
+                    clearCustomization();
                     break;
             }
         }
@@ -61,22 +70,36 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
      */
     private void resetAppData() {
 
-        //Reset Contact Data
-        //TODO: Save favorite contacts on remote data and retrieve them on login
-        new ContactsData(getBaseContext()).clearAll();
-
-        String[][] clist2 = new ContactList().allContacts();
-        for (String[] aClist2 : clist2) {
-            new ContactsData(getBaseContext()).add(new ContactModel(1, aClist2[0], aClist2[1], aClist2[2], aClist2[3], "0"));
-        }
-
-        //Reset Alarms
-      //  makeDefaultAlarms();
+        //Clear all preferences
+        pref.clearAll();
 
         //Reset Transport values
         Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
         transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
         startService(transport);
+
+
+        //Reset Contact Data
+        resetContacts();
+
+        //TODO: uncomment this
+        //Reset Alarms
+        resetAlarms();
+        //makeDefaultAlarms();
+
+
+    }
+
+    private void clearCustomization() {
+        resetContacts();
+        //Reset Alarms
+        resetAlarms();
+        //Set all default preferences
+        pref.user().setDefaultRoute(Routes.NCBS_IISC);
+        pref.user().setNotificationOnset(10);
+        pref.user().notificationAllowed(true);
+        pref.user().setNumberOfEventsToKeep(25);
+
 
     }
 
@@ -85,7 +108,7 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
      * Use this method only for newly installed app.
      * If you want to cancel or modify single or daily alarm, use background.Alarms.class
      */
-    private void makeDefaultAlarms() {
+    private void resetAlarms() {
 
         Intent intent = new Intent(getBaseContext(), Alarms.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -109,7 +132,7 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
             AlarmModel temp = new AlarmModel();
             temp.setAlarmID(d.getAlarmID());
             temp.setType(alarmType.REPEAT.name());
-            temp.setTrigger(triggers.DAILY_FETCH.name());
+            temp.setTrigger(alarmTriggers.DAILY_FETCH.name());
             temp.setLevel(alarmLevel.NETWORK.name());
             temp.setExtraParameter("null");
             temp.setExtraValue("null");
@@ -119,9 +142,23 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         }
 
         Intent alarms = new Intent(ServiceCentre.this, Alarms.class);
-        alarms.putExtra(Alarms.INTENT, triggers.RESET_ALL.name());
+        alarms.putExtra(Alarms.INTENT, alarmTriggers.RESET_ALL.name());
         sendBroadcast(alarms);
+    }
 
+
+    /**
+     * Removes all contacts including contacts marked as favorite and creates new contacts with default data
+     */
+    private void resetContacts() {
+        //Reset Contact Data
+        //TODO: Save favorite contacts on remote data and retrieve them on login
+        new ContactsData(getBaseContext()).clearAll();
+
+        String[][] clist2 = new ContactList().allContacts();
+        for (String[] aClist2 : clist2) {
+            new ContactsData(getBaseContext()).add(new ContactModel(1, aClist2[0], aClist2[1], aClist2[2], aClist2[3], "0"));
+        }
     }
 
 

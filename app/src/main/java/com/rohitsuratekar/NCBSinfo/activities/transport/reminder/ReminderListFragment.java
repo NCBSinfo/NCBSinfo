@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.reminder;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,9 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
@@ -66,11 +67,14 @@ public class ReminderListFragment extends Fragment implements AlarmConstants {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                //TODO : send broadcast to alarm
-                                new AlarmData(getActivity()).delete(refined_list.get(position));
+                                Intent intent = new Intent(getContext(), Alarms.class);
+                                intent.putExtra(Alarms.INTENT, alarmTriggers.DELETE_ALARM.name());
+                                intent.putExtra(Alarms.ALARM_KEY, String.valueOf(refined_list.get(position).getId()));
+                                getContext().sendBroadcast(intent);
                                 refined_list.remove(position);
                                 reminderAdapter.notifyItemRemoved(position);
                                 reminderAdapter.notifyItemRangeChanged(position, reminderAdapter.getItemCount());
+
                             }
                         })
                         .setNegativeButton("Not sure", new DialogInterface.OnClickListener() {

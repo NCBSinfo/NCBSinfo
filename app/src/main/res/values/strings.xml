@@ -20,6 +20,7 @@
     <string name="map">Map</string>
     <string name="holidays">Holidays</string>
     <string name="transport_reminder">Transport Reminders</string>
+    <string name="notifications">Notifications</string>
 
     <string name="name">Name</string>
     <string name="email">Email address</string>
@@ -71,7 +72,7 @@
     <string name="transport_last_updated">Last updated on : %1$s</string>
     <string name="transport_reminder_dialog">Just click on any shuttle or buggy timing to set reminder about it!</string>
     <string name="transport_reminder_message">Get notification %1$s %2$s before departure time ?</string>
-    <string name="transport_reminder_details"> You will be notified %1$s (%2$s) at %3$s </string>
+    <string name="transport_reminder_details"><![CDATA[ You will be notified<br>%1$s (%2$s) at %3$s ]]></string>
 
     <string name="contact_name">Contact Name</string>
     <string name="contact_number">Contact Number</string>

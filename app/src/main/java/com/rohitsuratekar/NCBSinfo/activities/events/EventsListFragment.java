@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import com.rohitsuratekar.NCBSinfo.ui.DividerDecoration;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,14 +58,16 @@ public class EventsListFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.events_recycleview);
         blankLayout = (LinearLayout) rootView.findViewById(R.id.event_blank);
         talkList = new TalkData(getContext()).getAll();
-        Collections.sort(talkList, new Comparator<TalkModel>() {
-            @Override
-            public int compare(TalkModel lhs, TalkModel rhs) {
-                Date entry1 = new DateConverters().convertToDate(lhs.getDate() + " " + lhs.getTime());
-                Date entry2 = new DateConverters().convertToDate(rhs.getDate() + " " + rhs.getTime());
-                return entry1.compareTo(entry2);
-            }
-        });
+        if (talkList.size() > 0) {
+            Collections.sort(talkList, new Comparator<TalkModel>() {
+                @Override
+                public int compare(TalkModel lhs, TalkModel rhs) {
+                    Date entry1 = new DateConverters().convertToDate(lhs.getDate() + " " + lhs.getTime());
+                    Date entry2 = new DateConverters().convertToDate(rhs.getDate() + " " + rhs.getTime());
+                    return entry1.compareTo(entry2);
+                }
+            });
+        }
 
         if (bundle.getString(BUNDLE) != null) {
             if (bundle.getString(BUNDLE).equals("1")) {
@@ -104,17 +106,12 @@ public class EventsListFragment extends Fragment {
     }
 
     public void upcoming() {
-        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
-        Date eventDateTime = Calendar.getInstance().getTime();
+
+
         for (TalkModel entry : talkList) {
-            try {
-                eventDateTime = eventFormat.parse(entry.getDate() + " " + entry.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date eventDateTime = new DateConverters().convertToDate(entry.getDate() + " " + entry.getTime());
             Calendar c1 = Calendar.getInstance();
             c1.setTime(eventDateTime);
-
             if ((eventDateTime.getTime() - Calendar.getInstance().getTime().getTime()) > 0) {
                 refined_list.add(entry);
             }
@@ -122,14 +119,8 @@ public class EventsListFragment extends Fragment {
     }
 
     public void past() {
-        DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.ENGLISH);
-        Date eventDateTime = Calendar.getInstance().getTime();
         for (TalkModel entry : talkList) {
-            try {
-                eventDateTime = eventFormat.parse(entry.getDate() + " " + entry.getTime());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date eventDateTime = new DateConverters().convertToDate(entry.getDate() + " " + entry.getTime());
             Calendar c1 = Calendar.getInstance();
             c1.setTime(eventDateTime);
 

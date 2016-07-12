@@ -125,7 +125,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
                             finalCalender.get(Calendar.DAY_OF_WEEK), getString(finalCalender)));
                     alarmModel.setLevel(alarmLevel.TRANSPORT.name());
                     alarmModel.setType(alarmType.SINGLE_SHOT.name());
-                    alarmModel.setTrigger(triggers.TRANSPORT_REMINDER.name());
+                    alarmModel.setTrigger(alarmTriggers.TRANSPORT_REMINDER.name());
                     alarmModel.setAlarmTime(getTime(finalCalender));
                     alarmModel.setAlarmDate(getDate(finalCalender));
                     alarmModel.setExtraParameter(String.valueOf(transport.getRouteNo()));
@@ -198,7 +198,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
 
         message.setText(Html.fromHtml(getResources().getString(R.string.transport_reminder_details, tempString,
                 new DateConverters().convertToString(finalCalender, DateFormats.READABLE_DATE),
-                new DateConverters().convertToString(finalCalender, DateFormats.READABLE_DATE))));
+                new DateConverters().convertToString(finalCalender, DateFormats.TIME_12_HOURS_STANDARD))));
     }
 
     private void setOffset(int hour, int min) {

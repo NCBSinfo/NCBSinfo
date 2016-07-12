@@ -152,9 +152,14 @@ public class TalkData {
     //All Events commands
     public void removeOld() {
         int currentLimit = new Preferences(context).user().getNumberOfEventsToKeep();
-        String Query = "DELETE FROM " + TABLE_TALK + " WHERE " + TALK_KEY_ID + " IN (SELECT " + TALK_KEY_ID + " FROM " + TABLE_TALK + " ORDER BY " + TALK_KEY_ID + " ASC LIMIT " + currentLimit + ")";
-        db.execSQL(Query);
-        database.closeDatabase();
+        int all = new TalkData(context).getAll().size();
+        if (all > currentLimit) {
+            currentLimit = all - currentLimit;
+            String Query = "DELETE FROM " + TABLE_TALK + " WHERE " + TALK_KEY_ID + " IN (SELECT " + TALK_KEY_ID + " FROM " + TABLE_TALK + " ORDER BY " + TALK_KEY_ID + " ASC LIMIT " + currentLimit + ")";
+            db.execSQL(Query);
+            database.closeDatabase();
+        }
+
     }
 
 }

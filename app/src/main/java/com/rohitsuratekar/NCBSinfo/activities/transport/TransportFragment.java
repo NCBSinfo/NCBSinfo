@@ -242,10 +242,10 @@ public class TransportFragment extends Fragment {
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Set reminder ?")
-                .setMessage(Html.fromHtml("For " + transport.getType().toLowerCase() + "<br>from <b>" +
+                .setMessage(Html.fromHtml("For <b>" + new DateConverters().convertFormat(trip, DateFormats.TIME_12_HOURS_STANDARD) +
+                        "</b> " + transport.getType().toLowerCase() + "<br>from <b>" +
                         fromText + "</b> to <b>" +
-                        toText + "</b> on " +
-                        new DateConverters().convertFormat(trip, DateFormats.TIME_12_HOURS_STANDARD)))
+                        toText + "</b>" ))
 
                 .setPositiveButton("Sure", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

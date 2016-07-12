@@ -51,6 +51,7 @@ public class Transport extends BaseActivity {
                 Intent intent = new Intent(Transport.this, TransportReminder.class);
                 intent.putExtra(TransportReminder.ROUTE, transportModel.getRouteNo());
                 intent.putExtra(TransportReminder.ROUTE_TIME, transportModel.getNextTrip());
+                intent.putExtra(TransportReminder.SWITCH,"1");
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }

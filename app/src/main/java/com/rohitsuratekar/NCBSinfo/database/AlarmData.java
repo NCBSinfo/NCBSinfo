@@ -95,6 +95,23 @@ public class AlarmData implements AlarmConstants {
         return returnID;
     }
 
+
+    public AlarmModel get(int id) {
+        Cursor cursor = db.query(TABLE_ALARMS, new String[]{KEY, ALARM_ID, TYPE, TRIGGER, LEVEL, EXTRA_PARAMETER
+                        , EXTRA_VALUE, ALARM_TIME, ALARM_DATE}, KEY + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+        }
+        AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
+                , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+        // return contact
+        cursor.close();
+        database.closeDatabase();
+        return alarm;
+    }
+
     // Delete all data
     public void clearAll() {
         db.execSQL("DELETE FROM " + TABLE_ALARMS);

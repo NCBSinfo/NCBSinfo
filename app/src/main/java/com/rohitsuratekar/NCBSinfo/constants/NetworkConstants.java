@@ -8,14 +8,14 @@ package com.rohitsuratekar.NCBSinfo.constants;
 public interface NetworkConstants {
 
     //All FCM topics will go here
-    interface topics {
+    interface fcmTopics {
         String PUBLIC = "public";
         String EMERGENCY = "emergency";
         String STUDENT = "students";
         String CAMP16 = "camp16";
     }
 
-    interface keys{
+    interface fcmKeys{
         String TITLE = "title";
         String MESSAGE = "message";
         String RCODE = "rcode";
@@ -40,7 +40,7 @@ public interface NetworkConstants {
     }
 
     //All triggers
-    interface triggers{
+    interface fcmTriggers{
         String NEW_UPDATE = "NewUpdate";
         String DATA_SYNC = "DataSync";
         String CHANGE_TRANSPORT = "ChangeTransport";

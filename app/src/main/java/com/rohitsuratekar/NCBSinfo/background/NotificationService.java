@@ -68,14 +68,14 @@ public class NotificationService implements NetworkConstants, AppConstants {
         if (remoteMessage.getNotification() != null) {
             title = remoteMessage.getNotification().getTitle();
             message = remoteMessage.getNotification().getBody();
-            extra = keys.values.EXTRA_PERSONAL;
+            extra = fcmKeys.values.EXTRA_PERSONAL;
         } else {
-            title = remoteMessage.getData().get(keys.TITLE);
-            message = remoteMessage.getData().get(keys.MESSAGE);
-            if (remoteMessage.getData().get(keys.EXTRA) != null) {
-                extra = remoteMessage.getData().get(keys.EXTRA);
+            title = remoteMessage.getData().get(fcmKeys.TITLE);
+            message = remoteMessage.getData().get(fcmKeys.MESSAGE);
+            if (remoteMessage.getData().get(fcmKeys.EXTRA) != null) {
+                extra = remoteMessage.getData().get(fcmKeys.EXTRA);
             } else {
-                extra = keys.values.EXTRA_PERSONAL;
+                extra = fcmKeys.values.EXTRA_PERSONAL;
             }
         }
 
@@ -188,7 +188,7 @@ public class NotificationService implements NetworkConstants, AppConstants {
     private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
         Preferences pref = new Preferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.
-        if (pref.user().isNotificationAllowed() && !pref.app().getMode().equals(modes.OFFLINE.getValue())) {
+        if (pref.user().isNotificationAllowed() && !pref.app().getMode().equals(modes.OFFLINE)) {
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(notificationNumber, mBuilder.build());
         }

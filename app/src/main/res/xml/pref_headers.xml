@@ -3,17 +3,23 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$GeneralPreferenceFragment"
+        android:fragment="com.rohitsuratekar.NCBSinfo.activities.settings.fragments.GeneralPreference"
         android:icon="@drawable/icon_info"
+        android:id="@+id/pref_header_general"
         android:title="@string/settings_general" />
 
     <header
-        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$TransportPreferenceFragment"
+        android:fragment="com.rohitsuratekar.NCBSinfo.activities.settings.fragments.TransportPreference"
         android:icon="@drawable/icon_shuttle"
         android:title="@string/transport" />
 
     <header
-        android:fragment="com.rohitsuratekar.NCBSinfo.Settings$AboutusPreferenceFragment"
+        android:fragment="com.rohitsuratekar.NCBSinfo.activities.settings.fragments.NotificationPreference"
+        android:icon="@drawable/icon_notification"
+        android:title="@string/notifications" />
+
+    <header
+        android:fragment="com.rohitsuratekar.NCBSinfo.activities.settings.fragments.InformationPreference"
         android:icon="@drawable/icon_feedback"
         android:title="@string/settings_about_ncbinfo" />
 
