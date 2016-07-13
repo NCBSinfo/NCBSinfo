@@ -36,6 +36,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
 
     public static final String INTENT = Alarms.class.getName();
     public static final String ALARM_KEY = "alarmKeys";
+    public static final String ALARM_ID = "alarmID";
     private final String TAG = getClass().getSimpleName();
 
     Context context;
@@ -73,8 +74,44 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
                         AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
                         cancelAlarm(alarm);
                     }
+                    break;
+                case DELETE_REMINDERS:
+                    deletReminders();
+                    break;
+                case SET_ALARM:
+                    if (intent.getStringExtra(ALARM_ID) != null) {
+                        AlarmModel alarm = new AlarmData(context).getByAlarmID(Integer.valueOf(intent.getStringExtra(ALARM_ID)));
+                        setAlarm(alarm);
+                    }
+                    break;
+
             }
         }
+    }
+
+    private void setAlarm(AlarmModel alarm) {
+
+        Intent intent = new Intent(context, Alarms.class);
+        intent.putExtra(INTENT, alarm.getTrigger());
+        long time = new AlarmsHelper().getAlarmMiliseconds(alarm);
+        PendingIntent pendingIntent = getIndent(intent, alarm.getAlarmID());
+
+        //All repeating alarms
+        if (alarm.getType().equals(alarmType.REPEAT.name())) {
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 24 * 60 * 60 * 1000, pendingIntent);
+
+        } else if (alarm.getType().equals(alarmType.SINGLE_SHOT.name())) {
+
+            //Check compatibility
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            }
+        } //Single Shot
     }
 
     private void startDataFetch(Context context) {
@@ -88,41 +125,16 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
     }
 
     public void resetAll() {
-
-
         //Cancel past alarms
         if (!pref.app().arePastAlarmsCancelled()) {
             cancelOld();
         }
-
         List<AlarmModel> allAlarms = new AlarmData(context).getAll();
         for (AlarmModel alarm : allAlarms) {
-
             //First reset all network operations
             if (alarm.getLevel().equals(alarmLevel.NETWORK.name())) {
-                Intent intent = new Intent(context, Alarms.class);
-                intent.putExtra(INTENT, alarm.getTrigger());
-                long time = new AlarmsHelper().getAlarmMiliseconds(alarm);
-                PendingIntent pendingIntent = getIndent(intent, alarm.getAlarmID());
-
-                //All repeating alarms
-                if (alarm.getType().equals(alarmType.REPEAT.name())) {
-
-                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 24 * 60 * 60 * 1000, pendingIntent);
-
-                } else if (alarm.getType().equals(alarmType.SINGLE_SHOT.name())) {
-
-                    //Check compatibility
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, time, pendingIntent);
-                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, pendingIntent);
-                    } else {
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
-                    }
-                } //Single Shot
+                setAlarm(alarm);
             }//Network
-
         }
         Log.i(TAG, "All alarms are reset");
     }
@@ -143,7 +155,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         for (TalkModel talk : list) {
             Log.i(TAG, "sending event " + talk.getDataID() + " : " + talk.getNotificationTitle());
             Intent intent = new Intent(context, Alarms.class);
-            intent.putExtra(INTENT, alarmTriggers.SEND_NOTIFICATION);
+            intent.putExtra(INTENT, alarmTriggers.SEND_NOTIFICATION.name());
             intent.putExtra(NotificationService.NOTIFICATION_CODE, String.valueOf(talk.getDataID()));
             int requestID = new General().getMilliseconds(talk.getTimestamp());
             Date tempDate = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
@@ -175,6 +187,18 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
             calendar = Calendar.getInstance(); //If onset time is already past. Send notification immediately
         }
         return calendar.getTimeInMillis();
+    }
+
+    /**
+     * Deletes all reminders set for transports
+     */
+    private void deletReminders() {
+        List<AlarmModel> all = new AlarmData(context).getAll();
+        for (AlarmModel alarm : all) {
+            if (alarm.getLevel().equals(alarmLevel.TRANSPORT.name())) {
+                cancelAlarm(alarm);
+            }
+        }
     }
 
 
@@ -210,6 +234,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         pref.app().setPastAlarmsCancelled();
         Log.i(TAG, "Cancelled all past alarms!");
     }
+
 
 }
 

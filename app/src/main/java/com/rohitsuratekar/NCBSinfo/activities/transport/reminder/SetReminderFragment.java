@@ -20,6 +20,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmsHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
@@ -130,13 +131,18 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
                     alarmModel.setAlarmDate(getDate(finalCalender));
                     alarmModel.setExtraParameter(String.valueOf(transport.getRouteNo()));
                     alarmModel.setExtraValue(reminderTime);
-
-                    //TODO : send broadcast to alarm
                     new AlarmData(getActivity()).add(alarmModel);
+                    //Send broadcast to set alarm
+                    Intent broadcast = new Intent(getActivity(), Alarms.class);
+                    broadcast.putExtra(Alarms.INTENT, alarmTriggers.SET_ALARM.name());
+                    broadcast.putExtra(Alarms.ALARM_ID, String.valueOf(alarmModel.getAlarmID()));
+                    getActivity().sendBroadcast(broadcast);
                     Toast.makeText(getContext(), "Reminder set", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getContext(), Transport.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                 } else {
                     new AlertDialog.Builder(getContext())
                             .setTitle("Existing reminder")
@@ -203,7 +209,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
 
     private void setOffset(int hour, int min) {
 
-        DateTime targetTime = new DateTime(getTime(reminderTime));
+        DateTime targetTime = new DateTime(getTimeFromCalendar(reminderTime));
         Calendar temCal = Calendar.getInstance();
         temCal.setTimeInMillis(finalCalender.getTimeInMillis());
         finalCalender.set(Calendar.HOUR_OF_DAY, hour);
@@ -230,7 +236,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
 
     }
 
-    private Calendar getTime(String time) {
+    private Calendar getTimeFromCalendar(String time) {
         Calendar calendar = new DateConverters().convertToCalendar(time);
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 1);
@@ -246,15 +252,11 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
     }
 
     private String getTime(Calendar calendar) {
-        DateTime currentTime = new DateTime(calendar);
-        DateTimeFormatter format = DateTimeFormat.forPattern("HH:mm");
-        return format.print(currentTime);
+        return new DateConverters().convertToString(calendar, DateFormats.TIME_24_HOURS_STANDARD);
     }
 
     private String getDate(Calendar calendar) {
-        DateTime currentTime = new DateTime(calendar);
-        DateTimeFormatter format = DateTimeFormat.forPattern("dd/MM/yyyy");
-        return format.print(currentTime);
+        return new DateConverters().convertToString(calendar, DateFormats.DATE_STANDARD);
     }
 
 

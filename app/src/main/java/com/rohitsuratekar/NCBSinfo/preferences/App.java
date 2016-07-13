@@ -13,6 +13,7 @@ public class App implements AppConstants {
     SharedPreferences pref;
     String APP_MODE = "app_mode";
     String APP_VERSION = "latestAppVersion";
+    String APP_VERSION_NAME = "latestAppVersionName";
     String APP_OPEN = "firstTimeAppOpen";
     String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
     String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents"; //Only for newly registered users
@@ -50,6 +51,14 @@ public class App implements AppConstants {
 
     public void setAppVersion(int currentAppVesion) {
         pref.edit().putInt(APP_VERSION, currentAppVesion).apply();
+    }
+
+    public String getAppVersionName() {
+        return pref.getString(APP_VERSION_NAME, "1.0");
+    }
+
+    public void setAppVersionName(String name) {
+        pref.edit().putString(APP_VERSION_NAME, name).apply();
     }
 
     public boolean isAppOpenedFirstTime() {

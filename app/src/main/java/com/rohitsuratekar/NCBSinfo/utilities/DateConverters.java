@@ -19,7 +19,6 @@ public class DateConverters {
     private final String TAG = getClass().getSimpleName();
 
 
-
     public String convertToString(Date dateFormat, DateFormats format) {
         return new SimpleDateFormat(format.getFormat(), Locale.getDefault()).format(dateFormat);
     }
@@ -42,7 +41,7 @@ public class DateConverters {
                     e.printStackTrace();
                     Log.e(TAG, "Failed to parse date in convertToDate() " + stringFormat);
                 }
-            } else if (!dateFormat.isTimeComplete()) {
+            } else if (!dateFormat.isTimeComplete() && dateFormat.isDateComplete()) {
                 try {
 
                     return new SimpleDateFormat(
@@ -53,7 +52,7 @@ public class DateConverters {
                     e.printStackTrace();
                     Log.e(TAG, "Failed to parse string in convertToDate() : " + stringFormat);
                 }
-            } else if (!dateFormat.isDateComplete()) {
+            } else if (!dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
 
                 try {
                     return new SimpleDateFormat(
@@ -79,7 +78,6 @@ public class DateConverters {
      */
 
     public Calendar convertToCalendar(String stringFormat) {
-
         DateFormats dateFormat = detectFormat(stringFormat);
         if (dateFormat != null) {
             if (dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
@@ -92,7 +90,7 @@ public class DateConverters {
                     e.printStackTrace();
                     Log.e(TAG, "Failed to parse date in convertToCalender() " + stringFormat);
                 }
-            } else if (!dateFormat.isTimeComplete()) {
+            } else if (!dateFormat.isTimeComplete() && dateFormat.isDateComplete()) {
                 try {
                     Date date = new SimpleDateFormat(
                             detectFormat(stringFormat).getFormat() + " " + DateFormats.TIME_12_HOURS_STANDARD.getFormat(), Locale.getDefault())
@@ -104,7 +102,7 @@ public class DateConverters {
                     e.printStackTrace();
                     Log.e(TAG, "Failed to parse string in convertToCalender() : " + stringFormat);
                 }
-            } else if (!dateFormat.isDateComplete()) {
+            } else if (!dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
 
                 try {
                     Date date = new SimpleDateFormat(

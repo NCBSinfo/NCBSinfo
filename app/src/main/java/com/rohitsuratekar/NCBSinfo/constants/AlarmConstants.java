@@ -23,12 +23,14 @@ public interface AlarmConstants {
 
     enum alarmTriggers {
 
-        DAILY_FETCH,
-        RESET_ALL,
-        SEND_UPCOMING,
-        SEND_NOTIFICATION,
-        TRANSPORT_REMINDER,
-        DELETE_ALARM
+        DAILY_FETCH, //Daily network fetch
+        RESET_ALL, //Deletes all alarms and sets daily
+        SEND_UPCOMING, //Sends upcoming event notification alarms
+        SEND_NOTIFICATION, //Sends notification
+        TRANSPORT_REMINDER, //Trigger to send transport reminder
+        DELETE_ALARM, //deletes all
+        DELETE_REMINDERS, //delete reminders
+        SET_ALARM //Sets alarms
     }
 
 

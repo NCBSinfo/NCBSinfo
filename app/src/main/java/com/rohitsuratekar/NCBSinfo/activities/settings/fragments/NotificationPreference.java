@@ -1,14 +1,11 @@
 package com.rohitsuratekar.NCBSinfo.activities.settings.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
-import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -16,7 +13,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
  * https://github.com/NCBSinfo/NCBSinfo
  * Created by Rohit Suratekar on 12-07-16.
  */
-public class NotificationPreference extends PreferenceFragment {
+public class NotificationPreference extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
     Preferences pref;
     SwitchPreference allNotification, eventNotification, importantNotifications, emergencyNotifications;
@@ -38,48 +35,79 @@ public class NotificationPreference extends PreferenceFragment {
 
         if (pref.user().isNotificationAllowed()) {
             allNotification.setChecked(true);
-            allNotification.setSummary("All notifications are ON");
             setAll(true);
         } else {
             allNotification.setChecked(false);
-            allNotification.setSummary("All notifications are OFF");
             setAll(false);
         }
 
-        allNotification.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                if (allNotification.isChecked()) {
-                    allNotification.setSummary("All notifications are ON");
-                    pref.user().notificationAllowed(true);
-                    setAll(true);
-                } else {
-                    allNotification.setSummary("All notifications are OFF");
-                    pref.user().notificationAllowed(false);
-                    setAll(false);
-                }
+        allNotification.setOnPreferenceClickListener(this);
+        eventNotification.setOnPreferenceClickListener(this);
+        importantNotifications.setOnPreferenceClickListener(this);
+        emergencyNotifications.setOnPreferenceClickListener(this);
 
-                return false;
-
-            }
-        });
+        setOptions(allNotification, "All Notifications");
+        setOptions(eventNotification, "Event Notifications");
+        setOptions(importantNotifications, "Important Notifications");
+        setOptions(emergencyNotifications, "Emergency Notifications");
 
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            startActivity(new Intent(getActivity(), Settings.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void setAll(boolean value) {
         eventNotification.setEnabled(value);
         importantNotifications.setEnabled(value);
         emergencyNotifications.setEnabled(value);
+    }
+
+    private void setOptions(SwitchPreference preference, String details) {
+        if (preference.isChecked()) {
+            preference.setSummary(details + " are ON");
+        } else {
+            preference.setSummary(details + " are OFF");
+        }
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        switch (preference.getKey()) {
+            case "settings_event_notifications":
+                if (eventNotification.isChecked()) {
+                    pref.settings().setEventNotifications(true);
+                } else {
+                    pref.settings().setEventNotifications(false);
+                }
+                setOptions(eventNotification, "Event Notifications");
+                break;
+            case "settings_important_notifications":
+                if (importantNotifications.isChecked()) {
+                    pref.settings().setImportantNotifications(true);
+                } else {
+                    pref.settings().setImportantNotifications(false);
+                }
+                setOptions(importantNotifications, "Important Notifications");
+                break;
+            case "settings_emergency_notifications":
+                if (emergencyNotifications.isChecked()) {
+                    pref.settings().setEmergencyNotifications(true);
+                } else {
+                    pref.settings().setEmergencyNotifications(false);
+                }
+                setOptions(emergencyNotifications, "Emergency Notifications");
+                break;
+            case "settings_notifications":
+                if (allNotification.isChecked()) {
+                    pref.user().notificationAllowed(true);
+                    setAll(true);
+                } else {
+                    pref.user().notificationAllowed(false);
+                    setAll(false);
+                }
+                setOptions(allNotification, "All Notifications");
+                break;
+
+        }
+        return false;
     }
 }

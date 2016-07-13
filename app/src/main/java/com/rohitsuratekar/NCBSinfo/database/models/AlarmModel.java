@@ -11,21 +11,21 @@ public class AlarmModel {
     String type;
     String trigger;
     String level;
-    String alarmTime;
-    String alarmDate;
     String extraParameter;
     String extraValue;
+    String alarmTime;
+    String alarmDate;
 
-    public AlarmModel(int id, int alarmID, String type, String trigger, String level, String alarmTime, String alarmDate, String extraParameter, String extraValue) {
+    public AlarmModel(int id, int alarmID, String type, String trigger, String level, String extraParameter, String extraValue, String alarmTime, String alarmDate) {
         this.id = id;
         this.alarmID = alarmID;
         this.type = type;
         this.trigger = trigger;
         this.level = level;
-        this.alarmTime = alarmTime;
-        this.alarmDate = alarmDate;
         this.extraParameter = extraParameter;
         this.extraValue = extraValue;
+        this.alarmTime = alarmTime;
+        this.alarmDate = alarmDate;
     }
 
     public AlarmModel() {
@@ -71,6 +71,22 @@ public class AlarmModel {
         this.level = level;
     }
 
+    public String getExtraParameter() {
+        return extraParameter;
+    }
+
+    public void setExtraParameter(String extraParameter) {
+        this.extraParameter = extraParameter;
+    }
+
+    public String getExtraValue() {
+        return extraValue;
+    }
+
+    public void setExtraValue(String extraValue) {
+        this.extraValue = extraValue;
+    }
+
     public String getAlarmTime() {
         return alarmTime;
     }
@@ -85,22 +101,6 @@ public class AlarmModel {
 
     public void setAlarmDate(String alarmDate) {
         this.alarmDate = alarmDate;
-    }
-
-    public String getExtraParameter() {
-        return extraParameter;
-    }
-
-    public void setExtraParameter(String extraParamete) {
-        this.extraParameter = extraParamete;
-    }
-
-    public String getExtraValue() {
-        return extraValue;
-    }
-
-    public void setExtraValue(String extraValue) {
-        this.extraValue = extraValue;
     }
 }
 

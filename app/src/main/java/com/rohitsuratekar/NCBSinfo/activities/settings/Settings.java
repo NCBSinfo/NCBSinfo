@@ -6,15 +6,17 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.DevelopersPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.GeneralPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.InformationPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.NotificationPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.TransportPreference;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class Settings extends SettingsBase {
         super.onCreate(savedInstanceState);
         setupActionBar();
         setTitle(R.string.settings);
+
 
     }
 
@@ -56,9 +59,19 @@ public class Settings extends SettingsBase {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
+        Preferences pref = new Preferences(getBaseContext());
         for (int i = 0; i < target.size(); i++) {
-            if (target.get(i).fragment.equals(TransportPreference.class.getName())) {
-                //TODO : Remove preference related to online activities from here
+
+            if (target.get(i).fragment.equals(NotificationPreference.class.getName())) {
+                if (pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
+                    target.remove(i);
+                }
+            }
+
+            if (target.get(i).fragment.equals(DevelopersPreference.class.getName())) {
+                if (!pref.settings().isDevelopersOptionON()) {
+                    target.remove(i);
+                }
             }
         }
     }
@@ -72,6 +85,7 @@ public class Settings extends SettingsBase {
                 || GeneralPreference.class.getName().equals(fragmentName)
                 || TransportPreference.class.getName().equals(fragmentName)
                 || InformationPreference.class.getName().equals(fragmentName)
+                || DevelopersPreference.class.getName().equals(fragmentName)
                 || NotificationPreference.class.getName().equals(fragmentName);
     }
 
@@ -89,8 +103,8 @@ public class Settings extends SettingsBase {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
-                //TODO : correct navigation here
-                NavUtils.navigateUpFromSameTask(this);
+                this.finish();
+                this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
             return true;
         }

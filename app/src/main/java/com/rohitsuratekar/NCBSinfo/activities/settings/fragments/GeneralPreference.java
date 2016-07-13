@@ -9,12 +9,11 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AlertDialog;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.settings.SettingsCommon;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
@@ -27,7 +26,7 @@ import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class GeneralPreference extends PreferenceFragment {
 
-    Preference changeMode, clearPref;
+    Preference changeMode, clearPref, faq;
     Context context;
 
     @Override
@@ -37,9 +36,12 @@ public class GeneralPreference extends PreferenceFragment {
         setHasOptionsMenu(true);
 
         context = getActivity();
+        getActivity().setTitle(R.string.settings_general);
 
         changeMode = findPreference("change_mode_settings");
         clearPref = findPreference("clear_settings");
+        faq = findPreference("settings_knownBugs");
+
 
         changeMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -62,7 +64,7 @@ public class GeneralPreference extends PreferenceFragment {
                         .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                //Do nothing
                             }
                         })
                         .setIcon(new CurrentMode(context).getIcon())
@@ -96,15 +98,18 @@ public class GeneralPreference extends PreferenceFragment {
             }
         });
 
+        faq.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), SettingsCommon.class);
+                intent.putExtra(SettingsCommon.INTENT, SettingsCommon.FAQ);
+                startActivity(intent);
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                return true;
+            }
+        });
+
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            startActivity(new Intent(getActivity(), Settings.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

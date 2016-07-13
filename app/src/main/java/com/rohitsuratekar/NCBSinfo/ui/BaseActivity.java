@@ -19,6 +19,7 @@ import android.view.ViewStub;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
@@ -64,7 +65,6 @@ public abstract class BaseActivity extends AppCompatActivity
         //Hide unwanted items from layout
         setLayout();
 
-
     }
 
     @Override
@@ -82,7 +82,8 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(new CurrentMenu(currentActivity).set(), menu);
+        getMenuInflater().inflate(R.menu.base, menu);
+        new CurrentMenu(currentActivity, menu).setItems();
         return true;
     }
 
@@ -91,7 +92,11 @@ public abstract class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             return true;
+        } else {
+            new CurrentMenu().getAction(item.getItemId(), this);
         }
         return super.onOptionsItemSelected(item);
     }

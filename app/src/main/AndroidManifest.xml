@@ -49,6 +49,9 @@
         <activity android:name=".activities.canteen.Canteen" />
         <activity android:name=".activities.experimental.holidays.Holidays" />
         <activity
+            android:name=".activities.settings.SettingsCommon"
+            android:theme="@style/HomeTheme" />
+        <activity
             android:name=".activities.settings.Settings"
             android:theme="@style/HomeTheme">
             <meta-data

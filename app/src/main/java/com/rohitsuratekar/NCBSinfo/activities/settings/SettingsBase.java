@@ -41,6 +41,12 @@ public class SettingsBase extends PreferenceActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
     public MenuInflater getMenuInflater() {
         return getDelegate().getMenuInflater();
     }
@@ -87,6 +93,7 @@ public class SettingsBase extends PreferenceActivity {
     protected void onStop() {
         super.onStop();
         getDelegate().onStop();
+
     }
 
     @Override

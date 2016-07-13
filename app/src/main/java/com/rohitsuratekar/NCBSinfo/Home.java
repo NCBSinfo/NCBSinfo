@@ -18,17 +18,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
-import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
-import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
-
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,9 +58,12 @@ public class Home extends AppCompatActivity implements AppConstants {
         //Initialize app with latest app version
         try {
             pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        startActivity(new Intent(this, Transport.class));
 
         metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -81,21 +78,19 @@ public class Home extends AppCompatActivity implements AppConstants {
         offline = (Button) findViewById(R.id.home_offlineBtn);
 
 
-          Intent i = new Intent(this, ServiceCentre.class);
-         i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-         startService(i);
-
+//          Intent i = new Intent(this, ServiceCentre.class);
+//         i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+//         startService(i);
 
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 pref.app().setMode(modes.OFFLINE);
-                startActivity( new Intent(Home.this, OfflineHome.class));
+                startActivity(new Intent(Home.this, OfflineHome.class));
 
             }
         });
-
 
 
         new TalkData(getBaseContext()).removeOld();

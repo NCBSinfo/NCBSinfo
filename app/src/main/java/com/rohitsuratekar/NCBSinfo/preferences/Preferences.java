@@ -15,7 +15,6 @@ public class Preferences {
     SharedPreferences pref;
 
 
-
     public Preferences(Context context) {
         this.context = context;
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -29,9 +28,15 @@ public class Preferences {
         return new App(pref);
     }
 
-    public TransportPref transport(){return new TransportPref(pref, context);}
+    public TransportPref transport() {
+        return new TransportPref(pref, context);
+    }
 
-    public void clearAll(){
+    public SettingsPref settings() {
+        return new SettingsPref(pref);
+    }
+
+    public void clearAll() {
         pref.edit().clear().apply();
     }
 

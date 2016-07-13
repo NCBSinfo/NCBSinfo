@@ -195,7 +195,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                 new TalkData(context).removeOld();
                 //start notification service
                 Intent i = new Intent(NetworkOperations.this, Alarms.class);
-                i.putExtra(Alarms.INTENT, AlarmConstants.alarmTriggers.SEND_UPCOMING);
+                i.putExtra(Alarms.INTENT, AlarmConstants.alarmTriggers.SEND_UPCOMING.name());
                 context.sendBroadcast(i);
 
             }

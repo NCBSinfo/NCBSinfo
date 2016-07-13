@@ -13,22 +13,23 @@ public interface NetworkConstants {
         String EMERGENCY = "emergency";
         String STUDENT = "students";
         String CAMP16 = "camp16";
+        String DEBUG = "debug";
     }
 
-    interface fcmKeys{
+    interface fcmKeys {
         String TITLE = "title";
         String MESSAGE = "message";
         String RCODE = "rcode";
         String EXTRA = "extra";
 
-        interface transport{
+        interface transport {
             String ROUTE = "routeName";
             String ROUTE_VALUE = "routeValue";
             String VALIDITY = "validity";
             String RESET = "reset";
         }
 
-        interface values{
+        interface values {
             String EXTRA_PERSONAL = "personal";
         }
     }
@@ -40,14 +41,14 @@ public interface NetworkConstants {
     }
 
     //All triggers
-    interface fcmTriggers{
+    interface fcmTriggers {
         String NEW_UPDATE = "NewUpdate";
         String DATA_SYNC = "DataSync";
         String CHANGE_TRANSPORT = "ChangeTransport";
     }
 
     //Google Form Links
-    interface form{
+    interface form {
 
         interface registration {
             String REGISTRATION_URL = "forms/d/1wdTuzR0R_H7MBbgaraqH9rI68zTjE1EL6hlY29dCEwc/formResponse";

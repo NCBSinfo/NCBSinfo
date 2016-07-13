@@ -1,17 +1,15 @@
 package com.rohitsuratekar.NCBSinfo.activities.settings.fragments;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.util.Log;
-import android.view.MenuItem;
+import android.preference.SwitchPreference;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -23,6 +21,9 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 public class TransportPreference extends PreferenceFragment {
 
     Preferences pref;
+    ListPreference defaultTransport;
+    Preference hurryUp;
+    String[] routeList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,28 +31,42 @@ public class TransportPreference extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_transport);
         setHasOptionsMenu(true);
 
+        routeList = getResources().getStringArray(R.array.home_spinner_items);
+
         getActivity().setTitle(R.string.transport);
 
         pref = new Preferences(getActivity().getBaseContext());
+        defaultTransport = (ListPreference) findPreference("settings_transport_routes");
+        hurryUp = findPreference("setting_hurryup");
 
-        ListPreference defaultTransport = (ListPreference) findPreference("settings_transport_routes");
+
+        if (pref.settings().isDefaultRouteUsed()) {
+            defaultTransport.setSummary(routeList[pref.user().getDefaultRoute()]);
+        } else {
+            defaultTransport.setSummary(R.string.settings_default_view_summary);
+        }
+
         defaultTransport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                Log.i("Tag ", o.toString());
+                pref.user().setDefaultRoute(new TransportHelper(getActivity().getBaseContext())
+                        .getRoute(Integer.valueOf(o.toString())));
+                defaultTransport.setSummary(routeList[pref.user().getDefaultRoute()]);
+                pref.settings().setDefaultRouteUsed(true);
+                return false;
+            }
+        });
+
+        //TODO: create custom number picker
+        hurryUp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
                 return false;
             }
         });
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            startActivity(new Intent(getActivity(), Settings.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
+
 }

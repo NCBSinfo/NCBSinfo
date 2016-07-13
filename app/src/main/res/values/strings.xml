@@ -21,6 +21,7 @@
     <string name="holidays">Holidays</string>
     <string name="transport_reminder">Transport Reminders</string>
     <string name="notifications">Notifications</string>
+    <string name="developers">Developers options</string>
 
     <string name="name">Name</string>
     <string name="email">Email address</string>
@@ -118,6 +119,7 @@
     <string name="action_reset">Reset</string>
     <string name="action_select_category">Select Category</string>
     <string name="action_clear_contact">Clear all contacts</string>
+    <string name="action_clear_reminders">Clear all reminders</string>
     <string name="action_clear_notifications">Clear all notifications</string>
 
     <string name="events_empty">No more events are retrieved yet !\nwe will update you soon :)</string>

@@ -54,6 +54,7 @@ public class AlarmData implements AlarmConstants {
         database.closeDatabase();
     }
 
+
     public List<AlarmModel> getAll() {
         List<AlarmModel> fullList = new ArrayList<AlarmModel>();
         String selectQuery = "SELECT  * FROM " + TABLE_ALARMS;
@@ -104,6 +105,22 @@ public class AlarmData implements AlarmConstants {
             cursor.moveToFirst();
 
         }
+        AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
+                , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+        // return alarm
+        cursor.close();
+        database.closeDatabase();
+        return alarm;
+    }
+
+    public AlarmModel getByAlarmID(int AlarmID) {
+        Cursor cursor = db.query(TABLE_ALARMS, new String[]{KEY, ALARM_ID, TYPE, TRIGGER, LEVEL, EXTRA_PARAMETER
+                        , EXTRA_VALUE, ALARM_TIME, ALARM_DATE}, ALARM_ID + "=?",
+                new String[]{String.valueOf(AlarmID)}, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
         AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
                 , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
         // return contact

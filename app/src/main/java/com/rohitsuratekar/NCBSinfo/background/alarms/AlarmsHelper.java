@@ -47,7 +47,7 @@ public class AlarmsHelper implements AlarmConstants {
 
     public int createTransportID(Routes routes, int DayOfWeek, String time) {
         String changed = time.trim().replace(":", "");
-        return routes.getRouteNo() * 100000 + DayOfWeek * 1000 + Integer.parseInt(changed);
+        return (routes.getRouteNo() + 1) * 100000 + DayOfWeek * 10000 + Integer.parseInt(changed); //+1 because route no starts with 0
     }
 
 }
