@@ -7,7 +7,7 @@ package com.rohitsuratekar.NCBSinfo.constants;
  */
 public enum DateFormats {
 
-    TIMESTAMP_STANDARD("hh:mm:ss a d MMM yy", true, true),
+    TIMESTAMP_STANDARD("hh:mm:ss a dd MMM yy", true, true),
     DATE_STANDARD("dd/MM/yyyy", true, false),
     TIME_24_HOURS_STANDARD("HH:mm", false, true),
     TIME_12_HOURS_STANDARD("hh:mm a", false, true),

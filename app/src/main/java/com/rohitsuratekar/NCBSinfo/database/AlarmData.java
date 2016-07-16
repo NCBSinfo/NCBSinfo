@@ -54,6 +54,21 @@ public class AlarmData implements AlarmConstants {
         database.closeDatabase();
     }
 
+    public long addAndGetID(AlarmModel entry) {
+        ContentValues values = new ContentValues();
+        values.put(ALARM_ID, entry.getAlarmID());
+        values.put(TYPE, entry.getType());
+        values.put(TRIGGER, entry.getTrigger());
+        values.put(LEVEL, entry.getLevel());
+        values.put(EXTRA_PARAMETER, entry.getExtraParameter());
+        values.put(EXTRA_VALUE, entry.getExtraValue());
+        values.put(ALARM_TIME, entry.getAlarmTime());
+        values.put(ALARM_DATE, entry.getAlarmDate());
+        long value = db.insert(TABLE_ALARMS, null, values);
+        database.closeDatabase();
+        return value;
+    }
+
 
     public List<AlarmModel> getAll() {
         List<AlarmModel> fullList = new ArrayList<AlarmModel>();
@@ -113,21 +128,21 @@ public class AlarmData implements AlarmConstants {
         return alarm;
     }
 
-    public AlarmModel getByAlarmID(int AlarmID) {
-        Cursor cursor = db.query(TABLE_ALARMS, new String[]{KEY, ALARM_ID, TYPE, TRIGGER, LEVEL, EXTRA_PARAMETER
-                        , EXTRA_VALUE, ALARM_TIME, ALARM_DATE}, ALARM_ID + "=?",
-                new String[]{String.valueOf(AlarmID)}, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
-        AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
-                , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
-        // return contact
-        cursor.close();
-        database.closeDatabase();
-        return alarm;
-    }
+//    public AlarmModel getByAlarmID(int AlarmID) {
+//        Cursor cursor = db.query(TABLE_ALARMS, new String[]{KEY, ALARM_ID, TYPE, TRIGGER, LEVEL, EXTRA_PARAMETER
+//                        , EXTRA_VALUE, ALARM_TIME, ALARM_DATE}, ALARM_ID + "=?",
+//                new String[]{String.valueOf(AlarmID)}, null, null, null, null);
+//        if (cursor != null) {
+//            cursor.moveToFirst();
+//        }
+//
+//        AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
+//                , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
+//        // return contact
+//        cursor.close();
+//        database.closeDatabase();
+//        return alarm;
+//    }
 
     // Delete all data
     public void clearAll() {

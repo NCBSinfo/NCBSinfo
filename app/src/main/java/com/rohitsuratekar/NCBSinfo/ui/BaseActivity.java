@@ -133,10 +133,8 @@ public abstract class BaseActivity extends AppCompatActivity
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     }
                 }, 200);
-                drawer.closeDrawer(GravityCompat.START);
-                //overridePendingTransition(R.anim.activity_left_in, R.anim.activity_left_out);
-
             }
+            drawer.closeDrawer(GravityCompat.START);
         }
         return true;
     }

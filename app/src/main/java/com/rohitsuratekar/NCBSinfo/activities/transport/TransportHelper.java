@@ -13,6 +13,10 @@ import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
+
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -251,20 +255,13 @@ public class TransportHelper implements AlarmConstants {
 
     //Returns next trip from given list (based on current time)
     public int getTripNumber(List<String> trips) {
-        SimpleDateFormat onlyDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-        SimpleDateFormat finalFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault());
-        Date currentDate = new Date();
         int tripNumber = DEFAULT_NO;
         for (int i = 0; i < trips.size(); i++) {
-            try {
-                String dateString = onlyDate.format(currentDate) + " " + trips.get(i);
-                Date date = finalFormat.parse(dateString);
-                if (currentDate.compareTo(date) <= 0) {
-                    tripNumber = i;
-                    break;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            Date date = new DateConverters().convertToDate(trips.get(i));
+            Date currentDate = new Date();
+            if (currentDate.compareTo(date) <= 0) {
+                tripNumber = i;
+                break;
             }
         }
         return tripNumber;
@@ -310,29 +307,19 @@ public class TransportHelper implements AlarmConstants {
     }
 
 
-    //Function will return time left [Seconds, Minutes, Hours, Days]
-    public float[] TimeLeft(String currentTime, String DestinationTime) {
-
-        float[] timeLeft = new float[4];
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Date d1 = null;
-        Date d2 = null;
-        try {
-            d1 = format.parse(currentTime);
-            d2 = format.parse(DestinationTime);
-
-            //in milliseconds
-            long diff = Math.abs(d2.getTime() - d1.getTime());
-
-            timeLeft[0] = diff / 1000 % 60; //Seconds
-            timeLeft[1] = diff / (60 * 1000) % 60; //Minutes
-            timeLeft[2] = diff / (60 * 60 * 1000) % 24; //Hours
-            timeLeft[3] = diff / (24 * 60 * 60 * 1000); //days
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return timeLeft;
+    /**
+     * @param date : target date
+     * @return [Days, Hours, Minute, Seconds] left from current time
+     */
+    public int[] TimeLeftFromNow(Date date) {
+        DateTime timestamp = new DateTime(date);
+        DateTime currentTime = new DateTime(new Date());
+        Interval interval = new Interval(timestamp, currentTime);
+        int Seconds = interval.toPeriod().getSeconds();
+        int Minute = interval.toPeriod().getMinutes();
+        int Hours = interval.toPeriod().getHours();
+        int Days = interval.toPeriod().getDays();
+        return new int[]{Days, Hours, Minute, Seconds};
     }
 
     public List<AlarmModel> getAllReminders() {

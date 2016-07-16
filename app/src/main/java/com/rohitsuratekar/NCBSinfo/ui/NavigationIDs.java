@@ -19,6 +19,7 @@ import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
 public class NavigationIDs {
@@ -37,7 +38,9 @@ public class NavigationIDs {
                 return getHome();
             case R.id.nav_transport:
                 Intent intent = new Intent(activity, Transport.class);
-                intent.putExtra(Transport.INDENT, 0);
+                //If default route is available, navigate directly to that tab
+                int routeNo = new Preferences(activity.getBaseContext()).user().getDefaultRoute();
+                intent.putExtra(Transport.INDENT, String.valueOf(routeNo));
                 return intent;
             case R.id.nav_contacts:
                 return new Intent(activity, Contacts.class);

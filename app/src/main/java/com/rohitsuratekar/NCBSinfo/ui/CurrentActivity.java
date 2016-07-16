@@ -64,9 +64,9 @@ public enum CurrentActivity {
 
     DASHBOARD(
             R.string.dashboard,
-            R.layout.dashboard,
+            R.layout.base_viewpager,
             R.id.nav_dashboard,
-            false), //Dashboard
+            true), //Dashboard
 
     EXPERIMENTAL(
             R.string.experimental,

@@ -187,7 +187,13 @@ public class DateConverters {
             int Colons = d.getFormat().split(":").length;
             int Chars = d.getFormat().replaceAll("\\s+", "").length();
 
+
             if (numberOfSpaces == Spaces && numberOfSlash == Slash && numberOfColons == Colons && numberOfChars == Chars) {
+                return d;
+            }
+
+            //Following needed for all format have "AM/PM"
+            if (numberOfSpaces == Spaces && numberOfSlash == Slash && numberOfColons == Colons && numberOfChars == (Chars + 1)) {
                 return d;
             }
         }
@@ -201,7 +207,7 @@ public class DateConverters {
      * @param date : Input
      * @return : Returns calender
      */
-    public Calendar DateToCalender(Date date) {
+    public static Calendar DateToCalender(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;

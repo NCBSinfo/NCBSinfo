@@ -1,6 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.activities.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +20,9 @@ public class SettingsCommon extends AppCompatActivity {
     public static final String TERMS = "termsAndConditions";
     public static final String ABOUT_US = "aboutUs";
     public static final String FAQ = "faq";
+    public static final String PRIVACY = "privacy";
     TextView commonText;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +32,8 @@ public class SettingsCommon extends AppCompatActivity {
 
         String trigger = getIntent().getStringExtra(INTENT);
 
-        if(trigger!=null){
-            switch (trigger){
+        if (trigger != null) {
+            switch (trigger) {
                 case TERMS:
                     commonText.setText(Html.fromHtml(getResources().getString(R.string.terms)));
                     setTitle(R.string.settings_terms);
@@ -42,13 +43,17 @@ public class SettingsCommon extends AppCompatActivity {
                     setTitle(R.string.settings_about_ncbinfo);
                     break;
                 case FAQ:
-                commonText.setText(Html.fromHtml(getResources().getString(R.string.faq)));
-                setTitle(R.string.settings_faq);
-                break;
+                    commonText.setText(Html.fromHtml(getResources().getString(R.string.faq)));
+                    setTitle(R.string.settings_faq);
+                    break;
+                case PRIVACY:
+                    commonText.setText(Html.fromHtml(getResources().getString(R.string.privacy_statement)));
+                    setTitle(R.string.settings_privacy);
+                    break;
+
 
             }
         }
-
 
 
     }

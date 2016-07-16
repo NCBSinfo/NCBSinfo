@@ -23,7 +23,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 public class InformationPreference extends PreferenceFragment {
 
-    Preference github, termsAndConditions, aboutUs, version;
+    Preference github, termsAndConditions, aboutUs, version, privacy;
 
     int hits;
     Preferences pref;
@@ -41,6 +41,7 @@ public class InformationPreference extends PreferenceFragment {
         termsAndConditions = findPreference("settings_terms_conditions");
         aboutUs = findPreference("settings_aboutus");
         version = findPreference("settings_version");
+        privacy = findPreference("settings_privacy");
 
         version.setTitle(getResources().getString(R.string.app_name));
         version.setSummary("Version Code: " + pref.app().getAppVersionName() + "\nBuild No: " + pref.app().getAppVesion());
@@ -73,6 +74,17 @@ public class InformationPreference extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 Intent intent = new Intent(getActivity(), SettingsCommon.class);
                 intent.putExtra(SettingsCommon.INTENT, SettingsCommon.ABOUT_US);
+                startActivity(intent);
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                return true;
+            }
+        });
+
+        privacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), SettingsCommon.class);
+                intent.putExtra(SettingsCommon.INTENT, SettingsCommon.PRIVACY);
                 startActivity(intent);
                 getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 return true;

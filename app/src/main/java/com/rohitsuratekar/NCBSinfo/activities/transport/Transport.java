@@ -11,13 +11,15 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Transport extends BaseActivity {
@@ -26,6 +28,7 @@ public class Transport extends BaseActivity {
     private final String TAG = getClass().getSimpleName();
     private TransportModel transportModel;
     FloatingActionButton fab;
+    Preferences pref;
 
     @Override
     protected CurrentActivity setCurrentActivity() {
@@ -36,14 +39,15 @@ public class Transport extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         transportModel = new TransportModel(getCurrentFragment(0), getBaseContext()); //default
+        pref = new Preferences(getBaseContext());
 
         fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         fab.setImageResource(R.drawable.icon_set_reminder);
 
-       // List<AlarmModel> allList =  new TransportHelper(getBaseContext()).getAllReminders();
-        //if (allList.size() == 0) {
-          //  fab.setVisibility(View.GONE);
-        //}
+        List<AlarmModel> allList = new TransportHelper(getBaseContext()).getAllReminders();
+        if (allList.size() == 0 || pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
+            fab.setVisibility(View.GONE);
+        }
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +55,7 @@ public class Transport extends BaseActivity {
                 Intent intent = new Intent(Transport.this, TransportReminder.class);
                 intent.putExtra(TransportReminder.ROUTE, transportModel.getRouteNo());
                 intent.putExtra(TransportReminder.ROUTE_TIME, transportModel.getNextTrip());
-                intent.putExtra(TransportReminder.SWITCH,"1");
+                intent.putExtra(TransportReminder.SWITCH, "1");
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
@@ -81,6 +85,14 @@ public class Transport extends BaseActivity {
                 public void onPageScrollStateChanged(int state) {
                 }
             });
+        }
+
+        Intent intent = getIntent();
+        String intentRoute = intent.getStringExtra(INDENT);
+        if (intentRoute != null) {
+            TabLayout.Tab tab = tabLayout.getTabAt(Integer.parseInt(intentRoute));
+            assert tab != null;
+            tab.select();
         }
 
     }
@@ -177,6 +189,20 @@ public class Transport extends BaseActivity {
         super.onResume();
         if (new TransportHelper(getBaseContext()).getAllReminders().size() == 0) {
             fab.setVisibility(View.GONE);
+        }
+    }
+
+    //This is required because transport reminders will open this activity
+
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            Intent intent = new Intent(Transport.this, OnlineHome.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            super.onBackPressed();
         }
     }
 }

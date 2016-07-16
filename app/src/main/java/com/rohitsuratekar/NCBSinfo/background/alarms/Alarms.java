@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * All alarms should be sent with this boardcaster
+ * All alarms should be sent with this broadcaster
  * Do not change package of this class as all previous alarms are with this intent.
  * This will also allow other users to send alarm request to app (if in future this app is success :P)
  * All intent should be "Alarms.java" with Triggers. Handle triggers from here.
@@ -36,7 +36,6 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
 
     public static final String INTENT = Alarms.class.getName();
     public static final String ALARM_KEY = "alarmKeys";
-    public static final String ALARM_ID = "alarmID";
     private final String TAG = getClass().getSimpleName();
 
     Context context;
@@ -69,6 +68,14 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
                         new NotificationService(context).sendNotification(Integer.parseInt(intent.getStringExtra(NotificationService.NOTIFICATION_CODE)));
                     }
                     break;
+                case TRANSPORT_REMINDER:
+                    if (intent.getStringExtra(ALARM_KEY) != null) {
+                        AlarmModel alarmModel = new AlarmData(context).get(Integer.parseInt(intent.getStringExtra(ALARM_KEY)));
+                        if (alarmModel != null) {
+                            new NotificationService(context).sendNotification(alarmModel);
+                        }
+                    }
+                    break;
                 case DELETE_ALARM:
                     if (intent.getStringExtra(ALARM_KEY) != null) {
                         AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
@@ -76,11 +83,11 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
                     }
                     break;
                 case DELETE_REMINDERS:
-                    deletReminders();
+                    deleteReminders();
                     break;
                 case SET_ALARM:
-                    if (intent.getStringExtra(ALARM_ID) != null) {
-                        AlarmModel alarm = new AlarmData(context).getByAlarmID(Integer.valueOf(intent.getStringExtra(ALARM_ID)));
+                    if (intent.getStringExtra(ALARM_KEY) != null) {
+                        AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
                         setAlarm(alarm);
                     }
                     break;
@@ -93,6 +100,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
 
         Intent intent = new Intent(context, Alarms.class);
         intent.putExtra(INTENT, alarm.getTrigger());
+        intent.putExtra(ALARM_KEY, String.valueOf(alarm.getId()));
         long time = new AlarmsHelper().getAlarmMiliseconds(alarm);
         PendingIntent pendingIntent = getIndent(intent, alarm.getAlarmID());
 
@@ -157,7 +165,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
             Intent intent = new Intent(context, Alarms.class);
             intent.putExtra(INTENT, alarmTriggers.SEND_NOTIFICATION.name());
             intent.putExtra(NotificationService.NOTIFICATION_CODE, String.valueOf(talk.getDataID()));
-            int requestID = new General().getMilliseconds(talk.getTimestamp());
+            int requestID = (int) new DateConverters().convertToCalendar(talk.getTimestamp()).getTimeInMillis();
             Date tempDate = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
             //Compatibility
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -192,7 +200,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
     /**
      * Deletes all reminders set for transports
      */
-    private void deletReminders() {
+    private void deleteReminders() {
         List<AlarmModel> all = new AlarmData(context).getAll();
         for (AlarmModel alarm : all) {
             if (alarm.getLevel().equals(alarmLevel.TRANSPORT.name())) {

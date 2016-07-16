@@ -131,11 +131,12 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
                     alarmModel.setAlarmDate(getDate(finalCalender));
                     alarmModel.setExtraParameter(String.valueOf(transport.getRouteNo()));
                     alarmModel.setExtraValue(reminderTime);
-                    new AlarmData(getActivity()).add(alarmModel);
+                    long alarmKey = new AlarmData(getActivity()).addAndGetID(alarmModel);
+
                     //Send broadcast to set alarm
                     Intent broadcast = new Intent(getActivity(), Alarms.class);
                     broadcast.putExtra(Alarms.INTENT, alarmTriggers.SET_ALARM.name());
-                    broadcast.putExtra(Alarms.ALARM_ID, String.valueOf(alarmModel.getAlarmID()));
+                    broadcast.putExtra(Alarms.ALARM_KEY, String.valueOf(alarmKey));
                     getActivity().sendBroadcast(broadcast);
                     Toast.makeText(getContext(), "Reminder set", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getContext(), Transport.class);

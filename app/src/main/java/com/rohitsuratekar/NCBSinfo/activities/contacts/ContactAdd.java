@@ -3,8 +3,6 @@ package com.rohitsuratekar.NCBSinfo.activities.contacts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -51,7 +49,6 @@ public class ContactAdd extends BaseActivity {
         }
 
 
-
         inputLayoutName = (TextInputLayout) findViewById(R.id.contact_input_layout_name);
         inputLayoutNumber = (TextInputLayout) findViewById(R.id.contact_input_layout_number);
         inputLayoutDepartment = (TextInputLayout) findViewById(R.id.contact_input_layout_department);
@@ -76,16 +73,14 @@ public class ContactAdd extends BaseActivity {
         });
 
         if (forEdit == 1) {
-            ContactsData db = new ContactsData(getBaseContext());
-            inputName.setText(db.get(feldID).getName());
-            inputNumber.setText(db.get(feldID).getExtension());
-            inputDepartment.setText(db.get(feldID).getDepartment());
-            inputPosition.setText(db.get(feldID).getPosition());
+            inputName.setText(new ContactsData(getBaseContext()).get(feldID).getName());
+            inputNumber.setText(new ContactsData(getBaseContext()).get(feldID).getExtension());
+            inputDepartment.setText(new ContactsData(getBaseContext()).get(feldID).getDepartment());
+            inputPosition.setText(new ContactsData(getBaseContext()).get(feldID).getPosition());
             btnSignUp.setText("Change");
         }
 
     }
-
 
 
     private void submitForm() {
