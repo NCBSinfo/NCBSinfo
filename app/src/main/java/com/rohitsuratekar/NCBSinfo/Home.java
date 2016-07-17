@@ -1,224 +1,199 @@
 package com.rohitsuratekar.NCBSinfo;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 
-import com.rohitsuratekar.NCBSinfo.background.Alarms;
-import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
-import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
-import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
-import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
-import com.rohitsuratekar.NCBSinfo.database.ContactsData;
-import com.rohitsuratekar.NCBSinfo.database.Database;
-import com.rohitsuratekar.NCBSinfo.database.TalkData;
-import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
-import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
-import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
-import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.online.login.Registration;
-import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
+import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
+import com.rohitsuratekar.NCBSinfo.utilities.General;
 
-import java.util.ArrayList;
-import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class Home extends AppCompatActivity implements UserInformation {
+public class Home extends AppCompatActivity implements AppConstants {
 
+    public final String TAG = getClass().getSimpleName();
 
-    //UI elements
-    Button onlineButton, offlineButton;
-    SharedPreferences pref;
+    //Set UI
+    @BindView(R.id.home_icon)
+    ImageView homeIcon;
+    @BindView(R.id.home_fragment1)
+    ImageView fragment1;
+    @BindView(R.id.home_fragment2)
+    ImageView fragment2;
+    @BindView(R.id.home_fragment3)
+    ImageView fragment3;
+
+    DisplayMetrics metrics;
+    int f1_x, f1_y, f2_x, f2_y, f3_x, f3_y;
+    Button online, offline;
+    Preferences pref;
+    BaseParameters baseParameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+        ButterKnife.bind(this);
+        //Initialization
+        pref = new Preferences(getBaseContext());
+        baseParameters = new BaseParameters(getBaseContext());
+
+
+        //Initialize app with latest app version
+        try {
+            pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        startActivity(new Intent(this, OnlineHome.class));
+       new Preferences(getBaseContext()).user().setUserType(userType.REGULAR_USER);
+       new Preferences(getBaseContext()).app().setMode(modes.ONLINE);
+
+
+        metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+
         //App name in middle
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
 
 
-        pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        switch (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(MODE, "none")) {
-            case ONLINE:
-                startActivity(new Intent(Home.this, OnlineHome.class));
-                overridePendingTransition(0, 0);
-                break;
+        online = (Button) findViewById(R.id.home_onlineBtn);
+        offline = (Button) findViewById(R.id.home_offlineBtn);
 
-            case OFFLINE:
+
+        offline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                pref.app().setMode(modes.OFFLINE);
                 startActivity(new Intent(Home.this, OfflineHome.class));
-                overridePendingTransition(0, 0);
-                break;
-
-            case registration.camp16.CAMP_MODE:
-                startActivity(new Intent(Home.this, CAMP.class));
-                overridePendingTransition(0, 0);
-                break;
-
-        }
-
-        onlineButton = (Button) findViewById(R.id.button_home_online);
-        offlineButton = (Button) findViewById(R.id.button_home_offline);
-
-        onlineButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
-                alertDialog.setTitle(getResources().getString(R.string.warning_online));
-                alertDialog.setMessage(getResources().getString(R.string.warning_online_details));
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Home.this, Registration.class);
-                        startActivity(intent);
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "GO BACK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-                alertDialog.show();
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
 
             }
         });
 
-        offlineButton.setOnClickListener(new View.OnClickListener() {
+        online.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
-                alertDialog.setTitle(getResources().getString(R.string.warning_offline));
-                alertDialog.setMessage(getResources().getString(R.string.warning_offline_details));
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        pref.edit().putString(Home.MODE, Home.OFFLINE).apply();
-                        alertDialog.dismiss();
-                        Intent intent = new Intent(Home.this, OfflineHome.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "GO BACK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        alertDialog.dismiss();
-                    }
-                });
-
-                alertDialog.show();
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, Registration.class);
+                startActivity(intent);
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
             }
         });
 
-        //Set transport timings first time app is open
-        if (pref.getBoolean(firstTime.APP_OPEN, true)) {
-            setTransportValue();
-            pref.edit().putBoolean(firstTime.APP_OPEN, false).apply();
-            //Start Alarms
-            Intent i = new Intent(getBaseContext(), Alarms.class);
-            i.putExtra(Alarms.INTENT, Alarms.RESET_ALL);
-            startService(i);
-        }
 
-        //Data migration from old table
-        if (!pref.getBoolean(firstTime.DATA_MIGRATED, false)) {
-            Database database = new Database(getBaseContext());
-            SQLiteDatabase db = database.getWritableDatabase();
-            boolean migrate = false;
-            try {
-                String selectQuery = "SELECT  * FROM " + TalkData.TABLE_OLD_TALK;
-                Cursor cursor = db.rawQuery(selectQuery, null);
-                cursor.close();
-                migrate = true;
-            } catch (Exception e) {
-                Log.i("Database", " : null");
-            }
-            if (migrate) {
-                List<TalkModel> oldList = getOldTalks(db);
-                for (TalkModel t : oldList) {
-                    new TalkData(getBaseContext()).addEntry(t);
-                }
-                new TalkData(getBaseContext()).dropOldtable();
-                db.close();
-            }
+        f1_x = 0;
+        f1_y = 0;
+        f2_x = 0;
+        f2_y = 0;
+        f3_x = 0;
+        f3_y = 0;
 
-            pref.edit().putBoolean(firstTime.DATA_MIGRATED, true).apply();
-        }
-
-        //Fill contacts
-        if (pref.getBoolean(Contacts.FIRST_TIME_CONTACT, true)) {
-            String[][] clist = new ContactList().allContacts();
-            for (int i = 0; i < clist.length; i++) {
-                new ContactsData(getBaseContext()).add(new ContactModel(1, clist[i][0], clist[i][1], clist[i][2], clist[i][3], "0"));
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFragments();
             }
-            pref.edit().putBoolean(Contacts.FIRST_TIME_CONTACT, false).apply();
-        }
+        });
+
+        setFragments();
+        runnable.run();
+
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
     }
 
-    //Sets default transport timings. Later on this will be overwritten by remote config values
-    public void setTransportValue() {
+    private void setFragments() {
+        int temp1 = getX();
+        int temp2 = getY();
+        int temp3 = getX();
+        int temp4 = getY();
+        int temp5 = getX();
+        int temp6 = getY();
+        Translate(fragment1, f1_x, f1_y, temp1, temp2);
+        f1_x = temp1;
+        f1_y = temp2;
+        Translate(fragment2, f2_x, f2_y, temp3, temp4);
+        f2_x = temp3;
+        f2_y = temp4;
+        Translate(fragment3, f3_x, f3_y, temp5, temp6);
+        f3_x = temp5;
+        f3_y = temp6;
 
-        pref.edit().putString(TransportConstants.NCBS_IISC_WEEK, getResources().getString(R.string.def_ncbs_iisc_week)).apply();
-        pref.edit().putString(TransportConstants.NCBS_IISC_SUNDAY, getResources().getString(R.string.def_ncbs_iisc_sunday)).apply();
-        pref.edit().putString(TransportConstants.IISC_NCBS_WEEK, getResources().getString(R.string.def_iisc_ncbs_week)).apply();
-        pref.edit().putString(TransportConstants.IISC_NCBS_SUNDAY, getResources().getString(R.string.def_iisc_ncbs_sunday)).apply();
-        pref.edit().putString(TransportConstants.NCBS_MANDARA_WEEK, getResources().getString(R.string.def_ncbs_mandara_week)).apply();
-        pref.edit().putString(TransportConstants.NCBS_MANDARA_SUNDAY, getResources().getString(R.string.def_ncbs_mandara_sunday)).apply();
-        pref.edit().putString(TransportConstants.MANDARA_NCBS_WEEK, getResources().getString(R.string.def_mandara_ncbs_week)).apply();
-        pref.edit().putString(TransportConstants.MANDARA_NCBS_SUNDAY, getResources().getString(R.string.def_mandara_ncbs_sunday)).apply();
-        pref.edit().putString(TransportConstants.NCBS_ICTS_WEEK, getResources().getString(R.string.def_ncbs_icts_week)).apply();
-        pref.edit().putString(TransportConstants.NCBS_ICTS_SUNDAY, getResources().getString(R.string.def_ncbs_icts_sunday)).apply();
-        pref.edit().putString(TransportConstants.ICTS_NCBS_WEEK, getResources().getString(R.string.def_icts_ncbs_week)).apply();
-        pref.edit().putString(TransportConstants.ICTS_NCBS_SUNDAY, getResources().getString(R.string.def_icts_ncbs_sunday)).apply();
-        pref.edit().putString(TransportConstants.NCBS_CBL, getResources().getString(R.string.def_ncbs_cbl)).apply();
-        pref.edit().putString(TransportConstants.BUGGY_NCBS, getResources().getString(R.string.def_buggy_from_ncbs)).apply();
-        pref.edit().putString(TransportConstants.BUGGY_MANDARA, getResources().getString(R.string.def_buggy_from_mandara)).apply();
 
-        pref.edit().putString(TransportConstants.CAMP_BUGGY_NCBS, getResources().getString(R.string.def_camp_buggy_ncbs)).apply();
-        pref.edit().putString(TransportConstants.CAMP_BUGGY_MANDARA, getResources().getString(R.string.def_camp_buggy_mandara)).apply();
-        pref.edit().putString(TransportConstants.CAMP_SHUTTLE_MANDARA, getResources().getString(R.string.def_camp_shuttle_mandara)).apply();
-        pref.edit().putString(TransportConstants.CAMP_SHUTTLE_NCBS, getResources().getString(R.string.def_camp_shuttle_ncbs)).apply();
-        pref.edit().putString(netwrok.LAST_REFRESH_REMOTE_CONFIG, new Utilities().timeStamp()).apply();
     }
 
+    private int getX() {
+        ViewGroup.LayoutParams params = fragment1.getLayoutParams();
+        return new General().randInt(params.width, metrics.widthPixels - params.width);
+    }
 
-    private List<TalkModel> getOldTalks(SQLiteDatabase db) {
-        List<TalkModel> entryList = new ArrayList<TalkModel>();
-        String selectQuery = "SELECT  * FROM " + TalkData.TABLE_OLD_TALK;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                TalkModel model = new TalkModel();
-                model.setDataID(Integer.parseInt(cursor.getString(0)));
-                model.setTimestamp(cursor.getString(1));
-                model.setNotificationTitle(cursor.getString(2));
-                model.setDate(cursor.getString(3));
-                model.setTime(cursor.getString(4));
-                model.setVenue(cursor.getString(5));
-                model.setSpeaker(cursor.getString(6));
-                model.setAffilication(cursor.getString(7));
-                model.setTitle(cursor.getString(8));
-                model.setHost(cursor.getString(9));
-                model.setDataCode(cursor.getString(10));
-                model.setActionCode(cursor.getInt(11));
-                // Adding database to list
-                model.setDataAction("send");
-                entryList.add(model);
-            } while (cursor.moveToNext());
+    private int getY() {
+        ViewGroup.LayoutParams params = fragment1.getLayoutParams();
+        return new General().randInt(params.height, metrics.heightPixels / 2 - params.height);
+    }
+
+    private void Translate(ImageView view, int x, int y, int newX, int newY) {
+
+        TranslateAnimation anim = new TranslateAnimation(x, newX, y, newY);
+        anim.setDuration(1000);
+        anim.setFillAfter(true);
+        view.startAnimation(anim);
+    }
+
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+
+        public void run() {
+
+            setFragments();
+
+            handler.postDelayed(this, 3000);
         }
-        cursor.close();
-        return entryList;
+    };
+
+    @Override
+    protected void onDestroy() {
+        Log.i(TAG, "Home timer stopped");
+        handler.removeCallbacks(runnable);
+        super.onDestroy();
     }
+
+    @Override
+    protected void onPause() {
+        Log.i(TAG, "Home timer stopped");
+        handler.removeCallbacks(runnable);
+        super.onPause();
+    }
+
+    @Override
+    protected void onRestart() {
+        runnable.run();
+        super.onRestart();
+    }
+
+
 }

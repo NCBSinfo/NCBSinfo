@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -8,8 +9,9 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 25
-        versionName "4.4"
+        versionCode 28
+        versionName "5.0 beta"
+
     }
     buildTypes {
         release {
@@ -36,14 +38,19 @@ dependencies {
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:cardview-v7:24.0.0'
-    compile 'com.google.android.gms:play-services-maps:9.0.2'
-    compile 'com.google.firebase:firebase-messaging:9.0.2'
-    compile 'com.google.firebase:firebase-auth:9.0.2'
-    compile 'com.google.firebase:firebase-database:9.0.2'
-    compile 'com.google.firebase:firebase-crash:9.0.2'
+    compile 'com.google.android.gms:play-services-maps:9.2.1'
+    compile 'com.google.firebase:firebase-messaging:9.2.0'
+    compile 'com.google.firebase:firebase-auth:9.2.0'
+    compile 'com.google.firebase:firebase-database:9.2.0'
+    compile 'com.google.firebase:firebase-config:9.2.0'
+    //compile 'com.google.firebase:firebase-crash:9.2.0'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    compile 'joda-time:joda-time:2.9.4'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

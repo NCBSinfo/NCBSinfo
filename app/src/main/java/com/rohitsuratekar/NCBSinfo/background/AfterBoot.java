@@ -5,18 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
-
-public class AfterBoot extends BroadcastReceiver implements AlarmConstants {
+/**
+ * NCBSinfo © 2016, Secret Biology
+ * https://github.com/NCBSinfo/NCBSinfo
+ * Created by Rohit Suratekar on 17-07-16.
+ */
+public class AfterBoot extends BroadcastReceiver {
 
     private final String TAG = getClass().getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "Services started after reboot");
-        //Start daily data fetching
-        Intent i = new Intent(context, Alarms.class);
-        i.putExtra(Alarms.INTENT, RESET_ALL);
-        context.sendBroadcast(i);
     }
 }

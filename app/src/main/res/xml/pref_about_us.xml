@@ -16,4 +16,14 @@
         android:title="@string/settings_terms"
         android:summary="@string/settings_terms_summary"/>
 
+    <Preference
+        android:key="settings_privacy"
+        android:title="@string/settings_privacy"
+        android:summary="@string/settings_privacy_summary"/>
+
+    <Preference
+        android:key="settings_version"
+        android:title="@string/app_name"
+        android:summary="1.0"/>
+
 </PreferenceScreen>

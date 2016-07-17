@@ -1,6 +1,6 @@
 package com.secretbiology.retro.google.form;
 
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -18,4 +18,5 @@ public interface Commands {
                                           @Field(NetworkConstants.form.registration.FIREBASE_ID) String firebaseID,
                                           @Field(NetworkConstants.form.registration.EXTERNAL_CODE) String ExternalCode,
                                           @Field("submit") String submit);
+
 }

@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rohitsuratekar.NCBSinfo">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -26,37 +28,58 @@
 
         <activity
             android:name=".Home"
-            android:noHistory="true"
-            android:screenOrientation="portrait">
+            android:theme="@style/HomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".offline.OfflineHome"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".online.OnlineHome"
-            android:screenOrientation="portrait" />
 
-        <service android:name=".background.FireBaseMessage">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".background.FireBaseID">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".background.NetworkOperations" />
-        <service android:name=".background.DataManagement" />
-        <service android:name=".background.ChangeTransport" />
+        <!-- Activities -->
+        <activity android:name=".activities.OnlineHome" />
+        <activity android:name=".activities.OfflineHome" />
+        <activity android:name=".activities.transport.Transport" />
+        <activity android:name=".activities.transport.reminder.TransportReminder" />
+        <activity android:name=".activities.locations.LectureHalls" />
+        <activity android:name=".activities.events.Events" />
+        <activity android:name=".activities.dashboard.DashBoard" />
+        <activity android:name=".activities.experimental.Experimental" />
+        <activity android:name=".activities.contacts.ContactAdd" />
+        <activity android:name=".activities.canteen.Canteen" />
+        <activity android:name=".activities.login.ChangePassword" />
+        <activity android:name=".activities.experimental.holidays.Holidays" />
+        <activity
+            android:name=".activities.maps.MapActivity"
+            android:theme="@style/HomeTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.activities.OnlineHome" />
+        </activity>
+        <activity
+            android:name=".activities.settings.SettingsCommon"
+            android:theme="@style/HomeTheme" />
+        <activity
+            android:name=".activities.settings.Settings"
+            android:theme="@style/HomeTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.Home" />
+        </activity>
+        <activity
+            android:name=".activities.contacts.Contacts"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.login.Registration"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.login.Login"
+            android:windowSoftInputMode="stateHidden" />
 
-        <receiver android:name=".background.Alarms" />
-        <receiver android:name=".background.ChangedState">
+
+        <!-- Receivers and Services -->
+        <receiver android:name=".background.alarms.Alarms" />
+        <receiver android:name=".background.OnNetworkChanged">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -79,86 +102,20 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".common.transport.Transport"
-            android:label="@string/transport"
-            android:parentActivityName=".Home"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".common.contacts.Contacts"
-            android:label="@string/contacts"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".common.contacts.ContactAdd" />
-        <activity
-            android:name=".common.lecturehalls.LectureHalls"
-            android:label="@string/lecture_hall"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".online.experimental.Experimental"
-            android:label="@string/experimental"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".online.OnlineHome" />
-        </activity>
-        <activity
-            android:name=".online.maps.MapActivity"
-            android:label="@string/map">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".online.OnlineHome" />
-        </activity>
-        <activity
-            android:name=".online.temp.camp.CAMP"
-            android:label="@string/camp"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".online.events.Events"
-            android:label="@string/event_updates"
-            android:parentActivityName=".online.OnlineHome"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
-        </activity>
-        <activity
-            android:name=".common.Information"
-            android:label="@string/information"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Settings"
-            android:label="@string/settings">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity android:name=".online.login.Registration" />
-        <activity android:name=".online.login.Login" />
-        <activity
-            android:name=".online.dashboard.DashBoard"
-            android:label="@string/dashboard"
-            android:parentActivityName=".online.OnlineHome"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.online.OnlineHome" />
-        </activity>
-        <activity
-            android:name=".online.temp.camp.CAMPevents"
-            android:label="@string/title_activity_campevents"
-            android:parentActivityName=".online.temp.camp.CAMP"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP" />
-        </activity>
+        <service android:name=".background.ServiceCentre" />
+        <service android:name=".background.NetworkOperations" />
+        <service android:name=".background.TransportHandler" />
+        <service android:name=".background.DataManagement" />
+        <service android:name=".background.FireBaseMessage">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".background.FireBaseID">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

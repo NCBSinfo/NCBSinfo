@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">NCBS info</string>
-    <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
+    <string name="app_version">v %1$s</string>
+    <string name="navigation_footer">Made in NCBS :)</string>
+    <string name="google_map">AIzaSyDLRyC8K8PsgDg2ynCWVFfNeB8dGRlrSU0</string>
 
     <!-- Titles -->
     <string name="dashboard">Dashboard</string>
@@ -13,21 +15,36 @@
     <string name="canteen">Canteen</string>
     <string name="lecture_hall">Locations</string>
     <string name="information">Information</string>
+    <string name="login">Sign In</string>
+    <string name="register">Register</string>
     <string name="map">Map</string>
-    <string name="camp">CAMP</string>
-    <string name="camp_home">CAMP16 Home</string>
+    <string name="holidays">Holidays</string>
+    <string name="transport_reminder">Transport Reminders</string>
+    <string name="notifications">Notifications</string>
+    <string name="developers">Developers options</string>
+
+    <string name="name">Name</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="old_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="already_have_Account">Already have account?</string>
+    <string name="login_message">Enter your email address</string>
 
 
     <!-- Home -->
     <string name="home_title">Select what suits your needs!</string>
     <string name="home_note">You can switch anytime :)</string>
     <string name="home_online">Online Mode</string>
-    <string name="home_online_features">Experience all\nthe features</string>
-    <string name="home_online_details">All offline features\nNCBS event updates\nImportant notifications\nStudent activities\nConference updates\nand more…</string>
+    <string name="home_online_features">Experience the all loaded features</string>
+    <string name="home_online_details">Experience the full potential</string>
     <string name="home_select_online">I want to go online</string>
     <string name="home_offline">Offline Mode</string>
     <string name="home_offline_features">Lightweight and\nessentials</string>
-    <string name="home_offline_details">Shuttle timings\nImportant contacts\nLecture hall locations</string>
+    <string name="home_offline_details">Essential features, zero internet use</string>
     <string name="home_select_offline">Offline is fine</string>
 
     <string name="home_trasnport_title">%1$s - %2$s</string>
@@ -57,6 +74,13 @@
     <string name="transport_footer1">*Including Saturday</string>
     <string name="transport_footer2">**Next shuttle after %1$s</string>
     <string name="transport_buggy_footer">**Next buggy after %1$s</string>
+    <string name="transport_last_updated">Last updated on : %1$s</string>
+    <string name="transport_hours">%1$d Hrs</string>
+    <string name="transport_min">%1$d Min</string>
+    <string name="transport_sec">%1$d Sec</string>
+    <string name="transport_reminder_dialog">Just click on any shuttle or buggy timing to set reminder about it!</string>
+    <string name="transport_reminder_message">Get notification %1$s %2$s before departure time ?</string>
+    <string name="transport_reminder_details"><![CDATA[ You will be notified<br>%1$s (%2$s) at %3$s ]]></string>
 
     <string name="contact_name">Contact Name</string>
     <string name="contact_number">Contact Number</string>
@@ -67,8 +91,28 @@
     <string name="contact_add">Add Contact</string>
     <string name="contact_edit">Edit Contact</string>
 
+    <string name="canteen_welcome">Currently Available Options</string>
+    <string name="canteen_message">Click on the icons to check where.</string>
+    <string name="canteen_message_holiday">Warning: Today is NCBS holiday.\nThese timings may change.</string>
+    <string name="canteen_quote"><b>\"</b><i>%s</i><b>\"</b></string>
+    <string name="canteen_welcome_empty">Looks like there are no food options available at this moment. Try maggi instead ;)</string>
+    <string name="canteen_breakfast">Breakfast</string>
+    <string name="canteen_morningTea">Morning Snacks</string>
+    <string name="canteen_lunch">Lunch</string>
+    <string name="canteen_eveningTea">Evening Snacks</string>
+    <string name="canteen_dinner">Dinner</string>
+    <string name="canteen_main_canteen">Main Canteen Ground Floor</string>
+    <string name="canteen_main_canteen_firstfloor">Main Canteen First Floor</string>
+    <string name="canteen_main_canteen_fastfood">Main Canteen Fast Food Counter</string>
+    <string name="canteen_academic_cafeteria">Academic Cafeteria</string>
+    <string name="canteen_admin_cafeteria">Admin Cafeteria</string>
+    <string name="canteen_parking_cafeteria">Parking Cafeteria</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="holidays_welcome">NCBS Holidays 2016</string>
+    <string name="holidays_note">(From TFR:NCB:165:15–16 Dated 13 April 2016)</string>
 
 
     <string name="action_add">Add</string>
@@ -82,11 +126,18 @@
     <string name="action_reset">Reset</string>
     <string name="action_select_category">Select Category</string>
     <string name="action_clear_contact">Clear all contacts</string>
+    <string name="action_clear_reminders">Clear all reminders</string>
     <string name="action_clear_notifications">Clear all notifications</string>
+    <string name="action_reset_preference">Reset all preferences</string>
 
     <string name="events_empty">No more events are retrieved yet !\nwe will update you soon :)</string>
-    <string name="camp_message">To activate CAMP mode, please sign in with your CAMP email ID.  With this mode, you will be able to receive updates about CAMP16 events as well as notifications from TAs. </string>
-    <string name="title_activity_campevents">CAMP Events</string>
+
+    <string name="dashboard_name">@string/name</string>
+    <string name="dashboard_email">@string/email</string>
+    <string name="dashboard_password">@string/password</string>
+    <string name="dashboard_default_route">@string/settings_default_view</string>
+    <string name="dashboard_notifications">Notifications Allowed</string>
+    <string name="dashboard_events_history">Events History</string>
 
 
 </resources>
