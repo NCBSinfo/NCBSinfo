@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.settings.SettingsCommon;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -27,6 +28,7 @@ public class InformationPreference extends PreferenceFragment {
 
     int hits;
     Preferences pref;
+    BaseParameters baseParameters;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class InformationPreference extends PreferenceFragment {
         setHasOptionsMenu(true);
         hits = 0;
         pref = new Preferences(getActivity().getBaseContext());
+        baseParameters = new BaseParameters(getActivity().getBaseContext());
         getActivity().setTitle(R.string.information);
 
         github = findPreference("settings_github");
@@ -64,7 +67,7 @@ public class InformationPreference extends PreferenceFragment {
                 Intent intent = new Intent(getActivity(), SettingsCommon.class);
                 intent.putExtra(SettingsCommon.INTENT, SettingsCommon.TERMS);
                 startActivity(intent);
-                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 return true;
             }
         });
@@ -75,7 +78,7 @@ public class InformationPreference extends PreferenceFragment {
                 Intent intent = new Intent(getActivity(), SettingsCommon.class);
                 intent.putExtra(SettingsCommon.INTENT, SettingsCommon.ABOUT_US);
                 startActivity(intent);
-                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 return true;
             }
         });
@@ -86,7 +89,7 @@ public class InformationPreference extends PreferenceFragment {
                 Intent intent = new Intent(getActivity(), SettingsCommon.class);
                 intent.putExtra(SettingsCommon.INTENT, SettingsCommon.PRIVACY);
                 startActivity(intent);
-                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 return true;
             }
         });

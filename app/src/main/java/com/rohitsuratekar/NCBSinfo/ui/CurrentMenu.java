@@ -8,9 +8,11 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
+import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 
 public class CurrentMenu implements AlarmConstants {
@@ -35,9 +37,11 @@ public class CurrentMenu implements AlarmConstants {
             case EVENTS:
                 return switchON(R.id.action_settings, R.id.action_clear_events);
             case CONTACTS:
-                return switchON(R.id.action_settings, R.id.action_clear_contacts);
+                return switchON(R.id.action_clear_contacts);
             case TRANSPORT_REMINDER:
                 return switchON(R.id.action_settings, R.id.action_clear_reminders);
+            case DASHBOARD:
+                return switchON(R.id.action_clear_preference, R.id.action_settings, R.id.action_clear_notifications);
 
         }
 
@@ -50,7 +54,9 @@ public class CurrentMenu implements AlarmConstants {
                 R.id.action_settings,
                 R.id.action_clear_events,
                 R.id.action_clear_contacts,
-                R.id.action_clear_reminders
+                R.id.action_clear_reminders,
+                R.id.action_clear_preference,
+                R.id.action_clear_notifications
         };
 
         for (int item : allIDs) {
@@ -78,6 +84,12 @@ public class CurrentMenu implements AlarmConstants {
             case R.id.action_clear_reminders:
                 showDialog(activity, "reminders", R.drawable.icon_set_reminder, resourceID);
                 break;
+            case R.id.action_clear_notifications:
+                showDialog(activity, "notifications", R.drawable.icon_notification, resourceID);
+                break;
+            case R.id.action_clear_preference:
+                showDialog(activity, "preferences", R.drawable.icon_dashboard_pin, resourceID);
+                break;
         }
     }
 
@@ -100,6 +112,15 @@ public class CurrentMenu implements AlarmConstants {
                                 intent.putExtra(Alarms.INTENT, alarmTriggers.DELETE_REMINDERS.name());
                                 activity.sendBroadcast(intent);
                                 break;
+                            case R.id.action_clear_notifications:
+                                new NotificationData(activity).clearAll();
+                                break;
+                            case R.id.action_clear_preference:
+                                Intent service = new Intent(activity, ServiceCentre.class);
+                                service.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_PREFERENCES);
+                                activity.startService(service);
+                                break;
+
                         }
 
 

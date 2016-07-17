@@ -18,17 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
-import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
-import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
-
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,7 +75,9 @@ public class Home extends AppCompatActivity implements AppConstants {
         online = (Button) findViewById(R.id.home_onlineBtn);
         offline = (Button) findViewById(R.id.home_offlineBtn);
 
-     //   startActivity(new Intent(this, DashBoard.class));
+//        new Preferences(getBaseContext()).transport().setRoute(Routes.NCBS_IISC,"{\"11:23\",\"11:40\"}", "{\"11:23\",\"11:40\"}");
+
+        //   startActivity(new Intent(this, DashBoard.class));
 
 //          Intent i = new Intent(this, ServiceCentre.class);
 //         i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
@@ -129,7 +124,6 @@ public class Home extends AppCompatActivity implements AppConstants {
                 startActivity(intent);
             }
         });
-
 
 
     }

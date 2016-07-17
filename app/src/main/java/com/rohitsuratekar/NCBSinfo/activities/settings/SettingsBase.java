@@ -12,18 +12,22 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
+
 /**
  * This code is generated with android studio standard settings
  */
 public class SettingsBase extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;
+    BaseParameters baseParameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        baseParameters = new BaseParameters(getBaseContext());
     }
 
     @Override
@@ -43,7 +47,7 @@ public class SettingsBase extends PreferenceActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
     }
 
     @Override

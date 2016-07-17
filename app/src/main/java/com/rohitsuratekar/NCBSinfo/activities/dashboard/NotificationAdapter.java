@@ -72,7 +72,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         NotificationModel entry = entryList.get(position);
-        String title = entry.getTitle();
         String message = entry.getMessage();
         if (message.length() > 50) {
             message = message.trim();
@@ -80,7 +79,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             message = message + "...";
         }
 
-        Log.i("Log", entry.getTimestamp());
         holder.title.setText(entry.getTitle());
         holder.message.setText(message);
         holder.timestamp.setText(new General().makeReadableTime(

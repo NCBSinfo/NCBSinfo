@@ -23,7 +23,7 @@ public class DataBuilder {
         data.setName(pref.user().getName());
         data.setEmail(pref.user().getEmail());
         data.setToken(pref.user().getToken());
-        data.setDefaultRoute(pref.user().getDefaultRoute());
+        data.setDefaultRoute(pref.user().getDefaultRouteValue());
         data.setCurrentApp(pref.app().getAppVesion());
         data.setFirebaseID(pref.user().getFirebaseID());
         data.setLastLogin(pref.app().getLastLogin());

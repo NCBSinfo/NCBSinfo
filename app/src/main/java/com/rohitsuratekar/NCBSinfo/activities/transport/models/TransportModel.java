@@ -7,6 +7,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,6 +58,10 @@ public class TransportModel {
 
     public String getTO() {
         return currentRoute.getTo();
+    }
+
+    public Routes getRoute() {
+        return currentRoute;
     }
 
     public int getRouteNo() {
@@ -128,6 +133,15 @@ public class TransportModel {
         getFootnote1 = "";
         getFootnote2 = context.getResources().getString(R.string.transport_buggy_footer, currentTime);
 
+    }
+
+    public Calendar getNextTripCalendar() {
+        String[] t = new TransportHelper(context).nextTrip(currentRoute);
+        this.nextTripDay = Integer.parseInt(t[0]);
+        this.nextTrip = t[1];
+        Calendar calendar = new DateConverters().convertToCalendar(nextTrip);
+        calendar.add(Calendar.DAY_OF_WEEK, nextTripDay);
+        return calendar;
     }
 
 }

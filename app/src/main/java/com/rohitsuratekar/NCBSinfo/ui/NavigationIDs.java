@@ -39,7 +39,7 @@ public class NavigationIDs {
             case R.id.nav_transport:
                 Intent intent = new Intent(activity, Transport.class);
                 //If default route is available, navigate directly to that tab
-                int routeNo = new Preferences(activity.getBaseContext()).user().getDefaultRoute();
+                int routeNo = new Preferences(activity.getBaseContext()).user().getDefaultRouteValue();
                 intent.putExtra(Transport.INDENT, String.valueOf(routeNo));
                 return intent;
             case R.id.nav_contacts:

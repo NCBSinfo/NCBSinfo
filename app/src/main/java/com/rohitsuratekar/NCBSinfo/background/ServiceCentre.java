@@ -91,14 +91,21 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
     }
 
     private void clearCustomization() {
-        resetContacts();
-        //Reset Alarms
-        resetAlarms();
+
         //Set all default preferences
         pref.user().setDefaultRoute(Routes.NCBS_IISC);
         pref.user().setNotificationOnset(10);
         pref.user().notificationAllowed(true);
         pref.user().setNumberOfEventsToKeep(25);
+        pref.settings().setDefaultRouteUsed(false);
+        pref.settings().setDevelopersOptions(false);
+        pref.settings().setImportantNotifications(true);
+        pref.settings().setEventNotifications(true);
+        pref.settings().setEmergencyNotifications(true);
+
+        resetContacts();
+        //Reset Alarms
+        resetAlarms();
 
 
     }

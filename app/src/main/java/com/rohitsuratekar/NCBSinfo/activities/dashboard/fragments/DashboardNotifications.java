@@ -1,17 +1,17 @@
 package com.rohitsuratekar.NCBSinfo.activities.dashboard.fragments;
 
-import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
@@ -54,27 +54,44 @@ public class DashboardNotifications extends Fragment {
         adapter.setOnItemClickListener(new NotificationAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.notification_viewer);
-                dialog.setCanceledOnTouchOutside(true);
-                TextView NoteTitle = (TextView) dialog.findViewById(R.id.notificationViewer_title);
-                TextView NoteMessage = (TextView) dialog.findViewById(R.id.notificationViewer_message);
-                TextView NoteTimestamp = (TextView) dialog.findViewById(R.id.notificationViewer_timestamp);
-                String title = fullList.get(position).getTitle();
-                if (title.length() < 100) {
-                    //This is to keep width of dialog long enough
-                    title = String.format("%1$-" + (100 - title.length()) + "s", title);
-                }
-                NoteMessage.setText(fullList.get(position).getMessage());
-                NoteTitle.setText(title);
-                NoteTimestamp.setText(fullList.get(position).getTimestamp());
-                dialog.show();
-
+                showDialog(position);
             }
         });
 
 
         return rootView;
+    }
+
+    private void showDialog(final int position) {
+        //Inflate layout
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.notification_viewer, null);
+
+        TextView NoteTitle = (TextView) view.findViewById(R.id.notificationViewer_title);
+        TextView NoteMessage = (TextView) view.findViewById(R.id.notificationViewer_message);
+        TextView NoteTimestamp = (TextView) view.findViewById(R.id.notificationViewer_timestamp);
+
+        NoteTitle.setText(fullList.get(position).getTitle());
+        NoteMessage.setText(fullList.get(position).getMessage());
+        NoteTimestamp.setText(fullList.get(position).getTimestamp());
+
+        //Show dialog to add view
+        new AlertDialog.Builder(getContext())
+                .setView(view)
+                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        new NotificationData(getContext()).delete(fullList.get(position));
+                        fullList.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .show();
     }
 }

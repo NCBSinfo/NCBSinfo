@@ -26,6 +26,7 @@ import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import org.joda.time.DateTime;
@@ -58,6 +59,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
     boolean today;
     String reminderTime, units;
     Bundle bundle;
+    BaseParameters baseParameters;
 
 
     @Nullable
@@ -65,6 +67,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.transport_reminder_set, container, false);
         bundle = this.getArguments();
+        baseParameters = new BaseParameters(getContext());
         offset = 10; //Default
         units = "min"; //Default
         today = true;
@@ -142,7 +145,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
                     Intent intent = new Intent(getContext(), Transport.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
 
                 } else {
                     new AlertDialog.Builder(getContext())

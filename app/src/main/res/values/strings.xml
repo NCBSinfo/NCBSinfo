@@ -71,6 +71,9 @@
     <string name="transport_footer2">**Next shuttle after %1$s</string>
     <string name="transport_buggy_footer">**Next buggy after %1$s</string>
     <string name="transport_last_updated">Last updated on : %1$s</string>
+    <string name="transport_hours">%1$d Hrs</string>
+    <string name="transport_min">%1$d Min</string>
+    <string name="transport_sec">%1$d Sec</string>
     <string name="transport_reminder_dialog">Just click on any shuttle or buggy timing to set reminder about it!</string>
     <string name="transport_reminder_message">Get notification %1$s %2$s before departure time ?</string>
     <string name="transport_reminder_details"><![CDATA[ You will be notified<br>%1$s (%2$s) at %3$s ]]></string>
@@ -121,10 +124,15 @@
     <string name="action_clear_contact">Clear all contacts</string>
     <string name="action_clear_reminders">Clear all reminders</string>
     <string name="action_clear_notifications">Clear all notifications</string>
+    <string name="action_reset_preference">Reset all preferences</string>
 
     <string name="events_empty">No more events are retrieved yet !\nwe will update you soon :)</string>
-    <string name="camp_message">To activate CAMP mode, please sign in with your CAMP email ID.  With this mode, you will be able to receive updates about CAMP16 events as well as notifications from TAs. </string>
-    <string name="title_activity_campevents">CAMP Events</string>
+
+    <string name="dashboard_name">@string/name</string>
+    <string name="dashboard_email">@string/email</string>
+    <string name="dashboard_default_route">@string/settings_default_view</string>
+    <string name="dashboard_notifications">Notifications Allowed</string>
+    <string name="dashboard_events_history">Events History</string>
 
 
 </resources>

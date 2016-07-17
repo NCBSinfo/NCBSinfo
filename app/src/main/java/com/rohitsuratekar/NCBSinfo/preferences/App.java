@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
@@ -11,6 +12,7 @@ import com.rohitsuratekar.NCBSinfo.utilities.General;
 public class App implements AppConstants {
 
     SharedPreferences pref;
+    Context context;
     String APP_MODE = "app_mode";
     String APP_VERSION = "latestAppVersion";
     String APP_VERSION_NAME = "latestAppVersionName";
@@ -21,8 +23,9 @@ public class App implements AppConstants {
     String LAST_LOGIN = "lastLogin";
     String OPEN_COUNT = "openCount";
 
-    protected App(SharedPreferences pref) {
+    protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
+        this.context = context;
     }
 
     public modes getMode() {
@@ -78,7 +81,7 @@ public class App implements AppConstants {
     }
 
     public boolean isFirstEventNotificationSent() {
-        User user = new User(pref);
+        User user = new User(pref, context);
         return !user.getUserType().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_EVENTS, false);
     }
 
@@ -87,7 +90,7 @@ public class App implements AppConstants {
     }
 
     public boolean isFirstDashboardNotificationSent() {
-        User user = new User(pref);
+        User user = new User(pref, context);
         return !user.getUserType().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_DASHBOARD, false);
     }
 

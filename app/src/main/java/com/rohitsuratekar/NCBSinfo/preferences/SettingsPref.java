@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 public class SettingsPref {
 
     SharedPreferences pref;
+    Context context;
     String SUMMARY_DEFAULT_ROUTE = "summaryDefaultRoute";
     String SUMMARY_HURRY_UP = "summaryHurryUp";
     String EVENT_NOTIFICATION = "eventNotificationPref";
@@ -17,8 +19,9 @@ public class SettingsPref {
     String EMERGENCY_NOTIFICATION = "emergencyNotificationPref";
     String DEVELOPERS = "developersOptions";
 
-    protected SettingsPref(SharedPreferences pref) {
+    protected SettingsPref(SharedPreferences pref, Context context) {
         this.pref = pref;
+        this.context = context;
     }
 
     public boolean isDefaultRouteUsed() {
@@ -61,11 +64,22 @@ public class SettingsPref {
         pref.edit().putBoolean(EMERGENCY_NOTIFICATION, value).apply();
     }
 
-    public boolean isDevelopersOptionON(){
-       return pref.getBoolean(DEVELOPERS, false);
+    public boolean isDevelopersOptionON() {
+        return pref.getBoolean(DEVELOPERS, false);
     }
 
-    public void setDevelopersOptions(boolean value){
+    public void setDevelopersOptions(boolean value) {
         pref.edit().putBoolean(DEVELOPERS, value).apply();
+    }
+
+    public String getNotificationPreferenceStatus() {
+        if (!new Preferences(context).user().isNotificationAllowed()) {
+            return "No";
+        } else if (new Preferences(context).user().isNotificationAllowed()
+                && isEventNotificationON()
+                && isEmergencyNotificationON()
+                && isImportantNotificationON()) {
+            return "Yes";
+        } else return "Partially Allowed";
     }
 }

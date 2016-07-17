@@ -32,13 +32,16 @@ import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    CurrentActivity currentActivity;
-    NavigationView navigationView;
+    public BaseParameters baseParameters;
+    private CurrentActivity currentActivity;
+    private NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_layout); //Base layout
+        baseParameters = new BaseParameters(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); //Base toolbar
         setSupportActionBar(toolbar);
@@ -74,8 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            // overridePendingTransition(R.anim.activity_right_in, R.anim.activity_right_out);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
         }
     }
 
@@ -93,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
             return true;
         } else {
             new CurrentMenu().getAction(item.getItemId(), this);
@@ -130,7 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         startActivity(intent);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                     }
                 }, 200);
             }
@@ -158,7 +160,7 @@ public abstract class BaseActivity extends AppCompatActivity
                         Intent intent = new Intent(getBaseContext(), Home.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                     }
                 })
                 .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
@@ -178,10 +180,16 @@ public abstract class BaseActivity extends AppCompatActivity
                 .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         drawer.closeDrawer(GravityCompat.START);
+                        if (navigationView != null) {
+                            navigationView.getMenu().findItem(currentActivity.getDrawerItem()).setChecked(true);
+                        }
                     }
                 })
                 .setIcon(R.drawable.icon_shuttle)
+                .setCancelable(false)
                 .show();
+
+
     }
 
     /**

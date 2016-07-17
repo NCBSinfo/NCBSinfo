@@ -19,6 +19,7 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportRemind
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
@@ -46,6 +47,7 @@ public class TransportFragment extends Fragment {
 
     TransportModel transport;
     Preferences pref;
+    BaseParameters baseParameters;
 
     //UI elements
 
@@ -59,6 +61,7 @@ public class TransportFragment extends Fragment {
 
 
         pref = new Preferences(getContext());
+        baseParameters = new BaseParameters(getContext());
         Bundle args = getArguments();
         String name = args.getString("route", Routes.NCBS_IISC.toString());
 
@@ -267,7 +270,7 @@ public class TransportFragment extends Fragment {
                         }
                         intent.putExtra(TransportReminder.ROUTE_TIME, trip);
                         startActivity(intent);
-                        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

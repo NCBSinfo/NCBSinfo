@@ -15,6 +15,7 @@ import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.settings.SettingsCommon;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 
 /**
@@ -28,12 +29,14 @@ public class GeneralPreference extends PreferenceFragment {
 
     Preference changeMode, clearPref, faq;
     Context context;
+    BaseParameters baseParameters;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
         setHasOptionsMenu(true);
+        baseParameters = new BaseParameters(getActivity().getBaseContext());
 
         context = getActivity();
         getActivity().setTitle(R.string.settings_general);
@@ -58,7 +61,7 @@ public class GeneralPreference extends PreferenceFragment {
                                 Intent intent = new Intent(context, Home.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                             }
                         })
                         .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
@@ -104,7 +107,7 @@ public class GeneralPreference extends PreferenceFragment {
                 Intent intent = new Intent(getActivity(), SettingsCommon.class);
                 intent.putExtra(SettingsCommon.INTENT, SettingsCommon.FAQ);
                 startActivity(intent);
-                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 return true;
             }
         });

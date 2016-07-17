@@ -255,16 +255,14 @@ public class TransportHelper implements AlarmConstants {
 
     //Returns next trip from given list (based on current time)
     public int getTripNumber(List<String> trips) {
-        int tripNumber = DEFAULT_NO;
         for (int i = 0; i < trips.size(); i++) {
             Date date = new DateConverters().convertToDate(trips.get(i));
             Date currentDate = new Date();
-            if (currentDate.compareTo(date) <= 0) {
-                tripNumber = i;
-                break;
+            if (currentDate.before(date)) {
+                return i;
             }
         }
-        return tripNumber;
+        return DEFAULT_NO;
     }
 
 
@@ -314,7 +312,7 @@ public class TransportHelper implements AlarmConstants {
     public int[] TimeLeftFromNow(Date date) {
         DateTime timestamp = new DateTime(date);
         DateTime currentTime = new DateTime(new Date());
-        Interval interval = new Interval(timestamp, currentTime);
+        Interval interval = new Interval(currentTime, timestamp);
         int Seconds = interval.toPeriod().getSeconds();
         int Minute = interval.toPeriod().getMinutes();
         int Hours = interval.toPeriod().getHours();
@@ -331,6 +329,18 @@ public class TransportHelper implements AlarmConstants {
             }
         }
         return returnList;
+    }
+
+    public Routes changeRoute(Routes currentRoute, boolean isNext) {
+        if (isNext) {
+            if (currentRoute.equals(Routes.NCBS_CBL)) {
+                return Routes.NCBS_IISC;
+            } else return getRoute(currentRoute.getRouteNo() + 1);
+        } else {
+            if (currentRoute.equals(Routes.NCBS_IISC)) {
+                return Routes.NCBS_CBL;
+            } else return getRoute(currentRoute.getRouteNo() - 1);
+        }
     }
 }
 

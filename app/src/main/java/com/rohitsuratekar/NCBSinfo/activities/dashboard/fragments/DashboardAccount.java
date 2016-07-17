@@ -14,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoardAdapter;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoardModel;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.NotificationPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.TransportPreference;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.ScrollUpRecyclerView;
@@ -38,21 +41,20 @@ public class DashboardAccount extends Fragment {
     ScrollUpRecyclerView recyclerView;
     List<DashBoardModel> fullList;
     DashBoardAdapter adapter;
-    String defaultRoute;
     String[] routesArray;
+    Preferences pref;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.base_animated_fragment, container, false);
 
         recyclerView = (ScrollUpRecyclerView) rootView.findViewById(R.id.base_animated_recyclerView);
         routesArray = getResources().getStringArray(R.array.home_spinner_items);
-        defaultRoute = routesArray[new Preferences(getContext()).user().getDefaultRoute()];
+        pref = new Preferences(getContext());
 
         fullList = new ArrayList<>();
-        setList();
 
         adapter = new DashBoardAdapter(fullList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -60,21 +62,32 @@ public class DashboardAccount extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+
         adapter.setOnItemClickListener(new DashBoardAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
 
-                if (fullList.get(position).getFieldName().equals("Name")) {
+                String currentField = fullList.get(position).getFieldName();
+                if (currentField.equals(getString(R.string.dashboard_name))) {
                     changeName(position);
-                } else {
+                } else if (currentField.equals(getString(R.string.dashboard_default_route))) {
                     Intent intent = new Intent(getContext(), Settings.class);
                     intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, TransportPreference.class.getName());
+                    intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+                    startActivity(intent);
+                } else if (currentField.equals(getString(R.string.dashboard_events_history))) {
+                    showNumberPicker();
+                } else if (currentField.equals(getString(R.string.dashboard_notifications))) {
+                    Intent intent = new Intent(getContext(), Settings.class);
+                    intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, NotificationPreference.class.getName());
                     intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
                     startActivity(intent);
                 }
 
             }
         });
+
+        updateAdapter();
 
         return rootView;
     }
@@ -119,18 +132,54 @@ public class DashboardAccount extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        defaultRoute = routesArray[new Preferences(getContext()).user().getDefaultRoute()];
-        setList();
-        adapter.notifyDataSetChanged();
+        updateAdapter();
 
     }
 
-    private void setList() {
+    private void updateAdapter() {
         fullList.clear();
-        fullList.add(new DashBoardModel("Name", "Rohit Suratekar", R.drawable.icon_profile, true));
-        fullList.add(new DashBoardModel("Email", "rohitsuratekar@gmail.com", R.drawable.icon_email, false));
-        fullList.add(new DashBoardModel("Default Route", defaultRoute, R.drawable.icon_shuttle, true));
-        fullList.add(new DashBoardModel("Notifications", "General", R.drawable.icon_wifi_on, true));
+        fullList.add(new DashBoardModel(getString(R.string.dashboard_name), pref.user().getName(), R.drawable.icon_dashboard_pin, true));
+        fullList.add(new DashBoardModel(getString(R.string.dashboard_email), pref.user().getEmail(), R.drawable.icon_email, false));
+        fullList.add(new DashBoardModel(getString(R.string.dashboard_default_route), routesArray[pref.user().getDefaultRouteValue()], R.drawable.icon_shuttle, true));
+        fullList.add(new DashBoardModel(getString(R.string.dashboard_notifications), pref.settings().getNotificationPreferenceStatus(), R.drawable.icon_notification, true));
+        fullList.add(new DashBoardModel(getString(R.string.dashboard_events_history), pref.user().getNumberOfEventsToKeep() + " Events", R.drawable.icon_updates, true));
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private void showNumberPicker() {
+        RelativeLayout relativeLayout = new RelativeLayout(getContext());
+        final NumberPicker picker = new NumberPicker(getContext());
+        picker.setMaxValue(100);
+        picker.setMinValue(10);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
+        RelativeLayout.LayoutParams numPicker = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        numPicker.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+        relativeLayout.setLayoutParams(params);
+        relativeLayout.addView(picker, numPicker);
+        picker.setValue(pref.user().getNumberOfEventsToKeep());
+        new AlertDialog.Builder(getContext())
+                .setTitle("Events history")
+                .setMessage("Maximum number of events stored on this device")
+                .setView(relativeLayout)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        pref.user().setNumberOfEventsToKeep(picker.getValue());
+                        updateAdapter();
+
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int id) {
+                                dialog.cancel();
+                            }
+                        })
+                .show();
     }
 }
 

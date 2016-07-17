@@ -21,4 +21,14 @@
         android:id="@+id/action_clear_reminders"
         android:title="@string/action_clear_reminders"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_clear_preference"
+        android:title="@string/action_reset_preference"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_clear_notifications"
+        android:title="@string/action_clear_notifications"
+        />
 </menu>

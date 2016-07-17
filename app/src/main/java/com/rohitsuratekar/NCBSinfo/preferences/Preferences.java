@@ -21,11 +21,11 @@ public class Preferences {
     }
 
     public User user() {
-        return new User(pref);
+        return new User(pref, context);
     }
 
     public App app() {
-        return new App(pref);
+        return new App(pref, context);
     }
 
     public TransportPref transport() {
@@ -33,7 +33,7 @@ public class Preferences {
     }
 
     public SettingsPref settings() {
-        return new SettingsPref(pref);
+        return new SettingsPref(pref, context);
     }
 
     public void clearAll() {

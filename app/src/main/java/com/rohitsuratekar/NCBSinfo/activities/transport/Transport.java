@@ -18,6 +18,7 @@ import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class Transport extends BaseActivity {
                 intent.putExtra(TransportReminder.ROUTE_TIME, transportModel.getNextTrip());
                 intent.putExtra(TransportReminder.SWITCH, "1");
                 startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
             }
         });
 
@@ -90,7 +91,11 @@ public class Transport extends BaseActivity {
         Intent intent = getIntent();
         String intentRoute = intent.getStringExtra(INDENT);
         if (intentRoute != null) {
-            TabLayout.Tab tab = tabLayout.getTabAt(Integer.parseInt(intentRoute));
+            int currentInt = Integer.parseInt(intentRoute);
+            if (currentInt > Routes.BUGGY_FROM_NCBS.getRouteNo()) {
+                currentInt = currentInt - 1;
+            }  //Remove extra buggy pointer
+            TabLayout.Tab tab = tabLayout.getTabAt(currentInt);
             assert tab != null;
             tab.select();
         }
@@ -200,7 +205,7 @@ public class Transport extends BaseActivity {
             Intent intent = new Intent(Transport.this, OnlineHome.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
         } else {
             super.onBackPressed();
         }

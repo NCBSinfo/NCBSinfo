@@ -146,7 +146,7 @@ public class General {
         } else if (Days == 1) {
             return "yesterday";
         } else if (Days > 1 && Days < 6) {
-            return " days ago";
+            return Days + " days ago";
         } else return new DateConverters().convertToString(date, DateFormats.READABLE_DATE);
 
 

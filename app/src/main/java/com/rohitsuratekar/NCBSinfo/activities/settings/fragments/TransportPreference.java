@@ -41,7 +41,7 @@ public class TransportPreference extends PreferenceFragment {
 
 
         if (pref.settings().isDefaultRouteUsed()) {
-            defaultTransport.setSummary(routeList[pref.user().getDefaultRoute()]);
+            defaultTransport.setSummary(routeList[pref.user().getDefaultRouteValue()]);
         } else {
             defaultTransport.setSummary(R.string.settings_default_view_summary);
         }
@@ -51,7 +51,7 @@ public class TransportPreference extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 pref.user().setDefaultRoute(new TransportHelper(getActivity().getBaseContext())
                         .getRoute(Integer.valueOf(o.toString())));
-                defaultTransport.setSummary(routeList[pref.user().getDefaultRoute()]);
+                defaultTransport.setSummary(routeList[pref.user().getDefaultRouteValue()]);
                 pref.settings().setDefaultRouteUsed(true);
                 return false;
             }

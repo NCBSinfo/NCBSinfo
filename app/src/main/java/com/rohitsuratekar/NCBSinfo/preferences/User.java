@@ -1,8 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 
 /**
@@ -11,6 +13,7 @@ import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 public class User implements AppConstants {
 
     SharedPreferences pref;
+    Context context;
     String CURRENT_USER = "currentUsername";
     String CURRENT_EMAIL = "currentEmail";
     String REGISTERED = "registeredUser";
@@ -22,8 +25,10 @@ public class User implements AppConstants {
     String FIREBASE_ID = "fireBaseID";
     String NUMBER_OF_EVENTS = "numberOfEventsToKeep";
 
-    protected User(SharedPreferences pref) {
+    protected User(SharedPreferences pref, Context context) {
         this.pref = pref;
+        this.context = context;
+
     }
 
     public String getName() {
@@ -100,8 +105,12 @@ public class User implements AppConstants {
         }
     }
 
-    public int getDefaultRoute() {
+    public int getDefaultRouteValue() {
         return pref.getInt(DEFAULT_ROUTE, 0);
+    }
+
+    public Routes getDefaultRoute() {
+        return new TransportHelper(context).getRoute(getDefaultRouteValue());
     }
 
     public void setDefaultRoute(Routes route) {

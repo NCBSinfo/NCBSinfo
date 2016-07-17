@@ -74,7 +74,7 @@ public class Events extends BaseActivity {
             Intent intent = new Intent(Events.this, OnlineHome.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
         } else {
             super.onBackPressed();
         }

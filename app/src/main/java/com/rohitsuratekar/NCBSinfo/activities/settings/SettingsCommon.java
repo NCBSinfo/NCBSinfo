@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -22,6 +23,7 @@ public class SettingsCommon extends AppCompatActivity {
     public static final String FAQ = "faq";
     public static final String PRIVACY = "privacy";
     TextView commonText;
+    BaseParameters baseParameters;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class SettingsCommon extends AppCompatActivity {
         setContentView(R.layout.settings_base);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         commonText = (TextView) findViewById(R.id.settings_common_text);
+        baseParameters = new BaseParameters(getBaseContext());
 
         String trigger = getIntent().getStringExtra(INTENT);
 
@@ -63,7 +66,7 @@ public class SettingsCommon extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             this.finish();
-            this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            this.overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
             return true;
         }
         return super.onOptionsItemSelected(item);

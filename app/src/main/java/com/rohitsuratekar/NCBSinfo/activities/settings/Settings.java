@@ -17,6 +17,7 @@ import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.NotificationPre
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.TransportPreference;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 
 import java.util.List;
 
@@ -27,12 +28,13 @@ import java.util.List;
  */
 public class Settings extends SettingsBase {
 
-
+    BaseParameters baseParameters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
         setTitle(R.string.settings);
+        baseParameters = new BaseParameters(getBaseContext());
 
 
     }
@@ -104,7 +106,7 @@ public class Settings extends SettingsBase {
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
                 this.finish();
-                this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                this.overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
             }
             return true;
         }

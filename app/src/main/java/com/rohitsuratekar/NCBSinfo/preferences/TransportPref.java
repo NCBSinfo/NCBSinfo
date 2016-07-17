@@ -123,7 +123,7 @@ public class TransportPref {
     }
 
     public String getLastUpdate() {
-        if (new App(pref).getMode().equals(AppConstants.modes.OFFLINE)) {
+        if (new App(pref, context).getMode().equals(AppConstants.modes.OFFLINE)) {
             return "N/A (offline mode)";
         } else {
             return pref.getString(LAST_UPDATE, "Never");
