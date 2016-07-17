@@ -36,7 +36,7 @@ public class DashBoard extends BaseActivity {
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         if (new Preferences(getBaseContext()).user().getUserType().equals(AppConstants.userType.OLD_USER)) {
-            fab.setImageResource(R.drawable.icon_warning);
+            fab.setImageResource(R.drawable.icon_priority);
             fab.setVisibility(View.VISIBLE);
         } else {
             fab.setVisibility(View.GONE);

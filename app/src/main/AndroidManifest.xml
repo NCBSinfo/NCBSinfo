@@ -47,7 +47,15 @@
         <activity android:name=".activities.experimental.Experimental" />
         <activity android:name=".activities.contacts.ContactAdd" />
         <activity android:name=".activities.canteen.Canteen" />
+        <activity android:name=".activities.login.ChangePassword" />
         <activity android:name=".activities.experimental.holidays.Holidays" />
+        <activity
+            android:name=".activities.maps.MapActivity"
+            android:theme="@style/HomeTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.activities.OnlineHome" />
+        </activity>
         <activity
             android:name=".activities.settings.SettingsCommon"
             android:theme="@style/HomeTheme" />
@@ -71,6 +79,28 @@
 
         <!-- Receivers and Services -->
         <receiver android:name=".background.alarms.Alarms" />
+        <receiver android:name=".background.OnNetworkChanged">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".background.AfterBoot"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".background.OnUpgrade">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data
+                    android:path="com.rohitsuratekar.NCBSinfo"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
 
         <service android:name=".background.ServiceCentre" />
         <service android:name=".background.NetworkOperations" />

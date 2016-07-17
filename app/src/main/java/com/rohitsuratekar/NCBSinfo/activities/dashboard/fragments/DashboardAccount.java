@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,12 @@ import android.widget.Toast;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoardAdapter;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoardModel;
+import com.rohitsuratekar.NCBSinfo.activities.login.ChangePassword;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.NotificationPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.TransportPreference;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.ui.ScrollUpRecyclerView;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
@@ -38,11 +41,14 @@ import java.util.List;
  */
 public class DashboardAccount extends Fragment {
 
+
+    private final String TAG = getClass().getSimpleName();
     ScrollUpRecyclerView recyclerView;
     List<DashBoardModel> fullList;
     DashBoardAdapter adapter;
     String[] routesArray;
     Preferences pref;
+    BaseParameters baseParameters;
 
     @Nullable
     @Override
@@ -53,6 +59,7 @@ public class DashboardAccount extends Fragment {
         recyclerView = (ScrollUpRecyclerView) rootView.findViewById(R.id.base_animated_recyclerView);
         routesArray = getResources().getStringArray(R.array.home_spinner_items);
         pref = new Preferences(getContext());
+        baseParameters = new BaseParameters(getContext());
 
         fullList = new ArrayList<>();
 
@@ -75,6 +82,7 @@ public class DashboardAccount extends Fragment {
                     intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, TransportPreference.class.getName());
                     intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 } else if (currentField.equals(getString(R.string.dashboard_events_history))) {
                     showNumberPicker();
                 } else if (currentField.equals(getString(R.string.dashboard_notifications))) {
@@ -82,6 +90,9 @@ public class DashboardAccount extends Fragment {
                     intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, NotificationPreference.class.getName());
                     intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                } else if (currentField.equals(getString(R.string.dashboard_password))) {
+                    changePass();
                 }
 
             }
@@ -103,8 +114,9 @@ public class DashboardAccount extends Fragment {
                 alert.setView(edittext);
                 alert.setPositiveButton("Change", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //OR
+                        //TODO: network operations
                         String YouEditTextValue = edittext.getText().toString();
+                        Log.i(TAG, YouEditTextValue);
                     }
                 });
                 alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -129,6 +141,15 @@ public class DashboardAccount extends Fragment {
         }
     }
 
+    private void changePass() {
+        if (new General().isNetworkAvailable(getContext())) {
+            startActivity(new Intent(getContext(), ChangePassword.class));
+            getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+        } else {
+            Toast.makeText(getContext(), "Internet connection is needed for this action", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -140,6 +161,7 @@ public class DashboardAccount extends Fragment {
         fullList.clear();
         fullList.add(new DashBoardModel(getString(R.string.dashboard_name), pref.user().getName(), R.drawable.icon_dashboard_pin, true));
         fullList.add(new DashBoardModel(getString(R.string.dashboard_email), pref.user().getEmail(), R.drawable.icon_email, false));
+        fullList.add(new DashBoardModel(getString(R.string.dashboard_password), "******", R.drawable.icon_password, true));
         fullList.add(new DashBoardModel(getString(R.string.dashboard_default_route), routesArray[pref.user().getDefaultRouteValue()], R.drawable.icon_shuttle, true));
         fullList.add(new DashBoardModel(getString(R.string.dashboard_notifications), pref.settings().getNotificationPreferenceStatus(), R.drawable.icon_notification, true));
         fullList.add(new DashBoardModel(getString(R.string.dashboard_events_history), pref.user().getNumberOfEventsToKeep() + " Events", R.drawable.icon_updates, true));

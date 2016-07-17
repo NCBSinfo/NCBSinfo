@@ -142,6 +142,7 @@ public class Login extends BaseActivity implements AppConstants {
                                         if (!task.isSuccessful()) {
                                             Log.e(TAG, task.getException().getLocalizedMessage());
                                             hideProgressDialog();
+                                            handler.removeCallbacks(runnable);
                                             FirebaseErrors firebaseErrors = new FirebaseErrors(getBaseContext(), task.getException(), Login.this);
                                             String warning = firebaseErrors.getWarningMessage();
                                             String type = firebaseErrors.getType();
@@ -157,6 +158,7 @@ public class Login extends BaseActivity implements AppConstants {
                                                                     Intent intent = new Intent(Login.this, Registration.class);
                                                                     intent.putExtra(Registration.INTENT, email.getText().toString());
                                                                     startActivity(intent);
+                                                                    overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                                                                 }
                                                             })
                                                             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -190,6 +192,7 @@ public class Login extends BaseActivity implements AppConstants {
                                             Intent intent = new Intent(Login.this, OnlineHome.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
+                                            overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                                         }
 
                                     }

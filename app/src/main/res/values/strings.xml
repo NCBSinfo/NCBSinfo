@@ -26,6 +26,10 @@
     <string name="name">Name</string>
     <string name="email">Email address</string>
     <string name="password">Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="old_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="already_have_Account">Already have account?</string>
     <string name="login_message">Enter your email address</string>
@@ -130,6 +134,7 @@
 
     <string name="dashboard_name">@string/name</string>
     <string name="dashboard_email">@string/email</string>
+    <string name="dashboard_password">@string/password</string>
     <string name="dashboard_default_route">@string/settings_default_view</string>
     <string name="dashboard_notifications">Notifications Allowed</string>
     <string name="dashboard_events_history">Events History</string>

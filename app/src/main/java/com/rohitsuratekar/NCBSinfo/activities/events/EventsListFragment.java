@@ -1,19 +1,17 @@
 package com.rohitsuratekar.NCBSinfo.activities.events;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -132,18 +130,18 @@ public class EventsListFragment extends Fragment {
     }
 
     public void showDialog(Context context, final TalkModel talk) {
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.events_details_viewer);
-        dialog.setCanceledOnTouchOutside(true);
-        TextView title = (TextView) dialog.findViewById(R.id.eventView_title);
-        TextView speaker = (TextView) dialog.findViewById(R.id.eventView_speaker);
-        TextView date = (TextView) dialog.findViewById(R.id.eventView_date);
-        TextView time = (TextView) dialog.findViewById(R.id.eventView_time);
-        TextView venue = (TextView) dialog.findViewById(R.id.eventView_venue);
-        TextView affiliation = (TextView) dialog.findViewById(R.id.eventView_affiliation);
-        TextView host = (TextView) dialog.findViewById(R.id.eventView_host);
-        Button where = (Button) dialog.findViewById(R.id.eventView_where);
+        //Inflate layout
+        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.events_details_viewer, null);
+
+        TextView title = (TextView) view.findViewById(R.id.eventView_title);
+        TextView speaker = (TextView) view.findViewById(R.id.eventView_speaker);
+        TextView date = (TextView) view.findViewById(R.id.eventView_date);
+        TextView time = (TextView) view.findViewById(R.id.eventView_time);
+        TextView venue = (TextView) view.findViewById(R.id.eventView_venue);
+        TextView affiliation = (TextView) view.findViewById(R.id.eventView_affiliation);
+        TextView host = (TextView) view.findViewById(R.id.eventView_host);
+        Button where = (Button) view.findViewById(R.id.eventView_where);
 
         title.setText(talk.getTitle());
         speaker.setText(talk.getSpeaker());
@@ -158,6 +156,13 @@ public class EventsListFragment extends Fragment {
         affiliation.setText(talk.getAffilication());
         host.setText(talk.getHost());
         where.setText("Where is '" + talk.getVenue() + "' ?");
+
+
+        //Show dialog to add view
+        final AlertDialog dialog = new AlertDialog.Builder(context)
+                .setView(view)
+                .show();
+
         where.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +172,6 @@ public class EventsListFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        dialog.show();
     }
 
 

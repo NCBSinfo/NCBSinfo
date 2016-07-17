@@ -111,6 +111,12 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
         pref = new Preferences(getBaseContext());
         transport = new TransportModel(pref.user().getDefaultRoute(), getBaseContext());
 
+        //Set up toolbar title
+        setTitle("");
+        TextView specialTitle = (TextView) toolbar.findViewById(R.id.special_tool_bar_title);
+        specialTitle.setText(getString(R.string.app_name));
+        specialTitle.setVisibility(View.VISIBLE);
+
         //3 Different instance needed
         params1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -216,6 +222,7 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.off_home_icon_contacts:
                 startActivity(new Intent(this, Contacts.class));
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 break;
             case R.id.off_home_cardview_title:
                 Intent i2 = new Intent(this, Transport.class);

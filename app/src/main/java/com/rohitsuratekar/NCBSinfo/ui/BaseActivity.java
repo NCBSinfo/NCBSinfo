@@ -33,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public BaseParameters baseParameters;
+    public Toolbar toolbar;
     private CurrentActivity currentActivity;
     private NavigationView navigationView;
 
@@ -43,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity
         setContentView(R.layout.base_layout); //Base layout
         baseParameters = new BaseParameters(getBaseContext());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); //Base toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar); //Base toolbar
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout); //Base drawer layout

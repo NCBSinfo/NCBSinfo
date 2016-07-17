@@ -20,6 +20,7 @@
     <string name="warning_registration_wrong_password">Wrong Password</string>
     <string name="warning_registration_empty_username">Name can not be empty</string>
     <string name="warning_registration_invalid_email">Invalid email</string>
+    <string name="warning_change_pass_do_not_match">New password and confirmed password do not match</string>
 
 
     <string name="warning_are_you_sure">Are you sure?</string>

@@ -100,6 +100,7 @@ public class Registration extends BaseActivity implements AppConstants {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (!task.isSuccessful()) {
                                         hideProgressDialog();
+                                        handler.removeCallbacks(runnable);
                                         Log.w(TAG, "createWithEmail", task.getException());
                                         FirebaseErrors firebaseErrors = new FirebaseErrors(getBaseContext(), task.getException(), Registration.this);
                                         String warning = firebaseErrors.getWarningMessage();
@@ -121,6 +122,7 @@ public class Registration extends BaseActivity implements AppConstants {
                                                                 Intent intent1 = new Intent(Registration.this, Login.class);
                                                                 intent1.putExtra(Login.INTENT, email.getText().toString());
                                                                 startActivity(intent1);
+                                                                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                                                             }
                                                         })
                                                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -142,6 +144,7 @@ public class Registration extends BaseActivity implements AppConstants {
                                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                                 if (!task.isSuccessful()) {
+                                                    handler.removeCallbacks(runnable);
                                                     hideProgressDialog();
                                                     FirebaseErrors firebaseErrors = new FirebaseErrors(getBaseContext(), task.getException(), Registration.this);
                                                     firebaseErrors.dialogWarning();
@@ -156,6 +159,7 @@ public class Registration extends BaseActivity implements AppConstants {
                                                     Intent intent = new Intent(Registration.this, OnlineHome.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(intent);
+                                                    overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                                                 }
                                             }
                                         });

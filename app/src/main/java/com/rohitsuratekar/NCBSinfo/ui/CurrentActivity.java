@@ -92,6 +92,12 @@ public enum CurrentActivity {
             R.id.nav_holidays,
             true),
 
+    CHANGE_PASSWORD(
+            R.string.change_password,
+            R.layout.change_password,
+            R.id.nav_dashboard,
+            false),
+
     TRANSPORT_REMINDER(
             R.string.transport_reminder,
             R.layout.base_viewpager,

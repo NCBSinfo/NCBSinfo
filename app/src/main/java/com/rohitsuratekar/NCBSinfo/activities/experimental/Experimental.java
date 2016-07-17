@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.canteen.Canteen;
@@ -51,12 +50,16 @@ public class Experimental extends BaseActivity {
                 switch (position) {
                     case 0:
                         startActivity(new Intent(Experimental.this, LectureHalls.class));
+                        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                         break;
                     case 1:
                         startActivity(new Intent(Experimental.this, Canteen.class));
+                        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                         break;
                     case 2:
                         startActivity(new Intent(Experimental.this, Holidays.class));
+                        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                        break;
                 }
             }
         });

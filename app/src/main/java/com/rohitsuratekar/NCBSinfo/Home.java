@@ -18,9 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 import butterknife.BindView;
@@ -44,6 +45,7 @@ public class Home extends AppCompatActivity implements AppConstants {
     int f1_x, f1_y, f2_x, f2_y, f3_x, f3_y;
     Button online, offline;
     Preferences pref;
+    BaseParameters baseParameters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class Home extends AppCompatActivity implements AppConstants {
         ButterKnife.bind(this);
         //Initialization
         pref = new Preferences(getBaseContext());
+        baseParameters = new BaseParameters(getBaseContext());
 
 
         //Initialize app with latest app version
@@ -61,6 +64,10 @@ public class Home extends AppCompatActivity implements AppConstants {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        startActivity(new Intent(this, OnlineHome.class));
+       new Preferences(getBaseContext()).user().setUserType(userType.REGULAR_USER);
+       new Preferences(getBaseContext()).app().setMode(modes.ONLINE);
 
 
         metrics = new DisplayMetrics();
@@ -75,13 +82,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         online = (Button) findViewById(R.id.home_onlineBtn);
         offline = (Button) findViewById(R.id.home_offlineBtn);
 
-//        new Preferences(getBaseContext()).transport().setRoute(Routes.NCBS_IISC,"{\"11:23\",\"11:40\"}", "{\"11:23\",\"11:40\"}");
-
-        //   startActivity(new Intent(this, DashBoard.class));
-
-//          Intent i = new Intent(this, ServiceCentre.class);
-//         i.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-//         startService(i);
 
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,12 +89,20 @@ public class Home extends AppCompatActivity implements AppConstants {
 
                 pref.app().setMode(modes.OFFLINE);
                 startActivity(new Intent(Home.this, OfflineHome.class));
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
 
             }
         });
 
+        online.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home.this, Registration.class);
+                startActivity(intent);
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+            }
+        });
 
-        new TalkData(getBaseContext()).removeOld();
 
         f1_x = 0;
         f1_y = 0;
@@ -114,16 +122,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         runnable.run();
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-        online.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Home.this, OnlineHome.class);
-                pref.app().setMode(modes.ONLINE);
-                startActivity(intent);
-            }
-        });
 
 
     }

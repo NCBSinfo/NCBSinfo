@@ -54,7 +54,8 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardViewHolder> 
             holder.editLayout.setVisibility(View.INVISIBLE);
         }
 
-        if (pref.user().getUserType().equals(AppConstants.userType.OLD_USER)) {
+        if (pref.user().getUserType().equals(AppConstants.userType.OLD_USER)
+                && !DataList.get(position).getFieldName().equals(context.getString(R.string.dashboard_password))) {
             holder.fieldValue.setText("---");
             holder.editLayout.setVisibility(View.INVISIBLE);
             holder.icon.setAlpha((float) 0.6);
