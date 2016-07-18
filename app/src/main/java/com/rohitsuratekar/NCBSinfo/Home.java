@@ -47,6 +47,7 @@ public class Home extends AppCompatActivity implements AppConstants {
     Preferences pref;
     BaseParameters baseParameters;
 
+<<<<<<< HEAD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,22 @@ public class Home extends AppCompatActivity implements AppConstants {
             e.printStackTrace();
         }
         pref.app().addOpenCount(); //Whenever user opens app
+=======
+import com.rohitsuratekar.NCBSinfo.background.Alarms;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
+import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
+import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.database.ContactsData;
+import com.rohitsuratekar.NCBSinfo.database.Database;
+import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
+import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
+import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
+import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.online.login.Registration;
+>>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b
 
         startActivity(new Intent(this, OnlineHome.class));
         new Preferences(getBaseContext()).user().setUserType(userType.REGULAR_USER);
@@ -84,6 +101,7 @@ public class Home extends AppCompatActivity implements AppConstants {
         offline = (Button) findViewById(R.id.home_offlineBtn);
 
 
+<<<<<<< HEAD
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +109,14 @@ public class Home extends AppCompatActivity implements AppConstants {
                 pref.app().setMode(modes.OFFLINE);
                 startActivity(new Intent(Home.this, OfflineHome.class));
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+=======
+            case registration.camp16.CAMP_MODE:
+                pref.edit().putString(MODE, ONLINE).apply();
+                startActivity(new Intent(Home.this, OnlineHome.class));
+                overridePendingTransition(0, 0);
+                break;
+        }
+>>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b
 
             }
         });
@@ -114,8 +140,32 @@ public class Home extends AppCompatActivity implements AppConstants {
 
         homeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
+<<<<<<< HEAD
             public void onClick(View view) {
                 setFragments();
+=======
+            public void onClick(View v) {
+                final AlertDialog alertDialog = new AlertDialog.Builder(Home.this).create();
+                alertDialog.setTitle(getResources().getString(R.string.warning_offline));
+                alertDialog.setMessage(getResources().getString(R.string.warning_offline_details));
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        pref.edit().putString(Home.MODE, Home.OFFLINE).apply();
+                        setTransportValue(); //Reset transport values
+                        alertDialog.dismiss();
+                        Intent intent = new Intent(Home.this, OfflineHome.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "GO BACK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+>>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b
             }
         });
 
