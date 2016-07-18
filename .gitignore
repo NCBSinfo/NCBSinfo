@@ -6,9 +6,9 @@
 .DS_Store
 /build
 /captures
-app/src/main/java/com/rohitsuratekar/NCBSinfo/constants/Network.java
-gradle.properties
-app/app-release.apk
 app/google-services.json
+*.properties
 app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces/NetworkConstants.java
-public_debug.jks
+*.apk
+*.keystore
+*.jks

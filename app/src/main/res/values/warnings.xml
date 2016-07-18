@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="warning_online">Online mode</string>
+    <string name="warning_online_details">This mode will require internet connection. You will be able to access the full features
+    of this application from here. Internet and battery usage is already optimized for good user experience. You can switch to the Offline Mode anytime from the Settings.</string>
+    <string name="warning_offline">Offline mode</string>
+    <string name="warning_offline_details">This is the lightweight mode and does not require internet connection. Only basic features
+         will be available in this mode. You can switch to the Online Mode anytime from the Settings.</string>
+
+    <string name="warning_mode_change">Change mode</string>
+    <string name="warning_mode_change_online">Are you sure you want to leave the Online Mode? You can switch back again anytime :)</string>
+    <string name="warning_mode_change_offline">Are you sure you want to leave the Offline Mode? You can switch back again anytime :)</string>
+    <string name="warning_mode_change_camp">Are you sure you want to leave the CAMP16 Mode? You can switch back again anytime :)</string>
+
+    <string name="warning_registration_empty_password">Password can not be empty</string>
+    <string name="warning_registration_bad_password">Password must be at least 6 character long</string>
+    <string name="warning_registration_wrong_password">Wrong Password</string>
+    <string name="warning_registration_empty_username">Name can not be empty</string>
+    <string name="warning_registration_invalid_email">Invalid email</string>
+
+
+    <string name="warning_are_you_sure">Are you sure?</string>
+    <string name="warning_delete_contact">You are about to delete %1$s from this list.</string>
+
+    <string name="warning_map_title">Warning!</string>
+    <string name="warning_map_details">This map presents approximate information about locations. Real route/location might vary depending on traffic, laws and new rules.
+        Please do not rely entirely on the provided information. Developers are not responsible for any mistake/delay/mishap due to information presented here.</string>
+    <string name="warning_noroute_title">Oops!</string>
+    <string name="warning_noroute_details">No additional information is available on this route.</string>
+    <string name="warning_cbl_title">Be aware!</string>
+    <string name="warning_cbl_details">Route will vary depending on passengers. Please inform your destination to driver.</string>
+
+    <string name="warning_user_exists_title">User exists</string>
+    <string name="warning_user_exists">Email address provided by you is already present in our database. Try signing in ?</string>
+    <string name="warning_password_reset">Link to reset password will be sent to your email address \'%1$s\' . Please check your inbox for further details . </string>
+    <string name="warning_firebase_too_many_attemps">Too many login attempts are detected from this device. Please try after some time.</string>
+    <string name="warning_firebase_user_does_not_exist">No such user found in our database. Try signing up for new account ?</string>
+</resources>

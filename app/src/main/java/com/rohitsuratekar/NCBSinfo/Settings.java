@@ -12,28 +12,18 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.SwitchPreference;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.rohitsuratekar.NCBSinfo.activity.DevelopersOptions;
-import com.rohitsuratekar.NCBSinfo.activity.Information;
-import com.rohitsuratekar.NCBSinfo.activity.Registration;
-import com.rohitsuratekar.NCBSinfo.background.DataFetch;
-import com.rohitsuratekar.NCBSinfo.constants.General;
-import com.rohitsuratekar.NCBSinfo.constants.Network;
-import com.rohitsuratekar.NCBSinfo.constants.Preferences;
-import com.rohitsuratekar.NCBSinfo.constants.SettingsRelated;
-import com.rohitsuratekar.NCBSinfo.helpers.AppCompatPreferenceActivity;
-import com.rohitsuratekar.NCBSinfo.helpers.NumberPickerPreference;
+import com.rohitsuratekar.NCBSinfo.common.AppCompatPreferenceActivity;
+import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
+import com.rohitsuratekar.NCBSinfo.common.Information;
+import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 
 import java.util.List;
 
@@ -48,11 +38,9 @@ public class Settings extends AppCompatPreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
 
-
             String prefkey = preference.getKey();
             if (preference instanceof EditTextPreference) {
                 if (prefkey.equals("setting_hurryup")) {
-
                     EditTextPreference EditPreference = (EditTextPreference) preference;
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
                     SharedPreferences.Editor editor = preferences.edit();
@@ -62,57 +50,20 @@ public class Settings extends AppCompatPreferenceActivity {
                     } else {
                         hurryupMin = 5;
                     }
-                    editor.putFloat(SettingsRelated.SETTING_HURRY_UP_TIME, hurryupMin).apply();
+                    editor.putFloat("setting_hurryup_minutes", hurryupMin).apply();
                     preference.setSummary(String.valueOf(hurryupMin));
                     ((EditTextPreference) preference).setText(String.valueOf(hurryupMin));
-                    Log.i("New value",String.valueOf(hurryupMin));
                     return true;
                 }
 
-                if (prefkey.equals("setting_notification_time")) {
-                    EditTextPreference EditPreference = (EditTextPreference) preference;
+
+            } else if (preference instanceof ListPreference) {
+
+                if (prefkey.equals("settings_transport_routes")) {
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
                     SharedPreferences.Editor editor = preferences.edit();
-                    int notificationOnset;
-                    if (EditPreference.getText() != null) {
-                        notificationOnset = Integer.parseInt((String) value);
-                    } else {
-                        notificationOnset = 10; //Default value
-                    }
-                    preference.setSummary(String.valueOf(notificationOnset));
-                    ((EditTextPreference) preference).setText(String.valueOf(notificationOnset));
-                    notificationOnset = notificationOnset * 60;
-                    editor.putInt(Preferences.PREF_NOTIFICATION_ONSET, notificationOnset).apply();
-                    return true;
+                    editor.putInt(Transport.DEFAULT_ROUTE, Integer.parseInt(String.valueOf(value))).apply(); // value to store
                 }
-
-                if (prefkey.equals("setting_dataFetchFrequency")) {
-                    EditTextPreference EditPreference = (EditTextPreference) preference;
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-                    SharedPreferences.Editor editor = preferences.edit();
-                    int currentFrequency;
-                    if (EditPreference.getText() != null) {
-                        currentFrequency = Integer.parseInt((String) value);
-                    } else {
-                        currentFrequency = 120; //Default value
-                        ((EditTextPreference) preference).setText(String.valueOf(120));
-                    }
-                    preference.setSummary(String.valueOf(currentFrequency));
-                    ((EditTextPreference) preference).setText(String.valueOf(currentFrequency));
-                    currentFrequency = currentFrequency * 60;
-                    editor.putInt(Preferences.PREF_ALARM_FREQUENCY, currentFrequency).apply();
-                    return true;
-                }
-            }
-
-
-       else if (preference instanceof ListPreference) {
-
-           if(prefkey.equals(SettingsRelated.SETTINGS_TRANSPORT_ROUTES)) {
-               SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-               SharedPreferences.Editor editor = preferences.edit();
-               editor.putInt(SettingsRelated.HOME_DEFAULT_ROUTE, Integer.parseInt(String.valueOf(value))).apply(); // value to store
-           }
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
@@ -123,7 +74,6 @@ public class Settings extends AppCompatPreferenceActivity {
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
-
 
             } else {
                 // For all other preferences, set the summary to the value's
@@ -158,27 +108,16 @@ public class Settings extends AppCompatPreferenceActivity {
 
         // Trigger the listener immediately with the preference's
         // current value.
-         if(preference instanceof NumberPickerPreference){
+        if (preference instanceof EditTextPreference) {
 
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(
-                    preference,
-                    PreferenceManager.getDefaultSharedPreferences( preference.getContext())
-                            .getInt(preference.getKey(),0));
+            if (preference.getKey() != null) {
 
-        }
-        else if (preference instanceof EditTextPreference){
-
-             if (preference.getKey()!=null) {
-
-                if (((EditTextPreference) preference).getEditText()!=null)
-                {
+                if (((EditTextPreference) preference).getEditText() != null) {
                     sBindPreferenceSummaryToValueListener.onPreferenceChange(
-                         preference,
-                         PreferenceManager.getDefaultSharedPreferences(preference.getContext())
-                                 .getString(preference.getKey(), String.valueOf(preference.getSummary())));
-                }
-                 else
-                {
+                            preference,
+                            PreferenceManager.getDefaultSharedPreferences(preference.getContext())
+                                    .getString(preference.getKey(), String.valueOf(preference.getSummary())));
+                } else {
                     sBindPreferenceSummaryToValueListener.onPreferenceChange(
                             preference,
                             PreferenceManager.getDefaultSharedPreferences(preference.getContext())
@@ -186,16 +125,14 @@ public class Settings extends AppCompatPreferenceActivity {
 
                 }
 
+            }
 
-                }
-
-         }
-        else{
-             sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                     PreferenceManager
-                             .getDefaultSharedPreferences(preference.getContext())
-                             .getString(preference.getKey(), ""));
-         }
+        } else {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getString(preference.getKey(), ""));
+        }
     }
 
     @Override
@@ -240,7 +177,7 @@ public class Settings extends AppCompatPreferenceActivity {
      */
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<PreferenceActivity.Header> target) {
+    public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
@@ -251,9 +188,7 @@ public class Settings extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
-                ||TransportPreferenceFragment.class.getName().equals(fragmentName)
-                || DeveloperPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName)
+                || TransportPreferenceFragment.class.getName().equals(fragmentName)
                 || AboutusPreferenceFragment.class.getName().equals(fragmentName);
     }
 
@@ -305,9 +240,34 @@ public class Settings extends AppCompatPreferenceActivity {
                 public boolean onPreferenceClick(Preference preference) {
 
                     Intent i1 = new Intent(getActivity(), Information.class);
-                    i1.putExtra(General.GET_INFORMATION_INTENT,2);
+                    i1.putExtra(Information.INTENT, 2);
                     startActivity(i1);
                     return true;
+                }
+            });
+
+            final Preference myPref3 = (Preference) findPreference("change_mode_settings");
+            myPref3.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    //open browser or intent here
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Change mode!")
+                            .setMessage(new CurrentMode(getActivity(), Transport.MODE_CONSTANT).getSwitchModeMessage())
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()).edit().remove(Home.MODE).apply();
+                                    startActivity(new Intent(getActivity(), Home.class));
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+                    return false;
                 }
             });
 
@@ -324,8 +284,6 @@ public class Settings extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
-
 
 
     //Shuttle Fragment
@@ -342,8 +300,8 @@ public class Settings extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
 
-            bindPreferenceSummaryToValue(findPreference("setting_hurryup"));
-            bindPreferenceSummaryToValue(findPreference(SettingsRelated.SETTINGS_TRANSPORT_ROUTES));
+            bindPreferenceSummaryToValue(findPreference(Transport.HURRY_UP));
+            bindPreferenceSummaryToValue(findPreference("settings_transport_routes"));
 
         }
 
@@ -357,151 +315,6 @@ public class Settings extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
-
-    //Developers fragment
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DeveloperPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_dev);
-            setHasOptionsMenu(true);
-
-            final Preference myPref = (Preference) findPreference("setting_gotoDevLog");
-            myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-                    startActivity(new Intent(getActivity().getBaseContext(), DevelopersOptions.class));
-
-                    return false;
-                }
-            });
-
-            final SwitchPreference DevOption = (SwitchPreference) findPreference("setings_onDev");
-            final PreferenceCategory logcat = (PreferenceCategory) findPreference("settings_devoptions");
-            final PreferenceCategory networkrelated = (PreferenceCategory) findPreference("setting_network_related");
-            if (DevOption.isChecked()) {
-                logcat.setEnabled(true);
-                networkrelated.setEnabled(true);
-            } else {
-                logcat.setEnabled(false);
-                networkrelated.setEnabled(false);
-            }
-
-            DevOption.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    if (DevOption.isChecked()) {
-                        logcat.setEnabled(true);
-                        networkrelated.setEnabled(true);
-                    } else {
-                        logcat.setEnabled(false);
-                        networkrelated.setEnabled(false);
-                    }
-                    return false;
-                }
-            });
-
-            Preference syncPref = (Preference)findPreference("settings_sync_now");
-            syncPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent service = new Intent(preference.getContext(), DataFetch.class);
-                    service.putExtra(General.GEN_SERIVICE_SWITCH, Network.NET_START_FETCHING);
-                    preference.getContext().startService(service);
-                    Toast.makeText(preference.getContext(),"Data sync initiated",Toast.LENGTH_LONG).show();
-                    return false;
-                }
-            });
-
-            final EditTextPreference frequency = (EditTextPreference)findPreference("setting_dataFetchFrequency");
-            final SwitchPreference autoOn = (SwitchPreference)findPreference(SettingsRelated.SETTINGS_DATA_FETCH_FREQUENCY);
-            if(autoOn.isChecked()){
-                frequency.setEnabled(true);
-                autoOn.setSummary("Manual");
-            }
-            else
-            {
-                frequency.setEnabled(false);
-                autoOn.setSummary("Optimized");
-            }
-            final SharedPreferences freq;
-            freq = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            autoOn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-
-                    if(autoOn.isChecked()){
-                        frequency.setEnabled(true);
-                        autoOn.setSummary("Manual");
-                        freq.edit().putBoolean(SettingsRelated.SETTINGS_OPTIMIZED_DATA_SYNC,false).apply();
-                    }
-                    else
-                    {
-                        frequency.setEnabled(false);
-                        autoOn.setSummary("Optimized");
-                        freq.edit().putBoolean(SettingsRelated.SETTINGS_OPTIMIZED_DATA_SYNC,true).apply();
-                    }
-
-                    return true;
-                }
-            });
-
-            bindPreferenceSummaryToValue(findPreference(SettingsRelated.SETTINGS_DEVELOPERS_LOG_ITEMS));
-            bindPreferenceSummaryToValue(findPreference("setting_dataFetchFrequency"));
-
-
-        }
-
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), Settings.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-
-    }
-        //Developers fragment
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-        public static class NotificationPreferenceFragment extends PreferenceFragment {
-            @Override
-            public void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                addPreferencesFromResource(R.xml.pref_notification);
-                setHasOptionsMenu(true);
-
-                final Preference myPref = (Preference) findPreference("setting_notification_regisration");
-                myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-
-                        startActivity(new Intent(getActivity().getBaseContext(), Registration.class));
-                        return true;
-                    }
-                });
-
-                bindPreferenceSummaryToValue(findPreference("setting_notification_time"));
-
-
-            }
-
-
-            @Override
-            public boolean onOptionsItemSelected(MenuItem item) {
-                int id = item.getItemId();
-                if (id == android.R.id.home) {
-                    startActivity(new Intent(getActivity(), Settings.class));
-                    return true;
-                }
-                return super.onOptionsItemSelected(item);
-            }
-        }
 
 
     //About us fragment
@@ -510,7 +323,7 @@ public class Settings extends AppCompatPreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_aboutus);
+            addPreferencesFromResource(R.xml.pref_about_us);
             setHasOptionsMenu(true);
 
             final Preference myPref = (Preference) findPreference("settings_aboutus");
@@ -519,7 +332,7 @@ public class Settings extends AppCompatPreferenceActivity {
                 public boolean onPreferenceClick(Preference preference) {
 
                     Intent i1 = new Intent(getActivity(), Information.class);
-                    i1.putExtra(General.GET_INFORMATION_INTENT,0);
+                    i1.putExtra(Information.INTENT, 0);
                     startActivity(i1);
                     return true;
                 }
@@ -531,7 +344,7 @@ public class Settings extends AppCompatPreferenceActivity {
                 public boolean onPreferenceClick(Preference preference) {
 
                     Intent i1 = new Intent(getActivity(), Information.class);
-                    i1.putExtra(General.GET_INFORMATION_INTENT,1);
+                    i1.putExtra(Information.INTENT, 1);
                     startActivity(i1);
                     return true;
                 }
@@ -549,8 +362,6 @@ public class Settings extends AppCompatPreferenceActivity {
                     return true;
                 }
             });
-
-
 
 
         }

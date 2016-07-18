@@ -1,46 +1,45 @@
 <resources>
-    <string name="app_name">NCBSinfo</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="app_name">NCBS info</string>
     <string name="google_map">AIzaSyB9uRal1LYEo14APa8eJAwQzTtMCFdI9Io</string>
 
-    <string name="registration">Registration</string>
-    <string name="information">Information</string>
-    <string name="map">Map</string>
+    <!-- Titles -->
+    <string name="dashboard">Dashboard</string>
     <string name="home">Home</string>
     <string name="transport">Transport</string>
     <string name="event_updates">Events</string>
-    <string name="event_details">Event Details</string>
     <string name="contacts">Contacts</string>
     <string name="settings">Settings</string>
     <string name="experimental">Experimental</string>
     <string name="canteen">Canteen</string>
-    <string name="lecture_hall">Lecture Halls</string>
-    <string name="developers_options">Developer\'s Options</string>
-
-    <string name="warning_version_title">Compatibility mode</string>
-    <string name="warning_version_details">This app is best suited for Android Lollipop (21) and above. Your current android version is %1$s. Some animations and functions might not work properly.</string>
-    <string name="warning_are_you_sure">Are you sure?</string>
-    <string name="warning_delete_contact">You are about to delete %1$s from this list.</string>
-    <string name="warning_clear_data">You are about to delete the entire event data retrieved from the database.</string>
-    <string name="warning_internet_connection">You are not connected to the internet</string>
-    <string name="warning_in_hurry">In a hurry?</string>
-    <string name="warning_in_hurry_details">You have not selected any option to receive updates. Have to forgotten to check?</string>
-    <string name="warning_hurry_positive">Oh, yes!</string>
-    <string name="warning_hurry_negative">Nah, changed mind!</string>
+    <string name="lecture_hall">Locations</string>
+    <string name="information">Information</string>
+    <string name="map">Map</string>
+    <string name="camp">CAMP</string>
+    <string name="camp_home">CAMP16 Home</string>
 
 
+    <!-- Home -->
+    <string name="home_title">Select what suits your needs!</string>
+    <string name="home_note">You can switch anytime :)</string>
+    <string name="home_online">Online Mode</string>
+    <string name="home_online_features">Experience all\nthe features</string>
+    <string name="home_online_details">All offline features\nNCBS event updates\nImportant notifications\nStudent activities\nConference updates\nand more…</string>
+    <string name="home_select_online">I want to go online</string>
+    <string name="home_offline">Offline Mode</string>
+    <string name="home_offline_features">Lightweight and\nessentials</string>
+    <string name="home_offline_details">Shuttle timings\nImportant contacts\nLecture hall locations</string>
+    <string name="home_select_offline">Offline is fine</string>
+
+    <string name="home_trasnport_title">%1$s - %2$s</string>
+    <string name="next_transport">Next %1$s : %2$s</string>
+    <string name="time_left">%1$d Hr %2$d Min %3$d Sec left</string>
     <string name="snackbar_added_route">%1$s - %2$s added to the default view.</string>
     <string name="snackbar_reset_route">Default view is reset.</string>
 
-    <string name="next_transport"> Next %1$s </string>
-    <string name="next_transport_details">%1$s %2$s</string>
-    <string name="time_left">%1$d Hr %2$d Min %3$d Sec left</string>
+
+    <!-- Transport -->
     <string name="buggy">Buggy</string>
     <string name="shuttle">Shuttle</string>
-
     <string name="route_ncbs_iisc">NCBS - IISc</string>
     <string name="route_iisc_ncbs">IISc - NCBS</string>
     <string name="route_ncbs_mandara">NCBS - Mandara</string>
@@ -51,26 +50,13 @@
     <string name="route_icts_ncbs">ICTS - NCBS </string>
     <string name="route_ncbs_cbl">NCBS - CBL</string>
 
-    <string name="transport_list_title1">Weekdays*</string>
-    <string name="transport_list_title2">Sunday*</string>
-    <string name="transport_list_title3">From NCBS</string>
-    <string name="transport_list_title4">From Mandara</string>
+    <string name="transport_list_week_title">Weekdays*</string>
+    <string name="transport_list_sunday_title">Sunday</string>
+    <string name="transport_list_buggy_title_ncbs">From NCBS</string>
+    <string name="transport_list_buggy_title_mandara">From Mandara</string>
     <string name="transport_footer1">*Including Saturday</string>
     <string name="transport_footer2">**Next shuttle after %1$s</string>
-    <string name="transport_footer3">**Next buggy after %1$s</string>
-
-
-    <string name="action_add">Add</string>
-    <string name="action_search">Search</string>
-    <string name="action_call">Call</string>
-    <string name="action_add_to_favorite">Add to favorites</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_settings">@string/settings</string>
-    <string name="action_clear_log">Clear Log</string>
-    <string name="action_clear_database">Clear Event Data</string>
-    <string name="action_reset">Reset</string>
-    <string name="action_select_category">Select Category</string>
+    <string name="transport_buggy_footer">**Next buggy after %1$s</string>
 
     <string name="contact_name">Contact Name</string>
     <string name="contact_number">Contact Number</string>
@@ -81,87 +67,26 @@
     <string name="contact_add">Add Contact</string>
     <string name="contact_edit">Edit Contact</string>
 
-    <string name="registration_salutation">Hi</string>
-    <string name="registration_message1">We have some \nsurprise for you!</string>
-    <string name="registration_message2">Introducing event notifications</string>
-    <string name="registration_message3">about your surroundings!</string>
-    <string name="registration_message4">Let\'s check it out?</string>
-    <string name="registration_positive_response">Yes, sure! :)</string>
-    <string name="registration_negative_response">Nope… may be some other time</string>
-    <string name="registration_finish_response">All set</string>
-    <string name="registration_message_update_choice">OK, which updates do \nyou want to receive ?</string>
-    <string name="registration_form_note1">First tell us about you :)</string>
-    <string name="registration_form_submit_button">Let\'s go ahead</string>
-    <string name="registration_username_hint">What should we call you?</string>
-    <string name="registration_email_hint">What is your email ID?</string>
-    <string name="registration_footer_new">Don\'t worry! If you change your mind, you can change this any time from settings :)</string>
-    <string name="registration_choice1">Research Talks</string>
-    <string name="registration_choice2">DBJC</string>
-    <string name="registration_choice3">Student Activities</string>
-    <string name="registration_dialog1">Registering your device…</string>
-    <string name="registration_dialog2">Almost done…</string>
-    <string name="registration_user_comeback">Hey %1$s,\nIt is good to have you back</string>
-    <string name="registration_change_button">Change Preferences</string>
-    <string name="registration_error1">Cummon! At least tell us your nick name :P</string>
-    <string name="registration_error2">Provide a valid email address (we are not going to spam :))</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
+    <string name="action_add">Add</string>
+    <string name="action_search">Search</string>
+    <string name="action_call">Call</string>
+    <string name="action_add_to_favorite">Add to favorites</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_settings">@string/settings</string>
+    <string name="action_clear_database">Clear Event Data</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_select_category">Select Category</string>
+    <string name="action_clear_contact">Clear all contacts</string>
+    <string name="action_clear_notifications">Clear all notifications</string>
 
-    <string name="developers_tab_log">Complete log</string>
-    <string name="developers_tab_data">Retrieved log</string>
-
-    <string name="settings_change_notification_preference">Notification Preferences</string>
-    <string name="settings_change_notification_preference_summary">Change your notification preferences</string>
-    <string name="settings_notification_time">Notification time before event\n (in mins)</string>
-    <string name="settings_notification_time_summary">Set pre-event notification time</string>
-    <string name="settings_general">General</string>
-    <string name="settings_about_ncbinfo">About NCBSinfo</string>
-    <string name="settings_delete_preference">Clear preferences</string>
-    <string name="settings_delete_preference_summary">Delete all of your preferences and customizations</string>
-    <string name="settings_faq">Frequently Asked Questions</string>
-    <string name="settings_faq_summary">Known problems faced while using different features of this app</string>
-    <string name="settings_about_us">About us</string>
-    <string name="settings_about_us_summary">Little bit about us</string>
-    <string name="settings_contribute">Contribute to NCBSinfo</string>
-    <string name="settings_contribute_summary">Fork us on GitHub and join open source app making</string>
-    <string name="settings_terms">Terms and Conditions</string>
-    <string name="settings_terms_summary">Nobody reads this anyways!</string>
-    <string name="settings_dev_switchon">Switch On</string>
-    <string name="settings_dev_switchon_summary">Lets you control lot of options for your app</string>
-    <string name="settings_dev_log">Developer\'s Log</string>
-    <string name="settings_dev_log_action">Check Log</string>
-    <string name="settings_dev_log_action_summary">Check every action performed by this app</string>
-    <string name="settings_dev_log_entries">Log Entries</string>
-    <string name="settings_dev_log_entries_summary">Set number of log entries</string>
-    <string name="settings_network">Network Control</string>
-    <string name="settings_sync_now">Sync Data Now</string>
-    <string name="settings_data_sync_frequency">Data Sync Frequency</string>
-    <string name="settings_data_sync_frequency_summary">Default: Optimized</string>
-    <string name="settings_current_frequency">Current data fetch frequency (in min)</string>
-    <string name="settings_current_frequency_summary">Set data fetch frequency</string>
-    <string name="settings_default_view">Default transport</string>
-    <string name="settings_default_view_summary">This transport will be shown first when you open the app</string>
-    <string name="settings_hurryup">It\'s almost time (in min)</string>
-    <string name="settings_hurryup_summary">The color will turn red if the next transport is within this time period</string>
+    <string name="events_empty">No more events are retrieved yet !\nwe will update you soon :)</string>
+    <string name="camp_message">To activate CAMP mode, please sign in with your CAMP email ID.  With this mode, you will be able to receive updates about CAMP16 events as well as notifications from TAs. </string>
+    <string name="title_activity_campevents">CAMP Events</string>
 
 
-    <string name="about_us"><![CDATA[ <b>NCBSinfo</b> is an application for regular use, specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
-    Our aim is to create a mobile application which will serve as an application-cum-database for important timings pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.]]></string>
-
-    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information (except event updates) provided in this application was last updated on 1 May 2016.
-    Though a lot of effort has been taken to curate the information,
-    minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
-    through this application.
-    In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
-
-    <string name="faq"><![CDATA[ &#8226; <b>Some of components of the UI look weird</b> <br> </br>
-      This application is not yet designed for all screen sizes. Hence UI components might appear distorted or misplaced. <br> </br><br> </br>
-      &#8226; <b>I am not being able to receive any notifications from events</b> <br> </br>
-      Please check if you have any task manager application which is killing the NCBSinfo app. In that case, add this app into
-      the white-list. <br> </br> <br> </br>
-       &#8226; <b>There is nothing in the event section</b> <br> </br>
-       This can happen if there are no events retrieved from the server. App will make request to data server
-       depending on your network settings and will retrieve the data.
-       If you want to manually sync your app, go to developer\'s options and click on \"Sync Data now\".]]></string>
 </resources>

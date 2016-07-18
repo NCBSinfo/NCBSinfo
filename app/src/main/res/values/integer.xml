@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="alarm_start_default">5</integer>
-    <integer name="alarm_frequency_default">7200</integer>
-    <integer name="notification_onset_default">600</integer>
-    <integer name="settings_log_entries_default">200</integer>
-
-    <item name="map_grid_cols" type="integer">1</item>
-</resources>

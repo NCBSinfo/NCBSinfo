@@ -12,12 +12,12 @@
         android:paddingTop="60dp">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_name"
+            android:id="@+id/contact_input_layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_name"
+                android:id="@+id/contact_input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -25,12 +25,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_contact_number"
+            android:id="@+id/contact_input_layout_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_contact_number"
+                android:id="@+id/contact_input_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
@@ -39,12 +39,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_department"
+            android:id="@+id/contact_input_layout_department"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_department"
+                android:id="@+id/contact_input_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -52,12 +52,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_position"
+            android:id="@+id/contact_input_layout_position"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/input_position"
+                android:id="@+id/contact_input_position"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/contact_position" />
@@ -66,7 +66,7 @@
 
 
 
-        <Button android:id="@+id/btn_signup"
+        <Button android:id="@+id/contact_submit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/action_add"

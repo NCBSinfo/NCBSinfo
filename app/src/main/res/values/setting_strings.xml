@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="settings_general">General</string>
+    <string name="settings_change_mode">Change Mode</string>
+    <string name="settings_change_mode_summary">Change between online and offline modes.</string>
+    <string name="settings_about_ncbinfo">About NCBSinfo</string>
+    <string name="settings_delete_preference">Clear preferences</string>
+    <string name="settings_delete_preference_summary">Delete all of your preferences and customizations</string>
+    <string name="settings_faq">Frequently Asked Questions</string>
+    <string name="settings_faq_summary">Known problems faced while using different features of this app</string>
+    <string name="settings_about_us">About us</string>
+    <string name="settings_about_us_summary">Little bit about us</string>
+    <string name="settings_contribute">Contribute to NCBSinfo</string>
+    <string name="settings_contribute_summary">Fork us on GitHub and join open source app making</string>
+    <string name="settings_terms">Terms and Conditions</string>
+    <string name="settings_terms_summary">Nobody reads this anyways!</string>
+    <string name="settings_default_view">Default transport</string>
+    <string name="settings_default_view_summary">This transport will be shown first when you open the app</string>
+    <string name="settings_hurryup">It\'s almost time (in min)</string>
+    <string name="settings_hurryup_summary">The color will turn red if the next transport is within this time period</string>
+
+
+    <string name="about_us"><![CDATA[ <b>NCBSinfo</b> is an application for regular use, specially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
+    Our aim is to create a mobile application which will serve as an application-cum-database for important timings pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching useful information like shuttle timings and contact numbers.]]></string>
+
+    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
+    All the information (except event updates) provided in this application was last updated on 21 June 2016.
+    Though a lot of effort has been taken to curate the information,
+    minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
+    through this application.
+    In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same. ]]></string>
+
+    <string name="faq"><![CDATA[ &#8226; <b>Some of components of the UI look weird</b> <br> </br>
+      This application is not yet designed for all screen sizes. Hence UI components might appear distorted or misplaced. <br> </br><br> </br>
+      &#8226; <b>I am not being able to receive any notifications from events</b> <br> </br>
+      Please check if you have any task manager application which is killing the NCBSinfo app. In that case, add this app into
+      the white-list. <br> </br> <br> </br>
+       &#8226; <b>There is nothing in the event section</b> <br> </br>
+       This can happen if there are no events retrieved from the server. App will make request to data server
+       depending on your network settings and will retrieve the data.
+       If you want to manually sync your app, go to developer\'s options and click on \"Sync Data now\".]]></string>
+
+</resources>

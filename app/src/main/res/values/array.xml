@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="extra_info_icons">
         <item>Seminar Hall\nNames</item>
         <item>Canteen\nStuff</item>
-        <item>Experimental\nFeatures</item>
+        <item>CAMP\n2016</item>
     </string-array>
-
     <string-array name="home_spinner_items">
         <item>@string/route_ncbs_iisc</item>
         <item>@string/route_iisc_ncbs</item>
@@ -29,26 +29,5 @@
         <item>7</item>
         <item>8</item>
     </string-array>
-
-    <string-array name="dev_spinner_items">
-        <item>All Logs</item>
-        <item>Network Related </item>
-        <item>Daily Services</item>
-        <item>Application Related</item>
-        <item>Important</item>
-        <item>Background Services</item>
-        <item>Emergency</item>
-    </string-array>
-
-    <string-array name="dev_spinner_values">
-        <item>all</item>
-        <item>network</item>
-        <item>daily</item>
-        <item>application</item>
-        <item>important</item>
-        <item>background</item>
-        <item>emergency</item>
-    </string-array>
-
 
 </resources>
