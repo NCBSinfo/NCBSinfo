@@ -5,7 +5,6 @@
         <item>Seminar Hall\nNames</item>
         <item>Canteen\nStuff</item>
         <item>Public\nHolidays</item>
-
     </string-array>
     <string-array name="home_spinner_items">
         <item>@string/route_ncbs_iisc</item>

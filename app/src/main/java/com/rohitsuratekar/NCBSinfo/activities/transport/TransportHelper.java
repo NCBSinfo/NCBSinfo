@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.rohitsuratekar.NCBSinfo.R;
-<<<<<<< HEAD:app/src/main/java/com/rohitsuratekar/NCBSinfo/activities/transport/TransportHelper.java
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.MondayModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.SundayModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.WeekDayModel;
@@ -18,16 +17,6 @@ import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-=======
-import com.rohitsuratekar.NCBSinfo.common.transport.models.BuggyModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.MondayModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.ShuttleModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.SundayModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
-import com.rohitsuratekar.NCBSinfo.common.transport.models.WeekDayModel;
-import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
->>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b:app/src/main/java/com/rohitsuratekar/NCBSinfo/common/transport/TransportHelper.java
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,88 +40,11 @@ public class TransportHelper implements AlarmConstants {
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-<<<<<<< HEAD:app/src/main/java/com/rohitsuratekar/NCBSinfo/activities/transport/TransportHelper.java
     public Routes getRoute(int routeNo) {
         for (Routes currentRoute : Routes.values()) {
             if (currentRoute.getRouteNo() == routeNo) {
                 return currentRoute;
             }
-=======
-    /**
-     * @param route : Route number
-     * @return String[0] : Where is transport from
-     * String[1] : Where is transport going
-     * String[2] : SharedPreference key for Sunday Trips
-     * String[3] : SharedPreference key for Weekday Trips
-     */
-    public String[] routeToStrings(int route) {
-        String from;
-        String to;
-        String weekPreferenceKey;
-        String sundayPreferenceKey;
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        switch (route) {
-            case TransportConstants.ROUTE_NCBS_IISC:
-                from = "ncbs";
-                to = "iisc";
-                weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_IISC_NCBS:
-                from = "iisc";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.IISC_NCBS_WEEK;
-                sundayPreferenceKey = TransportConstants.IISC_NCBS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_NCBS_MANDARA:
-                from = "ncbs";
-                to = "mandara";
-                weekPreferenceKey = TransportConstants.NCBS_MANDARA_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_MANDARA_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_MANDARA_NCBS:
-                from = "mandara";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.MANDARA_NCBS_WEEK;
-                sundayPreferenceKey = TransportConstants.MANDARA_NCBS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_BUGGY_NCBS:
-                from = "ncbs";
-                to = "mandara";
-                weekPreferenceKey = TransportConstants.BUGGY_NCBS;
-                sundayPreferenceKey = TransportConstants.BUGGY_NCBS;
-                break;
-            case TransportConstants.ROUTE_BUGGY_MANDARA:
-                from = "mandara";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.BUGGY_MANDARA;
-                sundayPreferenceKey = TransportConstants.BUGGY_MANDARA;
-                break;
-            case TransportConstants.ROUTE_NCBS_ICTS:
-                from = "ncbs";
-                to = "icts";
-                weekPreferenceKey = TransportConstants.NCBS_ICTS_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_ICTS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_ICTS_NCBS:
-                from = "icts";
-                to = "ncbs";
-                weekPreferenceKey = TransportConstants.ICTS_NCBS_WEEK;
-                sundayPreferenceKey = TransportConstants.ICTS_NCBS_SUNDAY;
-                break;
-            case TransportConstants.ROUTE_NCBS_CBL:
-                from = "ncbs";
-                to = "cbl";
-                weekPreferenceKey = TransportConstants.NCBS_CBL;
-                sundayPreferenceKey = TransportConstants.NCBS_CBL;
-                break;
-            default:
-                from = "ncbs";
-                to = "iisc";
-                weekPreferenceKey = TransportConstants.NCBS_IISC_WEEK;
-                sundayPreferenceKey = TransportConstants.NCBS_IISC_SUNDAY;
-                break;
->>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b:app/src/main/java/com/rohitsuratekar/NCBSinfo/common/transport/TransportHelper.java
         }
         return Routes.NCBS_IISC;
     }
@@ -392,47 +304,6 @@ public class TransportHelper implements AlarmConstants {
         return new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
     }
 
-<<<<<<< HEAD:app/src/main/java/com/rohitsuratekar/NCBSinfo/activities/transport/TransportHelper.java
-=======
-    public TransportModel getTransport(Context context, int route) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        TransportModel transport;
-        BuggyModel buggy;
-        ShuttleModel shuttle;
-        SundayModel sunday;
-        WeekDayModel weekday;
-        boolean isBuggy = false;
-        if (route == TransportConstants.ROUTE_BUGGY_NCBS || route == TransportConstants.ROUTE_BUGGY_MANDARA) {
-            isBuggy = true;
-        }
-        if (isBuggy) {
-            String from = routeToStrings(route)[0];
-            String to = routeToStrings(route)[1];
-            buggy = new BuggyModel(
-                    new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_buggy_from_ncbs))),
-                    new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_buggy_from_ncbs)))
-                    , from, to, context);
-            transport = new TransportModel(context, buggy);
-        } else {
-            weekday = new WeekDayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[3], context.getString(R.string.def_ncbs_iisc_week)))));
-            sunday = new SundayModel(Arrays.asList(new Utilities().stringToarray(pref.getString(routeToStrings(route)[2], context.getString(R.string.def_ncbs_iisc_week)))));
-            shuttle = new ShuttleModel(route, sunday, weekday, context);
-            transport = new TransportModel(context, shuttle);
-        }
-        return transport;
-    }
-
-    //Function will return time left [Seconds, Minutes, Hours, Days]
-    public float[] TimeLeft(String currentTime, String DestinationTime) {
-
-        float[] timeLeft = new float[4];
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault());
-        Date d1 = null;
-        Date d2 = null;
-        try {
-            d1 = format.parse(currentTime);
-            d2 = format.parse(DestinationTime);
->>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b:app/src/main/java/com/rohitsuratekar/NCBSinfo/common/transport/TransportHelper.java
 
     /**
      * @param date : target date
@@ -459,7 +330,6 @@ public class TransportHelper implements AlarmConstants {
         }
         return returnList;
     }
-<<<<<<< HEAD:app/src/main/java/com/rohitsuratekar/NCBSinfo/activities/transport/TransportHelper.java
 
     public Routes changeRoute(Routes currentRoute, boolean isNext) {
         if (isNext) {
@@ -472,8 +342,6 @@ public class TransportHelper implements AlarmConstants {
             } else return getRoute(currentRoute.getRouteNo() - 1);
         }
     }
-=======
->>>>>>> c62419471cbfa3ab9aec5ba321ef4effdd13a64b:app/src/main/java/com/rohitsuratekar/NCBSinfo/common/transport/TransportHelper.java
 }
 
 

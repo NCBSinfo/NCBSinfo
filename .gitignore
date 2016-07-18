@@ -9,6 +9,6 @@
 app/google-services.json
 *.properties
 app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces/NetworkConstants.java
-*.apk
+app/app-release.apk
 *.keystore
 *.jks
