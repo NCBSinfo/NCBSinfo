@@ -8,3 +8,7 @@
 /captures
 app/src/main/java/com/rohitsuratekar/NCBSinfo/constants/Network.java
 gradle.properties
+app/app-release.apk
+app/google-services.json
+app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces/NetworkConstants.java
+public_debug.jks
