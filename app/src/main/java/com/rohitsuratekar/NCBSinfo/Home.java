@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
-import com.rohitsuratekar.NCBSinfo.background.ChangeTransport;
 import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
@@ -29,7 +28,6 @@ import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.login.Registration;
-import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +61,10 @@ public class Home extends AppCompatActivity implements UserInformation {
                 break;
 
             case registration.camp16.CAMP_MODE:
-                startActivity(new Intent(Home.this, CAMP.class));
+                pref.edit().putString(MODE, ONLINE).apply();
+                startActivity(new Intent(Home.this, OnlineHome.class));
                 overridePendingTransition(0, 0);
                 break;
-
         }
 
         onlineButton = (Button) findViewById(R.id.button_home_online);

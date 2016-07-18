@@ -1,7 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.online;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,7 +30,6 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
@@ -106,36 +103,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             }
         };
 
-        //TODO: when database is up running, remove authentication with just email address
-        //Notify CAMP users
-        if ((pref.getBoolean(registration.camp16.IS_CAMP_USER, false) || isCampUser()) && pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
-            final AlertDialog alertDialog = new AlertDialog.Builder(OnlineHome.this).create();
-            alertDialog.setTitle("CAMP 2016");
-            alertDialog.setMessage("We have detected that you are CAMP 2016 user, you want to change mode to CAMP?");
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
-                    pref.edit().putString(MODE, registration.camp16.CAMP_MODE).apply();
-                    Intent i = new Intent(OnlineHome.this, Home.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Not now", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.show();
-        }
-
         //Initialize Map
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.home_map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
-            mapFragment.getMap().setOnMapClickListener(this);
         }
 
         //Find UI Elements

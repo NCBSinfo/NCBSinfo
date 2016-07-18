@@ -56,8 +56,7 @@ public class Experimental extends AppCompatActivity
         final int[] icons = {
                 R.drawable.icon_lecturehall,
                 R.drawable.icon_canteen,
-                R.drawable.icon_camp
-        };
+            };
         ExperimentalGrid adapter = new ExperimentalGrid(Experimental.this, names, icons);
         grid.setAdapter(adapter);
         grid.setFocusable(false);
@@ -74,7 +73,6 @@ public class Experimental extends AppCompatActivity
                         Toast.makeText(Experimental.this, "Coming soon", Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-                        startActivity(new Intent(Experimental.this, CAMP.class));
                         break;
                 }
             }
