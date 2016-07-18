@@ -1,28 +1,39 @@
 package com.rohitsuratekar.NCBSinfo.background.remote;
 
-import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
+import android.content.Context;
+
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 import java.util.List;
 
 /**
- * NCBSinfo © 2016, Secret Biology
- * https://github.com/NCBSinfo/NCBSinfo
- * Created by Rohit Suratekar on 09-07-16.
+ * Manages all remote config values and their actions.
+ * This class can be called from NetworkOperations.java. No need to save this information.
+ * Utilize triggers and destroy
  */
-public class RemoteManager {
+public class RemoteManager implements RemoteData {
 
     List<RemoteModel> allList;
+    Context context;
+    Preferences pref;
 
-    public RemoteManager(List<RemoteModel> allList) {
+    public RemoteManager(List<RemoteModel> allList, Context context) {
         this.allList = allList;
+        this.context = context;
+        this.pref = new Preferences(context);
     }
 
-    public boolean isUpdateAvailable(){
-        for(RemoteModel m : allList){
+    public void takeAction() {
 
-            new DateConverters().convertToDate("asdas");
+        for (RemoteModel r : allList) {
+            switch (r.getKey()) {
+                case CURRENT_APP:
+                    pref.app().setLatestApp(Integer.valueOf(r.getValue())); //Saves latest app version
+                    break;
+
+            }
         }
-        return false;
+
     }
 
 }

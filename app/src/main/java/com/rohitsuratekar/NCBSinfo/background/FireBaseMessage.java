@@ -16,6 +16,7 @@ public class FireBaseMessage extends FirebaseMessagingService implements Network
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        //TODO: handle by different helper class
     }
     // [END receive_message]
 

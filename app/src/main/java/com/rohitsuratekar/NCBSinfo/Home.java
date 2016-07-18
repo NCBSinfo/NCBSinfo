@@ -64,10 +64,11 @@ public class Home extends AppCompatActivity implements AppConstants {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        pref.app().addOpenCount(); //Whenever user opens app
 
         startActivity(new Intent(this, OnlineHome.class));
-       new Preferences(getBaseContext()).user().setUserType(userType.REGULAR_USER);
-       new Preferences(getBaseContext()).app().setMode(modes.ONLINE);
+        new Preferences(getBaseContext()).user().setUserType(userType.REGULAR_USER);
+        new Preferences(getBaseContext()).app().setMode(modes.ONLINE);
 
 
         metrics = new DisplayMetrics();

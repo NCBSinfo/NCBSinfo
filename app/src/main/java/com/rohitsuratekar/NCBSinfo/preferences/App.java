@@ -22,6 +22,8 @@ public class App implements AppConstants {
     String FIRST_NOTIFICATION_DASHBOARD = "sendFirstNotificationDashboard"; //Only for newly registered users
     String LAST_LOGIN = "lastLogin";
     String OPEN_COUNT = "openCount";
+    String NOTIFICATION_OPENED = "notificationOpened";
+    String LATEST_APP = "latestApp";
 
     protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -68,7 +70,7 @@ public class App implements AppConstants {
         return pref.getBoolean(APP_OPEN, true);
     }
 
-    public void setAppOpened() {
+    public void setAppOpenedFirstTime() {
         pref.edit().putBoolean(APP_OPEN, false).apply();
     }
 
@@ -82,7 +84,7 @@ public class App implements AppConstants {
 
     public boolean isFirstEventNotificationSent() {
         User user = new User(pref, context);
-        return !user.getUserType().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_EVENTS, false);
+        return !user.getUserType().getValue().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_EVENTS, false);
     }
 
     public void firstEventNotificationSent() {
@@ -91,7 +93,7 @@ public class App implements AppConstants {
 
     public boolean isFirstDashboardNotificationSent() {
         User user = new User(pref, context);
-        return !user.getUserType().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_DASHBOARD, false);
+        return !user.getUserType().getValue().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_DASHBOARD, false);
     }
 
     public void firstDashboardNotificationSent() {
@@ -106,12 +108,28 @@ public class App implements AppConstants {
         pref.edit().putString(LAST_LOGIN, time).apply();
     }
 
-    public void setOpenCount(int count) {
-        pref.edit().putInt(OPEN_COUNT, count).apply();
+    public void addOpenCount() {
+        pref.edit().putInt(OPEN_COUNT, getOpenCount() + 1).apply();
     }
 
     public int getOpenCount() {
         return pref.getInt(OPEN_COUNT, 1);
+    }
+
+    public int getNotificationOpened() {
+        return pref.getInt(NOTIFICATION_OPENED, 0);
+    }
+
+    public void addNotificationOpened() {
+        pref.edit().putInt(NOTIFICATION_OPENED, getNotificationOpened() + 1).apply();
+    }
+
+    public boolean isLatestApp() {
+        return getAppVesion() >= pref.getInt(LATEST_APP, getAppVesion());
+    }
+
+    public void setLatestApp(int version) {
+        pref.edit().putInt(LATEST_APP, version).apply();
     }
 
 }

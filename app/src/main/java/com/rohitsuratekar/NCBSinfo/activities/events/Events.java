@@ -11,6 +11,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.ui.ViewpagerAdapter;
@@ -38,6 +39,7 @@ public class Events extends BaseActivity {
         if (eventCode != null) {
             TalkModel talk = new TalkData(getBaseContext()).getEntry(Integer.parseInt(eventCode));
             new EventsListFragment().showDialog(Events.this, talk);
+            new Preferences(getBaseContext()).app().addNotificationOpened(); //Whenever user opens app with notifications
         }
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.base_viewpager);

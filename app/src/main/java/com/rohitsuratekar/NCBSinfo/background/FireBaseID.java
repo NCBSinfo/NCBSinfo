@@ -43,5 +43,6 @@ public class FireBaseID extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         //Subscribe ID to public topic. All devices will be part of public group
+        //TODO
     }
 }

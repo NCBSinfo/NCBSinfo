@@ -42,8 +42,9 @@ public class DataBuilder {
     }
 
     private String makeRequestCalls() {
-        String call = String.valueOf(pref.app().getOpenCount());
-        return call;
+        String count1 = String.valueOf(pref.app().getOpenCount());
+        String count2 = String.valueOf(pref.app().getNotificationOpened());
+        return count1 + "_" + count2;
     }
 
     public void save(DataStructure data) {

@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.constants.RemoteData;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -23,7 +22,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
  * This can be triggered by alarm manager
  */
 
-public class DataManagement extends IntentService implements RemoteData, AppConstants {
+public class DataManagement extends IntentService implements AppConstants {
 
     //Public Constants
     public static final String INTENT = DataManagement.class.getName();

@@ -51,6 +51,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String[] nameArray = getResources().getStringArray(R.array.home_spinner_items);
+        setTitle(nameArray[currentRoute]);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_call);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

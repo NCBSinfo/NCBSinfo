@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
+import com.rohitsuratekar.NCBSinfo.background.remote.RemoteManager;
 import com.rohitsuratekar.NCBSinfo.background.remote.RemoteModel;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
@@ -233,6 +234,8 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                         data.setExtraParameter(response.body().getRows().get(i).get(6));
                         remoteData.add(data);
                     }
+
+                    new RemoteManager(remoteData, getBaseContext()).takeAction();
                 }
             }
 
