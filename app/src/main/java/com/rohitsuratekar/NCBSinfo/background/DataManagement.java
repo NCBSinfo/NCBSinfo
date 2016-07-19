@@ -3,11 +3,8 @@ package com.rohitsuratekar.NCBSinfo.background;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -69,23 +66,23 @@ public class DataManagement extends IntentService implements AppConstants {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             Log.i(TAG, pref.user().getUserType().getValue());
-            if (!pref.user().getUserType().equals(userType.OLD_USER)) {
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(pref.user().getName());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(pref.user().getEmail());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.TOKEN).setValue(pref.user().getToken());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.LATEST_APP).setValue(pref.app().getAppVesion());
-                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.DEFAULT_ROUTE).setValue(pref.user().getDefaultRoute()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isComplete()) {
-                            pref.user().setUserType(userType.REGULAR_USER);
-                        }
-                    }
-                });
-            }//Is not old user
-            else {
-                //TODO
-            }
+//            if (!pref.user().getUserType().equals(userType.OLD_USER)) {
+//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(pref.user().getName());
+//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(pref.user().getEmail());
+//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.TOKEN).setValue(pref.user().getToken());
+//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.LATEST_APP).setValue(pref.app().getAppVesion());
+//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.DEFAULT_ROUTE).setValue(pref.user().getDefaultRoute()).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isComplete()) {
+//                            pref.user().setUserType(userType.REGULAR_USER);
+//                        }
+//                    }
+//                });
+            //          }//Is not old user
+            //          else {
+            //TODO
+            //          }
         }
 
 

@@ -18,6 +18,8 @@ public class Converters {
         List<String> output = new ArrayList<>();
         input = input.replace("{", "");
         input = input.replace("}", "");
+        input = input.replace("(", "");
+        input = input.replace(")", "");
         String[] split = input.split(",");
         for (String s : split) {
             s = s.replace("\"", "");
