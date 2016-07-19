@@ -17,9 +17,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmsHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
@@ -52,7 +54,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
 
     TextView from, to, time, type;
     TextView welcome, message;
-    TransportModel transport;
+    TransportRoute transport;
     int offset; // in min
     Calendar finalCalender;
     Button changeTime, setButton;
@@ -80,15 +82,15 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
         changeTime = (Button) rootView.findViewById(R.id.reminder_change_button);
         setButton = (Button) rootView.findViewById(R.id.reminder_set_button);
 
-        transport = new TransportModel(new TransportHelper(getActivity()).getRoute(bundle.getInt(BUNDLE_ROUTE)), getActivity());
+        transport = new RouteBuilder(new TransportHelper().getRoute(bundle.getInt(BUNDLE_ROUTE)), getActivity()).build();
         reminderTime = bundle.getString(BUNDLE_TIME);
         if (reminderTime != null) {
             time.setText(new DateConverters().convertFormat(reminderTime, DateFormats.TIME_12_HOURS_STANDARD));
         }
         finalCalender = getReminderTime(reminderTime);
 
-        from.setText(transport.getFrom().toUpperCase());
-        to.setText(transport.getTO().toUpperCase());
+        from.setText(transport.getOrigin().toUpperCase());
+        to.setText(transport.getDestination().toUpperCase());
         type.setText(transport.getType());
 
 
@@ -125,7 +127,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
 
                     AlarmModel alarmModel = new AlarmModel();
                     alarmModel.setAlarmID(new AlarmsHelper().createTransportID(
-                            new TransportHelper(getContext()).getRoute(transport.getRouteNo()),
+                            new TransportHelper().getRoute(transport.getRouteNo()),
                             finalCalender.get(Calendar.DAY_OF_WEEK), getString(finalCalender)));
                     alarmModel.setLevel(alarmLevel.TRANSPORT.name());
                     alarmModel.setType(alarmType.SINGLE_SHOT.name());
@@ -169,7 +171,7 @@ public class SetReminderFragment extends Fragment implements AlarmConstants {
 
     private Calendar getReminderTime(String time) {
         if (bundle.getString(BUNDLE_DAY) != null) {
-            if (bundle.getString(BUNDLE_DAY).equals("weekday") || transport.isBuggy()) {
+            if (bundle.getString(BUNDLE_DAY).equals("weekday") || transport.getRouteType().equals(Routes.type.BUGGY)) {
                 Calendar calendar = new DateConverters().convertToCalendar(time);
                 calendar.setTimeInMillis(calendar.getTimeInMillis() - offset * 60 * 1000);
                 if (calendar.before(Calendar.getInstance())) {

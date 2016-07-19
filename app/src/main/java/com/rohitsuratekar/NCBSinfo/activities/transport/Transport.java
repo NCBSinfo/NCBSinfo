@@ -12,13 +12,14 @@ import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.reminder.TransportReminder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
-import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class Transport extends BaseActivity {
 
     public static final String INDENT = "transportIntent";
     private final String TAG = getClass().getSimpleName();
-    private TransportModel transportModel;
+    private TransportRoute route;
     FloatingActionButton fab;
     Preferences pref;
 
@@ -39,13 +40,15 @@ public class Transport extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        transportModel = new TransportModel(getCurrentFragment(0), getBaseContext()); //default
+        route = new RouteBuilder(getCurrentFragment(0), getBaseContext()).build();
+
+
         pref = new Preferences(getBaseContext());
 
         fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         fab.setImageResource(R.drawable.icon_set_reminder);
 
-        List<AlarmModel> allList = new TransportHelper(getBaseContext()).getAllReminders();
+        List<AlarmModel> allList = new TransportHelper().getAllReminders(getBaseContext());
         if (allList.size() == 0 || pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
             fab.setVisibility(View.GONE);
         }
@@ -54,8 +57,8 @@ public class Transport extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Transport.this, TransportReminder.class);
-                intent.putExtra(TransportReminder.ROUTE, transportModel.getRouteNo());
-                intent.putExtra(TransportReminder.ROUTE_TIME, transportModel.getNextTrip());
+                intent.putExtra(TransportReminder.ROUTE, route.getRouteNo());
+                intent.putExtra(TransportReminder.ROUTE_TIME, route.getNextTripString());
                 intent.putExtra(TransportReminder.SWITCH, "1");
                 startActivity(intent);
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
@@ -79,7 +82,7 @@ public class Transport extends BaseActivity {
 
                 @Override
                 public void onPageSelected(int position) {
-                    transportModel = new TransportModel(getCurrentFragment(position), getBaseContext());
+                    route = new RouteBuilder(getCurrentFragment(position), getBaseContext()).build();
                 }
 
                 @Override
@@ -114,23 +117,23 @@ public class Transport extends BaseActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return TransportFragment.newInstance(Routes.NCBS_IISC);
+                    return TransportFragment.newInstance(Routes.NCBS_IISC.getRouteNo());
                 case 1:
-                    return TransportFragment.newInstance(Routes.IISC_NCBS);
+                    return TransportFragment.newInstance(Routes.IISC_NCBS.getRouteNo());
                 case 2:
-                    return TransportFragment.newInstance(Routes.NCBS_MANDARA);
+                    return TransportFragment.newInstance(Routes.NCBS_MANDARA.getRouteNo());
                 case 3:
-                    return TransportFragment.newInstance(Routes.MANDARA_NCBS);
+                    return TransportFragment.newInstance(Routes.MANDARA_NCBS.getRouteNo());
                 case 4:
-                    return TransportFragment.newInstance(Routes.BUGGY_FROM_NCBS); //This is buggy and also 6
+                    return TransportFragment.newInstance(Routes.BUGGY_FROM_NCBS.getRouteNo()); //This is buggy and also 6
                 case 5:
-                    return TransportFragment.newInstance(Routes.NCBS_ICTS);
+                    return TransportFragment.newInstance(Routes.NCBS_ICTS.getRouteNo());
                 case 6:
-                    return TransportFragment.newInstance(Routes.ICTS_NCBS);
+                    return TransportFragment.newInstance(Routes.ICTS_NCBS.getRouteNo());
                 case 7:
-                    return TransportFragment.newInstance(Routes.NCBS_CBL);
+                    return TransportFragment.newInstance(Routes.NCBS_CBL.getRouteNo());
                 default:
-                    return TransportFragment.newInstance(Routes.NCBS_IISC);
+                    return TransportFragment.newInstance(Routes.NCBS_IISC.getRouteNo());
             }
         }
 
@@ -192,7 +195,7 @@ public class Transport extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (new TransportHelper(getBaseContext()).getAllReminders().size() == 0) {
+        if (new TransportHelper().getAllReminders(getBaseContext()).size() == 0) {
             fab.setVisibility(View.GONE);
         }
     }

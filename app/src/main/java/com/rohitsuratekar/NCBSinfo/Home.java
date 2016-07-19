@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
+import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
@@ -55,6 +56,13 @@ public class Home extends AppCompatActivity implements AppConstants {
         //Initialization
         pref = new Preferences(getBaseContext());
         baseParameters = new BaseParameters(getBaseContext());
+
+        //Initialize app if it is opened for first time
+        if (pref.app().isAppOpenedFirstTime()) {
+            Intent service = new Intent(Home.this, ServiceCentre.class);
+            service.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+            startService(service);
+        }
 
 
         //Initialize app with latest app version

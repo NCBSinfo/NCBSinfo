@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 
 /**
@@ -110,7 +110,7 @@ public class User implements AppConstants {
     }
 
     public Routes getDefaultRoute() {
-        return new TransportHelper(context).getRoute(getDefaultRouteValue());
+        return new TransportHelper().getRoute(getDefaultRouteValue());
     }
 
     public void setDefaultRoute(Routes route) {

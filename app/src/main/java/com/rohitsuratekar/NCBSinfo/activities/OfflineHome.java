@@ -22,8 +22,9 @@ import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
@@ -100,7 +101,7 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
 
     //Variables
     Preferences pref;
-    TransportModel transport;
+    TransportRoute transport;
     LinearLayout.LayoutParams params1, params2, params3;
 
 
@@ -109,7 +110,7 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         pref = new Preferences(getBaseContext());
-        transport = new TransportModel(pref.user().getDefaultRoute(), getBaseContext());
+        transport = new RouteBuilder(pref.user().getDefaultRoute(), getBaseContext()).build();
 
         //Set up toolbar title
         setTitle("");
@@ -142,7 +143,7 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.popup_addfav) {
                             pref.user().setDefaultRoute(transport.getRoute());
-                            Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_added_route, transport.getFrom().toUpperCase(), transport.getTO().toUpperCase()), Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_added_route, transport.getOrigin().toUpperCase(), transport.getDestination().toUpperCase()), Snackbar.LENGTH_SHORT).show();
                         } else if (item.getItemId() == R.id.popup_remove) {
                             pref.user().setDefaultRoute(Routes.NCBS_IISC);
                             Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_reset_route), Snackbar.LENGTH_SHORT).show();
@@ -199,11 +200,11 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.off_previousRoute:
-                transport = new TransportModel(new TransportHelper(getBaseContext()).changeRoute(transport.getRoute(), false), getBaseContext());
+                transport = new RouteBuilder(new TransportHelper().changeRoute(transport.getRoute(), false), getBaseContext()).build();
                 changeTransport();
                 break;
             case R.id.off_nextRoute:
-                transport = new TransportModel(new TransportHelper(getBaseContext()).changeRoute(transport.getRoute(), true), getBaseContext());
+                transport = new RouteBuilder(new TransportHelper().changeRoute(transport.getRoute(), true), getBaseContext()).build();
                 changeTransport();
                 break;
             case R.id.off_home_icon_settings:
@@ -238,12 +239,11 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
     }
 
     public void changeTransport() {
-        title.setText(getString(R.string.home_trasnport_title, transport.getFrom().toUpperCase(), transport.getTO().toUpperCase()));
+        title.setText(getString(R.string.home_trasnport_title, transport.getOrigin().toUpperCase(), transport.getDestination().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
-                transport.getType(), new DateConverters().convertFormat(transport.getNextTrip(), DateFormats.TIME_12_HOURS_STANDARD)));
+                transport.getType(), new DateConverters().convertFormat(transport.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
 
-        int[] Difference = new TransportHelper(getBaseContext()).TimeLeftFromNow(
-                transport.getNextTripCalendar().getTime());
+        int[] Difference = new int[]{transport.getHoursToNextTrip(), transport.getMinsToNextTrip(), transport.getSecsToNextTrip()};
 
         hourText.setText(getString(R.string.transport_hours, Difference[1]));
         minText.setText(getString(R.string.transport_min, Difference[2]));

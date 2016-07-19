@@ -15,8 +15,9 @@ import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
@@ -146,8 +147,8 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
     //Notifications for alarms
     public void sendNotification(AlarmModel alarm) {
         int requestID = (int) System.currentTimeMillis();
-        Routes route = new TransportHelper(context).getRoute(Integer.parseInt(alarm.getExtraParameter()));
-        TransportModel transport = new TransportModel(route, context);
+        Routes route = new TransportHelper().getRoute(Integer.parseInt(alarm.getExtraParameter()));
+        TransportRoute transport = new RouteBuilder(route, context).build();
         Intent notificationIntent = new Intent(context, Transport.class);
         notificationIntent.putExtra(Transport.INDENT, alarm.getExtraParameter());
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -159,7 +160,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
                 .setContentTitle("Your upcoming " + transport.getType())
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("Your upcoming " + transport.getType()))
                 .setContentText(new DateConverters().convertFormat(alarm.getExtraValue(), DateFormats.TIME_12_HOURS_STANDARD)
-                        + " " + transport.getFrom().toUpperCase() + " - " + transport.getTO().toUpperCase() + " " + transport.getType() +
+                        + " " + transport.getOrigin().toUpperCase() + " - " + transport.getDestination().toUpperCase() + " " + transport.getType() +
                         " is departing soon").setAutoCancel(true)
                 .setContentIntent(contentIntent);
         notifySystem(mBuilder, notificationNumber);
