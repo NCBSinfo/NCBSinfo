@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class TransportFragment extends Fragment {
@@ -113,21 +115,21 @@ public class TransportFragment extends Fragment {
         int focusSunday = 0;
 
         if (transport.getRouteType().equals(Routes.type.BUGGY)) {
-            focusWeek = getIndex(rawWeekTrips, ncbsBuggy.getNextTripString());
-            focusSunday = getIndex(rawSundayTrips, mandaraBuggy.getNextTripString());
+            focusWeek = getIndex(rawWeekTrips, ncbsBuggy.getDynamics().getNextTripString());
+            focusSunday = getIndex(rawSundayTrips, mandaraBuggy.getDynamics().getNextTripString());
             formattedSunday = formatList(formattedSunday, focusSunday);
             formattedWeek = formatList(formattedWeek, focusWeek);
 
         } else {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(transport.getNextTripDate());
+            calendar.setTime(transport.getDynamics().getNextTripDate());
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 formattedWeek = convertList(formattedWeek);
-                focusSunday = getIndex(rawSundayTrips, transport.getNextTripString());
+                focusSunday = getIndex(rawSundayTrips, transport.getDynamics().getNextTripString());
                 formattedSunday = formatList(formattedSunday, focusSunday);
             } else {
                 formattedSunday = convertList(formattedSunday);
-                focusWeek = getIndex(rawWeekTrips, transport.getNextTripString());
+                focusWeek = getIndex(rawWeekTrips, transport.getDynamics().getNextTripString());
                 formattedWeek = formatList(formattedWeek, focusWeek);
             }
         }
@@ -143,10 +145,14 @@ public class TransportFragment extends Fragment {
         footnote2.setText(transport.getFooter2());
 
 
-        weekList.setSelection(focusWeek);
-        weekList.smoothScrollToPositionFromTop(focusWeek, 0);
-        sundayList.setSelection(focusSunday);
-        sundayList.smoothScrollToPositionFromTop(focusSunday, 0);
+        if (focusWeek > 3) {
+            weekList.setSelection(focusWeek);
+            weekList.smoothScrollToPositionFromTop(focusWeek, 0);
+        }
+        if (focusSunday > 3) {
+            sundayList.setSelection(focusSunday);
+            sundayList.smoothScrollToPositionFromTop(focusSunday, 0);
+        }
 
 
         final String[] finalRawWeekTrips = rawWeekTrips;

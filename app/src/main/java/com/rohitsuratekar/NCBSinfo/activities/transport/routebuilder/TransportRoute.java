@@ -24,10 +24,6 @@ public abstract class TransportRoute {
 
     public abstract Trips getTrips();
 
-    public abstract Date getNextTripDate();
-
-    public abstract String getNextTripString();
-
     public abstract String getWeekTitle();
 
     public abstract String getSundayTitle();
@@ -40,12 +36,6 @@ public abstract class TransportRoute {
 
     public abstract LatLng getDestinationLocation();
 
-    public abstract int getDaysToNextTrip();
-
-    public abstract int getHoursToNextTrip();
-
-    public abstract int getMinsToNextTrip();
-
-    public abstract int getSecsToNextTrip();
+    public abstract TransportDynamics getDynamics();
 
 }

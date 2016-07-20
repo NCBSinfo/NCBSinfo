@@ -23,6 +23,7 @@ import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportDynamics;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
@@ -239,24 +240,26 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
     }
 
     public void changeTransport() {
+        TransportDynamics dynamics = transport.getDynamics();
         title.setText(getString(R.string.home_trasnport_title, transport.getOrigin().toUpperCase(), transport.getDestination().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
-                transport.getType(), new DateConverters().convertFormat(transport.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
+                transport.getType(), new DateConverters().convertFormat(dynamics.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
 
-        int[] Difference = new int[]{transport.getHoursToNextTrip(), transport.getMinsToNextTrip(), transport.getSecsToNextTrip()};
 
-        hourText.setText(getString(R.string.transport_hours, Difference[1]));
-        minText.setText(getString(R.string.transport_min, Difference[2]));
-        secText.setText(getString(R.string.transport_sec, Difference[3]));
+        int[] Difference = new int[]{dynamics.getHoursToNextTrip(), dynamics.getMinsToNextTrip(), dynamics.getSecsToNextTrip()};
 
-        if (Difference[1] > 12) {
+        hourText.setText(getString(R.string.transport_hours, Difference[0]));
+        minText.setText(getString(R.string.transport_min, Difference[1]));
+        secText.setText(getString(R.string.transport_sec, Difference[2]));
+
+        if (Difference[0] > 12) {
             Difference[1] = 12;
         }
-        params1.weight = ((float) Difference[1] / 12) * 100;
+        params1.weight = ((float) Difference[0] / 12) * 100;
         hour.setLayoutParams(params1);
-        params2.weight = ((float) Difference[2] / 60) * 100;
+        params2.weight = ((float) Difference[1] / 60) * 100;
         min.setLayoutParams(params2);
-        params3.weight = ((float) Difference[3] / 60) * 100;
+        params3.weight = ((float) Difference[2] / 60) * 100;
         sec.setLayoutParams(params3);
 
     }

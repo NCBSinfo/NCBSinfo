@@ -67,15 +67,7 @@ public class ShuttleBuilder extends TransportRoute {
         return trips;
     }
 
-    @Override
-    public Date getNextTripDate() {
-        return new TransportHelper().getNext(trips);
-    }
 
-    @Override
-    public String getNextTripString() {
-        return new DateConverters().convertToString(new TransportHelper().getNext(trips), DateFormats.TIME_24_HOURS_STANDARD);
-    }
 
 
     @Override
@@ -110,22 +102,8 @@ public class ShuttleBuilder extends TransportRoute {
     }
 
     @Override
-    public int getDaysToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[0];
+    public TransportDynamics getDynamics() {
+        return new TransportDynamics(trips);
     }
 
-    @Override
-    public int getHoursToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[1];
-    }
-
-    @Override
-    public int getMinsToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[2];
-    }
-
-    @Override
-    public int getSecsToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[3];
-    }
 }

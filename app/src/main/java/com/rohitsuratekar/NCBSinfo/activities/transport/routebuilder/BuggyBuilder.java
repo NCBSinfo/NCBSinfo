@@ -67,17 +67,6 @@ public class BuggyBuilder extends TransportRoute {
     }
 
     @Override
-    public Date getNextTripDate() {
-        return new TransportHelper().getNext(trips);
-    }
-
-    @Override
-    public String getNextTripString() {
-        return new DateConverters().convertToString(new TransportHelper().getNext(trips), DateFormats.TIME_24_HOURS_STANDARD);
-    }
-
-
-    @Override
     public String getWeekTitle() {
         return context.getResources().getString(R.string.transport_list_buggy_title_ncbs);
     }
@@ -108,23 +97,10 @@ public class BuggyBuilder extends TransportRoute {
         return new TransportHelper().getLocation(context, getDestination(), getRouteType());
     }
 
-    @Override
-    public int getDaysToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[0];
-    }
 
     @Override
-    public int getHoursToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[1];
+    public TransportDynamics getDynamics() {
+        return new TransportDynamics(trips);
     }
 
-    @Override
-    public int getMinsToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[2];
-    }
-
-    @Override
-    public int getSecsToNextTrip() {
-        return new TransportHelper().TimeLeftFromNow(new TransportHelper().getNext(trips))[3];
-    }
 }

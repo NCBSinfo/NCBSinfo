@@ -171,6 +171,7 @@ public class Registration extends BaseActivity implements AppConstants {
         });
 
         //If user has registered in previous app versions
+        //Remove this when 90% of users are above App version 21
         SharedPreferences temp1 = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (temp1.getBoolean("pref_registered", false)) {
             username.setText(temp1.getString("pref_username", ""));

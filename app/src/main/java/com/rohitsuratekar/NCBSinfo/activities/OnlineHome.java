@@ -30,6 +30,7 @@ import com.rohitsuratekar.NCBSinfo.activities.maps.MapHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportDynamics;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
@@ -283,10 +284,11 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
     }
 
     public void changeTransport() {
+        TransportDynamics dynamics = transport.getDynamics();
         title.setText(getString(R.string.home_trasnport_title, transport.getOrigin().toUpperCase(), transport.getDestination().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
-                transport.getType(), new DateConverters().convertFormat(transport.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
-        timeLeft.setText(getResources().getString(R.string.time_left, transport.getHoursToNextTrip(), transport.getMinsToNextTrip(), transport.getSecsToNextTrip()));
+                transport.getType(), new DateConverters().convertFormat(dynamics.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
+        timeLeft.setText(getResources().getString(R.string.time_left, dynamics.getHoursToNextTrip(), dynamics.getMinsToNextTrip(), dynamics.getSecsToNextTrip()));
     }
 
     private String setFooterText() {

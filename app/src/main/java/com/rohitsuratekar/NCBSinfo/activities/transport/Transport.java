@@ -28,7 +28,7 @@ public class Transport extends BaseActivity {
 
     public static final String INDENT = "transportIntent";
     private final String TAG = getClass().getSimpleName();
-    private TransportRoute route;
+    private int routeNo;
     FloatingActionButton fab;
     Preferences pref;
 
@@ -40,7 +40,7 @@ public class Transport extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        route = new RouteBuilder(getCurrentFragment(0), getBaseContext()).build();
+
 
 
         pref = new Preferences(getBaseContext());
@@ -56,9 +56,11 @@ public class Transport extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                TransportRoute route = new RouteBuilder(getCurrentFragment(routeNo), getBaseContext()).build();
                 Intent intent = new Intent(Transport.this, TransportReminder.class);
                 intent.putExtra(TransportReminder.ROUTE, route.getRouteNo());
-                intent.putExtra(TransportReminder.ROUTE_TIME, route.getNextTripString());
+                intent.putExtra(TransportReminder.ROUTE_TIME, route.getDynamics().getNextTripString());
                 intent.putExtra(TransportReminder.SWITCH, "1");
                 startActivity(intent);
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
@@ -82,7 +84,7 @@ public class Transport extends BaseActivity {
 
                 @Override
                 public void onPageSelected(int position) {
-                    route = new RouteBuilder(getCurrentFragment(position), getBaseContext()).build();
+                    routeNo = position;
                 }
 
                 @Override
