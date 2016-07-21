@@ -44,7 +44,8 @@ public class DataBuilder {
     private String makeRequestCalls() {
         String count1 = String.valueOf(pref.app().getOpenCount());
         String count2 = String.valueOf(pref.app().getNotificationOpened());
-        return count1 + "_" + count2;
+        String count3 = String.valueOf(pref.app().getNetworkRequests());
+        return count1 + "_" + count2 + "_" + count3;
     }
 
     public void save(DataStructure data) {

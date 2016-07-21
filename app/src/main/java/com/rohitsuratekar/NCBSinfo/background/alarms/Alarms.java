@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.NotificationService;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
@@ -54,20 +55,49 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         if (triggers != null) {
             Log.i(TAG, "Received intent: " + triggers.name());
             switch (triggers) {
-                case DAILY_FETCH:
-                    startDataFetch(context);
+
+                //Set Alarm
+                case SET_ALARM:
+                    if (intent.getStringExtra(ALARM_KEY) != null) {
+                        AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
+                        setAlarm(alarm);
+                    }
                     break;
+
+                //Reset All Alarms
                 case RESET_ALL:
                     resetAll();
                     break;
+
+                //Delete Alarm
+                case DELETE_ALARM:
+                    if (intent.getStringExtra(ALARM_KEY) != null) {
+                        AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
+                        cancelAlarm(alarm);
+                    }
+                    break;
+
+                //Delete All Transport Reminder
+                case DELETE_REMINDERS:
+                    deleteReminders();
+                    break;
+
+                //Fetch Daily Events
+                case DAILY_FETCH:
+                    startDataFetch(context);
+                    break;
+
+                //Send Upcoming notifications
                 case SEND_UPCOMING:
                     sendUpcomingAlarms();
                     break;
+
                 case SEND_NOTIFICATION:
                     if (intent.getStringExtra(NotificationService.NOTIFICATION_CODE) != null) {
                         new NotificationService(context).sendNotification(Integer.parseInt(intent.getStringExtra(NotificationService.NOTIFICATION_CODE)));
                     }
                     break;
+
                 case TRANSPORT_REMINDER:
                     if (intent.getStringExtra(ALARM_KEY) != null) {
                         AlarmModel alarmModel = new AlarmData(context).get(Integer.parseInt(intent.getStringExtra(ALARM_KEY)));
@@ -76,21 +106,11 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
                         }
                     }
                     break;
-                case DELETE_ALARM:
-                    if (intent.getStringExtra(ALARM_KEY) != null) {
-                        AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
-                        cancelAlarm(alarm);
-                    }
+
+                case LOW_PRIORITY_ALARMS:
+                    startRemoteDataFetch(context);
                     break;
-                case DELETE_REMINDERS:
-                    deleteReminders();
-                    break;
-                case SET_ALARM:
-                    if (intent.getStringExtra(ALARM_KEY) != null) {
-                        AlarmModel alarm = new AlarmData(context).get(Integer.valueOf(intent.getStringExtra(ALARM_KEY)));
-                        setAlarm(alarm);
-                    }
-                    break;
+
 
             }
         }
@@ -122,13 +142,41 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         } //Single Shot
     }
 
+    private void setInaccurateAlarm(AlarmModel alarm) {
+        Intent intent = new Intent(context, Alarms.class);
+        intent.putExtra(INTENT, alarm.getTrigger());
+        intent.putExtra(ALARM_KEY, String.valueOf(alarm.getId()));
+        long StarTime = new DateConverters().convertToCalendar(alarm.getAlarmDate() + " " + alarm.getAlarmTime()).getTimeInMillis();
+        PendingIntent pendingIntent = getIndent(intent, alarm.getAlarmID());
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, StarTime, 24 * 60 * 60 * 1000, pendingIntent);
+        Log.i(TAG, "Low priority alarm set :" + alarm.getAlarmID());
+    }
+
     private void startDataFetch(Context context) {
         //Strict policy for data fetch. It will be fetched only when mode is not "offline".
         if (!pref.app().getMode().getValue().equals(modes.OFFLINE.getValue())) {
             Intent service = new Intent(context, NetworkOperations.class);
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
             context.startService(service);
+        } else {
+            Log.e(TAG, "Network operation cancelled because of Offline mode");
         }
+
+    }
+
+    private void startRemoteDataFetch(Context context) {
+        //Strict policy for data fetch. It will be fetched only when mode is not "offline".
+        if (!pref.app().getMode().getValue().equals(modes.OFFLINE.getValue())) {
+            Intent service = new Intent(context, NetworkOperations.class);
+            service.putExtra(NetworkOperations.INTENT, NetworkOperations.REMOTE_DATA);
+            context.startService(service);
+            Intent dataService = new Intent(context, DataManagement.class);
+            dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+            context.startService(dataService);
+        } else {
+            Log.e(TAG, "Network operation cancelled because of Offline mode");
+        }
+
 
     }
 
@@ -141,9 +189,20 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         for (AlarmModel alarm : allAlarms) {
             //First reset all network operations
             if (alarm.getLevel().equals(alarmLevel.NETWORK.name())) {
-                setAlarm(alarm);
+                //Check if it is inaccurate alarm or regular alarm
+                if (alarm.getTrigger().equals(alarmTriggers.LOW_PRIORITY_ALARMS.name())) {
+                    setInaccurateAlarm(alarm);
+                } else {
+                    setAlarm(alarm);
+                }
             }//Network
+
+            if (alarm.getLevel().equals(alarmLevel.TRANSPORT.name())) {
+                setAlarm(alarm);
+            }
+
         }
+        sendUpcomingAlarms();
         Log.i(TAG, "All alarms are reset");
     }
 

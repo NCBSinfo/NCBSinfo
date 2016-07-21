@@ -91,6 +91,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
 
         Intent notificationIntent;
         notificationIntent = new Intent(context, DashBoard.class);
+        notificationIntent.putExtra(DashBoard.INTENT, "true");
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -195,7 +196,9 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
     private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
         Preferences pref = new Preferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.
-        if (pref.user().isNotificationAllowed() && !pref.app().getMode().equals(modes.OFFLINE)) {
+        if (pref.user().isNotificationAllowed()
+                && !pref.app().getMode().equals(modes.UNKNOWN)
+                && !pref.app().getMode().equals(modes.OFFLINE)) {
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(notificationNumber, mBuilder.build());
         } else {

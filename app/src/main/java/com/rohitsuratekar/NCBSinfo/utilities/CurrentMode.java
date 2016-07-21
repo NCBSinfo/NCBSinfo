@@ -28,6 +28,12 @@ public class CurrentMode implements AppConstants {
                 this.warningMessage = context.getString(R.string.warning_mode_change_online);
                 this.isOffline = false;
                 break;
+            case UNKNOWN:
+                this.mode = modes.UNKNOWN.getValue();
+                this.icon = R.drawable.icon_warning;
+                this.warningMessage = context.getString(R.string.warning_mode_change_online);
+                this.isOffline = true;
+                break;
         }
 
     }

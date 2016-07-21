@@ -7,7 +7,6 @@ import android.util.Log;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteInformation;
-import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
@@ -31,12 +30,12 @@ public class TransportPref {
 
     public String[] getWeekdayTrips(Routes routes) {
         return new Converters().stringToarray(
-                pref.getString(new RouteInformation(routes).get().getWeekDayKey(), TransportHelper.DEFAULT_TRIPS));
+                pref.getString(new RouteInformation(routes).get().getWeekDayKey(), context.getString(getDefault(routes, false))));
     }
 
     public String[] getSundayTrips(Routes routes) {
         return new Converters().stringToarray(
-                pref.getString(new RouteInformation(routes).get().getSundayKey(), TransportHelper.DEFAULT_TRIPS));
+                pref.getString(new RouteInformation(routes).get().getSundayKey(), context.getString(getDefault(routes, true))));
     }
 
 
@@ -50,7 +49,7 @@ public class TransportPref {
     public void resetRoute(Routes routes) {
         Log.i(TAG, routes.toString() + " reset");
         pref.edit().putString(new RouteInformation(routes).get().getWeekDayKey(), context.getString(getDefault(routes, false))).apply();
-        pref.edit().putString(new RouteInformation(routes).get().getSundayKey(), context.getString(getDefault(routes, false))).apply();
+        pref.edit().putString(new RouteInformation(routes).get().getSundayKey(), context.getString(getDefault(routes, true))).apply();
     }
 
 
@@ -105,7 +104,7 @@ public class TransportPref {
 
     public String getLastUpdate() {
         if (new App(pref, context).getMode().equals(AppConstants.modes.OFFLINE)) {
-            return "N/A (offline mode timings will not update automatically)";
+            return "N/A (offline mode)";
         } else {
             return pref.getString(LAST_UPDATE, "Never");
         }
@@ -139,6 +138,8 @@ public class TransportPref {
         pref.edit().remove("camp_buggy_mandara").apply();
         pref.edit().remove("camp_shuttle_ncbs").apply();
         pref.edit().remove("camp_shuttle_mandara").apply();
+
+        Log.i(TAG, "Cleared Past Preferences");
 
     }
 

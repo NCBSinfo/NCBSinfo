@@ -70,8 +70,13 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         this.context = getBaseContext();
         this.pref = new Preferences(getBaseContext());
         String trigger = intent.getStringExtra(INTENT);
+
         //Do not add default field here
-        if (trigger != null) {
+        //Strict policy for offline mode. No network operation
+        if (trigger != null //Trigger should not be null
+                && !pref.app().getMode().equals(modes.UNKNOWN) //Mode should not be unknown
+                && !pref.app().getMode().equals(modes.OFFLINE)  //Mode should not be offline
+                && pref.app().isWithinNetworkLimit()) { //Should be within network request limit
             switch (trigger) {
                 case REGISTER:
                     userRegistration();
@@ -86,6 +91,8 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     remoteData();
                     break;
             }
+        } else {
+            Log.e(TAG, "User is on offline or Unknown mode or wrong trigger sent");
         }
 
     }
@@ -99,7 +106,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         FirebaseMessaging.getInstance().subscribeToTopic(fcmTopics.EMERGENCY);
         Log.d(TAG, "Subscribed with topic");
 
-        if (mAuth.getCurrentUser() != null) {
+        if (mAuth.getCurrentUser() != null && !pref.network().isRegistrationDetailsSent()) {
             Commands formservice = Service.createService(Commands.class);
             Call<ResponseBody> call = formservice
                     .submitRegistration(
@@ -112,11 +119,14 @@ public class NetworkOperations extends IntentService implements NetworkConstants
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Log.i(TAG, response.body().toString());
-                    //TODO: network details
-                    //pref.edit().putBoolean(netwrok.REGISTRATION_DETAILS_SENT, true).apply();
-                    //Start fetching event details
-                    researchTalk();
+                    if (response.isSuccess()) {
+                        Log.i(TAG, "Registration details sent to server");
+                        pref.network().setRegistrationDetailsSent();
+                        remoteData();
+                        researchTalk();
+                    } else {
+                        Log.e(TAG, response.body().toString());
+                    }
                 }
 
                 @Override

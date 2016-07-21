@@ -2,9 +2,12 @@ package com.rohitsuratekar.NCBSinfo.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
+
+import java.util.Calendar;
 
 /**
  * This class deals with app related shared preferences
@@ -14,12 +17,13 @@ public class App implements AppConstants {
     SharedPreferences pref;
     Context context;
     String APP_MODE = "app_mode";
+    int NETWORK_LIMIT = 100;
     String APP_VERSION = "latestAppVersion";
     String APP_VERSION_NAME = "latestAppVersionName";
-    String APP_OPEN = "firstTimeAppOpen";
+    String APP_OPEN = "firstTimeAppOpen_v29"; //Changed from Version 29
+    String APP_OPEN_LAST_VERSIONS = "firstTimeAppOpen_01July"; //Used in previous version
     String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
     String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents"; //Only for newly registered users
-    String FIRST_NOTIFICATION_DASHBOARD = "sendFirstNotificationDashboard"; //Only for newly registered users
     String LAST_LOGIN = "lastLogin";
     String OPEN_COUNT = "openCount";
     String NOTIFICATION_OPENED = "notificationOpened";
@@ -31,11 +35,11 @@ public class App implements AppConstants {
 
     public modes getMode() {
         for (modes m : modes.values()) {
-            if (m.getValue().equals(pref.getString(APP_MODE, modes.OFFLINE.getValue()))) {
+            if (m.getValue().equals(pref.getString(APP_MODE, modes.UNKNOWN.getValue()))) {
                 return m;
             }
         }
-        return modes.OFFLINE; //Default
+        return modes.UNKNOWN; //Default
     }
 
     public void setMode(modes mode) {
@@ -45,6 +49,9 @@ public class App implements AppConstants {
                 break;
             case OFFLINE:
                 pref.edit().putString(APP_MODE, modes.OFFLINE.getValue()).apply();
+                break;
+            case UNKNOWN:
+                pref.edit().putString(APP_MODE, modes.UNKNOWN.getValue()).apply();
                 break;
         }
     }
@@ -90,15 +97,6 @@ public class App implements AppConstants {
         pref.edit().putBoolean(FIRST_NOTIFICATION_EVENTS, true).apply();
     }
 
-    public boolean isFirstDashboardNotificationSent() {
-        User user = new User(pref, context);
-        return !user.getUserType().getValue().equals(userType.NEW_USER.getValue()) || pref.getBoolean(FIRST_NOTIFICATION_DASHBOARD, false);
-    }
-
-    public void firstDashboardNotificationSent() {
-        pref.edit().putBoolean(FIRST_NOTIFICATION_DASHBOARD, true).apply();
-    }
-
     public String getLastLogin() {
         return pref.getString(LAST_LOGIN, new General().timeStamp());
     }
@@ -123,6 +121,44 @@ public class App implements AppConstants {
         pref.edit().putInt(NOTIFICATION_OPENED, getNotificationOpened() + 1).apply();
     }
 
+    //This will return true only if last versions have not set it to false
+    public boolean isPreviouslyUsed() {
+        return pref.getBoolean(APP_OPEN_LAST_VERSIONS, true);
+    }
 
+    /**
+     * Following method is need to avoid network abuse from any app
+     *
+     * @return : true if app is making network request within limit
+     */
+    public boolean isWithinNetworkLimit() {
+
+        if (lastDate() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            int count = getNetworkRequests() + 1;
+            pref.edit().putInt(networkCount, count).apply();
+            if (count < NETWORK_LIMIT) {
+                return true;
+            } else {
+                Log.e(getClass().getSimpleName(), "Network Limit over. No network calls should be allowed.");
+                return false;
+            }
+        } else {
+            pref.edit().putInt(networkDateStamp, Calendar.getInstance().get(Calendar.DAY_OF_YEAR)).apply();
+            pref.edit().putInt(networkCount, 0).apply();
+            return true;
+        }
+
+    }
+
+    public int getNetworkRequests() {
+        return pref.getInt(networkCount, 0);
+    }
+
+    String networkDateStamp = "networkDateStamp";
+    String networkCount = "netwrokCount";
+
+    private int lastDate() {
+        return pref.getInt(networkDateStamp, Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
+    }
 
 }

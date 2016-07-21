@@ -2,12 +2,10 @@ package com.rohitsuratekar.NCBSinfo.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
+
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -19,9 +17,11 @@ public class RemotePref {
     private final String TAG = this.getClass().getSimpleName();
 
     String LAST_ACCESS = "remoteLastAccess";
+    String LAST_DATA_SYNC = "firebaseLastSync";
     String LATEST_APP = "latestApp";
     String MESSAGE = "remoteMessage";
     String OLD_FIREBASE_DELETED = "remoteOldDeleted";
+    String REGISTRATION_DETAILS_SENT = "registrationSent";
 
 
     SharedPreferences pref;
@@ -41,27 +41,20 @@ public class RemotePref {
         pref.edit().putInt(LATEST_APP, version).apply();
     }
 
-    public Date getLastAccess() {
-        Date date = new Date();
-        SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault());
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault());
-        try {
-            date = dateFormat1.parse(pref.getString(LAST_ACCESS, "16/10/1989 00:00:00"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Log.e(TAG, "Error parsing date, trying next format");
-            try {
-                date = dateFormat2.parse(pref.getString(LAST_ACCESS, "16/10/1989 00:00"));
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-                Log.e(TAG, "Error parsing date, Invalid format");
-            }
-        }
-        return date;
+    public Date getLastUpdated() {
+        return new DateConverters().convertToDate(pref.getString(LAST_ACCESS, "16/10/1989 00:00:00"));
+    }
+
+    public void setLastFirebaseSync(String timestamp) {
+        pref.edit().putString(LAST_DATA_SYNC, timestamp).apply();
+    }
+
+    public Date getLastFireBaseSync() {
+        return new DateConverters().convertToDate(pref.getString(LAST_DATA_SYNC, "16/10/1989 00:00:00"));
     }
 
 
-    public void setLastAccess(String timestamp) {
+    public void setLastUpdated(String timestamp) {
         pref.edit().putString(LAST_ACCESS, timestamp).apply();
     }
 
@@ -81,5 +74,12 @@ public class RemotePref {
         pref.edit().putBoolean(OLD_FIREBASE_DELETED, true).apply();
     }
 
+    public boolean isRegistrationDetailsSent() {
+        return pref.getBoolean(REGISTRATION_DETAILS_SENT, false);
+    }
+
+    public void setRegistrationDetailsSent() {
+        pref.edit().putBoolean(REGISTRATION_DETAILS_SENT, true).apply();
+    }
 
 }

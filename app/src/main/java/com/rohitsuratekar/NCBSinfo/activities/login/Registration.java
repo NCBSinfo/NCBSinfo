@@ -24,7 +24,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
+import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
+import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
@@ -77,6 +81,7 @@ public class Registration extends BaseActivity implements AppConstants {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Registration.this, Login.class));
+                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
             }
         });
 
@@ -150,12 +155,27 @@ public class Registration extends BaseActivity implements AppConstants {
                                                     firebaseErrors.dialogWarning();
                                                 } else {
                                                     hideProgressDialog();
+                                                    //Reset App Data
+                                                    pref.clearAll();
+                                                    Database.getInstance(getBaseContext()).restartDatabase();
+                                                    Intent service = new Intent(Registration.this, ServiceCentre.class);
+                                                    service.putExtra(ServiceCentre.INTENT, ServiceCentre.LOGIN_RESET);
+                                                    startService(service);
+                                                    //Put all shared preferences
                                                     pref.user().setName(username.getText().toString());
                                                     pref.user().setEmail(email.getText().toString());
                                                     pref.user().setAuthorization(loginStatus.SUCCESS);
                                                     pref.user().setUserType(userType.NEW_USER);
                                                     pref.app().setMode(modes.ONLINE);
-                                                    //TODO: start network calls
+                                                    //Send Registration
+                                                    Intent network = new Intent(Registration.this, NetworkOperations.class);
+                                                    network.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
+                                                    startService(network);
+                                                    //Send Data
+                                                    Intent dataService = new Intent(Registration.this, DataManagement.class);
+                                                    dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                                                    startService(dataService);
+                                                    //Start app
                                                     Intent intent = new Intent(Registration.this, OnlineHome.class);
                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(intent);

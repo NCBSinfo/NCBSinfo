@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
+import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.Database;
@@ -184,16 +186,22 @@ public class Login extends BaseActivity implements AppConstants {
                                             Database.getInstance(getBaseContext()).restartDatabase();
                                             //Reset App Data
                                             Intent service = new Intent(Login.this, ServiceCentre.class);
-                                            service.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+                                            service.putExtra(ServiceCentre.INTENT, ServiceCentre.LOGIN_RESET);
                                             startService(service);
-                                            //TODO: network operations
-
                                             //Put all shared preferences
                                             pref.app().setMode(modes.ONLINE);
                                             pref.user().setEmail(email.getText().toString());
                                             pref.user().setAuthorization(loginStatus.SUCCESS);
                                             pref.user().setUserType(userType.OLD_USER);
                                             pref.user().setToken(FirebaseInstanceId.getInstance().getToken());
+                                            //Send Registration
+                                            Intent network = new Intent(Login.this, NetworkOperations.class);
+                                            network.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
+                                            startService(network);
+                                            //Retrieve Data
+                                            Intent dataService = new Intent(Login.this, DataManagement.class);
+                                            dataService.putExtra(DataManagement.INTENT, DataManagement.FETCH_FIREBASE_DATA);
+                                            startService(dataService);
                                             Intent intent = new Intent(Login.this, OnlineHome.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);

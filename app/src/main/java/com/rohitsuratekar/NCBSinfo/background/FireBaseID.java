@@ -1,11 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.background;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -15,7 +14,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class FireBaseID extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
-    SharedPreferences pref;
+    Preferences pref;
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -26,23 +25,10 @@ public class FireBaseID extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.
-        pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-        sendRegistrationToServer(refreshedToken);
+        pref = new Preferences(getBaseContext());
+        pref.user().setToken(refreshedToken);
     }
     // [END refresh_token]
-
-    /**
-     * Persist token to third-party servers.
-     * <p>
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    private void sendRegistrationToServer(String token) {
-        //Subscribe ID to public topic. All devices will be part of public group
-        //TODO
-    }
 }

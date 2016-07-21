@@ -39,7 +39,7 @@ public class RemoteManager implements RemoteData {
                         pref.network().setLatestApp(Integer.valueOf(r.getValue())); //Saves latest app version
                         break;
                     case keys.TIMESTAMP:
-                        pref.network().setLastAccess(r.getValue());
+                        pref.network().setLastUpdated(r.getValue());
                         break;
                     case keys.MESSAGE:
                         pref.network().setMessage(r.getKey());

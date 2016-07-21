@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activities.dashboard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -24,6 +25,8 @@ import com.rohitsuratekar.NCBSinfo.ui.ViewpagerAdapter;
  * Created by Rohit Suratekar on 01-07-16.
  */
 public class DashBoard extends BaseActivity {
+
+    public static final String INTENT = "dashBoard";
 
     @Override
     protected CurrentActivity setCurrentActivity() {
@@ -85,6 +88,16 @@ public class DashBoard extends BaseActivity {
 
             }
         });
+
+        Intent intent = getIntent();
+        String fromNotification = intent.getStringExtra(INTENT);
+        if (fromNotification != null) {
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            assert tab != null;
+            tab.select();
+            new Preferences(getBaseContext()).app().addNotificationOpened(); //Whenever user opens app with notifications
+        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

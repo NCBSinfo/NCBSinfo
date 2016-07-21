@@ -111,9 +111,9 @@ public class DateConverters {
     private static final String[][] patternList = {
             {"^\\d{1,2}:\\d{2}$", "HH:mm", ONLY_TIME},
             {"^\\d{1,2}:\\d{2}\\s(?i)(am|pm)$", "hh:mm a", ONLY_TIME},
-            {"^\\d{1,2}/\\d{1,2}/\\d{4}$", "dd/mm/yyyy", ONLY_DATE},
-            {"^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$", "dd/mm/yyyy HH:mm", BOTH},
-            {"^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd/mm/yyyy HH:mm:ss", BOTH},
+            {"^\\d{1,2}/\\d{1,2}/\\d{4}$", "dd/MM/yyyy", ONLY_DATE},
+            {"^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$", "dd/MM/yyyy HH:mm", BOTH},
+            {"^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd/MM/yyyy HH:mm:ss", BOTH},
             {"^\\d{1,2}:\\d{2}:\\d{2}\\s(?i)(am|pm)\\s\\d{1,2}\\s[a-z]{3}\\s\\d{2}$", "hh:mm:ss a dd MMM yy", BOTH},
             {"^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$", "dd MMM yyyy", ONLY_DATE},
             {"([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$", "HH:mm:ss", ONLY_TIME},

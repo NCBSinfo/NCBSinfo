@@ -33,6 +33,8 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilde
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportDynamics;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
@@ -122,7 +124,12 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
                     Log.i(TAG, "Logged in user " + firebaseAuth.getCurrentUser().getEmail());
-                    //TODO : Add network operations
+                    //Second if condition is required for database migration
+                    if (!pref.user().getUserType().equals(AppConstants.userType.REGULAR_USER) || !pref.network().isOldDeleted()) {
+                        Intent intent = new Intent(OnlineHome.this, DataManagement.class);
+                        intent.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                        startService(intent);
+                    }
                 } else {
                     Log.i(TAG, "No credentials found");
                 }

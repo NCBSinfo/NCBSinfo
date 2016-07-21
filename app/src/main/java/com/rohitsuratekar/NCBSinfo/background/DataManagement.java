@@ -66,7 +66,10 @@ public class DataManagement extends IntentService implements AppConstants, FireB
         if (!new General().isOnProxy()) {
 
             String trigger = intent.getStringExtra(INTENT);
-            if (trigger != null) {
+            //Strict policy for offline mode
+            if (trigger != null
+                    && !pref.app().getMode().equals(modes.UNKNOWN)
+                    && !pref.app().getMode().equals(modes.OFFLINE)) {
 
                 switch (trigger) {
                     case SEND_FIREBASEDATE:
@@ -80,6 +83,8 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                         readData();
                         break;
                 }
+            } else {
+                Log.e(TAG, "User is on offline mode or wrong trigger sent");
             }
         } else {
             Log.e(TAG, "User is on proxy, database operations are suspended");
@@ -107,6 +112,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                             sendFirstTimeDetails();
                             //Deleting from Old Database
                             mDatabase.child("users").child(user.getUid()).removeValue();
+                            pref.network().setOldDeleted();
 
                         } else {
                             Log.e(TAG, "User has no records");
@@ -143,17 +149,25 @@ public class DataManagement extends IntentService implements AppConstants, FireB
 
     private void send() {
         if (mAuth.getCurrentUser() != null) {
-            DataBuilder dataBuilder = new DataBuilder(context);
-            mDatabase.child(USER_NODE).child(makePath(mAuth.getCurrentUser().getEmail())).setValue(dataBuilder.make()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.i(TAG, "Saved");
-                    } else {
-                        Log.e(TAG, task.getException().getLocalizedMessage());
+            if (!pref.user().getUserType().equals(userType.OLD_USER)) {
+                DataBuilder dataBuilder = new DataBuilder(context);
+                mDatabase.child(USER_NODE).child(makePath(mAuth.getCurrentUser().getEmail())).setValue(dataBuilder.make()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            pref.user().setUserType(userType.REGULAR_USER);
+                            pref.network().setLastFirebaseSync(new General().timeStamp());
+                            Log.i(TAG, "Data sent to server");
+                        } else {
+                            Log.e(TAG, task.getException().getLocalizedMessage());
+                        }
                     }
-                }
-            });
+                });
+            } //Old user
+            else {
+                Log.i(TAG, "Trying to retrieve old user data");
+                readData();
+            }
         }
     }
 
@@ -190,6 +204,9 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                                     break; //Preference
                             }
                         }
+                        //Set user to regular after reading first time
+                        pref.user().setUserType(userType.REGULAR_USER);
+                        Log.i(TAG, "Data retrieved successfully.");
                     } else {
                         Log.e(TAG, "No such user data found, sending new information");
                         sendFirstTimeDetails();
@@ -199,6 +216,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.e(TAG, databaseError.getMessage());
+                    sendFirstTimeDetails();
                 }
             });
 

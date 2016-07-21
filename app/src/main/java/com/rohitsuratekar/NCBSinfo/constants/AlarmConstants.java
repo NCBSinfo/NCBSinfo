@@ -11,7 +11,6 @@ public interface AlarmConstants {
     enum alarmLevel {
 
         NETWORK,
-        NOTIFICATION,
         TRANSPORT
     }
 
@@ -24,6 +23,7 @@ public interface AlarmConstants {
     enum alarmTriggers {
 
         DAILY_FETCH, //Daily network fetch
+        LOW_PRIORITY_ALARMS, //Low priority alarms for remote data fetch
         RESET_ALL, //Deletes all alarms and sets daily
         SEND_UPCOMING, //Sends upcoming event notification alarms
         SEND_NOTIFICATION, //Sends notification

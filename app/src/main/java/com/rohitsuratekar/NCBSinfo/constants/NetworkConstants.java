@@ -12,7 +12,7 @@ public interface NetworkConstants {
         String PUBLIC = "public";
         String EMERGENCY = "emergency";
         String STUDENT = "students";
-        String CAMP16 = "camp16";
+        String CAMP16 = "camp16"; //Remove after topic is deleted
         String DEBUG = "debug";
     }
 

@@ -11,7 +11,9 @@ public interface AppConstants {
 
     enum modes {
 
-        ONLINE("online"), OFFLINE("offline");
+        ONLINE("online"),
+        OFFLINE("offline"),
+        UNKNOWN("unknown");
 
         private final String value;
 
@@ -70,8 +72,6 @@ public interface AppConstants {
             return nameID;
         }
     }
-
-
 
 
 }

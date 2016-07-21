@@ -7,12 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmIDs;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmsHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
@@ -33,6 +36,10 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
 
     public static final String RESET_APP_DATA = "resetAppData";
     public static final String RESET_PREFERENCES = "resetPreferences";
+    public static final String LOGIN_RESET = "resetUser";
+    public static final String APP_UPGRADED = "upgradedApp";
+    public static final String APP_REBOOTED = "rebootedApp";
+    public static final String SELECTIVE_UPGRADE = "selectiveUpgrade";
 
     private Preferences pref;
 
@@ -54,6 +61,18 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
                     break;
                 case RESET_PREFERENCES:
                     clearCustomization();
+                    break;
+                case LOGIN_RESET:
+                    resetUser();
+                    break;
+                case APP_UPGRADED:
+                    afterUpgrade();
+                    break;
+                case APP_REBOOTED:
+                    afterBoot();
+                    break;
+                case SELECTIVE_UPGRADE:
+                    selectiveUpgrade();
                     break;
             }
         }
@@ -78,13 +97,81 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
         startService(transport);
 
+        //Sign out from Firebase
+        unsubsribeTopics();
 
         //Reset Contact Data
         resetContacts();
 
-        //TODO: uncomment this
         //Reset Alarms
-        //resetAlarms();
+        resetAlarms();
+
+        //App is already opened
+        pref.app().setAppOpenedFirstTime();
+
+    }
+
+    /**
+     * Use this when user login
+     * This will just reset Transport , Contacts and Alarms.
+     */
+    private void resetUser() {
+        //Reset Transport values
+        Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
+        transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
+        startService(transport);
+        //Reset Contact Data
+        resetContacts();
+        //Reset Alarms
+        resetAlarms();
+        //App is already opened
+        pref.app().setAppOpenedFirstTime();
+
+    }
+
+    /**
+     * After app is upgraded
+     */
+    private void afterUpgrade() {
+        Intent alarms = new Intent(ServiceCentre.this, Alarms.class);
+        alarms.putExtra(Alarms.INTENT, alarmTriggers.RESET_ALL.name());
+        sendBroadcast(alarms);
+        Intent service = new Intent(ServiceCentre.this, DataManagement.class);
+        service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+        startService(service);
+    }
+
+    /**
+     * After app is rebooted
+     */
+    private void afterBoot() {
+        Intent alarms = new Intent(ServiceCentre.this, Alarms.class);
+        alarms.putExtra(Alarms.INTENT, alarmTriggers.RESET_ALL.name());
+        sendBroadcast(alarms);
+    }
+
+    /**
+     * This flag is triggered when app is just updated and there is still personal information about users
+     * Here, save past information and then reset data
+     */
+
+    private void selectiveUpgrade() {
+
+        //Clear old transport
+        Intent clearOld = new Intent(ServiceCentre.this, TransportHandler.class);
+        clearOld.putExtra(TransportHandler.INTENT, TransportHandler.CLEAR_PAST);
+        startService(clearOld);
+
+        //Reset Transport values
+        Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
+        transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
+        startService(transport);
+
+        //Reset Contact Data
+        resetContacts();
+
+        //Reset Alarms
+        resetAlarms();
 
         //App is already opened
         pref.app().setAppOpenedFirstTime();
@@ -144,7 +231,21 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
             temp.setLevel(alarmLevel.NETWORK.name());
             temp.setExtraParameter("null");
             temp.setExtraValue("null");
-            temp.setAlarmTime(new AlarmsHelper().getTimeByHoursOfDay(d.getHourOftheDay()));
+            temp.setAlarmTime(new AlarmsHelper().getTimeByHoursOfDay(d.getHourOftheDay())); //Important to convert to HH:mm
+            temp.setAlarmDate(new AlarmsHelper().getTodaysDate());
+            new AlarmData(getBaseContext()).add(temp);
+        }
+
+        //Create low priority alarms to remote fetch
+        for (lowPriorityAlarms d : lowPriorityAlarms.values()) {
+            AlarmModel temp = new AlarmModel();
+            temp.setAlarmID(d.getAlarmID());
+            temp.setType(alarmType.REPEAT.name());
+            temp.setTrigger(alarmTriggers.LOW_PRIORITY_ALARMS.name());
+            temp.setLevel(alarmLevel.NETWORK.name());
+            temp.setExtraParameter("endTime");
+            temp.setExtraValue(new AlarmsHelper().getTimeByHoursOfDay(d.getEndHour())); //Important to convert to HH:mm
+            temp.setAlarmTime(new AlarmsHelper().getTimeByHoursOfDay(d.getStartHour())); //Important to convert to HH:mm
             temp.setAlarmDate(new AlarmsHelper().getTodaysDate());
             new AlarmData(getBaseContext()).add(temp);
         }
@@ -166,6 +267,26 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         String[][] clist2 = new ContactList().allContacts();
         for (String[] aClist2 : clist2) {
             new ContactsData(getBaseContext()).add(new ContactModel(1, aClist2[0], aClist2[1], aClist2[2], aClist2[3], "0"));
+        }
+    }
+
+    /**
+     * Sign outs from Firebase Instances
+     */
+    private void unsubsribeTopics() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            //Subscribe to general topics
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(NetworkConstants.fcmTopics.PUBLIC);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(NetworkConstants.fcmTopics.EMERGENCY);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(NetworkConstants.fcmTopics.DEBUG);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(NetworkConstants.fcmTopics.STUDENT);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(NetworkConstants.fcmTopics.CAMP16);
+            Log.i(TAG, "Unsubscribed with all topics");
+            mAuth.signOut();
+            Log.i(TAG, "User Signed Out");
+        } else {
+            Log.e(TAG, "No user found to sign out");
         }
     }
 
