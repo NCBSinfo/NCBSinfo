@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -49,7 +48,7 @@ public class TransportPreference extends PreferenceFragment {
         defaultTransport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                pref.user().setDefaultRoute(new TransportHelper(getActivity().getBaseContext())
+                pref.user().setDefaultRoute(new TransportHelper()
                         .getRoute(Integer.valueOf(o.toString())));
                 defaultTransport.setSummary(routeList[pref.user().getDefaultRouteValue()]);
                 pref.settings().setDefaultRouteUsed(true);

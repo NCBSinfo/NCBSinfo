@@ -7,10 +7,10 @@ package com.rohitsuratekar.NCBSinfo.constants;
  */
 public enum DateFormats {
 
-    TIMESTAMP_STANDARD("hh:mm:ss a dd MMM yy", true, true),
-    DATE_STANDARD("dd/MM/yyyy", true, false),
     TIME_24_HOURS_STANDARD("HH:mm", false, true),
     TIME_12_HOURS_STANDARD("hh:mm a", false, true),
+    TIMESTAMP_STANDARD("hh:mm:ss a dd MMM yy", true, true),
+    DATE_STANDARD("dd/MM/yyyy", true, false),
     ONLINE_STANDARD("dd/MM/yyyy HH:mm:ss", true, true),
     TRANSPORT_FORMAT("dd/MM/yyyy HH:mm", true, true),
     READABLE_DATE("dd MMM yyyy", true, false);

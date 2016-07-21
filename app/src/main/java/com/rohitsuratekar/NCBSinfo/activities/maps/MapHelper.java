@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -25,7 +25,7 @@ public class MapHelper {
         this.context = context;
     }
 
-    public void updateMapContents(GoogleMap googleMap, TransportModel transport) {
+    public void updateMapContents(GoogleMap googleMap, TransportRoute transport) {
         // Since the mapView is re-used, need to remove pre-existing mapView features.
         if (googleMap != null) {
             googleMap.clear();

@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.activities.transport.builder;
+package com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder;
 
 import android.util.Log;
 
@@ -13,22 +13,20 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * NCBSinfo © 2016, Secret Biology
- * https://github.com/NCBSinfo/NCBSinfo
- * Created by Rohit Suratekar on 19-07-16.
+ * Trip generator
  */
 public class Trips {
 
-    List<String> monday;
-    List<String> tuesday;
-    List<String> wednesday;
-    List<String> thursday;
-    List<String> friday;
-    List<String> saturday;
-    List<String> sunday;
+    private List<String> monday = new ArrayList<>();
+    private List<String> tuesday = new ArrayList<>();
+    private List<String> wednesday = new ArrayList<>();
+    private List<String> thursday = new ArrayList<>();
+    private List<String> friday = new ArrayList<>();
+    private List<String> saturday = new ArrayList<>();
+    private List<String> sunday = new ArrayList<>();
 
-    List<String> RawWeek;
-    List<String> RawSunday;
+    private List<String> RawWeek = new ArrayList<>();
+    private List<String> RawSunday = new ArrayList<>();
 
     public Trips(String[] weekTrips, String[] sundayTrips) {
 

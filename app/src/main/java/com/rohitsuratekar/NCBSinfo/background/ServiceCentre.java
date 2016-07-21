@@ -84,9 +84,10 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
 
         //TODO: uncomment this
         //Reset Alarms
-        resetAlarms();
-        //makeDefaultAlarms();
+        //resetAlarms();
 
+        //App is already opened
+        pref.app().setAppOpenedFirstTime();
 
     }
 

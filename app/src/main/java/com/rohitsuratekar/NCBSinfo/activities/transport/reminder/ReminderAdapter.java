@@ -10,8 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
@@ -80,9 +81,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         AlarmModel entry = entryList.get(position);
-        TransportModel trasport = new TransportModel(new TransportHelper(context).
-                getRoute(Integer.parseInt(entry.getExtraParameter())), context);
-        holder.routeName.setText(trasport.getFrom().toUpperCase() + " - " + trasport.getTO().toUpperCase());
+        TransportRoute trasport = new RouteBuilder(new TransportHelper().
+                getRoute(Integer.parseInt(entry.getExtraParameter())), context).build();
+        holder.routeName.setText(trasport.getOrigin().toUpperCase() + " - " + trasport.getDestination().toUpperCase());
         holder.date.setText(entry.getAlarmDate());
         holder.type.setText(trasport.getType());
         DateFormat eventFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);

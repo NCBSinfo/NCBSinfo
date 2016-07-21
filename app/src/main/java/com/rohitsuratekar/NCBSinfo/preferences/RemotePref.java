@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.preferences;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -18,12 +19,26 @@ public class RemotePref {
     private final String TAG = this.getClass().getSimpleName();
 
     String LAST_ACCESS = "remoteLastAccess";
+    String LATEST_APP = "latestApp";
+    String MESSAGE = "remoteMessage";
+    String OLD_FIREBASE_DELETED = "remoteOldDeleted";
 
 
     SharedPreferences pref;
+    Context context;
 
-    protected RemotePref(SharedPreferences pref) {
+    protected RemotePref(SharedPreferences pref, Context c) {
         this.pref = pref;
+        this.context = c;
+    }
+
+    public boolean isLatestApp() {
+        int version = new Preferences(context).app().getAppVesion();
+        return version >= pref.getInt(LATEST_APP, version);
+    }
+
+    public void setLatestApp(int version) {
+        pref.edit().putInt(LATEST_APP, version).apply();
     }
 
     public Date getLastAccess() {
@@ -48,6 +63,22 @@ public class RemotePref {
 
     public void setLastAccess(String timestamp) {
         pref.edit().putString(LAST_ACCESS, timestamp).apply();
+    }
+
+    public String getMessage() {
+        return pref.getString(MESSAGE, "N/A");
+    }
+
+    public void setMessage(String message) {
+        pref.edit().putString(MESSAGE, message).apply();
+    }
+
+    public boolean isOldDeleted() {
+        return pref.getBoolean(OLD_FIREBASE_DELETED, false);
+    }
+
+    public void setOldDeleted() {
+        pref.edit().putBoolean(OLD_FIREBASE_DELETED, true).apply();
     }
 
 

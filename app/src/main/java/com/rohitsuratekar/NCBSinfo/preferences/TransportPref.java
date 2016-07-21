@@ -6,7 +6,8 @@ import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteInformation;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 
@@ -30,46 +31,26 @@ public class TransportPref {
 
     public String[] getWeekdayTrips(Routes routes) {
         return new Converters().stringToarray(
-                pref.getString(routes.getWeekKey(), TransportHelper.DEFAULT_TRIPS));
+                pref.getString(new RouteInformation(routes).get().getWeekDayKey(), TransportHelper.DEFAULT_TRIPS));
     }
 
     public String[] getSundayTrips(Routes routes) {
         return new Converters().stringToarray(
-                pref.getString(routes.getSundayKey(), TransportHelper.DEFAULT_TRIPS));
+                pref.getString(new RouteInformation(routes).get().getSundayKey(), TransportHelper.DEFAULT_TRIPS));
     }
 
 
     public void setRoute(Routes route, String weekValue, String sundayValue) {
-        pref.edit().putString(route.getWeekKey(), weekValue).apply();
-        pref.edit().putString(route.getSundayKey(), sundayValue).apply();
+        pref.edit().putString(new RouteInformation(route).get().getWeekDayKey(), weekValue).apply();
+        pref.edit().putString(new RouteInformation(route).get().getSundayKey(), sundayValue).apply();
         Log.i(TAG, route.toString() + " value changed");
     }
 
 
     public void resetRoute(Routes routes) {
         Log.i(TAG, routes.toString() + " reset");
-        switch (routes) {
-            case BUGGY_FROM_NCBS:
-                pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(routes.getSundayKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(Routes.buggy.A.getFromNCBS(), context.getString(R.string.def_b1_ncbs)).apply();
-                pref.edit().putString(Routes.buggy.B.getFromNCBS(), context.getString(R.string.def_b2_ncbs)).apply();
-                pref.edit().putBoolean(Routes.buggy.A.isRunning(), true).apply();
-                pref.edit().putBoolean(Routes.buggy.B.isRunning(), true).apply();
-                break;
-            case BUGGY_FROM_MANDARA:
-                pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(routes.getSundayKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(Routes.buggy.A.getFromMandara(), context.getString(R.string.def_b1_ncbs)).apply();
-                pref.edit().putString(Routes.buggy.B.getFromMandara(), context.getString(R.string.def_b2_ncbs)).apply();
-                pref.edit().putBoolean(Routes.buggy.A.isRunning(), true).apply();
-                pref.edit().putBoolean(Routes.buggy.B.isRunning(), true).apply();
-                break;
-            default:
-                pref.edit().putString(routes.getWeekKey(), context.getString(getDefault(routes, false))).apply();
-                pref.edit().putString(routes.getSundayKey(), context.getString(getDefault(routes, true))).apply();
-
-        }
+        pref.edit().putString(new RouteInformation(routes).get().getWeekDayKey(), context.getString(getDefault(routes, false))).apply();
+        pref.edit().putString(new RouteInformation(routes).get().getSundayKey(), context.getString(getDefault(routes, false))).apply();
     }
 
 
@@ -124,10 +105,14 @@ public class TransportPref {
 
     public String getLastUpdate() {
         if (new App(pref, context).getMode().equals(AppConstants.modes.OFFLINE)) {
-            return "N/A (offline mode)";
+            return "N/A (offline mode timings will not update automatically)";
         } else {
             return pref.getString(LAST_UPDATE, "Never");
         }
+    }
+
+    public void setLastUpdate(String timestamp) {
+        pref.edit().putString(LAST_UPDATE, timestamp).apply();
     }
 
     /**

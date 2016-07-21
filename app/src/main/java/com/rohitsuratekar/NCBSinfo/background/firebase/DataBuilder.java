@@ -2,7 +2,7 @@ package com.rohitsuratekar.NCBSinfo.background.firebase;
 
 import android.content.Context;
 
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -65,6 +65,6 @@ public class DataBuilder {
                 pref.user().notificationAllowed(false);
                 break; //Preference
         }
-        pref.user().setDefaultRoute(new TransportHelper(context).getRoute(data.getDefaultRoute()));
+        pref.user().setDefaultRoute(new TransportHelper().getRoute(data.getDefaultRoute()));
     }
 }

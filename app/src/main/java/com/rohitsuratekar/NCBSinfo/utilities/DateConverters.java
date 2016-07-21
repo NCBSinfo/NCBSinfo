@@ -34,42 +34,18 @@ public class DateConverters {
      * @return : Formatted Date (uses current time if default field is missing)
      */
     public Date convertToDate(String stringFormat) {
-        DateFormats dateFormat = detectFormat(stringFormat);
-        if (dateFormat != null) {
-            if (dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
-                try {
-                    return new SimpleDateFormat(detectFormat(stringFormat).getFormat(), Locale.getDefault()).parse(stringFormat);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse date in convertToDate() " + stringFormat);
-                }
-            } else if (!dateFormat.isTimeComplete() && dateFormat.isDateComplete()) {
-                try {
+        String[] extracted = completeFormat(stringFormat);
+        if (extracted != null) {
 
-                    return new SimpleDateFormat(
-                            detectFormat(stringFormat).getFormat() + " " + DateFormats.TIME_12_HOURS_STANDARD.getFormat(), Locale.getDefault())
-                            .parse(stringFormat + " " + getDefaultTime());
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertToDate() : " + stringFormat);
-                }
-            } else if (!dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
-
-                try {
-                    return new SimpleDateFormat(
-                            DateFormats.DATE_STANDARD.getFormat() + " " + detectFormat(stringFormat).getFormat(), Locale.getDefault())
-                            .parse(getDefaultDate() + " " + stringFormat);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertToDate() : " + stringFormat);
-                }
-
+            try {
+                return new SimpleDateFormat(extracted[1], Locale.getDefault()).parse(extracted[0]);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Unable to parse date in convertToDate() :" + stringFormat);
             }
-        } else {
-            Log.e(TAG, "Failed to parse date in convertToDate()");
+
         }
+        Log.e(TAG, "No format found convertToDate()");
         return null;
     }
 
@@ -80,48 +56,18 @@ public class DateConverters {
      */
 
     public Calendar convertToCalendar(String stringFormat) {
-        DateFormats dateFormat = detectFormat(stringFormat);
-        if (dateFormat != null) {
-            if (dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
-                try {
-                    Date date = new SimpleDateFormat(detectFormat(stringFormat).getFormat(), Locale.getDefault()).parse(stringFormat);
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    return calendar;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse date in convertToCalender() " + stringFormat);
-                }
-            } else if (!dateFormat.isTimeComplete() && dateFormat.isDateComplete()) {
-                try {
-                    Date date = new SimpleDateFormat(
-                            detectFormat(stringFormat).getFormat() + " " + DateFormats.TIME_12_HOURS_STANDARD.getFormat(), Locale.getDefault())
-                            .parse(stringFormat + " " + getDefaultTime());
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    return calendar;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertToCalender() : " + stringFormat);
-                }
-            } else if (!dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
 
-                try {
-                    Date date = new SimpleDateFormat(
-                            DateFormats.DATE_STANDARD.getFormat() + " " + detectFormat(stringFormat).getFormat(), Locale.getDefault())
-                            .parse(getDefaultDate() + " " + stringFormat);
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    return calendar;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertToCalender() : " + stringFormat);
-                }
-
+        String[] extracted = completeFormat(stringFormat);
+        if (extracted != null) {
+            try {
+                return DateToCalender(new SimpleDateFormat(extracted[1], Locale.getDefault()).parse(extracted[0]));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Unable to parse date in convertToCalendar() :" + stringFormat);
             }
-        } else {
-            Log.e(TAG, "Failed to parse date in convertToCalender()");
+
         }
+        Log.e(TAG, "No format found convertToCalendar() :" + stringFormat);
         return null;
     }
 
@@ -131,75 +77,18 @@ public class DateConverters {
      * @return : It will add current time or date if it is not present in given input
      */
     public String convertFormat(String input, DateFormats targetFormat) {
-        DateFormats dateFormat = detectFormat(input);
-        if (dateFormat != null) {
-            if (dateFormat.isDateComplete() && dateFormat.isTimeComplete()) {
+        String[] detectedString = completeFormat(input);
+        if (detectedString != null) {
 
-                try {
-                    Date date = new SimpleDateFormat(detectFormat(input).getFormat(), Locale.getDefault()).parse(input);
-                    return new SimpleDateFormat(targetFormat.getFormat(), Locale.getDefault()).format(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertFormat() : " + input);
-                }
-            } else if (!dateFormat.isTimeComplete()) {
-
-                try {
-                    Date date = new SimpleDateFormat(
-                            detectFormat(input).getFormat() + " " + DateFormats.TIME_12_HOURS_STANDARD.getFormat(), Locale.getDefault())
-                            .parse(input + " " + getDefaultTime());
-                    return new SimpleDateFormat(targetFormat.getFormat(), Locale.getDefault()).format(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertFormat() : " + input);
-                }
-            } else if (!dateFormat.isDateComplete()) {
-
-                try {
-                    Date date = new SimpleDateFormat(
-                            DateFormats.DATE_STANDARD.getFormat() + " " + detectFormat(input).getFormat(), Locale.getDefault())
-                            .parse(getDefaultDate() + " " + input);
-                    return new SimpleDateFormat(targetFormat.getFormat(), Locale.getDefault()).format(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Failed to parse string in convertFormat() : " + input);
-                }
-
-            }
-        } else {
-            Log.e(TAG, "Failed to parse string in convertFormat()");
-        }
-        return null;
-    }
-
-    /**
-     * @param givenString : Checks this string
-     * @return : Returns Dateformat enum with respected Dateformat
-     */
-    public DateFormats detectFormat(String givenString) {
-        givenString = givenString.trim();
-        int numberOfSpaces = givenString.split("\\s+").length;
-        int numberOfSlash = givenString.split("/").length;
-        int numberOfColons = givenString.split(":").length;
-        int numberOfChars = givenString.replaceAll("\\s+", "").length();
-
-        for (DateFormats d : DateFormats.values()) {
-            int Spaces = d.getFormat().split("\\s+").length;
-            int Slash = d.getFormat().split("/").length;
-            int Colons = d.getFormat().split(":").length;
-            int Chars = d.getFormat().replaceAll("\\s+", "").length();
-
-
-            if (numberOfSpaces == Spaces && numberOfSlash == Slash && numberOfColons == Colons && numberOfChars == Chars) {
-                return d;
-            }
-
-            //Following needed for all format have "AM/PM"
-            if (numberOfSpaces == Spaces && numberOfSlash == Slash && numberOfColons == Colons && numberOfChars == (Chars + 1)) {
-                return d;
+            try {
+                Date date = new SimpleDateFormat(detectedString[1], Locale.getDefault()).parse(detectedString[0]);
+                return new SimpleDateFormat(targetFormat.getFormat(), Locale.getDefault()).format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Unable to parse date in convertFormat() :" + input);
             }
         }
-        Log.e(TAG, "Can not find pattern for :" + givenString);
+        Log.e(TAG, "No format found convertFormat()");
         return null;
     }
 
@@ -215,13 +104,50 @@ public class DateConverters {
         return calendar;
     }
 
+    private static final String ONLY_TIME = "onlyTime";
+    private static final String ONLY_DATE = "onlyDate";
+    private static final String BOTH = "both";
 
-    private String getDefaultDate() {
-        return new SimpleDateFormat(DateFormats.DATE_STANDARD.getFormat(), Locale.getDefault()).format(new Date());
+    private static final String[][] patternList = {
+            {"^\\d{1,2}:\\d{2}$", "HH:mm", ONLY_TIME},
+            {"^\\d{1,2}:\\d{2}\\s(?i)(am|pm)$", "hh:mm a", ONLY_TIME},
+            {"^\\d{1,2}/\\d{1,2}/\\d{4}$", "dd/mm/yyyy", ONLY_DATE},
+            {"^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}$", "dd/mm/yyyy HH:mm", BOTH},
+            {"^\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd/mm/yyyy HH:mm:ss", BOTH},
+            {"^\\d{1,2}:\\d{2}:\\d{2}\\s(?i)(am|pm)\\s\\d{1,2}\\s[a-z]{3}\\s\\d{2}$", "hh:mm:ss a dd MMM yy", BOTH},
+            {"^\\d{1,2}\\s[a-z]{3}\\s\\d{4}$", "dd MMM yyyy", ONLY_DATE},
+            {"([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$", "HH:mm:ss", ONLY_TIME},
+    };
+
+
+    private static String[] extractFormat(String input) {
+        for (String[] pair : patternList) {
+            if (input.trim().toLowerCase().matches(pair[0])) {
+                return pair;
+            }
+        }
+        Log.e("ERROR", "Unable to extract in extractFormat() :" + input);
+        return null;
     }
 
-    private String getDefaultTime() {
-        return new SimpleDateFormat(DateFormats.TIME_12_HOURS_STANDARD.getFormat(), Locale.getDefault()).format(new Date());
+    public static String[] completeFormat(String string) {
+        String[] format = extractFormat(string);
+        String timeString = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+        String dateString = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        if (format != null) {
+            String FormatforTime = "dd/MM/yyyy " + format[1];
+            String FormatforDate = format[1] + " HH:mm";
+            switch (format[2]) {
+                case ONLY_DATE:
+                    return new String[]{string + " " + timeString, FormatforDate};
+                case ONLY_TIME:
+                    return new String[]{dateString + " " + string, FormatforTime};
+                case BOTH:
+                    return new String[]{string, format[1]};
+            }
+        }
+        Log.e("ERROR", "No format found completeFormat() :" + string);
+        return null;
     }
 
     /**

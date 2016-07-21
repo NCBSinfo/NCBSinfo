@@ -15,8 +15,9 @@ import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
@@ -58,16 +59,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMessage))
-                .setContentText(notificationMessage).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber);
     }
 
     //Notification from FCM
@@ -102,19 +94,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle(title)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setContentText(message).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-
-        //Notify
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, message, contentIntent), notificationNumber);
     }
 
     //Event Notification
@@ -124,19 +104,10 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         notificationIntent.putExtra(Events.EVENT_CODE, String.valueOf(code));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         TalkModel talk = new TalkData(context).getEntry(code);
         if (talk != null) {
             if (talk.getActionCode() != NetworkOperations.ACTIONCODE_NOTIFIED) {
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.notification_icon)
-                        .setColor(context.getResources().getColor(R.color.colorPrimary))
-                        .setSound(sound)
-                        .setContentTitle(talk.getNotificationTitle())
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(talk.getTitle()))
-                        .setContentText(talk.getTitle()).setAutoCancel(true)
-                        .setContentIntent(contentIntent);
-                notifySystem(mBuilder, notificationNumber);
+                notifySystem(getBuilder(talk.getNotificationTitle(), talk.getTitle(), contentIntent), notificationNumber);
                 talk.setActionCode(NetworkOperations.ACTIONCODE_NOTIFIED);
                 new TalkData(context).update(talk); //Update event as notified to avoid further spam
             }
@@ -146,24 +117,16 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
     //Notifications for alarms
     public void sendNotification(AlarmModel alarm) {
         int requestID = (int) System.currentTimeMillis();
-        Routes route = new TransportHelper(context).getRoute(Integer.parseInt(alarm.getExtraParameter()));
-        TransportModel transport = new TransportModel(route, context);
+        Routes route = new TransportHelper().getRoute(Integer.parseInt(alarm.getExtraParameter()));
+        TransportRoute transport = new RouteBuilder(route, context).build();
         Intent notificationIntent = new Intent(context, Transport.class);
         notificationIntent.putExtra(Transport.INDENT, alarm.getExtraParameter());
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle("Your upcoming " + transport.getType())
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your upcoming " + transport.getType()))
-                .setContentText(new DateConverters().convertFormat(alarm.getExtraValue(), DateFormats.TIME_12_HOURS_STANDARD)
-                        + " " + transport.getFrom().toUpperCase() + " - " + transport.getTO().toUpperCase() + " " + transport.getType() +
-                        " is departing soon").setAutoCancel(true)
-                .setContentIntent(contentIntent);
-        notifySystem(mBuilder, notificationNumber);
-
+        String title = "Your upcoming " + transport.getType();
+        String message = new DateConverters().convertFormat(alarm.getExtraValue(), DateFormats.TIME_12_HOURS_STANDARD)
+                + " " + transport.getOrigin().toUpperCase() + " - " + transport.getDestination().toUpperCase() + " " + transport.getType() +
+                " is departing soon";
+        notifySystem(getBuilder(title, message, contentIntent), notificationNumber);
         //Delete alarm after notification
         Intent intent = new Intent(context, Alarms.class);
         intent.putExtra(Alarms.INTENT, alarmTriggers.DELETE_ALARM.name());
@@ -177,7 +140,6 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         int requestID = (int) System.currentTimeMillis();
 
         final String appPackageName = context.getPackageName(); // getPackageName() from Context or Activity object
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         String url = "";
         try {
             //Check whether Google Play store is installed or not:
@@ -189,19 +151,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(notificationMessage))
-                .setContentText(notificationMessage).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber);
 
     }
 
@@ -211,18 +161,37 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMessage))
-                .setContentText(notificationMessage).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber);
     }
 
+
+    /**
+     * Set properties for notification builder
+     *
+     * @param title         : title of notification
+     * @param Message       : message
+     * @param contentIntent : Pending intent
+     * @return : Notification Builder
+     */
+    private NotificationCompat.Builder getBuilder(String title, String Message, PendingIntent contentIntent) {
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        return new NotificationCompat.Builder(context)
+                .setSound(sound)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setContentTitle(title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(Message))
+                .setContentText(Message).setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .setVibrate(new long[]{1000, 500});
+    }
+
+    /**
+     * Notify to system
+     *
+     * @param mBuilder           :Notification Builder
+     * @param notificationNumber : Notification Number
+     */
     private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
         Preferences pref = new Preferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.

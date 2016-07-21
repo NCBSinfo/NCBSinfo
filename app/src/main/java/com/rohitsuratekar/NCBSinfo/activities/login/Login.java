@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
+import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
@@ -181,6 +182,10 @@ public class Login extends BaseActivity implements AppConstants {
                                         } else {
                                             pref.clearAll();
                                             Database.getInstance(getBaseContext()).restartDatabase();
+                                            //Reset App Data
+                                            Intent service = new Intent(Login.this, ServiceCentre.class);
+                                            service.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
+                                            startService(service);
                                             //TODO: network operations
 
                                             //Put all shared preferences

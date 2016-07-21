@@ -23,7 +23,6 @@ public class App implements AppConstants {
     String LAST_LOGIN = "lastLogin";
     String OPEN_COUNT = "openCount";
     String NOTIFICATION_OPENED = "notificationOpened";
-    String LATEST_APP = "latestApp";
 
     protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -124,12 +123,6 @@ public class App implements AppConstants {
         pref.edit().putInt(NOTIFICATION_OPENED, getNotificationOpened() + 1).apply();
     }
 
-    public boolean isLatestApp() {
-        return getAppVesion() >= pref.getInt(LATEST_APP, getAppVesion());
-    }
 
-    public void setLatestApp(int version) {
-        pref.edit().putInt(LATEST_APP, version).apply();
-    }
 
 }

@@ -29,8 +29,10 @@ import com.rohitsuratekar.NCBSinfo.activities.maps.MapActivity;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportHelper;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportDynamics;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
@@ -87,7 +89,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
 
     //Variables
     Preferences pref;
-    TransportModel transport;
+    TransportRoute transport;
     GoogleMap googleMap;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -100,7 +102,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         //Initialization
         pref = new Preferences(getBaseContext());
         mAuth = FirebaseAuth.getInstance();
-        transport = new TransportModel(pref.user().getDefaultRoute(), getBaseContext());
+        transport = new RouteBuilder(pref.user().getDefaultRoute(), getBaseContext()).build();
 
         //Initialize Map
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.home_map);
@@ -146,7 +148,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                     public boolean onMenuItemClick(MenuItem item) {
                         if (item.getItemId() == R.id.popup_addfav) {
                             pref.user().setDefaultRoute(transport.getRoute());
-                            Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_added_route, transport.getFrom().toUpperCase(), transport.getTO().toUpperCase()), Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_added_route, transport.getOrigin().toUpperCase(), transport.getDestination().toUpperCase()), Snackbar.LENGTH_SHORT).show();
                         } else if (item.getItemId() == R.id.popup_remove) {
                             pref.user().setDefaultRoute(Routes.NCBS_IISC);
                             Snackbar.make(homeLayout, getResources().getString(R.string.snackbar_reset_route), Snackbar.LENGTH_SHORT).show();
@@ -240,12 +242,12 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
 
         switch (view.getId()) {
             case R.id.previousRoute:
-                transport = new TransportModel(new TransportHelper(getBaseContext()).changeRoute(transport.getRoute(), false), getBaseContext());
+                transport = new RouteBuilder(new TransportHelper().changeRoute(transport.getRoute(), false), getBaseContext()).build();
                 changeTransport();
                 new MapHelper(getBaseContext()).updateMapContents(googleMap, transport);
                 break;
             case R.id.nextRoute:
-                transport = new TransportModel(new TransportHelper(getBaseContext()).changeRoute(transport.getRoute(), true), getBaseContext());
+                transport = new RouteBuilder(new TransportHelper().changeRoute(transport.getRoute(), true), getBaseContext()).build();
                 changeTransport();
                 new MapHelper(getBaseContext()).updateMapContents(googleMap, transport);
                 break;
@@ -282,11 +284,11 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
     }
 
     public void changeTransport() {
-        title.setText(getString(R.string.home_trasnport_title, transport.getFrom().toUpperCase(), transport.getTO().toUpperCase()));
+        TransportDynamics dynamics = transport.getDynamics();
+        title.setText(getString(R.string.home_trasnport_title, transport.getOrigin().toUpperCase(), transport.getDestination().toUpperCase()));
         nextText.setText(getResources().getString(R.string.next_transport,
-                transport.getType(), new DateConverters().convertFormat(transport.getNextTrip(), DateFormats.TIME_12_HOURS_STANDARD)));
-        int[] Difference = new TransportHelper(getBaseContext()).TimeLeftFromNow(transport.getNextTripCalendar().getTime());
-        timeLeft.setText(getResources().getString(R.string.time_left, Difference[1], Difference[2], Difference[3]));
+                transport.getType(), new DateConverters().convertFormat(dynamics.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
+        timeLeft.setText(getResources().getString(R.string.time_left, dynamics.getHoursToNextTrip(), dynamics.getMinsToNextTrip(), dynamics.getSecsToNextTrip()));
     }
 
     private String setFooterText() {
