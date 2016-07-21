@@ -10,33 +10,33 @@ import com.google.gson.annotations.SerializedName;
  * Created by Rohit Suratekar on 04-07-16.
  */
 @IgnoreExtraProperties
-public class DataStructure {
+public class DataStructure implements FireBaseConstants {
 
-    @SerializedName("name")
+    @SerializedName(NAME)
     @Expose
     private String name;
-    @SerializedName("token")
+    @SerializedName(TOKEN)
     @Expose
     private String token;
-    @SerializedName("email")
+    @SerializedName(EMAIL)
     @Expose
     private String email;
-    @SerializedName("defaultRoute")
+    @SerializedName(DEFAULT_ROUTE)
     @Expose
     private int defaultRoute;
-    @SerializedName("firebaseID")
+    @SerializedName(FIREBASE_ID)
     @Expose
     private String firebaseID;
-    @SerializedName("currentApp")
+    @SerializedName(CURRENT_APP)
     @Expose
     private int currentApp;
-    @SerializedName("lastLogin")
+    @SerializedName(LAST_LOGIN)
     @Expose
     private String lastLogin;
-    @SerializedName("requestCalls")
+    @SerializedName(REQUEST_CALL)
     @Expose
     private String requestCalls;
-    @SerializedName("notificationPreference")
+    @SerializedName(NOTIFICATION_PREFERENCE)
     @Expose
     private int notificationPreference; //Use int as follows : 0 : default, 1:true, 2:false
 

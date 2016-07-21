@@ -3,23 +3,36 @@ package com.rohitsuratekar.NCBSinfo.background;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.background.firebase.DataBuilder;
+import com.rohitsuratekar.NCBSinfo.background.firebase.FireBaseConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.utilities.General;
+
+import java.util.Map;
 
 /**
  * This service is to request network calls in background.
- * Use this to sync data with FIrebase Database.
+ * Use this to sync data with Firebase Database.
  * For regular network calls , use NetwrokOperations service.
  * This can be triggered by alarm manager
  */
 
-public class DataManagement extends IntentService implements AppConstants {
+public class DataManagement extends IntentService implements AppConstants, FireBaseConstants {
 
     //Public Constants
     public static final String INTENT = DataManagement.class.getName();
@@ -43,49 +56,158 @@ public class DataManagement extends IntentService implements AppConstants {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "Data Service started");
+        Log.d(TAG, "Data Service started at " + new General().timeStamp());
         this.context = getBaseContext();
         this.pref = new Preferences(context);
-        //Initialize Firebase
         this.mAuth = FirebaseAuth.getInstance();
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
-        String trigger = intent.getStringExtra(INTENT);
-        switch (trigger) {
-            case SEND_FIREBASEDATE:
-                sendDetails();
-                break;
-            case FETCH_FIREBASE_DATA:
-                //TODO
-                break;
+
+        //Do not waste network call if user is on proxy
+        if (!new General().isOnProxy()) {
+
+            String trigger = intent.getStringExtra(INTENT);
+            if (trigger != null) {
+
+                switch (trigger) {
+                    case SEND_FIREBASEDATE:
+                        if (!pref.network().isOldDeleted()) {
+                            migrateToNew();
+                        } else {
+                            send();
+                        }
+                        break;
+                    case FETCH_FIREBASE_DATA:
+                        readData();
+                        break;
+                }
+            }
+        } else {
+            Log.e(TAG, "User is on proxy, database operations are suspended");
         }
 
     }
 
-    private void sendDetails() {
 
-        FirebaseUser user = mAuth.getCurrentUser();
+    @SuppressWarnings("unchecked")
+    private void migrateToNew() {
+        final FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Log.i(TAG, pref.user().getUserType().getValue());
-//            if (!pref.user().getUserType().equals(userType.OLD_USER)) {
-//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.USERNAME).setValue(pref.user().getName());
-//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.EMAIL).setValue(pref.user().getEmail());
-//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.TOKEN).setValue(pref.user().getToken());
-//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.LATEST_APP).setValue(pref.app().getAppVesion());
-//                mDatabase.child(nodes.USER_NODE + "/" + user.getUid() + "/" + data.DEFAULT_ROUTE).setValue(pref.user().getDefaultRoute()).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isComplete()) {
-//                            pref.user().setUserType(userType.REGULAR_USER);
-//                        }
-//                    }
-//                });
-            //          }//Is not old user
-            //          else {
-            //TODO
-            //          }
+            if (!pref.network().isOldDeleted()) {
+                mDatabase.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, Object> data = (Map<String, Object>) dataSnapshot.getValue();
+                        if (data != null) {
+                            if (data.get("username") != null) {
+                                pref.user().setName(data.get("username").toString());
+                            }
+                            if (data.get("defaultRoute") != null) {
+                                pref.user().setDefaultRoute(new TransportHelper().getRoute(Integer.parseInt(data.get("defaultRoute").toString())));
+                            }
+                            sendFirstTimeDetails();
+                            //Deleting from Old Database
+                            mDatabase.child("users").child(user.getUid()).removeValue();
+
+                        } else {
+                            Log.e(TAG, "User has no records");
+                            //Don't request this query again
+                            pref.network().setOldDeleted();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e(TAG, databaseError.getMessage());
+                    }
+                });
+            }//Old Deleted
         }
-
-
     }
+
+    private void sendFirstTimeDetails() {
+        if (mAuth.getCurrentUser() != null) {
+            pref.user().setToken(FirebaseInstanceId.getInstance().getToken());
+            pref.user().setFirebaseID(mAuth.getCurrentUser().getUid());
+            mDatabase.child(AUTH_EMAIL).child(mAuth.getCurrentUser().getUid()).setValue(mAuth.getCurrentUser().getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        send();
+                    } else {
+                        Log.e(TAG, task.getException().getLocalizedMessage());
+                    }
+                }
+            });
+        }
+    }
+
+    private void send() {
+        if (mAuth.getCurrentUser() != null) {
+            DataBuilder dataBuilder = new DataBuilder(context);
+            mDatabase.child(USER_NODE).child(makePath(mAuth.getCurrentUser().getEmail())).setValue(dataBuilder.make()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i(TAG, "Saved");
+                    } else {
+                        Log.e(TAG, task.getException().getLocalizedMessage());
+                    }
+                }
+            });
+        }
+    }
+
+    public String makePath(String email) {
+        return email.replace("@", "_").replace(".", "_").trim();
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void readData() {
+
+        if (mAuth.getCurrentUser() != null) {
+            mDatabase.child(USER_NODE).child(makePath(mAuth.getCurrentUser().getEmail())).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Map<String, Object> data = (Map<String, Object>) dataSnapshot.getValue();
+                    if (data != null) {
+                        if (data.get(NAME) != null) {
+                            pref.user().setName(data.get(NAME).toString());
+                        }
+                        if (data.get(DEFAULT_ROUTE) != null) {
+                            pref.user().setDefaultRoute(new TransportHelper().getRoute(Integer.valueOf(data.get(DEFAULT_ROUTE).toString())));
+                        }
+                        if (data.get(NOTIFICATION_PREFERENCE) != null) {
+                            switch (data.get(NOTIFICATION_PREFERENCE).toString()) {
+                                case "0":
+                                    pref.user().notificationAllowed(true);
+                                    break; //Default
+                                case "1":
+                                    pref.user().notificationAllowed(true);
+                                    break; //Preference
+                                case "2":
+                                    pref.user().notificationAllowed(false);
+                                    break; //Preference
+                            }
+                        }
+                    } else {
+                        Log.e(TAG, "No such user data found, sending new information");
+                        sendFirstTimeDetails();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.e(TAG, databaseError.getMessage());
+                }
+            });
+
+
+        }
+        {
+            Log.e(TAG, "No user found");
+        }
+    }
+
 
 }

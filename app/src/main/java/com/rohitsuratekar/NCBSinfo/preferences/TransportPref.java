@@ -111,6 +111,10 @@ public class TransportPref {
         }
     }
 
+    public void setLastUpdate(String timestamp) {
+        pref.edit().putString(LAST_UPDATE, timestamp).apply();
+    }
+
     /**
      * Clear past preferences and clean up space for others
      */

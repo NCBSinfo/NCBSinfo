@@ -70,7 +70,6 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         this.context = getBaseContext();
         this.pref = new Preferences(getBaseContext());
         String trigger = intent.getStringExtra(INTENT);
-        researchTalk();
         //Do not add default field here
         if (trigger != null) {
             switch (trigger) {
@@ -211,7 +210,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     private void remoteData() {
 
-        String sql_query = "SELECT * FROM " + tables.REMOTE_TABLE + " WHERE 'Key'='version'";
+        String sql_query = "SELECT * FROM " + tables.REMOTE_TABLE;
         com.secretbiology.retro.google.fusiontable.Commands Commands =
                 com.secretbiology.retro.google.fusiontable.Service.createService
                         (com.secretbiology.retro.google.fusiontable.Commands.class);

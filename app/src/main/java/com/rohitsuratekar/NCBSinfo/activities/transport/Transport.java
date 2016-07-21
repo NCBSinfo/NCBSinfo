@@ -41,8 +41,6 @@ public class Transport extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         pref = new Preferences(getBaseContext());
 
         fab = (FloatingActionButton) findViewById(R.id.base_fab_button);

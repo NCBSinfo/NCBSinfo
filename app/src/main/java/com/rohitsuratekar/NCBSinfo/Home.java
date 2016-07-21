@@ -18,12 +18,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
+import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +67,7 @@ public class Home extends AppCompatActivity implements AppConstants {
             startService(service);
         }
 
+        Log.i(TAG, Calendar.getInstance().toString());
 
         //Initialize app with latest app version
         try {
@@ -74,9 +78,11 @@ public class Home extends AppCompatActivity implements AppConstants {
         }
         pref.app().addOpenCount(); //Whenever user opens app
 
-        startActivity(new Intent(this, OnlineHome.class));
         new Preferences(getBaseContext()).user().setUserType(userType.REGULAR_USER);
         new Preferences(getBaseContext()).app().setMode(modes.ONLINE);
+//        Intent intent = new Intent(this, DataManagement.class);
+//        intent.putExtra(DataManagement.INTENT, DataManagement.FETCH_FIREBASE_DATA);
+//        startService(intent);
 
 
         metrics = new DisplayMetrics();
@@ -106,9 +112,10 @@ public class Home extends AppCompatActivity implements AppConstants {
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Home.this, Registration.class);
-                startActivity(intent);
-                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+//                Intent intent = new Intent(Home.this, Registration.class);
+//                startActivity(intent);
+//                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                startActivity(new Intent(Home.this, OnlineHome.class));
             }
         });
 

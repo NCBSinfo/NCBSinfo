@@ -1,9 +1,11 @@
 package com.rohitsuratekar.NCBSinfo.activities.dashboard.fragments;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,11 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoardAdapter;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoardModel;
@@ -26,6 +33,8 @@ import com.rohitsuratekar.NCBSinfo.activities.login.ChangePassword;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.NotificationPreference;
 import com.rohitsuratekar.NCBSinfo.activities.settings.fragments.TransportPreference;
+import com.rohitsuratekar.NCBSinfo.background.DataManagement;
+import com.rohitsuratekar.NCBSinfo.background.firebase.FireBaseConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.ui.ScrollUpRecyclerView;
@@ -49,6 +58,8 @@ public class DashboardAccount extends Fragment {
     String[] routesArray;
     Preferences pref;
     BaseParameters baseParameters;
+    DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
 
     @Nullable
     @Override
@@ -59,9 +70,12 @@ public class DashboardAccount extends Fragment {
         recyclerView = (ScrollUpRecyclerView) rootView.findViewById(R.id.base_animated_recyclerView);
         routesArray = getResources().getStringArray(R.array.home_spinner_items);
         pref = new Preferences(getContext());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
         baseParameters = new BaseParameters(getContext());
 
         fullList = new ArrayList<>();
+
 
         adapter = new DashBoardAdapter(fullList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -103,6 +117,7 @@ public class DashboardAccount extends Fragment {
         return rootView;
     }
 
+    @SuppressWarnings("")
     private void changeName(int position) {
         if (new General().isNetworkAvailable(getContext())) {
             if (!new General().isOnProxy()) {
@@ -114,9 +129,35 @@ public class DashboardAccount extends Fragment {
                 alert.setView(edittext);
                 alert.setPositiveButton("Change", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //TODO: network operations
-                        String YouEditTextValue = edittext.getText().toString();
-                        Log.i(TAG, YouEditTextValue);
+
+                        if (mAuth.getCurrentUser() != null) {
+                            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+                            progressDialog.setMessage("Changing name...");
+                            progressDialog.show();
+                            mDatabase.child(FireBaseConstants.USER_NODE)
+                                    .child(new DataManagement().makePath(mAuth.getCurrentUser().getEmail()))
+                                    .child(FireBaseConstants.NAME).setValue(edittext.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        progressDialog.dismiss();
+                                        pref.user().setName(edittext.getText().toString());
+                                        Toast.makeText(getContext(), "Name changed successfully", Toast.LENGTH_LONG).show();
+                                        updateAdapter();
+                                    } else {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                        Log.e(TAG, task.getException().getLocalizedMessage());
+                                    }
+
+                                }
+                            })
+                            ;
+
+                        } else {
+                            Toast.makeText(getContext(), "Authentication Problem, Try after some time", Toast.LENGTH_LONG).show();
+                        }
+
                     }
                 });
                 alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

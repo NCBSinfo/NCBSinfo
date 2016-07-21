@@ -32,6 +32,11 @@ public class Preferences {
         return new TransportPref(pref, context);
     }
 
+    public RemotePref network() {
+        return new RemotePref(pref, context);
+    }
+
+
     public SettingsPref settings() {
         return new SettingsPref(pref, context);
     }
