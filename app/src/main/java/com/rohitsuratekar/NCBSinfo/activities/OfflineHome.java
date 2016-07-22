@@ -32,6 +32,7 @@ import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -251,7 +252,6 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
         hourText.setText(getString(R.string.transport_hours, Difference[0]));
         minText.setText(getString(R.string.transport_min, Difference[1]));
         secText.setText(getString(R.string.transport_sec, Difference[2]));
-
         if (Difference[0] > 12) {
             Difference[1] = 12;
         }

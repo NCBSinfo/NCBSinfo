@@ -42,6 +42,7 @@ public class TransportDynamics {
     public int getSecsToNextTrip() {
         return timeLeft[3];
     }
+
     public String getNextTripString() {
         return new DateConverters().convertToString(nextDate, DateFormats.TIME_24_HOURS_STANDARD);
     }

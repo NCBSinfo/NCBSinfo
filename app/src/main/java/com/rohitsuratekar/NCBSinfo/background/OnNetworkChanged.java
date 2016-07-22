@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
+
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+
+import java.util.Date;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -44,7 +48,7 @@ public class OnNetworkChanged extends BroadcastReceiver {
                             context.startService(i2);
                             break;
                         case REGULAR_USER:
-                            if (new TransportHelper().TimeLeftFromNow(pref.network().getLastFireBaseSync())[0] > 2) {
+                            if (Math.abs(Days.daysBetween(new LocalDate(pref.network().getLastFireBaseSync()), new LocalDate(new Date())).getDays()) > 2) {
                                 Intent i3 = new Intent(context, DataManagement.class);
                                 i3.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
                                 context.startService(i3);

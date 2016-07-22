@@ -92,6 +92,7 @@ public class TransportHelper {
         return new int[]{Days, Hours, Minute, Seconds};
     }
 
+
     /**
      * Removes all spaces, wrongly formatted date and convert to proper "HH:mm" format
      */
