@@ -12,7 +12,7 @@ public class MainCanteenFirst {
 
 
     public MainCanteenFirst() {
-        this.lunch = new Lunch(false, false, "12:45", "13:45");
+        this.lunch = new Lunch(false, false, "12:30", "13:45");
     }
 
 

@@ -22,6 +22,7 @@ public class TransportPref {
     Context context;
 
     String LAST_UPDATE = "transportLastUpdated";
+    String REMINDER_DIALOG = "reminderDialog";
 
     protected TransportPref(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -112,6 +113,14 @@ public class TransportPref {
 
     public void setLastUpdate(String timestamp) {
         pref.edit().putString(LAST_UPDATE, timestamp).apply();
+    }
+
+    public boolean isReminded() {
+        return pref.getBoolean(REMINDER_DIALOG, false);
+    }
+
+    public void setReminded() {
+        pref.edit().putBoolean(REMINDER_DIALOG, true).apply();
     }
 
     /**

@@ -129,9 +129,9 @@ public class EventsListFragment extends Fragment {
         Collections.reverse(refined_list);
     }
 
-    public void showDialog(Context context, final TalkModel talk) {
+    public void showDialog(final Context context, final TalkModel talk) {
         //Inflate layout
-        LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.events_details_viewer, null);
 
         TextView title = (TextView) view.findViewById(R.id.eventView_title);
@@ -167,7 +167,7 @@ public class EventsListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(getActivity(), LectureHalls.class);
+                Intent intent = new Intent(context, LectureHalls.class);
                 intent.putExtra(LectureHalls.INTENT, talk.getVenue());
                 startActivity(intent);
             }

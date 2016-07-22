@@ -56,7 +56,6 @@ public class TransportPreference extends PreferenceFragment {
             }
         });
 
-        //TODO: create custom number picker
         hurryUp.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -65,7 +64,6 @@ public class TransportPreference extends PreferenceFragment {
         });
 
     }
-
 
 
 }

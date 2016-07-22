@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
-import java.util.Arrays;
 import java.util.Calendar;
 
 public class TransportFragment extends Fragment {
@@ -87,6 +85,8 @@ public class TransportFragment extends Fragment {
         return rootView;
     }
 
+    private String[] rawWeekTrips;
+    private String[] rawSundayTrips;
 
     public void perform(View v) {
 
@@ -97,8 +97,8 @@ public class TransportFragment extends Fragment {
         ListView weekList = (ListView) v.findViewById(R.id.weekdays_trips);
         ListView sundayList = (ListView) v.findViewById(R.id.sunday_trips);
 
-        String[] rawWeekTrips = transport.getTrips().getRawWeek().toArray(new String[transport.getTrips().getRawWeek().size()]);
-        String[] rawSundayTrips = transport.getTrips().getRawSunday().toArray(new String[transport.getTrips().getRawSunday().size()]);
+        rawWeekTrips = transport.getTrips().getRawWeek().toArray(new String[transport.getTrips().getRawWeek().size()]);
+        rawSundayTrips = transport.getTrips().getRawSunday().toArray(new String[transport.getTrips().getRawSunday().size()]);
 
         if (transport.getRouteType().equals(Routes.type.BUGGY)) {
             ncbsBuggy = new RouteBuilder(Routes.BUGGY_FROM_NCBS, getContext()).build();
@@ -108,8 +108,11 @@ public class TransportFragment extends Fragment {
             rawSundayTrips = mandaraBuggy.getTrips().getRawWeek().toArray(new String[mandaraBuggy.getTrips().getRawWeek().size()]);
         }
 
-        String[] formattedWeek = rawWeekTrips;
-        String[] formattedSunday = rawSundayTrips;
+        String[] formattedWeek = new String[rawWeekTrips.length];
+        String[] formattedSunday = new String[rawSundayTrips.length];
+
+        System.arraycopy(rawWeekTrips, 0, formattedWeek, 0, rawWeekTrips.length);
+        System.arraycopy(rawSundayTrips, 0, formattedSunday, 0, rawSundayTrips.length);
 
         int focusWeek = 0;
         int focusSunday = 0;
@@ -128,12 +131,13 @@ public class TransportFragment extends Fragment {
                 focusSunday = getIndex(rawSundayTrips, transport.getDynamics().getNextTripString());
                 formattedSunday = formatList(formattedSunday, focusSunday);
             } else {
+
                 formattedSunday = convertList(formattedSunday);
+
                 focusWeek = getIndex(rawWeekTrips, transport.getDynamics().getNextTripString());
                 formattedWeek = formatList(formattedWeek, focusWeek);
             }
         }
-
 
         TransportAdapter weekAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, formattedWeek);
         TransportAdapter sundayAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, formattedSunday);
@@ -155,26 +159,24 @@ public class TransportFragment extends Fragment {
         }
 
 
-        final String[] finalRawWeekTrips = rawWeekTrips;
         weekList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
 
                 //No reminders for offline mode
                 if (!pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
-                    showWeek(finalRawWeekTrips[i], true);
+                    showWeek(rawWeekTrips[i], true);
                 }
             }
         });
 
-        final String[] finalRawSundayTrips = rawSundayTrips;
         sundayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 //No reminders for offline mode
                 if (!pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
-                    showWeek(finalRawSundayTrips[i], false);
+                    showWeek(rawSundayTrips[i], false);
                 }
 
             }

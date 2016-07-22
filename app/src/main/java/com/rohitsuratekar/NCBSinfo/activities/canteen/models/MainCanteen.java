@@ -16,7 +16,7 @@ public class MainCanteen {
     public MainCanteen() {
         this.breakfast = new Breakfast(true, true, "07:15", "09:20");
         this.midMorningTea = new MidMorningTea(true, true, "10:00", "12:00");
-        this.lunch = new Lunch(true, true, "12:45", "13:45");
+        this.lunch = new Lunch(true, true, "12:30", "13:45");
         this.midEveningTea = new MidEveningTea(false, true, "15:00", "18:00");
         this.dinner = new Dinner(false, true, "19:15", "20:30");
     }

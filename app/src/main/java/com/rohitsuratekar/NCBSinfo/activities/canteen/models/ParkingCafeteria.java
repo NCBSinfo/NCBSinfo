@@ -15,7 +15,7 @@ public class ParkingCafeteria {
     public ParkingCafeteria() {
         this.breakfast = new Breakfast(false, false, "09:00", "10:00");
         this.midMorningTea = new MidMorningTea(false, false, "10:15", "11:45");
-        this.lunch = new Lunch(false, false, "12:45", "13:45");
+        this.lunch = new Lunch(false, false, "12:30", "13:45");
         this.midEveningTea = new MidEveningTea(false, false, "15:00", "17:30");
     }
 

@@ -129,7 +129,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         setFragments();
         runnable.run();
 
-
         switch (pref.app().getMode()) {
             case ONLINE:
                 Intent intent = new Intent(Home.this, OnlineHome.class);

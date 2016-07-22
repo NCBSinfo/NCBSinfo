@@ -9,8 +9,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 29
-        versionName "5.0 beta"
+        versionCode 30
+        versionName "5.1 beta"
 
     }
     buildTypes {
@@ -43,7 +43,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:9.2.1'
     compile 'com.google.firebase:firebase-database:9.2.1'
     compile 'com.google.firebase:firebase-config:9.2.1'
-    compile 'com.google.firebase:firebase-crash:9.2.1'
+    //compile 'com.google.firebase:firebase-crash:9.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'

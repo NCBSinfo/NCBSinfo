@@ -26,7 +26,7 @@ public class OnUpgrade extends BroadcastReceiver {
         if (!pref.app().isAppOpenedFirstTime()) {
             Intent service = new Intent(context, ServiceCentre.class);
             service.putExtra(ServiceCentre.INTENT, ServiceCentre.APP_UPGRADED);
-            context.startService(service);
+            //TODO    context.startService(service);
         }
     }
 }

@@ -29,31 +29,33 @@ public class ContactList {
     //TODO: Check this
     public String[][] getPinned() {
         return new String[][]{
-                {"Accounts", "accountshelp@ncbs.res.in", "Purushottam.V.Surya Rao", "080-2366-6001"},
+                {"Accounts", "accountshelp@ncbs.res.in", "Purushottam.V.Surya Rao", "080-2366-6326"},
 
-                {"Admin", "adminhelp@ncbs.res.in", " S. Ashok Rao", "080-2366-6001"},
+                {"Admin", "adminhelp@ncbs.res.in", " S. Ashok Rao", "080-2366-6332"},
 
-                {"Air Conditioning", "achelp@ncbs.res.in", "H S Venkatramana", "080-2366-6001"},
+                {"Air Conditioning", "achelp@ncbs.res.in", "H S Venkatramana", "080-2366-6426"},
 
-                {"Civil and Architecture", "civilint@ncbs.res.in", "Civil Head", "080-2366-6352"},
+                {"Civil and Architecture", "civilint@ncbs.res.in", "Civil Head", "080-2366-6354"},
+
+                {"Canteen", "canteen@ncbs.res.in", "N/A", "080-2366-6436"},
 
                 {"Electrical", "elechelp@ncbs.res.in", "Suresh Kumar", "080-2366-6425"},
 
-                {"Hospitality", "hospitality@ncbs.res.in", "Shaju Varghese", "080-2366-6001"},
+                {"Hospitality", "hospitality@ncbs.res.in", "Shaju Varghese", "080-2366-6095"},
 
-                {"Housing", "housing@ncbs.res.in", "N/A", "080-2366-6001"},
+                {"Housing", "housing@ncbs.res.in", "N/A", "080-2366-6004"},
 
                 {"Instrumentation", "ins@ncbs.res.in", "P C Gautam", "080-2366-6052"},
 
                 {"IT Services", "ithelp@ncbs.res.in", "Prasanta Kumar", "080-2366-6420"},
 
-                {"Lab Kitchen", "labkitchen@ncbs.res.in", "P P Ranjith", "080-2366-6001"},
+                {"Lab Kitchen", "labkitchen@ncbs.res.in", "P P Ranjith", "080-2366-6670"},
 
                 {"Mechanical", "mechworkshop@ncbs.res.in", "S.Devakumar", "080-2366-6422"},
 
                 {"Purchase", "purchasehelp@ncbs.res.in", "K.Venkata Ramanathan", "080-2366-6001"},
 
-                {"Security", "security@ncbs.res.in", "Shaju Varghese", "080-2366-6001"},
+                {"Security", "security@ncbs.res.in", "Shaju Varghese", "080-2366-6003"},
 
                 {"Sports", "sports@ncbs.res.in", "J.Baba Saheb", "080-2366-6001"},
 

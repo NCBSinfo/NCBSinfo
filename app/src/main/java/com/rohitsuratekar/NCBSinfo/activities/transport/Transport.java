@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
@@ -103,6 +105,18 @@ public class Transport extends BaseActivity {
             tab.select();
         }
 
+        if (!pref.transport().isReminded()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Introducing " + getString(R.string.transport_reminder))
+                    .setMessage(getString(R.string.transport_reminder_dialog))
+                    .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setIcon(R.drawable.icon_shuttle)
+                    .show();
+        }
+        pref.transport().setReminded();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
