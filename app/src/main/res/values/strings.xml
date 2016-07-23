@@ -46,6 +46,7 @@
     <string name="home_offline_features">Lightweight and\nessentials</string>
     <string name="home_offline_details">Essential features, zero internet use</string>
     <string name="home_select_offline">Offline is fine</string>
+    <string name="update_notice">You are using outdated app. Please update</string>
 
     <string name="home_trasnport_title">%1$s - %2$s</string>
     <string name="next_transport">Next %1$s : %2$s</string>

@@ -136,7 +136,7 @@ public class DashboardAccount extends Fragment {
                             progressDialog.show();
                             mDatabase.child(FireBaseConstants.USER_NODE)
                                     .child(new DataManagement().makePath(mAuth.getCurrentUser().getEmail()))
-                                    .child(FireBaseConstants.NAME).setValue(edittext.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .child("name").setValue(edittext.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
@@ -169,7 +169,7 @@ public class DashboardAccount extends Fragment {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Proxy network warning!")
                         .setMessage("It looks like you are using proxy network : \"" + new General().getProxyAddress() +
-                                "\" . Unfortunately, our database currently don't support proxy :( \nPlease use non proxy network to change name. "
+                                "\" . Unfortunately, our database currently don't support proxy :( \n\nPlease use non proxy network to change name. "
                         )
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

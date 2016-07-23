@@ -12,31 +12,31 @@ import com.google.gson.annotations.SerializedName;
 @IgnoreExtraProperties
 public class DataStructure implements FireBaseConstants {
 
-    @SerializedName(NAME)
+    @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName(TOKEN)
+    @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName(EMAIL)
+    @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName(DEFAULT_ROUTE)
+    @SerializedName("defaultRoute")
     @Expose
     private int defaultRoute;
-    @SerializedName(FIREBASE_ID)
+    @SerializedName("firebaseID")
     @Expose
     private String firebaseID;
-    @SerializedName(CURRENT_APP)
+    @SerializedName("currentApp")
     @Expose
     private int currentApp;
-    @SerializedName(LAST_LOGIN)
+    @SerializedName("lastLogin")
     @Expose
     private String lastLogin;
-    @SerializedName(REQUEST_CALL)
+    @SerializedName("requestCalls")
     @Expose
     private String requestCalls;
-    @SerializedName(NOTIFICATION_PREFERENCE)
+    @SerializedName("notificationPreference")
     @Expose
     private int notificationPreference; //Use int as follows : 0 : default, 1:true, 2:false
 

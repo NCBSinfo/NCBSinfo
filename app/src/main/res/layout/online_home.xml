@@ -249,9 +249,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="@string/update_notice"
             android:id="@+id/home_footerText"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="#a9ffffff" />
     </LinearLayout>
 
 

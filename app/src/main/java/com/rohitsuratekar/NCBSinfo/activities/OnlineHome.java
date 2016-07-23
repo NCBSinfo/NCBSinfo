@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -172,6 +173,12 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         changeTransport();
         runnable.run();
         footerText.setText(setFooterText());
+        footerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoPlaySTore();
+            }
+        });
 
     }
 
@@ -299,8 +306,27 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
     }
 
     private String setFooterText() {
-        //TODO: add functions
-        return "";
+        if (pref.network().isLatestApp()) {
+            return "";
+        } else {
+            return getString(R.string.update_notice);
+        }
+
+    }
+
+    private void gotoPlaySTore() {
+
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        String url = "";
+        try {
+            //Check whether Google Play store is installed or not:
+            getPackageManager().getPackageInfo("com.android.vending", 0);
+            url = "market://details?id=" + appPackageName;
+        } catch (final Exception e) {
+            url = "https://play.google.com/store/apps/details?id=" + appPackageName;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 
 

@@ -10,6 +10,7 @@ import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.settings.PrivacyNotice;
 import com.rohitsuratekar.NCBSinfo.activities.settings.SettingsCommon;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
@@ -86,8 +87,7 @@ public class InformationPreference extends PreferenceFragment {
         privacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(getActivity(), SettingsCommon.class);
-                intent.putExtra(SettingsCommon.INTENT, SettingsCommon.PRIVACY);
+                Intent intent = new Intent(getActivity(), PrivacyNotice.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 return true;

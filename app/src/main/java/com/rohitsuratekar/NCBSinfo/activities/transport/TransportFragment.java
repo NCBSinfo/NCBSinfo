@@ -238,7 +238,7 @@ public class TransportFragment extends Fragment {
                         fromText + "</b> to <b>" +
                         toText + "</b>"))
 
-                .setPositiveButton("Sure", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), TransportReminder.class);
 

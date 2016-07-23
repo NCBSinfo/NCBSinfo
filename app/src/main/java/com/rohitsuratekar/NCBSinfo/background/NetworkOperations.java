@@ -43,9 +43,9 @@ public class NetworkOperations extends IntentService implements NetworkConstants
     public static final String INTENT = NetworkOperations.class.getName();
     public static final String ALL_DATA = "all_data";
     public static final String REMOTE_DATA = "remoteData";
-
     public static final String REGISTER = "register";
     public static final String RESEARCH_TALKS = "research_talks";
+
     public static final int ACTIONCODE_RETRIEVED = 1;
     public static final int ACTIONCODE_UPDATED = 2;
     public static final int ACTIONCODE_NOTIFIED = 3;
@@ -257,9 +257,9 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     public void fetchAllData() {
 
-        if (pref.app().getMode().getValue().equals(modes.ONLINE.getValue())) {
-            researchTalk();
-        }
+        researchTalk();
+        remoteData();
+
     }
 
 }

@@ -53,13 +53,15 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         Log.i(TAG, "Notification service called at" + new General().timeStamp());
     }
 
+    enum notificationType {GENERAL, FCM, TRANSPORT, EVENTS}
+
     //Regular Notification
     public void sendNotification(String title, String notificationMessage, Class c) {
         int requestID = (int) System.currentTimeMillis();
         Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber, notificationType.GENERAL);
     }
 
     //Notification from FCM
@@ -95,7 +97,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notifySystem(getBuilder(title, message, contentIntent), notificationNumber);
+        notifySystem(getBuilder(title, message, contentIntent), notificationNumber, notificationType.FCM);
     }
 
     //Event Notification
@@ -108,7 +110,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         TalkModel talk = new TalkData(context).getEntry(code);
         if (talk != null) {
             if (talk.getActionCode() != NetworkOperations.ACTIONCODE_NOTIFIED) {
-                notifySystem(getBuilder(talk.getNotificationTitle(), talk.getTitle(), contentIntent), notificationNumber);
+                notifySystem(getBuilder(talk.getNotificationTitle(), talk.getTitle(), contentIntent), notificationNumber, notificationType.EVENTS);
                 talk.setActionCode(NetworkOperations.ACTIONCODE_NOTIFIED);
                 new TalkData(context).update(talk); //Update event as notified to avoid further spam
             }
@@ -127,7 +129,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         String message = new DateConverters().convertFormat(alarm.getExtraValue(), DateFormats.TIME_12_HOURS_STANDARD)
                 + " " + transport.getOrigin().toUpperCase() + " - " + transport.getDestination().toUpperCase() + " " + transport.getType() +
                 " is departing soon";
-        notifySystem(getBuilder(title, message, contentIntent), notificationNumber);
+        notifySystem(getBuilder(title, message, contentIntent), notificationNumber, notificationType.TRANSPORT);
         //Delete alarm after notification
         Intent intent = new Intent(context, Alarms.class);
         intent.putExtra(Alarms.INTENT, alarmTriggers.DELETE_ALARM.name());
@@ -152,7 +154,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber, notificationType.GENERAL);
 
     }
 
@@ -162,7 +164,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber, notificationType.GENERAL);
     }
 
 
@@ -193,14 +195,33 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
      * @param mBuilder           :Notification Builder
      * @param notificationNumber : Notification Number
      */
-    private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
+    private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber, notificationType type) {
         Preferences pref = new Preferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.
         if (pref.user().isNotificationAllowed()
                 && !pref.app().getMode().equals(modes.UNKNOWN)
                 && !pref.app().getMode().equals(modes.OFFLINE)) {
-            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(notificationNumber, mBuilder.build());
+
+            boolean allowed = true;
+            switch (type) {
+                case EVENTS:
+                    if (!pref.settings().isEventNotificationON()) {
+                        allowed = false;
+                    }
+                    break;
+                case FCM:
+                    if (!pref.settings().isImportantNotificationON()) {
+                        allowed = false;
+                    }
+                    break;
+            }
+
+            if (allowed) {
+                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(notificationNumber, mBuilder.build());
+            }
+
+
         } else {
             Log.i(TAG, "Notification denied because either switched of by user or offline mode is ON");
         }

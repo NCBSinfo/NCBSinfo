@@ -50,6 +50,13 @@
         <activity android:name=".activities.login.ChangePassword" />
         <activity android:name=".activities.experimental.holidays.Holidays" />
         <activity
+            android:name=".activities.settings.PrivacyNotice"
+            android:theme="@style/HomeTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rohitsuratekar.NCBSinfo.activities.settings.Settings" />
+        </activity>
+        <activity
             android:name=".activities.maps.MapActivity"
             android:theme="@style/HomeTheme">
             <meta-data

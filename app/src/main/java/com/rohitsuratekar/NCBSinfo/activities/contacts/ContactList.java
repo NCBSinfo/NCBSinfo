@@ -26,7 +26,6 @@ public class ContactList {
     }
 
 
-    //TODO: Check this
     public String[][] getPinned() {
         return new String[][]{
                 {"Accounts", "accountshelp@ncbs.res.in", "Purushottam.V.Surya Rao", "080-2366-6326"},
@@ -53,15 +52,15 @@ public class ContactList {
 
                 {"Mechanical", "mechworkshop@ncbs.res.in", "S.Devakumar", "080-2366-6422"},
 
-                {"Purchase", "purchasehelp@ncbs.res.in", "K.Venkata Ramanathan", "080-2366-6001"},
+                {"Purchase", "purchasehelp@ncbs.res.in", "K.Venkata Ramanathan", "080-2366-6345"},
 
                 {"Security", "security@ncbs.res.in", "Shaju Varghese", "080-2366-6003"},
 
-                {"Sports", "sports@ncbs.res.in", "J.Baba Saheb", "080-2366-6001"},
+                {"Sports", "sports@ncbs.res.in", "J.Baba Saheb", "080-2366-6099"},
 
                 {"Transport", "transport@ncbs.res.in", "Ashok Rao", "080-2366-6001"},
 
-                {"Electronic Workshop", "elecworkshop@ncbs.res.in", "Mr. A.Dorababu", "080-2366-6001"}
+                {"Electronic Workshop", "elecworkshop@ncbs.res.in", "Mr. A.Dorababu", "080-2366-6046"}
 
         };
     }

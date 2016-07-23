@@ -156,7 +156,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         //Strict policy for data fetch. It will be fetched only when mode is not "offline".
         if (!pref.app().getMode().getValue().equals(modes.OFFLINE.getValue())) {
             Intent service = new Intent(context, NetworkOperations.class);
-            service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
+            service.putExtra(NetworkOperations.INTENT, NetworkOperations.RESEARCH_TALKS);
             context.startService(service);
         } else {
             Log.e(TAG, "Network operation cancelled because of Offline mode");

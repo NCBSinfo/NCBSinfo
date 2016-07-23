@@ -72,5 +72,11 @@ public class SettingsCommon extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+    }
+
 
 }
