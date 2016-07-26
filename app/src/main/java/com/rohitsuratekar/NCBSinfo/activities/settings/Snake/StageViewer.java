@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.activities.settings.Snake;
+package com.rohitsuratekar.NCBSinfo.activities.settings.snake;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -209,7 +209,7 @@ public class StageViewer extends View implements GameConstants {
         return new int[]{0, 0};
     }
 
-    //Update Snake
+    //Update snake
     public List<Integer> updateSnake(List<Integer> snake, Directions direction) {
         int oldHead = snake.get(0);
         int X = indexToLocation(oldHead)[0];
@@ -326,7 +326,7 @@ public class StageViewer extends View implements GameConstants {
         return 0;
     }
 
-    //Check if given index is already part of Snake
+    //Check if given index is already part of snake
     private boolean isInSnake(int fruit) {
         for (int i : Snake) {
             if (i == fruit) {

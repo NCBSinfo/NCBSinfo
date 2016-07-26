@@ -61,7 +61,7 @@
             android:name=".activities.settings.SettingsCommon"
             android:theme="@style/HomeTheme" />
         <activity
-            android:name=".activities.settings.Snake.SnakeActivity"
+            android:name=".activities.settings.snake.SnakeActivity"
             android:theme="@style/HomeTheme" />
         <activity
             android:name=".activities.settings.Settings"

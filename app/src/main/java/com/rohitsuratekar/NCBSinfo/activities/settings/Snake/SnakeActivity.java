@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.activities.settings.Snake;
+package com.rohitsuratekar.NCBSinfo.activities.settings.snake;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

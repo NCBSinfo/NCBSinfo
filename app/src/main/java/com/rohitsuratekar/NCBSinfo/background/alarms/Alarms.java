@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
+import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.NotificationService;
@@ -30,8 +32,6 @@ import java.util.List;
  * This will also allow other users to send alarm request to app (if in future this app is success :P)
  * All intent should be "Alarms.java" with Triggers. Handle triggers from here.
  */
-
-//TODO: Give notification if tomorrow is holiday
 
 public class Alarms extends BroadcastReceiver implements AlarmConstants, AppConstants, AlarmIDs {
 
@@ -173,6 +173,13 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
             Intent dataService = new Intent(context, DataManagement.class);
             dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
             context.startService(dataService);
+
+            //Notify if tomorrow is holiday
+            if (new Holidays().isTomorrowHoliday()) {
+                new NotificationService(context)
+                        .sendNotification("NCBS Holiday Tomorrow", context.getString(R.string.holiday_tomorrow), Holidays.class);
+            }
+
         } else {
             Log.e(TAG, "Network operation cancelled because of Offline mode");
         }

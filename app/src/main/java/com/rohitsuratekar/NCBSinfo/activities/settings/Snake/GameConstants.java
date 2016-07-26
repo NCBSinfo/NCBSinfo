@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.activities.settings.Snake;
+package com.rohitsuratekar.NCBSinfo.activities.settings.snake;
 
 /**
  * Created by Rohit Suratekar on 24-07-16.

@@ -8,11 +8,10 @@ import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.settings.Snake.SnakeActivity;
+import com.rohitsuratekar.NCBSinfo.activities.settings.snake.SnakeActivity;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 
 /**

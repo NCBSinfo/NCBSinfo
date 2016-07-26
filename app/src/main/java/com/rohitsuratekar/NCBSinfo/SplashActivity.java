@@ -72,7 +72,7 @@ public class SplashActivity extends AppCompatActivity {
                         overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 }
             }
-        }, 600);
+        }, 800);
 
 
     }
