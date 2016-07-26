@@ -21,6 +21,8 @@
 -keepattributes Signature
 -keep class sun.misc.Unsafe { *; }
 -keep class com.secretbiology.retro.google.** { *; }
+-keep class com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}
+-keep interface com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}
 -dontwarn okio.**
 -dontwarn retrofit2.**
 -dontwarn org.joda.convert.**

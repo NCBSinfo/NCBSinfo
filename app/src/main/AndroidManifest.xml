@@ -28,13 +28,7 @@
 
         <activity
             android:name=".Home"
-            android:theme="@style/HomeTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/HomeTheme"></activity>
 
         <!-- Activities -->
         <activity android:name=".activities.OnlineHome" />
@@ -67,6 +61,9 @@
             android:name=".activities.settings.SettingsCommon"
             android:theme="@style/HomeTheme" />
         <activity
+            android:name=".activities.settings.Snake.SnakeActivity"
+            android:theme="@style/HomeTheme" />
+        <activity
             android:name=".activities.settings.Settings"
             android:theme="@style/HomeTheme">
             <meta-data
@@ -82,7 +79,6 @@
         <activity
             android:name=".activities.login.Login"
             android:windowSoftInputMode="stateHidden" />
-
 
         <!-- Receivers and Services -->
         <receiver android:name=".background.alarms.Alarms" />
@@ -103,6 +99,7 @@
         <receiver android:name=".background.OnUpgrade">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data
                     android:path="com.rohitsuratekar.NCBSinfo"
                     android:scheme="package" />
@@ -123,6 +120,14 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

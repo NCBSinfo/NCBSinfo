@@ -39,7 +39,7 @@ public class OnNetworkChanged extends BroadcastReceiver {
                     switch (pref.user().getUserType()) {
                         case NEW_USER:
                             Intent i1 = new Intent(context, DataManagement.class);
-                            i1.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                            i1.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
                             context.startService(i1);
                             break;
                         case OLD_USER:
@@ -50,7 +50,7 @@ public class OnNetworkChanged extends BroadcastReceiver {
                         case REGULAR_USER:
                             if (Math.abs(Days.daysBetween(new LocalDate(pref.network().getLastFireBaseSync()), new LocalDate(new Date())).getDays()) > 2) {
                                 Intent i3 = new Intent(context, DataManagement.class);
-                                i3.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                                i3.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
                                 context.startService(i3);
                             }
                             break;

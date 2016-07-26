@@ -36,7 +36,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
 
     //Public Constants
     public static final String INTENT = DataManagement.class.getName();
-    public static final String SEND_FIREBASEDATE = "send_firebaseData";
+    public static final String SEND_FIREBASEDATA = "send_firebaseData";
     public static final String FETCH_FIREBASE_DATA = "fetch_firebaseData";
 
     //Local constants
@@ -56,7 +56,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "Data Service started at " + new General().timeStamp());
+        Log.i(TAG, "Data Service started at " + new General().timeStamp());
         this.context = getBaseContext();
         this.pref = new Preferences(context);
         this.mAuth = FirebaseAuth.getInstance();
@@ -72,7 +72,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                     && !pref.app().getMode().equals(modes.OFFLINE)) {
 
                 switch (trigger) {
-                    case SEND_FIREBASEDATE:
+                    case SEND_FIREBASEDATA:
                         if (!pref.network().isOldDeleted()) {
                             migrateToNew();
                         } else {
@@ -118,12 +118,18 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                             Log.e(TAG, "User has no records");
                             //Don't request this query again
                             pref.network().setOldDeleted();
+                            sendFirstTimeDetails();
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Log.e(TAG, databaseError.getMessage());
+                        Log.e(TAG, "User has no previous data on our server");
+                        //Database error will be created if user is not registered with our database before.
+                        // Hence directly send data to new database node
+                        pref.network().setOldDeleted();
+                        sendFirstTimeDetails();
                     }
                 });
             }//Old Deleted
@@ -139,6 +145,9 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         send();
+                        //Convert old user to regular for sending data to server
+                        pref.user().setUserType(userType.REGULAR_USER);
+                        Log.i(TAG, "Data Migrated to new node and authentication email stored.");
                     } else {
                         Log.e(TAG, task.getException().getLocalizedMessage());
                     }

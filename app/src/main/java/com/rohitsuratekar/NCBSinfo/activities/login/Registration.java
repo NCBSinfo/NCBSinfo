@@ -173,7 +173,7 @@ public class Registration extends BaseActivity implements AppConstants {
                                                     startService(network);
                                                     //Send Data
                                                     Intent dataService = new Intent(Registration.this, DataManagement.class);
-                                                    dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                                                    dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
                                                     startService(dataService);
                                                     //Start app
                                                     Intent intent = new Intent(Registration.this, OnlineHome.class);

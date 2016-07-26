@@ -5,6 +5,7 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,6 +93,16 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         //Clear all preferences
         pref.clearAll();
 
+        //Initialize app with latest app version
+        try {
+            pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        pref.app().setLastLogin(new General().timeStamp()); //Timestamp
+        pref.app().addOpenCount(); //Whenever user opens app
+
         //Reset Transport values
         Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
         transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
@@ -116,6 +127,16 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
      * This will just reset Transport , Contacts and Alarms.
      */
     private void resetUser() {
+        //Initialize app with latest app version
+        try {
+            pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        pref.app().setLastLogin(new General().timeStamp()); //Timestamp
+        pref.app().addOpenCount(); //Whenever user opens app
+
         //Reset Transport values
         Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
         transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
@@ -136,8 +157,16 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         Intent alarms = new Intent(ServiceCentre.this, Alarms.class);
         alarms.putExtra(Alarms.INTENT, alarmTriggers.RESET_ALL.name());
         sendBroadcast(alarms);
+
+        //Initialize app with latest app version
+        try {
+            pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         Intent service = new Intent(ServiceCentre.this, DataManagement.class);
-        service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+        service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
         startService(service);
     }
 

@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -15,9 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
-import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.activities.login.Registration;
-import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
@@ -55,29 +52,6 @@ public class Home extends AppCompatActivity implements AppConstants {
         pref = new Preferences(getBaseContext());
         baseParameters = new BaseParameters(getBaseContext());
 
-        //Initialize app if it is opened for first time and not upgraded from past
-        if (pref.app().isAppOpenedFirstTime() && pref.app().isPreviouslyUsed()) {
-            Intent service = new Intent(Home.this, ServiceCentre.class);
-            service.putExtra(ServiceCentre.INTENT, ServiceCentre.RESET_APP_DATA);
-            startService(service);
-        }
-        //If app contains data from past versions
-        if (pref.app().isAppOpenedFirstTime() && !pref.app().isPreviouslyUsed()) {
-            Intent service = new Intent(Home.this, ServiceCentre.class);
-            service.putExtra(ServiceCentre.INTENT, ServiceCentre.SELECTIVE_UPGRADE);
-            startService(service);
-        }
-
-
-        //Initialize app with latest app version
-        try {
-            pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-            pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        pref.app().setLastLogin(new General().timeStamp()); //Timestamp
-        pref.app().addOpenCount(); //Whenever user opens app
 
         metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -128,21 +102,6 @@ public class Home extends AppCompatActivity implements AppConstants {
 
         setFragments();
         runnable.run();
-
-        switch (pref.app().getMode()) {
-            case ONLINE:
-                Intent intent = new Intent(Home.this, OnlineHome.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-                break;
-            case OFFLINE:
-                Intent intent2 = new Intent(Home.this, OfflineHome.class);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent2);
-                overridePendingTransition(0, 0);
-                break;
-        }
 
 
     }

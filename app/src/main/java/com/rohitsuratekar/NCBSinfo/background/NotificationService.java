@@ -186,7 +186,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(Message))
                 .setContentText(Message).setAutoCancel(true)
                 .setContentIntent(contentIntent)
-                .setVibrate(new long[]{1000, 500});
+                .setVibrate(new long[]{0, 500});
     }
 
     /**

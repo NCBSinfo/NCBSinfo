@@ -1,13 +1,18 @@
 package com.rohitsuratekar.NCBSinfo.activities.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Snake.SnakeActivity;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 
 /**
@@ -24,6 +29,7 @@ public class SettingsCommon extends AppCompatActivity {
     public static final String PRIVACY = "privacy";
     TextView commonText;
     BaseParameters baseParameters;
+    int magicTap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +39,8 @@ public class SettingsCommon extends AppCompatActivity {
         commonText = (TextView) findViewById(R.id.settings_common_text);
         baseParameters = new BaseParameters(getBaseContext());
 
-        String trigger = getIntent().getStringExtra(INTENT);
+        final String trigger = getIntent().getStringExtra(INTENT);
+        magicTap = 0;
 
         if (trigger != null) {
             switch (trigger) {
@@ -57,6 +64,20 @@ public class SettingsCommon extends AppCompatActivity {
 
             }
         }
+
+        commonText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (trigger != null && trigger.equals(TERMS)) {
+                    Log.i(getClass().getSimpleName(), "Tap :"+ magicTap);
+                    magicTap++;
+                    if (magicTap > 3) {
+                        startActivity(new Intent(SettingsCommon.this, SnakeActivity.class));
+                        overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                    }
+                }
+            }
+        });
 
 
     }

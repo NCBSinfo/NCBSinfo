@@ -171,7 +171,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
             service.putExtra(NetworkOperations.INTENT, NetworkOperations.REMOTE_DATA);
             context.startService(service);
             Intent dataService = new Intent(context, DataManagement.class);
-            dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+            dataService.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
             context.startService(dataService);
         } else {
             Log.e(TAG, "Network operation cancelled because of Offline mode");

@@ -128,7 +128,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                     //Second if condition is required for database migration
                     if (!pref.user().getUserType().equals(AppConstants.userType.REGULAR_USER) || !pref.network().isOldDeleted()) {
                         Intent intent = new Intent(OnlineHome.this, DataManagement.class);
-                        intent.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATE);
+                        intent.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
                         startService(intent);
                     }
                 } else {
