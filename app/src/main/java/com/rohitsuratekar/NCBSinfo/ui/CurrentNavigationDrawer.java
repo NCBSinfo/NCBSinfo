@@ -117,13 +117,11 @@ public class CurrentNavigationDrawer {
             case LOGIN:
                 setOffline();
                 navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
-                navigationView.getMenu().findItem(R.id.nav_settings).setEnabled(true);
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true);
                 break;
             case REGISTRATION:
                 setOffline();
                 navigationView.getMenu().setGroupEnabled(R.id.nav_main_group, false);
-                navigationView.getMenu().findItem(R.id.nav_settings).setEnabled(true);
                 navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, true);
                 break;
             case LECTUREHALLS:
