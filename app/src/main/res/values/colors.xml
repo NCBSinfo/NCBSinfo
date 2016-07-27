@@ -22,8 +22,8 @@
     <color name="map_polygone_overlay">#9d3a9bea</color>
 
 
-    <color name="hurryup_color">#f44336</color>
-    <color name="hurryup_color_dark">#f44310</color>
+    <color name="hurryup_color">#F44336</color>
+    <color name="hurryup_color_dark">#D32F2F</color>
 
     <color name="hour_background">#009688</color>
     <color name="hour_layout">#f44336</color>

@@ -223,7 +223,6 @@ public class DashboardAccount extends Fragment {
         relativeLayout.setLayoutParams(params);
         relativeLayout.addView(picker, numPicker);
         picker.setValue(pref.user().getNumberOfEventsToKeep());
-        //TODO check this
         new AlertDialog.Builder(getContext())
                 .setTitle("Events history")
                 .setMessage("Maximum number of events stored on this device")

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
-import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
@@ -38,8 +37,6 @@ public class SplashActivity extends AppCompatActivity {
             service.putExtra(ServiceCentre.INTENT, ServiceCentre.SELECTIVE_UPGRADE);
             startService(service);
         }
-
-        pref.app().setMode(AppConstants.modes.ONLINE);
 
         //Initialize app with latest app version
         try {

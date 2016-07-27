@@ -28,7 +28,7 @@
 
         <activity
             android:name=".Home"
-            android:theme="@style/HomeTheme"></activity>
+            android:theme="@style/HomeTheme" />
 
         <!-- Activities -->
         <activity android:name=".activities.OnlineHome" />
@@ -40,9 +40,11 @@
         <activity android:name=".activities.dashboard.DashBoard" />
         <activity android:name=".activities.experimental.Experimental" />
         <activity android:name=".activities.contacts.ContactAdd" />
-        <activity android:name=".activities.canteen.Canteen" />
         <activity android:name=".activities.login.ChangePassword" />
         <activity android:name=".activities.experimental.holidays.Holidays" />
+        <activity
+            android:name=".activities.canteen.Canteen"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.settings.PrivacyNotice"
             android:theme="@style/HomeTheme">
@@ -75,10 +77,12 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.login.Registration"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.login.Login"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"/>
 
         <!-- Receivers and Services -->
         <receiver android:name=".background.alarms.Alarms" />

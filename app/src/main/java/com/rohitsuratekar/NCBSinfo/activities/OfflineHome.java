@@ -296,7 +296,7 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
             homeFooter.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
             toolbar.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+                getWindow().setStatusBarColor(General.getColor(getBaseContext(), R.color.hurryup_color_dark));
             }
         }
     }

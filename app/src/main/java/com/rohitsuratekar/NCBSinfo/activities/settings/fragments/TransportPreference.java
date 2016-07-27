@@ -28,7 +28,6 @@ public class TransportPreference extends PreferenceFragment {
     ListPreference defaultTransport;
     Preference hurryUp;
     String[] routeList;
-    int currentHurryUpValue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,13 +89,7 @@ public class TransportPreference extends PreferenceFragment {
         relativeLayout.setLayoutParams(params);
         relativeLayout.addView(picker, numPicker);
         picker.setValue(pref.user().getHurryUpTime());
-        currentHurryUpValue = pref.user().getHurryUpTime();
-        picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                currentHurryUpValue = i1;
-            }
-        });
+
         new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.settings_hurryup))
                 .setMessage(Html.fromHtml(getString(R.string.settings_hurryup_summary) + " \n (in min)"))
@@ -104,8 +97,8 @@ public class TransportPreference extends PreferenceFragment {
                 .setPositiveButton("Set", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        pref.user().setHurryUpTime(currentHurryUpValue);
-                        hurryUp.setSummary(currentHurryUpValue + " min");
+                        pref.user().setHurryUpTime(picker.getValue());
+                        hurryUp.setSummary(picker.getValue() + " min");
                         pref.settings().setHurryUpUsed(true);
                     }
                 })
