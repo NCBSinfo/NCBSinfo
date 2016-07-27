@@ -56,7 +56,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(TAG, "Data Service started at " + new General().timeStamp());
+        Log.i(TAG, "Data Service started at " + General.timeStamp());
         this.context = getBaseContext();
         this.pref = new Preferences(context);
         this.mAuth = FirebaseAuth.getInstance();
@@ -165,7 +165,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             pref.user().setUserType(userType.REGULAR_USER);
-                            pref.network().setLastFirebaseSync(new General().timeStamp());
+                            pref.network().setLastFirebaseSync(General.timeStamp());
                             Log.i(TAG, "Data sent to server");
                         } else {
                             Log.e(TAG, task.getException().getLocalizedMessage());

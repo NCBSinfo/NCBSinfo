@@ -101,9 +101,8 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
         }
 
 
-
         String[] q = quotes();
-        quote.setText(getResources().getString(R.string.canteen_quote,q[0]));
+        quote.setText(getResources().getString(R.string.canteen_quote, q[0]));
         author.setText(q[1]);
 
     }
@@ -161,11 +160,11 @@ public class Canteen extends BaseActivity implements View.OnClickListener, AppCo
 
     private void setColors(ImageView view, TextView text, boolean isActive) {
         if (isActive) {
-            new General().setColorToIcon(context, view, R.color.canteen_active);
-            new General().setColorToText(context, text, R.color.canteen_active);
+            view.setColorFilter(General.getColor(context, R.color.canteen_active));
+            text.setTextColor(General.getColor(context, R.color.canteen_active));
         } else {
-            new General().setColorToIcon(context, view, R.color.canteen_inactive);
-            new General().setColorToText(context, text, R.color.canteen_inactive);
+            view.setColorFilter(General.getColor(context, R.color.canteen_inactive));
+            text.setTextColor(General.getColor(context, R.color.canteen_inactive));
         }
     }
 

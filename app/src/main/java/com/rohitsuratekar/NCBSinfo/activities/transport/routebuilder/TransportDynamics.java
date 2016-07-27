@@ -20,7 +20,6 @@ public class TransportDynamics {
         this.trips = trips;
         this.nextDate = new TransportHelper().getNext(trips);
         this.timeLeft = new TransportHelper().TimeLeftFromNow(nextDate);
-
     }
 
     public Date getNextTripDate() {
@@ -46,4 +45,9 @@ public class TransportDynamics {
     public String getNextTripString() {
         return new DateConverters().convertToString(nextDate, DateFormats.TIME_24_HOURS_STANDARD);
     }
+
+    public int getTotalNumberOfMins() {
+        return getDaysToNextTrip() * 60 * 24 + getHoursToNextTrip() * 60 + getMinsToNextTrip();
+    }
+
 }

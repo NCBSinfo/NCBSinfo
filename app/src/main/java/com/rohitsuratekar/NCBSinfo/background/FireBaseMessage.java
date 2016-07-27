@@ -30,10 +30,15 @@ public class FireBaseMessage extends FirebaseMessagingService implements Network
                                 .updateNotification(remoteMessage.getData().get(fcmKeys.TITLE), remoteMessage.getData().get(fcmKeys.MESSAGE));
                     }
                     break;
+
                 case fcmTriggers.DATA_SYNC:
                     Intent service = new Intent(getBaseContext(), NetworkOperations.class);
                     service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
                     startService(service);
+                    break;
+
+                case fcmTriggers.DEBUG:
+                    new NotificationService(getBaseContext()).sendNotification(remoteMessage);
                     break;
             }
         } else {

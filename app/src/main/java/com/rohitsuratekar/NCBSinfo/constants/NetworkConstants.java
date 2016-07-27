@@ -22,13 +22,6 @@ public interface NetworkConstants {
         String RCODE = "rcode";
         String EXTRA = "extra";
 
-        interface transport {
-            String ROUTE = "routeName";
-            String ROUTE_VALUE = "routeValue";
-            String VALIDITY = "validity";
-            String RESET = "reset";
-        }
-
         interface values {
             String EXTRA_PERSONAL = "personal";
         }
@@ -44,7 +37,7 @@ public interface NetworkConstants {
     interface fcmTriggers {
         String NEW_UPDATE = "NewUpdate";
         String DATA_SYNC = "DataSync";
-        String CHANGE_TRANSPORT = "ChangeTransport";
+        String DEBUG = "debug";
     }
 
     //Google Form Links

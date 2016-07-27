@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
+import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -262,6 +264,12 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
         params3.weight = ((float) Difference[2] / 60) * 100;
         sec.setLayoutParams(params3);
 
+        if (dynamics.getTotalNumberOfMins() <= pref.user().getHurryUpTime()) {
+            changeLayoutColor(false);
+        } else {
+            changeLayoutColor(true);
+        }
+
     }
 
     /**
@@ -273,6 +281,24 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
         hour.setBackgroundColor(color);
         min.setBackgroundColor(color);
         sec.setBackgroundColor(color);
+    }
+
+    private void changeLayoutColor(boolean isRegular) {
+        if (isRegular) {
+            footerHolder.setBackgroundColor(General.getColor(getBaseContext(), R.color.colorPrimary));
+            homeFooter.setBackgroundColor(General.getColor(getBaseContext(), R.color.colorPrimary));
+            toolbar.setBackgroundColor(General.getColor(getBaseContext(), R.color.colorPrimary));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(General.getColor(getBaseContext(), R.color.colorPrimaryDark));
+            }
+        } else {
+            footerHolder.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            homeFooter.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            toolbar.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            }
+        }
     }
 
 }

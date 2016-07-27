@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
@@ -73,7 +71,7 @@ public class General {
     /**
      * @return : Current timestamp
      */
-    public String timeStamp() {
+    public static String timeStamp() {
         return new DateConverters().convertToString(new Date(), DateFormats.TIMESTAMP_STANDARD);
     }
 
@@ -91,32 +89,17 @@ public class General {
     }
 
     /**
-     * Sets color to imageview considering compatibility issues
+     * Gets color with compatibility issues
      *
-     * @param context   : to get resources
-     * @param imageView : Imageview
-     * @param color     : Color resources
+     * @param context: For getting resources
+     * @param color    : color resource
+     * @return : int color
      */
-    public void setColorToIcon(Context context, ImageView imageView, int color) {
+    public static int getColor(Context context, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            imageView.setColorFilter(context.getResources().getColor(color, context.getTheme()));
+            return context.getResources().getColor(color, context.getTheme());
         } else {
-            imageView.setColorFilter(context.getResources().getColor(color));
-        }
-    }
-
-    /**
-     * Sets color to textview considering compatibility issues
-     *
-     * @param context  : to get resources
-     * @param textView : TextView
-     * @param color    : Color resources
-     */
-    public void setColorToText(Context context, TextView textView, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            textView.setTextColor(context.getResources().getColor(color, context.getTheme()));
-        } else {
-            textView.setTextColor(context.getResources().getColor(color));
+            return context.getResources().getColor(color);
         }
     }
 

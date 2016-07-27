@@ -41,7 +41,7 @@
         android:layout_width="@dimen/home_subicon_size"
         android:layout_height="@dimen/home_subicon_size"
         android:id="@+id/home_fragment2"
-        android:src="@drawable/triangle"
+        android:src="@drawable/icon_triangle"
         android:tint="@color/home_fragment2" />
 
     <LinearLayout

@@ -23,8 +23,10 @@
     <string name="settings_hurryup_summary">The color will turn red if the next transport is within this time period</string>
 
 
-    <string name="about_us"><![CDATA[ <b>NCBSinfo</b> is an application for regular use, especially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
-    Our aim is to create a mobile application, which will serve as an application-cum-database for important information pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching for shuttle timings and contact numbers.]]></string>
+    <string name="about_us"><![CDATA[
+ <b>NCBSinfo</b> is an application for regular use, especially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
+    Our aim is to create a mobile application, which will serve as an application-cum-database for important information pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching for shuttle timings and contact numbers.
+]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
     All the information (except event updates) provided in this application was last updated on June 21, 2016.
@@ -49,7 +51,7 @@
         <![CDATA[
 
         Best part of an open source app is that you will know exactly what is going on inside the app. We encourage you to check
-        our source code on GitHub (https://github.com/NCBSinfo/NCBSinfo). Code is heavily commented for readability. We collect
+        our source code on GitHub (<a href="https://github.com/NCBSinfo/NCBSinfo"> https://github.com/NCBSinfo/NCBSinfo </a>). Code is heavily commented for readability. We collect
         various personal and general information from this app to make a better user experience. Following is the list of all
         information that we get from users. <br></br><br></br>
 
@@ -66,6 +68,7 @@
         If you don\'t want any of above information to be send to our server, you can use OFFLINE mode. <br></br>
         <b>WE DO NOT COLLECT ANY PERSONAL INFORMATION FROM OFFLINE MODE USERS.</b><br></br><br></br>
 
+        <b>NO ONE </b> can check or see your password, not even developers. They are sent securely with https protocol and are stored in Google\'s cloud database with encryption. <br></br><br></br>
         <b>Google and Firebase analytics</b><br> </br>
         Besides above personal information, we also receive some anonymous statistics of all users who have installed this app.
         This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.

@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -41,6 +42,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
+import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -303,6 +305,11 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         nextText.setText(getResources().getString(R.string.next_transport,
                 transport.getType(), new DateConverters().convertFormat(dynamics.getNextTripString(), DateFormats.TIME_12_HOURS_STANDARD)));
         timeLeft.setText(getResources().getString(R.string.time_left, dynamics.getHoursToNextTrip(), dynamics.getMinsToNextTrip(), dynamics.getSecsToNextTrip()));
+        if (dynamics.getTotalNumberOfMins() <= pref.user().getHurryUpTime()) {
+            changeColor(false);
+        } else {
+            changeColor(true);
+        }
     }
 
     private String setFooterText() {
@@ -327,6 +334,24 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
+    }
+
+    private void changeColor(boolean isRegular) {
+        if (isRegular) {
+            footerHolder.setBackgroundColor(General.getColor(getBaseContext(), R.color.colorPrimary));
+            homeFooter.setBackgroundColor(General.getColor(getBaseContext(), R.color.colorPrimary));
+            toolbar.setBackgroundColor(General.getColor(getBaseContext(), R.color.colorPrimary));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(General.getColor(getBaseContext(), R.color.colorPrimaryDark));
+            }
+        } else {
+            footerHolder.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            homeFooter.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            toolbar.setBackgroundColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(General.getColor(getBaseContext(), R.color.hurryup_color));
+            }
+        }
     }
 
 

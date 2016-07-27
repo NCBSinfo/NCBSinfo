@@ -24,6 +24,7 @@ public class User implements AppConstants {
     String NOTIFICANTION_ONSET = "pref_notificationOnset";
     String FIREBASE_ID = "fireBaseID";
     String NUMBER_OF_EVENTS = "numberOfEventsToKeep";
+    String HURRY_UP_TIME = "hurryUp_Time";
 
     protected User(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -139,6 +140,14 @@ public class User implements AppConstants {
 
     public void setNumberOfEventsToKeep(int numberOfEvents) {
         pref.edit().putInt(NUMBER_OF_EVENTS, numberOfEvents).apply();
+    }
+
+    public void setHurryUpTime(int time) {
+        pref.edit().putInt(HURRY_UP_TIME, time).apply();
+    }
+
+    public int getHurryUpTime() {
+        return pref.getInt(HURRY_UP_TIME, 5); //5 is default
     }
 
 }

@@ -105,7 +105,7 @@ public class Transport extends BaseActivity {
             tab.select();
         }
 
-        if (!pref.transport().isReminded()) {
+        if (!pref.transport().isReminded() && !pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
             new AlertDialog.Builder(this)
                     .setTitle("Introducing " + getString(R.string.transport_reminder))
                     .setMessage(getString(R.string.transport_reminder_dialog))

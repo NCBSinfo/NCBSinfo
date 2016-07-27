@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.rohitsuratekar.NCBSinfo.activities.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.General;
@@ -38,6 +39,8 @@ public class SplashActivity extends AppCompatActivity {
             startService(service);
         }
 
+        pref.app().setMode(AppConstants.modes.ONLINE);
+
         //Initialize app with latest app version
         try {
             pref.app().setAppVersion(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
@@ -45,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        pref.app().setLastLogin(new General().timeStamp()); //Timestamp
+        pref.app().setLastLogin(General.timeStamp()); //Timestamp
         pref.app().addOpenCount(); //Whenever user opens app
 
         Handler handler = new Handler();

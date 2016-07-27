@@ -98,7 +98,7 @@ public class App implements AppConstants {
     }
 
     public String getLastLogin() {
-        return pref.getString(LAST_LOGIN, new General().timeStamp());
+        return pref.getString(LAST_LOGIN, General.timeStamp());
     }
 
     public void setLastLogin(String time) {

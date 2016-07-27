@@ -51,7 +51,7 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.i(TAG, "Service Centre trigger requested at " + new General().timeStamp());
+        Log.i(TAG, "Service Centre trigger requested at " + General.timeStamp());
         pref = new Preferences(getBaseContext());
         //Do not add default field here
         String trigger = intent.getStringExtra(INTENT);
@@ -100,7 +100,7 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        pref.app().setLastLogin(new General().timeStamp()); //Timestamp
+        pref.app().setLastLogin(General.timeStamp()); //Timestamp
         pref.app().addOpenCount(); //Whenever user opens app
 
         //Reset Transport values
@@ -124,7 +124,7 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
 
     /**
      * Use this when user login
-     * This will just reset Transport , Contacts and Alarms.
+     * This will just reset Transport , Contacts and Alarms and previous customizations
      */
     private void resetUser() {
         //Initialize app with latest app version
@@ -134,17 +134,15 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        pref.app().setLastLogin(new General().timeStamp()); //Timestamp
+        pref.app().setLastLogin(General.timeStamp()); //Timestamp
         pref.app().addOpenCount(); //Whenever user opens app
 
         //Reset Transport values
         Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
         transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
         startService(transport);
-        //Reset Contact Data
-        resetContacts();
-        //Reset Alarms
-        resetAlarms();
+        //Reset Contact Data and Customization, reset alarms
+        clearCustomization();
         //App is already opened
         pref.app().setAppOpenedFirstTime();
 
@@ -211,10 +209,12 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
 
         //Set all default preferences
         pref.user().setDefaultRoute(Routes.NCBS_IISC);
+        pref.user().setHurryUpTime(5);
         pref.user().setNotificationOnset(10);
         pref.user().notificationAllowed(true);
         pref.user().setNumberOfEventsToKeep(25);
         pref.settings().setDefaultRouteUsed(false);
+        pref.settings().setHurryUpUsed(false);
         pref.settings().setDevelopersOptions(false);
         pref.settings().setImportantNotifications(true);
         pref.settings().setEventNotifications(true);

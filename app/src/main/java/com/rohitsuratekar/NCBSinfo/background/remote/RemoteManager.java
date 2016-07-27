@@ -56,7 +56,7 @@ public class RemoteManager implements RemoteData {
                     sharedPreferences.edit().putString(r.getKey().trim(), r.getValue()).apply();
                     Log.i(TAG, "Transport updated from network : " + r.getKey().trim());
                 }
-                pref.transport().setLastUpdate(new General().timeStamp());
+                pref.transport().setLastUpdate(General.timeStamp());
 
             }
 

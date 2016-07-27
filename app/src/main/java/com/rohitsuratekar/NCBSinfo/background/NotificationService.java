@@ -50,7 +50,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
 
     public NotificationService(Context context) {
         this.context = context;
-        Log.i(TAG, "Notification service called at" + new General().timeStamp());
+        Log.i(TAG, "Notification service called at" + General.timeStamp());
     }
 
     enum notificationType {GENERAL, FCM, TRANSPORT, EVENTS}
@@ -84,7 +84,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
 
         //Add to notification data
         NotificationModel note = new NotificationModel();
-        note.setTimestamp(new General().timeStamp());
+        note.setTimestamp(General.timeStamp());
         note.setTitle(title);
         note.setMessage(message);
         note.setFrom(remoteMessage.getFrom());
