@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/off_home_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rohitsuratekar.NCBSinfo.Home">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/off_home_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="0sp"
+            app:cardCornerRadius="2sp"
+            app:cardElevation="12sp"
+            android:layout_weight="55">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/off_home_cardView_selector"
+                    android:layout_width="30sp"
+                    android:layout_height="50sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/icon_selector" />
+
+                <LinearLayout
+                    android:id="@+id/off_home_footerHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="150sp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/off_home_cardView_nextText"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Next Shuttle : 10.30 PM"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#ffffff"
+                        android:textSize="40sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/off_card_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/off_home_footerHolder"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10sp"
+                        android:layout_weight="20"
+                        android:gravity="bottom|center_horizontal"
+                        android:orientation="vertical"
+                        android:weightSum="100">
+
+                        <LinearLayout
+                            android:id="@+id/hour_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_weight="80"
+                            android:background="@color/hour_background"
+                            android:gravity="bottom"
+                            android:orientation="vertical"
+                            android:weightSum="100">
+
+                            <LinearLayout
+                                android:id="@+id/hour_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:background="@color/hour_layout"
+                                android:orientation="vertical" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/off_hour_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="24 Hrs"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#b8ffffff"
+                            android:textSize="30sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10sp"
+                        android:layout_weight="20"
+                        android:gravity="bottom|center_horizontal"
+                        android:orientation="vertical"
+                        android:weightSum="100">
+
+                        <LinearLayout
+                            android:id="@+id/minute_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_weight="80"
+                            android:background="@color/min_background"
+                            android:gravity="bottom"
+                            android:orientation="vertical"
+                            android:weightSum="100">
+
+                            <LinearLayout
+                                android:id="@+id/minute_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:background="@color/min_layout"
+                                android:orientation="vertical" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/off_min_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="59 Min"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#b8ffffff"
+                            android:textSize="30sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="10sp"
+                        android:layout_weight="20"
+                        android:gravity="bottom|center_horizontal"
+                        android:orientation="vertical"
+                        android:weightSum="100">
+
+                        <LinearLayout
+                            android:id="@+id/seconds_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="5sp"
+                            android:layout_weight="80"
+                            android:background="@color/sec_background"
+                            android:gravity="bottom"
+                            android:orientation="vertical"
+                            android:weightSum="100">
+
+                            <LinearLayout
+                                android:id="@+id/seconds_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="30"
+                                android:background="@color/sec_layout"
+                                android:orientation="vertical" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/off_sec_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="59 Sec"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="#b8ffffff"
+                            android:textSize="30sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/off_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_alignLeft="@+id/off_home_cardview"
+            android:layout_alignStart="@+id/off_home_cardview"
+            android:layout_below="@+id/off_home_cardview"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:layout_weight="20">
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <ImageView
+                    android:id="@+id/off_previousRoute"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:clickable="true"
+                    android:src="@drawable/icon_left" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/off_home_title_holder"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="20">
+
+                <TextView
+                    android:id="@+id/off_home_cardview_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10sp"
+                    android:text="NCBS - MANDARA"
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+                <ImageView
+                    android:id="@+id/off_nextRoute"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:clickable="true"
+                    android:src="@drawable/icon_right" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/off_linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_above="@+id/off_home_footer"
+            android:layout_alignLeft="@+id/off_linearLayout"
+            android:layout_alignStart="@+id/off_linearLayout"
+            android:layout_below="@+id/off_linearLayout"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:layout_weight="20">
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/off_home_icon_transport"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:src="@drawable/icon_shuttle" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transport"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/off_home_icon_contacts"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:src="@drawable/icon_contacts" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contacts"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/off_home_icon_lecture"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:src="@drawable/icon_lecturehall" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lecture_hall"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/off_home_icon_settings"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:src="@drawable/icon_settings" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/off_home_footer"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/off_home_footer_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
