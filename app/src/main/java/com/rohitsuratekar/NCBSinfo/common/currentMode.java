@@ -172,6 +172,6 @@ public class CurrentMode implements UserInformation {
     }
 
     private void activateCampEvents(int mode) {
-       this.DrawerMenu = R.menu.camp_events_drawer;
+        this.DrawerMenu = R.menu.camp_events_drawer;
     }
 }

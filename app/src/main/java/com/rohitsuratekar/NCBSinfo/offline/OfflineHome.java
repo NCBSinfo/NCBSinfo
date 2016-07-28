@@ -20,12 +20,15 @@ import android.widget.Toast;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.Settings;
 import com.rohitsuratekar.NCBSinfo.common.contacts.ContactColors;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
+import com.rohitsuratekar.NCBSinfo.database.ContactsData;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 
 import java.util.Random;
@@ -124,6 +127,13 @@ public class OfflineHome extends AppCompatActivity implements View.OnClickListen
         });
 
         changeTransport();
+        if (pref.getBoolean(Contacts.FIRST_TIME_CONTACT, true)) {
+            String[][] clist = new ContactList().allContacts();
+            for (int j = 0; j < clist.length; j++) {
+                new ContactsData(getBaseContext()).add(new ContactModel(1, clist[j][0], clist[j][1], clist[j][2], clist[j][3], "0"));
+            }
+            pref.edit().putBoolean(Contacts.FIRST_TIME_CONTACT, false).apply();
+        }
 
         Timer timeLeft = new Timer();
         timeLeft.schedule(new TimerTask() {

@@ -1,7 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.online;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,17 +30,19 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportConstants;
 import com.rohitsuratekar.NCBSinfo.common.transport.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.common.transport.models.TransportModel;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
+import com.rohitsuratekar.NCBSinfo.database.ContactsData;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.interfaces.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
@@ -103,36 +103,10 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
             }
         };
 
-        //TODO: when database is up running, remove authentication with just email address
-        //Notify CAMP users
-        if ((pref.getBoolean(registration.camp16.IS_CAMP_USER, false) || isCampUser()) && pref.getBoolean(firstTime.CAMP_NOTICE, true)) {
-            final AlertDialog alertDialog = new AlertDialog.Builder(OnlineHome.this).create();
-            alertDialog.setTitle("CAMP 2016");
-            alertDialog.setMessage("We have detected that you are CAMP 2016 user, you want to change mode to CAMP?");
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Sure", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
-                    pref.edit().putString(MODE, registration.camp16.CAMP_MODE).apply();
-                    Intent i = new Intent(OnlineHome.this, Home.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Not now", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    pref.edit().putBoolean(firstTime.CAMP_NOTICE, false).apply();
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.show();
-        }
-
         //Initialize Map
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.home_map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
-            mapFragment.getMap().setOnMapClickListener(this);
         }
 
         //Find UI Elements
@@ -184,6 +158,14 @@ public class OnlineHome extends AppCompatActivity implements OnMapReadyCallback,
 
 
         changeTransport();
+
+        if (pref.getBoolean(Contacts.FIRST_TIME_CONTACT, true)) {
+            String[][] clist = new ContactList().allContacts();
+            for (int j = 0; j < clist.length; j++) {
+                new ContactsData(getBaseContext()).add(new ContactModel(1, clist[j][0], clist[j][1], clist[j][2], clist[j][3], "0"));
+            }
+            pref.edit().putBoolean(Contacts.FIRST_TIME_CONTACT, false).apply();
+        }
 
         Timer timeLeft = new Timer();
         timeLeft.schedule(new TimerTask() {

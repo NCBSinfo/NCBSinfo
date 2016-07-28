@@ -30,11 +30,14 @@ import com.rohitsuratekar.NCBSinfo.background.DataManagement;
 import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.common.CurrentMode;
 import com.rohitsuratekar.NCBSinfo.common.NavigationIDs;
+import com.rohitsuratekar.NCBSinfo.common.contacts.ContactList;
 import com.rohitsuratekar.NCBSinfo.common.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.common.lecturehalls.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.common.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.common.utilities.AutoConfiguration;
 import com.rohitsuratekar.NCBSinfo.common.utilities.CustomNavigationView;
+import com.rohitsuratekar.NCBSinfo.database.ContactsData;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.online.login.Login;
@@ -143,6 +146,14 @@ public class CAMP extends AppCompatActivity
 
         if (isCampUser()) {
             signIn.setText("ACTIVATE CAMP MODE");
+        }
+
+        if (pref.getBoolean(Contacts.FIRST_TIME_CONTACT, true)) {
+            String[][] clist = new ContactList().allContacts();
+            for (int j = 0; j < clist.length; j++) {
+                new ContactsData(getBaseContext()).add(new ContactModel(1, clist[j][0], clist[j][1], clist[j][2], clist[j][3], "0"));
+            }
+            pref.edit().putBoolean(Contacts.FIRST_TIME_CONTACT, false).apply();
         }
 
     }

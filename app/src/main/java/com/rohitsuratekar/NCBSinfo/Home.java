@@ -28,7 +28,6 @@ import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
 import com.rohitsuratekar.NCBSinfo.offline.OfflineHome;
 import com.rohitsuratekar.NCBSinfo.online.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.online.login.Registration;
-import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +61,10 @@ public class Home extends AppCompatActivity implements UserInformation {
                 break;
 
             case registration.camp16.CAMP_MODE:
-                startActivity(new Intent(Home.this, CAMP.class));
+                pref.edit().putString(MODE, ONLINE).apply();
+                startActivity(new Intent(Home.this, OnlineHome.class));
                 overridePendingTransition(0, 0);
                 break;
-
         }
 
         onlineButton = (Button) findViewById(R.id.button_home_online);
@@ -104,6 +103,7 @@ public class Home extends AppCompatActivity implements UserInformation {
                 alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         pref.edit().putString(Home.MODE, Home.OFFLINE).apply();
+                        setTransportValue(); //Reset transport values
                         alertDialog.dismiss();
                         Intent intent = new Intent(Home.this, OfflineHome.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
