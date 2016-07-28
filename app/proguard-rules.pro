@@ -21,12 +21,8 @@
 -keepattributes Signature
 -keep class sun.misc.Unsafe { *; }
 -keep class com.secretbiology.retro.google.** { *; }
+-keep class com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}
+-keep interface com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}
 -dontwarn okio.**
 -dontwarn retrofit2.**
-
-# This rule will properly ProGuard all the model classes in
-# the package com.yourcompany.models. Modify to fit the structure
-# of your app.
-#-keepclassmembers class com.yourcompany.models.** {
-#  *;
-#}
+-dontwarn org.joda.convert.**

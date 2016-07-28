@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="no_internet">Please check your internet connection.</string>
+
     <string name="warning_online">Online mode</string>
     <string name="warning_online_details">This mode will require internet connection. You will be able to access the full features
     of this application from here. Internet and battery usage is already optimized for good user experience. You can switch to the Offline Mode anytime from the Settings.</string>
@@ -17,6 +20,7 @@
     <string name="warning_registration_wrong_password">Wrong Password</string>
     <string name="warning_registration_empty_username">Name can not be empty</string>
     <string name="warning_registration_invalid_email">Invalid email</string>
+    <string name="warning_change_pass_do_not_match">New password and confirmed password do not match</string>
 
 
     <string name="warning_are_you_sure">Are you sure?</string>
@@ -34,5 +38,11 @@
     <string name="warning_user_exists">Email address provided by you is already present in our database. Try signing in ?</string>
     <string name="warning_password_reset">Link to reset password will be sent to your email address \'%1$s\' . Please check your inbox for further details . </string>
     <string name="warning_firebase_too_many_attemps">Too many login attempts are detected from this device. Please try after some time.</string>
-    <string name="warning_firebase_user_does_not_exist">No such user found in our database. Try signing up for new account ?</string>
+    <string name="warning_firebase_user_does_not_exist">No such user was found in our database. Try signing up for a new account ?</string>
+
+    <string name="warning_network_delay"><![CDATA[ Your customized preferences are not yet synced with our database.
+        This might happen if there is any problem with internet or the user\'s network is behind proxy firewall.
+        These settings will be synced automatically when your network problem is resolved or you are connected to non-proxy network.
+        <b>Don\'t worry, this won\'t affect any of app function </b> :) ]]></string>
+
 </resources>

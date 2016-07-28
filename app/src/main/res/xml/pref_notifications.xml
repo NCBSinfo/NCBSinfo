@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <SwitchPreference
+        android:title="All Notifications"
+        android:key="settings_notifications"
+        android:defaultValue="true" />
+
+    <SwitchPreference
+        android:title="Important Notifications"
+        android:key="settings_important_notifications"
+        android:defaultValue="true"
+        android:summary="Set all notifications on or off"/>
+
+    <SwitchPreference
+        android:title="Event Notifications"
+        android:key="settings_event_notifications"
+        android:defaultValue="true"
+        android:summary="Set all notifications on or off"/>
+
+    <SwitchPreference
+        android:title="Emergency Notifications"
+        android:key="settings_emergency_notifications"
+        android:defaultValue="true"
+        android:summary="These will be always on"/>
+
+</PreferenceScreen>

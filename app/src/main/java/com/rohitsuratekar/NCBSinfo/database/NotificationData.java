@@ -23,10 +23,11 @@ public class NotificationData {
     public static final String EXTRA_VARIABLES = "notification_extravariables";
 
     SQLiteDatabase db;
+    Database database;
 
     public NotificationData(Context context) {
-        Database db = new Database(context);
-        this.db = db.getWritableDatabase();
+        this.database = Database.getInstance(context);
+        this.db = database.openDatabase();
     }
 
     public void add(NotificationModel notification) {
@@ -38,7 +39,7 @@ public class NotificationData {
         values.put(EXTRA_VARIABLES, notification.getExtraVariables());
         // Inserting Row
         db.insert(TABLE_NOTIFICATIONS, null, values);
-        db.close();
+        database.closeDatabase();
     }
 
     public NotificationModel get(int id) {
@@ -51,6 +52,7 @@ public class NotificationData {
         NotificationModel notification = new NotificationModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return contact
         cursor.close();
+        database.closeDatabase();
         return notification;
     }
 
@@ -76,19 +78,20 @@ public class NotificationData {
 
         // return contact list
         cursor.close();
+        database.closeDatabase();
         return notificationModelList;
     }
 
     // Delete all data
     public void clearAll() {
         db.execSQL("DELETE FROM " + TABLE_NOTIFICATIONS);
-        db.close();
+        database.closeDatabase();
     }
 
     // Deleting single contact
     public void delete(NotificationModel notification) {
         db.delete(TABLE_NOTIFICATIONS, KEY_ID + " = ?", new String[] { String.valueOf(notification.getId()) });
-        db.close();
+        database.closeDatabase();
     }
 
 

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="80"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="50"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/weekday_trip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sist_titile2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/weekdays_trips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:choiceMode="singleChoice"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="20dp"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sunday_trip_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="slist_titile1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/sunday_trips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:choiceMode="none"
+                android:padding="20dp"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/transport_footnote1"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="sshuttle_footnote"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="50" />
+
+            <TextView
+                android:id="@+id/transport_footnote2"
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="shuttle_footnote"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="50" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/transport_last_update"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.6"
+            android:text="transport_lastUpdate"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp"
+            android:layout_marginBottom="5sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -11,10 +11,9 @@
         android:title="@string/settings_default_view"
         android:summary="@string/settings_default_view_summary"/>
 
-    <EditTextPreference
+    <Preference
         android:key="setting_hurryup"
         android:title="@string/settings_hurryup"
-        android:summary="@string/settings_hurryup_summary"
-        android:inputType="number" />
+        android:summary="@string/settings_hurryup_summary"/>
 
 </PreferenceScreen>

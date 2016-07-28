@@ -4,16 +4,26 @@
     <color name="colorPrimaryDark">#004d40</color>
     <color name="colorAccent">#f44336</color>
 
+    <color name="home_fragment1">#e8aa0f</color>
+    <color name="home_fragment2">#ffc107</color>
+    <color name="home_fragment3">#d89b12</color>
+
+    <color name="login_box">#26a69a</color>
+    <color name="login_input_box">#e0f2f1</color>
+    <color name="login_input_activated">#388e3c</color>
+    <color name="login_text">#212121</color>
+    <color name="login_error">#f44336</color>
+
+
     <color name="online">#4caf50</color>
     <color name="offline">#cddc39</color>
 
     <color name="profile_color">#004d40</color>
     <color name="map_polygone_overlay">#9d3a9bea</color>
 
-    <color name="BuggyColor">#009688</color>
-    <color name="hurryupColor">#F44336</color>
-    <color name="hurryup_dark">#D32F2F</color>
-    <color name="normalColor">#727272</color>
+
+    <color name="hurryup_color">#F44336</color>
+    <color name="hurryup_color_dark">#D32F2F</color>
 
     <color name="hour_background">#009688</color>
     <color name="hour_layout">#f44336</color>
@@ -27,5 +37,8 @@
     <color name="general_message">#009688</color>
     <color name="imp_message">#f44336</color>
     <color name="personal_message">#2e7d32</color>
+
+    <color name="canteen_active">#2e7d32</color>
+    <color name="canteen_inactive">#e0f2f1</color>
 
 </resources>
