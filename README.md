@@ -2,21 +2,22 @@
 
 Open source application developed to help people working at National Centre for Biological Sciences, Bangalore. This is <b>NOT</b> an official app. This app can be found on <a href= "https://play.google.com/store/apps/details?id=com.rohitsuratekar.NCBSinfo">Google Play Store</a><br></br>
 
-Latest version : <a href = https://github.com/rohitsuratekar/NCBSinfo> v4.7 </a> (updated on 18 July 2016) </br>
-Stable version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/ba5a237072a818bb239de3da9ce09773a035997c> v3.3 </a></br>
-Experimental version: <a href =https://github.com/rohitsuratekar/NCBSinfo/tree/unifiedUI> v5.0 beta</a></br>
+Latest version : <a href = https://github.com/rohitsuratekar/NCBSinfo> v5.3 </a> (updated on 28 July 2016) </br>
+Stable version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/c62419471cbfa3ab9aec5ba321ef4effdd13a64b> v4.7 </a></br>
 
 <b>Current features</b> </br>
 (1) Custom modes : Online and Offline </br>
 (2) Shuttle and Buggy timings </br>
-(3) Notification updates for reasearch talks, Student activities and conferences etc </br>
-(4) Lecture hall names and venues </br>
-(5) Important contacts </br>
-(6) Shuttle and Buggy locations, stops and directions </br>
+(3) Transport reminders </br>
+(4) Notification updates for reasearch talks, Student activities and conferences etc </br>
+(5) Lecture hall names and venues </br>
+(6) Important contacts </br>
+(7) NCBS holidays </br>
+(8) Canteen timings (beta) </br>
+(9) Shuttle and Buggy locations, stops and directions </br>
 
 <b>Next features </b></br>
 (1) User based personalization </br>
-(1) Shuttle timers </br>
 (2) Conference mode </br>
 
 <b> Want to help ? </b></br>
