@@ -34,8 +34,6 @@
                 android:layout_width="30sp"
                 android:layout_height="50sp"
                 android:id="@+id/off_home_cardView_selector"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/icon_selector" />
 
@@ -43,9 +41,6 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_above="@+id/off_home_footerHolder"
-                android:layout_alignParentEnd="true"
                 android:weightSum="100"
                 android:gravity="center_horizontal"
                 android:background="@color/colorPrimaryDark"
@@ -243,9 +238,6 @@
         android:layout_height="100sp"
         android:weightSum="100"
         android:gravity="center"
-        android:layout_alignLeft="@+id/off_linearLayout"
-        android:layout_alignStart="@+id/off_linearLayout"
-        android:layout_below="@+id/off_linearLayout"
         android:id="@+id/off_linearLayout3"
         android:layout_above="@+id/off_home_footer">
 

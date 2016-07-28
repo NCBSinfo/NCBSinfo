@@ -41,7 +41,8 @@ public interface AlarmIDs {
      */
     enum lowPriorityAlarms {
 
-        REMOTE_FETCH(1000, 10, 6); //Since Version 29
+        REMOTE_FETCH(1000, 10, 6), //Since Version 29
+        SEND_STAT(1001, 12, 13);
 
         private final int alarmID;
         private final int startHour;

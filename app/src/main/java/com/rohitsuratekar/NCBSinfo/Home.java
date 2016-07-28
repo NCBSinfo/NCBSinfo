@@ -70,7 +70,9 @@ public class Home extends AppCompatActivity implements AppConstants {
             @Override
             public void onClick(View view) {
                 pref.app().setMode(modes.OFFLINE);
-                startActivity(new Intent(Home.this, OfflineHome.class));
+                Intent intent = new Intent(Home.this, OfflineHome.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
 
             }

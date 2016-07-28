@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activities.events;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -143,10 +146,20 @@ public class EventsListFragment extends Fragment {
         TextView host = (TextView) view.findViewById(R.id.eventView_host);
         Button where = (Button) view.findViewById(R.id.eventView_where);
 
+        Date dt = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
+        Calendar calendar = new DateConverters().convertToCalendar(talk.getDate() + " " + talk.getTime());
+
         title.setText(talk.getTitle());
+
+        //Custom title for AWS
+        if (talk.getNotificationTitle().matches("(?i).*AWS.*")
+                && calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY
+                && calendar.get(Calendar.HOUR_OF_DAY) == 16) {
+            title.setText(talk.getNotificationTitle());
+        }
         speaker.setText(talk.getSpeaker());
 
-        Date dt = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
+
         DateFormat currentDate = new SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault());
         DateFormat currentTime = new SimpleDateFormat("hh:mm aaa", Locale.getDefault());
 
@@ -162,6 +175,15 @@ public class EventsListFragment extends Fragment {
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .setView(view)
                 .show();
+
+        //To adjust content wrapping of dialog box depending on orientation of screen
+        Window window = dialog.getWindow();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+
 
         where.setOnClickListener(new View.OnClickListener() {
             @Override

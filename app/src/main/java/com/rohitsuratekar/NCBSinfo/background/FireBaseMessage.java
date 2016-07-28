@@ -5,7 +5,10 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -30,15 +33,21 @@ public class FireBaseMessage extends FirebaseMessagingService implements Network
                                 .updateNotification(remoteMessage.getData().get(fcmKeys.TITLE), remoteMessage.getData().get(fcmKeys.MESSAGE));
                     }
                     break;
-
                 case fcmTriggers.DATA_SYNC:
                     Intent service = new Intent(getBaseContext(), NetworkOperations.class);
                     service.putExtra(NetworkOperations.INTENT, NetworkOperations.ALL_DATA);
                     startService(service);
                     break;
-
                 case fcmTriggers.DEBUG:
                     new NotificationService(getBaseContext()).sendNotification(remoteMessage);
+                    break;
+                case fcmTriggers.SEND_STATS:
+                    Intent broadcast = new Intent(getBaseContext(), Alarms.class);
+                    broadcast.putExtra(Alarms.INTENT, AlarmConstants.alarmTriggers.PREPARE_STATS.name());
+                    sendBroadcast(broadcast);
+                    break;
+                case fcmTriggers.RESET_NETWORK_LIMIT:
+                    new Preferences(getBaseContext()).app().resetNetworkLimit();
                     break;
             }
         } else {

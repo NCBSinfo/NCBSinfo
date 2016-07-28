@@ -38,6 +38,8 @@ public interface NetworkConstants {
         String NEW_UPDATE = "NewUpdate";
         String DATA_SYNC = "DataSync";
         String DEBUG = "debug";
+        String SEND_STATS = "SendStats";
+        String RESET_NETWORK_LIMIT = "ResetNetworkLimit";
     }
 
     //Google Form Links

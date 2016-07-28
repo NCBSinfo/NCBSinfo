@@ -30,7 +30,10 @@ public interface AlarmConstants {
         TRANSPORT_REMINDER, //Trigger to send transport reminder
         DELETE_ALARM, //deletes all
         DELETE_REMINDERS, //delete reminders
-        SET_ALARM //Sets alarms
+        SET_ALARM, //Sets alarms
+        PREPARE_STATS, //Set alarm in next 10 min about stats
+        SEND_STATS //Send stats
+
     }
 
 

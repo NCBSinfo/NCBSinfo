@@ -2,7 +2,6 @@ package com.rohitsuratekar.NCBSinfo.background.firebase;
 
 import android.content.Context;
 
-import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -46,26 +45,5 @@ public class DataBuilder {
         String count2 = String.valueOf(pref.app().getNotificationOpened());
         String count3 = String.valueOf(pref.app().getNetworkRequests());
         return count1 + "_" + count2 + "_" + count3;
-    }
-
-    public void save(DataStructure data) {
-        if (data.getName() != null) {
-            pref.user().setName(data.getName());
-        }
-        if (data.getEmail() != null) {
-            pref.user().setEmail(data.getEmail());
-        }
-        switch (data.isNotificationPreference()) {
-            case 0:
-                pref.user().notificationAllowed(true);
-                break; //Default
-            case 1:
-                pref.user().notificationAllowed(true);
-                break; //Preference
-            case 2:
-                pref.user().notificationAllowed(false);
-                break; //Preference
-        }
-        pref.user().setDefaultRoute(new TransportHelper().getRoute(data.getDefaultRoute()));
     }
 }

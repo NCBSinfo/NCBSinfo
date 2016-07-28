@@ -111,6 +111,13 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
                     startRemoteDataFetch(context);
                     break;
 
+                case PREPARE_STATS:
+                    prepareStats();
+                    break;
+
+                case SEND_STATS:
+                    sendStats();
+                    break;
 
             }
         }
@@ -122,7 +129,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         intent.putExtra(INTENT, alarm.getTrigger());
         intent.putExtra(ALARM_KEY, String.valueOf(alarm.getId()));
         long time = new AlarmsHelper().getAlarmMiliseconds(alarm);
-        PendingIntent pendingIntent = getIndent(intent, alarm.getAlarmID());
+        PendingIntent pendingIntent = getCustomIntent(intent, alarm.getAlarmID());
 
         //All repeating alarms
         if (alarm.getType().equals(alarmType.REPEAT.name())) {
@@ -147,7 +154,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         intent.putExtra(INTENT, alarm.getTrigger());
         intent.putExtra(ALARM_KEY, String.valueOf(alarm.getId()));
         long StarTime = new DateConverters().convertToCalendar(alarm.getAlarmDate() + " " + alarm.getAlarmTime()).getTimeInMillis();
-        PendingIntent pendingIntent = getIndent(intent, alarm.getAlarmID());
+        PendingIntent pendingIntent = getCustomIntent(intent, alarm.getAlarmID());
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, StarTime, 24 * 60 * 60 * 1000, pendingIntent);
         Log.i(TAG, "Low priority alarm set :" + alarm.getAlarmID());
     }
@@ -214,7 +221,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
     }
 
 
-    private PendingIntent getIndent(Intent intent, int indentID) {
+    private PendingIntent getCustomIntent(Intent intent, int indentID) {
         return PendingIntent.getBroadcast(context, indentID, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
@@ -235,13 +242,14 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
             Date tempDate = new DateConverters().convertToDate(talk.getDate() + " " + talk.getTime());
             //Compatibility
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent, requestID));
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getCustomIntent(intent, requestID));
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent, requestID));
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getCustomIntent(intent, requestID));
             } else {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getIndent(intent, requestID));
+                alarmManager.set(AlarmManager.RTC_WAKEUP, timeLeft(tempDate), getCustomIntent(intent, requestID));
             }
         }
+
     }
 
     /**
@@ -307,6 +315,23 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         }
         pref.app().setPastAlarmsCancelled();
         Log.i(TAG, "Cancelled all past alarms!");
+    }
+
+    //This will prepare to sync firebase data in next 10 min
+    //Randomization is needed to avoid simultaneous connections in Firebase
+    private void prepareStats() {
+        Intent intent = new Intent(context, Alarms.class);
+        intent.putExtra(INTENT, alarmTriggers.SEND_STATS.name());
+        long StarTime = Calendar.getInstance().getTimeInMillis();
+        PendingIntent pendingIntent = getCustomIntent(intent, lowPriorityAlarms.SEND_STAT.getAlarmID());
+        alarmManager.setWindow(AlarmManager.RTC_WAKEUP, StarTime, 10 * 60 * 1000, pendingIntent);
+        Log.i(TAG, "Alarm for stats is requested :" + lowPriorityAlarms.SEND_STAT.getAlarmID());
+    }
+
+    private void sendStats() {
+        Intent service = new Intent(context, DataManagement.class);
+        service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
+        context.startService(service);
     }
 
 

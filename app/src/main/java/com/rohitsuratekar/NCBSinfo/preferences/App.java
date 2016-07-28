@@ -161,4 +161,8 @@ public class App implements AppConstants {
         return pref.getInt(networkDateStamp, Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
     }
 
+    public void resetNetworkLimit() {
+        pref.edit().putInt(networkCount, 0).apply();
+    }
+
 }

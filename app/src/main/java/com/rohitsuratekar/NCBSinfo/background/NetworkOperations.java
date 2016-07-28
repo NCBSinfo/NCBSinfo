@@ -167,16 +167,16 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TALK_TIMESTAMP, timestamp)) {
                         //If entry is already present in database, check for Datacode and is not empty
                         if (talk.getTimestamp().trim().length() != 0) {
-                            if (!dataAction.equals("send")) {
+                            if (!dataAction.toLowerCase().equals("send")) {
                                 //If datacode is other than "Send", Take appropriate actions
                                 TalkModel oldEntry = new TalkData(getBaseContext()).getEntry(timestamp);
-                                if (dataAction.equals("update")) {
+                                if (dataAction.toLowerCase().equals("update")) {
                                     talk.setDataID(oldEntry.getDataID()); //Add DataID to new entry
                                     talk.setActionCode(ACTIONCODE_UPDATED); //Change action code
                                     new TalkData(getBaseContext()).update(talk); //Update entry
                                     Log.i(TAG, "Research Talk entry updated");
                                 }
-                                if (dataAction.equals("delete")) {
+                                if (dataAction.toLowerCase().equals("delete")) {
                                     new TalkData(getBaseContext()).delete(oldEntry); //Delete entry
                                     Log.i(TAG, "Research Talk entry deleted");
                                 }

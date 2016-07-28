@@ -80,7 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="100">
+            android:weightSum="100"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/transport_footnote1"
