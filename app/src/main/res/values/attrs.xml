@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GameViewer">
+        <attr name="tileSize" format="integer" />
+        <attr name="android:layout_height"/>
+    </declare-styleable>
+</resources>
+

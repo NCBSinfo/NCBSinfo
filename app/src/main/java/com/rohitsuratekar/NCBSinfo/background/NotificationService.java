@@ -4,25 +4,33 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.utilities.Utilities;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.DashBoard;
+import com.rohitsuratekar.NCBSinfo.activities.events.Events;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.RouteBuilder;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportHelper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.routebuilder.TransportRoute;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
+import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.constants.DateFormats;
+import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.database.NotificationData;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
+import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
-import com.rohitsuratekar.NCBSinfo.interfaces.NetworkConstants;
-import com.rohitsuratekar.NCBSinfo.interfaces.UserInformation;
-import com.rohitsuratekar.NCBSinfo.online.dashboard.DashBoard;
-import com.rohitsuratekar.NCBSinfo.online.events.Events;
-import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMPevents;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
+import com.rohitsuratekar.NCBSinfo.utilities.General;
 
 /**
  * All notifications should be handled by this class
@@ -32,7 +40,9 @@ import com.rohitsuratekar.NCBSinfo.online.temp.camp.CAMPevents;
  * (2) Research Talk notifications will be sent only in 'Online' mode
  * (3) FCM notifications will be send in all modes except 'Offline'. (FCM data can still be accessed in 'Offline' mode)
  */
-public class NotificationService implements UserInformation, NetworkConstants {
+public class NotificationService implements NetworkConstants, AppConstants, AlarmConstants {
+
+    public static final String NOTIFICATION_CODE = "notificationCode";
 
     private Context context;
     private final String TAG = getClass().getSimpleName();
@@ -40,8 +50,10 @@ public class NotificationService implements UserInformation, NetworkConstants {
 
     public NotificationService(Context context) {
         this.context = context;
-        Log.i(TAG, "Notification service called at" + new Utilities().timeStamp());
+        Log.i(TAG, "Notification service called at" + General.timeStamp());
     }
+
+    enum notificationType {GENERAL, FCM, TRANSPORT, EVENTS}
 
     //Regular Notification
     public void sendNotification(String title, String notificationMessage, Class c) {
@@ -49,16 +61,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
         Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMessage))
-                .setContentText(notificationMessage).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber, notificationType.GENERAL);
     }
 
     //Notification from FCM
@@ -68,48 +71,33 @@ public class NotificationService implements UserInformation, NetworkConstants {
         if (remoteMessage.getNotification() != null) {
             title = remoteMessage.getNotification().getTitle();
             message = remoteMessage.getNotification().getBody();
-            extra = keys.values.EXTRA_PERSONAL;
+            extra = fcmKeys.values.EXTRA_PERSONAL;
         } else {
-            title = remoteMessage.getData().get(keys.TITLE);
-            message = remoteMessage.getData().get(keys.MESSAGE);
-            if (remoteMessage.getData().get(keys.EXTRA) != null) {
-                extra = remoteMessage.getData().get(keys.EXTRA);
+            title = remoteMessage.getData().get(fcmKeys.TITLE);
+            message = remoteMessage.getData().get(fcmKeys.MESSAGE);
+            if (remoteMessage.getData().get(fcmKeys.EXTRA) != null) {
+                extra = remoteMessage.getData().get(fcmKeys.EXTRA);
             } else {
-                extra = keys.values.EXTRA_PERSONAL;
+                extra = fcmKeys.values.EXTRA_PERSONAL;
             }
         }
 
         //Add to notification data
         NotificationModel note = new NotificationModel();
-        note.setTimestamp(new Utilities().timeStamp());
+        note.setTimestamp(General.timeStamp());
         note.setTitle(title);
         note.setMessage(message);
         note.setFrom(remoteMessage.getFrom());
         note.setExtraVariables(extra);
         new NotificationData(context).add(note);
-        Log.i("Tag", "notification data added");
 
         Intent notificationIntent;
-        if (note.getFrom().contains(topics.CAMP16)) {
-            notificationIntent = new Intent(context, CAMPevents.class);
-        } else {
-            notificationIntent = new Intent(context, DashBoard.class);
-        }
+        notificationIntent = new Intent(context, DashBoard.class);
+        notificationIntent.putExtra(DashBoard.INTENT, "true");
+
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setContentTitle(title)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setContentText(message).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-
-        //Notify
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, message, contentIntent), notificationNumber, notificationType.FCM);
     }
 
     //Event Notification
@@ -119,23 +107,35 @@ public class NotificationService implements UserInformation, NetworkConstants {
         notificationIntent.putExtra(Events.EVENT_CODE, String.valueOf(code));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         TalkModel talk = new TalkData(context).getEntry(code);
         if (talk != null) {
             if (talk.getActionCode() != NetworkOperations.ACTIONCODE_NOTIFIED) {
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.notification_icon)
-                        .setColor(context.getResources().getColor(R.color.colorPrimary))
-                        .setSound(sound)
-                        .setContentTitle(talk.getNotificationTitle())
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(talk.getTitle()))
-                        .setContentText(talk.getTitle()).setAutoCancel(true)
-                        .setContentIntent(contentIntent);
-                notifySystem(mBuilder, notificationNumber);
+                notifySystem(getBuilder(talk.getNotificationTitle(), talk.getTitle(), contentIntent), notificationNumber, notificationType.EVENTS);
                 talk.setActionCode(NetworkOperations.ACTIONCODE_NOTIFIED);
                 new TalkData(context).update(talk); //Update event as notified to avoid further spam
             }
         }
+    }
+
+    //Notifications for alarms
+    public void sendNotification(AlarmModel alarm) {
+        int requestID = (int) System.currentTimeMillis();
+        Routes route = new TransportHelper().getRoute(Integer.parseInt(alarm.getExtraParameter()));
+        TransportRoute transport = new RouteBuilder(route, context).build();
+        Intent notificationIntent = new Intent(context, Transport.class);
+        notificationIntent.putExtra(Transport.INDENT, alarm.getExtraParameter());
+        PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        String title = "Your upcoming " + transport.getType();
+        String message = new DateConverters().convertFormat(alarm.getExtraValue(), DateFormats.TIME_12_HOURS_STANDARD)
+                + " " + transport.getOrigin().toUpperCase() + " - " + transport.getDestination().toUpperCase() + " " + transport.getType() +
+                " is departing soon";
+        notifySystem(getBuilder(title, message, contentIntent), notificationNumber, notificationType.TRANSPORT);
+        //Delete alarm after notification
+        Intent intent = new Intent(context, Alarms.class);
+        intent.putExtra(Alarms.INTENT, alarmTriggers.DELETE_ALARM.name());
+        intent.putExtra(Alarms.ALARM_KEY, String.valueOf(alarm.getId()));
+        context.sendBroadcast(intent);
+
     }
 
     //Update notification
@@ -143,7 +143,6 @@ public class NotificationService implements UserInformation, NetworkConstants {
         int requestID = (int) System.currentTimeMillis();
 
         final String appPackageName = context.getPackageName(); // getPackageName() from Context or Activity object
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         String url = "";
         try {
             //Check whether Google Play store is installed or not:
@@ -155,19 +154,7 @@ public class NotificationService implements UserInformation, NetworkConstants {
         Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(notificationMessage))
-                .setContentText(notificationMessage).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber, notificationType.GENERAL);
 
     }
 
@@ -177,24 +164,66 @@ public class NotificationService implements UserInformation, NetworkConstants {
         Intent notificationIntent = new Intent(context, c);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setColor(context.getResources().getColor(R.color.colorPrimary))
-                .setSound(sound)
-                .setContentTitle(title)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationMessage))
-                .setContentText(notificationMessage).setAutoCancel(true)
-                .setContentIntent(contentIntent);
-        notifySystem(mBuilder, notificationNumber);
+        notifySystem(getBuilder(title, notificationMessage, contentIntent), notificationNumber, notificationType.GENERAL);
     }
 
-    private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+    /**
+     * Set properties for notification builder
+     *
+     * @param title         : title of notification
+     * @param Message       : message
+     * @param contentIntent : Pending intent
+     * @return : Notification Builder
+     */
+    private NotificationCompat.Builder getBuilder(String title, String Message, PendingIntent contentIntent) {
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        return new NotificationCompat.Builder(context)
+                .setSound(sound)
+                .setSmallIcon(R.drawable.notification_icon)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setContentTitle(title)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(Message))
+                .setContentText(Message).setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .setVibrate(new long[]{0, 500});
+    }
+
+    /**
+     * Notify to system
+     *
+     * @param mBuilder           :Notification Builder
+     * @param notificationNumber : Notification Number
+     */
+    private void notifySystem(NotificationCompat.Builder mBuilder, int notificationNumber, notificationType type) {
+        Preferences pref = new Preferences(context);
         //Notifications will be send only if user has not changed default value and it is not "offline" mode.
-        if (pref.getBoolean(preferences.NOTIFICATIONS, true) && !pref.getString(MODE, ONLINE).equals(OFFLINE)) {
-            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(notificationNumber, mBuilder.build());
+        if (pref.user().isNotificationAllowed()
+                && !pref.app().getMode().equals(modes.UNKNOWN)
+                && !pref.app().getMode().equals(modes.OFFLINE)) {
+
+            boolean allowed = true;
+            switch (type) {
+                case EVENTS:
+                    if (!pref.settings().isEventNotificationON()) {
+                        allowed = false;
+                    }
+                    break;
+                case FCM:
+                    if (!pref.settings().isImportantNotificationON()) {
+                        allowed = false;
+                    }
+                    break;
+            }
+
+            if (allowed) {
+                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(notificationNumber, mBuilder.build());
+            }
+
+
+        } else {
+            Log.i(TAG, "Notification denied because either switched of by user or offline mode is ON");
         }
     }
 

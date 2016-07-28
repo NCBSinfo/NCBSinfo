@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="80sp"
+    android:weightSum="100"
+    android:padding="10sp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0sp"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:id="@+id/dashboard_item_icon"
+            android:src="@drawable/icon_dashboard_pin" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="70"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/dashboard_item_value"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="5sp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Name"
+            android:id="@+id/dashboard_item_field"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.7"
+            android:layout_marginLeft="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0sp"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:gravity="center"
+        android:id="@+id/dashboard_edit_layout">
+
+        <ImageView
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:id="@+id/dashboard_item_edit_icon"
+            android:src="@drawable/icon_edit" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/home_layout"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.rohitsuratekar.NCBSinfo.Home">
-
-
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/home_cardview"
         android:layout_width="wrap_content"
         android:layout_height="200sp"
-        app:cardElevation="12sp"
-        app:cardCornerRadius="2sp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        app:cardCornerRadius="2sp"
+        app:cardElevation="12sp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -33,32 +30,31 @@
                 android:layout_above="@+id/home_footerHolder" />
 
             <ImageView
+                android:id="@+id/home_cardView_selector"
                 android:layout_width="30sp"
                 android:layout_height="50sp"
-                android:id="@+id/home_cardView_selector"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:src="@drawable/icon_selector" />
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/home_footerHolder"
                 android:layout_width="match_parent"
                 android:layout_height="50sp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:id="@+id/home_footerHolder">
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/home_cardView_nextText"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Next Shuttle : 10.30 PM"
-                    android:id="@+id/home_cardView_nextText"
-                    android:textColor="#ffffff"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
 
@@ -67,200 +63,197 @@
     </android.support.v7.widget.CardView>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="100sp"
-        android:gravity="center"
-        android:id="@+id/linearLayout"
-        android:weightSum="100"
+        android:layout_alignStart="@+id/home_cardview"
         android:layout_below="@+id/home_cardview"
-        android:layout_alignLeft="@+id/home_cardview"
-        android:layout_alignStart="@+id/home_cardview">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="0sp"
             android:layout_height="match_parent"
-            android:weightSum="20"
             android:layout_weight="15"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="20">
 
             <ImageView
+                android:id="@+id/previousRoute"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:id="@+id/previousRoute"
-                android:layout_alignTop="@+id/home_cardview_title"
-                android:layout_toRightOf="@+id/home_cardview_title"
-                android:layout_toEndOf="@+id/home_cardview_title"
-                android:src="@drawable/icon_left"
-                android:clickable="true" />
+                android:clickable="true"
+                android:src="@drawable/icon_left" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/home_title_holder"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:weightSum="20"
             android:layout_weight="70"
             android:gravity="center"
-            android:id="@+id/home_title_holder">
+            android:orientation="vertical"
+            android:weightSum="20">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="NCBS - MANDARA"
                 android:id="@+id/home_cardview_title"
-                android:textAlignment="center"
-                android:layout_below="@+id/home_cardview"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10sp" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/home_timeleft_text"
-                android:textSize="15sp"
-                android:layout_below="@+id/home_cardview"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
+                android:layout_marginTop="10sp"
+                android:text="NCBS - MANDARA"
                 android:textAlignment="center"
-                android:layout_gravity="center_horizontal" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/home_timeleft_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Large Text"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="0sp"
             android:layout_height="match_parent"
-            android:weightSum="20"
             android:layout_weight="15"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="20">
 
             <ImageView
+                android:id="@+id/nextRoute"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:id="@+id/nextRoute"
-                android:layout_alignTop="@+id/home_cardview_title"
-                android:layout_toLeftOf="@+id/home_cardview_title"
-                android:layout_toStartOf="@+id/home_cardview_title"
-                android:src="@drawable/icon_right"
-                android:clickable="true" />
+                android:clickable="true"
+                android:src="@drawable/icon_right" />
         </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="100sp"
-        android:weightSum="100"
-        android:gravity="center"
-        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_above="@+id/home_footer"
         android:layout_alignStart="@+id/linearLayout"
         android:layout_below="@+id/linearLayout"
-        android:id="@+id/linearLayout3"
-        android:layout_above="@+id/off_home_footer">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="25"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/home_icon_transport"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:id="@+id/home_icon_transport"
                 android:src="@drawable/icon_shuttle" />
 
             <TextView
+                android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/transport"
-                android:id="@+id/textView11" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="25"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/home_icon_updates"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:id="@+id/home_icon_updates"
                 android:src="@drawable/icon_updates" />
 
             <TextView
+                android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/event_updates"
-                android:id="@+id/textView12" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0sp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="25"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/home_icon_contacts"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:id="@+id/home_icon_contacts"
                 android:src="@drawable/icon_contacts" />
 
             <TextView
+                android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/contacts"
-                android:id="@+id/textView13" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="25"
-            android:gravity="center" >
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/home_icon_experimental"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:id="@+id/home_icon_experimental"
                 android:src="@drawable/icon_experimental" />
 
             <TextView
+                android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/experimental"
-                android:id="@+id/textView14" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/home_footer"
         android:layout_width="match_parent"
         android:layout_height="30sp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/off_home_footer"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/update_notice"
+            android:id="@+id/home_footerText"
+            android:textAlignment="center"
+            android:textColor="#a9ffffff" />
+    </LinearLayout>
 
 
 </RelativeLayout>
