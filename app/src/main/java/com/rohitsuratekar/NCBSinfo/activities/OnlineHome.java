@@ -183,7 +183,6 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         });
 
     }
-
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
 

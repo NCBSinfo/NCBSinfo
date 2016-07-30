@@ -49,6 +49,8 @@ public class Events extends BaseActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         fab.setVisibility(View.GONE);
+
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

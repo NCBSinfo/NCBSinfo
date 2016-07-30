@@ -83,11 +83,13 @@ public class TransportFragment extends Fragment {
         perform(rootView);
 
         //Remove the footnote2 in landscape mode for better UI look
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
-                && transport.getRouteType().equals(Routes.type.BUGGY)) {
-            footnote1.setVisibility(View.GONE);
-        } else {
-            footnote1.setVisibility(View.VISIBLE);
+        if(getContext()!=null) {
+            if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                    && transport.getRouteType().equals(Routes.type.BUGGY)) {
+                footnote1.setVisibility(View.GONE);
+            } else {
+                footnote1.setVisibility(View.VISIBLE);
+            }
         }
 
 
