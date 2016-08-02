@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
@@ -112,7 +113,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     .submitRegistration(
                             pref.user().getName(),
                             pref.user().getEmail(),
-                            pref.user().getToken(),
+                            FirebaseInstanceId.getInstance().getToken(),
                             mAuth.getCurrentUser().getUid(),
                             pref.user().getUserType().getValue(),
                             "Submit");

@@ -189,9 +189,11 @@ public class EventsListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(context, LectureHalls.class);
-                intent.putExtra(LectureHalls.INTENT, talk.getVenue());
-                startActivity(intent);
+                if (getContext() != null) {
+                    Intent intent = new Intent(getContext(), LectureHalls.class);
+                    intent.putExtra(LectureHalls.INTENT, talk.getVenue());
+                    startActivity(intent);
+                }
             }
         });
     }

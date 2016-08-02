@@ -99,7 +99,6 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

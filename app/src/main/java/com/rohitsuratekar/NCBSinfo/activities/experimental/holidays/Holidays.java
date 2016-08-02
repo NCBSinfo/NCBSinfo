@@ -70,7 +70,7 @@ public class Holidays extends BaseActivity {
                 {"Buddha Purnima", "21/05/2016"},
                 {"Eid-ul-fitr", "06/07/2016"},
                 {"Independence Day", "15/08/2016"},
-                {"Ganesh Chatuthi", "05/09/2016"},
+                {"Ganesh Chaturthi", "05/09/2016"},
                 {"Id-ul-Zuha (Bakra-eid)", "12/09/2016"},
                 {"Gandhi Jayanti", "02/10/2016"},
                 {"Dussehra", "11/10/2016"},
