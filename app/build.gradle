@@ -9,8 +9,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 34
-        versionName "5.5"
+        versionCode 35
+        versionName "5.6.1"
 
     }
     buildTypes {
@@ -50,7 +50,6 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'joda-time:joda-time:2.9.4'
     compile 'org.jsoup:jsoup:1.7.2'
-    compile files('libs/DateConverter.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'
