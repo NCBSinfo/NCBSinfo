@@ -32,9 +32,8 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import butterknife.BindView;

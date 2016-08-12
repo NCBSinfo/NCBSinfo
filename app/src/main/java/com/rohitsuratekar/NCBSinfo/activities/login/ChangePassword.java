@@ -25,7 +25,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,7 +84,7 @@ public class ChangePassword extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                if (new General().isNetworkAvailable(getBaseContext())) {
+                if (General.isNetworkAvailable(getBaseContext())) {
                     new AlertDialog.Builder(ChangePassword.this)
                             .setTitle("Password reset")
                             .setMessage(getString(R.string.warning_password_reset, mAuth.getCurrentUser().getEmail()))

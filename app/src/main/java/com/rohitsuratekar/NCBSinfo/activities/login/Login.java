@@ -32,7 +32,7 @@ import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,7 +85,7 @@ public class Login extends BaseActivity implements AppConstants {
             @Override
             public void onClick(View v) {
                 if (validateEmail()) {
-                    if (new General().isNetworkAvailable(getBaseContext())) {
+                    if (General.isNetworkAvailable(getBaseContext())) {
                         new AlertDialog.Builder(Login.this)
                                 .setTitle("Password reset")
                                 .setMessage(getString(R.string.warning_password_reset, email.getText().toString()))

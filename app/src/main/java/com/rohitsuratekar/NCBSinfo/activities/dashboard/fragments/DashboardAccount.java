@@ -38,7 +38,7 @@ import com.rohitsuratekar.NCBSinfo.background.firebase.FireBaseConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.ui.ScrollUpRecyclerView;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,8 +119,8 @@ public class DashboardAccount extends Fragment {
 
     @SuppressWarnings("")
     private void changeName(int position) {
-        if (new General().isNetworkAvailable(getContext())) {
-            if (!new General().isOnProxy()) {
+        if (General.isNetworkAvailable(getContext())) {
+            if (!General.isOnProxy()) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 final EditText edittext = new EditText(getContext());
                 alert.setMessage("You are about to change your current " + fullList.get(position).getFieldName() + " \'" +
@@ -168,7 +168,7 @@ public class DashboardAccount extends Fragment {
             } else {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Proxy network warning!")
-                        .setMessage("It looks like you are using proxy network : \"" + new General().getProxyAddress() +
+                        .setMessage("It looks like you are using proxy network : \"" + General.getProxyAddress() +
                                 "\" . Unfortunately, our database currently don't support proxy :( \n\nPlease use non proxy network to change name. "
                         )
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -183,7 +183,7 @@ public class DashboardAccount extends Fragment {
     }
 
     private void changePass() {
-        if (new General().isNetworkAvailable(getContext())) {
+        if (General.isNetworkAvailable(getContext())) {
             startActivity(new Intent(getContext(), ChangePassword.class));
             getActivity().overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
         } else {

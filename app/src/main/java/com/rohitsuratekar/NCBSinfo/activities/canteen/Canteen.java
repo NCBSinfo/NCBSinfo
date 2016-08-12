@@ -15,7 +15,7 @@ import com.rohitsuratekar.NCBSinfo.activities.experimental.holidays.Holidays;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import java.util.Calendar;
 import java.util.List;

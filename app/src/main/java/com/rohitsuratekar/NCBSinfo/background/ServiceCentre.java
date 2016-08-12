@@ -22,7 +22,7 @@ import com.rohitsuratekar.NCBSinfo.database.ContactsData;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
 import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import java.util.List;
 

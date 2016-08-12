@@ -1,14 +1,15 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.database.models.AlarmModel;
+import com.secretbiology.helpers.general.sql.Column;
+import com.secretbiology.helpers.general.sql.Table;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -33,127 +34,119 @@ public class AlarmData implements AlarmConstants {
 
     SQLiteDatabase db;
     Database database;
+    private Table alarmTable;
+    private LinkedHashMap<String, Column> map;
 
     public AlarmData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
+        List<Column> columnList = new ArrayList<>();
+        columnList.add(new Column(KEY, Column.ColumnType.PRIMARY_INTEGER));
+        columnList.add(new Column(ALARM_ID, Column.ColumnType.INTEGER));
+        columnList.add(new Column(TYPE, Column.ColumnType.TEXT));
+        columnList.add(new Column(TRIGGER, Column.ColumnType.TEXT));
+        columnList.add(new Column(LEVEL, Column.ColumnType.TEXT));
+        columnList.add(new Column(EXTRA_PARAMETER, Column.ColumnType.TEXT));
+        columnList.add(new Column(EXTRA_VALUE, Column.ColumnType.TEXT));
+        columnList.add(new Column(ALARM_TIME, Column.ColumnType.TEXT));
+        columnList.add(new Column(ALARM_DATE, Column.ColumnType.TEXT));
+        alarmTable = new Table(db, TABLE_ALARMS, columnList);
+        map = alarmTable.getMap();
     }
 
+    public void makeTable() {
+        alarmTable.make();
+        database.closeDatabase();
+    }
 
     public void add(AlarmModel entry) {
-        ContentValues values = new ContentValues();
-        values.put(ALARM_ID, entry.getAlarmID());
-        values.put(TYPE, entry.getType());
-        values.put(TRIGGER, entry.getTrigger());
-        values.put(LEVEL, entry.getLevel());
-        values.put(EXTRA_PARAMETER, entry.getExtraParameter());
-        values.put(EXTRA_VALUE, entry.getExtraValue());
-        values.put(ALARM_TIME, entry.getAlarmTime());
-        values.put(ALARM_DATE, entry.getAlarmDate());
-        db.insert(TABLE_ALARMS, null, values);
+        alarmTable.addRow(putValues(entry));
         database.closeDatabase();
     }
 
     public long addAndGetID(AlarmModel entry) {
-        ContentValues values = new ContentValues();
-        values.put(ALARM_ID, entry.getAlarmID());
-        values.put(TYPE, entry.getType());
-        values.put(TRIGGER, entry.getTrigger());
-        values.put(LEVEL, entry.getLevel());
-        values.put(EXTRA_PARAMETER, entry.getExtraParameter());
-        values.put(EXTRA_VALUE, entry.getExtraValue());
-        values.put(ALARM_TIME, entry.getAlarmTime());
-        values.put(ALARM_DATE, entry.getAlarmDate());
-        long value = db.insert(TABLE_ALARMS, null, values);
+        long value = alarmTable.addRow(putValues(entry));
         database.closeDatabase();
         return value;
     }
 
-
-    public List<AlarmModel> getAll() {
-        List<AlarmModel> fullList = new ArrayList<AlarmModel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_ALARMS;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            do {
-                AlarmModel entry = new AlarmModel();
-                entry.setId(Integer.parseInt(cursor.getString(0)));
-                entry.setAlarmID(Integer.parseInt(cursor.getString(1)));
-                entry.setType(cursor.getString(2));
-                entry.setTrigger(cursor.getString(3));
-                entry.setLevel(cursor.getString(4));
-                entry.setExtraParameter(cursor.getString(5));
-                entry.setExtraValue(cursor.getString(6));
-                entry.setAlarmTime(cursor.getString(7));
-                entry.setAlarmDate(cursor.getString(8));
-                fullList.add(entry);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        database.closeDatabase();
-        return fullList;
-    }
-
-    public int update(AlarmModel entry) {
-
-        ContentValues values = new ContentValues();
-        values.put(ALARM_ID, entry.getAlarmID());
-        values.put(TYPE, entry.getType());
-        values.put(TRIGGER, entry.getTrigger());
-        values.put(LEVEL, entry.getLevel());
-        values.put(EXTRA_PARAMETER, entry.getExtraParameter());
-        values.put(EXTRA_VALUE, entry.getExtraValue());
-        values.put(ALARM_TIME, entry.getAlarmTime());
-        values.put(ALARM_DATE, entry.getAlarmDate());
-        int returnID = db.update(TABLE_ALARMS, values, KEY + " = ?",
-                new String[]{String.valueOf(entry.getId())});
-        database.closeDatabase();
-        return returnID;
-    }
-
-
     public AlarmModel get(int id) {
-        Cursor cursor = db.query(TABLE_ALARMS, new String[]{KEY, ALARM_ID, TYPE, TRIGGER, LEVEL, EXTRA_PARAMETER
-                        , EXTRA_VALUE, ALARM_TIME, ALARM_DATE}, KEY + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-        }
-        AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
-                , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
-        // return alarm
-        cursor.close();
+        LinkedHashMap<String, Column> m = alarmTable.getRowByValue(KEY, id).getMap();
+        AlarmModel alarm = getValues(m);
         database.closeDatabase();
         return alarm;
     }
 
-//    public AlarmModel getByAlarmID(int AlarmID) {
-//        Cursor cursor = db.query(TABLE_ALARMS, new String[]{KEY, ALARM_ID, TYPE, TRIGGER, LEVEL, EXTRA_PARAMETER
-//                        , EXTRA_VALUE, ALARM_TIME, ALARM_DATE}, ALARM_ID + "=?",
-//                new String[]{String.valueOf(AlarmID)}, null, null, null, null);
-//        if (cursor != null) {
-//            cursor.moveToFirst();
-//        }
-//
-//        AlarmModel alarm = new AlarmModel(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)
-//                , cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
-//        // return contact
-//        cursor.close();
-//        database.closeDatabase();
-//        return alarm;
-//    }
+
+    public List<AlarmModel> getAll() {
+        List<AlarmModel> alarmList = new ArrayList<>();
+        for (LinkedHashMap<String, Column> m : alarmTable.getAllRows()) {
+            alarmList.add(getValues(m));
+        }
+
+        database.closeDatabase();
+        return alarmList;
+    }
+
+    public int update(AlarmModel entry) {
+        int TempInt = (int) alarmTable.update(putValues(entry), KEY);
+        database.closeDatabase();
+        return TempInt;
+    }
+
 
     // Delete all data
     public void clearAll() {
-        db.execSQL("DELETE FROM " + TABLE_ALARMS);
+        alarmTable.clearAll();
         database.closeDatabase();
     }
 
-    public void delete(AlarmModel enrty) {
-        db.delete(TABLE_ALARMS, KEY + " = ?", new String[]{String.valueOf(enrty.getId())});
+    // Deleting single entry
+    public void delete(AlarmModel entry) {
+        alarmTable.delete(KEY, entry.getId());
         database.closeDatabase();
     }
 
+    // Drop
+    public void drop() {
+        alarmTable.drop();
+        database.closeDatabase();
+    }
+
+
+    private Column withValue(String columnName, Object value) {
+        Column column = map.get(columnName);
+        column.setData(value);
+        return column;
+    }
+
+    private List<Column> putValues(AlarmModel entry) {
+        List<Column> newList = new ArrayList<>();
+        newList.add(withValue(KEY, entry.getId()));
+        newList.add(withValue(ALARM_ID, entry.getAlarmID()));
+        newList.add(withValue(TYPE, entry.getType()));
+        newList.add(withValue(TRIGGER, entry.getTrigger()));
+        newList.add(withValue(LEVEL, entry.getLevel()));
+        newList.add(withValue(EXTRA_PARAMETER, entry.getExtraParameter()));
+        newList.add(withValue(EXTRA_VALUE, entry.getExtraValue()));
+        newList.add(withValue(ALARM_TIME, entry.getAlarmTime()));
+        newList.add(withValue(ALARM_DATE, entry.getAlarmDate()));
+        return newList;
+    }
+
+
+    private AlarmModel getValues(LinkedHashMap<String, Column> m) {
+        AlarmModel entry = new AlarmModel();
+        entry.setId((Integer) m.get(KEY).getData());
+        entry.setAlarmID((Integer) m.get(ALARM_ID).getData());
+        entry.setType((String) m.get(TYPE).getData());
+        entry.setTrigger((String) m.get(TRIGGER).getData());
+        entry.setLevel((String) m.get(LEVEL).getData());
+        entry.setExtraParameter((String) m.get(EXTRA_PARAMETER).getData());
+        entry.setExtraValue((String) m.get(EXTRA_VALUE).getData());
+        entry.setAlarmTime((String) m.get(ALARM_TIME).getData());
+        entry.setAlarmDate((String) m.get(ALARM_DATE).getData());
+        return entry;
+    }
 
 }

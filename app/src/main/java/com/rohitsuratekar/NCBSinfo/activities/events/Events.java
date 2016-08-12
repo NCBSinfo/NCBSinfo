@@ -37,7 +37,7 @@ public class Events extends BaseActivity {
         Intent i = getIntent();
         String eventCode = i.getStringExtra(EVENT_CODE);
         if (eventCode != null) {
-            TalkModel talk = new TalkData(getBaseContext()).getEntry(Integer.parseInt(eventCode));
+            TalkModel talk = new TalkData(getBaseContext()).get(Integer.parseInt(eventCode));
             new EventsListFragment().showDialog(Events.this, talk);
             new Preferences(getBaseContext()).app().addNotificationOpened(); //Whenever user opens app with notifications
         }
@@ -49,7 +49,6 @@ public class Events extends BaseActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.base_fab_button);
         fab.setVisibility(View.GONE);
-
 
     }
 

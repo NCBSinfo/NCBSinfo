@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.dashboard;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.title.setText(entry.getTitle());
         holder.message.setText(message);
-        holder.timestamp.setText(new General().makeReadableTime(
+        holder.timestamp.setText(General.makeReadableTime(
                 new DateConverters().convertToDate(entry.getTimestamp())));
         holder.type.setText("INFO");
         holder.icon.setImageResource(R.drawable.icon_information);

@@ -30,7 +30,7 @@ import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 /**
  * All notifications should be handled by this class
@@ -107,7 +107,7 @@ public class NotificationService implements NetworkConstants, AppConstants, Alar
         notificationIntent.putExtra(Events.EVENT_CODE, String.valueOf(code));
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        TalkModel talk = new TalkData(context).getEntry(code);
+        TalkModel talk = new TalkData(context).get(code);
         if (talk != null) {
             if (talk.getActionCode() != NetworkOperations.ACTIONCODE_NOTIFIED) {
                 notifySystem(getBuilder(talk.getNotificationTitle(), talk.getTitle(), contentIntent), notificationNumber, notificationType.EVENTS);

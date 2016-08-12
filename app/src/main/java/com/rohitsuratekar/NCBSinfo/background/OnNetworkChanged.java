@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -29,8 +29,8 @@ public class OnNetworkChanged extends BroadcastReceiver {
         Log.i(TAG, "Services started after network state changed");
 
         pref = new Preferences(context);
-        if (new General().isNetworkAvailable(context)) {
-            if (new General().isOnProxy()) {
+        if (General.isNetworkAvailable(context)) {
+            if (General.isOnProxy()) {
                 Log.i(TAG, "Skipping Firebase network calls because user is on proxy");
             } else {
                 Log.i(TAG, "Network call started");

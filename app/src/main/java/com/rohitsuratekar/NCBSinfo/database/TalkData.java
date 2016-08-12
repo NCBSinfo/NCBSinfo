@@ -1,165 +1,172 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.secretbiology.helpers.general.sql.Column;
+import com.secretbiology.helpers.general.sql.Table;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TalkData {
 
     //Public constants
     public static final String TABLE_TALK = "table_research_talk";
-    public static final String TALK_KEY_ID = "talk_id";
-    public static final String TALK_TIMESTAMP = "talk_timestamp";
-    public static final String TALK_NOTIFICATION_TITLE = "talk_notificationTitle";
-    public static final String TALK_DATE = "talk_date";
-    public static final String TALK_TIME = "talk_time";
-    public static final String TALK_VENUE = "talk_venue";
-    public static final String TALK_SPEAKER = "talk_speaker";
-    public static final String TALK_AFFILICATION = "talk_talkabstract";
-    public static final String TALK_TITLE = "talk_url";
-    public static final String TALK_HOST = "talk_nextspeaker";
-    public static final String TALK_DATACODE = "talk_talkcode";
-    public static final String TALK_DATA_ACTION = "talk_data_action";
-    public static final String TALK_ACTIONCODE = "talk_actioncode";
+    public static final String KEY_ID = "talk_id";
+    public static final String TIMESTAMP = "talk_timestamp";
+    public static final String NOTIFICATION_TITLE = "talk_notificationTitle";
+    public static final String DATE = "talk_date";
+    public static final String TIME = "talk_time";
+    public static final String VENUE = "talk_venue";
+    public static final String SPEAKER = "talk_speaker";
+    public static final String AFFILICATION = "talk_talkabstract";
+    public static final String TITLE = "talk_url";
+    public static final String HOST = "talk_nextspeaker";
+    public static final String DATACODE = "talk_talkcode";
+    public static final String ACTIONCODE = "talk_actioncode";
+    public static final String DATA_ACTION = "talk_data_action";
 
     SQLiteDatabase db;
     Context context;
     Database database;
+    private Table talkTable;
+    private LinkedHashMap<String, Column> map;
 
     public TalkData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
         this.context = context;
+        List<Column> columnList = new ArrayList<>();
+        columnList.add(new Column(KEY_ID, Column.ColumnType.PRIMARY_INTEGER));
+        columnList.add(new Column(TIMESTAMP, Column.ColumnType.TEXT));
+        columnList.add(new Column(NOTIFICATION_TITLE, Column.ColumnType.TEXT));
+        columnList.add(new Column(DATE, Column.ColumnType.TEXT));
+        columnList.add(new Column(TIME, Column.ColumnType.TEXT));
+        columnList.add(new Column(VENUE, Column.ColumnType.TEXT));
+        columnList.add(new Column(SPEAKER, Column.ColumnType.TEXT));
+        columnList.add(new Column(AFFILICATION, Column.ColumnType.TEXT));
+        columnList.add(new Column(TITLE, Column.ColumnType.TEXT));
+        columnList.add(new Column(HOST, Column.ColumnType.TEXT));
+        columnList.add(new Column(DATACODE, Column.ColumnType.TEXT));
+        columnList.add(new Column(ACTIONCODE, Column.ColumnType.INTEGER));
+        columnList.add(new Column(DATA_ACTION, Column.ColumnType.TEXT));
+        talkTable = new Table(db, TABLE_TALK, columnList);
+        map = talkTable.getMap();
     }
 
-    public void addEntry(TalkModel entry) {
-        ContentValues values = new ContentValues();
-        values.put(TALK_TIMESTAMP, entry.getTimestamp());
-        values.put(TALK_NOTIFICATION_TITLE, entry.getNotificationTitle());
-        values.put(TALK_DATE, entry.getDate());
-        values.put(TALK_TIME, entry.getTime());
-        values.put(TALK_VENUE, entry.getVenue());
-        values.put(TALK_SPEAKER, entry.getSpeaker());
-        values.put(TALK_AFFILICATION, entry.getAffilication());
-        values.put(TALK_TITLE, entry.getTitle());
-        values.put(TALK_HOST, entry.getHost());
-        values.put(TALK_DATACODE, entry.getDataCode());
-        values.put(TALK_ACTIONCODE, entry.getActionCode());
-        values.put(TALK_DATA_ACTION, entry.getDataAction());
-        db.insert(TABLE_TALK, null, values);
+    public void makeTable() {
+        talkTable.make();
         database.closeDatabase();
     }
 
-    // Getting single entry
-    public TalkModel getEntry(int id) {
-        Cursor cursor = db.query(TABLE_TALK, new String[]{TALK_KEY_ID, TALK_TIMESTAMP, TALK_NOTIFICATION_TITLE, TALK_DATE,
-                        TALK_TIME, TALK_VENUE, TALK_SPEAKER, TALK_AFFILICATION, TALK_TITLE, TALK_HOST, TALK_DATACODE, TALK_ACTIONCODE, TALK_DATA_ACTION}, TALK_KEY_ID + "=?",
-                new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getString(12));
-        cursor.close();
-        database.closeDatabase();
-        return entry;
-    }
-
-    // Getting All Database entries
-    public List<TalkModel> getAll() {
-        List<TalkModel> entryList = new ArrayList<TalkModel>();
-        String selectQuery = "SELECT  * FROM " + TABLE_TALK;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                TalkModel model = new TalkModel();
-                model.setDataID(Integer.parseInt(cursor.getString(0)));
-                model.setTimestamp(cursor.getString(1));
-                model.setNotificationTitle(cursor.getString(2));
-                model.setDate(cursor.getString(3));
-                model.setTime(cursor.getString(4));
-                model.setVenue(cursor.getString(5));
-                model.setSpeaker(cursor.getString(6));
-                model.setAffilication(cursor.getString(7));
-                model.setTitle(cursor.getString(8));
-                model.setHost(cursor.getString(9));
-                model.setDataCode(cursor.getString(10));
-                model.setActionCode(cursor.getInt(11));
-                model.setDataAction(cursor.getString(12));
-                // Adding database to list
-                entryList.add(model);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        database.closeDatabase();
-        return entryList;
-    }
-
-    // Updating single entry
-    public void update(TalkModel entry) {
-        ContentValues values = new ContentValues();
-        values.put(TALK_TIMESTAMP, entry.getTimestamp());
-        values.put(TALK_NOTIFICATION_TITLE, entry.getNotificationTitle());
-        values.put(TALK_DATE, entry.getDate());
-        values.put(TALK_TIME, entry.getTime());
-        values.put(TALK_VENUE, entry.getVenue());
-        values.put(TALK_SPEAKER, entry.getSpeaker());
-        values.put(TALK_AFFILICATION, entry.getAffilication());
-        values.put(TALK_TITLE, entry.getTitle());
-        values.put(TALK_HOST, entry.getHost());
-        values.put(TALK_DATACODE, entry.getDataCode());
-        values.put(TALK_ACTIONCODE, entry.getActionCode());
-        values.put(TALK_DATA_ACTION, entry.getDataAction());
-        db.update(TABLE_TALK, values, TALK_KEY_ID + " = ?", new String[]{String.valueOf(entry.getDataID())});
+    public void add(TalkModel entry) {
+        talkTable.addRow(putValues(entry));
         database.closeDatabase();
     }
 
-    // Delete all data
-    public void clearAll() {
-        db.execSQL("DELETE FROM " + TABLE_TALK);
+    public TalkModel get(int id) {
+        LinkedHashMap<String, Column> m = talkTable.getRowByValue(KEY_ID, id).getMap();
+        TalkModel talk = getValues(m);
         database.closeDatabase();
-    }
-
-
-    // Deleting single data entry
-    public void delete(TalkModel data) {
-        db.delete(TABLE_TALK, TALK_KEY_ID + " = ?", new String[]{String.valueOf(data.getDataID())});
-        database.closeDatabase();
+        return talk;
     }
 
     // Getting single entry by timestamp
-    public TalkModel getEntry(String timestamp) {
-        Cursor cursor = db.query(TABLE_TALK, new String[]{TALK_KEY_ID, TALK_TIMESTAMP, TALK_NOTIFICATION_TITLE, TALK_DATE,
-                        TALK_TIME, TALK_VENUE, TALK_SPEAKER, TALK_AFFILICATION, TALK_TITLE, TALK_HOST, TALK_DATACODE, TALK_ACTIONCODE, TALK_DATA_ACTION}, TALK_TIMESTAMP + "=?",
-                new String[]{String.valueOf(timestamp)}, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        TalkModel entry = new TalkModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getInt(11), cursor.getString(12));
-        cursor.close();
+    public TalkModel get(String timestamp) {
+        LinkedHashMap<String, Column> m = talkTable.getRowByValue(TIMESTAMP, timestamp).getMap();
+        TalkModel talk = getValues(m);
         database.closeDatabase();
-        return entry;
+        return talk;
+    }
+
+    public List<TalkModel> getAll() {
+        List<TalkModel> talkList = new ArrayList<>();
+        for (LinkedHashMap<String, Column> m : talkTable.getAllRows()) {
+            talkList.add(getValues(m));
+        }
+
+        database.closeDatabase();
+        return talkList;
+    }
+
+    public int update(TalkModel entry) {
+        int TempInt = (int) talkTable.update(putValues(entry), KEY_ID);
+        database.closeDatabase();
+        return TempInt;
+    }
+
+
+    // Delete all data
+    public void clearAll() {
+        talkTable.clearAll();
+        database.closeDatabase();
+    }
+
+    // Deleting single entry
+    public void delete(TalkModel entry) {
+        talkTable.delete(KEY_ID, entry.getDataID());
+        database.closeDatabase();
+    }
+
+    // Drop
+    public void drop() {
+        talkTable.drop();
+        database.closeDatabase();
     }
 
     //All Events commands
     public void removeOld() {
         int currentLimit = new Preferences(context).user().getNumberOfEventsToKeep();
-        int all = new TalkData(context).getAll().size();
-        if (all > currentLimit) {
-            currentLimit = all - currentLimit;
-            String Query = "DELETE FROM " + TABLE_TALK + " WHERE " + TALK_KEY_ID + " IN (SELECT " + TALK_KEY_ID + " FROM " + TABLE_TALK + " ORDER BY " + TALK_KEY_ID + " ASC LIMIT " + currentLimit + ")";
-            db.execSQL(Query);
-            database.closeDatabase();
-        }
+        talkTable.removeOldEntries(currentLimit, KEY_ID);
+        database.closeDatabase();
+    }
 
+
+    private Column withValue(String columnName, Object value) {
+        Column column = map.get(columnName);
+        column.setData(value);
+        return column;
+    }
+
+    private List<Column> putValues(TalkModel talk) {
+        List<Column> newList = new ArrayList<>();
+        newList.add(withValue(KEY_ID, talk.getDataID()));
+        newList.add(withValue(TIMESTAMP, talk.getTimestamp()));
+        newList.add(withValue(NOTIFICATION_TITLE, talk.getNotificationTitle()));
+        newList.add(withValue(DATE, talk.getDate()));
+        newList.add(withValue(TIME, talk.getTime()));
+        newList.add(withValue(VENUE, talk.getVenue()));
+        newList.add(withValue(SPEAKER, talk.getSpeaker()));
+        newList.add(withValue(AFFILICATION, talk.getAffilication()));
+        newList.add(withValue(TITLE, talk.getTitle()));
+        newList.add(withValue(HOST, talk.getHost()));
+        newList.add(withValue(DATACODE, talk.getDataCode()));
+        newList.add(withValue(ACTIONCODE, talk.getActionCode()));
+        newList.add(withValue(DATA_ACTION, talk.getDataAction()));
+        return newList;
+    }
+
+
+    private TalkModel getValues(LinkedHashMap<String, Column> m) {
+        TalkModel talk = new TalkModel();
+        talk.setDataID((Integer) m.get(KEY_ID).getData());
+        talk.setTimestamp((String) m.get(TIMESTAMP).getData());
+        talk.setNotificationTitle((String) m.get(NOTIFICATION_TITLE).getData());
+        talk.setDate((String) m.get(DATE).getData());
+        talk.setTime((String) m.get(TIME).getData());
+        talk.setVenue((String) m.get(VENUE).getData());
+        talk.setSpeaker((String) m.get(SPEAKER).getData());
+        talk.setAffilication((String) m.get(AFFILICATION).getData());
+        talk.setTitle((String) m.get(TITLE).getData());
+        talk.setHost((String) m.get(HOST).getData());
+        talk.setDataCode((String) m.get(DATACODE).getData());
+        talk.setActionCode((Integer) m.get(ACTIONCODE).getData());
+        talk.setDataAction((String) m.get(DATA_ACTION).getData());
+        return talk;
     }
 
 }

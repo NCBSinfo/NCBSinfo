@@ -21,7 +21,7 @@ import com.rohitsuratekar.NCBSinfo.background.firebase.DataBuilder;
 import com.rohitsuratekar.NCBSinfo.background.firebase.FireBaseConstants;
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import java.util.Map;
 
@@ -63,7 +63,7 @@ public class DataManagement extends IntentService implements AppConstants, FireB
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Do not waste network call if user is on proxy
-        if (!new General().isOnProxy()) {
+        if (!General.isOnProxy()) {
 
             String trigger = intent.getStringExtra(INTENT);
             //Strict policy for offline mode

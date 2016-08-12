@@ -42,7 +42,7 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
-import com.rohitsuratekar.NCBSinfo.utilities.General;
+import com.secretbiology.helpers.general.General;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -182,6 +182,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         });
 
     }
+
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
 

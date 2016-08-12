@@ -1,13 +1,14 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
+import com.secretbiology.helpers.general.sql.Column;
+import com.secretbiology.helpers.general.sql.Table;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class NotificationData {
@@ -24,74 +25,94 @@ public class NotificationData {
 
     SQLiteDatabase db;
     Database database;
+    private Table notificationTable;
+    private LinkedHashMap<String, Column> map;
 
     public NotificationData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
+        List<Column> columnList = new ArrayList<>();
+        columnList.add(new Column(KEY_ID, Column.ColumnType.PRIMARY_INTEGER));
+        columnList.add(new Column(TIMESTAMP, Column.ColumnType.TEXT));
+        columnList.add(new Column(TITLE, Column.ColumnType.TEXT));
+        columnList.add(new Column(MESSAGE, Column.ColumnType.TEXT));
+        columnList.add(new Column(FROM, Column.ColumnType.TEXT));
+        columnList.add(new Column(EXTRA_VARIABLES, Column.ColumnType.TEXT));
+        notificationTable = new Table(db, TABLE_NOTIFICATIONS, columnList);
+        map = notificationTable.getMap();
+
+    }
+
+    public void makeTable() {
+        notificationTable.make();
+        database.closeDatabase();
     }
 
     public void add(NotificationModel notification) {
-        ContentValues values = new ContentValues();
-        values.put(TIMESTAMP, notification.getTimestamp());
-        values.put(TITLE, notification.getTitle());
-        values.put(MESSAGE, notification.getMessage());
-        values.put(FROM, notification.getFrom());
-        values.put(EXTRA_VARIABLES, notification.getExtraVariables());
-        // Inserting Row
-        db.insert(TABLE_NOTIFICATIONS, null, values);
+        notificationTable.addRow(putValues(notification));
         database.closeDatabase();
     }
 
     public NotificationModel get(int id) {
-        Cursor cursor = db.query(TABLE_NOTIFICATIONS, new String[] { KEY_ID, TIMESTAMP, TITLE, MESSAGE, FROM, EXTRA_VARIABLES }, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null){
-            cursor.moveToFirst();
-
-        }
-        NotificationModel notification = new NotificationModel(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
-        // return contact
-        cursor.close();
+        LinkedHashMap<String, Column> m = notificationTable.getRowByValue(KEY_ID, id).getMap();
+        NotificationModel notification = getValues(m);
         database.closeDatabase();
         return notification;
     }
 
     public List<NotificationModel> getAll() {
-        List<NotificationModel> notificationModelList = new ArrayList<NotificationModel>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_NOTIFICATIONS;
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                NotificationModel notificationModel = new NotificationModel();
-                notificationModel.setId(Integer.parseInt(cursor.getString(0)));
-                notificationModel.setTimestamp(cursor.getString(1));
-                notificationModel.setTitle(cursor.getString(2));
-                notificationModel.setMessage(cursor.getString(3));
-                notificationModel.setFrom(cursor.getString(4));
-                notificationModel.setExtraVariables(cursor.getString(5));
-                // Adding contact to list
-                notificationModelList.add(notificationModel);
-            } while (cursor.moveToNext());
+        List<NotificationModel> notificationList = new ArrayList<>();
+        for (LinkedHashMap<String, Column> m : notificationTable.getAllRows()) {
+            notificationList.add(getValues(m));
         }
-
-        // return contact list
-        cursor.close();
         database.closeDatabase();
-        return notificationModelList;
+        return notificationList;
     }
 
     // Delete all data
     public void clearAll() {
-        db.execSQL("DELETE FROM " + TABLE_NOTIFICATIONS);
+        notificationTable.clearAll();
         database.closeDatabase();
     }
 
-    // Deleting single contact
-    public void delete(NotificationModel notification) {
-        db.delete(TABLE_NOTIFICATIONS, KEY_ID + " = ?", new String[] { String.valueOf(notification.getId()) });
+    // Deleting single entry
+    public void delete(NotificationModel notificationModel) {
+        notificationTable.delete(KEY_ID, notificationModel.getId());
         database.closeDatabase();
+    }
+
+    // Drop
+    public void drop() {
+        notificationTable.drop();
+        database.closeDatabase();
+    }
+
+    private Column withValue(String columnName, Object value) {
+        Column column = map.get(columnName);
+        column.setData(value);
+        return column;
+    }
+
+    private List<Column> putValues(NotificationModel notification) {
+        List<Column> newList = new ArrayList<>();
+        newList.add(withValue(KEY_ID, notification.getId()));
+        newList.add(withValue(TIMESTAMP, notification.getTimestamp()));
+        newList.add(withValue(TITLE, notification.getTitle()));
+        newList.add(withValue(MESSAGE, notification.getMessage()));
+        newList.add(withValue(FROM, notification.getFrom()));
+        newList.add(withValue(EXTRA_VARIABLES, notification.getExtraVariables()));
+        return newList;
+    }
+
+    private NotificationModel getValues(LinkedHashMap<String, Column> m) {
+        NotificationModel notification = new NotificationModel();
+        notification.setId((Integer) m.get(KEY_ID).getData());
+        notification.setTimestamp((String) m.get(TIMESTAMP).getData());
+        notification.setTitle((String) m.get(TITLE).getData());
+        notification.setMessage((String) m.get(MESSAGE).getData());
+        notification.setFrom((String) m.get(FROM).getData());
+        notification.setExtraVariables((String) m.get(EXTRA_VARIABLES).getData());
+        return notification;
     }
 
 

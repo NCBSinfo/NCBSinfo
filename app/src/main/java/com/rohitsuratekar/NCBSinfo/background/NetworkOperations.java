@@ -165,12 +165,12 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     int actionCode = ACTIONCODE_RETRIEVED;
                     TalkModel talk = new TalkModel(0, timestamp, notificationtitle, date, time, venue, speaker, affliations, title, host, dataCode, actionCode, dataAction);
 
-                    if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TALK_TIMESTAMP, timestamp)) {
+                    if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TIMESTAMP, timestamp)) {
                         //If entry is already present in database, check for Datacode and is not empty
                         if (talk.getTimestamp().trim().length() != 0) {
                             if (!dataAction.toLowerCase().equals("send")) {
                                 //If datacode is other than "Send", Take appropriate actions
-                                TalkModel oldEntry = new TalkData(getBaseContext()).getEntry(timestamp);
+                                TalkModel oldEntry = new TalkData(getBaseContext()).get(timestamp);
                                 if (dataAction.toLowerCase().equals("update")) {
                                     talk.setDataID(oldEntry.getDataID()); //Add DataID to new entry
                                     talk.setActionCode(ACTIONCODE_UPDATED); //Change action code
@@ -186,7 +186,7 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     } else {
                         //Else create new entry if it is not empty
                         if (talk.getTimestamp().trim().length() != 0) {
-                            new TalkData(getBaseContext()).addEntry(talk);
+                            new TalkData(getBaseContext()).add(talk);
                             Log.i(TAG, "New Research Talk entry added");
                         }
                     }
