@@ -83,7 +83,7 @@ public class TransportFragment extends Fragment {
         perform(rootView);
 
         //Remove the footnote2 in landscape mode for better UI look
-        if(getContext()!=null) {
+        if (getContext() != null) {
             if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
                     && transport.getRouteType().equals(Routes.type.BUGGY)) {
                 footnote1.setVisibility(View.GONE);
@@ -150,8 +150,8 @@ public class TransportFragment extends Fragment {
             }
         }
 
-        TransportAdapter weekAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, formattedWeek);
-        TransportAdapter sundayAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, formattedSunday);
+        TransportAdapter weekAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, formattedWeek, transport.getRouteType(), true);
+        TransportAdapter sundayAdapter = new TransportAdapter(getActivity(), R.layout.transport_item, formattedSunday, transport.getRouteType(), false);
         sundayList.setAdapter(sundayAdapter);
         weekList.setAdapter(weekAdapter);
         weekTitle.setText(transport.getWeekTitle());
@@ -211,6 +211,7 @@ public class TransportFragment extends Fragment {
 
         return list;
     }
+
 
     private String[] convertList(String[] list) {
         for (int i = 0; i < list.length; i++) {

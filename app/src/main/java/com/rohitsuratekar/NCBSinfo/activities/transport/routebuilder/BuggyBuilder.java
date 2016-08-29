@@ -10,7 +10,6 @@ import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -78,12 +77,12 @@ public class BuggyBuilder extends TransportRoute {
 
     @Override
     public String getFooter1() {
-        return "";
+        return context.getResources().getString(R.string.transport_buggy_footer1);
     }
 
     @Override
     public String getFooter2() {
-        return context.getResources().getString(R.string.transport_buggy_footer,
+        return context.getResources().getString(R.string.transport_buggy_footer2,
                 new DateConverters().convertToString(Calendar.getInstance(), DateFormats.TIME_12_HOURS_STANDARD));
     }
 

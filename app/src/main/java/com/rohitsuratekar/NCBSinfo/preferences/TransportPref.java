@@ -64,6 +64,22 @@ public class TransportPref {
         pref.edit().putString(BUGGY2_MANDARA, context.getString(R.string.def_b2_mandara)).apply();
     }
 
+    public String[] getNCBSBuggy1() {
+        return new Converters().stringToarray(pref.getString(BUGGY1_NCBS, context.getString(R.string.def_b1_ncbs)));
+    }
+
+    public String[] getNCBSBuggy2() {
+        return new Converters().stringToarray(pref.getString(BUGGY2_NCBS, context.getString(R.string.def_b2_ncbs)));
+    }
+
+    public String[] getMandaraBuggy1() {
+        return new Converters().stringToarray(pref.getString(BUGGY1_MANDARA, context.getString(R.string.def_b1_mandara)));
+    }
+
+    public String[] getMandaraBuggy2() {
+        return new Converters().stringToarray(pref.getString(BUGGY2_MANDARA, context.getString(R.string.def_b2_mandara)));
+    }
+
 
     private int getDefault(Routes routes, boolean isSunday) {
         switch (routes) {

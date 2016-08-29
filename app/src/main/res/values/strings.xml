@@ -74,7 +74,8 @@
     <string name="transport_list_buggy_title_mandara">From Mandara</string>
     <string name="transport_footer1">*Including Saturday</string>
     <string name="transport_footer2">**Next shuttle after %1$s</string>
-    <string name="transport_buggy_footer">**Next buggy after %1$s</string>
+    <string name="transport_buggy_footer1">Buggy No: 2 is shown in shaded background</string>
+    <string name="transport_buggy_footer2">**Next buggy after %1$s</string>
     <string name="transport_last_updated">Last updated on : %1$s</string>
     <string name="transport_hours">%1$d Hrs</string>
     <string name="transport_min">%1$d Min</string>
