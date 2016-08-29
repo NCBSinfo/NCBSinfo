@@ -21,7 +21,8 @@
     <string name="settings_default_view_summary">This transport will be shown first when you open the app</string>
     <string name="settings_hurryup">It\'s almost time (in min)</string>
     <string name="settings_hurryup_summary">The color will turn red if the next transport is within this time period</string>
-
+    <string name="settings_sync_events">Sync Events</string>
+    <string name="settings_sync_events_summary">Manually request our data server to sync latest events. Last Sync: </string>
 
     <string name="about_us"><![CDATA[
  <b>NCBSinfo</b> is an application for regular use, especially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.

@@ -19,6 +19,7 @@ import com.rohitsuratekar.NCBSinfo.database.Database;
 import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.database.models.TalkModel;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.retro.google.form.Commands;
 import com.secretbiology.retro.google.form.Service;
 import com.secretbiology.retro.google.fusiontable.reponse.RowModel;
@@ -150,64 +151,69 @@ public class NetworkOperations extends IntentService implements NetworkConstants
         call.enqueue(new Callback<RowModel>() {
             @Override
             public void onResponse(Call<RowModel> call, Response<RowModel> response) {
-                for (int i = 0; i < response.body().getRows().size(); i++) {
-                    String timestamp = response.body().getRows().get(i).get(0);
-                    String notificationtitle = response.body().getRows().get(i).get(1);
-                    String date = response.body().getRows().get(i).get(2);
-                    String time = response.body().getRows().get(i).get(3);
-                    String venue = response.body().getRows().get(i).get(4);
-                    String speaker = response.body().getRows().get(i).get(5);
-                    String affliations = response.body().getRows().get(i).get(6);
-                    String title = response.body().getRows().get(i).get(7);
-                    String host = response.body().getRows().get(i).get(8);
-                    String dataCode = response.body().getRows().get(i).get(9);
-                    String dataAction = response.body().getRows().get(i).get(10);
-                    int actionCode = ACTIONCODE_RETRIEVED;
-                    TalkModel talk = new TalkModel(0, timestamp, notificationtitle, date, time, venue, speaker, affliations, title, host, dataCode, actionCode, dataAction);
+                if (response.isSuccess()) {
+                    pref.app().setLastEventSync(General.timeStamp());
+                    for (int i = 0; i < response.body().getRows().size(); i++) {
+                        String timestamp = response.body().getRows().get(i).get(0);
+                        String notificationtitle = response.body().getRows().get(i).get(1);
+                        String date = response.body().getRows().get(i).get(2);
+                        String time = response.body().getRows().get(i).get(3);
+                        String venue = response.body().getRows().get(i).get(4);
+                        String speaker = response.body().getRows().get(i).get(5);
+                        String affliations = response.body().getRows().get(i).get(6);
+                        String title = response.body().getRows().get(i).get(7);
+                        String host = response.body().getRows().get(i).get(8);
+                        String dataCode = response.body().getRows().get(i).get(9);
+                        String dataAction = response.body().getRows().get(i).get(10);
+                        int actionCode = ACTIONCODE_RETRIEVED;
+                        TalkModel talk = new TalkModel(0, timestamp, notificationtitle, date, time, venue, speaker, affliations, title, host, dataCode, actionCode, dataAction);
 
-                    if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TIMESTAMP, timestamp)) {
-                        //If entry is already present in database, check for Datacode and is not empty
-                        if (talk.getTimestamp().trim().length() != 0) {
-                            if (!dataAction.toLowerCase().equals("send")) {
-                                //If datacode is other than "Send", Take appropriate actions
-                                TalkModel oldEntry = new TalkData(getBaseContext()).get(timestamp);
-                                if (dataAction.toLowerCase().equals("update")) {
-                                    talk.setDataID(oldEntry.getDataID()); //Add DataID to new entry
-                                    talk.setActionCode(ACTIONCODE_UPDATED); //Change action code
-                                    new TalkData(getBaseContext()).update(talk); //Update entry
-                                    Log.i(TAG, "Research Talk entry updated");
-                                }
-                                if (dataAction.toLowerCase().equals("delete")) {
-                                    new TalkData(getBaseContext()).delete(oldEntry); //Delete entry
-                                    Log.i(TAG, "Research Talk entry deleted");
+                        if (Database.getInstance(getBaseContext()).isAlreadyThere(TalkData.TABLE_TALK, TalkData.TIMESTAMP, timestamp)) {
+                            //If entry is already present in database, check for Datacode and is not empty
+                            if (talk.getTimestamp().trim().length() != 0) {
+                                if (!dataAction.toLowerCase().equals("send")) {
+                                    //If datacode is other than "Send", Take appropriate actions
+                                    TalkModel oldEntry = new TalkData(getBaseContext()).get(timestamp);
+                                    if (dataAction.toLowerCase().equals("update")) {
+                                        talk.setDataID(oldEntry.getDataID()); //Add DataID to new entry
+                                        talk.setActionCode(ACTIONCODE_UPDATED); //Change action code
+                                        new TalkData(getBaseContext()).update(talk); //Update entry
+                                        Log.i(TAG, "Research Talk entry updated");
+                                    }
+                                    if (dataAction.toLowerCase().equals("delete")) {
+                                        new TalkData(getBaseContext()).delete(oldEntry); //Delete entry
+                                        Log.i(TAG, "Research Talk entry deleted");
+                                    }
                                 }
                             }
-                        }
-                    } else {
-                        //Else create new entry if it is not empty
-                        if (talk.getTimestamp().trim().length() != 0) {
-                            new TalkData(getBaseContext()).add(talk);
-                            Log.i(TAG, "New Research Talk entry added");
+                        } else {
+                            //Else create new entry if it is not empty
+                            if (talk.getTimestamp().trim().length() != 0) {
+                                new TalkData(getBaseContext()).add(talk);
+                                Log.i(TAG, "New Research Talk entry added");
+                            }
                         }
                     }
-                }
 
-                //Give notification to user when they receive event data for the first time
-                if (!pref.app().isFirstEventNotificationSent()) {
-                    String title = "Check upcoming events";
-                    String message = "Now you can check upcoming events at NCBS right from this app. You will receive notifications for events at NCBS";
-                    Random random = new Random();
-                    int m = random.nextInt(9999 - 1000) + 1000; //Random number to send separate notification
-                    new NotificationService(getBaseContext()).sendNotification(title, message, Events.class, m);
-                    pref.app().firstEventNotificationSent();
-                }
+                    //Give notification to user when they receive event data for the first time
+                    if (!pref.app().isFirstEventNotificationSent()) {
+                        String title = "Check upcoming events";
+                        String message = "Now you can check upcoming events at NCBS right from this app. You will receive notifications for events at NCBS";
+                        Random random = new Random();
+                        int m = random.nextInt(9999 - 1000) + 1000; //Random number to send separate notification
+                        new NotificationService(getBaseContext()).sendNotification(title, message, Events.class, m);
+                        pref.app().firstEventNotificationSent();
+                    }
 
-                //Remove old entries
-                new TalkData(context).removeOld();
-                //start notification service
-                Intent i = new Intent(NetworkOperations.this, Alarms.class);
-                i.putExtra(Alarms.INTENT, AlarmConstants.alarmTriggers.SEND_UPCOMING.name());
-                context.sendBroadcast(i);
+                    //Remove old entries
+                    new TalkData(context).removeOld();
+                    //start notification service
+                    Intent i = new Intent(NetworkOperations.this, Alarms.class);
+                    i.putExtra(Alarms.INTENT, AlarmConstants.alarmTriggers.SEND_UPCOMING.name());
+                    context.sendBroadcast(i);
+                } else {
+                    Log.e(TAG, "Network response was failed.");
+                }
 
             }
 

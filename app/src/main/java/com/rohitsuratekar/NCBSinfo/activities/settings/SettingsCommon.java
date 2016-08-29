@@ -6,18 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.settings.snake.SnakeActivity;
+import com.rohitsuratekar.NCBSinfo.activities.settings.eggs.snake.SnakeActivity;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
-
-import java.util.regex.Pattern;
 
 /**
  * NCBSinfo © 2016, Secret Biology

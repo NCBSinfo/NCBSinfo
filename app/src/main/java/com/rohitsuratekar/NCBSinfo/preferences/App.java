@@ -2,7 +2,6 @@ package com.rohitsuratekar.NCBSinfo.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.secretbiology.helpers.general.General;
@@ -11,13 +10,14 @@ import java.util.Calendar;
 
 /**
  * This class deals with app related shared preferences
+ * TODO: Temporary network query limit is removed. Change this in next update.
  */
 public class App implements AppConstants {
 
     SharedPreferences pref;
     Context context;
+    //int NETWORK_LIMIT = 100;
     String APP_MODE = "app_mode";
-    int NETWORK_LIMIT = 100;
     String APP_VERSION = "latestAppVersion";
     String APP_VERSION_NAME = "latestAppVersionName";
     String APP_OPEN = "firstTimeAppOpen_v29"; //Changed from Version 29
@@ -27,6 +27,7 @@ public class App implements AppConstants {
     String LAST_LOGIN = "lastLogin";
     String OPEN_COUNT = "openCount";
     String NOTIFICATION_OPENED = "notificationOpened";
+    String LAST_EVENT_SYNC = "lastEventSync";
 
     protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -133,7 +134,7 @@ public class App implements AppConstants {
      */
     public boolean isWithinNetworkLimit() {
 
-        if (lastDate() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+        /*if (lastDate() == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             int count = getNetworkRequests() + 1;
             pref.edit().putInt(networkCount, count).apply();
             if (count < NETWORK_LIMIT) {
@@ -146,7 +147,9 @@ public class App implements AppConstants {
             pref.edit().putInt(networkDateStamp, Calendar.getInstance().get(Calendar.DAY_OF_YEAR)).apply();
             pref.edit().putInt(networkCount, 0).apply();
             return true;
-        }
+        }*/
+
+        return true;
 
     }
 
@@ -163,6 +166,14 @@ public class App implements AppConstants {
 
     public void resetNetworkLimit() {
         pref.edit().putInt(networkCount, 0).apply();
+    }
+
+    public String getLastEventSync() {
+        return pref.getString(LAST_EVENT_SYNC, "Never");
+    }
+
+    public void setLastEventSync(String timestamp) {
+        pref.edit().putString(LAST_EVENT_SYNC, timestamp).apply();
     }
 
 }

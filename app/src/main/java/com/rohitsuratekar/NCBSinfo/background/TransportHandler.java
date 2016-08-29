@@ -45,11 +45,12 @@ public class TransportHandler extends IntentService implements AppConstants {
     }
 
     private void reset() {
-
-        for (Routes r : Routes.values()){
+        //Reset All trips
+        for (Routes r : Routes.values()) {
             pref.transport().resetRoute(r);
         }
-
+        //Add buggy details.
+        pref.transport().resetBuggyDetails();
     }
 
 

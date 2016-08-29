@@ -33,6 +33,9 @@ public class DataStructure implements FireBaseConstants {
     @SerializedName("lastLogin")
     @Expose
     private String lastLogin;
+    @SerializedName("lastSync")
+    @Expose
+    private String lastSync;
     @SerializedName("requestCalls")
     @Expose
     private String requestCalls;
@@ -112,5 +115,10 @@ public class DataStructure implements FireBaseConstants {
         this.token = token;
     }
 
-
+    public String getLastSync() {
+        return lastSync;
+    }
+    public void setLastSync(String lastSync) {
+        this.lastSync = lastSync;
+    }
 }

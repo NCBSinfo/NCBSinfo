@@ -14,9 +14,13 @@ import android.widget.Toast;
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.settings.SettingsCommon;
+import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
 import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
+import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
+import com.secretbiology.helpers.general.General;
 
 /**
  * NCBSinfo © 2016, Secret Biology
@@ -27,23 +31,34 @@ import com.rohitsuratekar.NCBSinfo.utilities.CurrentMode;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class GeneralPreference extends PreferenceFragment {
 
-    Preference changeMode, clearPref, faq;
+    Preference changeMode, clearPref, faq, sync;
     Context context;
     BaseParameters baseParameters;
+    Preferences pref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_general);
         setHasOptionsMenu(true);
+
         baseParameters = new BaseParameters(getActivity().getBaseContext());
 
         context = getActivity();
+        pref = new Preferences(context);
         getActivity().setTitle(R.string.settings_general);
 
         changeMode = findPreference("change_mode_settings");
         clearPref = findPreference("clear_settings");
         faq = findPreference("settings_knownBugs");
+        sync = findPreference("sync_events");
+
+        sync.setSummary(context.getResources().getString(R.string.settings_sync_events_summary) + pref.app().getLastEventSync());
+
+        if (pref.app().getMode() != AppConstants.modes.ONLINE) {
+            sync.setEnabled(false);
+            sync.setSummary("This function is only available in Online Mode.");
+        }
 
 
         changeMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -112,6 +127,20 @@ public class GeneralPreference extends PreferenceFragment {
             }
         });
 
+        sync.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (General.isNetworkAvailable(getActivity())) {
+                    Intent intent = new Intent(getActivity(), NetworkOperations.class);
+                    intent.putExtra(NetworkOperations.INTENT, NetworkOperations.RESEARCH_TALKS);
+                    getActivity().startService(intent);
+                    Toast.makeText(getActivity(), "Sync Started, Events will be updated if there is any new event and your internet is on", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "You need internet to perform this action.", Toast.LENGTH_LONG).show();
+                }
+                return true;
+            }
+        });
 
     }
 

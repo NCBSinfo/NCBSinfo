@@ -7,6 +7,11 @@
         android:summary="@string/settings_change_mode_summary"/>
 
     <Preference
+        android:key="sync_events"
+        android:title="@string/settings_sync_events"
+        android:summary="@string/settings_sync_events_summary"/>
+
+    <Preference
         android:key="clear_settings"
         android:title="@string/settings_delete_preference"
         android:summary="@string/settings_delete_preference_summary"/>

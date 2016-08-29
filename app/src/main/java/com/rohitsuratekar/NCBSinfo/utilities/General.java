@@ -11,7 +11,7 @@ import java.util.List;
 
 public class General {
 
-    public List<TalkModel> getUpcomigTalks(Context context, Date targetDate) {
+    public List<TalkModel> getUpcomingTalks(Context context, Date targetDate) {
         List<TalkModel> allList = new TalkData(context).getAll();
         List<TalkModel> returnList = new ArrayList<>();
         for (TalkModel talk : allList) {

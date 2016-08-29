@@ -232,7 +232,7 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
         calendar.add(Calendar.DATE, 1);
         Date targetDate = new Date(calendar.getTimeInMillis());
 
-        List<TalkModel> list = new General().getUpcomigTalks(context, targetDate);
+        List<TalkModel> list = new General().getUpcomingTalks(context, targetDate);
         for (TalkModel talk : list) {
             Log.i(TAG, "sending event " + talk.getDataID() + " : " + talk.getNotificationTitle());
             Intent intent = new Intent(context, Alarms.class);

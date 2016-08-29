@@ -23,6 +23,10 @@ public class TransportPref {
 
     String LAST_UPDATE = "transportLastUpdated";
     String REMINDER_DIALOG = "reminderDialog";
+    String BUGGY1_NCBS = "b1_from_ncbs";
+    String BUGGY2_NCBS = "b2_from_ncbs";
+    String BUGGY1_MANDARA = "b1_from_mandara";
+    String BUGGY2_MANDARA = "b2_from_mandara";
 
     protected TransportPref(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -51,6 +55,13 @@ public class TransportPref {
         Log.i(TAG, routes.toString() + " reset");
         pref.edit().putString(new RouteInformation(routes).get().getWeekDayKey(), context.getString(getDefault(routes, false))).apply();
         pref.edit().putString(new RouteInformation(routes).get().getSundayKey(), context.getString(getDefault(routes, true))).apply();
+    }
+
+    public void resetBuggyDetails() {
+        pref.edit().putString(BUGGY1_NCBS, context.getString(R.string.def_b1_ncbs)).apply();
+        pref.edit().putString(BUGGY2_NCBS, context.getString(R.string.def_b2_ncbs)).apply();
+        pref.edit().putString(BUGGY1_MANDARA, context.getString(R.string.def_b1_mandara)).apply();
+        pref.edit().putString(BUGGY2_MANDARA, context.getString(R.string.def_b2_mandara)).apply();
     }
 
 
