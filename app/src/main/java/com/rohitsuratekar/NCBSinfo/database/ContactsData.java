@@ -30,6 +30,11 @@ public class ContactsData {
     public ContactsData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
+        contactTable = new Table(db, TABLE_CONTACTS, getColumn());
+        map = contactTable.getMap();
+    }
+
+    private static List<Column> getColumn() {
         List<Column> columnList = new ArrayList<>();
         columnList.add(new Column(ID, Column.ColumnType.PRIMARY_INTEGER));
         columnList.add(new Column(NAME, Column.ColumnType.TEXT));
@@ -37,13 +42,13 @@ public class ContactsData {
         columnList.add(new Column(POSITION, Column.ColumnType.TEXT));
         columnList.add(new Column(EXTENSION, Column.ColumnType.TEXT));
         columnList.add(new Column(FAVORITE, Column.ColumnType.TEXT));
-        contactTable = new Table(db, TABLE_CONTACTS, columnList);
-        map = contactTable.getMap();
+        return columnList;
     }
 
-    public void makeTable() {
+
+    public static void makeTable(SQLiteDatabase db) {
+        Table contactTable = new Table(db, TABLE_CONTACTS, getColumn());
         contactTable.make();
-        database.closeDatabase();
     }
 
     public void add(ContactModel contact) {

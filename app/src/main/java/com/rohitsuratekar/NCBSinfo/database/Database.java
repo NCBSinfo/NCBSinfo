@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 
+    //TODO fix database opening and closing
     //Database Constants
     private static String DATABASE_NAME = "NCBSinfo";
     private static int DATABASE_VERSION = 8; //Changed from 7 to 8 on 12 August 2016
@@ -52,7 +53,6 @@ public class Database extends SQLiteOpenHelper {
         if (mOpenCounter == 0) {
             // Closing database
             mDatabase.close();
-
         }
     }
 
@@ -61,10 +61,10 @@ public class Database extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         //All currently available database
-        new ContactsData(context).makeTable();
-        new AlarmData(context).makeTable();
-        new NotificationData(context).makeTable();
-        new TalkData(context).makeTable();
+        ContactsData.makeTable(db);
+        AlarmData.makeTable(db);
+        NotificationData.makeTable(db);
+        TalkData.makeTable(db);
     }
 
     //No "break" statements are given to upgrade database serials
@@ -73,14 +73,14 @@ public class Database extends SQLiteOpenHelper {
         if (oldVersion > 4) {
             switch (oldVersion) {
                 case 5:
-                    new TalkData(context).makeTable();
-                    new NotificationData(context).makeTable();
+                    NotificationData.makeTable(db);
+                    TalkData.makeTable(db);
                     db.execSQL("DROP TABLE IF EXISTS 'table_log'"); //Removing log table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_database'"); //Removing JC database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_external'"); //Removing External database table from this version
                     db.execSQL("DROP TABLE IF EXISTS 'table_talkdata'"); //Removing Old talk table
                 case 6:
-                    new AlarmData(context).makeTable();
+                    ContactsData.makeTable(db);
                 case 7:
                     db.execSQL("DROP TABLE IF EXISTS 'table_conference'"); //Removing conference table from this version
             }
@@ -95,8 +95,11 @@ public class Database extends SQLiteOpenHelper {
 
     public void restartDatabase() {
         dropAll();
-        onCreate(instance.openDatabase());
-        instance.closeDatabase();
+        SQLiteDatabase db = Database.getInstance(context).openDatabase();
+        ContactsData.makeTable(db);
+        AlarmData.makeTable(db);
+        NotificationData.makeTable(db);
+        TalkData.makeTable(db);
     }
 
     public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {

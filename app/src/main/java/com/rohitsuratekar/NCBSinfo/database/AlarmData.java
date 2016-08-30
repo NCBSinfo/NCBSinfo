@@ -40,6 +40,11 @@ public class AlarmData implements AlarmConstants {
     public AlarmData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
+        alarmTable = new Table(db, TABLE_ALARMS, getColumn());
+        map = alarmTable.getMap();
+    }
+
+    private static List<Column> getColumn() {
         List<Column> columnList = new ArrayList<>();
         columnList.add(new Column(KEY, Column.ColumnType.PRIMARY_INTEGER));
         columnList.add(new Column(ALARM_ID, Column.ColumnType.INTEGER));
@@ -50,13 +55,12 @@ public class AlarmData implements AlarmConstants {
         columnList.add(new Column(EXTRA_VALUE, Column.ColumnType.TEXT));
         columnList.add(new Column(ALARM_TIME, Column.ColumnType.TEXT));
         columnList.add(new Column(ALARM_DATE, Column.ColumnType.TEXT));
-        alarmTable = new Table(db, TABLE_ALARMS, columnList);
-        map = alarmTable.getMap();
+        return columnList;
     }
 
-    public void makeTable() {
+    public static void makeTable(SQLiteDatabase db) {
+        Table alarmTable = new Table(db, TABLE_ALARMS, getColumn());
         alarmTable.make();
-        database.closeDatabase();
     }
 
     public void add(AlarmModel entry) {

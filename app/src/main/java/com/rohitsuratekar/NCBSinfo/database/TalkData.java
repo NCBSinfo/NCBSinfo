@@ -40,6 +40,12 @@ public class TalkData {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
         this.context = context;
+
+        talkTable = new Table(db, TABLE_TALK, getColumn());
+        map = talkTable.getMap();
+    }
+
+    private static List<Column> getColumn() {
         List<Column> columnList = new ArrayList<>();
         columnList.add(new Column(KEY_ID, Column.ColumnType.PRIMARY_INTEGER));
         columnList.add(new Column(TIMESTAMP, Column.ColumnType.TEXT));
@@ -54,13 +60,12 @@ public class TalkData {
         columnList.add(new Column(DATACODE, Column.ColumnType.TEXT));
         columnList.add(new Column(ACTIONCODE, Column.ColumnType.INTEGER));
         columnList.add(new Column(DATA_ACTION, Column.ColumnType.TEXT));
-        talkTable = new Table(db, TABLE_TALK, columnList);
-        map = talkTable.getMap();
+        return columnList;
     }
 
-    public void makeTable() {
+    public static void makeTable(SQLiteDatabase db) {
+        Table talkTable = new Table(db, TABLE_TALK, getColumn());
         talkTable.make();
-        database.closeDatabase();
     }
 
     public void add(TalkModel entry) {

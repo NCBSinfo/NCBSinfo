@@ -31,6 +31,13 @@ public class NotificationData {
     public NotificationData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
+
+        notificationTable = new Table(db, TABLE_NOTIFICATIONS, getColumn());
+        map = notificationTable.getMap();
+
+    }
+
+    private static List<Column> getColumn() {
         List<Column> columnList = new ArrayList<>();
         columnList.add(new Column(KEY_ID, Column.ColumnType.PRIMARY_INTEGER));
         columnList.add(new Column(TIMESTAMP, Column.ColumnType.TEXT));
@@ -38,14 +45,12 @@ public class NotificationData {
         columnList.add(new Column(MESSAGE, Column.ColumnType.TEXT));
         columnList.add(new Column(FROM, Column.ColumnType.TEXT));
         columnList.add(new Column(EXTRA_VARIABLES, Column.ColumnType.TEXT));
-        notificationTable = new Table(db, TABLE_NOTIFICATIONS, columnList);
-        map = notificationTable.getMap();
-
+        return columnList;
     }
 
-    public void makeTable() {
+    public static void makeTable(SQLiteDatabase db) {
+        Table notificationTable = new Table(db, TABLE_NOTIFICATIONS, getColumn());
         notificationTable.make();
-        database.closeDatabase();
     }
 
     public void add(NotificationModel notification) {
