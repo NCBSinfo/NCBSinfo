@@ -11,6 +11,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <ImageView
+        android:id="@+id/nav_header_icon"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:src="@drawable/image_inapp_logo"
+        android:scaleType="fitXY" />
 
     <TextView
         android:layout_width="match_parent"

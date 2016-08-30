@@ -15,7 +15,7 @@
         android:id="@+id/nav_header_icon"
         android:layout_width="50sp"
         android:layout_height="50sp"
-        android:src="@drawable/icon_profile"
+        android:src="@drawable/image_inapp_logo"
         android:scaleType="fitXY" />
 
     <TextView

@@ -7,9 +7,9 @@
         android:summary="@string/settings_about_us_summary"/>
 
     <Preference
-        android:key="settings_github"
-        android:title="@string/settings_contribute"
-        android:summary="@string/settings_contribute_summary"/>
+        android:key="settings_web"
+        android:title="@string/settings_web"
+        android:summary="@string/settings_web_summary"/>
 
     <Preference
         android:key="settings_terms_conditions"
@@ -20,6 +20,11 @@
         android:key="settings_privacy"
         android:title="@string/settings_privacy"
         android:summary="@string/settings_privacy_summary"/>
+
+    <Preference
+        android:key="settings_github"
+        android:title="@string/settings_contribute"
+        android:summary="@string/settings_contribute_summary"/>
 
     <Preference
         android:key="settings_version"

@@ -25,7 +25,7 @@ import com.rohitsuratekar.NCBSinfo.ui.BaseParameters;
 
 public class InformationPreference extends PreferenceFragment {
 
-    Preference github, termsAndConditions, aboutUs, version, privacy;
+    Preference github, termsAndConditions, aboutUs, version, privacy, web;
 
     int hits;
     Preferences pref;
@@ -46,6 +46,7 @@ public class InformationPreference extends PreferenceFragment {
         aboutUs = findPreference("settings_aboutus");
         version = findPreference("settings_version");
         privacy = findPreference("settings_privacy");
+        web = findPreference("settings_web");
 
         version.setTitle(getResources().getString(R.string.app_name));
         version.setSummary("Version Code: " + pref.app().getAppVersionName() + "\nBuild No: " + pref.app().getAppVesion());
@@ -55,6 +56,17 @@ public class InformationPreference extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 String currenturl = "https://github.com/NCBSinfo/NCBSinfo";
+                Intent i2 = new Intent(Intent.ACTION_VIEW);
+                i2.setData(Uri.parse(currenturl));
+                startActivity(i2);
+                return true;
+            }
+        });
+
+        web.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                String currenturl = "https://secretbiology.com/ncbsinfo/";
                 Intent i2 = new Intent(Intent.ACTION_VIEW);
                 i2.setData(Uri.parse(currenturl));
                 startActivity(i2);
