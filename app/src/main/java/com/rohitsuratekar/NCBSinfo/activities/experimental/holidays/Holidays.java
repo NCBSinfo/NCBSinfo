@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+//TODO: reminder correction
 /**
  * NCBSinfo © 2016, Secret Biology
  * https://github.com/NCBSinfo/NCBSinfo
