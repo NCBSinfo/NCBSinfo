@@ -77,7 +77,7 @@ public class BuggyBuilder extends TransportRoute {
 
     @Override
     public String getFooter1() {
-        return context.getResources().getString(R.string.transport_buggy_footer1);
+        return "";
     }
 
     @Override

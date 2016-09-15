@@ -42,6 +42,15 @@ public class DataStructure implements FireBaseConstants {
     @SerializedName("notificationPreference")
     @Expose
     private int notificationPreference; //Use int as follows : 0 : default, 1:true, 2:false
+    @SerializedName("webLogin")
+    @Expose
+    private String webLogin;
+    @SerializedName("webSync")
+    @Expose
+    private String webSync;
+    @SerializedName("webPref")
+    @Expose
+    private String webPref;
 
     public int isNotificationPreference() {
         return notificationPreference;
@@ -118,7 +127,32 @@ public class DataStructure implements FireBaseConstants {
     public String getLastSync() {
         return lastSync;
     }
+
     public void setLastSync(String lastSync) {
         this.lastSync = lastSync;
+    }
+
+    public String getWebLogin() {
+        return webLogin;
+    }
+
+    public void setWebLogin(String webLogin) {
+        this.webLogin = webLogin;
+    }
+
+    public String getWebSync() {
+        return webSync;
+    }
+
+    public void setWebSync(String webSync) {
+        this.webSync = webSync;
+    }
+
+    public String getWebPref() {
+        return webPref;
+    }
+
+    public void setWebPref(String webPref) {
+        this.webPref = webPref;
     }
 }

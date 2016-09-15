@@ -183,8 +183,12 @@ public class Alarms extends BroadcastReceiver implements AlarmConstants, AppCons
 
             //Notify if tomorrow is holiday
             if (new Holidays().isTomorrowHoliday()) {
-                new NotificationService(context)
-                        .sendNotification("NCBS Holiday Tomorrow", context.getString(R.string.holiday_tomorrow), Holidays.class);
+                int holidayID = new Holidays().whichHoliday();
+                if (!pref.app().isHolidayNotificationSent(holidayID)) {
+                    new NotificationService(context)
+                            .sendNotification("NCBS Holiday Tomorrow", context.getString(R.string.holiday_tomorrow), Holidays.class);
+                    pref.app().holidayNotificationSent(holidayID);
+                }
             }
 
         } else {

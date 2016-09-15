@@ -29,7 +29,6 @@ public class DataBuilder {
         data.setLastLogin(pref.app().getLastLogin());
         data.setRequestCalls(makeRequestCalls());
         data.setLastSync(General.timeStamp());
-
         //Converting notifications allowed is essential because if there is no notification field, database will return false
         //And we can not differentiate whether it is preference or default value
 
@@ -45,7 +44,7 @@ public class DataBuilder {
     private String makeRequestCalls() {
         String count1 = String.valueOf(pref.app().getOpenCount());
         String count2 = String.valueOf(pref.app().getNotificationOpened());
-       //todo : String count3 = String.valueOf(pref.app().getNetworkRequests());
+        //todo : String count3 = String.valueOf(pref.app().getNetworkRequests());
         return count1 + "_" + count2 + "_" + "paused";
     }
 }

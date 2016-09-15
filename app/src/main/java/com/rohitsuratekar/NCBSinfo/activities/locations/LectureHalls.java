@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 
 import java.util.ArrayList;
+
+
+//TODO: convert array to list based model
 
 /**
  * NCBSinfo © 2016, Secret Biology
