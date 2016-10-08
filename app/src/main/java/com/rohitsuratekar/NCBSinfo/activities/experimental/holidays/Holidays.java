@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-//TODO: reminder correction
 /**
  * NCBSinfo © 2016, Secret Biology
  * https://github.com/NCBSinfo/NCBSinfo
@@ -63,23 +62,23 @@ public class Holidays extends BaseActivity {
 
     public String[][] HolidayList() {
         return new String[][]{
-                {"Makar Sankranti (Pongal)", "15/01/2016"},
-                {"Republic Day", "26/01/2016"},
-                {"Good Friday", "25/03/2016"},
-                {"Ugadi (Gudi Padava)", "08/04/2016"},
-                {"Mahavir Jayanti", "19/04/2016"},
-                {"Buddha Purnima", "21/05/2016"},
-                {"Eid-ul-fitr", "06/07/2016"},
-                {"Independence Day", "15/08/2016"},
-                {"Ganesh Chaturthi", "05/09/2016"},
-                {"Id-ul-Zuha (Bakra-eid)", "12/09/2016"},
-                {"Gandhi Jayanti", "02/10/2016"},
-                {"Dussehra", "11/10/2016"},
-                {"Muharram", "12/10/2016"},
-                {"Diwali", "30/10/2016"},
-                {"Guru Nanak Jayanti", "14/11/2016"},
-                {"Id-e-Milad", "12/12/2016"},
-                {"Christmas Day", "25/12/2016"}
+                {"Makar Sankranti (Pongal)", "15/01/2016", "0"},
+                {"Republic Day", "26/01/2016", "1"},
+                {"Good Friday", "25/03/2016", "2"},
+                {"Ugadi (Gudi Padava)", "08/04/2016", "3"},
+                {"Mahavir Jayanti", "19/04/2016", "4"},
+                {"Buddha Purnima", "21/05/2016", "5"},
+                {"Eid-ul-fitr", "06/07/2016", "6"},
+                {"Independence Day", "15/08/2016", "7"},
+                {"Ganesh Chaturthi", "05/09/2016", "8"},
+                {"Id-ul-Zuha (Bakra-eid)", "12/09/2016", "9"},
+                {"Gandhi Jayanti", "02/10/2016", "10"},
+                {"Dussehra", "11/10/2016", "11"},
+                {"Muharram", "12/10/2016", "12"},
+                {"Diwali", "30/10/2016", "13"},
+                {"Guru Nanak Jayanti", "14/11/2016", "14"},
+                {"Id-e-Milad", "12/12/2016", "15"},
+                {"Christmas Day", "25/12/2016", "16"}
         };
     }
 
@@ -87,7 +86,7 @@ public class Holidays extends BaseActivity {
 
         List<HolidayModel> holidayList = new ArrayList<>();
         for (String[] s : HolidayList()) {
-            holidayList.add(new HolidayModel(s[0], s[1]));
+            holidayList.add(new HolidayModel(s[0], s[1], s[2]));
         }
         for (HolidayModel h : holidayList) {
             Calendar cal = Calendar.getInstance();
@@ -103,16 +102,31 @@ public class Holidays extends BaseActivity {
 
         List<HolidayModel> holidayList = new ArrayList<>();
         for (String[] s : HolidayList()) {
-            holidayList.add(new HolidayModel(s[0], s[1]));
+            holidayList.add(new HolidayModel(s[0], s[1], s[2]));
         }
         for (HolidayModel h : holidayList) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(h.getDate());
-            if (cal.get(Calendar.DAY_OF_YEAR)-1 == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            if (cal.get(Calendar.DAY_OF_YEAR) - 1 == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public int whichHoliday() {
+        List<HolidayModel> holidayList = new ArrayList<>();
+        for (String[] s : HolidayList()) {
+            holidayList.add(new HolidayModel(s[0], s[1], s[2]));
+        }
+        for (HolidayModel h : holidayList) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(h.getDate());
+            if (cal.get(Calendar.DAY_OF_YEAR) - 1 == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+                return h.getId();
+            }
+        }
+        return 1989;
     }
 
 

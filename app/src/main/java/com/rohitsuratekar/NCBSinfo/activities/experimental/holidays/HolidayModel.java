@@ -1,6 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.activities.experimental.holidays;
 
-import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 import com.rohitsuratekar.NCBSinfo.utilities.DateConverters;
 
 import java.util.Date;
@@ -13,10 +12,12 @@ import java.util.Date;
 public class HolidayModel {
     String title;
     Date date;
+    int id;
 
-    public HolidayModel(String title, String date) {
+    public HolidayModel(String title, String date, String id) {
         this.title = title;
         this.date = new DateConverters().convertToDate(date);
+        this.id = Integer.parseInt(id);
     }
 
     public String getTitle() {
@@ -27,4 +28,7 @@ public class HolidayModel {
         return date;
     }
 
+    public int getId() {
+        return id;
+    }
 }

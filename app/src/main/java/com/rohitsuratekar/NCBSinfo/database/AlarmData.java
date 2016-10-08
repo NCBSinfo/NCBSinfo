@@ -32,8 +32,8 @@ public class AlarmData implements AlarmConstants {
     public static final String ALARM_DATE = "alarm_alarmDate"; //dd/MM/yyyy
 
 
-    SQLiteDatabase db;
-    Database database;
+    private SQLiteDatabase db;
+    private Database database;
     private Table alarmTable;
     private LinkedHashMap<String, Column> map;
 

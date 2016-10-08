@@ -44,7 +44,7 @@ public class HolidayFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.holiday_recyclerView);
 
         for (String[] s : new Holidays().HolidayList()) {
-            holidayList.add(new HolidayModel(s[0], s[1]));
+            holidayList.add(new HolidayModel(s[0], s[1], s[2]));
         }
 
 

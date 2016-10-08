@@ -1,11 +1,13 @@
 package com.rohitsuratekar.NCBSinfo.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -167,6 +169,27 @@ public class OfflineHome extends BaseActivity implements View.OnClickListener {
 
         changeTransport();
         runnable.run();
+
+        //Give warning about outdated transport
+        if (!pref.app().isOfflineNoticeSeen()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.warning_offline_notice))
+                    .setMessage(getString(R.string.warning_offline_notice_details))
+                    .setPositiveButton("Don't remind me again", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            pref.app().offlineNoticeSeen();
+                        }
+                    })
+                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .setIcon(R.drawable.icon_warning)
+                    .show();
+        }
+
     }
 
     private Handler handler = new Handler();

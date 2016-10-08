@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class LectureHallsList {
     public ArrayList<String[]> listHalls() {
         ArrayList<String[]> LectureList = new ArrayList<String[]>();
+        LectureList.add(new String[]{"Annex", "Meeting Room", "Admin Block", "Second Floor", "Director's Office", "Meeting Room"});
         LectureList.add(new String[]{"Axon", "VC Room", "Admin Block", "Second Floor", "Inside Dean's Office", "Video Confenerce Room"});
         LectureList.add(new String[]{"Banganapalli", "Old Teaching Lab", "Admin Block", "Basement", "Below Account Section", "Teaching Lab"});
         LectureList.add(new String[]{"Bleb", "GF Meeting Room", "Admin Block", "Ground Floor", "In front of Account Section", "Meeting Room"});
@@ -18,7 +19,6 @@ public class LectureHallsList {
         LectureList.add(new String[]{"Chloroplast", "S-03 Seminar Hall", "Eastern Labs", "Second Floor", "Next to Sowdhamini's Lab", "Seminar Hall"});
         LectureList.add(new String[]{"Cilium", "FF Meeting Room", "Admin Block", "First Floor", "Next to Architect office", "Meeting Room"});
         LectureList.add(new String[]{"Dasheri", "200 Seater", "Southern Labs", "Ground Floor", "Towards Reception", "Auditorium"});
-        LectureList.add(new String[]{"Annex", "Meeting Room", "Admin Block", "Second Floor", "Director's Office", "Meeting Room"});
         LectureList.add(new String[]{"Endosome", "SLCFF Seminar Hall", "Southern Labs", "First Floor", "Towards Canteen", "Seminar Hall"});
         LectureList.add(new String[]{"Faculty Lounge", "Faculty Lounge", "Southern Labs", "Second Floor", "Towards Reception", "Meeting Room"});
         LectureList.add(new String[]{"Golgi", "S-02 Seminar Hall", "Eastern Labs", "First Floor", "In front of Jayant's Lab", "Seminar Hall"});
@@ -29,11 +29,13 @@ public class LectureHallsList {
         LectureList.add(new String[]{"Meeting room (Admin) ", "Meeting room (Admin) ", "Admin Block", "Third Floor", "RDO", "Meeting Room"});
         LectureList.add(new String[]{"Mitochondrion", "SLCSF Seminal Hall", "Southern Labs", "Second Floor", "Towards Canteen", "Seminar Hall"});
         LectureList.add(new String[]{"Nucleus", "S-01 Seminar Hall", "Eastern Labs", "Ground Floor", "Next to Lab Support", "Seminar Hall"});
+        LectureList.add(new String[]{"Plasmid", "15 seater", "Eastern Labs", "Second Floor", "Near Fly Facility", "Open Air Meeting Space"});
         LectureList.add(new String[]{"Raspuri", "New Teaching Lab", "Southern Labs", "Ground Floor", "Next to tennis court", "Teaching Lab"});
         LectureList.add(new String[]{"Ribosome", "GF Seminar Hall", "CCAMP Building", "Ground Floor", "N/A", "Seminar Hall"});
         LectureList.add(new String[]{"Safeda", "40 Seater", "Southern Labs", "Second Floor", "Towards Canteen", "Auditorium"});
         LectureList.add(new String[]{"Synapse", "SLCGF Seminar Hall", "Southern Labs", "Ground Floor", "Towards Canteen", "Seminar Hall"});
-        LectureList.add(new String[]{"Vesicle", "Oases", "Eastern Labs", "First Floor", "In front of CBI counter", "Seminar Hall"});
+        LectureList.add(new String[]{"Vacuole", "15 seater", "Eastern Labs", "Second Floor", "Near Collection Room", "Open Air Meeting Space"});
+        LectureList.add(new String[]{"Vesicle", "Oases", "Eastern Labs", "First Floor", "In front of CBI counter", "pen Air Meeting Space"});
         return LectureList;
     }
 }

@@ -8,6 +8,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
 import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
+import com.rohitsuratekar.NCBSinfo.database.TalkData;
 import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
 
 /**
@@ -48,6 +49,9 @@ public class FireBaseMessage extends FirebaseMessagingService implements Network
                     break;
                 case fcmTriggers.RESET_NETWORK_LIMIT:
                     new Preferences(getBaseContext()).app().resetNetworkLimit();
+                    break;
+                case fcmTriggers.RESET_EVENTS:
+                    new TalkData(getBaseContext()).clearAll();
                     break;
             }
         } else {

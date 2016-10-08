@@ -28,6 +28,8 @@ public class App implements AppConstants {
     String OPEN_COUNT = "openCount";
     String NOTIFICATION_OPENED = "notificationOpened";
     String LAST_EVENT_SYNC = "lastEventSync";
+    String IS_HOLIDAY_SENT = "isHolidayNoteSent_";
+    String OFFLINE_NOTICE = "offline_notice";
 
     protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -175,5 +177,29 @@ public class App implements AppConstants {
     public void setLastEventSync(String timestamp) {
         pref.edit().putString(LAST_EVENT_SYNC, timestamp).apply();
     }
+
+    //Following methods are needed because inexact alarms were triggering multiple times per day
+    public boolean isHolidayNotificationSent(int id) {
+        String temp1 = pref.getString(IS_HOLIDAY_SENT + String.valueOf(id), "false");
+        if (temp1.equals("true") && id > 0) {
+            if (pref.getString(IS_HOLIDAY_SENT + String.valueOf(id - 1), "false").equals("true")) {
+                pref.edit().remove(IS_HOLIDAY_SENT + String.valueOf(id - 1)).apply();
+            }
+        }
+        return temp1.equals("true");
+    }
+
+    public void holidayNotificationSent(int id) {
+        pref.edit().putString(IS_HOLIDAY_SENT + String.valueOf(id), "true").apply();
+    }
+
+    public void offlineNoticeSeen() {
+        pref.edit().putBoolean(OFFLINE_NOTICE, true).apply();
+    }
+
+    public boolean isOfflineNoticeSeen() {
+        return pref.getBoolean(OFFLINE_NOTICE, false);
+    }
+
 
 }

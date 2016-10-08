@@ -16,6 +16,7 @@ import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmIDs;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.alarms.AlarmsHelper;
 import com.rohitsuratekar.NCBSinfo.constants.AlarmConstants;
+import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
 import com.rohitsuratekar.NCBSinfo.constants.NetworkConstants;
 import com.rohitsuratekar.NCBSinfo.database.AlarmData;
 import com.rohitsuratekar.NCBSinfo.database.ContactsData;
@@ -162,6 +163,13 @@ public class ServiceCentre extends IntentService implements AlarmIDs, AlarmConst
             pref.app().setAppVersionName(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+        }
+        if (pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
+            //Reset Transport values
+            //This is needed because offline mode will not update already recorded values
+            Intent transport = new Intent(ServiceCentre.this, TransportHandler.class);
+            transport.putExtra(TransportHandler.INTENT, TransportHandler.RESET);
+            startService(transport);
         }
         Intent service = new Intent(ServiceCentre.this, DataManagement.class);
         service.putExtra(DataManagement.INTENT, DataManagement.SEND_FIREBASEDATA);
