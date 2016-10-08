@@ -12,3 +12,4 @@ app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces/NetworkConstants.java
 app/app-release.apk
 *.keystore
 *.jks
+projectFilesBackup/.idea/workspace.xml

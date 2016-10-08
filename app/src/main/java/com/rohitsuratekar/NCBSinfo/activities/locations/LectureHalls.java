@@ -107,8 +107,8 @@ public class LectureHalls extends BaseActivity {
 
     }
 
-    ArrayList<String> groupItem = new ArrayList<String>();
-    ArrayList<Object> childItem = new ArrayList<Object>();
+    ArrayList<String> groupItem = new ArrayList<>();
+    ArrayList<Object> childItem = new ArrayList<>();
 
     public void setGroupData() {
 
@@ -116,7 +116,7 @@ public class LectureHalls extends BaseActivity {
         ArrayList<String> child;
 
         for (int i = 0; i < temparray.size(); i++) {
-            child = new ArrayList<String>();
+            child = new ArrayList<>();
             groupItem.add("<b>" + temparray.get(i)[0] + "</b><small> (" + temparray.get(i)[1] + ")</small>");
             child.add(temparray.get(i)[3] + " , " + temparray.get(i)[2]);
             child.add("<small>" + temparray.get(i)[4] + "</small>");

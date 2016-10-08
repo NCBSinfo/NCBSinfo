@@ -40,6 +40,7 @@ public interface NetworkConstants {
         String DEBUG = "debug";
         String SEND_STATS = "SendStats";
         String RESET_NETWORK_LIMIT = "ResetNetworkLimit";
+        String RESET_EVENTS = "ResetEvents";
     }
 
     //Google Form Links

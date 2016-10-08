@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -28,14 +29,13 @@ public class Database extends SQLiteOpenHelper {
 
     private int mOpenCounter;
 
-    private SQLiteDatabase mDatabase;
+    public SQLiteDatabase mDatabase;
 
 
     public static synchronized Database getInstance(Context context) {
         if (instance == null) {
             instance = new Database(context.getApplicationContext());
         }
-
         return instance;
     }
 
@@ -48,7 +48,7 @@ public class Database extends SQLiteOpenHelper {
         return mDatabase;
     }
 
-    public synchronized void closeDatabase() {
+    synchronized void closeDatabase() {
         mOpenCounter--;
         if (mOpenCounter == 0) {
             // Closing database
@@ -67,29 +67,16 @@ public class Database extends SQLiteOpenHelper {
         TalkData.makeTable(db);
     }
 
-    //No "break" statements are given to upgrade database serials
+    //Upgrade will take time, hence don't use database synchronized objects here
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion > 4) {
-            switch (oldVersion) {
-                case 5:
-                    NotificationData.makeTable(db);
-                    TalkData.makeTable(db);
-                    db.execSQL("DROP TABLE IF EXISTS 'table_log'"); //Removing log table from this version
-                    db.execSQL("DROP TABLE IF EXISTS 'table_database'"); //Removing JC database table from this version
-                    db.execSQL("DROP TABLE IF EXISTS 'table_external'"); //Removing External database table from this version
-                    db.execSQL("DROP TABLE IF EXISTS 'table_talkdata'"); //Removing Old talk table
-                case 6:
-                    ContactsData.makeTable(db);
-                case 7:
-                    db.execSQL("DROP TABLE IF EXISTS 'table_conference'"); //Removing conference table from this version
-            }
-        }
         //Remove support from previous databases
-        else {
-            dropAll();
-            onCreate(db);
-        }
+        Log.i("Database Tag", "Database upgrade started");
+        db.execSQL("DROP TABLE IF EXISTS " + ContactsData.TABLE_CONTACTS);
+        db.execSQL("DROP TABLE IF EXISTS " + AlarmData.TABLE_ALARMS);
+        db.execSQL("DROP TABLE IF EXISTS " + NotificationData.TABLE_NOTIFICATIONS);
+        db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_TALK);
+        onCreate(db);
     }
 
 

@@ -10,11 +10,9 @@ import com.secretbiology.helpers.general.General;
  */
 public class DataBuilder {
 
-    Preferences pref;
-    Context context;
+    private Preferences pref;
 
     public DataBuilder(Context context) {
-        this.context = context;
         this.pref = new Preferences(context);
     }
 

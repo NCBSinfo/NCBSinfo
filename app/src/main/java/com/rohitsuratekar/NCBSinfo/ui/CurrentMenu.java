@@ -72,7 +72,7 @@ public class CurrentMenu implements AlarmConstants {
         return true;
     }
 
-    public void getAction(int resourceID, final Activity activity) {
+    void getAction(int resourceID, final Activity activity) {
 
         switch (resourceID) {
             case R.id.action_clear_events:

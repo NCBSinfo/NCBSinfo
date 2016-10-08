@@ -19,6 +19,7 @@
 -keepattributes *Annotation*
 # Add this global rule
 -keepattributes Signature
+-keepattributes EnclosingMethod
 -keep class sun.misc.Unsafe { *; }
 -keep class com.secretbiology.retro.google.** { *; }
 -keep class com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}

@@ -4,7 +4,7 @@
     <string name="no_internet">Please check your internet connection.</string>
 
     <string name="warning_offline_notice">You are in the OFFLINE mode</string>
-    <string name="warning_offline_notice_details">Transport timings were last updated on Engineers\' day (15 September 2016).
+    <string name="warning_offline_notice_details">Transport timings were last updated on 24 September 2016.
         Any recent changes in transport timings will not reflect in the Offline mode.</string>
     <string name="warning_online">Online mode</string>
     <string name="warning_online_details">This mode will require internet connection. You will be able to access the full features
