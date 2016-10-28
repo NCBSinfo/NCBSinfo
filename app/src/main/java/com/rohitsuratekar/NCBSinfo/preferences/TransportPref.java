@@ -18,15 +18,15 @@ import com.rohitsuratekar.NCBSinfo.utilities.Converters;
 public class TransportPref {
 
     private final String TAG = getClass().getSimpleName();
-    SharedPreferences pref;
-    Context context;
+    private SharedPreferences pref;
+    private Context context;
 
-    String LAST_UPDATE = "transportLastUpdated";
-    String REMINDER_DIALOG = "reminderDialog";
-    String BUGGY1_NCBS = "b1_from_ncbs";
-    String BUGGY2_NCBS = "b2_from_ncbs";
-    String BUGGY1_MANDARA = "b1_from_mandara";
-    String BUGGY2_MANDARA = "b2_from_mandara";
+    private String LAST_UPDATE = "transportLastUpdated";
+    private String REMINDER_DIALOG = "reminderDialog";
+    private String BUGGY1_NCBS = "b1_from_ncbs";
+    private String BUGGY2_NCBS = "b2_from_ncbs";
+    private String BUGGY1_MANDARA = "b1_from_mandara";
+    private String BUGGY2_MANDARA = "b2_from_mandara";
 
     protected TransportPref(SharedPreferences pref, Context context) {
         this.pref = pref;

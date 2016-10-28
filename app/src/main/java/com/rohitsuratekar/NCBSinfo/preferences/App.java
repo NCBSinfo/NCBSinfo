@@ -14,22 +14,22 @@ import java.util.Calendar;
  */
 public class App implements AppConstants {
 
-    SharedPreferences pref;
-    Context context;
+    private SharedPreferences pref;
+    private Context context;
     //int NETWORK_LIMIT = 100;
-    String APP_MODE = "app_mode";
-    String APP_VERSION = "latestAppVersion";
-    String APP_VERSION_NAME = "latestAppVersionName";
-    String APP_OPEN = "firstTimeAppOpen_v29"; //Changed from Version 29
-    String APP_OPEN_LAST_VERSIONS = "firstTimeAppOpen_01July"; //Used in previous version
-    String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
-    String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents"; //Only for newly registered users
-    String LAST_LOGIN = "lastLogin";
-    String OPEN_COUNT = "openCount";
-    String NOTIFICATION_OPENED = "notificationOpened";
-    String LAST_EVENT_SYNC = "lastEventSync";
-    String IS_HOLIDAY_SENT = "isHolidayNoteSent_";
-    String OFFLINE_NOTICE = "offline_notice";
+    private String APP_MODE = "app_mode";
+    private String APP_VERSION = "latestAppVersion";
+    private String APP_VERSION_NAME = "latestAppVersionName";
+    private String APP_OPEN = "firstTimeAppOpen_v29"; //Changed from Version 29
+    private String APP_OPEN_LAST_VERSIONS = "firstTimeAppOpen_01July"; //Used in previous version
+    private String CANCELED_PAST_ALARMS = "cancelledPastAlarms";
+    private String FIRST_NOTIFICATION_EVENTS = "sendFirstNotificationEvents"; //Only for newly registered users
+    private String LAST_LOGIN = "lastLogin";
+    private String OPEN_COUNT = "openCount";
+    private String NOTIFICATION_OPENED = "notificationOpened";
+    private String LAST_EVENT_SYNC = "lastEventSync";
+    private String IS_HOLIDAY_SENT = "isHolidayNoteSent_";
+    private String OFFLINE_NOTICE = "offline_notice";
 
     protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -159,8 +159,8 @@ public class App implements AppConstants {
         return pref.getInt(networkCount, 0);
     }
 
-    String networkDateStamp = "networkDateStamp";
-    String networkCount = "netwrokCount";
+    private String networkDateStamp = "networkDateStamp";
+    private String networkCount = "netwrokCount";
 
     private int lastDate() {
         return pref.getInt(networkDateStamp, Calendar.getInstance().get(Calendar.DAY_OF_YEAR));

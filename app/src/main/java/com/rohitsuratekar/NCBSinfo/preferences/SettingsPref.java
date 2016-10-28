@@ -10,14 +10,14 @@ import android.content.SharedPreferences;
  */
 public class SettingsPref {
 
-    SharedPreferences pref;
-    Context context;
-    String SUMMARY_DEFAULT_ROUTE = "summaryDefaultRoute";
-    String SUMMARY_HURRY_UP = "summaryHurryUp";
-    String EVENT_NOTIFICATION = "eventNotificationPref";
-    String IMPORTANT_NOTIFICATION = "importantNotificationPref";
-    String EMERGENCY_NOTIFICATION = "emergencyNotificationPref";
-    String DEVELOPERS = "developersOptions";
+    private SharedPreferences pref;
+    private Context context;
+    private String SUMMARY_DEFAULT_ROUTE = "summaryDefaultRoute";
+    private String SUMMARY_HURRY_UP = "summaryHurryUp";
+    private String EVENT_NOTIFICATION = "eventNotificationPref";
+    private String IMPORTANT_NOTIFICATION = "importantNotificationPref";
+    private String EMERGENCY_NOTIFICATION = "emergencyNotificationPref";
+    private String DEVELOPERS = "developersOptions";
 
     protected SettingsPref(SharedPreferences pref, Context context) {
         this.pref = pref;
