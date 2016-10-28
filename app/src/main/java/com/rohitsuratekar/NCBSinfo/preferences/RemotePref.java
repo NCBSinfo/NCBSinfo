@@ -16,16 +16,16 @@ public class RemotePref {
 
     private final String TAG = this.getClass().getSimpleName();
 
-    String LAST_ACCESS = "remoteLastAccess";
-    String LAST_DATA_SYNC = "firebaseLastSync";
-    String LATEST_APP = "latestApp";
-    String MESSAGE = "remoteMessage";
-    String OLD_FIREBASE_DELETED = "remoteOldDeleted";
-    String REGISTRATION_DETAILS_SENT = "registrationSent";
+    private String LAST_ACCESS = "remoteLastAccess";
+    private String LAST_DATA_SYNC = "firebaseLastSync";
+    private String LATEST_APP = "latestApp";
+    private String MESSAGE = "remoteMessage";
+    private String OLD_FIREBASE_DELETED = "remoteOldDeleted";
+    private String REGISTRATION_DETAILS_SENT = "registrationSent";
 
 
-    SharedPreferences pref;
-    Context context;
+    private SharedPreferences pref;
+    private Context context;
 
     protected RemotePref(SharedPreferences pref, Context c) {
         this.pref = pref;

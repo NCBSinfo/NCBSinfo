@@ -11,8 +11,8 @@ import android.preference.PreferenceManager;
  */
 public class Preferences {
 
-    Context context;
-    SharedPreferences pref;
+    private Context context;
+    private SharedPreferences pref;
 
 
     public Preferences(Context context) {

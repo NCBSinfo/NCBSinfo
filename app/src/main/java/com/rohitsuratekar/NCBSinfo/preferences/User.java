@@ -12,19 +12,19 @@ import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
  */
 public class User implements AppConstants {
 
-    SharedPreferences pref;
-    Context context;
-    String CURRENT_USER = "currentUsername";
-    String CURRENT_EMAIL = "currentEmail";
-    String REGISTERED = "registeredUser";
-    String FIREBASE_TOKEN = "firebaseRegistrationToken";
-    String USER_TYPE = "userType";
-    String DEFAULT_ROUTE = "defaultRoute";
-    String NOTIFICATIONS = "notification_preference";
-    String NOTIFICANTION_ONSET = "pref_notificationOnset";
-    String FIREBASE_ID = "fireBaseID";
-    String NUMBER_OF_EVENTS = "numberOfEventsToKeep";
-    String HURRY_UP_TIME = "hurryUp_Time";
+    private SharedPreferences pref;
+    private Context context;
+    private String CURRENT_USER = "currentUsername";
+    private String CURRENT_EMAIL = "currentEmail";
+    private String REGISTERED = "registeredUser";
+    private String FIREBASE_TOKEN = "firebaseRegistrationToken";
+    private String USER_TYPE = "userType";
+    private String DEFAULT_ROUTE = "defaultRoute";
+    private String NOTIFICATIONS = "notification_preference";
+    private String NOTIFICANTION_ONSET = "pref_notificationOnset";
+    private String FIREBASE_ID = "fireBaseID";
+    private String NUMBER_OF_EVENTS = "numberOfEventsToKeep";
+    private String HURRY_UP_TIME = "hurryUp_Time";
 
     protected User(SharedPreferences pref, Context context) {
         this.pref = pref;
