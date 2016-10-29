@@ -9,8 +9,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 40
-        versionName "5.7.2"
+        versionCode 41
+        versionName "6.0.0"
 
     }
     buildTypes {
@@ -29,6 +29,8 @@ android {
             keyPassword project.property("MyApp.signing.password")
         }
     }
+
+    return void
 }
 
 dependencies {
