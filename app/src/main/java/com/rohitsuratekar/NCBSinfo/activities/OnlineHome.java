@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.events.Events;
 import com.rohitsuratekar.NCBSinfo.activities.experimental.Experimental;
+import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapActivity;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
@@ -169,6 +172,22 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
             }
         });
 
+        //Give warning about step down
+        if (!pref.app().isStepDownShown()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Important Notice")
+                    .setMessage("Unfortunately we are stopping further development and support of this app. As a step down process, from this version we are removing all experimental features including Canteen and Holidays.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            pref.app().stepDownShown();
+                        }
+                    })
+                    .setCancelable(false)
+                    .setIcon(R.drawable.icon_warning)
+                    .show();
+        }
+
 
         changeTransport();
         changeTransport();
@@ -267,7 +286,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                 new MapHelper(getBaseContext()).updateMapContents(googleMap, transport);
                 break;
             case R.id.home_icon_experimental:
-                startActivity(new Intent(this, Experimental.class));
+                startActivity(new Intent(this, LectureHalls.class));
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 break;
             case R.id.home_icon_updates:
