@@ -93,14 +93,18 @@ public class EventsListFragment extends Fragment {
             }
         });
 
-        if (refined_list.size() == 0) {
+        /*if (refined_list.size() == 0) {
             recyclerView.setVisibility(View.GONE);
             blankLayout.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             blankLayout.setVisibility(View.GONE);
 
-        }
+        }*/
+        //This is to remove event update scheme
+        recyclerView.setVisibility(View.GONE);
+        blankLayout.setVisibility(View.VISIBLE);
+
 
         return rootView;
     }
