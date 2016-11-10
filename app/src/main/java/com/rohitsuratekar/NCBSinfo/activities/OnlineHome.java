@@ -176,7 +176,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
         if (!pref.app().isStepDownShown()) {
             new AlertDialog.Builder(this)
                     .setTitle("Important Notice")
-                    .setMessage("Unfortunately we are stopping further development and support of this app. As a step down process, from this version we are removing all experimental features including Canteen and Holidays.")
+                    .setMessage("Stage 2 : From the current version, events updates function will be discontinued.")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

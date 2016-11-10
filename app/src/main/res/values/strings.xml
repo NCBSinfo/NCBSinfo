@@ -131,7 +131,7 @@
     <string name="action_clear_notifications">Clear all notifications</string>
     <string name="action_reset_preference">Reset all preferences</string>
 
-    <string name="events_empty">No further events can be retrieved!\nwe will update you soon :)</string>
+    <string name="events_empty">Unfortunately, this function is discontinued from version 6.0.1 </string>
     <string name="holiday_tomorrow">Tomorrow is NCBS holiday. Transport and Canteen timings might change.</string>
 
     <string name="dashboard_name">@string/name</string>
