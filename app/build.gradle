@@ -9,8 +9,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 42
-        versionName "6.0.1"
+        versionCode 43
+        versionName "6.0.2"
 
     }
     buildTypes {

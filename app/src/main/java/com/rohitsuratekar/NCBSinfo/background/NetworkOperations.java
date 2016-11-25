@@ -84,7 +84,8 @@ public class NetworkOperations extends IntentService implements NetworkConstants
                     userRegistration();
                     break;
                 case RESEARCH_TALKS:
-                    researchTalk();
+                    //TODO : Removing unnecessary network call for event updates
+                    // researchTalk();
                     break;
                 case ALL_DATA:
                     fetchAllData();
@@ -264,7 +265,8 @@ public class NetworkOperations extends IntentService implements NetworkConstants
 
     public void fetchAllData() {
 
-        researchTalk();
+        //TODO: Removed network operation
+        //  researchTalk();
         remoteData();
 
     }
