@@ -1,6 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
-import com.rohitsuratekar.NCBSinfo.activities.events.Events;
-import com.rohitsuratekar.NCBSinfo.activities.experimental.Experimental;
 import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapActivity;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapHelper;
@@ -182,6 +178,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                 gotoPlaySTore();
             }
         });
+        icon_updates.setAlpha((float) 0.5);
 
     }
 
