@@ -72,7 +72,9 @@ public class CurrentNavigationDrawer {
         navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, false);
         navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_login, false);
         navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_transport, false);
+        //Removing Events and experimental features
         navigationView.getMenu().removeItem(R.id.nav_experimental);
+        navigationView.getMenu().removeItem(R.id.nav_events);
     }
 
     //Offline mode
@@ -98,7 +100,7 @@ public class CurrentNavigationDrawer {
             name.setText(pref.user().getName());
             email.setText(pref.user().getEmail());
         }
-       // navigationView.getMenu().removeItem(R.id.nav_offline_location);
+        // navigationView.getMenu().removeItem(R.id.nav_offline_location);
         navigationView.getMenu().findItem(R.id.nav_change_mode).setIcon(R.drawable.icon_wifi_on);
     }
 
@@ -113,7 +115,7 @@ public class CurrentNavigationDrawer {
                 }
                 break;
             case EXPERIMENTAL:
-               // navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
+                // navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                 break;
             case LOGIN:
                 setOffline();
@@ -129,7 +131,7 @@ public class CurrentNavigationDrawer {
                 if (pref.app().getMode().equals(AppConstants.modes.OFFLINE)) {
                     navigationView.getMenu().findItem(R.id.nav_offline_location).setChecked(true);
                 } else {
-                   // navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
+                    // navigationView.getMenu().setGroupVisible(R.id.nav_subgroup_experimental, true);
                     navigationView.getMenu().findItem(R.id.nav_offline_location).setChecked(true);
                 }
                 break;

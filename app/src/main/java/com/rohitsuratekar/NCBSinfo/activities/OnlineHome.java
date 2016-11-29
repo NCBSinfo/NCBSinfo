@@ -172,23 +172,6 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
             }
         });
 
-        //Give warning about step down
-        if (!pref.app().isStepDownShown()) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Important Notice")
-                    .setMessage("Stage 2 : From the current version, events updates function will be discontinued.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            pref.app().stepDownShown();
-                        }
-                    })
-                    .setCancelable(false)
-                    .setIcon(R.drawable.icon_warning)
-                    .show();
-        }
-
-
         changeTransport();
         changeTransport();
         runnable.run();
@@ -290,8 +273,9 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 break;
             case R.id.home_icon_updates:
-                startActivity(new Intent(this, Events.class));
-                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                Toast.makeText(getBaseContext(), getString(R.string.events_empty), Toast.LENGTH_LONG).show();
+                //startActivity(new Intent(this, Events.class));
+                //overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 break;
             case R.id.home_icon_transport:
                 Intent i1 = new Intent(this, Transport.class);
