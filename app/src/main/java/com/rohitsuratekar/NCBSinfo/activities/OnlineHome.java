@@ -25,8 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
-import com.rohitsuratekar.NCBSinfo.activities.events.Events;
-import com.rohitsuratekar.NCBSinfo.activities.experimental.Experimental;
+import com.rohitsuratekar.NCBSinfo.activities.locations.LectureHalls;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapActivity;
 import com.rohitsuratekar.NCBSinfo.activities.maps.MapHelper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Routes;
@@ -169,7 +168,6 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
             }
         });
 
-
         changeTransport();
         changeTransport();
         runnable.run();
@@ -180,6 +178,7 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                 gotoPlaySTore();
             }
         });
+        icon_updates.setAlpha((float) 0.5);
 
     }
 
@@ -267,12 +266,13 @@ public class OnlineHome extends BaseActivity implements OnMapReadyCallback, Goog
                 new MapHelper(getBaseContext()).updateMapContents(googleMap, transport);
                 break;
             case R.id.home_icon_experimental:
-                startActivity(new Intent(this, Experimental.class));
+                startActivity(new Intent(this, LectureHalls.class));
                 overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 break;
             case R.id.home_icon_updates:
-                startActivity(new Intent(this, Events.class));
-                overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                Toast.makeText(getBaseContext(), getString(R.string.events_empty), Toast.LENGTH_LONG).show();
+                //startActivity(new Intent(this, Events.class));
+                //overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
                 break;
             case R.id.home_icon_transport:
                 Intent i1 = new Intent(this, Transport.class);

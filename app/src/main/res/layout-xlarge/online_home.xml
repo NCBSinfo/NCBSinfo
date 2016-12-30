@@ -257,13 +257,13 @@
                         android:id="@+id/home_icon_experimental"
                         android:layout_width="100sp"
                         android:layout_height="100sp"
-                        android:src="@drawable/icon_experimental" />
+                        android:src="@drawable/icon_lecturehall" />
 
                     <TextView
                         android:id="@+id/textView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/experimental"
+                        android:text="@string/lecture_hall"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textSize="30sp" />
                 </LinearLayout>

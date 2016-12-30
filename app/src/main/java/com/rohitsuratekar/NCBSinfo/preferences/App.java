@@ -30,6 +30,7 @@ public class App implements AppConstants {
     private String LAST_EVENT_SYNC = "lastEventSync";
     private String IS_HOLIDAY_SENT = "isHolidayNoteSent_";
     private String OFFLINE_NOTICE = "offline_notice";
+    private String STEP_DOWN_NOTICE2 = "step_down2";
 
     protected App(SharedPreferences pref, Context context) {
         this.pref = pref;
@@ -201,5 +202,12 @@ public class App implements AppConstants {
         return pref.getBoolean(OFFLINE_NOTICE, false);
     }
 
+    public boolean isStepDownShown() {
+        return pref.getBoolean(STEP_DOWN_NOTICE2, false);
+    }
+
+    public void stepDownShown() {
+        pref.edit().putBoolean(STEP_DOWN_NOTICE2, true).apply();
+    }
 
 }
