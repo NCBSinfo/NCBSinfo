@@ -13,3 +13,4 @@ app/app-release.apk
 *.keystore
 *.jks
 projectFilesBackup/.idea/workspace.xml
+app/src/androidTest/

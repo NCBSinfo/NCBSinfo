@@ -2,126 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rohitsuratekar.NCBSinfo">
 
-    <!-- Permissions -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_map" />
-
-        <uses-library android:name="com.google.android.maps" />
-
-        <activity
-            android:name=".Home"
-            android:theme="@style/HomeTheme" />
-
-        <!-- Activities -->
-        <activity android:name=".activities.OnlineHome" />
-        <activity android:name=".activities.OfflineHome" />
-        <activity android:name=".activities.transport.Transport" />
-        <activity android:name=".activities.transport.reminder.TransportReminder" />
-        <activity android:name=".activities.locations.LectureHalls" />
-        <activity android:name=".activities.events.Events" />
-        <activity android:name=".activities.dashboard.DashBoard" />
-        <activity android:name=".activities.experimental.Experimental" />
-        <activity android:name=".activities.contacts.ContactAdd" />
-        <activity android:name=".activities.login.ChangePassword" />
-        <activity android:name=".activities.experimental.holidays.Holidays" />
-        <activity android:name=".activities.canteen.Canteen" />
-        <activity
-            android:name=".activities.settings.PrivacyNotice"
-            android:theme="@style/HomeTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.activities.settings.Settings" />
-        </activity>
-        <activity
-            android:name=".activities.maps.MapActivity"
-            android:theme="@style/HomeTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.activities.OnlineHome" />
-        </activity>
-        <activity
-            android:name=".activities.settings.SettingsCommon"
-            android:theme="@style/HomeTheme" />
-        <activity
-            android:name=".activities.settings.eggs.snake.SnakeActivity"
-            android:theme="@style/HomeTheme" />
-        <activity
-            android:name=".activities.settings.Settings"
-            android:theme="@style/HomeTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.rohitsuratekar.NCBSinfo.Home" />
-        </activity>
-        <activity
-            android:name=".activities.contacts.Contacts"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.login.Registration"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".activities.login.Login"
-            android:windowSoftInputMode="stateHidden" />
-
-        <!-- Receivers and Services -->
-        <receiver android:name=".background.alarms.Alarms" />
-        <receiver android:name=".background.OnNetworkChanged">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".background.AfterBoot"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".background.OnUpgrade">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-
-                <data
-                    android:path="com.rohitsuratekar.NCBSinfo"
-                    android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".background.ServiceCentre" />
-        <service android:name=".background.NetworkOperations" />
-        <service android:name=".background.TransportHandler" />
-        <service android:name=".background.DataManagement" />
-        <service android:name=".background.FireBaseMessage">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".background.FireBaseID">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
