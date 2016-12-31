@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2016. Rohit Suratekar
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_main_group"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/icon_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_transport"
+            android:icon="@drawable/icon_transport"
+            android:title="@string/transport" />
+    </group>
+
+</menu>
