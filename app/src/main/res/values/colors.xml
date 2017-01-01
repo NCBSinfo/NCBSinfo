@@ -10,4 +10,6 @@
     <color name="colorLightText">#ffffff</color>
     <color name="colorDivider">#bdbdbd</color>
     <color name="colorFavorite">#f44336</color>
+
+    <color name="white">#ffffff</color>
 </resources>

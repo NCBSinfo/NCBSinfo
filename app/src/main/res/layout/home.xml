@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/home_layout">
 
 
     <ImageView
@@ -250,7 +251,7 @@
         fab:srcCompat="@drawable/icon_right" />
 
     <TextView
-        android:id="@+id/textView38"
+        android:id="@+id/hm_txt_pre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PRE"
@@ -279,7 +280,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView31" />
 
     <TextView
-        android:id="@+id/textView41"
+        android:id="@+id/hm_txt_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NXT"
@@ -318,8 +319,8 @@
         android:layout_marginStart="8dp"
         android:text="Show All"
         app:layout_constraintBottom_toBottomOf="@+id/hm_img_previous"
-        app:layout_constraintLeft_toRightOf="@+id/textView38"
-        app:layout_constraintRight_toLeftOf="@+id/textView41"
+        app:layout_constraintLeft_toRightOf="@+id/hm_txt_pre"
+        app:layout_constraintRight_toLeftOf="@+id/hm_txt_next"
         app:layout_constraintTop_toTopOf="@+id/hm_img_previous" />
 
 </android.support.constraint.ConstraintLayout>

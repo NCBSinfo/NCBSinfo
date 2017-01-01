@@ -84,8 +84,10 @@ public abstract class BaseActivity extends AppCompatActivity
             if (activity != null) {
                 startActivity(new Intent(this, activity.getCurrentClass()));
             }
+        } else {
+            drawer.closeDrawer(GravityCompat.START);
         }
-        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

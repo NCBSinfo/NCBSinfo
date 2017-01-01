@@ -5,15 +5,26 @@ public class TransportLocation {
     private String destination;
     private int icon;
     private boolean favorite;
+    private TransportType type;
 
     public TransportLocation() {
     }
 
-    public TransportLocation(String origin, String destination, int icon, boolean favorite) {
+
+    public TransportLocation(String origin, String destination, int icon, TransportType type, boolean favorite) {
+        this.type = type;
         this.origin = origin;
         this.destination = destination;
         this.icon = icon;
         this.favorite = favorite;
+    }
+
+    public TransportType getType() {
+        return type;
+    }
+
+    public void setType(TransportType type) {
+        this.type = type;
     }
 
     public boolean isFavorite() {
