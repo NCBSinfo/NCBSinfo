@@ -35,6 +35,7 @@ public class ConfirmDetailsFragment extends Fragment {
     private SelectFirstAdapter adapter;
     private List<String> items;
     int firstItem;
+    int spinnerItem;
     getConfirmation conf;
 
     @Nullable
@@ -66,6 +67,15 @@ public class ConfirmDetailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         firstItem = ((TransportEdit) getActivity()).getCurrentFirstTrip();
+        spinnerItem = ((TransportEdit) getActivity()).getCurrentSpinnerItem();
+
+        title.setText(getString(R.string.edit_transport_confirm_title,
+                getResources().getStringArray(R.array.transport_edit_options)[spinnerItem]).replace("Trips", ""));
+
+        subtitle.setText(getString(R.string.edit_transport_confirm_subtitle,
+                ((TransportEdit) getActivity()).getCurrentOrigin(),
+                ((TransportEdit) getActivity()).getCurrentDestination()));
+
         changeList();
     }
 
@@ -102,7 +112,7 @@ public class ConfirmDetailsFragment extends Fragment {
         }
     }
 
-    public interface getConfirmation{
+    public interface getConfirmation {
         public boolean isConfirmed(boolean isIt);
     }
 }

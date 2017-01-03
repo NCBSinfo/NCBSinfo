@@ -62,8 +62,8 @@
 
     <ImageView
         android:id="@+id/tp_fragment_empty_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
@@ -72,7 +72,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:srcCompat="@drawable/icon_navigation" />
+        app:srcCompat="@drawable/emo_sleep" />
 
     <TextView
         android:id="@+id/tp_fragment_trip_suggestions"

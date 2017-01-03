@@ -11,6 +11,10 @@
     <string name="next_transport">next %s</string>
     <string name="transport_edit">Edit Route</string>
 
+    <string name="edit_transport_confirm_title">Your new route for %s</string>
+    <string name="edit_transport_confirm_subtitle">From %1$s - %2$s</string>
+    <string name="edit_transport_select_day">You are about to change trips day to %s</string>
+
 
     <string-array name="transport_edit_options">
         <item>Week Days Trips</item>

@@ -53,6 +53,7 @@ public class AddTripsFragment extends Fragment {
     private List<String> items;
     private Calendar currentCalendar;
     sendDetails fragDetails;
+    private boolean startBoolean = true; //To avoid first select of spinner
 
     @Nullable
     @Override
@@ -78,11 +79,12 @@ public class AddTripsFragment extends Fragment {
             public void onItemClick(int position) {
                 items.remove(position);
                 adapter.notifyDataSetChanged();
-                fragDetails.setTripDetails(items);
+                fragDetails.setTripDetails(items, spinner.getSelectedItemPosition());
                 if (items.size() == 0) {
                     emptyIcon.setVisibility(View.VISIBLE);
                     fragDetails.areTripsDone(false);
                 }
+                giveSuggestions();
             }
         });
         adapter.editItem(new TripEditAdapter.editItem() {
@@ -121,7 +123,7 @@ public class AddTripsFragment extends Fragment {
                                     });
                                     adapter.addItem(temp);
                                     adapter.notifyDataSetChanged();
-                                    fragDetails.setTripDetails(items);
+                                    fragDetails.setTripDetails(items, spinner.getSelectedItemPosition());
                                 }
                             }
                         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
@@ -160,8 +162,9 @@ public class AddTripsFragment extends Fragment {
                                     });
                                     adapter.addItem(temp);
                                     adapter.notifyDataSetChanged();
-                                    fragDetails.setTripDetails(items);
+                                    fragDetails.setTripDetails(items, spinner.getSelectedItemPosition());
                                     fragDetails.areTripsDone(true);
+                                    giveSuggestions();
                                 }
                             }
                         }, currentCalendar.get(Calendar.HOUR_OF_DAY), currentCalendar.get(Calendar.MINUTE), false);
@@ -176,7 +179,11 @@ public class AddTripsFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("Spinner Item", position + "");
+                if (!startBoolean) {
+                    fragDetails.setSpinner(position);
+                } else {
+                    startBoolean = false;
+                }
             }
 
             @Override
@@ -212,11 +219,31 @@ public class AddTripsFragment extends Fragment {
         } else {
             emptyIcon.setVisibility(View.GONE);
         }
+        giveSuggestions();
+        spinner.setSelection(((TransportEdit) getActivity()).getCurrentSpinnerItem());
     }
 
     public interface sendDetails {
-        public List<String> setTripDetails(List<String> trips);
+
+        public List<String> setTripDetails(List<String> trips, int spinnerItem);
 
         public boolean areTripsDone(boolean isIt);
+
+        public int setSpinner(int spn);
+
+    }
+
+    private void giveSuggestions() {
+
+        switch (items.size()) {
+            case 0:
+                suggestions.setText(getString(R.string.sug_edit_transport_empty));
+                break;
+            case 1:
+                suggestions.setText(getString(R.string.sug_edit_transport_first_element));
+                break;
+            default:
+                suggestions.setText(getString(R.string.sug_edit_transport_second_element));
+        }
     }
 }

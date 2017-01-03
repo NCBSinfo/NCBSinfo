@@ -2,16 +2,20 @@ package com.rohitsuratekar.NCBSinfo.activities.transport.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
@@ -30,8 +34,8 @@ public class SelectFirstTripFragment extends Fragment {
     TextView note;
     @BindView(R.id.tp_fragment_select_first_recycler)
     RecyclerView recyclerView;
-    @BindView(R.id.tp_fragment_select_first_button)
-    Button changeDay;
+    @BindView(R.id.tp_fragment_select_first_icon)
+    ImageView icon;
 
     private SelectFirstAdapter adapter;
     private List<String> items;
@@ -45,6 +49,7 @@ public class SelectFirstTripFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         items = new ArrayList<>();
+        note.setText("");
 
         adapter = new SelectFirstAdapter(items, false);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
@@ -61,11 +66,10 @@ public class SelectFirstTripFragment extends Fragment {
             }
         });
 
-
         return rootView;
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(List<String> items, int spinnerItem) {
         this.items.clear();
         for (String s : items) {
             this.items.add(s);
@@ -74,6 +78,7 @@ public class SelectFirstTripFragment extends Fragment {
         if (items.size() == 0) {
             sendItem.isFirstTripSelected(false, firstTrip);
         }
+        setupLayout(spinnerItem);
     }
 
     public void setFirstTrip(int i) {
@@ -103,15 +108,29 @@ public class SelectFirstTripFragment extends Fragment {
         firstTrip = ((TransportEdit) getActivity()).getCurrentFirstTrip();
         adapter.itemSelected(firstTrip);
         adapter.notifyDataSetChanged();
+        setupLayout(((TransportEdit) getActivity()).getCurrentSpinnerItem());
         if (items.size() == 0) {
             sendItem.isFirstTripSelected(false, firstTrip);
         }
     }
 
+    public void setNote(int n) {
+        note.setText(getResources().getStringArray(R.array.transport_edit_options)[n]);
+    }
 
     public interface sendFirstItem {
         public int getFirstItem(int f);
 
         public boolean isFirstTripSelected(boolean isIt, int currentSelection);
+    }
+
+    private void setupLayout(int spin) {
+        if (items.size() == 0) {
+            icon.setVisibility(View.VISIBLE);
+            note.setText(getString(R.string.sug_edit_transport_skipped_trips));
+        } else {
+            icon.setVisibility(View.GONE);
+            note.setText(getResources().getStringArray(R.array.transport_edit_options)[spin]);
+        }
     }
 }

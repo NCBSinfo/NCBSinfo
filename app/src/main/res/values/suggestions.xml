@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sug_edit_transport_empty">Add some trips by clicking "Add Trip" button </string>
+    <string name="sug_edit_transport_first_element">You can add as many trips as you want</string>
+    <string name="sug_edit_transport_second_element">Select trip item for more options</string>
+
+    <string name="sug_edit_transport_skipped_trips">You can not skip step\nand\nexpect to find something here!</string>
+</resources>

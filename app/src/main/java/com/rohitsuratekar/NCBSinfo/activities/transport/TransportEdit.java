@@ -56,6 +56,7 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
     private int currentFirstTrip;
     private String currentOrigin;
     private String currentDestination;
+    private int currentSpinnerItem;
     private boolean[] allSteps = new boolean[]{false, false, false, false};
 
     @Override
@@ -64,6 +65,7 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
         ButterKnife.bind(this);
         currentTrips = new ArrayList<>();
         currentFirstTrip = -1;
+        currentSpinnerItem = 0;
         currentOrigin = "";
         currentDestination = "";
         final ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager());
@@ -72,6 +74,8 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
         adapter.addFragment(new SelectFirstTripFragment(), "Select Trip");
         adapter.addFragment(new ConfirmDetailsFragment(), "Confirm Details");
         viewPager.setAdapter(adapter);
+
+        //TODO: viewpager skipped items not working properly. Priority : low
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -123,9 +127,9 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
                     viewPager.setCurrentItem(currentPage);
 
                 } else {
-                    if(allSteps[0]&&allSteps[1]&&allSteps[2]&&allSteps[3]){
+                    if (allSteps[0] && allSteps[1] && allSteps[2] && allSteps[3]) {
                         startActivity(new Intent(TransportEdit.this, Home.class));
-                    }else {
+                    } else {
                         Toast.makeText(getBaseContext(), "Complete all steps to add new route", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -155,6 +159,10 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
             }
         });
 
+    }
+
+    public int getCurrentSpinnerItem() {
+        return currentSpinnerItem;
     }
 
     public List<String> getCurrentTrips() {
@@ -193,9 +201,9 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
     }
 
     @Override
-    public List<String> setTripDetails(List<String> trips) {
+    public List<String> setTripDetails(List<String> trips, int item) {
         SelectFirstTripFragment frag1 = (SelectFirstTripFragment) viewPager.getAdapter().instantiateItem(viewPager, 2);
-        frag1.setItems(trips);
+        frag1.setItems(trips, item);
         frag1.setFirstTrip(-1);
         this.currentFirstTrip = -1;
         this.currentTrips = trips;
@@ -210,6 +218,15 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
     }
 
     @Override
+    public int setSpinner(int spn) {
+        this.currentSpinnerItem = spn;
+        SelectFirstTripFragment frag1 = (SelectFirstTripFragment) viewPager.getAdapter().instantiateItem(viewPager, 2);
+        frag1.setNote(spn);
+        return 0;
+    }
+
+
+    @Override
     public int getFirstItem(int f) {
         ConfirmDetailsFragment frag1 = (ConfirmDetailsFragment) viewPager.getAdapter().instantiateItem(viewPager, 3);
         frag1.setFirstItem(f);
@@ -219,13 +236,14 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
 
     @Override
     public boolean isFirstTripSelected(boolean isIt, int f) {
-        if(isIt && f != -1) {
+        if (isIt && f != -1) {
             stepAdapter.isDone(2, true);
             allSteps[2] = true;
         } else {
             stepAdapter.isDone(2, false);
             allSteps[2] = false;
         }
+
         return false;
     }
 
@@ -233,6 +251,7 @@ public class TransportEdit extends BaseActivity implements AddLocationFragment.g
     public boolean isConfirmed(boolean isIt) {
         stepAdapter.isDone(3, true);
         allSteps[3] = true;
+        stepAdapter.notifyDataSetChanged();
         return false;
     }
 }
