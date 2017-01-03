@@ -16,7 +16,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.Home" />
-        <activity android:name=".activities.transport.Transport"></activity>
+        <activity android:name=".activities.transport.Transport" />
+        <activity
+            android:name=".activities.transport.TransportEdit"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 
 </manifest>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tp_select_layout"
+    android:layout_width="match_parent"
+    android:layout_height="30sp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/tp_sf_dot"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/icon_gps_off"
+        android:tint="@color/colorDivider"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tp_sf_bottom"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tp_sf_dot"
+        app:layout_constraintRight_toRightOf="@+id/tp_sf_dot"
+        app:layout_constraintTop_toBottomOf="@+id/tp_sf_dot"
+        app:srcCompat="@color/colorDivider" />
+
+    <ImageView
+        android:id="@+id/tp_sf_top"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:src="@color/colorDivider"
+        app:layout_constraintBottom_toTopOf="@+id/tp_sf_dot"
+        app:layout_constraintLeft_toLeftOf="@+id/tp_sf_dot"
+        app:layout_constraintRight_toRightOf="@+id/tp_sf_dot" />
+
+    <TextView
+        android:id="@+id/tp_sf_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/tp_sf_dot"
+        app:layout_constraintLeft_toRightOf="@+id/tp_sf_dot"
+        app:layout_constraintTop_toTopOf="@+id/tp_sf_dot" />
+
+    <ImageView
+        android:id="@+id/tp_sf_indicator_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tp_sf_text"
+        app:layout_constraintLeft_toRightOf="@+id/tp_sf_text"
+        app:layout_constraintTop_toTopOf="@+id/tp_sf_text"
+        app:srcCompat="@drawable/icon_left" />
+
+    <TextView
+        android:id="@+id/tp_sf_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="First Trip of Week"
+        app:layout_constraintBottom_toBottomOf="@+id/tp_sf_indicator_icon"
+        app:layout_constraintLeft_toRightOf="@+id/tp_sf_indicator_icon"
+        app:layout_constraintTop_toTopOf="@+id/tp_sf_indicator_icon" />
+
+</android.support.constraint.ConstraintLayout>

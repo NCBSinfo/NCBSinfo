@@ -11,6 +11,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.rohitsuratekar.NCBSinfo.R;
@@ -19,6 +20,8 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.adapters.TripAdapter;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.secretbiology.helpers.general.views.ScrollUpRecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,6 +48,17 @@ public class Transport extends BaseActivity {
     @BindView(R.id.tp_all_route_img)
     ImageView allRouteImg;
 
+    @BindView(R.id.tp_bottom_note)
+    TextView bottomNote;
+    @BindView(R.id.tp_next_day_text)
+    TextView nextDay;
+    @BindView(R.id.tp_previous_day_text)
+    TextView previousDay;
+    @BindView(R.id.tp_next_day)
+    ImageView nextDayImg;
+    @BindView(R.id.tp_previous_day)
+    ImageView previousDayImg;
+
     TripAdapter weekAdapter;
     TripAdapter sundayAdapter;
     TransportLocation currentRoute;
@@ -62,7 +76,15 @@ public class Transport extends BaseActivity {
         items.add("11:30 PM");
         items.add("11:30 PM");
         items.add("11:30 PM");
+        items.add("11:30 PM");
+        items.add("11:30 PM");
+        items.add("11:30 PM");
         currentRoute = new TransportLocation("NCBS", "IISC", R.drawable.iisc, TransportType.SHUTTLE, false);
+        bottomNote.setVisibility(View.INVISIBLE);
+       /* nextDay.setVisibility(View.INVISIBLE);
+        nextDayImg.setVisibility(View.INVISIBLE);
+        previousDay.setVisibility(View.INVISIBLE);
+        previousDayImg.setVisibility(View.INVISIBLE);*/
 
         weekAdapter = new TripAdapter(items, 2);
         sundayAdapter = new TripAdapter(items, 10);

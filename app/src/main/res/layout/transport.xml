@@ -22,28 +22,28 @@
         <com.secretbiology.helpers.general.views.ScrollUpRecyclerView
             android:id="@+id/tp_week_list"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tp_all_route_img"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/textView42" />
+            app:layout_constraintTop_toBottomOf="@+id/textView42"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tp_previous_day"
+            android:layout_marginBottom="8dp" />
 
         <com.secretbiology.helpers.general.views.ScrollUpRecyclerView
             android:id="@+id/tp_sunday_list"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tp_all_route_img"
             app:layout_constraintLeft_toLeftOf="@+id/guideline3"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView43" />
+            app:layout_constraintTop_toBottomOf="@+id/textView43"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tp_next_day_text"
+            android:layout_marginBottom="8dp" />
 
         <ImageView
             android:id="@+id/imageView20"
@@ -131,6 +131,58 @@
             app:layout_constraintLeft_toLeftOf="@+id/tp_all_route_img"
             app:layout_constraintRight_toRightOf="@+id/tp_all_route_img"
             app:layout_constraintTop_toTopOf="@+id/tp_all_route_img" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/icon_forward"
+            android:id="@+id/tp_next_day"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tp_all_route_img"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="32dp" />
+
+        <TextView
+            android:text="Saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tp_next_day_text"
+            app:layout_constraintTop_toTopOf="@+id/tp_next_day"
+            app:layout_constraintBottom_toBottomOf="@+id/tp_next_day"
+            app:layout_constraintRight_toLeftOf="@+id/tp_next_day"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/icon_rewind"
+            android:id="@+id/tp_previous_day"
+            android:layout_marginStart="32dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tp_all_route_img"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:text="Saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tp_previous_day_text"
+            app:layout_constraintBottom_toBottomOf="@+id/tp_previous_day"
+            app:layout_constraintTop_toTopOf="@+id/tp_previous_day"
+            android:layout_marginStart="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/tp_previous_day" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tp_bottom_note"
+            android:layout_marginStart="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tp_all_route_img"
+            android:layout_marginBottom="8dp" />
 
     </android.support.constraint.ConstraintLayout>
 </com.flipboard.bottomsheet.BottomSheetLayout>

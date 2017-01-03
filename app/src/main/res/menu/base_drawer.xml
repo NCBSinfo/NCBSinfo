@@ -15,6 +15,9 @@
             android:id="@+id/nav_transport"
             android:icon="@drawable/icon_transport"
             android:title="@string/transport" />
+        <item
+            android:id="@+id/nav_transport_edit"
+            android:title="@string/transport_edit"/>
     </group>
 
 </menu>

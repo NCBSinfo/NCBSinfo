@@ -6,6 +6,7 @@ package com.rohitsuratekar.NCBSinfo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -61,6 +62,16 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -80,12 +91,19 @@ public abstract class BaseActivity extends AppCompatActivity
             activityMap.put(c.getNavigationMenu(), c);
         }
         if (item.getItemId() != currentActivity.getNavigationMenu()) {
-            CurrentActivity activity = activityMap.get(item.getItemId());
+            final CurrentActivity activity = activityMap.get(item.getItemId());
             if (activity != null) {
-                startActivity(new Intent(this, activity.getCurrentClass()));
+                final Intent intent = new Intent(this, activity.getCurrentClass());
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }, 200);
+
+                drawer.closeDrawer(GravityCompat.START);
             }
-        } else {
-            drawer.closeDrawer(GravityCompat.START);
         }
 
         return true;

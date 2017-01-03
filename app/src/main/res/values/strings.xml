@@ -9,4 +9,18 @@
     <string name="shuttle">Shuttle</string>
     <string name="buggy">Buggy</string>
     <string name="next_transport">next %s</string>
+    <string name="transport_edit">Edit Route</string>
+
+
+    <string-array name="transport_edit_options">
+        <item>Week Days Trips</item>
+        <item>Sunday Trips</item>
+        <item>All Week Trips</item>
+        <item>Monday Trips</item>
+        <item>Tuesday Trips</item>
+        <item>Wednesday Trips</item>
+        <item>Thursday Trips</item>
+        <item>Friday Trips</item>
+        <item>Saturday Trips</item>
+    </string-array>
 </resources>

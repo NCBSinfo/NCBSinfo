@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="0dp"
+        app:srcCompat="@color/colorPrimary"
+        android:id="@+id/imageView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="100dp" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/tp_fragment_origin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:hint="From where transport is starting?"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:inputType="text" />
+
+    <TextView
+        android:text="origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        app:layout_constraintLeft_toLeftOf="@+id/tp_fragment_origin"
+        app:layout_constraintBottom_toTopOf="@+id/tp_fragment_origin"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:text="Basic information about new transport route"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAlignment="center"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/colorLightText"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView" />
+
+    <MultiAutoCompleteTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="What is the destination?"
+        android:id="@+id/tp_fragment_destination"
+        android:layout_marginStart="32dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/tp_fragment_origin"
+        android:inputType="text" />
+
+    <TextView
+        android:text="destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        app:layout_constraintLeft_toLeftOf="@+id/tp_fragment_destination"
+        app:layout_constraintBottom_toTopOf="@+id/tp_fragment_destination"
+        android:layout_marginBottom="8dp" />
+
+</android.support.constraint.ConstraintLayout>
