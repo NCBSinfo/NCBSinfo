@@ -7,9 +7,11 @@ package com.rohitsuratekar.NCBSinfo.ui;
 import android.app.Activity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
@@ -17,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportEdit;
 import com.secretbiology.helpers.general.General;
 
 
@@ -25,6 +29,7 @@ public class SetUpActivity {
     private static final String TAG = "SetUpActivity";
     private ColorScheme colorScheme;
     private Activity activity;
+    private NavigationView navigationView;
 
     public SetUpActivity(Activity activity, CurrentActivity currentActivity) {
         colorScheme = new ColorScheme(activity);
@@ -38,7 +43,7 @@ public class SetUpActivity {
             tabs.setVisibility(View.GONE);
         }
 
-        NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+        navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
         navigationView.inflateHeaderView(R.layout.base_header); //Header
         navigationView.inflateMenu(R.menu.base_drawer);
         View header = navigationView.getHeaderView(0);
@@ -59,6 +64,17 @@ public class SetUpActivity {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(General.getColor(activity, colorScheme.getPrimaryDark()));
         }
+        specialNavigation();
+    }
+
+    private void specialNavigation() {
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_transport_edit).setVisible(false);
+        if (activity.getClass().equals(Transport.class) || activity.getClass().equals(TransportEdit.class)) {
+            menu.findItem(R.id.nav_transport_edit).setVisible(true);
+        }
+
+
     }
 
 }

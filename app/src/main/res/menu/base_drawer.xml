@@ -17,7 +17,17 @@
             android:title="@string/transport" />
         <item
             android:id="@+id/nav_transport_edit"
-            android:title="@string/transport_edit"/>
+            android:title="@string/transport_edit" />
+
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/icon_contacts"
+            android:title="@string/contacts" />
+
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@drawable/icon_gps_on"
+            android:title="@string/locations" />
     </group>
 
 </menu>

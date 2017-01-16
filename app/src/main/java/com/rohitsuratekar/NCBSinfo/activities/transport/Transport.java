@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activities.transport;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -80,11 +81,11 @@ public class Transport extends BaseActivity {
         items.add("11:30 PM");
         items.add("11:30 PM");
         currentRoute = new TransportLocation("NCBS", "IISC", R.drawable.iisc, TransportType.SHUTTLE, false);
-        bottomNote.setVisibility(View.INVISIBLE);
-       /* nextDay.setVisibility(View.INVISIBLE);
+        // bottomNote.setVisibility(View.INVISIBLE);
+        nextDay.setVisibility(View.INVISIBLE);
         nextDayImg.setVisibility(View.INVISIBLE);
         previousDay.setVisibility(View.INVISIBLE);
-        previousDayImg.setVisibility(View.INVISIBLE);*/
+        previousDayImg.setVisibility(View.INVISIBLE);
 
         weekAdapter = new TripAdapter(items, 2);
         sundayAdapter = new TripAdapter(items, 10);
@@ -130,6 +131,15 @@ public class Transport extends BaseActivity {
                         allRoutes.dismissSheet();
                         weekAdapter.notifyDataSetChanged();
                         sundayAdapter.notifyDataSetChanged();
+                    }
+                });
+
+                final FloatingActionButton im = (FloatingActionButton) findViewById(R.id.tp_sheet_max);
+                im.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        im.setVisibility(View.GONE);
+                        allRoutes.expandSheet();
                     }
                 });
             }

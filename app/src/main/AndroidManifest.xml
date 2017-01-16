@@ -20,6 +20,8 @@
         <activity
             android:name=".activities.transport.TransportEdit"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".activities.contacts.Contacts" />
+        <activity android:name=".activities.locations.Locations"></activity>
     </application>
 
 </manifest>
