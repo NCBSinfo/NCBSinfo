@@ -15,13 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.Home" />
-        <activity android:name=".activities.transport.Transport" />
-        <activity
-            android:name=".activities.transport.TransportEdit"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity android:name=".activities.contacts.Contacts" />
-        <activity android:name=".activities.locations.Locations"></activity>
+        <activity android:name=".activities.home.Home" />
+        <activity android:name=".activities.transport.Transport"></activity>
     </application>
 
 </manifest>

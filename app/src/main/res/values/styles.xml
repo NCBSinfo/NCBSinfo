@@ -18,4 +18,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ColoredButton">
+        <item name="android:background">@drawable/ripple</item>
+        <item name="android:textColor">@color/colorLightText</item>
+    </style>
+
 </resources>

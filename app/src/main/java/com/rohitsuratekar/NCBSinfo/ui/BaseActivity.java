@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public Toolbar toolbar;
     private NavigationView navigationView;
+
     CurrentActivity currentActivity;
 
     @Override
@@ -41,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view); //Base navigation view
         navigationView.setNavigationItemSelectedListener(this);
+
         this.currentActivity = setUpActivity(); //Call this before using Current Activity
         new SetUpActivity(this, currentActivity);
 
@@ -51,24 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.base_menu, menu);
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (navigationView != null) {
-            navigationView.getMenu().findItem(currentActivity.getNavigationMenu()).setChecked(true);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -111,6 +95,26 @@ public abstract class BaseActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (navigationView != null) {
+            navigationView.getMenu().findItem(currentActivity.getNavigationMenu()).setChecked(true);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
     protected abstract CurrentActivity setUpActivity();
+
 
 }

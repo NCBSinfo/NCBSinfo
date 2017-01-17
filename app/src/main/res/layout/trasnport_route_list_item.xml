@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tp_bs_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="50sp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tp_bs_list_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="Mandara"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/tp_bs_list_origin"
+        app:layout_constraintLeft_toRightOf="@+id/tp_bs_list_origin"
+        app:layout_constraintTop_toTopOf="@+id/tp_bs_list_origin"
+        app:srcCompat="@drawable/icon_right_arrow"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/tp_bs_list_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Mandara"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tp_bs_list_origin"
+        app:layout_constraintLeft_toRightOf="@+id/imageView19"
+        tools:ignore="HardcodedText" />
+</android.support.constraint.ConstraintLayout>
