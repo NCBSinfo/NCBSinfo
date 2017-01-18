@@ -11,10 +11,6 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/icon_home"
             android:title="@string/home" />
-        <item
-            android:id="@+id/nav_transport"
-            android:icon="@drawable/icon_transport"
-            android:title="@string/transport" />
     </group>
 
 </menu>

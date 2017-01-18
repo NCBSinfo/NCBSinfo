@@ -21,13 +21,13 @@ public class SetUpActivity {
 
     private static final String TAG = "SetUpActivity";
 
-    public SetUpActivity(Activity activity, CurrentActivity currentActivity) {
+    public SetUpActivity(Activity activity, int layoutResource, String title, boolean tabsEnabled) {
         ViewStub viewStub = (ViewStub) activity.findViewById(R.id.base_view);
-        viewStub.setLayoutResource(currentActivity.getLayout());
+        viewStub.setLayoutResource(layoutResource);
         viewStub.inflate();
-        activity.setTitle(activity.getString(currentActivity.getName()));
+        activity.setTitle(title);
         TabLayout tabs = (TabLayout) activity.findViewById(R.id.tabs);
-        if (!currentActivity.isTabEnabled()) {
+        if (!tabsEnabled) {
             tabs.setVisibility(View.GONE);
         }
 

@@ -1,11 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
 /**
- * Created by Dexter on 10-01-2017.
+ * Created by Dexter on 17-01-2017.
  */
 
 public class SuggestionModel {
-
     private String details;
     private int icon;
 

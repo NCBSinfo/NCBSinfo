@@ -1,4 +1,6 @@
-package com.rohitsuratekar.NCBSinfo.database;
+package com.rohitsuratekar.NCBSinfo.database.models;
+
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class RouteModel {
     private String destination;
     private int day;
     private List<String> trips;
-    private String type;
+    private TransportType type;
     private String createdOn;
     private String modifiedOn;
     private String syncedOn;
@@ -17,23 +19,6 @@ public class RouteModel {
     private String databaseID;
     private String trigger;
     private String notes;
-
-    public RouteModel(int key, int route, String origin, String destination, int day, List<String> trips) {
-        this.key = key;
-        this.route = route;
-        this.origin = origin;
-        this.destination = destination;
-        this.day = day;
-        this.trips = trips;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public RouteModel() {
     }
@@ -84,6 +69,14 @@ public class RouteModel {
 
     public void setTrips(List<String> trips) {
         this.trips = trips;
+    }
+
+    public TransportType getType() {
+        return type;
+    }
+
+    public void setType(TransportType type) {
+        this.type = type;
     }
 
     public String getCreatedOn() {

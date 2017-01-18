@@ -9,30 +9,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.database.route.Route;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.Trips;
 
 import java.util.List;
 
 public class TransportRouteListAdapter extends RecyclerView.Adapter<TransportRouteListAdapter.MyViewHolder> {
 
-    public TransportRouteListAdapter(List<Route> items) {
+    public TransportRouteListAdapter(List<Trips> items) {
         this.entryList = items;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.trasnport_route_list_item, parent, false);
+                .inflate(R.layout.transport_route_list_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Route entry = entryList.get(position);
+        Trips entry = entryList.get(position);
         holder.origin.setText(entry.getOrigin().toUpperCase());
-        if (!entry.getType().toLowerCase().equals("shuttle")) {
-            holder.destination.setText(entry.getDestination().toUpperCase() + " ( " + entry.getType().toLowerCase() + " )");
+        if (!entry.getType().toString().toLowerCase().equals("shuttle")) {
+            holder.destination.setText(entry.getDestination().toUpperCase() + " ( " + entry.getType().toString().toLowerCase() + " )");
         } else {
             holder.destination.setText(entry.getDestination().toUpperCase());
         }
@@ -45,7 +45,7 @@ public class TransportRouteListAdapter extends RecyclerView.Adapter<TransportRou
     }
 
 
-    private List<Route> entryList;
+    private List<Trips> entryList;
     View currentview;
     private TransportRouteListAdapter.ClickListener myClickListener;
     Context context;

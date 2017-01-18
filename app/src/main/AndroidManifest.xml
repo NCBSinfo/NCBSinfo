@@ -16,7 +16,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.home.Home" />
-        <activity android:name=".activities.transport.Transport"/>
+        <activity android:name=".activities.transport.Transport" />
+
+        <service
+            android:name=".activities.background.DefaultSettings"
+            android:exported="false" />
+
+        <activity android:name=".activities.contact.Contact"></activity>
     </application>
 
 </manifest>

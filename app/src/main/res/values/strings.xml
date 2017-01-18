@@ -4,17 +4,16 @@
     <string name="navigation_drawer_close">Close</string>
 
     <string name="settings">Settings</string>
+
     <string name="home">Home</string>
+    <string name="home_above_transport">Next %s</string>
     <string name="home_view_all">All Trips</string>
     <string name="home_current_place">%1$s - %2$s</string>
-    <string name="home_next_transport">next %s</string>
 
-    <string name="transport">Transport</string>
     <string name="transport_view_all">All Routes</string>
     <string name="transport_regular_note">Weekdays includes Saturday</string>
     <string name="transport_other_note">Use arrows to toggle days</string>
     <string name="transport_sheet_title">Available routes</string>
     <string name="weekdays">Weekdays</string>
     <string name="sunday">Sunday</string>
-
 </resources>
