@@ -12,11 +12,9 @@ public class RouteMaker {
 
     private static final String DEFAULT_TRIGGER = "none";
     private Context context;
-    private RouteManager manager;
 
     public RouteMaker(Context context) {
         this.context = context;
-        this.manager = new RouteManager(context);
     }
 
     public RouteModel make(String origin, String destination, int day, List<String> trips, String type) {
@@ -28,9 +26,9 @@ public class RouteMaker {
         route.setCreatedOn(General.timeStamp());
         route.setAuthor("Default");
         route.setType(type);
-        int temp = manager.existsRoute(origin, destination, type);
+        int temp = new RouteManager(context).existsRoute(origin, destination, type);
         if (temp == -1) {
-            route.setRoute(manager.getNextRoute(origin, destination));
+            route.setRoute(new RouteManager(context).getNextRoute(origin, destination));
         } else {
             route.setRoute(temp);
         }

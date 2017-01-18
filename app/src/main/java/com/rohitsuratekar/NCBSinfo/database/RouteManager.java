@@ -56,6 +56,7 @@ public class RouteManager {
             }
             cursor.close();
         }
+        table.closeDatabase();
         return result;
     }
 
@@ -79,6 +80,7 @@ public class RouteManager {
             }
             cursor.close();
         }
+        table.closeDatabase();
         return result;
     }
 
@@ -95,10 +97,12 @@ public class RouteManager {
             }
             cursor.close();
         }
+        table.closeDatabase();
         return returnItem;
     }
 
     public void add(RouteModel model) {
+
         int key = existsRouteDay(model.getOrigin(), model.getDestination(), model.getType(), model.getDay());
         if (key == -1) {
             Log.inform("Creating new route");
@@ -138,6 +142,7 @@ public class RouteManager {
             }
             cursor.close();
         }
+        table.closeDatabase();
         return names;
     }
 
@@ -161,6 +166,7 @@ public class RouteManager {
             }
             cursor.close();
         }
+        table.closeDatabase();
         return all;
     }
 

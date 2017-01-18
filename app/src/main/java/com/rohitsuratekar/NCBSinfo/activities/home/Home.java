@@ -84,7 +84,7 @@ public class Home extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        allRoutes = DefaultSettings.getDefaultRoutes(getBaseContext());
+        allRoutes = new DefaultSettings().getDefaultRoutes(getBaseContext());
         currentRoute = allRoutes.get(currentIndex);
         allSuggestions.add(new SuggestionModel("Some random suggestion will appear here", R.drawable.icon_favorite));
         allSuggestions.add(new SuggestionModel("Another tip", R.drawable.icon_home));

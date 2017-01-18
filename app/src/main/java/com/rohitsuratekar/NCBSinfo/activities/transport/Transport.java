@@ -20,7 +20,6 @@ import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.secretbiology.helpers.general.ConverterMode;
 import com.secretbiology.helpers.general.DateConverter;
-import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.views.ScrollUpRecyclerView;
 
 import java.text.ParseException;
@@ -81,7 +80,7 @@ public class Transport extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        allRoutes = DefaultSettings.getDefaultRoutes(getBaseContext());
+        allRoutes = new DefaultSettings().getDefaultRoutes(getBaseContext());
         int c = 0;
         if (getIntent().getExtras() != null) {
             c = getIntent().getExtras().getInt(INTENT);

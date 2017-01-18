@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.home.Home" />
-        <activity android:name=".activities.transport.Transport"></activity>
+        <activity android:name=".activities.transport.Transport"/>
     </application>
 
 </manifest>

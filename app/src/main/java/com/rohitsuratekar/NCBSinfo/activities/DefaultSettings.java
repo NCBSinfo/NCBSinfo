@@ -17,18 +17,17 @@ import java.util.List;
 
 public class DefaultSettings {
 
-    public static List<Route> getDefaultRoutes(Context context) {
-        RouteManager manager = new RouteManager(context);
+    public List<Route> getDefaultRoutes(Context context) {
         List<Route> allRoutes = new ArrayList<>();
 
-        List<String[]> routeList = manager.getRouteNames();
+        List<String[]> routeList = new RouteManager(context).getRouteNames();
 
         for (String[] m : routeList) {
             Route route = new Route();
             route.setOrigin(m[0]);
             route.setDestination(m[1]);
             route.setIcon(getIcon(m[1]));
-            List<RouteModel> models = manager.getAllDays(m[0], m[1], m[2]);
+            List<RouteModel> models = new RouteManager(context).getAllDays(m[0], m[1], m[2]);
             List<Day> everyDay = new ArrayList<>();
             for (RouteModel d : models) {
                 everyDay.add(new Day(d.getDay(), d.getTrips()));
@@ -39,6 +38,7 @@ public class DefaultSettings {
             route.setTrips(trips);
             allRoutes.add(route);
         }
+
         return allRoutes;
     }
 
@@ -57,18 +57,18 @@ public class DefaultSettings {
         }
     }
 
-    public static void buildDefaultRoutes(Context context) {
+    public void buildDefaultRoutes(Context context) {
         RouteManager manager = new RouteManager(context);
         manager.add(new RouteMaker(context).make("ncbs", "mandara", Calendar.SUNDAY,
                 convertToList(context.getString(R.string.def_buggy_from_ncbs)), "buggy"));
-        manager.add(new RouteMaker(context).make("mandara", "ncbs", Calendar.SUNDAY,
+       /* manager.add(new RouteMaker(context).make("mandara", "ncbs", Calendar.SUNDAY,
                 convertToList(context.getString(R.string.def_buggy_from_mandara)), "buggy"));
 
 
         manager.add(new RouteMaker(context).make("ncbs", "iisc", Calendar.SUNDAY,
                 convertToList(context.getString(R.string.def_ncbs_iisc_sunday)), "shuttle"));
         manager.add(new RouteMaker(context).make("ncbs", "iisc", Calendar.MONDAY,
-                convertToList(context.getString(R.string.def_ncbs_iisc_week)), "shuttle"));
+                convertToList(context.getString(R.string.def_ncbs_iisc_week)), "shuttle"));*/
 
         manager.add(new RouteMaker(context).make("iisc", "ncbs", Calendar.SUNDAY,
                 convertToList(context.getString(R.string.def_iisc_ncbs_sunday)), "shuttle"));
