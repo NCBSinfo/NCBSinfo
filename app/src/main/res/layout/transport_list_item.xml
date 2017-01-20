@@ -30,7 +30,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/tp_list_dot"
         app:layout_constraintRight_toRightOf="@+id/tp_list_dot"
         app:layout_constraintTop_toBottomOf="@+id/tp_list_dot"
-        app:srcCompat="@color/colorDivider" />
+        android:src="@color/colorDivider" />
 
     <ImageView
         android:id="@+id/tp_list_top_line"

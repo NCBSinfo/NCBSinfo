@@ -13,9 +13,6 @@ import com.rohitsuratekar.NCBSinfo.R;
 
 import java.util.List;
 
-/**
- * Created by Dexter on 17-01-2017.
- */
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 

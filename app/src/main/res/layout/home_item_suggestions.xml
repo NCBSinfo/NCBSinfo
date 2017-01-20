@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:srcCompat="@drawable/icon_favorite"
+        android:src="@drawable/icon_favorite"
         android:id="@+id/hm_item_sugg_icon"
         android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"

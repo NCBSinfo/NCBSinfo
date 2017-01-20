@@ -1,51 +1,59 @@
 package com.rohitsuratekar.NCBSinfo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
-import com.rohitsuratekar.NCBSinfo.activities.background.DefaultSettings;
-import com.rohitsuratekar.NCBSinfo.activities.background.events.SplashLoadingEvent;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
-import com.rohitsuratekar.NCBSinfo.ui.SetUpActivity;
-import com.secretbiology.helpers.general.Log;
+import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.MigrateApp;
+import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
+import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-public class Splash extends BaseActivity {
+public class Splash extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SetUpActivity(this, R.layout.splash, "Splash", false);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        if (preferences.getBoolean("testasdasd1", true)) {
-            startService(new Intent(this, DefaultSettings.class).setAction(DefaultSettings.RESET_TRANSPORT));
-            preferences.edit().putBoolean("testasdasd1", false).apply();
+        setContentView(R.layout.splash);
+
+        final AppPrefs prefs = new AppPrefs(getBaseContext());
+
+        // Create database if it is opened first time
+        if (prefs.isFirstOpen()) {
+            //Migrate App
+            new MigrateApp(new OnTaskCompleted() {
+                @Override
+                public void onTaskCompleted() {
+                    // Add default Routes
+                    new CreateDefaultRoutes(new OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted() {
+                            prefs.appOpened();
+
+                            //Now get session ready
+                            loadRoutes.execute(getBaseContext());
+                        }
+                    }).execute(getBaseContext());
+                }
+            }).execute(getBaseContext());
+
         } else {
-            startActivity(new Intent(Splash.this, Home.class));
+            loadRoutes.execute(getBaseContext());
         }
+
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void loadingDone(SplashLoadingEvent splashLoadingEvent) {
-        Log.inform(splashLoadingEvent.checkEvent());
-        startActivity(new Intent(Splash.this, Home.class));
-    }
+    LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
+        @Override
+        public void onTaskCompleted() {
+            Intent intent = new Intent(Splash.this, Home.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    });
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
 }

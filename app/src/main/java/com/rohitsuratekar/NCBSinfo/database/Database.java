@@ -13,7 +13,7 @@ import com.secretbiology.helpers.general.Log;
 public class Database extends SQLiteOpenHelper {
 
     private static String DATABASE_NAME = "NCBSinfo";
-    private static int DATABASE_VERSION = 3;
+    private static int DATABASE_VERSION = 9; //Changed from 8 to 9 in version 44
     private Context context;
 
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -66,7 +66,15 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //TODO: Your upgrade rules
+
+        //Remove support from previous databases
+        db.execSQL("DROP TABLE IF EXISTS alarmTable");
+        db.execSQL("DROP TABLE IF EXISTS table_contacts");
+        db.execSQL("DROP TABLE IF EXISTS notifications");
+        db.execSQL("DROP TABLE IF EXISTS table_research_talk");
+
+        //Make new ones
+        RouteData.make(db);
         Log.inform("Database '" + DATABASE_NAME + "' is upgraded from " + oldVersion + " to " + newVersion + " successfully.");
     }
 

@@ -5,6 +5,10 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Dexter on 18-01-2017.
+ */
+
 public class Helper {
 
     public static List<String> convertStringToList(String s) {
@@ -24,5 +28,4 @@ public class Helper {
         }
         return TransportType.SHUTTLE;
     }
-
 }

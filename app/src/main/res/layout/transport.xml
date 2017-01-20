@@ -24,11 +24,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@null"
+            android:transitionName="backImage"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/colorPrimary" />
+            app:srcCompat="@color/colorPrimary"
+            tools:targetApi="lollipop" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline3"
@@ -46,12 +48,14 @@
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:tint="@color/colorLightText"
+            android:transitionName="favorite"
             app:fabSize="mini"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:srcCompat="@drawable/icon_swap"
-            tools:ignore="VectorDrawableCompat" />
+            android:src="@drawable/icon_swap"
+            tools:ignore="VectorDrawableCompat"
+            tools:targetApi="lollipop" />
 
         <TextView
             android:id="@+id/tp_tx_place"
@@ -62,9 +66,12 @@
             android:text="NCBS - Mandara"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorLightText"
+            android:textSize="24sp"
+            android:transitionName="place"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintLeft_toLeftOf="parent"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            tools:targetApi="lollipop" />
 
         <TextView
             android:id="@+id/tp_tx_date"
@@ -120,9 +127,11 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:text="@string/transport_view_all"
+            android:transitionName="centerButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/tp_bt_left"
-            app:layout_constraintRight_toLeftOf="@+id/tp_bt_right" />
+            app:layout_constraintRight_toLeftOf="@+id/tp_bt_right"
+            tools:ignore="UnusedAttribute" />
 
         <ImageButton
             android:id="@+id/tp_bt_left"
@@ -131,10 +140,11 @@
             android:layout_height="50dp"
             android:contentDescription="@null"
             android:tint="@color/colorLightText"
+            android:transitionName="leftButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:srcCompat="@drawable/icon_left"
-            tools:ignore="VectorDrawableCompat" />
+            android:src="@drawable/icon_left"
+            tools:ignore="UnusedAttribute,VectorDrawableCompat" />
 
         <ImageButton
             android:id="@+id/tp_bt_right"
@@ -143,10 +153,11 @@
             android:layout_height="50dp"
             android:contentDescription="@null"
             android:tint="@color/colorLightText"
+            android:transitionName="rightButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:srcCompat="@drawable/icon_right"
-            tools:ignore="VectorDrawableCompat" />
+            android:src="@drawable/icon_right"
+            tools:ignore="UnusedAttribute,VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/tp_tx_left"
@@ -198,15 +209,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tp_tx_right_title" />
 
         <TextView
-            android:text="TextView"
+            android:id="@+id/tp_tx_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tp_tx_type"
-            android:textSize="14sp"
-            android:textColor="@color/colorDivider"
-            tools:layout_editor_absoluteY="45dp"
             android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textColor="@color/colorDivider"
+            android:textSize="14sp"
+            android:transitionName="transportType"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tp_tx_place"
             app:layout_constraintLeft_toRightOf="@+id/tp_tx_place"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tp_tx_place" />
+            tools:ignore="HardcodedText,UnusedAttribute"
+            tools:layout_editor_absoluteY="45dp" />
     </android.support.constraint.ConstraintLayout>
 </com.flipboard.bottomsheet.BottomSheetLayout>

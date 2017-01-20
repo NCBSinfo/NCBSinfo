@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.Trips;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
 
 import java.util.List;
 
 public class TransportRouteListAdapter extends RecyclerView.Adapter<TransportRouteListAdapter.MyViewHolder> {
 
-    public TransportRouteListAdapter(List<Trips> items) {
+    public TransportRouteListAdapter(List<Route> items) {
         this.entryList = items;
     }
 
@@ -29,7 +29,7 @@ public class TransportRouteListAdapter extends RecyclerView.Adapter<TransportRou
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Trips entry = entryList.get(position);
+        Route entry = entryList.get(position);
         holder.origin.setText(entry.getOrigin().toUpperCase());
         if (!entry.getType().toString().toLowerCase().equals("shuttle")) {
             holder.destination.setText(entry.getDestination().toUpperCase() + " ( " + entry.getType().toString().toLowerCase() + " )");
@@ -45,7 +45,7 @@ public class TransportRouteListAdapter extends RecyclerView.Adapter<TransportRou
     }
 
 
-    private List<Trips> entryList;
+    private List<Route> entryList;
     View currentview;
     private TransportRouteListAdapter.ClickListener myClickListener;
     Context context;

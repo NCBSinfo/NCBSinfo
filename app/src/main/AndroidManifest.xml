@@ -15,14 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.home.Home" />
         <activity android:name=".activities.transport.Transport" />
-
-        <service
-            android:name=".activities.background.DefaultSettings"
-            android:exported="false" />
-
-        <activity android:name=".activities.contact.Contact"></activity>
+        <activity android:name=".activities.home.Home"></activity>
     </application>
 
 </manifest>

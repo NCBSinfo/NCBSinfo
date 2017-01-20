@@ -1,108 +1,92 @@
-package com.rohitsuratekar.NCBSinfo.activities.background;
+package com.rohitsuratekar.NCBSinfo.background.tasks;
 
-import android.app.IntentService;
 import android.content.Context;
-import android.content.Intent;
+import android.os.AsyncTask;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.Helper;
-import com.rohitsuratekar.NCBSinfo.activities.background.events.SplashLoadingEvent;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.secretbiology.helpers.general.General;
-import com.secretbiology.helpers.general.Log;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
 /**
- * Default service for all resets and first time use
+ * Simple AsyncTask handles creation of default transport routes
  */
-public class DefaultSettings extends IntentService {
 
-    public static final String RESET = "reset";
-    public static final String RESET_TRANSPORT = "resetTransport";
+public class CreateDefaultRoutes extends AsyncTask<Object, Void, Void> {
 
-    public DefaultSettings() {
-        super("DefaultSettings");
+    private OnTaskCompleted taskCompleted;
+
+    public CreateDefaultRoutes(OnTaskCompleted taskCompleted) {
+        this.taskCompleted = taskCompleted;
     }
-
-    private Context context;
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            context = getApplicationContext();
-            final String action = intent.getAction();
-            if (RESET.equals(action)) {
-                Log.inform("DefaultSettings invoked for reset");
-                doReset();
-            } else if (RESET_TRANSPORT.equals(action)) {
-                Log.inform("DefaultSettings invoked for reset transport");
-                resetTransport();
-            }
-        }
-    }
-
-
-    private void doReset() {
-
-    }
-
-    private void resetTransport() {
+    protected Void doInBackground(Object... params) {
+        Context context = (Context) params[0];
         new RouteData(context).clearAll();
 
         //Use default Routes
+        //Maintain the order because their route numbers will decided based on how you add them in database
 
         List<RouteModel> allRoutes = new ArrayList<>();
 
+        //Route 0
         allRoutes.add(make("ncbs", "iisc", Calendar.MONDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_iisc_week))));
 
         allRoutes.add(make("ncbs", "iisc", Calendar.SUNDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_iisc_sunday))));
 
+        //Route 1
         allRoutes.add(make("iisc", "ncbs", Calendar.MONDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_iisc_ncbs_week))));
 
         allRoutes.add(make("iisc", "ncbs", Calendar.SUNDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_iisc_ncbs_sunday))));
 
+        //Route 2
         allRoutes.add(make("ncbs", "mandara", Calendar.MONDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_mandara_week))));
 
         allRoutes.add(make("ncbs", "mandara", Calendar.SUNDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_mandara_sunday))));
 
+        //Route 3
         allRoutes.add(make("mandara", "ncbs", Calendar.MONDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_mandara_ncbs_week))));
 
         allRoutes.add(make("mandara", "ncbs", Calendar.SUNDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_mandara_ncbs_sunday))));
 
+        //Route 4
         allRoutes.add(make("ncbs", "mandara", Calendar.MONDAY, TransportType.BUGGY,
                 Helper.convertStringToList(context.getString(R.string.def_buggy_from_ncbs))));
 
+        //Route 5
         allRoutes.add(make("mandara", "ncbs", Calendar.MONDAY, TransportType.BUGGY,
                 Helper.convertStringToList(context.getString(R.string.def_buggy_from_mandara))));
 
+        //Route 6
         allRoutes.add(make("ncbs", "icts", Calendar.MONDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_icts_week))));
 
         allRoutes.add(make("ncbs", "icts", Calendar.SUNDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_icts_sunday))));
 
+        //Route 7
         allRoutes.add(make("icts", "ncbs", Calendar.MONDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_icts_ncbs_week))));
 
         allRoutes.add(make("icts", "ncbs", Calendar.SUNDAY, TransportType.SHUTTLE,
                 Helper.convertStringToList(context.getString(R.string.def_icts_ncbs_sunday))));
 
+        //Route 8
         allRoutes.add(make("ncbs", "cbl", Calendar.SUNDAY, TransportType.TTC,
                 Helper.convertStringToList(context.getString(R.string.def_ncbs_cbl))));
 
@@ -110,9 +94,13 @@ public class DefaultSettings extends IntentService {
         for (RouteModel r : allRoutes) {
             new RouteData(context).add(r);
         }
+        return null;
+    }
 
-        EventBus.getDefault().post(new SplashLoadingEvent("loading done"));
-
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        taskCompleted.onTaskCompleted();
     }
 
 
@@ -133,6 +121,5 @@ public class DefaultSettings extends IntentService {
         return route;
 
     }
-
 
 }

@@ -1,8 +1,11 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,23 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.background.TripHolder;
-import com.rohitsuratekar.NCBSinfo.activities.background.events.TransportEvent;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.Trips;
-import com.rohitsuratekar.NCBSinfo.database.RouteData;
-import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportMethods;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
+import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
+import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
-import com.rohitsuratekar.NCBSinfo.ui.OnClickGuard;
-import com.rohitsuratekar.NCBSinfo.ui.SetUpActivity;
+import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.secretbiology.helpers.general.ConverterMode;
 import com.secretbiology.helpers.general.DateConverter;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
-import com.secretbiology.helpers.general.OnSwipeTouchListener;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.secretbiology.helpers.general.listeners.OnClickGuard;
+import com.secretbiology.helpers.general.listeners.OnSwipeTouchListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -37,8 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.rohitsuratekar.NCBSinfo.activities.Helper.getType;
+import butterknife.OnClick;
 
 public class Home extends BaseActivity {
 
@@ -71,6 +69,8 @@ public class Home extends BaseActivity {
     ImageView favorite;
     @BindView(R.id.hm_im_map)
     ImageView map;
+    @BindView(R.id.hm_im_top_back)
+    ImageView topBack;
 
     @BindView(R.id.hm_bt_left)
     ImageButton leftBtn;
@@ -84,26 +84,27 @@ public class Home extends BaseActivity {
     @BindView(R.id.home_base_layout)
     ConstraintLayout layout;
 
-    private Trips currentTrip;
-    private int currentIndex = 0;
+    private CurrentSession session = CurrentSession.getInstance();
+    private Calendar currentCalendar = Calendar.getInstance();
+
     private List<SuggestionModel> allSuggestions = new ArrayList<>();
     private HomeAdapter adapter;
-    private List<Trips> allTrips = new ArrayList<>();
-    private Calendar currentCalendar = Calendar.getInstance();
-    private int tempRoute;
+    private int currentIndex;
+    private Route currentRoute;
+    private List<String> nextList;
+    private AppPrefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SetUpActivity(this, R.layout.home, "Home", false);
         ButterKnife.bind(this);
-        //TODO
-        tempRoute = 0;
-        currentTrip = getCurrentTrip(tempRoute);
-
+        prefs = new AppPrefs(getBaseContext());
+        currentIndex = session.getCurrentIndex();
+        currentRoute = session.getCurrentRoute();
+        nextList = session.getNextList();
         allSuggestions.add(new SuggestionModel("Some random suggestion will appear here", R.drawable.icon_favorite));
         allSuggestions.add(new SuggestionModel("Another tip", R.drawable.icon_home));
-        allSuggestions.add(new SuggestionModel("Click here to get directions", R.drawable.icon_left));
+        allSuggestions.add(new SuggestionModel("Click here to get directions", R.drawable.icon_map));
         adapter = new HomeAdapter(allSuggestions);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(manager);
@@ -140,81 +141,106 @@ public class Home extends BaseActivity {
                 goRight();
             }
         });
-
-        setUpLayout();
-
-        allBtn.setOnClickListener(new View.OnClickListener() {
+        setUpItems();
+        favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Home.this, Transport.class);
-                i.putExtra(Transport.INTENT, currentTrip.getRouteNo());
-                i.putExtra(Transport.ORIGIN, currentTrip.getOrigin().toUpperCase());
-                i.putExtra(Transport.DESTINATION, currentTrip.getDestination().toUpperCase());
-                i.putExtra(Transport.DESTINATION, currentTrip.getDestination().toUpperCase());
-                i.putExtra(Transport.TYPE, currentTrip.getType().toString());
-                startActivity(i);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                prefs.setFavoriteRoute(currentRoute.getRouteNo());
+                General.shortToast(getBaseContext(), "Default route changed");
+                favorite.setImageResource(R.drawable.icon_favorite);
             }
         });
     }
 
+    @Override
+    protected CurrentActivity setUpActivity() {
+        return CurrentActivity.HOME;
+    }
+
+    @OnClick(R.id.hm_bt_view_all)
+    public void showAllTrips() {
+        Intent intent = new Intent(Home.this, Transport.class);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            View statusBar = findViewById(android.R.id.statusBarBackground);
+            View navigationBar = findViewById(android.R.id.navigationBarBackground);
+            View toolbar = findViewById(R.id.toolbar);
+            List<Pair<View, String>> pairs = new ArrayList<>();
+            pairs.add(Pair.create((View) currentPlace, currentPlace.getTransitionName()));
+            pairs.add(Pair.create((View) topBack, topBack.getTransitionName()));
+            pairs.add(Pair.create((View) leftBtn, leftBtn.getTransitionName()));
+            pairs.add(Pair.create((View) rightBtn, rightBtn.getTransitionName()));
+            pairs.add(Pair.create((View) allBtn, allBtn.getTransitionName()));
+            pairs.add(Pair.create((View) favorite, favorite.getTransitionName()));
+            pairs.add(Pair.create(toolbar, toolbar.getTransitionName()));
+            pairs.add(Pair.create(statusBar, statusBar.getTransitionName()));
+            pairs.add(Pair.create(navigationBar, navigationBar.getTransitionName()));
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(this, pairs.toArray(new Pair[pairs.size()]));
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
+
+
+    }
+
     private void goRight() {
         currentIndex++;
-        if (currentIndex == allTrips.size()) {
+        if (currentIndex == session.getAllRoutes().size()) {
             currentIndex = 0;
         }
-        currentTrip = allTrips.get(currentIndex);
-        setUpLayout();
+        currentRoute = session.getAllRoutes().get(currentIndex);
+        new setUpLayout().execute();
     }
 
     private void goLeft() {
         currentIndex--;
         if (currentIndex < 0) {
-            currentIndex = allTrips.size() - 1;
+            currentIndex = session.getAllRoutes().size() - 1;
         }
-        currentTrip = allTrips.get(currentIndex);
-        setUpLayout();
+        currentRoute = session.getAllRoutes().get(currentIndex);
+        new setUpLayout().execute();
     }
 
-    public void setUpLayout() {
-        List<String> next = currentTrip.nextTransport();
+    private class setUpLayout extends AsyncTask<Object, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            nextList = new TransportMethods().nextTransport(currentCalendar, currentRoute);
+            session.setNextList(nextList);
+            session.setCurrentIndex(currentIndex);
+            session.setCurrentRoute(currentRoute);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setUpItems();
+        }
+    }
+
+    private void setUpItems() {
         currentPlace.setText(getString(R.string.home_current_place,
-                currentTrip.getOrigin().toUpperCase(), currentTrip.getDestination().toUpperCase()));
-        nextTransport.setText(formatString(next.get(0)));
-        transportSuggestion1.setText(formatString(next.get(1)));
-        transportSuggestion2.setText(formatString(next.get(2)));
-        transportSuggestion3.setText(formatString(next.get(3)));
+                currentRoute.getOrigin().toUpperCase(), currentRoute.getDestination().toUpperCase()));
+        nextTransport.setText(formatString(nextList.get(0)));
+        transportSuggestion1.setText(formatString(nextList.get(1)));
+        transportSuggestion2.setText(formatString(nextList.get(2)));
+        transportSuggestion3.setText(formatString(nextList.get(3)));
         currentDate.setText(DateConverter.convertToString(currentCalendar, "dd MMM").toUpperCase());
         currentDay.setText(DateConverter.convertToString(currentCalendar, "EEE").toUpperCase());
-        currentType.setText(currentTrip.getType().toString());
-        aboveTransport.setText(getString(R.string.home_above_transport, currentTrip.getType().toString().toLowerCase()));
+        currentType.setText(currentRoute.getType().toString());
+        aboveTransport.setText(getString(R.string.home_above_transport, currentRoute.getType().toString().toLowerCase()));
+        currentSeats.setText(getString(R.string.home_seats, currentRoute.getType().getSeats()));
         backImage.setImageResource(getIcon());
+        if (prefs.getFavoriteRoute() == currentRoute.getRouteNo()) {
+            favorite.setImageResource(R.drawable.icon_favorite);
+        } else {
+            favorite.setImageResource(R.drawable.icon_favorite_border);
+        }
     }
 
-    private Trips getCurrentTrip(int i) {
-        RouteModel model = new RouteData(getBaseContext()).getRouteByNumber(i);
-        Log.inform(model.getOrigin());
-        List<RouteModel> modelList = new RouteData(getBaseContext())
-                .getAllDays(model.getOrigin(), model.getDestination(), model.getType());
-        return new Trips(modelList, currentCalendar);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getAllTrips(TransportEvent event) {
-        Log.inform(event.retrive());
-        List<String[]> routeList = new RouteData(getBaseContext()).getRouteNames();
-        for (String[] s : routeList) {
-            List<RouteModel> models = new RouteData(getBaseContext()).getAllDays(s[0], s[1], getType(s[2]));
-            allTrips.add(new Trips(models, currentCalendar));
-        }
-        for (int i = 0; i < allTrips.size(); i++) {
-            if (allTrips.get(i).getRouteNo() == tempRoute) {
-                currentIndex = i;
-                break;
-            }
-        }
-        TripHolder.getInstance().setAllTrips(allTrips);
-    }
 
     private String formatString(String string) {
         Calendar calendar = Calendar.getInstance();
@@ -227,7 +253,7 @@ public class Home extends BaseActivity {
     }
 
     private int getIcon() {
-        switch (currentTrip.getDestination().toLowerCase().trim()) {
+        switch (currentRoute.getDestination().toLowerCase().trim()) {
             case "ncbs":
                 return R.drawable.ncbs;
             case "mandara":
@@ -241,19 +267,5 @@ public class Home extends BaseActivity {
         }
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-        EventBus.getDefault().post(new TransportEvent());
-    }
-
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
 
 }

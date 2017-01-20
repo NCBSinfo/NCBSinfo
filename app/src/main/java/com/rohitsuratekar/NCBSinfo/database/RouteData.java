@@ -176,6 +176,36 @@ public class RouteData {
     }
 
     /**
+     * Public method of existsRoute with automatic database closure
+     *
+     * @param origin      : Origin
+     * @param destination : Destination
+     * @param type        : Type
+     * @return : -1 if no such route
+     */
+    public int checkIfExistsRoute(String origin, String destination, TransportType type) {
+        String query = new QueryBuilder()
+                .selectColumn(ROUTE)
+                .fromTable(TRANSPORT_TABLE)
+                .whereColumnIsEqual(ORIGIN, origin)
+                .and()
+                .columnIsEqual(DESTINATION, destination)
+                .and()
+                .columnIsEqual(TYPE, type.toString().toUpperCase())
+                .build();
+        Cursor cursor = db.rawQuery(query, null);
+        int result = -1;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                result = cursor.getInt(0);
+            }
+            cursor.close();
+        }
+        database.closeDatabase();
+        return result;
+    }
+
+    /**
      * More specific search than 'existsRoute' method (do not close database yet, close from its parent method)
      *
      * @param origin      : Origin of route
@@ -246,6 +276,7 @@ public class RouteData {
         }
         int rows = 0;
         // Following condition is needed to start route numbers from 0
+        // (This is to support legacy preferences)
         // Just check if table is not empty
         if (maxItem < 2) {
             String query2 = new QueryBuilder()
@@ -381,5 +412,19 @@ public class RouteData {
 
         m.setTrips(trips);
         return m;
+    }
+
+    public boolean ifTableExists(String name) {
+        String query = new QueryBuilder()
+                .use("SELECT name FROM sqlite_master WHERE type='table' AND name='" + name + "'").build();
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getCount();
+            }
+            cursor.close();
+        }
+        return count != 0;
     }
 }

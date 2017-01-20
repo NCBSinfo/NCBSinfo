@@ -1,9 +1,11 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
-import android.app.ProgressDialog;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -14,21 +16,16 @@ import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.background.TripHolder;
 import com.rohitsuratekar.NCBSinfo.activities.transport.adapters.TransportRouteListAdapter;
 import com.rohitsuratekar.NCBSinfo.activities.transport.adapters.TransportTripAdapter;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.Trips;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
+import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
-import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
-import com.rohitsuratekar.NCBSinfo.ui.SetUpActivity;
+import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.secretbiology.helpers.general.ConverterMode;
 import com.secretbiology.helpers.general.DateConverter;
-import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.views.ScrollUpRecyclerView;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -39,14 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.rohitsuratekar.NCBSinfo.activities.Helper.getType;
-
 public class Transport extends BaseActivity {
-
-    public static final String INTENT = "intent";
-    public static final String ORIGIN = "origin";
-    public static final String DESTINATION = "destination";
-    public static final String TYPE = "type";
 
     @BindView(R.id.tp_tx_place)
     TextView currentPlace;
@@ -77,35 +67,30 @@ public class Transport extends BaseActivity {
     @BindView(R.id.tp_right_recycler)
     ScrollUpRecyclerView rightRecycler;
 
+    @BindView(R.id.tp_bt_swap)
+    FloatingActionButton swap;
+
+
+    private CurrentSession session = CurrentSession.getInstance();
     private Calendar currentCalendar = Calendar.getInstance();
     private TransportTripAdapter leftAdapter;
     private TransportTripAdapter rightAdapter;
-    private Trips currentTrip;
-    private List<Trips> allTrips = new ArrayList<>();
+    private Route currentRoute;
     private List<String> leftTrips = new ArrayList<>();
     private List<String> rightTrips = new ArrayList<>();
-    private int tempRoute;
-    private TransportUI ui;
-    private ProgressDialog dialog;
+    private int leftIndex = 0;
+    private int rightIndex = 0;
+    private boolean oppositeRouteExists;
+    private int oppositeRouteIndex = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SetUpActivity(this, R.layout.transport, "Transport", false);
         ButterKnife.bind(this);
-
-        tempRoute = 0;
-        if (getIntent().getExtras() != null) {
-            tempRoute = getIntent().getExtras().getInt(INTENT);
-            currentPlace.setText(getString(R.string.home_current_place, getIntent().getExtras().getString(ORIGIN),
-                    getIntent().getExtras().getString(DESTINATION)));
-            currentDate.setText(DateConverter.convertToString(currentCalendar, "EE, dd MMM"));
-            type.setText(getIntent().getExtras().getString(TYPE));
-        }
-
-
-        leftAdapter = new TransportTripAdapter(leftTrips, 0);
-        rightAdapter = new TransportTripAdapter(rightTrips, 0);
+        currentRoute = session.getCurrentRoute();
+        leftAdapter = new TransportTripAdapter(leftTrips, leftIndex);
+        rightAdapter = new TransportTripAdapter(rightTrips, rightIndex);
         leftRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         rightRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         leftRecycler.setAdapter(leftAdapter);
@@ -114,7 +99,7 @@ public class Transport extends BaseActivity {
             @Override
             public void onClick(View v) {
                 currentCalendar.add(Calendar.DATE, -1);
-                new LoadTransport().execute(getBaseContext());
+                new setUpLayout().execute();
             }
         });
 
@@ -122,13 +107,31 @@ public class Transport extends BaseActivity {
             @Override
             public void onClick(View v) {
                 currentCalendar.add(Calendar.DATE, 2);
-                new LoadTransport().execute(getBaseContext());
+                new setUpLayout().execute();
             }
         });
 
-        new InitialTransport().execute(getBaseContext());
+        swap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (oppositeRouteExists) {
+                    currentRoute = session.getAllRoutes().get(oppositeRouteIndex);
+                    session.setCurrentRoute(currentRoute);
+                    session.setCurrentIndex(oppositeRouteIndex);
+                    new setUpLayout().execute();
+                }
+            }
+        });
+
+        updateUI();
+        new setUpLayout().execute();
+
     }
 
+    @Override
+    protected CurrentActivity setUpActivity() {
+        return CurrentActivity.TRANSPORT;
+    }
 
     @OnClick(R.id.tp_bt_show_all)
     public void showAllRoutes() {
@@ -139,7 +142,7 @@ public class Transport extends BaseActivity {
         bottomSheet.setPeekSheetTranslation(height / 2);
         bottomSheet.showWithSheetView(LayoutInflater.from(getBaseContext()).inflate(R.layout.transport_route_sheet, bottomSheet, false));
 
-        final TransportRouteListAdapter listAdapter = new TransportRouteListAdapter(allTrips);
+        final TransportRouteListAdapter listAdapter = new TransportRouteListAdapter(session.getAllRoutes());
 
         RecyclerView listRecycler = (RecyclerView) findViewById(R.id.tp_sheet_recycler);
         listRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -147,32 +150,130 @@ public class Transport extends BaseActivity {
         listAdapter.setOnItemClickListener(new TransportRouteListAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                bottomSheet.dismissSheet();
                 currentCalendar = Calendar.getInstance();
-                currentTrip = allTrips.get(position);
-                new LoadTransport().execute(getBaseContext());
+                currentRoute = session.getAllRoutes().get(position);
+                session.setCurrentRoute(currentRoute);
+                session.setCurrentIndex(session.getAllRoutes().indexOf(currentRoute));
+                new setUpLayout().execute();
+                bottomSheet.dismissSheet();
             }
         });
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getAllTrips() {
-        List<Trips> allTrips = new ArrayList<>();
-        List<String[]> routeList = new RouteData(getBaseContext()).getRouteNames();
-        for (String[] s : routeList) {
-            List<RouteModel> models = new RouteData(getBaseContext()).getAllDays(s[0], s[1], getType(s[2]));
-            allTrips.add(new Trips(models, currentCalendar));
+    private class setUpLayout extends AsyncTask<Object, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            boolean nextIsToday = new TransportMethods().isNextTransportToday(currentCalendar, currentRoute);
+            String nextTransport = formatList(new TransportMethods().nextTransport(currentCalendar, currentRoute)).get(0);
+            leftTrips.clear();
+            rightTrips.clear();
+
+            if (currentRoute.isRegular()) {
+                leftTrips.addAll(formatList(currentRoute.getDefaultList()));
+                rightTrips.addAll(formatList(currentRoute.getMap().get(Calendar.SUNDAY)));
+                if (currentCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+                    leftIndex = leftTrips.indexOf(nextTransport);
+                    rightIndex = -1;
+                } else {
+                    leftIndex = -1;
+                    rightIndex = rightTrips.indexOf(nextTransport);
+                }
+            } else {
+                leftTrips.addAll(formatList(currentRoute.getMap().get(Calendar.DAY_OF_WEEK, currentRoute.getDefaultList())));
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.DAY_OF_WEEK, currentCalendar.get(Calendar.DAY_OF_WEEK));
+                c.add(Calendar.DATE, 1);
+                rightTrips.addAll(formatList(currentRoute.getMap().get(c.get(Calendar.DAY_OF_WEEK), currentRoute.getDefaultList())));
+                if (nextIsToday) {
+                    leftIndex = leftTrips.indexOf(nextTransport);
+                    rightIndex = -1;
+                } else {
+                    leftIndex = leftTrips.size();
+                    rightIndex = rightTrips.indexOf(nextTransport);
+                }
+            }
+
+            //Check if route from other direction exists
+            int oppositeRoute = new RouteData(getBaseContext()).checkIfExistsRoute(
+                    currentRoute.getDestination(), currentRoute.getOrigin(), currentRoute.getType());
+            oppositeRouteExists = oppositeRoute != -1;
+            if (oppositeRouteExists) {
+                for (int i = 0; i < session.getAllRoutes().size(); i++) {
+                    if (session.getAllRoutes().get(i).getRouteNo() == oppositeRoute) {
+                        oppositeRouteIndex = i;
+                        break;
+                    }
+                }
+            }
+            return null;
         }
-        this.allTrips = new ArrayList<>(allTrips);
-        // setUpLayout();
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            updateUI();
+        }
     }
 
-    private Trips getCurrentTrip(int i) {
-        RouteModel model = new RouteData(getBaseContext()).getRouteByNumber(i);
-        List<RouteModel> modelList = new RouteData(getBaseContext())
-                .getAllDays(model.getOrigin(), model.getDestination(), model.getType());
-        return new Trips(modelList, currentCalendar);
+    private void updateUI() {
+        currentPlace.setText(getString(R.string.home_current_place, currentRoute.getOrigin().toUpperCase(),
+                currentRoute.getDestination().toUpperCase()));
+        currentDate.setText(DateConverter.convertToString(currentCalendar, "EE, dd MMM"));
+        type.setText(currentRoute.getType().toString());
+
+        if (currentRoute.isRegular()) {
+            leftListTitle.setText(getString(R.string.weekdays));
+            rightListTitle.setText(getString(R.string.sunday));
+            leftBtn.setImageResource(android.R.color.transparent);
+            rightBtn.setImageResource(android.R.color.transparent);
+            leftBtn.setEnabled(false);
+            rightBtn.setEnabled(false);
+            leftButtonText.setText("");
+            rightButtonText.setText("");
+            footNote.setText(getString(R.string.transport_regular_note));
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(currentCalendar.getTime());
+            leftListTitle.setText(DateConverter.convertToString(cal, "EEEE"));
+            cal.add(Calendar.DATE, 1);
+            rightListTitle.setText(DateConverter.convertToString(cal, "EEEE"));
+            leftBtn.setImageResource(R.drawable.icon_left);
+            rightBtn.setImageResource(R.drawable.icon_right);
+            leftBtn.setEnabled(true);
+            rightBtn.setEnabled(true);
+            cal.add(Calendar.DATE, 1);
+            rightButtonText.setText(DateConverter.convertToString(cal, "EEE").toUpperCase());
+            cal.add(Calendar.DATE, -3);
+            leftButtonText.setText(DateConverter.convertToString(cal, "EEE").toUpperCase());
+            footNote.setText(getString(R.string.transport_other_note));
+        }
+
+
+        if (oppositeRouteExists) {
+            swap.setEnabled(true);
+        } else {
+            swap.setEnabled(false);
+        }
+
+        leftAdapter.setCurrentItem(leftIndex);
+        rightAdapter.setCurrentItem(rightIndex);
+        leftAdapter.notifyDataSetChanged();
+        rightAdapter.notifyDataSetChanged();
+
+        leftRecycler.scrollToPosition(leftIndex);
+        rightRecycler.scrollToPosition(rightIndex);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (!drawer.isDrawerOpen(GravityCompat.START)) {
+            leftRecycler.setVisibility(View.INVISIBLE);
+            rightRecycler.setVisibility(View.INVISIBLE);
+        }
+        super.onBackPressed();
     }
 
     private List<String> formatList(List<String> list) {
@@ -191,91 +292,5 @@ public class Transport extends BaseActivity {
         }
     }
 
-    class InitialTransport extends AsyncTask<Object, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(Transport.this);
-            dialog.setMessage("Loading...");
-            dialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Object[] params) {
-            Log.inform("Background activity started");
-            currentTrip = getCurrentTrip(tempRoute);
-            allTrips = TripHolder.getInstance().getAllTrips();
-            ui = new TransportUI(currentTrip, getBaseContext());
-
-            leftTrips.clear();
-            leftTrips.addAll(formatList(ui.leftTrips()));
-            leftAdapter.setCurrentItem(ui.leftIndex());
-
-            rightTrips.clear();
-            rightTrips.addAll(formatList(ui.rightTrips()));
-            rightAdapter.setCurrentItem(ui.rightIndex());
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            dialog.dismiss();
-            updateUI();
-
-        }
-    }
-
-    class LoadTransport extends AsyncTask<Object, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(Transport.this);
-            dialog.setMessage("Loading...");
-            dialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Object[] params) {
-            ui = new TransportUI(currentTrip, getBaseContext());
-            leftTrips.clear();
-            leftTrips.addAll(formatList(ui.leftTrips()));
-            leftAdapter.setCurrentItem(ui.leftIndex());
-            rightTrips.clear();
-            rightTrips.addAll(formatList(ui.rightTrips()));
-            rightAdapter.setCurrentItem(ui.rightIndex());
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            dialog.dismiss();
-            updateUI();
-        }
-    }
-
-    private void updateUI() {
-        currentPlace.setText(getString(R.string.home_current_place, currentTrip.getOrigin().toUpperCase(),
-                currentTrip.getDestination().toUpperCase()));
-        currentDate.setText(DateConverter.convertToString(currentCalendar, "EE, dd MMM"));
-        type.setText(ui.type());
-
-        rightListTitle.setText(ui.rightTitle());
-        leftListTitle.setText(ui.leftTitle());
-        footNote.setText(ui.footnote());
-        ui.leftButton(leftBtn, leftButtonText);
-        ui.rightButton(rightBtn, rightButtonText);
-
-        leftAdapter.notifyDataSetChanged();
-        rightAdapter.notifyDataSetChanged();
-
-        leftRecycler.scrollToPosition(ui.leftIndex());
-        rightRecycler.scrollToPosition(ui.rightIndex());
-    }
 
 }

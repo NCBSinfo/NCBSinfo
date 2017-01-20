@@ -9,7 +9,9 @@
     <string name="home_above_transport">Next %s</string>
     <string name="home_view_all">All Trips</string>
     <string name="home_current_place">%1$s - %2$s</string>
+    <string name="home_seats">appx. %d seats</string>
 
+    <string name="transport">Transport</string>
     <string name="transport_view_all">All Routes</string>
     <string name="transport_regular_note">Weekdays includes Saturday</string>
     <string name="transport_other_note">Use arrows to toggle days</string>

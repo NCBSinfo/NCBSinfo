@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tp_bs_list_origin"
         app:layout_constraintLeft_toRightOf="@+id/tp_bs_list_origin"
         app:layout_constraintTop_toTopOf="@+id/tp_bs_list_origin"
-        app:srcCompat="@drawable/icon_right_arrow"
+        android:src="@drawable/icon_right_arrow"
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
