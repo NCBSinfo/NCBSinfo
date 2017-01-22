@@ -6,6 +6,7 @@ package com.rohitsuratekar.NCBSinfo.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.secretbiology.helpers.general.General;
 
 import java.util.HashMap;
 
@@ -58,21 +60,28 @@ public abstract class BaseActivity extends AppCompatActivity
         this.currentActivity = setUpActivity(); //Call this before using Current Activity
         new SetUpActivity(this, currentActivity);
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (navigationView != null) {
-            navigationView.getMenu().findItem(currentActivity.getNavigationMenu()).setChecked(true);
+            if (navigationView.getMenu().findItem(currentActivity.getNavigationMenu()) != null) {
+                navigationView.getMenu().findItem(currentActivity.getNavigationMenu()).setChecked(true);
+            }
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.base_menu, menu);
+        getMenuInflater().inflate(currentActivity.getMenu(), menu);
+        int[] idList = new int[]{R.id.action_settings, R.id.action_add_route, R.id.action_edit_route};
+        for (int i : idList) {
+            if (menu.findItem(i) != null) {
+                menu.findItem(i).getIcon().setColorFilter(General.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
         return true;
     }
 
@@ -103,9 +112,9 @@ public abstract class BaseActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         startActivity(new Intent(ongoingActivity, activity.getCurrentClass()));
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        animateTransition();
                     }
-                }, 200);
+                }, 300);
 
             }
         }
@@ -122,6 +131,10 @@ public abstract class BaseActivity extends AppCompatActivity
             super.onBackPressed();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
+    }
+
+    public void animateTransition() {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 

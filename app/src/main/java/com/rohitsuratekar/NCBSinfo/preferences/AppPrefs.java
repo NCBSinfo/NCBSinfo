@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.preferences;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.secretbiology.helpers.general.Log;
 
 public class AppPrefs extends Preferences {
@@ -12,16 +13,29 @@ public class AppPrefs extends Preferences {
     private static final String APP_MIGRATED = "app_migrated";
     private static final String FIRST_OPEN = "first_open";
     private static final String FAVORITE_ROUTE = "favorite_route";
+    private static final String FAVORITE_ORIGIN = "favorite_origin";
+    private static final String FAVORITE_DESTINATION = "favorite_destination";
+    private static final String FAVORITE_TYPE = "favorite_type";
     private static final String USER_NAME = "user_name";
     private static final String USER_EMAIL = "user_email";
     private static final String NOTIFICATIONS = "notifications";
     private static final String HURRY_UP_TIME = "hurry_up";
+    private static final String IS_USED_LOGGED_IN = "isUserLoggedIn";
+    private static final String LAST_SYNC = "last_sync";
 
     private Context context;
 
     public AppPrefs(Context context) {
         super(context);
         this.context = context;
+    }
+
+    public boolean isUserLoggedIn() {
+        return get(IS_USED_LOGGED_IN, false);
+    }
+
+    public void userLoggedIn() {
+        put(IS_USED_LOGGED_IN, true);
     }
 
     public boolean isFirstOpen() {
@@ -64,6 +78,30 @@ public class AppPrefs extends Preferences {
         }
     }
 
+    public String getFavoriteOrigin() {
+        return get(FAVORITE_ORIGIN, "ncbs");
+    }
+
+    public String getFavoriteDestination() {
+        return get(FAVORITE_DESTINATION, "iisc");
+    }
+
+    public String getFavoriteType() {
+        return get(FAVORITE_TYPE, TransportType.SHUTTLE.toString());
+    }
+
+    public void setFavoriteOrigin(String origin) {
+        put(FAVORITE_ORIGIN, origin);
+    }
+
+    public void setFavoriteDestination(String destination) {
+        put(FAVORITE_DESTINATION, destination);
+    }
+
+    public void setFavoriteType(TransportType type) {
+        put(FAVORITE_TYPE, type.toString());
+    }
+
     public void setUserName(String username) {
         put(USER_NAME, username);
     }
@@ -98,5 +136,13 @@ public class AppPrefs extends Preferences {
 
     public void appMigrated() {
         put(APP_MIGRATED, true);
+    }
+
+    public String getLastSync() {
+        return get(LAST_SYNC, "Unknown");
+    }
+
+    public void setLastSync(String time) {
+        put(LAST_SYNC, time);
     }
 }

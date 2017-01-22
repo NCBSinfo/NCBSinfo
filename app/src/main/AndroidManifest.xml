@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rohitsuratekar.NCBSinfo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +18,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.transport.Transport" />
-        <activity android:name=".activities.home.Home"></activity>
+        <activity android:name=".activities.home.Home" />
+        <activity android:name=".activities.contact.Contacts" />
+        <activity android:name=".activities.locations.Locations" />
+        <activity
+            android:name=".activities.login.Login"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.login.Register"
+            android:windowSoftInputMode="adjustPan" />
+
+        <service android:name=".background.services.RouteSyncService"/>
     </application>
 
 </manifest>

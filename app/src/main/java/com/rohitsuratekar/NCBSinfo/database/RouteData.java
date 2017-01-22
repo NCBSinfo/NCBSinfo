@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.database.QueryBuilder;
 
@@ -121,10 +122,28 @@ public class RouteData {
      * @return : Unique key. Will return 0 of key not found
      */
     public int update(RouteModel model) {
+        model.setModifiedOn(General.timeStamp());
         int updated = db.update(TRANSPORT_TABLE, putContentValues(model), KEY + "= ?",
                 new String[]{String.valueOf(model.getKey())});
         database.closeDatabase();
         return updated;
+    }
+
+    public RouteModel get(int key) {
+        String query = new QueryBuilder()
+                .selectAll()
+                .fromTable(TRANSPORT_TABLE)
+                .whereColumnIsEqual(KEY, String.valueOf(key)).build();
+        Cursor cursor = db.rawQuery(query, null);
+        RouteModel model = new RouteModel();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                model = convertRow(cursor);
+            }
+            cursor.close();
+        }
+        database.closeDatabase();
+        return model;
     }
 
     /**
@@ -356,6 +375,43 @@ public class RouteData {
         }
         database.closeDatabase();
         return all;
+    }
+
+    /**
+     * Gets all routes from database
+     *
+     * @return: List of RouteModels
+     */
+
+    public List<RouteModel> getAll() {
+        List<RouteModel> all = new ArrayList<>();
+        String query = new QueryBuilder()
+                .selectAll()
+                .fromTable(TRANSPORT_TABLE)
+                .build();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    all.add(convertRow(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        database.closeDatabase();
+        return all;
+    }
+
+    public void updateSyncTime(String time) {
+        String query = "UPDATE " + TRANSPORT_TABLE + " SET " + SYNCED + " = '" + time + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            if (cursor.moveToNext()) {
+                Log.inform("Updated " + cursor.getCount() + "rows");
+            }
+            cursor.close();
+        }
+        database.closeDatabase();
     }
 
     /**

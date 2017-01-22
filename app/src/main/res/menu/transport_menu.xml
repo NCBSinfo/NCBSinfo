@@ -7,9 +7,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/icon_settings"
-        android:title="@string/settings"
+        android:id="@+id/action_edit_route"
+        android:icon="@drawable/icon_edit"
+        android:title="Edit Route"
+        app:showAsAction="always"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_add_route"
+        android:icon="@drawable/icon_add"
+        android:title="Add Route"
         app:showAsAction="always"
         tools:ignore="AppCompatResource" />
 </menu>

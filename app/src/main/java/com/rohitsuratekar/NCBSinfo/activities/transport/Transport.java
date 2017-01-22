@@ -142,8 +142,9 @@ public class Transport extends BaseActivity {
         bottomSheet.setPeekSheetTranslation(height / 2);
         bottomSheet.showWithSheetView(LayoutInflater.from(getBaseContext()).inflate(R.layout.transport_route_sheet, bottomSheet, false));
 
+        TextView sheetTitle = (TextView) findViewById(R.id.tp_bs_title);
+        sheetTitle.setText(getString(R.string.transport_sheet_title, session.getAllRoutes().size()));
         final TransportRouteListAdapter listAdapter = new TransportRouteListAdapter(session.getAllRoutes());
-
         RecyclerView listRecycler = (RecyclerView) findViewById(R.id.tp_sheet_recycler);
         listRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         listRecycler.setAdapter(listAdapter);

@@ -1,23 +1,53 @@
 package com.rohitsuratekar.NCBSinfo.database.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 
 import java.util.List;
 
 public class RouteModel {
+    @SerializedName("key")
+    @Expose
     private int key;
+    @SerializedName("route")
+    @Expose
     private int route;
+    @SerializedName("origin")
+    @Expose
     private String origin;
+    @SerializedName("destination")
+    @Expose
     private String destination;
+    @SerializedName("day")
+    @Expose
     private int day;
+    @SerializedName("trips")
+    @Expose
     private List<String> trips;
+    @SerializedName("type")
+    @Expose
     private TransportType type;
+    @SerializedName("createdOn")
+    @Expose
     private String createdOn;
+    @SerializedName("modifiedOn")
+    @Expose
     private String modifiedOn;
+    @SerializedName("syncedOn")
+    @Expose
     private String syncedOn;
+    @SerializedName("author")
+    @Expose
     private String author;
+    @SerializedName("databaseID")
+    @Expose
     private String databaseID;
+    @SerializedName("trigger")
+    @Expose
     private String trigger;
+    @SerializedName("notes")
+    @Expose
     private String notes;
 
     public RouteModel() {

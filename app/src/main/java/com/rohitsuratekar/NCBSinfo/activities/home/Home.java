@@ -141,15 +141,17 @@ public class Home extends BaseActivity {
                 goRight();
             }
         });
-        setUpItems();
+
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 prefs.setFavoriteRoute(currentRoute.getRouteNo());
-                General.shortToast(getBaseContext(), "Default route changed");
+                General.makeShortToast(getBaseContext(), "Default route changed");
                 favorite.setImageResource(R.drawable.icon_favorite);
             }
         });
+
+        setUpItems();
     }
 
     @Override
