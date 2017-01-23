@@ -5,6 +5,8 @@
 package com.rohitsuratekar.NCBSinfo.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -12,13 +14,19 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
+import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
 
@@ -26,10 +34,13 @@ import com.secretbiology.helpers.general.General;
 public class SetUpActivity {
 
     private boolean tabsEnabled;
+    private Activity activity;
+    private AppPrefs prefs;
 
     public SetUpActivity(final Activity activity, CurrentActivity currentActivity) {
 
-        AppPrefs prefs = new AppPrefs(activity);
+        this.activity = activity;
+        prefs = new AppPrefs(activity);
 
         ViewStub viewStub = (ViewStub) activity.findViewById(R.id.base_view);
         viewStub.setLayoutResource(currentActivity.getLayout());
@@ -81,18 +92,7 @@ public class SetUpActivity {
             @Override
             public void onClick(View v) {
                 //// TODO: 20-01-2017
-                DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
-                if (activity.getClass() != Login.class) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.startActivity(new Intent(activity, Login.class));
-                            activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                        }
-                    }, 300);
-                }
-
+                optionClick();
             }
         });
     }
@@ -100,4 +100,74 @@ public class SetUpActivity {
     public void setTabsEnabled(boolean tabsEnabled) {
         this.tabsEnabled = tabsEnabled;
     }
+
+    private void optionClick() {
+
+        DrawerLayout drawer = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        if (activity.getClass() != Login.class) {
+            if (prefs.isUserLoggedIn()) {
+                new AlertDialog.Builder(activity)
+                        .setTitle("Are you sure?")
+                        .setMessage(activity.getString(R.string.log_out_warning))
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ProgressDialog progressDialog = new ProgressDialog(activity);
+                                progressDialog.setMessage("Signing you out...");
+                                progressDialog.setCancelable(false);
+                                progressDialog.show();
+                                signOut(progressDialog);
+                            }
+                        })
+                        .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        })
+                        .show();
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity.startActivity(new Intent(activity, Login.class));
+                        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }, 300);
+            }
+        }
+    }
+
+    private void signOut(final ProgressDialog dialog) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        prefs.clear();
+        prefs.appOpened();
+        prefs.updateVersion();
+        new CreateDefaultRoutes(new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                new LoadRoutes(new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        dialog.dismiss();
+                        gotoHome();
+                    }
+                }).execute(activity);
+            }
+        }).execute(activity);
+    }
+
+
+    private void gotoHome() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(activity, Home.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                activity.startActivity(intent);
+                activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        }, 300);
+    }
+
 }

@@ -88,10 +88,14 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
                     @Override
                     public void onResponse(Call<PersonalDetails> call, retrofit2.Response<PersonalDetails> response) {
                         if (response.isSuccessful()) {
-                            prefs.setUserName(response.body().getName());
-                            defaultRoute = response.body().getDefaultRoute();
-                            Log.inform("Default is " + defaultRoute);
-                            prefs.setFavoriteRoute(defaultRoute);
+                            //This is for legacy people, who don't have any information synced
+                            if (response.body() != null) {
+                                prefs.setUserName(response.body().getName());
+                                prefs.userLoggedIn();
+                                defaultRoute = response.body().getDefaultRoute();
+                                Log.inform("Default is " + defaultRoute);
+                                prefs.setFavoriteRoute(defaultRoute);
+                            }
                             String uid = sessionObject.getmAuth().getCurrentUser().getUid();
                             getFromServer(uid, token);
                         } else {
@@ -153,6 +157,7 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
             Intent intent = new Intent(sessionObject.getContext(), RouteSyncService.class);
             intent.setAction(RouteSyncService.SYNC_ALL);
             sessionObject.getContext().startService(intent);
+            finishExecution();
         }
 
     }
@@ -160,10 +165,15 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
     private LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
         @Override
         public void onTaskCompleted() {
-            new Helper().legacyDefaultConverter(sessionObject.getContext(), prefs.getFavoriteRoute());
-            retrieved.onTaskComplete();
+            finishExecution();
         }
     });
+
+    private void finishExecution() {
+        prefs.setLastSync(General.timeStamp());
+        new Helper().legacyDefaultConverter(sessionObject.getContext(), prefs.getFavoriteRoute());
+        retrieved.onTaskComplete();
+    }
 
 
     @Override

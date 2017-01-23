@@ -145,4 +145,8 @@ public class AppPrefs extends Preferences {
     public void setLastSync(String time) {
         put(LAST_SYNC, time);
     }
+
+    public void clear() {
+        clearAll();
+    }
 }

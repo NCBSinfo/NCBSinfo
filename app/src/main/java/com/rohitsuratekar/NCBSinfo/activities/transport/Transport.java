@@ -177,9 +177,15 @@ public class Transport extends BaseActivity {
                 if (currentCalendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
                     leftIndex = leftTrips.indexOf(nextTransport);
                     rightIndex = -1;
+                    if (leftIndex == -1) {
+                        rightIndex = rightTrips.indexOf(nextTransport);
+                    }
                 } else {
                     leftIndex = -1;
                     rightIndex = rightTrips.indexOf(nextTransport);
+                    if (rightIndex == -1) {
+                        leftIndex = leftTrips.indexOf(nextTransport);
+                    }
                 }
             } else {
                 leftTrips.addAll(formatList(currentRoute.getMap().get(Calendar.DAY_OF_WEEK, currentRoute.getDefaultList())));

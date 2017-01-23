@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
+import com.secretbiology.helpers.general.General;
 
 import java.util.List;
 
@@ -34,6 +35,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
         holder.name.setText(entry.getName());
         holder.number.setText(entry.getNumber());
         holder.icon.setImageResource(entry.getIcon());
+        if (entry.getColor() != 0) {
+            holder.background.setColorFilter(General.getColor(context, entry.getColor()));
+        } else {
+            holder.background.setColorFilter(General.getColor(context, R.color.colorPrimary));
+        }
     }
 
     @Override

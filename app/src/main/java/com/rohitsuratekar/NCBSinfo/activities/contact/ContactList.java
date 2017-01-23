@@ -1,5 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.activities.contact;
 
+import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.Helper;
+import com.rohitsuratekar.NCBSinfo.database.models.ContactModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * NCBSinfo © 2016, Secret Biology
  * https://github.com/NCBSinfo/NCBSinfo
@@ -7,22 +14,43 @@ package com.rohitsuratekar.NCBSinfo.activities.contact;
  */
 public class ContactList {
 
-    public String[][] getEssentials() {
-        return new String[][]{
-                {"Emergency", "Reception", "Helpdesk", "080-2366-6666"},
 
-                {"NCBS Reception 1", "Reception", "Helpdesk", "080-2366-6001"},
+    public List<ContactModel> getFront() {
+        List<ContactModel> all = new ArrayList<>();
+        ContactModel reception = new ContactModel();
+        reception.setBothColors(Helper.getRandomColor());
+        reception.setName("Reception");
+        reception.setEmail("reception@ncbs.res.in");
+        reception.setNumber("080-2366-6001");
+        reception.setIcon(R.drawable.icon_favorite);
+        all.add(reception);
 
-                {"NCBS Reception 2", "Reception", "Helpdesk", "080-2366-6002"},
+        ContactModel medical = new ContactModel();
+        medical.setBothColors(Helper.getRandomColor());
+        medical.setName("Medical Centre");
+        medical.setEmail("medical@ncbs.res.in");
+        medical.setNumber("080-2366-6450");
+        medical.setIcon(R.drawable.icon_medical);
+        all.add(medical);
 
-                {"Medical Centre", "medical", "Emergency", "080-2366-6450"},
 
-                {"Substation", "substation", "Emergency", "080-2366-6425"},
+        ContactModel substation = new ContactModel();
+        substation.setBothColors(Helper.getRandomColor());
+        substation.setName("Substation");
+        substation.setEmail("elechelp@ncbs.res.in");
+        substation.setNumber("080-2366-6425");
+        substation.setIcon(R.drawable.icon_electricity);
+        all.add(substation);
 
-                {"NCBS Reception 3", "Reception", "Helpdesk", "080-2366-6018"}
+        ContactModel reception2 = new ContactModel();
+        reception2.setBothColors(Helper.getRandomColor());
+        reception2.setName("Reception 2");
+        reception2.setEmail("reception@ncbs.res.in");
+        reception2.setNumber("080-2366-6018");
+        reception2.setIcon(R.drawable.icon_favorite);
+        all.add(reception2);
 
-
-        };
+        return all;
     }
 
 

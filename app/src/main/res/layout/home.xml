@@ -34,21 +34,24 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:contentDescription="@null"
+        android:transitionName="favorite"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
-        app:srcCompat="@color/colorPrimaryDark" />
+        app:srcCompat="@color/colorPrimaryDark"
+        tools:targetApi="lollipop" />
 
     <ImageView
         android:id="@+id/hm_im_back_image"
         android:layout_width="160dp"
         android:layout_height="100dp"
-
         android:contentDescription="@null"
         android:tint="@color/colorPrimaryDark"
+        android:transitionName="favorite"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/unknown" />
+        app:srcCompat="@drawable/unknown"
+        tools:targetApi="lollipop" />
 
     <Button
         android:id="@+id/hm_bt_view_all"

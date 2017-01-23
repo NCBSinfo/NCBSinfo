@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.rohitsuratekar.NCBSinfo.activities.Helper;
 import com.secretbiology.helpers.general.Log;
 
 public class MigratePref extends Preferences {
@@ -40,6 +41,7 @@ public class MigratePref extends Preferences {
         appPrefs.updateVersion();
         appPrefs.notificationAllowed(isNotificationAllowed);
         appPrefs.setHurryUpTime(hurry_up);
+        new Helper().legacyDefaultConverter(context, route);
         Log.inform("All shared preferences migrated");
     }
 }

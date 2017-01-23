@@ -11,12 +11,11 @@ import java.util.List;
 public class TransportMethods {
 
     public List<String> nextTransport(Calendar cal, Route route) {
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(cal.getTime());
-
         List<String> nextTrips = new ArrayList<>();
         List<String> allTrips = new ArrayList<>(getRefinedList(calendar, route));
+
         String currentString = DateConverter.convertToString(calendar, "HH:mm");
         allTrips.add(currentString);
         allTrips = DateConverter.sortStrings(ConverterMode.DATE_FIRST, allTrips);
@@ -26,6 +25,7 @@ public class TransportMethods {
                 nextTrips.add(allTrips.get(i));
             }
         }
+
         while (nextTrips.size() < 5) {
             calendar.add(Calendar.DATE, 1);
             nextTrips.addAll(getRefinedList(calendar, route));
@@ -48,7 +48,9 @@ public class TransportMethods {
         return false;
     }
 
-    private List<String> getRefinedList(Calendar cal, Route route) {
+    private List<String> getRefinedList(Calendar calendar, Route route) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(calendar.getTime());
         List<String> combinedTrips = new ArrayList<>();
         List<String> today = route.getMap().get(cal.get(Calendar.DAY_OF_WEEK), route.getDefaultList());
         String firstTrip = today.get(0);
@@ -58,14 +60,19 @@ public class TransportMethods {
                 combinedTrips.add(today.get(i));
             }
         }
+
+
+
         cal.add(Calendar.DATE, -1);
         List<String> yesterday = route.getMap().get(cal.get(Calendar.DAY_OF_WEEK), route.getDefaultList());
         firstTrip = yesterday.get(0);
+        yesterday = DateConverter.sortStrings(ConverterMode.DATE_FIRST, yesterday);
         for (int i = 0; i < yesterday.size(); i++) {
             if (i < yesterday.indexOf(firstTrip)) {
                 combinedTrips.add(yesterday.get(i));
             }
         }
+
         return new ArrayList<>(DateConverter.sortStrings(ConverterMode.DATE_FIRST, combinedTrips));
     }
 }

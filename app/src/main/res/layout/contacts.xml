@@ -49,6 +49,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="24dp"
             android:contentDescription="@null"
+            android:tint="@color/colorAccent"
             android:src="@drawable/icon_authenticated"
             app:layout_constraintBottom_toBottomOf="@+id/con_txt_sub_text"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -83,32 +84,29 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline5"
-            android:layout_height="100sp" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/con_btn_change"
+            android:layout_marginBottom="32dp" />
 
         <android.support.constraint.Guideline
+            android:id="@+id/guideline7"
             android:layout_width="wrap_content"
             android:layout_height="567dp"
-            android:id="@+id/guideline7"
             android:orientation="vertical"
-            tools:layout_editor_absoluteY="0dp"
+            app:layout_constraintGuide_percent="0.5"
             tools:layout_editor_absoluteX="192dp"
-            app:layout_constraintGuide_percent="0.5" />
+            tools:layout_editor_absoluteY="0dp" />
 
         <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
+            android:text="Departments"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button"
-            app:layout_constraintRight_toLeftOf="@+id/button"
-            android:layout_marginEnd="8dp"
+            android:id="@+id/con_btn_change"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             style="@style/ColoredButton" />
 
-    </android.support.constraint.ConstraintLayout>
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button4" />
+    </android.support.constraint.ConstraintLayout>
 </com.flipboard.bottomsheet.BottomSheetLayout>

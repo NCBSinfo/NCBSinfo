@@ -8,7 +8,6 @@ import com.rohitsuratekar.NCBSinfo.activities.Helper;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
-import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -112,7 +111,7 @@ public class CreateDefaultRoutes extends AsyncTask<Object, Void, Void> {
         route.setDestination(destination);
         route.setDay(day);
         route.setTrips(trips);
-        route.setCreatedOn(General.timeStamp());
+        route.setCreatedOn("2016-12-30 03:03:03");
         route.setAuthor("Default");
         route.setType(type);
         route.setRoute(0); // Handle route no into sqlight methods

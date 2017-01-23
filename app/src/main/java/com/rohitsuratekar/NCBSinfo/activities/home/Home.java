@@ -71,6 +71,8 @@ public class Home extends BaseActivity {
     ImageView map;
     @BindView(R.id.hm_im_top_back)
     ImageView topBack;
+    @BindView(R.id.hm_im_top_dark)
+    ImageView topDark;
 
     @BindView(R.id.hm_bt_left)
     ImageButton leftBtn;
@@ -173,6 +175,7 @@ public class Home extends BaseActivity {
             pairs.add(Pair.create((View) leftBtn, leftBtn.getTransitionName()));
             pairs.add(Pair.create((View) rightBtn, rightBtn.getTransitionName()));
             pairs.add(Pair.create((View) allBtn, allBtn.getTransitionName()));
+           // pairs.add(Pair.create((View) topDark, topDark.getTransitionName()));
             pairs.add(Pair.create((View) favorite, favorite.getTransitionName()));
             pairs.add(Pair.create(toolbar, toolbar.getTransitionName()));
             pairs.add(Pair.create(statusBar, statusBar.getTransitionName()));

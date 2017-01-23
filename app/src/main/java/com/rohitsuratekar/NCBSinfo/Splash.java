@@ -6,13 +6,10 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.background.services.RouteSyncService;
 import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.MigrateApp;
 import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
-import com.rohitsuratekar.NCBSinfo.database.RouteData;
-import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 
 public class Splash extends Activity {
@@ -27,6 +24,7 @@ public class Splash extends Activity {
 
         final AppPrefs prefs = new AppPrefs(getBaseContext());
 
+        prefs.updateVersion();
         // Create database if it is opened first time
         if (prefs.isFirstOpen()) {
             //Migrate App
@@ -49,13 +47,6 @@ public class Splash extends Activity {
         } else {
             loadRoutes.execute(getBaseContext());
         }
-
-        RouteModel model = new RouteData(getBaseContext()).get(2);
-        model.setNotes("This one is updated");
-        new RouteData(getBaseContext()).update(model);
-        Intent intent = new Intent(this, RouteSyncService.class);
-        intent.setAction(RouteSyncService.SYNC_ALL);
-       // startService(intent);
     }
 
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
