@@ -85,12 +85,12 @@ public abstract class BaseActivity extends AppCompatActivity
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            //TODO
-            return true;
+        if (id == R.id.action_search) {
+            //// TODO: 24-01-2017  
         }
         return super.onOptionsItemSelected(item);
     }

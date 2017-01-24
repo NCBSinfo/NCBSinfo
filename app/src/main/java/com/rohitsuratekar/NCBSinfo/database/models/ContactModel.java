@@ -12,24 +12,8 @@ public class ContactModel {
     private int color;
     private int darkColor;
     private String email;
+    private String head;
 
-
-    public ContactModel(String name, String number, int icon) {
-        this.name = name;
-        this.number = number;
-        this.icon = icon;
-    }
-
-    public ContactModel() {
-    }
-
-    public ContactModel(String name, String number, int icon, int color) {
-        this.name = name;
-        this.number = number;
-        this.icon = icon;
-        this.color = color;
-        this.darkColor = color;
-    }
 
     public ContactModel(String name, String number, int icon, int color[]) {
         this.name = name;
@@ -44,6 +28,21 @@ public class ContactModel {
         this.darkColor = both[1];
     }
 
+    public ContactModel(String name, String number) {
+        this.name = name;
+        this.number = number;
+    }
+
+    public ContactModel() {
+    }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
 
     public String getName() {
         return name;

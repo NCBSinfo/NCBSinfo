@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".activities.transport.Transport" />
         <activity android:name=".activities.home.Home" />
-        <activity android:name=".activities.contact.Contacts" />
+        <activity android:name=".activities.contact.Contacts"/>
         <activity android:name=".activities.locations.Locations" />
         <activity
             android:name=".activities.login.Login"
@@ -29,7 +29,7 @@
             android:name=".activities.login.Register"
             android:windowSoftInputMode="adjustPan" />
 
-        <service android:name=".background.services.RouteSyncService"/>
+        <service android:name=".background.services.RouteSyncService" />
     </application>
 
 </manifest>

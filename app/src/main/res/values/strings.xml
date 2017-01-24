@@ -23,6 +23,8 @@
 
     <string name="contacts">Contacts</string>
     <string name="contact_number">Contact Number</string>
+    <string name="all_departments">All Departments</string>
+    <string name="imp_contacts">Important Contacts</string>
 
     <string name="locations">Locations</string>
 

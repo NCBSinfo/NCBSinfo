@@ -53,8 +53,23 @@ public class ContactList {
         return all;
     }
 
+    public List<ContactModel> getAllDepartments() {
+        List<ContactModel> all = new ArrayList<>();
+        for (String[] s : getPinned()) {
+            ContactModel c = new ContactModel();
+            c.setName(s[0]);
+            c.setEmail(s[1]);
+            c.setHead(s[2]);
+            c.setNumber(s[3]);
+            c.setIcon(R.drawable.icon_account);
+            c.setBothColors(Helper.getRandomColor());
+            all.add(c);
+        }
+        return all;
+    }
 
-    public String[][] getPinned() {
+
+    private String[][] getPinned() {
         return new String[][]{
                 {"Accounts", "accountshelp@ncbs.res.in", "Purushottam.V.Surya Rao", "080-2366-6326"},
 
