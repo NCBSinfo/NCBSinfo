@@ -27,6 +27,11 @@
     <string name="imp_contacts">Important Contacts</string>
 
     <string name="locations">Locations</string>
+    <string name="sort_by">sort by</string>
+    <string name="location_name">name</string>
+    <string name="building">building</string>
+    <string name="floor">floor</string>
+    <string name="whatever">whatever</string>
 
 
     <string name="log_in">Login</string>
