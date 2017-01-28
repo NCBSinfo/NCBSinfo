@@ -15,9 +15,9 @@ import com.rohitsuratekar.NCBSinfo.activities.contact.ContactAdapter;
 import java.util.List;
 
 
-public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder> {
+class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder> {
 
-    public LocationAdapter(List<LocationModel> items) {
+    LocationAdapter(List<LocationModel> items) {
         this.entryList = items;
     }
 
@@ -61,21 +61,17 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyView
         return entryList.size();
 
     }
-
-
     private List<LocationModel> entryList;
-    View currentview;
     private ContactAdapter.ClickListener myClickListener;
     Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, old_name, details, floor, building;
-        public ImageView icon;
-        public ConstraintLayout mainLayout;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView name, old_name, details, floor, building;
+        ImageView icon;
+        ConstraintLayout mainLayout;
 
-        public MyViewHolder(final View view) {
+        MyViewHolder(final View view) {
             super(view);
-            currentview = view;
             name = (TextView) view.findViewById(R.id.loc_item_name);
             old_name = (TextView) view.findViewById(R.id.loc_item_old_name);
             details = (TextView) view.findViewById(R.id.loc_item_details);

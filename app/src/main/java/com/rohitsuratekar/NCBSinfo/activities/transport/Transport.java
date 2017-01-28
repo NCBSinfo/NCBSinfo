@@ -23,8 +23,8 @@ import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
-import com.secretbiology.helpers.general.ConverterMode;
-import com.secretbiology.helpers.general.DateConverter;
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 import com.secretbiology.helpers.general.views.ScrollUpRecyclerView;
 
 import java.text.ParseException;

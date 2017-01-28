@@ -3,13 +3,9 @@ package com.rohitsuratekar.NCBSinfo.activities.locations;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dexter on 25-01-2017.
- */
+class LocationList {
 
-public class LocationList {
-
-    public ArrayList<String[]> listHalls() {
+    private ArrayList<String[]> listHalls() {
         ArrayList<String[]> LectureList = new ArrayList<String[]>();
         LectureList.add(new String[]{"Annex", "Meeting Room", "Admin Block", "Second Floor", "Director's Office", "Meeting Room"});
         LectureList.add(new String[]{"Axon", "VC Room", "Admin Block", "Second Floor", "Inside Dean's Office", "Video Confenerce Room"});

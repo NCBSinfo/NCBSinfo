@@ -1,8 +1,8 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
-import com.secretbiology.helpers.general.ConverterMode;
-import com.secretbiology.helpers.general.DateConverter;
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
 import java.util.ArrayList;
 import java.util.Calendar;

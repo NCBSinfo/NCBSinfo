@@ -46,17 +46,15 @@ public class TransportRouteListAdapter extends RecyclerView.Adapter<TransportRou
 
 
     private List<Route> entryList;
-    View currentview;
     private TransportRouteListAdapter.ClickListener myClickListener;
-    Context context;
+    private Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView origin, destination;
-        public ConstraintLayout mainLayout;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView origin, destination;
+        ConstraintLayout mainLayout;
 
-        public MyViewHolder(final View view) {
+        MyViewHolder(final View view) {
             super(view);
-            currentview = view;
             origin = (TextView) view.findViewById(R.id.tp_bs_list_origin);
             destination = (TextView) view.findViewById(R.id.tp_bs_list_destination);
             mainLayout = (ConstraintLayout) view.findViewById(R.id.tp_bs_list_item);

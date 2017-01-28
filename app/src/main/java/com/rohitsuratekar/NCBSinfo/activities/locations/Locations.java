@@ -26,14 +26,11 @@ public class Locations extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-
         locationModels = new LocationList().getLocations();
-
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(manager);
         adaper = new LocationAdapter(locationModels);
         recyclerView.setAdapter(adaper);
-
     }
 
     @Override

@@ -22,10 +22,10 @@ import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
-import com.secretbiology.helpers.general.ConverterMode;
-import com.secretbiology.helpers.general.DateConverter;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 import com.secretbiology.helpers.general.listeners.OnClickGuard;
 import com.secretbiology.helpers.general.listeners.OnSwipeTouchListener;
 
@@ -175,7 +175,7 @@ public class Home extends BaseActivity {
             pairs.add(Pair.create((View) leftBtn, leftBtn.getTransitionName()));
             pairs.add(Pair.create((View) rightBtn, rightBtn.getTransitionName()));
             pairs.add(Pair.create((View) allBtn, allBtn.getTransitionName()));
-           // pairs.add(Pair.create((View) topDark, topDark.getTransitionName()));
+            // pairs.add(Pair.create((View) topDark, topDark.getTransitionName()));
             pairs.add(Pair.create((View) favorite, favorite.getTransitionName()));
             pairs.add(Pair.create(toolbar, toolbar.getTransitionName()));
             pairs.add(Pair.create(statusBar, statusBar.getTransitionName()));
