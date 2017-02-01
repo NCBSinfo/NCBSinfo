@@ -15,9 +15,9 @@ import com.secretbiology.helpers.general.General;
 
 import java.util.List;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHolder> {
+class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHolder> {
 
-    public ContactAdapter(List<ContactModel> items) {
+    ContactAdapter(List<ContactModel> items) {
         this.entryList = items;
     }
 
@@ -50,18 +50,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
 
 
     private List<ContactModel> entryList;
-    View currentview;
     private ClickListener myClickListener;
-    Context context;
+    private Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, number;
-        public ImageView background, icon;
-        public ConstraintLayout mainLayout;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView name, number;
+        ImageView background, icon;
+        ConstraintLayout mainLayout;
 
-        public MyViewHolder(final View view) {
+        MyViewHolder(final View view) {
             super(view);
-            currentview = view;
             name = (TextView) view.findViewById(R.id.co_item_txt_name);
             number = (TextView) view.findViewById(R.id.co_item_txt_number);
             mainLayout = (ConstraintLayout) view.findViewById(R.id.co_item_layout);
@@ -77,11 +75,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyViewHo
         }
     }
 
-    public void setOnItemClickListener(ClickListener myClickListener) {
+    void setOnItemClickListener(ClickListener myClickListener) {
         this.myClickListener = myClickListener;
     }
 
-    public interface ClickListener {
+    interface ClickListener {
         void onItemClick(int position);
     }
 

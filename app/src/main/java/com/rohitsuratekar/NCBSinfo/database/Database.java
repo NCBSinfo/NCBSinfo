@@ -5,12 +5,14 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.secretbiology.helpers.general.Log;
+import com.secretbiology.helpers.general.database.QueryBuilder;
 
-public class Database extends SQLiteOpenHelper {
+class Database extends SQLiteOpenHelper {
 
     private static String DATABASE_NAME = "NCBSinfo";
     private static int DATABASE_VERSION = 9; //Changed from 8 to 9 in version 44
@@ -31,7 +33,7 @@ public class Database extends SQLiteOpenHelper {
 
     private int mOpenCounter;
 
-    public SQLiteDatabase mDatabase;
+    private SQLiteDatabase mDatabase;
 
 
     public static synchronized Database getInstance(Context context) {
@@ -61,22 +63,38 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         RouteData.make(db);
+        NotificationData.make(db);
         Log.inform("Database '" + DATABASE_NAME + "' is created successfully.");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         //Remove support from previous databases
         db.execSQL("DROP TABLE IF EXISTS alarmTable");
         db.execSQL("DROP TABLE IF EXISTS table_contacts");
-        db.execSQL("DROP TABLE IF EXISTS notifications");
         db.execSQL("DROP TABLE IF EXISTS table_research_talk");
 
         //Make new ones
         RouteData.make(db);
+        //If old notification table does not exists
+        if (!ifTableExists(db, "notifications")) {
+            NotificationData.make(db);
+        }
         Log.inform("Database '" + DATABASE_NAME + "' is upgraded from " + oldVersion + " to " + newVersion + " successfully.");
     }
 
+    private boolean ifTableExists(SQLiteDatabase db, String name) {
+        String query = new QueryBuilder()
+                .use("SELECT name FROM sqlite_master WHERE type='table' AND name='" + name + "'").build();
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getCount();
+            }
+            cursor.close();
+        }
+        return count != 0;
+    }
 
 }

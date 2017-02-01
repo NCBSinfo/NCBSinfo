@@ -469,18 +469,4 @@ public class RouteData {
         m.setTrips(trips);
         return m;
     }
-
-    public boolean ifTableExists(String name) {
-        String query = new QueryBuilder()
-                .use("SELECT name FROM sqlite_master WHERE type='table' AND name='" + name + "'").build();
-        Cursor cursor = db.rawQuery(query, null);
-        int count = 0;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                count = cursor.getCount();
-            }
-            cursor.close();
-        }
-        return count != 0;
-    }
 }

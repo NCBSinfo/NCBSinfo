@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.activities.home;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -148,6 +149,9 @@ public class Home extends BaseActivity {
             @Override
             public void onClick(View v) {
                 prefs.setFavoriteRoute(currentRoute.getRouteNo());
+                prefs.setFavoriteOrigin(currentRoute.getOrigin());
+                prefs.setFavoriteDestination(currentRoute.getDestination());
+                prefs.setFavoriteType(currentRoute.getType());
                 General.makeShortToast(getBaseContext(), "Default route changed");
                 favorite.setImageResource(R.drawable.icon_favorite);
             }
@@ -185,6 +189,7 @@ public class Home extends BaseActivity {
             startActivity(intent, options.toBundle());
         } else {
             startActivity(intent);
+            animateTransition();
         }
 
 
@@ -238,7 +243,11 @@ public class Home extends BaseActivity {
         currentType.setText(currentRoute.getType().toString());
         aboveTransport.setText(getString(R.string.home_above_transport, currentRoute.getType().toString().toLowerCase()));
         currentSeats.setText(getString(R.string.home_seats, currentRoute.getType().getSeats()));
-        backImage.setImageResource(getIcon());
+
+        // To Avoid memory out of bound error for lower APIs
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            backImage.setImageResource(getIcon());
+        }
         if (prefs.getFavoriteRoute() == currentRoute.getRouteNo()) {
             favorite.setImageResource(R.drawable.icon_favorite);
         } else {

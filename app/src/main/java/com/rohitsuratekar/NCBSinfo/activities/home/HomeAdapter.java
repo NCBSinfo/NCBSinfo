@@ -14,9 +14,9 @@ import com.rohitsuratekar.NCBSinfo.R;
 import java.util.List;
 
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
-    public HomeAdapter(List<SuggestionModel> items) {
+    HomeAdapter(List<SuggestionModel> items) {
         this.entryList = items;
     }
 
@@ -47,12 +47,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     private HomeAdapter.ClickListener myClickListener;
     Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView details;
-        public ImageView icon;
-        public ConstraintLayout mainLayout;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView details;
+        ImageView icon;
+        ConstraintLayout mainLayout;
 
-        public MyViewHolder(final View view) {
+        MyViewHolder(final View view) {
             super(view);
             currentview = view;
             details = (TextView) view.findViewById(R.id.hm_item_sugg_text);
@@ -67,7 +67,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         this.myClickListener = myClickListener;
     }
 
-    public interface ClickListener {
+    interface ClickListener {
         void onItemClick(int position);
     }
 }

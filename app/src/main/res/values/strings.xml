@@ -26,6 +26,20 @@
     <string name="all_departments">All Departments</string>
     <string name="imp_contacts">Important Contacts</string>
 
+    <string name="dashboard">Dashboard</string>
+    <string name="dashboard_note">Login to access account related settings</string>
+    <string name="dashboard_transport">%1$s - %2$s %3$s</string>
+    <string name="dashboard_transport_details">change default route</string>
+    <string name="dashboard_password">Account Security</string>
+    <string name="dashboard_password_details">change password</string>
+    <string name="dashboard_notifications">Notifications : %s</string>
+    <string name="dashboard_notifications_details">occasional important notifications</string>
+    <string name="dashboard_sync">Database Sync</string>
+    <string name="dashboard_sync_details">last sync: %s</string>
+    <string name="dashboard_settings_details">even more settings</string>
+
+    <string name="notifications">Notifications</string>
+
     <string name="locations">Locations</string>
     <string name="sort_by">sort by</string>
     <string name="location_name">name</string>
@@ -33,6 +47,8 @@
     <string name="floor">floor</string>
     <string name="whatever">whatever</string>
 
+
+    <string name="security">Account Security</string>
 
     <string name="log_in">Login</string>
     <string name="register">Register</string>

@@ -1,6 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.locations;
 
-public class LocationModel {
+class LocationModel {
     private String name;
     private String oldName;
     private String details;
@@ -8,7 +8,7 @@ public class LocationModel {
     private int floor;
     private String type;
 
-    public LocationModel() {
+    LocationModel() {
     }
 
     public String getName() {

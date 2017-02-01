@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -31,13 +32,13 @@ import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
 
 
-public class SetUpActivity {
+class SetUpActivity {
 
     private boolean tabsEnabled;
     private Activity activity;
     private AppPrefs prefs;
 
-    public SetUpActivity(final Activity activity, CurrentActivity currentActivity) {
+    SetUpActivity(final Activity activity, CurrentActivity currentActivity) {
 
         this.activity = activity;
         prefs = new AppPrefs(activity);
@@ -68,6 +69,8 @@ public class SetUpActivity {
 
         TextView footerText = (TextView) navigationView.findViewById(R.id.nav_footer_text);
         ImageView footerIcon = (ImageView) navigationView.findViewById(R.id.nav_footer_icon);
+        ConstraintLayout layout = (ConstraintLayout) navigationView.findViewById(R.id.footer_layout);
+        layout.setBackground(navigationView.getBackground()); // To keep same color
 
 
         if (prefs.isUserLoggedIn()) {

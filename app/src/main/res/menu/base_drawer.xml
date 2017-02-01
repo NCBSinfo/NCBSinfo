@@ -5,6 +5,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:checkableBehavior="single">
     <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/icon_authenticated"
+        android:title="@string/dashboard" />
+    <item
         android:id="@+id/nav_home"
         android:icon="@drawable/icon_home"
         android:title="@string/home" />

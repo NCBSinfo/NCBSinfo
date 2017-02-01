@@ -4,29 +4,29 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-public abstract class Preferences {
+abstract class Preferences {
 
     private final static String PREF_VERSION = "n1_";
 
-    public Preferences(Context context) {
+    Preferences(Context context) {
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     private SharedPreferences pref;
 
-    public SharedPreferences getPref() {
+    SharedPreferences getPref() {
         return pref;
     }
 
-    protected void put(String key, String value) {
+    void put(String key, String value) {
         pref.edit().putString(PREF_VERSION + key, value).apply();
     }
 
-    protected void put(String key, int value) {
+    void put(String key, int value) {
         pref.edit().putInt(PREF_VERSION + key, value).apply();
     }
 
-    protected void put(String key, boolean value) {
+    void put(String key, boolean value) {
         pref.edit().putBoolean(PREF_VERSION + key, value).apply();
     }
 
@@ -54,7 +54,7 @@ public abstract class Preferences {
         pref.edit().remove(PREF_VERSION + key).apply();
     }
 
-    protected void clearAll() {
+    void clearAll() {
         pref.edit().clear().apply();
     }
 }

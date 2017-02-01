@@ -3,7 +3,6 @@ package com.rohitsuratekar.NCBSinfo.background.networking;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -37,8 +36,13 @@ public interface FirebaseServices {
                                   @Body RouteModel value,
                                   @Query("auth") String token);
 
-    @PATCH("routeInfo/{uid}.json")
+    @PATCH("routeInfo/users/{uid}.json")
     Call<HashMap<String, RouteModel>> syncRoutes(@Path("uid") String user,
-                                @Body HashMap<String, RouteModel> value,
-                                @Query("auth") String token);
+                                                 @Body HashMap<String, RouteModel> value,
+                                                 @Query("auth") String token);
+
+    @PATCH("routeInfo/counts/{route}.json")
+    Call<CounterDetails> updateCounter(@Path("route") String user,
+                                       @Body CounterDetails value,
+                                       @Query("auth") String token);
 }

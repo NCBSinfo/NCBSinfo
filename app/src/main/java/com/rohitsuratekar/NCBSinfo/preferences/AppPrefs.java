@@ -22,6 +22,7 @@ public class AppPrefs extends Preferences {
     private static final String HURRY_UP_TIME = "hurry_up";
     private static final String IS_USED_LOGGED_IN = "isUserLoggedIn";
     private static final String LAST_SYNC = "last_sync";
+    private static final String LOCATION_SORT = "location_sort";
 
     private Context context;
 
@@ -67,7 +68,6 @@ public class AppPrefs extends Preferences {
     }
 
     public void updateVersion() {
-        String versionName = "";
         try {
             put(APP_VERSION, context.getPackageManager()
                     .getPackageInfo(context.getPackageName(), 0).versionCode);
@@ -149,4 +149,13 @@ public class AppPrefs extends Preferences {
     public void clear() {
         clearAll();
     }
+
+    public int getLocationSort() {
+        return get(LOCATION_SORT, 0);
+    }
+
+    public void setLocationSort(int loc) {
+        put(LOCATION_SORT, loc);
+    }
+
 }

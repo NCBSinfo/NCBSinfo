@@ -43,10 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SLC"
-        tools:layout_editor_absoluteY="60dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/loc_item_details"
         android:layout_marginStart="8dp"
         app:layout_constraintLeft_toRightOf="@+id/loc_item_details"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="12sp" />
 
     <ImageView
@@ -68,11 +68,10 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/colorLightText"
-        app:layout_constraintBottom_toTopOf="@+id/loc_item_building"
-        android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/loc_item_icon"
         app:layout_constraintRight_toRightOf="@+id/loc_item_icon"
-        app:layout_constraintTop_toTopOf="@+id/loc_item_icon" />
+        app:layout_constraintTop_toTopOf="@+id/loc_item_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/loc_item_icon" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline10"

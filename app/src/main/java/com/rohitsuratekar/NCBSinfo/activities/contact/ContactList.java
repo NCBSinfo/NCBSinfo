@@ -12,10 +12,10 @@ import java.util.List;
  * https://github.com/NCBSinfo/NCBSinfo
  * Created by Rohit Suratekar on 03-07-16.
  */
-public class ContactList {
+class ContactList {
 
 
-    public List<ContactModel> getFront() {
+    List<ContactModel> getFront() {
         List<ContactModel> all = new ArrayList<>();
         ContactModel reception = new ContactModel();
         reception.setBothColors(Helper.getRandomColor());
@@ -53,7 +53,7 @@ public class ContactList {
         return all;
     }
 
-    public List<ContactModel> getAllDepartments() {
+    List<ContactModel> getAllDepartments() {
         List<ContactModel> all = new ArrayList<>();
         for (String[] s : getPinned()) {
             ContactModel c = new ContactModel();

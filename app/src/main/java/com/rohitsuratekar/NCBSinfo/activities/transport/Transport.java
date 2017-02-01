@@ -139,7 +139,7 @@ public class Transport extends BaseActivity {
         Point size = new Point();
         display.getSize(size);
         int height = size.y;
-        bottomSheet.setPeekSheetTranslation(height / 2);
+       // bottomSheet.setPeekSheetTranslation(height / 2);
         bottomSheet.showWithSheetView(LayoutInflater.from(getBaseContext()).inflate(R.layout.transport_route_sheet, bottomSheet, false));
 
         TextView sheetTitle = (TextView) findViewById(R.id.tp_bs_title);

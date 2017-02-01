@@ -49,18 +49,22 @@ public class RetrofitCalls {
 
     public Call<HashMap<String, RouteModel>> syncRoutes(String uid, List<RouteModel> models, String token) {
         HashMap<String, RouteModel> map = new HashMap<>();
-        for (RouteModel r : models){
+        for (RouteModel r : models) {
             map.put(makeRouteNodeName(r), r);
         }
         return builder().create(FirebaseServices.class).
                 syncRoutes(uid, map, token);
     }
 
-    private String makeRouteNodeName(RouteModel model){
+    private String makeRouteNodeName(RouteModel model) {
         return model.getOrigin().toLowerCase()
                 + "_" + model.getDestination().toLowerCase()
                 + "_" + model.getType().toString().toLowerCase()
                 + "_" + model.getDay();
+    }
+
+    public Call<CounterDetails> updateCounter(CounterDetails details, String token) {
+        return builder().create(FirebaseServices.class).updateCounter("ncbs_iisc", details, token);
     }
 
 }

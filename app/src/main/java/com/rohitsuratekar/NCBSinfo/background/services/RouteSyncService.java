@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
+import com.rohitsuratekar.NCBSinfo.background.networking.CounterDetails;
 import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
@@ -25,6 +26,7 @@ public class RouteSyncService extends IntentService {
 
     public final static String SYNC_ALL = "synRoutes"; // Sync all current database to server
     public final static String RETRIEVE_ALL = "retrieveAll"; // Save all database from server
+    public final static String TEST = "test";
 
     public RouteSyncService(String name) {
         super(name);
@@ -57,6 +59,10 @@ public class RouteSyncService extends IntentService {
                                         synAll();
                                         break;
                                     case RETRIEVE_ALL:
+                                        //TODO
+                                        break;
+                                    case TEST:
+                                        test();
                                         break;
                                 }
                             } else {
@@ -92,6 +98,22 @@ public class RouteSyncService extends IntentService {
                     @Override
                     public void onFailure(Call<HashMap<String, RouteModel>> call, Throwable t) {
                         Log.error(t.getLocalizedMessage());
+                    }
+                });
+    }
+
+    private void test() {
+        CounterDetails d = new CounterDetails("ashsh", 1);
+        new RetrofitCalls().updateCounter(d, token)
+                .enqueue(new Callback<CounterDetails>() {
+                    @Override
+                    public void onResponse(Call<CounterDetails> call, Response<CounterDetails> response) {
+                        Log.inform(response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<CounterDetails> call, Throwable t) {
+                        Log.inform(t.getLocalizedMessage());
                     }
                 });
     }
