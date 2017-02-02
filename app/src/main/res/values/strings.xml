@@ -39,6 +39,7 @@
     <string name="dashboard_settings_details">even more settings</string>
 
     <string name="notifications">Notifications</string>
+    <string name="notification_message">You have not received any notifications yet.</string>
 
     <string name="locations">Locations</string>
     <string name="sort_by">sort by</string>

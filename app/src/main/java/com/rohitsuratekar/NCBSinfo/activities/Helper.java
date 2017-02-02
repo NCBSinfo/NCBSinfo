@@ -95,6 +95,14 @@ public class Helper {
         }
     }
 
+    public static String assignDefaultIfNull(String value, String defaultValue) {
+        if (value != null) {
+            return value;
+        } else {
+            return defaultValue;
+        }
+    }
+
 
     public static int[] getRandomColor() {
         List<int[]> colorList = new ArrayList<>();

@@ -3,7 +3,7 @@ package com.rohitsuratekar.NCBSinfo.ui;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contact.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
-import com.rohitsuratekar.NCBSinfo.activities.dashboard.Notifications;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.notifications.Notifications;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.locations.Locations;
 import com.rohitsuratekar.NCBSinfo.activities.login.AccountSecurity;

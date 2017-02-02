@@ -71,15 +71,14 @@ class Database extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Remove support from previous databases
         db.execSQL("DROP TABLE IF EXISTS alarmTable");
+        db.execSQL("DROP TABLE IF EXISTS notifications");
         db.execSQL("DROP TABLE IF EXISTS table_contacts");
         db.execSQL("DROP TABLE IF EXISTS table_research_talk");
+        db.execSQL("DROP TABLE IF EXISTS table_notifications");
 
         //Make new ones
         RouteData.make(db);
-        //If old notification table does not exists
-        if (!ifTableExists(db, "notifications")) {
-            NotificationData.make(db);
-        }
+        NotificationData.make(db);
         Log.inform("Database '" + DATABASE_NAME + "' is upgraded from " + oldVersion + " to " + newVersion + " successfully.");
     }
 

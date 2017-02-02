@@ -7,6 +7,7 @@ public class NotificationModel {
     private String title;
     private String message;
     private String from;
+    private String expires;
     private String extraVariables;
 
     public NotificationModel() {
@@ -58,5 +59,13 @@ public class NotificationModel {
 
     public void setExtraVariables(String extraVariables) {
         this.extraVariables = extraVariables;
+    }
+
+    public String getExpires() {
+        return expires;
+    }
+
+    public void setExpires(String expires) {
+        this.expires = expires;
     }
 }

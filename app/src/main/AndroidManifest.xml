@@ -32,8 +32,13 @@
         <service android:name=".background.services.RouteSyncService" />
 
         <activity android:name=".activities.dashboard.Dashboard" />
-        <activity android:name=".activities.dashboard.Notifications" />
-        <activity android:name=".activities.login.AccountSecurity"></activity>
+        <activity android:name=".activities.dashboard.notifications.Notifications" />
+        <activity android:name=".activities.login.AccountSecurity" />
+
+        <service
+            android:name=".background.services.FCMService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

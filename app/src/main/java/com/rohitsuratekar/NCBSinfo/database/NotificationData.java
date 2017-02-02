@@ -22,6 +22,7 @@ public class NotificationData {
     private static final String TITLE = "notification_title";
     private static final String MESSAGE = "notification_message";
     private static final String FROM = "notification_from";
+    private static final String EXPIRES = "notification_expires";
     private static final String EXTRA_VARIABLES = "notification_extravariables";
 
 
@@ -45,6 +46,7 @@ public class NotificationData {
         columnList.add(new String[]{TITLE, "TEXT"});
         columnList.add(new String[]{MESSAGE, "TEXT"});
         columnList.add(new String[]{FROM, "TEXT"});
+        columnList.add(new String[]{EXPIRES, "TEXT"});
         columnList.add(new String[]{EXTRA_VARIABLES, "TEXT"});
         db.execSQL(QueryBuilder.buildTableQuery(TABLE, columnList));
         Log.inform("Table '" + TABLE + "' is created.");
@@ -114,6 +116,7 @@ public class NotificationData {
         values.put(TITLE, model.getTitle());
         values.put(MESSAGE, model.getMessage());
         values.put(FROM, model.getFrom());
+        values.put(EXPIRES, model.getExpires());
         values.put(EXTRA_VARIABLES, model.getExtraVariables());
         return values;
     }
@@ -131,6 +134,7 @@ public class NotificationData {
         m.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
         m.setMessage(cursor.getString(cursor.getColumnIndex(MESSAGE)));
         m.setFrom(cursor.getString(cursor.getColumnIndex(FROM)));
+        m.setExpires(cursor.getString(cursor.getColumnIndex(EXPIRES)));
         m.setExtraVariables(cursor.getString(cursor.getColumnIndex(EXTRA_VARIABLES)));
         return m;
     }
