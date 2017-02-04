@@ -35,10 +35,14 @@
         <activity android:name=".activities.dashboard.notifications.Notifications" />
         <activity android:name=".activities.login.AccountSecurity" />
 
-        <service
-            android:name=".background.services.FCMService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <service android:name=".background.services.FCMService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".background.services.UserPreferenceService" />
+
+        <activity android:name=".activities.transport.edit.TransportEdit"></activity>
     </application>
 
 </manifest>

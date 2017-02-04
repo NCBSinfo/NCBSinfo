@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/notification_icon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@null"
         android:src="@drawable/icon_error"
         android:visibility="gone"

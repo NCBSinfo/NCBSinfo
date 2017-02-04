@@ -56,7 +56,7 @@ public class Notifications extends BaseActivity {
         adapter.setOnNotificationClick(new NotificationAdapter.OnNotificationClick() {
             @Override
             public void showFull(View v, int position) {
-                showDialog(modelList.get(position));
+                showNotificationDialog(position);
             }
         });
 
@@ -72,8 +72,8 @@ public class Notifications extends BaseActivity {
         return CurrentActivity.NOTIFICATIONS;
     }
 
-    void showDialog(final NotificationModel model) {
-
+    void showNotificationDialog(final int position) {
+        final NotificationModel model = modelList.get(position);
         new AlertDialog.Builder(this)
                 .setTitle(model.getTitle())
                 .setMessage(model.getMessage())
@@ -85,7 +85,7 @@ public class Notifications extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         new NotificationData(getBaseContext()).delete(model);
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRemoved(position);
                     }
                 })
                 .show();

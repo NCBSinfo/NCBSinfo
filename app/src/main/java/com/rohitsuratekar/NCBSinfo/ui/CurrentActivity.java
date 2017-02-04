@@ -10,11 +10,13 @@ import com.rohitsuratekar.NCBSinfo.activities.login.AccountSecurity;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Register;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 
 public enum CurrentActivity {
 
     HOME(Home.class, R.layout.home, R.string.home, R.id.nav_home, R.menu.base_menu),
     TRANSPORT(Transport.class, R.layout.transport, R.string.transport, R.id.nav_transport, R.menu.transport_menu),
+    TRANSPORT_EDIT(TransportEdit.class, R.layout.transport_edit, R.string.transport_edit, R.id.nav_header_option, R.menu.blank_menu),
     CONTACTS(Contacts.class, R.layout.contacts, R.string.contacts, R.id.nav_contacts, R.menu.contacts_menu),
     LOCATIONS(Locations.class, R.layout.locations, R.string.locations, R.id.nav_locations, R.menu.base_menu),
     LOGIN(Login.class, R.layout.login, R.string.log_in, R.id.nav_header_option, R.menu.blank_menu),

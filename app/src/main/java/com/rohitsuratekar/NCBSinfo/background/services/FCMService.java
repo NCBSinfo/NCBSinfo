@@ -38,9 +38,8 @@ public class FCMService extends FirebaseMessagingService {
         Log.inform("Message received from Firebase Service");
         String messageCode = remoteMessage.getData().get(RCODE);
         if (messageCode != null) {
-
+            //TODO
         } else {
-            //TODO : Regular message
             regularNotification(remoteMessage);
         }
     }

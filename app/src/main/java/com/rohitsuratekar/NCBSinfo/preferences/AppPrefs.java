@@ -23,6 +23,7 @@ public class AppPrefs extends Preferences {
     private static final String IS_USED_LOGGED_IN = "isUserLoggedIn";
     private static final String LAST_SYNC = "last_sync";
     private static final String LOCATION_SORT = "location_sort";
+    private static final String MIGRATION_ID = "migration_id";
 
     private Context context;
 
@@ -156,6 +157,14 @@ public class AppPrefs extends Preferences {
 
     public void setLocationSort(int loc) {
         put(LOCATION_SORT, loc);
+    }
+
+    public String getMigrationId() {
+        return get(MIGRATION_ID, "v5"); // v5 is old migration ID. From version 44, it will be v6
+    }
+
+    public void setMigrationID(String id) {
+        put(MIGRATION_ID, id);
     }
 
 }

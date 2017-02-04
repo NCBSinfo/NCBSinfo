@@ -8,33 +8,33 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.rohitsuratekar.NCBSinfo.activities.Helper;
-import com.rohitsuratekar.NCBSinfo.background.networking.PersonalDetails;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
+import com.rohitsuratekar.NCBSinfo.background.networking.models.UserDetails;
 import com.rohitsuratekar.NCBSinfo.background.services.RouteSyncService;
+import com.rohitsuratekar.NCBSinfo.background.services.UserPreferenceService;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.HashMap;
+import java.util.Map;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginUser extends AsyncTask<Object, Integer, Void> {
+
+    private static final String PUBLIC_TOPIC = "public";
 
     private OnDataRetrieved retrieved;
     private LoginSessionObject sessionObject;
     private AppPrefs prefs;
-    private int defaultRoute;
+    private Gson gson = new Gson();
 
     public LoginUser(OnDataRetrieved retrieved) {
         this.retrieved = retrieved;
@@ -69,7 +69,8 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
                                 @Override
                                 public void onComplete(@NonNull Task<GetTokenResult> task) {
                                     if (task.isSuccessful()) {
-                                        getAllUserData(task.getResult().getToken());
+                                        getAllUserData(sessionObject.getmAuth().getCurrentUser().getUid(),
+                                                task.getResult().getToken());
                                     } else {
                                         retrieved.showError(task.getException().getLocalizedMessage());
                                     }
@@ -82,74 +83,63 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
                 });
     }
 
-    private void getAllUserData(final String token) {
-        new RetrofitCalls().personalDetailsCall(sessionObject.getEmail(), token)
-                .enqueue(new Callback<PersonalDetails>() {
+    private void getAllUserData(final String uid, final String token) {
+        new RetrofitCalls().getUserDetails(uid, token)
+                .enqueue(new Callback<UserDetails>() {
                     @Override
-                    public void onResponse(Call<PersonalDetails> call, retrofit2.Response<PersonalDetails> response) {
+                    public void onResponse(Call<UserDetails> call, retrofit2.Response<UserDetails> response) {
                         if (response.isSuccessful()) {
-                            //This is for legacy people, who don't have any information synced
                             if (response.body() != null) {
-                                prefs.setUserName(response.body().getName());
+                                UserDetails u = response.body();
+                                prefs.setUserName(u.getName());
                                 prefs.userLoggedIn();
-                                defaultRoute = response.body().getDefaultRoute();
-                                Log.inform("Default is " + defaultRoute);
-                                prefs.setFavoriteRoute(defaultRoute);
+                                prefs.setFavoriteOrigin(u.getFavoriteOrigin());
+                                prefs.setFavoriteDestination(u.getFavoriteDestination());
+                                prefs.setFavoriteType(Helper.getType(u.getFavoriteType()));
+                                prefs.setMigrationID(u.getMigrationID());
+                                if (u.getNotifications() != null &&
+                                        u.getNotifications().toLowerCase().equals("off")) {
+                                    prefs.notificationAllowed(false);
+                                } else {
+                                    prefs.notificationAllowed(true);
+                                }
+                                saveData(u.getRoutes());
+                            } else {
+                                Intent i = new Intent(sessionObject.getContext(), UserPreferenceService.class);
+                                i.setAction(UserPreferenceService.OLD_USER_WITH_NO_DATA);
+                                sessionObject.getContext().startService(i);
+                                finishExecution();
                             }
-                            String uid = sessionObject.getmAuth().getCurrentUser().getUid();
-                            getFromServer(uid, token);
                         } else {
-                            retrieved.showError("Something went wrong :(");
+                            retrieved.showError("Oh, no. Something went wrong :( Please try again.");
+
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<PersonalDetails> call, Throwable t) {
+                    public void onFailure(Call<UserDetails> call, Throwable t) {
                         retrieved.showError(t.getLocalizedMessage());
                     }
                 });
     }
 
 
-    //Get data from server to compare with modified data
-    private void getFromServer(String uid, String token) {
-        retrieved.updateDialog(60, "Preparing routes...");
-        new RetrofitCalls().getRouteInfo(uid, token)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            HashMap<String, RouteModel> map = new HashMap<String, RouteModel>();
-                            Type type = new TypeToken<HashMap<String, RouteModel>>() {
-                            }.getType();
-                            try {
-                                map = new Gson().fromJson(response.body().string(), type);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            saveData(map);
-                        } else {
-                            Log.inform(response.message());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
-    }
-
-    private void saveData(HashMap<String, RouteModel> map) {
+    private void saveData(Map<String, Object> map) {
         if (map != null) {
             //If there is data on server, replace this with existing
             if (map.values().size() != 0) {
                 new RouteData(sessionObject.getContext()).clearAll();
             }
-            for (RouteModel r : map.values()) {
+            for (Object object : map.values()) {
+                RouteModel r = gson.fromJson(gson.toJson(object), RouteModel.class);
                 new RouteData(sessionObject.getContext()).add(r);
             }
             new RouteData(sessionObject.getContext()).updateSyncTime(General.timeStamp());
+            int favRoute = new RouteData(sessionObject.getContext()).checkIfExistsRoute(
+                    prefs.getFavoriteOrigin(), prefs.getFavoriteDestination(), Helper.getType(prefs.getFavoriteType()));
+            if (favRoute != -1) {
+                prefs.setFavoriteRoute(favRoute);
+            }
             loadRoutes.execute(sessionObject.getContext());
         } else {
             //There is no route data available on the server, send request to sync existing data
@@ -159,7 +149,6 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
             sessionObject.getContext().startService(intent);
             finishExecution();
         }
-
     }
 
     private LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
@@ -170,9 +159,27 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
     });
 
     private void finishExecution() {
+
         prefs.setLastSync(General.timeStamp());
-        new Helper().legacyDefaultConverter(sessionObject.getContext(), prefs.getFavoriteRoute());
+        Intent intent = new Intent(sessionObject.getContext(), UserPreferenceService.class);
+        intent.setAction(UserPreferenceService.DELETE_OLD);
+        sessionObject.getContext().startService(intent);
+
+        // Start Alarms
+        Intent alarms = new Intent(sessionObject.getContext(), Alarms.class);
+        alarms.setAction(Alarms.START_ALARMS);
+        sessionObject.getContext().startService(alarms);
+
+        //Login Sync
+        Intent login = new Intent(sessionObject.getContext(), UserPreferenceService.class);
+        login.setAction(UserPreferenceService.SYNC_LOGIN);
+        sessionObject.getContext().startService(login);
+
+        //Subscribe to topic
+        FirebaseMessaging.getInstance().subscribeToTopic(PUBLIC_TOPIC);
+
         retrieved.onTaskComplete();
+
     }
 
 

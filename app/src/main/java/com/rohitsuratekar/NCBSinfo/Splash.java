@@ -43,6 +43,10 @@ public class Splash extends Activity {
         } else {
             loadRoutes.execute(getBaseContext());
         }
+
+
+
+
     }
 
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {

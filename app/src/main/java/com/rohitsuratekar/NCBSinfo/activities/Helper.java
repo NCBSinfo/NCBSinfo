@@ -44,6 +44,7 @@ public class Helper {
         return httpClient.addInterceptor(interceptor).build();
     }
 
+
     public void legacyDefaultConverter(Context context, int route) {
         AppPrefs prefs = new AppPrefs(context);
         String origin = "ncbs";

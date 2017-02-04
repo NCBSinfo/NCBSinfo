@@ -15,3 +15,13 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-repackageclasses 'obfuscated'
+-keepattributes *Annotation*
+# Add this global rule
+-keepattributes Signature
+-keepattributes EnclosingMethod
+
+-dontwarn okio.**
+-dontwarn retrofit2.**
+-dontwarn com.squareup.picasso.**

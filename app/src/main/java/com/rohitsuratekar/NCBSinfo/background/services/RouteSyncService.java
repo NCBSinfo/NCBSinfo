@@ -8,7 +8,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
-import com.rohitsuratekar.NCBSinfo.background.networking.CounterDetails;
 import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
@@ -103,18 +102,6 @@ public class RouteSyncService extends IntentService {
     }
 
     private void test() {
-        CounterDetails d = new CounterDetails("ashsh", 1);
-        new RetrofitCalls().updateCounter(d, token)
-                .enqueue(new Callback<CounterDetails>() {
-                    @Override
-                    public void onResponse(Call<CounterDetails> call, Response<CounterDetails> response) {
-                        Log.inform(response.message());
-                    }
 
-                    @Override
-                    public void onFailure(Call<CounterDetails> call, Throwable t) {
-                        Log.inform(t.getLocalizedMessage());
-                    }
-                });
     }
 }

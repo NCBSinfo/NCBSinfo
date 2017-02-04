@@ -12,17 +12,17 @@ import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
-public class NotificationService {
+class NotificationService {
 
     private Context context;
     private AppPrefs prefs;
 
-    public NotificationService(Context context) {
+    NotificationService(Context context) {
         this.context = context;
         this.prefs = new AppPrefs(context);
     }
 
-    public void send(int notificationNumber, String title, String message, PendingIntent contentIntent) {
+    void send(int notificationNumber, String title, String message, PendingIntent contentIntent) {
         notifySystem(getBuilder(title, message, contentIntent), notificationNumber);
     }
 
