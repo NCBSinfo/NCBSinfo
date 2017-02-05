@@ -56,36 +56,41 @@ public class UserPreferenceService extends IntentService {
         final String action = intent.getAction();
         if (mAuth.getCurrentUser() != null && action != null) {
 
-            mAuth.getCurrentUser().getToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                @Override
-                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                    if (task.isSuccessful()) {
-                        uid = mAuth.getCurrentUser().getUid();
-                        fireBaseToken = FirebaseInstanceId.getInstance().getToken();
-                        token = task.getResult().getToken();
-                        switch (action) {
-                            case SYNC_USER_PREFERENCES:
-                                regularSync();
-                                break;
-                            case SYNC_LOGIN:
-                                syncLogin();
-                                break;
-                            case DELETE_OLD:
-                                if (!prefs.getMigrationId().toLowerCase().equals(CURRENT_MIGRATION_ID)) {
-                                    deleteOld();
-                                } else {
-                                    Log.inform("Auth deletion aborted because migration has already done");
-                                }
-                                break;
-                            case OLD_USER_WITH_NO_DATA:
-                                setOldUserWithNoData();
-                                break;
+            if (General.isNetworkAvailable(getBaseContext())) {
+
+                mAuth.getCurrentUser().getToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            uid = mAuth.getCurrentUser().getUid();
+                            fireBaseToken = FirebaseInstanceId.getInstance().getToken();
+                            token = task.getResult().getToken();
+                            switch (action) {
+                                case SYNC_USER_PREFERENCES:
+                                    regularSync();
+                                    break;
+                                case SYNC_LOGIN:
+                                    syncLogin();
+                                    break;
+                                case DELETE_OLD:
+                                    if (!prefs.getMigrationId().toLowerCase().equals(CURRENT_MIGRATION_ID)) {
+                                        deleteOld();
+                                    } else {
+                                        Log.inform("Auth deletion aborted because migration has already done");
+                                    }
+                                    break;
+                                case OLD_USER_WITH_NO_DATA:
+                                    setOldUserWithNoData();
+                                    break;
+                            }
+                        } else {
+                            Log.error(task.getException().getLocalizedMessage());
                         }
-                    } else {
-                        Log.error(task.getException().getLocalizedMessage());
                     }
-                }
-            });
+                });
+            } else {
+                Log.inform("Sync cancelled because of no network");
+            }
         }
 
     }

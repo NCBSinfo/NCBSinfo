@@ -22,6 +22,12 @@
         <activity android:name=".activities.home.Home" />
         <activity android:name=".activities.contact.Contacts" />
         <activity android:name=".activities.locations.Locations" />
+        <activity android:name=".activities.dashboard.Dashboard" />
+        <activity android:name=".activities.dashboard.notifications.Notifications" />
+        <activity android:name=".activities.login.AccountSecurity" />
+        <activity android:name=".activities.transport.edit.TransportEdit" />
+
+
         <activity
             android:name=".activities.login.Login"
             android:windowSoftInputMode="adjustPan" />
@@ -30,19 +36,33 @@
             android:windowSoftInputMode="adjustPan" />
 
         <service android:name=".background.services.RouteSyncService" />
+        <service android:name=".background.services.UserPreferenceService" />
 
-        <activity android:name=".activities.dashboard.Dashboard" />
-        <activity android:name=".activities.dashboard.notifications.Notifications" />
-        <activity android:name=".activities.login.AccountSecurity" />
+        <receiver android:name=".background.alarms.Alarms" />
 
-        <service android:name=".background.services.FCMService">
+        <service
+            android:name=".background.services.FCMService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".background.services.UserPreferenceService" />
+        <service
+            android:name=".background.services.SyncJobs"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
 
-        <activity android:name=".activities.transport.edit.TransportEdit"></activity>
+        <receiver android:name=".background.services.OnUpgrade">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data
+                    android:path="com.rohitsuratekar.NCBSinfo"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

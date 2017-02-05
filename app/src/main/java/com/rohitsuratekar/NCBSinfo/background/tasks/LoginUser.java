@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -11,10 +15,10 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.rohitsuratekar.NCBSinfo.activities.Helper;
-import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
 import com.rohitsuratekar.NCBSinfo.background.networking.models.UserDetails;
 import com.rohitsuratekar.NCBSinfo.background.services.RouteSyncService;
+import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.background.services.UserPreferenceService;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
@@ -165,10 +169,15 @@ public class LoginUser extends AsyncTask<Object, Integer, Void> {
         intent.setAction(UserPreferenceService.DELETE_OLD);
         sessionObject.getContext().startService(intent);
 
-        // Start Alarms
-        Intent alarms = new Intent(sessionObject.getContext(), Alarms.class);
-        alarms.setAction(Alarms.START_ALARMS);
-        sessionObject.getContext().startService(alarms);
+        // Start SyncServices
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(sessionObject.getContext()));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(SyncJobs.class)
+                .setReplaceCurrent(true)
+                .setTrigger(Trigger.executionWindow(0, 1))
+                .setTag(SyncJobs.RESET_ALL_JOBS)
+                .build();
+        dispatcher.mustSchedule(myJob);
 
         //Login Sync
         Intent login = new Intent(sessionObject.getContext(), UserPreferenceService.class);
