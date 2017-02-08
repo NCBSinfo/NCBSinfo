@@ -69,7 +69,7 @@ public class SyncJobs extends JobService {
     }
 
     private void startPrefSync() {
-        int startTime = (int) TimeUnit.SECONDS.convert(1, TimeUnit.DAYS);
+        int startTime = (int) TimeUnit.SECONDS.convert(12, TimeUnit.HOURS);
         int tolerance = startTime + (int) TimeUnit.SECONDS.convert(1, TimeUnit.HOURS);
         Job myJob = dispatcher.newJobBuilder()
                 .setService(SyncJobs.class)
@@ -84,7 +84,7 @@ public class SyncJobs extends JobService {
     }
 
     private void startRouteSync() {
-        int startTime = (int) TimeUnit.SECONDS.convert(2, TimeUnit.DAYS);
+        int startTime = (int) TimeUnit.SECONDS.convert(1, TimeUnit.DAYS);
         int tolerance = startTime + (int) TimeUnit.SECONDS.convert(1, TimeUnit.HOURS);
         Job myJob = dispatcher.newJobBuilder()
                 .setService(SyncJobs.class)

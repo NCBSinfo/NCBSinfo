@@ -52,6 +52,12 @@ public class Login extends BaseActivity {
 
         prefs = new AppPrefs(getBaseContext());
         //TODO
+
+        //Need following line to remove custom text instance
+        email.getEditText().setSaveEnabled(false);
+        password.getEditText().setSaveEnabled(false);
+
+
         email.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

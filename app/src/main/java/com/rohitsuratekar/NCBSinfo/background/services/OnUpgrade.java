@@ -22,6 +22,6 @@ public class OnUpgrade extends BroadcastReceiver {
                 .setTrigger(Trigger.executionWindow(0, 1))
                 .setTag(SyncJobs.RESET_ALL_JOBS)
                 .build();
-        //TODO  dispatcher.mustSchedule(myJob);
+        dispatcher.mustSchedule(myJob);
     }
 }

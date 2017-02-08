@@ -22,6 +22,14 @@
     <string name="sunday">Sunday</string>
 
     <string name="transport_edit">Edit Route</string>
+    <string name="transport_set_route">Set Route</string>
+    <string name="transport_set_route_details">What is origin and destination of your route?</string>
+    <string name="transport_set_trips">Set Trips</string>
+    <string name="transport_set_trips_details">Add trips to the day (order doesn\'t matter)</string>
+    <string name="transport_confirm">Confirm</string>
+    <string name="transport_suggestions">Suggestions</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
 
     <string name="contacts">Contacts</string>
     <string name="contact_number">Contact Number</string>
@@ -71,4 +79,9 @@
     <string name="create_account">Create new account ?</string>
     <string name="last_sync_warning">N/A, please log in to sync data</string>
     <string name="log_out_warning">You will not be able to sync data to your account or get latest updated transport timings (if any)</string>
+
+
+    <string name="settings_notifications">Current status : %s</string>
+    <string name="settings_reset_warning">Important ! You are about to reset all of your transport routes to their default values.
+     These values were last created on 30 December 2016. They might be incorrect. Please check with NCBS reception for further validation.</string>
 </resources>

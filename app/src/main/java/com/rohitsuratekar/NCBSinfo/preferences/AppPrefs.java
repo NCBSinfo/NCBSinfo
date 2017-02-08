@@ -24,6 +24,7 @@ public class AppPrefs extends Preferences {
     private static final String LAST_SYNC = "last_sync";
     private static final String LOCATION_SORT = "location_sort";
     private static final String MIGRATION_ID = "migration_id";
+    private static final String DEVELOPER = "isDeveloper";
 
     private Context context;
 
@@ -165,6 +166,14 @@ public class AppPrefs extends Preferences {
 
     public void setMigrationID(String id) {
         put(MIGRATION_ID, id);
+    }
+
+    public boolean isDeveloper() {
+        return get(DEVELOPER, false);
+    }
+
+    public void setDeveloper(boolean value) {
+        put(DEVELOPER, value);
     }
 
 }

@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.secretbiology.helpers.general.General;
 
@@ -92,6 +93,9 @@ public abstract class BaseActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.action_edit_route) {
             startActivity(new Intent(this, TransportEdit.class));
+            animateTransition();
+        } else if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
             animateTransition();
         }
         return super.onOptionsItemSelected(item);

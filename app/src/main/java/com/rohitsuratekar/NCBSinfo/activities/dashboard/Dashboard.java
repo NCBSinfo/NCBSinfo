@@ -14,6 +14,7 @@ import com.rohitsuratekar.NCBSinfo.activities.Helper;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.notifications.Notifications;
 import com.rohitsuratekar.NCBSinfo.activities.login.AccountSecurity;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
@@ -101,6 +102,10 @@ public class Dashboard extends BaseActivity {
                 break;
             case DashboardItems.PASSWORD:
                 startActivity(new Intent(this, AccountSecurity.class));
+                animateTransition();
+                break;
+            case DashboardItems.SETTINGS:
+                startActivity(new Intent(this, Settings.class));
                 animateTransition();
                 break;
         }

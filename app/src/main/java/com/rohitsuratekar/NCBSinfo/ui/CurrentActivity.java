@@ -9,6 +9,7 @@ import com.rohitsuratekar.NCBSinfo.activities.locations.Locations;
 import com.rohitsuratekar.NCBSinfo.activities.login.AccountSecurity;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.login.Register;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 
@@ -23,7 +24,8 @@ public enum CurrentActivity {
     REGISTER(Register.class, R.layout.register, R.string.register, R.id.nav_header_option, R.menu.blank_menu),
     NOTIFICATIONS(Notifications.class, R.layout.notifications, R.string.notifications, R.id.nav_header_option, R.menu.blank_menu),
     DASHBOARD(Dashboard.class, R.layout.dashboard, R.string.dashboard, R.id.nav_dashboard, R.menu.blank_menu),
-    SECURITY(AccountSecurity.class, R.layout.account_security, R.string.security, R.id.nav_header_option, R.menu.blank_menu);
+    SECURITY(AccountSecurity.class, R.layout.account_security, R.string.security, R.id.nav_header_option, R.menu.blank_menu),
+    SETTINGS(Settings.class, R.layout.settings, R.string.settings, R.id.nav_settings, R.menu.blank_menu);
 
     private Class currentClass;
     private int layout;

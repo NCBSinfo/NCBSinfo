@@ -45,8 +45,6 @@ public class Splash extends Activity {
         }
 
 
-
-
     }
 
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
