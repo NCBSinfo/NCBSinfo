@@ -85,7 +85,7 @@ public class Notifications extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         new NotificationData(getBaseContext()).delete(model);
-                        adapter.notifyItemRemoved(position);
+                        adapter.notifyDataSetChanged();
                     }
                 })
                 .show();

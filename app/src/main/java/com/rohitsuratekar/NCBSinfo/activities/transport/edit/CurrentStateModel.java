@@ -1,14 +1,14 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.edit;
 
-import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
-
 import java.util.List;
 
 public class CurrentStateModel {
 
     private String origin;
     private String destination;
-    private List<RouteModel> routeList;
+    private List<String> routeList;
+    private int day;
+    private String firstTrip;
 
     public CurrentStateModel() {
     }
@@ -29,11 +29,27 @@ public class CurrentStateModel {
         this.destination = destination;
     }
 
-    public List<RouteModel> getRouteList() {
+    public List<String> getRouteList() {
         return routeList;
     }
 
-    public void setRouteList(List<RouteModel> routeList) {
+    public void setRouteList(List<String> routeList) {
         this.routeList = routeList;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public String getFirstTrip() {
+        return firstTrip;
+    }
+
+    public void setFirstTrip(String firstTrip) {
+        this.firstTrip = firstTrip;
     }
 }

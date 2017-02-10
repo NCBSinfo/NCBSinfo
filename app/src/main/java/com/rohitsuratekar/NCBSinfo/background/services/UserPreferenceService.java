@@ -97,10 +97,9 @@ public class UserPreferenceService extends IntentService {
 
     private void regularSync() {
         //TODO: implementing two way sync
-        UserDetails user = new UserDetails();
+        UserDetails user = getPrefUser();
         user.setUid(uid);
         user.setFcmToken(fireBaseToken);
-        prefs.setLastSync(General.timeStamp());
         sync(user);
     }
 

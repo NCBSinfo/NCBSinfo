@@ -135,6 +135,12 @@ public class AddLocationFragment extends Fragment {
         origin.getEditText().setFilters(new InputFilter[]{getFilter()});
         destination.getEditText().setFilters(new InputFilter[]{getFilter()});
 
+        Route route = CurrentSession.getInstance().getCurrentRoute();
+        if (((TransportEdit) getActivity()).isForEdit()) {
+            origin.setText(route.getOrigin());
+            destination.setText(route.getDestination());
+        }
+
         return rootView;
     }
 
@@ -166,6 +172,15 @@ public class AddLocationFragment extends Fragment {
             }
 
         };
+    }
+
+    public void setAll(String origin, String destination) {
+
+        this.origin.setText(origin);
+        this.destination.setText(destination);
+        originAdded = true;
+        destinationAdded = true;
+
     }
 
 

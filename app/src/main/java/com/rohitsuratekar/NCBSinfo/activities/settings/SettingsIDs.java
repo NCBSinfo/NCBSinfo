@@ -1,7 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.settings;
 
 
-interface SettingIDs {
+interface SettingsIDs {
 
     int VIEW_ITEM = 0;
     int VIEW_SECTION_HEADER = 1;

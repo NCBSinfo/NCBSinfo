@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class SettingsItems implements SettingIDs {
+class SettingsItems implements SettingsIDs {
 
     private Context context;
     private List<SettingsModel> list;

@@ -30,7 +30,7 @@ public class TransportTripAdapter extends RecyclerView.Adapter<TransportTripAdap
 
         MyViewHolder(final View view) {
             super(view);
-            details = (TextView) view.findViewById(R.id.tp_list_text);
+            details = (TextView) view.findViewById(R.id.tp_edit_item_text);
             dot = (ImageView) view.findViewById(R.id.tp_list_dot);
             top = (ImageView) view.findViewById(R.id.tp_list_top_line);
             bottom = (ImageView) view.findViewById(R.id.tp_list_bottom_line);

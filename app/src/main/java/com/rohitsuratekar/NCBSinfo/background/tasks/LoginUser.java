@@ -33,7 +33,7 @@ import retrofit2.Callback;
 
 public class LoginUser extends AsyncTask<Object, Integer, Void> {
 
-    private static final String PUBLIC_TOPIC = "public";
+    static final String PUBLIC_TOPIC = "public";
 
     private OnDataRetrieved retrieved;
     private LoginSessionObject sessionObject;

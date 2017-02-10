@@ -21,12 +21,20 @@
     <string name="weekdays">Weekdays</string>
     <string name="sunday">Sunday</string>
 
+    <string name="transport_add">Add New Route</string>
     <string name="transport_edit">Edit Route</string>
     <string name="transport_set_route">Set Route</string>
     <string name="transport_set_route_details">What is origin and destination of your route?</string>
     <string name="transport_set_trips">Set Trips</string>
-    <string name="transport_set_trips_details">Add trips to the day (order doesn\'t matter)</string>
+    <string name="transport_set_trips_details">Add trips to (click to change)</string>
+    <string name="transport_set_trips_empty">Trip list is empty.\nYou can click on \"+\" button to add trips</string>
+    <string name="transport_set_trips_note1">You can chan add as many as trips you want.</string>
+    <string name="transport_set_trips_note2">Click on trip to see more options.</string>
+    <string name="transport_set_trips_note3">Click on title to get more options</string>
+    <string name="transport_set_trips_note4">You can add trip for any day of week.</string>
     <string name="transport_confirm">Confirm</string>
+    <string name="transport_confirm_details">Select first trip of the day</string>
+    <string name="transport_confirm_empty">We all like to skip steps but you have to complete previous step before using this one :)</string>
     <string name="transport_suggestions">Suggestions</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>

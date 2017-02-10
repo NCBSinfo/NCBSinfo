@@ -14,7 +14,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 
 import java.util.List;
 
-class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SettingIDs {
+class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements SettingsIDs {
 
     SettingsAdapter(List<SettingsModel> items) {
         this.entryList = items;

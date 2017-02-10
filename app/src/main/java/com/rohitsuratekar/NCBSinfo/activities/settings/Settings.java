@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Settings extends BaseActivity implements SettingIDs {
+public class Settings extends BaseActivity implements SettingsIDs {
 
     @BindView(R.id.settings_recycler)
     RecyclerView recyclerView;
