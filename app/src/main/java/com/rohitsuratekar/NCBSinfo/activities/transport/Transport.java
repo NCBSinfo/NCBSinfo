@@ -427,6 +427,7 @@ public class Transport extends BaseActivity {
 
     private void finishLoading() {
         progressDialog.dismiss();
+        new Helper().sendRouteSyncRequest(getBaseContext());
         new LoadRoutes(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {

@@ -25,6 +25,7 @@ public class AppPrefs extends Preferences {
     private static final String LOCATION_SORT = "location_sort";
     private static final String MIGRATION_ID = "migration_id";
     private static final String DEVELOPER = "isDeveloper";
+    private static final String INTRO_SEEN = "intro_seen";
 
     private Context context;
 
@@ -174,6 +175,14 @@ public class AppPrefs extends Preferences {
 
     public void setDeveloper(boolean value) {
         put(DEVELOPER, value);
+    }
+
+    public boolean isIntroSeen() {
+        return get(INTRO_SEEN, false);
+    }
+
+    public void introSeen() {
+        put(INTRO_SEEN, true);
     }
 
 }

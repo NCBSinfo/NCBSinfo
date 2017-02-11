@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class SyncJobs extends JobService {
 
     public static final String RESET_ALL_JOBS = "startAllJobs";
+    public static final String SINGLE_ROUTE_SYNC = "singleRouteSync";
     private static final String SYNC_PREFERENCES = "syncPreferences";
     private static final String SYNC_ROUTE_DATA = "syncRouteData";
 
@@ -37,7 +38,9 @@ public class SyncJobs extends JobService {
             case SYNC_ROUTE_DATA:
                 syncRouteData();
                 break;
-
+            case SINGLE_ROUTE_SYNC:
+                syncRouteData();
+                break;
         }
         return false;
     }
@@ -96,6 +99,10 @@ public class SyncJobs extends JobService {
                 .setTag(SYNC_ROUTE_DATA)
                 .build();
         dispatcher.mustSchedule(myJob);
+    }
+
+    private void singleRouteSync() {
+
     }
 
 }

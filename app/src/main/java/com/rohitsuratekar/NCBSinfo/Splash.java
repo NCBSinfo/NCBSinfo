@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Trigger;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
+import com.rohitsuratekar.NCBSinfo.activities.intro.Intro;
 import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.MigrateApp;
@@ -18,12 +14,14 @@ import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 
 public class Splash extends Activity {
 
+    private AppPrefs prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        final AppPrefs prefs = new AppPrefs(getBaseContext());
+        prefs = new AppPrefs(getBaseContext());
 
         prefs.updateVersion();
         // Create database if it is opened first time
@@ -54,10 +52,18 @@ public class Splash extends Activity {
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
         @Override
         public void onTaskCompleted() {
-            Intent intent = new Intent(Splash.this, Home.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            if (prefs.isIntroSeen()) {
+                Intent intent = new Intent(Splash.this, Home.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            } else {
+                Intent intent = new Intent(Splash.this, Intro.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+
         }
     });
 

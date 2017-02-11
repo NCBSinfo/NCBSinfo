@@ -11,11 +11,13 @@ import android.support.v7.widget.RecyclerView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.Helper;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.settings.log.LogActivity;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
@@ -188,9 +190,20 @@ public class Settings extends BaseActivity implements SettingsIDs {
                         new CreateDefaultRoutes(new OnTaskCompleted() {
                             @Override
                             public void onTaskCompleted() {
-                                dialog.dismiss();
-                                progressDialog.dismiss();
-                                General.makeLongToast(getBaseContext(), "All routes reset to their default values");
+                                new LoadRoutes(new OnTaskCompleted() {
+                                    @Override
+                                    public void onTaskCompleted() {
+                                        dialog.dismiss();
+                                        progressDialog.dismiss();
+                                        new Helper().sendRouteSyncRequest(getBaseContext());
+                                        General.makeLongToast(getBaseContext(), "All routes reset to their default values");
+                                        Intent intent = new Intent(Settings.this, Home.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        animateTransition();
+                                    }
+                                }).execute(getBaseContext());
+
                             }
                         }).execute(getBaseContext());
                     }

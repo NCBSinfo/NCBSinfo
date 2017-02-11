@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -198,7 +198,8 @@ public class Register extends BaseActivity {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(Register.this);
         final EditText edittext = new EditText(getBaseContext());
-        edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        edittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        //edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
         alert.setMessage("For security reason, reenter your password");
         alert.setTitle("Confirm Password");
         alert.setView(edittext);

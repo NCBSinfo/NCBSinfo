@@ -5,9 +5,14 @@ import android.content.Context;
 import android.os.Build;
 import android.view.WindowManager;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportDay;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
+import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
@@ -158,6 +163,18 @@ public class Helper {
             default:
                 return TransportDay.MONDAY;
         }
+    }
+
+    public void sendRouteSyncRequest(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(SyncJobs.class)
+                .setReplaceCurrent(true)
+                .setRecurring(false)
+                .setTrigger(Trigger.executionWindow(0, 1))
+                .setTag(SyncJobs.SINGLE_ROUTE_SYNC)
+                .build();
+        dispatcher.mustSchedule(myJob);
     }
 
 }

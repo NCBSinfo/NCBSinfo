@@ -25,3 +25,6 @@
 -dontwarn okio.**
 -dontwarn retrofit2.**
 -dontwarn com.squareup.picasso.**
+-keepclassmembers enum com.rohitsuratekar.NCBSinfo.** { *; }
+-keep class com.rohitsuratekar.NCBSinfo.background.networking.** {*;}
+-keep class com.rohitsuratekar.NCBSinfo.database.models.** {*;}

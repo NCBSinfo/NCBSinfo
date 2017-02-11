@@ -13,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -40,7 +41,8 @@ interface FirebaseServices {
                                   @Body RouteModel value,
                                   @Query("auth") String token);
 
-    @PATCH("shiftedUsers/users/{uid}/routes.json")
+    //Sync should be put because it should replace every other route
+    @PUT("shiftedUsers/users/{uid}/routes.json")
     Call<HashMap<String, RouteModel>> syncRoutes(@Path("uid") String user,
                                                  @Body HashMap<String, RouteModel> value,
                                                  @Query("auth") String token);

@@ -28,7 +28,6 @@ import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
-import com.rohitsuratekar.NCBSinfo.ui.RestrictedSwipeView;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
@@ -65,7 +64,7 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
     Button previousButton;
 
     @BindView(R.id.transport_viewpager)
-    RestrictedSwipeView pager;
+    ViewPager pager;
 
     private CurrentStateModel currentInformation;
     private TransportEditState currentState;
@@ -110,7 +109,7 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         setTitle(getString(R.string.transport_add));
 
 
-        pager = (RestrictedSwipeView) findViewById(R.id.transport_viewpager);
+        pager = (ViewPager) findViewById(R.id.transport_viewpager);
         setupViewPager(pager);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setElevation(0);
@@ -476,6 +475,7 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         new LoadRoutes(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {
+                new Helper().sendRouteSyncRequest(getBaseContext());
                 progressDialog.dismiss();
                 new AlertDialog.Builder(TransportEdit.this)
                         .setTitle("Success!")
@@ -487,10 +487,13 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                             }
                         })
                         .show();
             }
         }).execute(getBaseContext());
     }
+
+
 }
