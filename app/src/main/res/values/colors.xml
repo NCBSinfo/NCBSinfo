@@ -1,46 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#004d40</color>
-    <color name="colorAccent">#f44336</color>
+    <color name="colorPrimary">#673ab7</color>
+    <color name="colorPrimaryDark">#512da8</color>
+    <color name="colorAccent">#ffc107</color>
+    <color name="colorPrimaryLight">#d1c4e9</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorLightText">#ffffff</color>
+    <color name="colorDivider">#bdbdbd</color>
+    <color name="colorFavorite">#f44336</color>
 
+    <color name="delete_background">#EF9A9A</color>
+    <color name="selected_background">#A5D6A7</color>
 
-    <color name="home_fragment1">#e8aa0f</color>
-    <color name="home_fragment2">#ffc107</color>
-    <color name="home_fragment3">#d89b12</color>
-
-    <color name="login_box">#26a69a</color>
-    <color name="login_input_box">#e0f2f1</color>
-    <color name="login_input_activated">#388e3c</color>
-    <color name="login_text">#212121</color>
-    <color name="login_error">#f44336</color>
-
-
-    <color name="online">#4caf50</color>
-    <color name="offline">#cddc39</color>
-
-    <color name="profile_color">#004d40</color>
-    <color name="map_polygone_overlay">#9d3a9bea</color>
-
-    <color name="buggy_background">#b2dfdb</color>
-
-    <color name="hurryup_color">#F44336</color>
-    <color name="hurryup_color_dark">#D32F2F</color>
-
-    <color name="hour_background">#009688</color>
-    <color name="hour_layout">#f44336</color>
-
-    <color name="min_background">#009688</color>
-    <color name="min_layout">#f44336</color>
-
-    <color name="sec_background">#009688</color>
-    <color name="sec_layout">#f44336</color>
-
-    <color name="general_message">#009688</color>
-    <color name="imp_message">#f44336</color>
-    <color name="personal_message">#2e7d32</color>
-
-    <color name="canteen_active">#2e7d32</color>
-    <color name="canteen_inactive">#e0f2f1</color>
-
+    <color name="white">#ffffff</color>
+    <color name="green">#4CAF50</color>
 </resources>

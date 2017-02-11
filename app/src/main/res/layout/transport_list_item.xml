@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tp_list_layout"
+    android:layout_width="match_parent"
+    android:layout_height="30sp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/tp_list_dot"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_dot"
+        android:tint="@color/colorDivider"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tp_list_bottom_line"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:contentDescription="@null"
+        android:src="@color/colorDivider"
+        app:layout_constraintLeft_toLeftOf="@+id/tp_list_dot"
+        app:layout_constraintRight_toRightOf="@+id/tp_list_dot"
+        app:layout_constraintTop_toBottomOf="@+id/tp_list_dot" />
+
+    <ImageView
+        android:id="@+id/tp_list_top_line"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:contentDescription="@null"
+        android:src="@color/colorDivider"
+        app:layout_constraintBottom_toTopOf="@+id/tp_list_dot"
+        app:layout_constraintLeft_toLeftOf="@+id/tp_list_dot"
+        app:layout_constraintRight_toRightOf="@+id/tp_list_dot" />
+
+    <TextView
+        android:id="@+id/tp_edit_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/tp_list_dot"
+        app:layout_constraintLeft_toRightOf="@+id/tp_list_dot"
+        app:layout_constraintTop_toTopOf="@+id/tp_list_dot"
+        tools:ignore="HardcodedText" />
+
+</android.support.constraint.ConstraintLayout>

@@ -5,331 +5,244 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.OnlineHome;
-import com.rohitsuratekar.NCBSinfo.background.DataManagement;
-import com.rohitsuratekar.NCBSinfo.background.NetworkOperations;
-import com.rohitsuratekar.NCBSinfo.background.ServiceCentre;
-import com.rohitsuratekar.NCBSinfo.constants.AppConstants;
-import com.rohitsuratekar.NCBSinfo.database.Database;
-import com.rohitsuratekar.NCBSinfo.preferences.Preferences;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoginSessionObject;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoginUser;
+import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.secretbiology.helpers.general.General;
+import com.secretbiology.helpers.general.views.InputView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class Login extends BaseActivity implements AppConstants {
-    @Override
-    protected CurrentActivity setCurrentActivity() {
-        return CurrentActivity.LOGIN;
-    }
+public class Login extends BaseActivity {
 
-    public static final String INTENT = Login.class.getName();
-    private final String TAG = getClass().getSimpleName();
-    private ProgressDialog progress;
-    FirebaseAuth mAuth;
-    Preferences pref;
+    @BindView(R.id.log_in_email)
+    InputView email;
+    @BindView(R.id.log_in_pass)
+    InputView password;
+    @BindView(R.id.log_txt_forgot)
+    TextView forgot;
 
-    //UI elements
-    @BindView(R.id.button_login)
-    Button loginButton;
-    @BindView(R.id.edittext_signin_email)
-    TextInputEditText email;
-    @BindView(R.id.edittext_signin_password)
-    TextInputEditText password;
-    @BindView(R.id.input_layout_signin_email)
-    TextInputLayout emailLayout;
-    @BindView(R.id.input_layout_signin_pass)
-    TextInputLayout passwordLayout;
-    @BindView(R.id.login_forgotPass_text)
-    TextView forgotPass;
 
-    int cancelProgress;
+    private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
+    private AppPrefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-
-        //Initialization
         mAuth = FirebaseAuth.getInstance();
-        pref = new Preferences(getBaseContext());
-        progress = new ProgressDialog(Login.this);
-        cancelProgress = 0;
+        progressDialog = new ProgressDialog(Login.this);
+        progressDialog.setCancelable(false);
 
-        Intent intent = getIntent();
-        String userEmail = intent.getStringExtra(INTENT);
-        if (userEmail != null) {
-            email.setText(userEmail);
-        }
-        forgotPass.setOnClickListener(new View.OnClickListener() {
+        prefs = new AppPrefs(getBaseContext());
+        //TODO
+
+        //Need following line to remove custom text instance
+        email.getEditText().setSaveEnabled(false);
+        password.getEditText().setSaveEnabled(false);
+
+
+        email.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                if (validateEmail()) {
-                    if (General.isNetworkAvailable(getBaseContext())) {
-                        new AlertDialog.Builder(Login.this)
-                                .setTitle("Password reset")
-                                .setMessage(getString(R.string.warning_password_reset, email.getText().toString()))
-                                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        showProgressDialog();
-                                        progress.setMessage("Sending email...");
-                                        mAuth.sendPasswordResetEmail(email.getText().toString())
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (!task.isSuccessful()) {
-                                                            hideProgressDialog();
-                                                            new FirebaseErrors(getBaseContext(),
-                                                                    task.getException(), Login.this, R.drawable.icon_sign)
-                                                                    .dialogWarning();
-                                                        } else {
-                                                            hideProgressDialog();
-                                                            redirectToInternet();
-                                                        }
-                                                    }
-                                                });
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .show();
-                    }//Network
-                    else {
-                        Toast.makeText(getBaseContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-                    }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (General.isValidEmail(s.toString())) {
+                    email.setErrorEnabled(false);
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
 
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        password.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                if (new General().isNetworkAvailable(getBaseContext())) {
-                    if (validateEmail() && validatePass()) {
-                        showProgressDialog();
-                        cancelProgress = 0;
-                        runnable.run(); //Start timer for connection timeout
-                        progress.setMessage("Signing in...");
+            }
 
-                        mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(
-                                new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (password.getText().length() > 5) {
+                    password.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @OnClick({R.id.log_txt_new, R.id.log_img_new})
+    public void gotoRegister() {
+        startActivity(new Intent(this, Register.class));
+        animateTransition();
+    }
+
+    @OnClick({R.id.log_txt_forgot, R.id.log_img_forgot})
+    public void forgotPassword() {
+        if (General.isValidEmail(email.getText())) {
+            if (General.isNetworkAvailable(getBaseContext())) {
+                new AlertDialog.Builder(Login.this)
+                        .setTitle("Are you sure?")
+                        .setMessage(getString(R.string.forgot_password_message, email.getText()))
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                progressDialog.show();
+                                progressDialog.setMessage("Sending...");
+                                mAuth.sendPasswordResetEmail(email.getText()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                        if (!task.isSuccessful()) {
-                                            Log.e(TAG, task.getException().getLocalizedMessage());
-                                            hideProgressDialog();
-                                            handler.removeCallbacks(runnable);
-                                            FirebaseErrors firebaseErrors = new FirebaseErrors(getBaseContext(), task.getException(), Login.this);
-                                            String warning = firebaseErrors.getWarningMessage();
-                                            String type = firebaseErrors.getType();
-                                            switch (type) {
-                                                case FirebaseErrors.INVALID_USER:
-                                                    emailLayout.setError(warning);
-                                                    requestFocus(email);
-                                                    new AlertDialog.Builder(Login.this)
-                                                            .setTitle(email.getText().toString() + " ?")
-                                                            .setMessage(warning)
-                                                            .setPositiveButton("Register", new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    Intent intent = new Intent(Login.this, Registration.class);
-                                                                    intent.putExtra(Registration.INTENT, email.getText().toString());
-                                                                    startActivity(intent);
-                                                                    overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
-                                                                }
-                                                            })
-                                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                }
-                                                            })
-                                                            .show();
-                                                    break;
-                                                case FirebaseErrors.WRONG_PASSWORD:
-                                                    passwordLayout.setError(warning);
-                                                    requestFocus(password);
-                                                    break;
-                                                case FirebaseErrors.TOO_MANY_ATTEMPTS:
-                                                    firebaseErrors.dialogWarning();
-                                                    break;
-                                                default:
-                                                    firebaseErrors.dialogWarning();
-                                            }
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        progressDialog.dismiss();
+                                        if (task.isSuccessful()) {
+                                            showSentDialog();
                                         } else {
-                                            pref.clearAll();
-                                            Database.getInstance(getBaseContext()).restartDatabase();
-                                            //Reset App Data
-                                            Intent service = new Intent(Login.this, ServiceCentre.class);
-                                            service.putExtra(ServiceCentre.INTENT, ServiceCentre.LOGIN_RESET);
-                                            startService(service);
-                                            //Put all shared preferences
-                                            pref.app().setMode(modes.ONLINE);
-                                            pref.user().setEmail(email.getText().toString());
-                                            pref.user().setAuthorization(loginStatus.SUCCESS);
-                                            pref.user().setUserType(userType.OLD_USER);
-                                            pref.user().setToken(FirebaseInstanceId.getInstance().getToken());
-                                            //Send Registration
-                                            Intent network = new Intent(Login.this, NetworkOperations.class);
-                                            network.putExtra(NetworkOperations.INTENT, NetworkOperations.REGISTER);
-                                            startService(network);
-                                            //Retrieve Data
-                                            Intent dataService = new Intent(Login.this, DataManagement.class);
-                                            dataService.putExtra(DataManagement.INTENT, DataManagement.FETCH_FIREBASE_DATA);
-                                            startService(dataService);
-                                            Intent intent = new Intent(Login.this, OnlineHome.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(intent);
-                                            overridePendingTransition(baseParameters.startTransition(), baseParameters.stopTransition());
+                                            showErrorDialog(task.getException().getLocalizedMessage());
                                         }
-
                                     }
-                                }
-                        );
+                                });
 
-                    }
-                }//Network Available
-                else {
-                    Toast.makeText(getBaseContext(), getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-                }
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        })
+                        .show();
+            } else {
+                General.makeLongToast(getBaseContext(), getString(R.string.network_error));
             }
-        });
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
-
-    private boolean validateEmail() {
-
-        if ((email.getText().toString().trim().isEmpty()) || (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches())) {
-            emailLayout.setError(getString(R.string.warning_registration_invalid_email));
-            requestFocus(email);
-            return false;
         } else {
-            emailLayout.setErrorEnabled(false);
+            email.getFocus(getBaseContext());
+            email.setError(getString(R.string.email_forgot_password_warning));
         }
-        return true;
     }
 
-    private boolean validatePass() {
-        if (password.getText().toString().trim().isEmpty()) {
-            passwordLayout.setError(getString(R.string.warning_registration_empty_password));
-            requestFocus(password);
-            return false;
-        } else if (password.length() < 6) {
-            passwordLayout.setError(getString(R.string.warning_registration_bad_password));
-            requestFocus(password);
-            return false;
+    @OnClick(R.id.log_bt_done)
+    public void login() {
+        if (General.isNetworkAvailable(getBaseContext())) {
+            if (validate()) {
+                progressDialog.show();
+                progressDialog.setIndeterminate(false);
+                progressDialog.setCancelable(false);
+                //Start Loading
+                LoginSessionObject object = new LoginSessionObject();
+                object.setContext(getBaseContext());
+                object.setEmail(email.getText());
+                object.setPassword(password.getText());
+                object.setmAuth(mAuth);
+                new LoginUser(new LoginUser.OnDataRetrieved() {
+                    @Override
+                    public void updateDialog(int progress, String message) {
+                        progressDialog.setProgress(progress);
+                        progressDialog.setMessage(message);
+                    }
+
+                    @Override
+                    public void showError(String message) {
+                        progressDialog.dismiss();
+                        showErrorDialog(message);
+                    }
+
+                    @Override
+                    public void onTaskComplete() {
+                        progressDialog.dismiss();
+                        Intent intent = new Intent(Login.this, Home.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        animateTransition();
+                    }
+                }).execute(object);
+
+            }
         } else {
-            passwordLayout.setErrorEnabled(false);
-        }
-        return true;
-    }
-
-    private void showProgressDialog() {
-        if (progress == null) {
-            progress = new ProgressDialog(Login.this);
-            progress.setMessage("Loading");
-            progress.setIndeterminate(true);
-        }
-        progress.show();
-    }
-
-    private void hideProgressDialog() {
-        if (progress != null && progress.isShowing()) {
-            progress.hide();
+            General.makeLongToast(getBaseContext(), getString(R.string.network_error));
         }
     }
 
-    private void redirectToInternet() {
 
+    private boolean validate() {
+        if (General.isValidEmail(email.getText())) {
+            email.setErrorEnabled(false);
+            if (password.getText().length() > 5) {
+                return true;
+            } else {
+                password.getFocus(getBaseContext());
+                password.setError(getString(R.string.password_invalid));
+                return false;
+            }
+
+        } else {
+            email.getFocus(getBaseContext());
+            email.setError(getString(R.string.email_invalid));
+            return false;
+        }
+    }
+
+    private void showSentDialog() {
         new AlertDialog.Builder(Login.this)
-                .setTitle("Sent!")
-                .setIcon(R.drawable.icon_corect)
-                .setMessage("We have successfully sent password reset link to your email address, do you want to visit your inbox ?")
-                .setPositiveButton("Lets go", new DialogInterface.OnClickListener() {
+                .setTitle("Done!")
+                .setIcon(R.drawable.icon_done)
+                .setMessage(getString(R.string.forgot_password_success, email.getText()))
+                .setPositiveButton("Check Inbox", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
-                        String url = "https://" + email.getText().toString().split("@")[1];
+                        String url = "https://" + email.getText().split("@")[1];
                         Intent i = new Intent(Intent.ACTION_VIEW,
                                 Uri.parse(url));
                         startActivity(i);
+                        animateTransition();
                     }
-
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                     }
                 })
                 .show();
-
     }
 
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable() {
+    private void showErrorDialog(String message) {
+        new AlertDialog.Builder(Login.this)
+                .setTitle("Oops!")
+                .setIcon(R.drawable.icon_error)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-        public void run() {
-
-            if (cancelProgress > 2) {
-                return;
-            }
-            if (cancelProgress == 1) {
-                progress.setMessage("It is taking longer than expected...");
-            } else if (cancelProgress == 2) {
-                cancelProgress = cancelProgress + 1;
-                stopProgress();
-            }
-            cancelProgress = cancelProgress + 1;
-
-            handler.postDelayed(this, 8000);
-        }
-    };
-
-    private void stopProgress() {
-        hideProgressDialog();
-        handler.removeCallbacks(runnable);
-        Toast.makeText(getBaseContext(), "Unexpected delay.", Toast.LENGTH_LONG).show();
+                    }
+                }).show();
     }
+
 
     @Override
-    protected void onPause() {
-        handler.removeCallbacks(runnable);
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        handler.removeCallbacks(runnable);
-        super.onDestroy();
+    protected CurrentActivity setUpActivity() {
+        return CurrentActivity.LOGIN;
     }
 }

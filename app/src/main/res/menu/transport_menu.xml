@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2016. Rohit Suratekar
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/action_edit_route"
+        android:icon="@drawable/icon_edit"
+        android:showAsAction="ifRoom"
+        android:title="Edit Route"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_add_route"
+        android:icon="@drawable/icon_add"
+        android:title="Add Route"
+        app:showAsAction="ifRoom"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_delete_route"
+        android:icon="@drawable/icon_delete"
+        android:title="Delete Route"
+        tools:ignore="AppCompatResource" />
+</menu>

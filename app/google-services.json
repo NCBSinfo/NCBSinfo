@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "154840463538",
+    "firebase_url": "https://ncbs-info.firebaseio.com",
+    "project_id": "ncbs-info",
+    "storage_bucket": "ncbs-info.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154840463538:android:f3edb175bd05abf1",
+        "android_client_info": {
+          "package_name": "com.rohitsuratekar.NCBSinfo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154840463538-9n9n4gmtm0imfhvfhns98l7ae73k9q8i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rohitsuratekar.NCBSinfo",
+            "certificate_hash": "6FE9E6955458A6F6F94A400E13B227431A6CEC84"
+          }
+        },
+        {
+          "client_id": "154840463538-cof4r2uj8hfase49n19n7hhhb8sp4d6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rohitsuratekar.NCBSinfo",
+            "certificate_hash": "73D1656C3E4EA1FEB7AE85AFF375ED9FEABA602F"
+          }
+        },
+        {
+          "client_id": "154840463538-vl75ouh6lsv2o9b0ovhom1tcr8spf651.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBASKGUbsXRHzf7Aavz_4PTJZkWNYGtQ5g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154840463538-vl75ouh6lsv2o9b0ovhom1tcr8spf651.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

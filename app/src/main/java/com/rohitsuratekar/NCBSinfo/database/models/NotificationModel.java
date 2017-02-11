@@ -1,23 +1,14 @@
 package com.rohitsuratekar.NCBSinfo.database.models;
 
-
 public class NotificationModel {
 
-    int id;
-    String timestamp;
-    String title;
-    String message;
-    String from;
-    String extraVariables;
-
-    public NotificationModel(int id, String timestamp, String title, String message, String from, String extraVariables) {
-        this.id = id;
-        this.timestamp = timestamp;
-        this.title = title;
-        this.message = message;
-        this.from = from;
-        this.extraVariables = extraVariables;
-    }
+    private int id;
+    private String timestamp;
+    private String title;
+    private String message;
+    private String from;
+    private String expires;
+    private String extraVariables;
 
     public NotificationModel() {
     }
@@ -68,5 +59,13 @@ public class NotificationModel {
 
     public void setExtraVariables(String extraVariables) {
         this.extraVariables = extraVariables;
+    }
+
+    public String getExpires() {
+        return expires;
+    }
+
+    public void setExpires(String expires) {
+        this.expires = expires;
     }
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tp_bs_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tp_bs_list_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mandara"
+        tools:ignore="HardcodedText"
+        app:layout_constraintTop_toTopOf="@+id/imageView19"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView19"
+        app:layout_constraintRight_toLeftOf="@+id/imageView19"
+        android:layout_marginEnd="8dp" />
+
+    <ImageView
+        android:id="@+id/imageView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_right_arrow"
+        tools:ignore="VectorDrawableCompat"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.060000002"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tp_bs_list_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mandara"
+        tools:ignore="HardcodedText"
+        app:layout_constraintTop_toTopOf="@+id/imageView19"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView19"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageView19" />
+</android.support.constraint.ConstraintLayout>

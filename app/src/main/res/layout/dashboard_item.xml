@@ -1,63 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="80sp"
-    android:weightSum="100"
-    android:padding="10sp">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70sp"
+    android:orientation="vertical"
+    android:id="@+id/dash_item_layout">
 
-    <LinearLayout
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_width="0sp"
-        android:layout_height="match_parent"
-        android:layout_weight="20"
-        android:gravity="center">
+        app:layout_constraintGuide_percent="0.5026455"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="35dp" />
 
-        <ImageView
-            android:layout_width="50sp"
-            android:layout_height="50sp"
-            android:id="@+id/dashboard_item_icon"
-            android:src="@drawable/icon_dashboard_pin" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/dash_item_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:contentDescription="@null"
+        android:tint="@color/colorPrimaryDark"
+        android:src="@drawable/icon_account"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="70"
-        android:gravity="center">
+    <TextView
+        android:id="@+id/dash_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some title here"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/dash_item_icon"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13" />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/dashboard_item_value"
-            android:layout_marginLeft="10sp"
-            android:layout_marginRight="5sp" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Name"
-            android:id="@+id/dashboard_item_field"
-            android:layout_gravity="center_horizontal"
-            android:alpha="0.7"
-            android:layout_marginLeft="10sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="0sp"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:gravity="center"
-        android:id="@+id/dashboard_edit_layout">
-
-        <ImageView
-            android:layout_width="20sp"
-            android:layout_height="20sp"
-            android:id="@+id/dashboard_item_edit_icon"
-            android:src="@drawable/icon_edit" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/dash_item_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="some related subtitle"
+        android:textSize="12sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/dash_item_icon"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+</android.support.constraint.ConstraintLayout>

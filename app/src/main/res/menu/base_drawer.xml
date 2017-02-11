@@ -1,107 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2016. Rohit Suratekar
+  -->
 
-    <group
-        android:id="@+id/nav_upper_group"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_dashboard"
-            android:icon="@drawable/icon_dashboard"
-            android:title="@string/dashboard" />
-    </group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/icon_authenticated"
+        android:title="@string/dashboard" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/icon_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/nav_transport"
+        android:icon="@drawable/icon_transport"
+        android:title="@string/transport" />
 
+    <item
+        android:id="@+id/nav_contacts"
+        android:icon="@drawable/icon_contacts"
+        android:title="@string/contacts" />
 
-    <group
-        android:id="@+id/nav_subgroup_login"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_login"
-            android:title="@string/login" />
-        <item
-            android:id="@+id/nav_register"
-            android:title="@string/register" />
-    </group>
+    <item
+        android:id="@+id/nav_locations"
+        android:icon="@drawable/icon_locations"
+        android:title="@string/locations" />
 
-    <group
-        android:id="@+id/nav_main_group"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/icon_home"
-            android:title="@string/home" />
-        <item
-            android:id="@+id/nav_transport"
-            android:icon="@drawable/icon_shuttle"
-            android:title="@string/transport" />
-        <item
-            android:id="@+id/nav_events"
-            android:icon="@drawable/icon_updates"
-            android:title="@string/event_updates" />
-        <item
-            android:id="@+id/nav_contacts"
-            android:icon="@drawable/icon_contacts"
-            android:title="@string/contacts" />
-        <item
-            android:id="@+id/nav_experimental"
-            android:icon="@drawable/icon_experimental"
-            android:title="@string/experimental" />
-        <item
-            android:id="@+id/nav_offline_location"
-            android:icon="@drawable/icon_lecturehall"
-            android:title="@string/lecture_hall" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/icon_settings"
-            android:title="@string/settings" />
-    </group>
-
-    <group
-        android:id="@+id/nav_subgroup_transport"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_transport_reminder"
-            android:icon="@drawable/icon_set_reminder"
-            android:title="@string/transport_reminder" />
-    </group>
-
-    <group
-        android:id="@+id/nav_subgroup_experimental"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_location"
-            android:icon="@drawable/icon_lecturehall"
-            android:title="@string/lecture_hall" />
-        <item
-            android:id="@+id/nav_canteen"
-            android:icon="@drawable/icon_canteen"
-            android:title="@string/canteen" />
-
-        <item
-            android:id="@+id/nav_holidays"
-            android:icon="@drawable/icon_holidays"
-            android:title="@string/holidays" />
-    </group>
-
-
-    <group>
-        <item
-            android:id="@+id/nav_change_mode"
-            android:icon="@drawable/icon_wifi_on"
-            android:title="@string/settings_change_mode" />
-    </group>
-
-    <group android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/tempid1"
-            android:enabled="false"
-            android:title=" " />
-
-        <item
-            android:id="@+id/tempid2"
-            android:enabled="false"
-            android:title="@string/navigation_footer" />
-    </group>
-
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/icon_settings"
+        android:title="@string/settings" />
 
 </menu>
