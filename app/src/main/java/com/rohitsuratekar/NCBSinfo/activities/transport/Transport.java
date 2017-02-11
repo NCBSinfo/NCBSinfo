@@ -1,26 +1,36 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
-import android.graphics.Point;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.Helper;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.transport.adapters.TransportRouteListAdapter;
 import com.rohitsuratekar.NCBSinfo.activities.transport.adapters.TransportTripAdapter;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportDay;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
 import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
+import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
@@ -82,6 +92,7 @@ public class Transport extends BaseActivity {
     private int rightIndex = 0;
     private boolean oppositeRouteExists;
     private int oppositeRouteIndex = -1;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -89,6 +100,8 @@ public class Transport extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         currentRoute = session.getCurrentRoute();
+        progressDialog = new ProgressDialog(Transport.this);
+        progressDialog.setCancelable(false);
         leftAdapter = new TransportTripAdapter(leftTrips, leftIndex);
         rightAdapter = new TransportTripAdapter(rightTrips, rightIndex);
         leftRecycler.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -129,17 +142,84 @@ public class Transport extends BaseActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_add_route) {
+            startActivity(new Intent(this, TransportEdit.class));
+            animateTransition();
+        } else if (id == R.id.action_edit_route) {
+            if (currentRoute.isRegular()) {
+                showRegularDialog();
+            } else {
+                showNonRegular();
+            }
+        } else if (id == R.id.action_delete_route) {
+            deleteRoute();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showRegularDialog() {
+
+        final Intent intent = new Intent(this, TransportEdit.class);
+
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.transport_edit_entry_title))
+                .setMessage(getString(R.string.transport_edit_entry))
+                .setNegativeButton(getString(R.string.weekdays), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.setAction(String.valueOf(TransportDay.WEEKDAYS.getIndex()));
+                        startActivity(intent);
+                        animateTransition();
+                    }
+                })
+                .setPositiveButton(getString(R.string.sunday), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        intent.setAction(String.valueOf(TransportDay.SUNDAY.getIndex()));
+                        startActivity(intent);
+                        animateTransition();
+                    }
+                })
+                .show();
+    }
+
+    private void showNonRegular() {
+        final Intent intent = new Intent(this, TransportEdit.class);
+        int size = currentRoute.getAllRoutes().size();
+        String action = String.valueOf(TransportDay.ALL_WEEK.getIndex());
+        if (size != 1) {
+            action = String.valueOf(Helper.convertNormalToTransport(currentRoute.getAllRoutes().get(0).getDay()));
+        }
+        final String finalAction = action;
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.transport_edit_entry_title))
+                .setMessage(getString(R.string.transport_edit_entry_non_regular, size))
+                .setNegativeButton("Existing", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        intent.setAction(finalAction);
+                        startActivity(intent);
+                        animateTransition();
+                    }
+                })
+                .setPositiveButton("Add new", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(intent);
+                        animateTransition();
+                    }
+                })
+                .show();
+    }
+
+    @Override
     protected CurrentActivity setUpActivity() {
         return CurrentActivity.TRANSPORT;
     }
 
     @OnClick(R.id.tp_bt_show_all)
     public void showAllRoutes() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-       // bottomSheet.setPeekSheetTranslation(height / 2);
+
         bottomSheet.showWithSheetView(LayoutInflater.from(getBaseContext()).inflate(R.layout.transport_route_sheet, bottomSheet, false));
 
         TextView sheetTitle = (TextView) findViewById(R.id.tp_bs_title);
@@ -297,6 +377,74 @@ public class Transport extends BaseActivity {
         } catch (ParseException e) {
             return s;
         }
+    }
+
+    private void deleteRoute() {
+        if (session.getAllRoutes().size() == 1) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Sorry!")
+                    .setMessage(getString(R.string.transport_last_delete_warning))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setNegativeButton("Add new", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(Transport.this, TransportEdit.class));
+                            animateTransition();
+                        }
+                    })
+                    .show();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Are you sure?")
+                    .setIcon(R.drawable.icon_error)
+                    .setMessage(getString(R.string.transport_delete_notice,
+                            currentRoute.getOrigin().toUpperCase(), currentRoute.getDestination().toUpperCase(),
+                            currentRoute.getType().toString().toLowerCase()))
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            progressDialog.setMessage("Deleting route...");
+                            progressDialog.show();
+                            List<RouteModel> allRoutes = currentRoute.getAllRoutes();
+                            for (RouteModel r : allRoutes) {
+                                new RouteData(getBaseContext()).delete(r);
+                            }
+                            finishLoading();
+
+                        }
+                    })
+                    .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private void finishLoading() {
+        progressDialog.dismiss();
+        new LoadRoutes(new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                new AlertDialog.Builder(Transport.this)
+                        .setTitle("Success!")
+                        .setCancelable(false)
+                        .setMessage(getString(R.string.transport_delete_finish))
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Transport.this, Home.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            }
+                        })
+                        .show();
+            }
+        }).execute(getBaseContext());
     }
 
 

@@ -1,8 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.edit;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,11 +14,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.Helper;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.confirm.ConfirmDetailsFragment;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.route.AddLocationFragment;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.trips.AddTripsFragment;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
+import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
+import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
+import com.rohitsuratekar.NCBSinfo.database.RouteData;
+import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
+import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.ui.RestrictedSwipeView;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
@@ -23,7 +36,6 @@ import com.secretbiology.helpers.general.views.ViewpagerAdapter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,8 +45,6 @@ import butterknife.OnClick;
 public class TransportEdit extends AppCompatActivity implements AddLocationFragment.OnStateChanged,
         AddTripsFragment.OnStateChanged, ConfirmDetailsFragment.OnStateChanged {
 
-    public static final String USE_RIGHT = "use_right";
-    public static final String USE_LEFT = "use_left";
 
     private static final int ROUTE = 0;
     private static final int TRIPS = 1;
@@ -63,7 +73,11 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
     private ViewpagerAdapter adapter;
     private MenuItem menuItem;
     private boolean isForEdit;
-    private int day;
+    private TransportDay day;
+    private String type;
+    private Route route = CurrentSession.getInstance().getCurrentRoute();
+    private ProgressDialog progressDialog;
+    private AppPrefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,20 +85,18 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         setContentView(R.layout.transport_edit);
         ButterKnife.bind(this);
 
+        prefs = new AppPrefs(getBaseContext());
+
+        progressDialog = new ProgressDialog(TransportEdit.this);
+        progressDialog.setCancelable(false);
+
+        type = TransportType.SHUTTLE.toString();
+
         String action = getIntent().getAction();
         if (action != null) {
+            type = route.getType().toString();
             isForEdit = true;
-            switch (action) {
-                case USE_RIGHT:
-                    day = Calendar.SUNDAY + 2; //Check array
-                    break;
-                case USE_LEFT:
-                    day = 0;
-                    break;
-                default:
-                    day = Integer.parseInt(action);
-                    break;
-            }
+            day = Helper.getTransportDay(Integer.parseInt(action));
         }
 
         currentInformation = new CurrentStateModel();
@@ -171,6 +183,8 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         if (item.getItemId() == android.R.id.home) {
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else if (item.getItemId() == R.id.action_done) {
+            verifyAdd();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -223,6 +237,13 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         }
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public void setIcons() {
         for (TransportEditState state : stateList) {
@@ -233,19 +254,19 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
             previousButton.setEnabled(false);
             previousButton.setText("");
             nextButton.setEnabled(true);
-            nextButton.setText("NEXT");
+            nextButton.setText(getString(R.string.next));
             //cancelButton.setText("Cancel");
         } else if (currentState.getLocation() == CONFIRM) {
             previousButton.setEnabled(true);
-            previousButton.setText("Previous");
+            previousButton.setText(getString(R.string.previous));
             nextButton.setEnabled(false);
             nextButton.setText("");
             // cancelButton.setText("Done");
         } else {
             previousButton.setEnabled(true);
-            previousButton.setText("PREVIOUS");
+            previousButton.setText(getString(R.string.previous));
             nextButton.setEnabled(true);
-            nextButton.setText("NEXT");
+            nextButton.setText(getString(R.string.next));
             // cancelButton.setText("Cancel");
         }
 
@@ -297,26 +318,31 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
 
     }
 
+
     @Override
-    public void onLocationChanged(String origin, String destination) {
+    public void onLocationChanged(String origin, String destination, String type) {
         currentInformation.setOrigin(origin);
         currentInformation.setDestination(destination);
+        currentInformation.setType(type);
         currentState.setCompleted(true);
         currentState.setSkipped(false);
+        this.type = type;
         setIcons();
     }
 
     @Override
-    public void onLocationRemoved(String origin, String destination) {
+    public void onLocationRemoved(String origin, String destination, String type) {
         currentInformation.setOrigin(origin);
         currentInformation.setDestination(destination);
+        currentInformation.setType(type);
         currentState.setCompleted(false);
         currentState.setSkipped(true);
+        this.type = type;
         setIcons();
     }
 
     @Override
-    public void onTripChanged(List<String> currentTrips, int daySelected) {
+    public void onTripChanged(List<String> currentTrips, TransportDay daySelected) {
         currentInformation.setRouteList(currentTrips);
 
         if (currentTrips.size() == 0) {
@@ -329,7 +355,8 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
 
         //Notify confirm fragment
         onStateSelected(currentTrips);
-        setDaySelected(daySelected);
+        currentInformation.setDay(daySelected);
+        day = daySelected;
         setIcons();
     }
 
@@ -343,7 +370,6 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
 
     private void setUpForEdit() {
         setTitle(getString(R.string.transport_edit));
-        Route route = CurrentSession.getInstance().getCurrentRoute();
 
         for (TransportEditState state : stateList) {
             state.setSkipped(false);
@@ -351,13 +377,11 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
             state.setCompleted(true);
         }
 
-        setDaySelected(day);
+        currentInformation.setDay(day);
         currentInformation.setOrigin(route.getOrigin());
         currentInformation.setDestination(route.getDestination());
-
         List<String> formattedList = new ArrayList<>();
-
-        for (String s : route.getDefaultList()) {
+        for (String s : route.getMap().get(day.getValue())) {
             try {
                 formattedList.add(DateConverter.changeFormat(ConverterMode.DATE_FIRST, s, "hh:mm a"));
             } catch (ParseException e) {
@@ -366,7 +390,6 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         }
         currentInformation.setFirstTrip(formattedList.get(0));
         currentInformation.setRouteList(formattedList);
-
         setIcons();
 
     }
@@ -375,42 +398,99 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         return isForEdit;
     }
 
-    public int getDay() {
-        return day;
+    private void verifyAdd() {
+
+        int existing = new RouteData(getBaseContext()).checkIfExistsRoute(currentInformation.getOrigin(),
+                currentInformation.getDestination(), Helper.getType(currentInformation.getType()));
+        if (existing == -1) {
+            addNew();
+        } else {
+            updateOld();
+        }
     }
 
-    private void setDaySelected(int i) {
-        switch (i) {
-            case 0:
-                currentInformation.setDay(Calendar.MONDAY);
-                break;
-            case 1:
-                currentInformation.setDay(Calendar.MONDAY);
-                break;
-            case 2:
-                currentInformation.setDay(Calendar.SUNDAY);
-                break;
-            case 3:
-                currentInformation.setDay(Calendar.SUNDAY);
-                break;
-            case 4:
-                currentInformation.setDay(Calendar.MONDAY);
-                break;
-            case 5:
-                currentInformation.setDay(Calendar.TUESDAY);
-                break;
-            case 6:
-                currentInformation.setDay(Calendar.WEDNESDAY);
-                break;
-            case 7:
-                currentInformation.setDay(Calendar.THURSDAY);
-                break;
-            case 8:
-                currentInformation.setDay(Calendar.FRIDAY);
-                break;
-            case 9:
-                currentInformation.setDay(Calendar.SATURDAY);
-                break;
-        }
+    private void addNew() {
+        new AlertDialog.Builder(this)
+                .setTitle("Are you sure?")
+                .setMessage("Do you want to add this new route?")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        progressDialog.setMessage("Adding new route...");
+                        progressDialog.show();
+                        RouteModel model = new RouteModel();
+                        model.setDay(currentInformation.getDay().getValue());
+                        model.setOrigin(currentInformation.getOrigin().toLowerCase());
+                        model.setDestination(currentInformation.getDestination().toLowerCase());
+                        model.setModifiedOn(General.timeStamp());
+                        model.setCreatedOn(General.timeStamp());
+                        model.setAuthor(prefs.getUsername());
+                        model.setTrips(currentInformation.getRearrangedTrips());
+                        model.setType(Helper.getType(currentInformation.getType()));
+                        model.setTrigger(CreateDefaultRoutes.DEFAULT_TRIGGER);
+                        new RouteData(getBaseContext()).add(model);
+                        finishLoading("added");
+                    }
+                })
+                .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                })
+                .show();
+    }
+
+    private void updateOld() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Update route?")
+                .setMessage("Route you are trying to add already exists, do you want to update existing one ?")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        progressDialog.setMessage("Updating route...");
+                        progressDialog.show();
+                        RouteModel model = new RouteModel();
+                        model.setDay(currentInformation.getDay().getValue());
+                        model.setOrigin(currentInformation.getOrigin().toLowerCase());
+                        model.setDestination(currentInformation.getDestination().toLowerCase());
+                        model.setModifiedOn(General.timeStamp());
+                        model.setAuthor(prefs.getUsername());
+                        model.setTrips(currentInformation.getRearrangedTrips());
+                        model.setType(Helper.getType(currentInformation.getType()));
+                        model.setTrigger(CreateDefaultRoutes.DEFAULT_TRIGGER);
+                        new RouteData(getBaseContext()).add(model);
+                        finishLoading("updated");
+                    }
+                })
+                .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                })
+                .show();
+
+    }
+
+    private void finishLoading(final String operation) {
+        new LoadRoutes(new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                progressDialog.dismiss();
+                new AlertDialog.Builder(TransportEdit.this)
+                        .setTitle("Success!")
+                        .setCancelable(false)
+                        .setMessage(getString(R.string.transport_edit_finish, operation))
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(TransportEdit.this, Transport.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            }
+                        })
+                        .show();
+            }
+        }).execute(getBaseContext());
     }
 }

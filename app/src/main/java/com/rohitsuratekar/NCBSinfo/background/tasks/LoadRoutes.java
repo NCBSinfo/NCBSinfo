@@ -44,6 +44,9 @@ public class LoadRoutes extends AsyncTask<Object, Void, Void> {
                 }
             }
         }
+        if (currentRoute == null) {
+            currentRoute = all.get(0);
+        }
         currentIndex = all.indexOf(currentRoute);
         nextList = new TransportMethods().nextTransport(Calendar.getInstance(), currentRoute);
         return null;

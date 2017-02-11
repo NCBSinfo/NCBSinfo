@@ -1,5 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.edit;
 
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
+
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentStateModel {
@@ -7,8 +12,9 @@ public class CurrentStateModel {
     private String origin;
     private String destination;
     private List<String> routeList;
-    private int day;
+    private TransportDay day;
     private String firstTrip;
+    private String type;
 
     public CurrentStateModel() {
     }
@@ -37,11 +43,11 @@ public class CurrentStateModel {
         this.routeList = routeList;
     }
 
-    public int getDay() {
+    public TransportDay getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(TransportDay day) {
         this.day = day;
     }
 
@@ -51,5 +57,38 @@ public class CurrentStateModel {
 
     public void setFirstTrip(String firstTrip) {
         this.firstTrip = firstTrip;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    List<String> getRearrangedTrips() {
+        List<String> list = new ArrayList<>();
+        List<String> afterList = new ArrayList<>();
+        for (int i = 0; i < routeList.size(); i++) {
+            if (i < routeList.indexOf(firstTrip)) {
+                try {
+                    afterList.add(DateConverter.changeFormat(ConverterMode.DATE_FIRST, routeList.get(i), "HH:mm"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    list.add(DateConverter.changeFormat(ConverterMode.DATE_FIRST, routeList.get(i), "HH:mm"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        for (String s : afterList) {
+            list.add(s);
+        }
+        return list;
+
     }
 }

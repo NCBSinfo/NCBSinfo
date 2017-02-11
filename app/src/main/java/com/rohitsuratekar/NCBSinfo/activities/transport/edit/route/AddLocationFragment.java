@@ -1,9 +1,11 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.edit.route;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -13,11 +15,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.CurrentStateModel;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
 import com.secretbiology.helpers.general.views.InputView;
 
@@ -26,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class AddLocationFragment extends Fragment {
@@ -36,11 +41,15 @@ public class AddLocationFragment extends Fragment {
     InputView destination;
     @BindView(R.id.te_add_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.te_add_type)
+    TextView typeText;
 
     private OnStateChanged changed;
     private boolean originAdded;
     private boolean destinationAdded;
     private List<LocationSuggestions> suggestionsList;
+    private String type;
+    private List<String> typeList;
 
 
     @Nullable
@@ -48,11 +57,17 @@ public class AddLocationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.transport_edit_location, container, false);
         ButterKnife.bind(this, rootView);
 
+        type = ((TransportEdit) getActivity()).getType();
+
+        typeList = new ArrayList<>();
+        for (TransportType t : TransportType.values()) {
+            typeList.add(t.toString());
+        }
         suggestionsList = new ArrayList<>();
         List<Route> routeList = CurrentSession.getInstance().getAllRoutes();
 
         for (Route r : routeList) {
-            suggestionsList.add(new LocationSuggestions(r.getOrigin(), r.getDestination()));
+            suggestionsList.add(new LocationSuggestions(r.getOrigin(), r.getDestination(), r.getType().toString()));
         }
 
 
@@ -73,6 +88,9 @@ public class AddLocationFragment extends Fragment {
         if (model.getOrigin() != null) {
             origin.setText(model.getOrigin());
         }
+        if (model.getType() != null) {
+            type = model.getType();
+        }
 
         origin.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,11 +103,11 @@ public class AddLocationFragment extends Fragment {
                 if (s.toString().trim().length() > 0) {
                     originAdded = true;
                     if (destinationAdded) {
-                        changed.onLocationChanged(origin.getText(), destination.getText());
+                        changed.onLocationChanged(origin.getText(), destination.getText(), type);
                     }
                 } else {
                     originAdded = false;
-                    changed.onLocationRemoved(origin.getText(), destination.getText());
+                    changed.onLocationRemoved(origin.getText(), destination.getText(), type);
                 }
             }
 
@@ -110,11 +128,11 @@ public class AddLocationFragment extends Fragment {
                 if (s.toString().trim().length() > 0) {
                     destinationAdded = true;
                     if (originAdded) {
-                        changed.onLocationChanged(origin.getText(), destination.getText());
+                        changed.onLocationChanged(origin.getText(), destination.getText(), type);
                     }
                 } else {
                     destinationAdded = false;
-                    changed.onLocationRemoved(origin.getText(), destination.getText());
+                    changed.onLocationRemoved(origin.getText(), destination.getText(), type);
                 }
             }
 
@@ -129,6 +147,8 @@ public class AddLocationFragment extends Fragment {
             public void onItemClick(int position) {
                 origin.setText(suggestionsList.get(position).getOrigin());
                 destination.setText(suggestionsList.get(position).getDestination());
+                type = suggestionsList.get(position).getType();
+                typeText.setText(getString(R.string.transport_set_type, type));
             }
         });
 
@@ -140,6 +160,9 @@ public class AddLocationFragment extends Fragment {
             origin.setText(route.getOrigin());
             destination.setText(route.getDestination());
         }
+
+
+        typeText.setText(getString(R.string.transport_set_type, type));
 
         return rootView;
     }
@@ -174,23 +197,35 @@ public class AddLocationFragment extends Fragment {
         };
     }
 
-    public void setAll(String origin, String destination) {
-
-        this.origin.setText(origin);
-        this.destination.setText(destination);
-        originAdded = true;
-        destinationAdded = true;
-
-    }
-
 
     // Container Activity must implement this interface
     public interface OnStateChanged {
 
-        void onLocationChanged(String origin, String destination);
+        void onLocationChanged(String origin, String destination, String type);
 
-        void onLocationRemoved(String origin, String destination);
+        void onLocationRemoved(String origin, String destination, String type);
 
+    }
+
+    @OnClick(R.id.te_add_type)
+    public void showTypes() {
+        AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+        b.setTitle("Select transport type");
+        String[] values = new String[typeList.size()];
+        for (String s : typeList) {
+            values[typeList.indexOf(s)] = s;
+        }
+        b.setItems(values, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                type = typeList.get(which);
+                typeText.setText(getString(R.string.transport_set_type, type));
+                changed.onLocationChanged(origin.getText(), destination.getText(), type);
+                dialog.dismiss();
+            }
+
+        });
+        b.show();
     }
 
 }

@@ -13,6 +13,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.Helper;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.settings.log.LogActivity;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
@@ -105,6 +106,10 @@ public class Settings extends BaseActivity implements SettingsIDs {
                     startActivity(new Intent(this, Login.class));
                     animateTransition();
                 }
+                break;
+            case ACTION_ADD_NEW_ROUTE:
+                startActivity(new Intent(this, TransportEdit.class));
+                animateTransition();
                 break;
         }
     }

@@ -25,7 +25,7 @@ class SettingsItems implements SettingsIDs {
 
         general();
         addDivider();
-        networking();
+        transport();
         addDivider();
         if (prefs.isDeveloper()) {
             developersOptions();
@@ -38,8 +38,8 @@ class SettingsItems implements SettingsIDs {
 
     }
 
-    private void general() {
-        addSectionHeader("General");
+    private void transport() {
+        addSectionHeader(context.getString(R.string.transport));
         SettingsModel transport = new SettingsModel();
         transport.setTitle("Default route");
         transport.setSubtitle(context.getString(R.string.dashboard_transport,
@@ -48,6 +48,13 @@ class SettingsItems implements SettingsIDs {
         transport.setIcon(R.drawable.icon_transport);
         list.add(transport);
 
+        SettingsModel addNew = new SettingsModel();
+        addNew.setTitle("Add new route");
+        addNew.setSubtitle("You can add your own custom route");
+        addNew.setAction(ACTION_ADD_NEW_ROUTE);
+        addNew.setIcon(R.drawable.icon_add);
+        list.add(addNew);
+
         SettingsModel reset = new SettingsModel();
         reset.setTitle("Reset all routes");
         reset.setSubtitle("Reset all routes to default app routes");
@@ -55,6 +62,10 @@ class SettingsItems implements SettingsIDs {
         reset.setIcon(R.drawable.icon_reset);
         list.add(reset);
 
+    }
+
+    private void general() {
+        addSectionHeader("General");
 
         SettingsModel notifications = new SettingsModel();
         String tempNote = "OFF";
@@ -67,10 +78,6 @@ class SettingsItems implements SettingsIDs {
         notifications.setSubtitle(context.getString(R.string.settings_notifications, tempNote));
         notifications.setAction(ACTION_NOTIFICATIONS);
         list.add(notifications);
-    }
-
-    private void networking() {
-        addSectionHeader("Network related");
 
         SettingsModel network = new SettingsModel();
         network.setTitle(context.getString(R.string.last_sync));

@@ -16,10 +16,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.CurrentStateModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportDay;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportRecyclerItem;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
-import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
@@ -52,9 +52,8 @@ public class AddTripsFragment extends Fragment {
 
     private List<TransportRecyclerItem> list;
     private AddTripsAdapter adapter;
-    private int selectedDay;
+    private TransportDay selectedDay;
     private Calendar currentTime;
-    private String[] allDays;
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,8 +62,8 @@ public class AddTripsFragment extends Fragment {
         list = new ArrayList<>();
         currentTime = Calendar.getInstance();
         adapter = new AddTripsAdapter(list);
-        allDays = getContext().getResources().getStringArray(R.array.tripDays);
-        title.setText(allDays[0]);
+        title.setText(TransportDay.WEEKDAYS.getTitle());
+        selectedDay = TransportDay.WEEKDAYS; //Default
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -93,30 +92,28 @@ public class AddTripsFragment extends Fragment {
             }
         });
         note.setText(getContext().getString(R.string.transport_set_trips_note1));
+
+        if (((TransportEdit) getActivity()).isForEdit()) {
+            list.clear();
+
+            CurrentStateModel model = ((TransportEdit) getActivity()).getInfo();
+
+            for (String s : model.getRouteList()) {
+                list.add(new TransportRecyclerItem(s, false));
+            }
+
+            adapter.notifyDataSetChanged();
+            selectedDay = model.getDay();
+
+            title.setText(selectedDay.getTitle());
+            changed.onTripChanged(model.getRouteList(), selectedDay);
+
+        }
+
         if (list.size() == 0) {
             empty.setVisibility(View.VISIBLE);
         } else {
             empty.setVisibility(View.GONE);
-        }
-
-        Route route = CurrentSession.getInstance().getCurrentRoute();
-        if (((TransportEdit) getActivity()).isForEdit()) {
-            list.clear();
-            List<String> passList = new ArrayList<>();
-            for (String s : route.getDefaultList()) {
-                try {
-                    String dateString = DateConverter.changeFormat(ConverterMode.DATE_FIRST, s, "hh:mm a");
-                    list.add(new TransportRecyclerItem(dateString, false));
-                    passList.add(dateString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            adapter.notifyDataSetChanged();
-            selectedDay = ((TransportEdit) getActivity()).getDay();
-            title.setText(allDays[selectedDay]);
-            changed.onTripChanged(passList, selectedDay);
         }
         return rootView;
     }
@@ -127,12 +124,21 @@ public class AddTripsFragment extends Fragment {
         adapter.notifyDataSetChanged();
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
 
+        final List<TransportDay> dayList = new ArrayList<>();
+        final String[] allDays = new String[TransportDay.values().length];
+        Collections.addAll(dayList, TransportDay.values());
+        for (TransportDay t : dayList) {
+            allDays[dayList.indexOf(t)] = t.getTitle();
+        }
+
+
         b.setItems(allDays, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                selectedDay = which;
+                selectedDay = dayList.get(which);
                 title.setText(allDays[which]);
                 dialog.dismiss();
+                changed.onTripChanged(convertToString(list), selectedDay);
 
             }
         });
@@ -198,7 +204,7 @@ public class AddTripsFragment extends Fragment {
 
     // Container Activity must implement this interface
     public interface OnStateChanged {
-        void onTripChanged(List<String> currentTrips, int daySelected);
+        void onTripChanged(List<String> currentTrips, TransportDay daySelected);
     }
 
     private boolean containsItem(List<TransportRecyclerItem> itemList, String s) {
@@ -241,5 +247,4 @@ public class AddTripsFragment extends Fragment {
                 break;
         }
     }
-
 }

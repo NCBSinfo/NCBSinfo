@@ -19,17 +19,4 @@
         <item>@color/md_deep_orange_400</item>
         <item>@color/md_brown_400</item>
     </integer-array>
-
-    <string-array name="tripDays">
-        <item>All week</item>
-        <item>Weekdays</item>
-        <item>Weekend</item>
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-    </string-array>
 </resources>

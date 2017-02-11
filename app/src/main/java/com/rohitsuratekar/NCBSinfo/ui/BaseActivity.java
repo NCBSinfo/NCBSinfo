@@ -24,7 +24,6 @@ import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
-import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.secretbiology.helpers.general.General;
 
 import java.util.HashMap;
@@ -91,17 +90,8 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_add_route) {
-            startActivity(new Intent(this, TransportEdit.class));
-            animateTransition();
-        } else if (id == R.id.action_settings) {
+        if (id == R.id.action_settings) {
             startActivity(new Intent(this, Settings.class));
-            animateTransition();
-        } else if (id == R.id.action_edit_route) {
-            //TODO : add proper day
-            Intent intent = new Intent(this, TransportEdit.class);
-            intent.setAction(TransportEdit.USE_LEFT);
-            startActivity(intent);
             animateTransition();
         }
         return super.onOptionsItemSelected(item);

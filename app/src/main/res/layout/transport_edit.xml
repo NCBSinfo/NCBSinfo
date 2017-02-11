@@ -75,7 +75,7 @@
         tools:layout_editor_absoluteY="53dp" />
 
     <Button
-        android:text="CANCEL"
+        android:text="@string/cancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/te_btn_cancel"

@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="text"
         app:hint="@string/origin"
@@ -67,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:hint="@string/destination"
@@ -77,23 +77,35 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/te_add_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
-        android:layout_width="0dp"
-        android:layout_marginBottom="16dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="@string/transport_suggestions"
+        app:layout_constraintLeft_toLeftOf="@+id/te_add_type"
+        app:layout_constraintTop_toBottomOf="@+id/te_add_type" />
+
+    <TextView
+        android:id="@+id/te_add_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/transport_set_type"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@+id/te_add_input_destination"
         app:layout_constraintTop_toBottomOf="@+id/te_add_input_destination" />
 

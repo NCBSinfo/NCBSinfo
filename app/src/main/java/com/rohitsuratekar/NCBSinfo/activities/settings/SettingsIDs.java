@@ -20,6 +20,7 @@ interface SettingsIDs {
     int ACTION_RESET_ROUTES = 10;
     int ACTION_SYNC = 11;
     int ACTION_COPYRIGHT = 12;
+    int ACTION_ADD_NEW_ROUTE = 13;
 
 
 }

@@ -6,12 +6,14 @@ import android.os.Build;
 import android.view.WindowManager;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportDay;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -125,6 +127,36 @@ public class Helper {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(General.getColor(activity, color));
+        }
+    }
+
+    public static TransportDay getTransportDay(int i) {
+        for (TransportDay day : TransportDay.values()) {
+            if (day.getIndex() == i) {
+                return day;
+            }
+        }
+        return TransportDay.WEEKDAYS;
+    }
+
+    public static TransportDay convertNormalToTransport(int i) {
+        switch (i) {
+            case Calendar.SUNDAY:
+                return TransportDay.SUNDAY;
+            case Calendar.MONDAY:
+                return TransportDay.MONDAY;
+            case Calendar.TUESDAY:
+                return TransportDay.TUESDAY;
+            case Calendar.WEDNESDAY:
+                return TransportDay.WEDNESDAY;
+            case Calendar.THURSDAY:
+                return TransportDay.THURSDAY;
+            case Calendar.FRIDAY:
+                return TransportDay.FRIDAY;
+            case Calendar.SATURDAY:
+                return TransportDay.SATURDAY;
+            default:
+                return TransportDay.MONDAY;
         }
     }
 
