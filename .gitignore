@@ -10,3 +10,4 @@
 *.keystore
 *.jks
 /gradle.properties
+app/google-services.json
