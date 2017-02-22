@@ -1,12 +1,12 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,9 +29,9 @@ import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 import com.secretbiology.helpers.general.listeners.OnClickGuard;
 import com.secretbiology.helpers.general.listeners.OnSwipeTouchListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -90,8 +90,6 @@ public class Home extends BaseActivity {
     private CurrentSession session = CurrentSession.getInstance();
     private Calendar currentCalendar = Calendar.getInstance();
 
-    private List<SuggestionModel> allSuggestions = new ArrayList<>();
-    private HomeAdapter adapter;
     private int currentIndex;
     private Route currentRoute;
     private List<String> nextList;
@@ -105,13 +103,19 @@ public class Home extends BaseActivity {
         currentIndex = session.getCurrentIndex();
         currentRoute = session.getCurrentRoute();
         nextList = session.getNextList();
-        allSuggestions.add(new SuggestionModel("Some random suggestion will appear here", R.drawable.icon_favorite));
-        allSuggestions.add(new SuggestionModel("Another tip", R.drawable.icon_home));
-        allSuggestions.add(new SuggestionModel("Click here to get directions", R.drawable.icon_map));
-        adapter = new HomeAdapter(allSuggestions);
+        final List<SuggestionModel> allSuggestions = new Suggestions(getBaseContext()).get();
+        HomeAdapter adapter = new HomeAdapter(allSuggestions);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new HomeAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                showSuggestions(allSuggestions.get(position));
+            }
+        });
+
+
         layout.setOnTouchListener(new OnSwipeTouchListener(getBaseContext()) {
             @Override
             protected void onSwipeRight() {
@@ -168,31 +172,8 @@ public class Home extends BaseActivity {
     @OnClick(R.id.hm_bt_view_all)
     public void showAllTrips() {
         Intent intent = new Intent(Home.this, Transport.class);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            View statusBar = findViewById(android.R.id.statusBarBackground);
-            View navigationBar = findViewById(android.R.id.navigationBarBackground);
-            View toolbar = findViewById(R.id.toolbar);
-            List<Pair<View, String>> pairs = new ArrayList<>();
-            pairs.add(Pair.create((View) currentPlace, currentPlace.getTransitionName()));
-            pairs.add(Pair.create((View) topBack, topBack.getTransitionName()));
-            pairs.add(Pair.create((View) leftBtn, leftBtn.getTransitionName()));
-            pairs.add(Pair.create((View) rightBtn, rightBtn.getTransitionName()));
-            pairs.add(Pair.create((View) allBtn, allBtn.getTransitionName()));
-            // pairs.add(Pair.create((View) topDark, topDark.getTransitionName()));
-            pairs.add(Pair.create((View) favorite, favorite.getTransitionName()));
-            pairs.add(Pair.create(toolbar, toolbar.getTransitionName()));
-            pairs.add(Pair.create(statusBar, statusBar.getTransitionName()));
-            pairs.add(Pair.create(navigationBar, navigationBar.getTransitionName()));
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(this, pairs.toArray(new Pair[pairs.size()]));
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-            animateTransition();
-        }
-
-
+        startActivity(intent);
+        animateTransition();
     }
 
     private void goRight() {
@@ -246,12 +227,15 @@ public class Home extends BaseActivity {
 
         // To Avoid memory out of bound error for lower APIs
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            backImage.setImageResource(getIcon());
+            //backImage.setImageResource(getIcon());
+            Picasso.with(Home.this).load(getIcon()).placeholder(getIcon()).into(backImage);
         }
         if (prefs.getFavoriteRoute() == currentRoute.getRouteNo()) {
-            favorite.setImageResource(R.drawable.icon_favorite);
+            // favorite.setImageResource(R.drawable.icon_favorite);
+            Picasso.with(Home.this).load(R.drawable.icon_favorite).placeholder(R.drawable.icon_favorite).into(favorite);
         } else {
-            favorite.setImageResource(R.drawable.icon_favorite_border);
+            //favorite.setImageResource(R.drawable.icon_favorite_border);
+            Picasso.with(Home.this).load(R.drawable.icon_favorite_border).placeholder(R.drawable.icon_favorite_border).into(favorite);
         }
     }
 
@@ -279,6 +263,29 @@ public class Home extends BaseActivity {
             default:
                 return R.drawable.unknown;
         }
+    }
+
+    private void showSuggestions(final SuggestionModel model) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                .setIcon(model.getIcon())
+                .setTitle("Do you know ?")
+                .setMessage(model.getDetails())
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        if (model.getAction() != 0) {
+            dialog.setNegativeButton("Check Out", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (new Suggestions(getBaseContext()).takeAction(model.getAction())) {
+                        animateTransition();
+                    }
+                }
+            });
+        }
+        dialog.show();
     }
 
 

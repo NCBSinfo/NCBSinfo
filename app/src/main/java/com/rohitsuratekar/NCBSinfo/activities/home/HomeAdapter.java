@@ -29,10 +29,16 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
         SuggestionModel entry = entryList.get(position);
         holder.details.setText(entry.getDetails());
         holder.icon.setImageResource(entry.getIcon());
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myClickListener.onItemClick(holder.getLayoutPosition());
+            }
+        });
     }
 
     @Override

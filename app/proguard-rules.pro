@@ -16,7 +16,7 @@
 #   public *;
 #}
 
--repackageclasses 'obfuscated'
+#-repackageclasses 'obfuscated' # No need of this as our code is Open Source
 -keepattributes *Annotation*
 # Add this global rule
 -keepattributes Signature
@@ -28,3 +28,4 @@
 -keepclassmembers enum com.rohitsuratekar.NCBSinfo.** { *; }
 -keep class com.rohitsuratekar.NCBSinfo.background.networking.** {*;}
 -keep class com.rohitsuratekar.NCBSinfo.database.models.** {*;}
+-keep class android.support.v7.widget.SearchView { *; }

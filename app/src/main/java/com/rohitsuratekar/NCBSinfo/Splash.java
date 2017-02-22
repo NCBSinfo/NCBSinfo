@@ -11,6 +11,7 @@ import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.MigrateApp;
 import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
+import com.rohitsuratekar.NCBSinfo.preferences.LearningPrefs;
 
 public class Splash extends Activity {
 
@@ -22,6 +23,7 @@ public class Splash extends Activity {
         setContentView(R.layout.splash);
 
         prefs = new AppPrefs(getBaseContext());
+        new LearningPrefs(getBaseContext()).appOpened();
 
         prefs.updateVersion();
         // Create database if it is opened first time

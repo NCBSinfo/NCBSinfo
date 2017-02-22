@@ -73,9 +73,9 @@ public class Settings extends BaseActivity implements SettingsIDs {
                 animateTransition();
                 break;
             case ACTION_CONTRIBUTE:
-                String currenturl = "https://github.com/NCBSinfo/NCBSinfo";
+                String currentUrl = "https://github.com/NCBSinfo/NCBSinfo";
                 Intent i2 = new Intent(Intent.ACTION_VIEW);
-                i2.setData(Uri.parse(currenturl));
+                i2.setData(Uri.parse(currentUrl));
                 startActivity(i2);
                 break;
             case ACTION_SHARE:

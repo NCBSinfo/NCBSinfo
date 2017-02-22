@@ -146,6 +146,7 @@ class SetUpActivity {
         prefs.clear();
         prefs.appOpened();
         prefs.updateVersion();
+        prefs.introSeen();
         new CreateDefaultRoutes(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {

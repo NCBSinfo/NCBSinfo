@@ -16,16 +16,13 @@ class Database extends SQLiteOpenHelper {
 
     private static String DATABASE_NAME = "NCBSinfo";
     private static int DATABASE_VERSION = 9; //Changed from 8 to 9 in version 44
-    private Context context;
 
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        this.context = context;
     }
 
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
     }
 
 

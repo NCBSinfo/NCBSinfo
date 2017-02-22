@@ -70,6 +70,8 @@ public class RouteSyncService extends IntentService {
                         }
                     }
             );
+        } else {
+            Log.inform("Rout Sync cancelled because user is not logged in");
         }
 
     }

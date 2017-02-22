@@ -65,7 +65,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Notif
         this.notificationClick = click;
     }
 
-    public interface OnNotificationClick {
+    interface OnNotificationClick {
         void showFull(View v, int position);
     }
 

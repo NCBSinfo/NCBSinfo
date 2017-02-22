@@ -72,7 +72,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.intro.Intro"></activity>
+        <activity android:name=".activities.intro.Intro" />
     </application>
 
 </manifest>

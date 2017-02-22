@@ -91,6 +91,8 @@ public class UserPreferenceService extends IntentService {
             } else {
                 Log.inform("Sync cancelled because of no network");
             }
+        } else {
+            Log.inform("Sync cancelled because user is not logged in");
         }
 
     }
