@@ -61,6 +61,7 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
         return entryList.size();
 
     }
+
     private List<LocationModel> entryList;
     private ContactAdapter.ClickListener myClickListener;
     Context context;

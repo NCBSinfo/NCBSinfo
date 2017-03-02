@@ -19,7 +19,7 @@ public class Locations extends BaseActivity {
     @BindView(R.id.loc_recycler)
     RecyclerView recyclerView;
 
-    private LocationAdapter adaper;
+    private LocationAdapter adapter;
     private List<LocationModel> locationModels = new ArrayList<>();
 
     @Override
@@ -29,12 +29,13 @@ public class Locations extends BaseActivity {
         locationModels = new LocationList().getLocations();
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getBaseContext());
         recyclerView.setLayoutManager(manager);
-        adaper = new LocationAdapter(locationModels);
-        recyclerView.setAdapter(adaper);
+        adapter = new LocationAdapter(locationModels);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected CurrentActivity setUpActivity() {
         return CurrentActivity.LOCATIONS;
     }
+
 }
