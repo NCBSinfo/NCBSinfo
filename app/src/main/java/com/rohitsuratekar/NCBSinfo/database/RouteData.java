@@ -109,6 +109,7 @@ public class RouteData {
         //Else update existing route
         else {
             model.setRoute(alreadyRoute);
+            model.setKey(getRouteKeyID(model).getKey());
             Log.inform("Updating existing route " + model.getOrigin() + "-" + model.getDestination());
             return update(model);
         }
@@ -152,6 +153,7 @@ public class RouteData {
      * @param model : Model with key
      */
     public void delete(RouteModel model) {
+        Log.inform("Deleted " + model.getOrigin() + " " + model.getDestination() + " " + model.getType().toString());
         db.delete(TRANSPORT_TABLE, KEY + "= ?", new String[]{String.valueOf(model.getKey())});
         database.closeDatabase();
     }
@@ -257,23 +259,30 @@ public class RouteData {
         return result;
     }
 
-    public RouteModel getRouteByNumber(int number) {
+    /***
+     * Gets route model from database ID of existing route (Do not close database)
+     */
+    private RouteModel getRouteKeyID(RouteModel model) {
         String query = new QueryBuilder()
                 .selectAll()
                 .fromTable(TRANSPORT_TABLE)
-                .where()
-                .columnIsEqual(ROUTE, String.valueOf(number))
+                .whereColumnIsEqual(ORIGIN, model.getOrigin())
+                .and()
+                .columnIsEqual(DESTINATION, model.getDestination())
+                .and()
+                .columnIsEqual(TYPE, model.getType().toString().toUpperCase())
+                .and()
+                .columnIsEqual(DAY, String.valueOf(model.getDay()))
                 .build();
         Cursor cursor = db.rawQuery(query, null);
-        RouteModel model = new RouteModel();
+        RouteModel NewModel = new RouteModel();
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                model = convertRow(cursor);
+                NewModel = convertRow(cursor);
             }
             cursor.close();
         }
-        database.closeDatabase();
-        return model;
+        return NewModel;
     }
 
     /**
@@ -468,19 +477,5 @@ public class RouteData {
 
         m.setTrips(trips);
         return m;
-    }
-
-    public boolean ifTableExists(String name) {
-        String query = new QueryBuilder()
-                .use("SELECT name FROM sqlite_master WHERE type='table' AND name='" + name + "'").build();
-        Cursor cursor = db.rawQuery(query, null);
-        int count = 0;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                count = cursor.getCount();
-            }
-            cursor.close();
-        }
-        return count != 0;
     }
 }

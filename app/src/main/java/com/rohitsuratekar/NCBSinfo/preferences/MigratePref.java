@@ -8,22 +8,15 @@ import com.secretbiology.helpers.general.Log;
 
 public class MigratePref extends Preferences {
 
-    private String CURRENT_USER = "currentUsername";
-    private String CURRENT_EMAIL = "currentEmail";
-    private String DEFAULT_ROUTE = "defaultRoute";
-    private String NOTIFICATIONS = "notification_preference";
-    private String HURRY_UP_TIME = "hurryUp_Time";
-
-
     public MigratePref(Context context) {
         super(context);
         SharedPreferences pref = getPref();
         //Get all old preferences
-        String name = pref.getString(CURRENT_USER, "Username");
-        String email = pref.getString(CURRENT_EMAIL, "email@domain.com");
-        int route = pref.getInt(DEFAULT_ROUTE, 0);
-        boolean isNotificationAllowed = pref.getBoolean(NOTIFICATIONS, true);
-        int hurry_up = pref.getInt(HURRY_UP_TIME, 5);
+        String name = pref.getString("currentUsername", "Username");
+        String email = pref.getString("currentEmail", "email@domain.com");
+        int route = pref.getInt("defaultRoute", 0);
+        boolean isNotificationAllowed = pref.getBoolean("notification_preference", true);
+        int hurry_up = pref.getInt("hurryUp_Time", 5);
 
 
         AppPrefs appPrefs = new AppPrefs(context);

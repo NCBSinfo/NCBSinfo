@@ -27,10 +27,10 @@
         android:layout_width="5dp"
         android:layout_height="5dp"
         android:contentDescription="@null"
+        android:src="@color/colorDivider"
         app:layout_constraintLeft_toLeftOf="@+id/tp_list_dot"
         app:layout_constraintRight_toRightOf="@+id/tp_list_dot"
-        app:layout_constraintTop_toBottomOf="@+id/tp_list_dot"
-        android:src="@color/colorDivider" />
+        app:layout_constraintTop_toBottomOf="@+id/tp_list_dot" />
 
     <ImageView
         android:id="@+id/tp_list_top_line"
@@ -43,7 +43,7 @@
         app:layout_constraintRight_toRightOf="@+id/tp_list_dot" />
 
     <TextView
-        android:id="@+id/tp_list_text"
+        android:id="@+id/tp_edit_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

@@ -14,9 +14,9 @@ import com.rohitsuratekar.NCBSinfo.R;
 import java.util.List;
 
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
-    public HomeAdapter(List<SuggestionModel> items) {
+    HomeAdapter(List<SuggestionModel> items) {
         this.entryList = items;
     }
 
@@ -29,10 +29,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(HomeAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final HomeAdapter.MyViewHolder holder, int position) {
         SuggestionModel entry = entryList.get(position);
         holder.details.setText(entry.getDetails());
         holder.icon.setImageResource(entry.getIcon());
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myClickListener.onItemClick(holder.getLayoutPosition());
+            }
+        });
     }
 
     @Override
@@ -47,12 +53,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     private HomeAdapter.ClickListener myClickListener;
     Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView details;
-        public ImageView icon;
-        public ConstraintLayout mainLayout;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView details;
+        ImageView icon;
+        ConstraintLayout mainLayout;
 
-        public MyViewHolder(final View view) {
+        MyViewHolder(final View view) {
             super(view);
             currentview = view;
             details = (TextView) view.findViewById(R.id.hm_item_sugg_text);
@@ -67,7 +73,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         this.myClickListener = myClickListener;
     }
 
-    public interface ClickListener {
+    interface ClickListener {
         void onItemClick(int position);
     }
 }

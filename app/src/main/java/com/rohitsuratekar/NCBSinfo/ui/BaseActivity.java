@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.secretbiology.helpers.general.General;
 
 import java.util.HashMap;
@@ -89,8 +90,9 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_search) {
-            //// TODO: 24-01-2017
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, Settings.class));
+            animateTransition();
         }
         return super.onOptionsItemSelected(item);
     }

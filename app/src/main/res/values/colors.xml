@@ -10,6 +10,9 @@
     <color name="colorDivider">#bdbdbd</color>
     <color name="colorFavorite">#f44336</color>
 
+    <color name="delete_background">#EF9A9A</color>
+    <color name="selected_background">#A5D6A7</color>
+
     <color name="white">#ffffff</color>
     <color name="green">#4CAF50</color>
 </resources>

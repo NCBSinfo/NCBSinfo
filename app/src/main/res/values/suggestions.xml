@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sug_intro">NCBSinfo is open source and free app.</string>
+    <string name="sug_sugg">You will get suggestions and tips here.</string>
+    <string name="sug_transport">Now you can add your own transport route.</string>
+    <string name="sug_login">You can sync all your preferences and routes to our server by signing in into your free NCBSinfo account.</string>
+    <string name="sug_default_route">Click on favorite icon in front of route name to make it default. This
+    route will be shown on the home screen.</string>
+    <string name="sug_swipe">Just swipe in any free space on the home page to navigate between multiple routes.</string>
+    <string name="sug_all_trips">Click on \'All Trips\' button to check all available trips from current route.</string>
+</resources>

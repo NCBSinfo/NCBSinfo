@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70sp"
+    android:orientation="vertical"
+    android:id="@+id/dash_item_layout">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5026455"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="35dp" />
+
+    <ImageView
+        android:id="@+id/dash_item_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:contentDescription="@null"
+        android:tint="@color/colorPrimaryDark"
+        android:src="@drawable/icon_account"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+
+    <TextView
+        android:id="@+id/dash_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some title here"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/dash_item_icon"
+        app:layout_constraintBottom_toTopOf="@+id/guideline13" />
+
+    <TextView
+        android:id="@+id/dash_item_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="some related subtitle"
+        android:textSize="12sp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/dash_item_icon"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+</android.support.constraint.ConstraintLayout>

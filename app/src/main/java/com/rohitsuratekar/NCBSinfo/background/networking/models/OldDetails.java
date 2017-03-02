@@ -1,9 +1,9 @@
-package com.rohitsuratekar.NCBSinfo.background.networking;
+package com.rohitsuratekar.NCBSinfo.background.networking.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PersonalDetails {
+public class OldDetails {
     @SerializedName("currentApp")
     @Expose
     private Integer currentApp;

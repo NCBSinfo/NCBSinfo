@@ -103,7 +103,7 @@ public class CreateDefaultRoutes extends AsyncTask<Object, Void, Void> {
     }
 
 
-    private static final String DEFAULT_TRIGGER = "none";
+    public static final String DEFAULT_TRIGGER = "none";
 
     private RouteModel make(String origin, String destination, int day, TransportType type, List<String> trips) {
         RouteModel route = new RouteModel();

@@ -10,6 +10,7 @@ public class LoginSessionObject {
     private FirebaseAuth mAuth;
     private String email;
     private String password;
+    private String name;
 
     public LoginSessionObject(Context context, FirebaseAuth mAuth, String email, String password) {
         this.context = context;
@@ -51,5 +52,13 @@ public class LoginSessionObject {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

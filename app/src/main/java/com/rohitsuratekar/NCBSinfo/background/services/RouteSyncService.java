@@ -25,6 +25,7 @@ public class RouteSyncService extends IntentService {
 
     public final static String SYNC_ALL = "synRoutes"; // Sync all current database to server
     public final static String RETRIEVE_ALL = "retrieveAll"; // Save all database from server
+    public final static String TEST = "test";
 
     public RouteSyncService(String name) {
         super(name);
@@ -57,6 +58,10 @@ public class RouteSyncService extends IntentService {
                                         synAll();
                                         break;
                                     case RETRIEVE_ALL:
+                                        //TODO
+                                        break;
+                                    case TEST:
+                                        test();
                                         break;
                                 }
                             } else {
@@ -65,6 +70,8 @@ public class RouteSyncService extends IntentService {
                         }
                     }
             );
+        } else {
+            Log.inform("Rout Sync cancelled because user is not logged in");
         }
 
     }
@@ -94,5 +101,9 @@ public class RouteSyncService extends IntentService {
                         Log.error(t.getLocalizedMessage());
                     }
                 });
+    }
+
+    private void test() {
+
     }
 }

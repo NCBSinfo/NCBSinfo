@@ -5,6 +5,10 @@
 
     <string name="settings">Settings</string>
     <string name="last_sync">Last Sync</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="cancel">Cancel</string>
+    <string name="photography">Photography</string>
 
 
     <string name="home">Home</string>
@@ -20,11 +24,57 @@
     <string name="transport_sheet_title">Available routes (total: %d)</string>
     <string name="weekdays">Weekdays</string>
     <string name="sunday">Sunday</string>
+    <string name="transport_edit_entry_title">Select a day to edit</string>
+    <string name="transport_edit_entry">We have detected two different trip lists for this route. Which one you want to edit ?
+    You can always change, edit, delete or reset to default unwanted changes later on.</string>
+
+    <string name="transport_edit_entry_non_regular">There are total of %d trip list(s) detected for this route. Do you want to change existing trips or add more ?</string>
+
+
+    <string name="transport_add">Add New Route</string>
+    <string name="transport_delete_notice">You are about to delete \' %1$s - %2$s %3$s\' route from your database.
+        You won\'t be able to check trips for this route. However, you can always add new routes or reset to default routes from settings.</string>
+    <string name="transport_edit">Edit Route</string>
+    <string name="transport_set_route">Set Route</string>
+    <string name="transport_set_type">Transport type: %s </string>
+    <string name="transport_set_route_details">What is origin and destination of your route?</string>
+    <string name="transport_set_trips">Set Trips</string>
+    <string name="transport_set_trips_details">Add trips to (click to change)</string>
+    <string name="transport_set_trips_empty">Trip list is empty.\nYou can click on \"+\" button to add trips</string>
+    <string name="transport_set_trips_note1">You can chan add as many as trips you want.</string>
+    <string name="transport_set_trips_note2">Click on trip to see more options.</string>
+    <string name="transport_set_trips_note3">Click on title to get more options</string>
+    <string name="transport_set_trips_note4">You can add trip for any day of week.</string>
+    <string name="transport_confirm">Confirm</string>
+    <string name="transport_confirm_details">Select first trip of the day</string>
+    <string name="transport_confirm_empty">We all like to skip steps but you have to complete previous step before using this one :)</string>
+    <string name="transport_suggestions">Suggestions</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+
+    <string name="transport_last_delete_warning">There is only one route left in your database. You must always keep at least one route in your database for proper functioning of this app.</string>
+    <string name="transport_edit_finish">Congratulations! You have successfully %s route into database. You can always reset all trips to default from the settings</string>
+    <string name="transport_delete_finish">You have successfully deleted route from the database. You can always reset all trips to default from the settings</string>
 
     <string name="contacts">Contacts</string>
     <string name="contact_number">Contact Number</string>
     <string name="all_departments">All Departments</string>
     <string name="imp_contacts">Important Contacts</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="dashboard_note">Login to access account related settings</string>
+    <string name="dashboard_transport">%1$s - %2$s %3$s</string>
+    <string name="dashboard_transport_details">change default route</string>
+    <string name="dashboard_password">Account Security</string>
+    <string name="dashboard_password_details">change password</string>
+    <string name="dashboard_notifications">Notifications : %s</string>
+    <string name="dashboard_notifications_details">occasional important notifications</string>
+    <string name="dashboard_sync">Database Sync</string>
+    <string name="dashboard_sync_details">last sync: %s</string>
+    <string name="dashboard_settings_details">even more settings</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="notification_message">You have not received any notifications yet.</string>
 
     <string name="locations">Locations</string>
     <string name="sort_by">sort by</string>
@@ -33,6 +83,8 @@
     <string name="floor">floor</string>
     <string name="whatever">whatever</string>
 
+
+    <string name="security">Account Security</string>
 
     <string name="log_in">Login</string>
     <string name="register">Register</string>
@@ -52,4 +104,23 @@
     <string name="create_account">Create new account ?</string>
     <string name="last_sync_warning">N/A, please log in to sync data</string>
     <string name="log_out_warning">You will not be able to sync data to your account or get latest updated transport timings (if any)</string>
+
+
+    <string name="settings_notifications">Current status : %s</string>
+    <string name="settings_reset_warning">Important ! You are about to reset all of your transport routes to their default values.
+     These values were last created on 30 December 2016. They might be incorrect. Please check with NCBS reception for further validation.</string>
+
+    <string name="intro_tip1">Introducing all new app design.\nA small step towards self sustained app creation.</string>
+    <string name="intro_tip2">UI Redesign</string>
+    <string name="intro_tip2_details">No more Offline or Online modes.\nSingle unified design for better user experience.</string>
+
+    <string name="intro_tip3">Edit Transport</string>
+    <string name="intro_tip3_details">Introducing new useful feature. Now you can create your own custom travel routes, shuttles, buggy or anything you like.</string>
+
+    <string name="intro_tip4">Network Sync</string>
+    <string name="intro_tip4_details">We have improved network operations for lowest amount of internet uses. You can sync all your edited routes, preferences to our cloud server.</string>
+
+    <string name="intro_tip5">Bid Adieu!</string>
+    <string name="intro_tip5_details">This will be the last app upgrade. We are shutting down development of this app soon. Hence any developer is welcome to continue this work further.
+     Don\'t worry, this version of app will be supported for any bugs or issues. </string>
 </resources>

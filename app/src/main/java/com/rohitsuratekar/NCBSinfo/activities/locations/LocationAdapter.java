@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.contact.ContactAdapter;
 
 import java.util.List;
 
@@ -63,7 +62,7 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
     }
 
     private List<LocationModel> entryList;
-    private ContactAdapter.ClickListener myClickListener;
+    private ClickListener myClickListener;
     Context context;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +83,7 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
         }
     }
 
-    public void setOnItemClickListener(ContactAdapter.ClickListener myClickListener) {
+    public void setOnItemClickListener(ClickListener myClickListener) {
         this.myClickListener = myClickListener;
     }
 

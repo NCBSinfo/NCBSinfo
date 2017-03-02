@@ -22,6 +22,10 @@ public class AppPrefs extends Preferences {
     private static final String HURRY_UP_TIME = "hurry_up";
     private static final String IS_USED_LOGGED_IN = "isUserLoggedIn";
     private static final String LAST_SYNC = "last_sync";
+    private static final String LOCATION_SORT = "location_sort";
+    private static final String MIGRATION_ID = "migration_id";
+    private static final String DEVELOPER = "isDeveloper";
+    private static final String INTRO_SEEN = "intro_seen";
 
     private Context context;
 
@@ -67,7 +71,6 @@ public class AppPrefs extends Preferences {
     }
 
     public void updateVersion() {
-        String versionName = "";
         try {
             put(APP_VERSION, context.getPackageManager()
                     .getPackageInfo(context.getPackageName(), 0).versionCode);
@@ -149,4 +152,37 @@ public class AppPrefs extends Preferences {
     public void clear() {
         clearAll();
     }
+
+    public int getLocationSort() {
+        return get(LOCATION_SORT, 0);
+    }
+
+    public void setLocationSort(int loc) {
+        put(LOCATION_SORT, loc);
+    }
+
+    public String getMigrationId() {
+        return get(MIGRATION_ID, "v5"); // v5 is old migration ID. From version 44, it will be v6
+    }
+
+    public void setMigrationID(String id) {
+        put(MIGRATION_ID, id);
+    }
+
+    public boolean isDeveloper() {
+        return get(DEVELOPER, false);
+    }
+
+    public void setDeveloper(boolean value) {
+        put(DEVELOPER, value);
+    }
+
+    public boolean isIntroSeen() {
+        return get(INTRO_SEEN, false);
+    }
+
+    public void introSeen() {
+        put(INTRO_SEEN, true);
+    }
+
 }

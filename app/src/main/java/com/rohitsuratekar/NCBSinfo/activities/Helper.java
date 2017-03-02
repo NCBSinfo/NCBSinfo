@@ -5,13 +5,20 @@ import android.content.Context;
 import android.os.Build;
 import android.view.WindowManager;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportDay;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
+import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -43,6 +50,7 @@ public class Helper {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return httpClient.addInterceptor(interceptor).build();
     }
+
 
     public void legacyDefaultConverter(Context context, int route) {
         AppPrefs prefs = new AppPrefs(context);
@@ -95,6 +103,14 @@ public class Helper {
         }
     }
 
+    public static String assignDefaultIfNull(String value, String defaultValue) {
+        if (value != null) {
+            return value;
+        } else {
+            return defaultValue;
+        }
+    }
+
 
     public static int[] getRandomColor() {
         List<int[]> colorList = new ArrayList<>();
@@ -117,6 +133,48 @@ public class Helper {
             activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             activity.getWindow().setStatusBarColor(General.getColor(activity, color));
         }
+    }
+
+    public static TransportDay getTransportDay(int i) {
+        for (TransportDay day : TransportDay.values()) {
+            if (day.getIndex() == i) {
+                return day;
+            }
+        }
+        return TransportDay.WEEKDAYS;
+    }
+
+    public static TransportDay convertNormalToTransport(int i) {
+        switch (i) {
+            case Calendar.SUNDAY:
+                return TransportDay.SUNDAY;
+            case Calendar.MONDAY:
+                return TransportDay.MONDAY;
+            case Calendar.TUESDAY:
+                return TransportDay.TUESDAY;
+            case Calendar.WEDNESDAY:
+                return TransportDay.WEDNESDAY;
+            case Calendar.THURSDAY:
+                return TransportDay.THURSDAY;
+            case Calendar.FRIDAY:
+                return TransportDay.FRIDAY;
+            case Calendar.SATURDAY:
+                return TransportDay.SATURDAY;
+            default:
+                return TransportDay.MONDAY;
+        }
+    }
+
+    public void sendRouteSyncRequest(Context context) {
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(SyncJobs.class)
+                .setReplaceCurrent(true)
+                .setRecurring(false)
+                .setTrigger(Trigger.executionWindow(0, 1))
+                .setTag(SyncJobs.SINGLE_ROUTE_SYNC)
+                .build();
+        dispatcher.mustSchedule(myJob);
     }
 
 }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer-array name="colorArray">
-        <item >@color/md_cyan_400</item>
-        <item >@color/md_blue_400</item>
-        <item >@color/md_green_400</item>
-        <item >@color/md_red_400</item>
-        <item >@color/md_pink_400</item>
-        <item >@color/md_purple_400</item>
-        <item >@color/md_deep_purple_400</item>
-        <item >@color/md_indigo_400</item>
-        <item >@color/md_light_blue_400</item>
-        <item >@color/md_teal_400</item>
-        <item >@color/md_light_green_400</item>
-        <item >@color/md_lime_400</item>
-        <item >@color/md_yellow_400</item>
-        <item >@color/md_amber_400</item>
-        <item >@color/md_orange_400</item>
-        <item >@color/md_deep_orange_400</item>
-        <item >@color/md_brown_400</item>
+        <item>@color/md_cyan_400</item>
+        <item>@color/md_blue_400</item>
+        <item>@color/md_green_400</item>
+        <item>@color/md_red_400</item>
+        <item>@color/md_pink_400</item>
+        <item>@color/md_purple_400</item>
+        <item>@color/md_deep_purple_400</item>
+        <item>@color/md_indigo_400</item>
+        <item>@color/md_light_blue_400</item>
+        <item>@color/md_teal_400</item>
+        <item>@color/md_light_green_400</item>
+        <item>@color/md_lime_400</item>
+        <item>@color/md_yellow_400</item>
+        <item>@color/md_amber_400</item>
+        <item>@color/md_orange_400</item>
+        <item>@color/md_deep_orange_400</item>
+        <item>@color/md_brown_400</item>
     </integer-array>
 </resources>

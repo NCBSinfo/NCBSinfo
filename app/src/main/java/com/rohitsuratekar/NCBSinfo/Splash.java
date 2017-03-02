@@ -4,25 +4,26 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.intro.Intro;
 import com.rohitsuratekar.NCBSinfo.background.tasks.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.LoadRoutes;
 import com.rohitsuratekar.NCBSinfo.background.tasks.MigrateApp;
 import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
+import com.rohitsuratekar.NCBSinfo.preferences.LearningPrefs;
 
 public class Splash extends Activity {
 
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth mAuth;
+    private AppPrefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        final AppPrefs prefs = new AppPrefs(getBaseContext());
+        prefs = new AppPrefs(getBaseContext());
+        new LearningPrefs(getBaseContext()).appOpened();
 
         prefs.updateVersion();
         // Create database if it is opened first time
@@ -47,31 +48,26 @@ public class Splash extends Activity {
         } else {
             loadRoutes.execute(getBaseContext());
         }
+
     }
 
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
         @Override
         public void onTaskCompleted() {
-            Intent intent = new Intent(Splash.this, Home.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            if (prefs.isIntroSeen()) {
+                Intent intent = new Intent(Splash.this, Home.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            } else {
+                Intent intent = new Intent(Splash.this, Intro.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+
         }
     });
-
-    /*@Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }*/
 
 
 }

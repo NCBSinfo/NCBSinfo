@@ -20,19 +20,17 @@ public class TransportTripAdapter extends RecyclerView.Adapter<TransportTripAdap
 
     private List<String> entryList;
     private int currentItem;
-    View currentview;
     private ClickListener myClickListener;
     Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView details;
-        public ImageView dot, top, bottom;
-        public ConstraintLayout mainLayout;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView details;
+        ImageView dot, top, bottom;
+        ConstraintLayout mainLayout;
 
-        public MyViewHolder(final View view) {
+        MyViewHolder(final View view) {
             super(view);
-            currentview = view;
-            details = (TextView) view.findViewById(R.id.tp_list_text);
+            details = (TextView) view.findViewById(R.id.tp_edit_item_text);
             dot = (ImageView) view.findViewById(R.id.tp_list_dot);
             top = (ImageView) view.findViewById(R.id.tp_list_top_line);
             bottom = (ImageView) view.findViewById(R.id.tp_list_bottom_line);
@@ -114,7 +112,7 @@ public class TransportTripAdapter extends RecyclerView.Adapter<TransportTripAdap
         return position;
     }
 
-    public interface ClickListener {
+    interface ClickListener {
         void onItemClick(int position);
     }
 

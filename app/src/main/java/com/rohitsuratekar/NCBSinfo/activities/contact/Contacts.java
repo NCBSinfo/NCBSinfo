@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,7 +71,7 @@ public class Contacts extends BaseActivity {
         ButterKnife.bind(this);
         allContacts = new ContactList().getFront();
         adapter = new ContactAdapter(allContacts);
-        suggestionAdapter = new SuggestionAdapter<String>(this, R.layout.contact_suggestion_item, suggestionItems);
+        suggestionAdapter = new SuggestionAdapter<>(this, R.layout.contact_suggestion_item, suggestionItems);
         updateSuggestions();
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getBaseContext());
         recycler.setLayoutManager(manager);
@@ -117,12 +115,6 @@ public class Contacts extends BaseActivity {
 
     private void openSheet(final int position, boolean full) {
         final ContactModel entry = allContacts.get(position);
-        Display display = getWindowManager().getDefaultDisplay();
-        final Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-        // bottomSheet.setPeekSheetTranslation(height / 2);
-
         bottomSheet.showWithSheetView(LayoutInflater.from(getBaseContext()).inflate(R.layout.contacts_bottom_sheet, bottomSheet, false));
         TextView bs_title = (TextView) findViewById(R.id.con_bs_title);
         TextView bs_number = (TextView) findViewById(R.id.con_bs_number);

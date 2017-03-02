@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:allowBackup="true"
@@ -20,16 +22,57 @@
         </activity>
         <activity android:name=".activities.transport.Transport" />
         <activity android:name=".activities.home.Home" />
-        <activity android:name=".activities.contact.Contacts"/>
+        <activity android:name=".activities.contact.Contacts" />
         <activity android:name=".activities.locations.Locations" />
+        <activity android:name=".activities.dashboard.Dashboard" />
+        <activity android:name=".activities.dashboard.notifications.Notifications" />
+        <activity android:name=".activities.login.AccountSecurity" />
+        <activity android:name=".activities.settings.Settings" />
+        <activity
+            android:name=".activities.transport.edit.TransportEdit"
+            android:theme="@style/EditTransportTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.login.Login"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.login.Register"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.settings.log.LogActivity"
+            android:theme="@style/EditTransportTheme" />
 
         <service android:name=".background.services.RouteSyncService" />
+        <service android:name=".background.services.UserPreferenceService" />
+
+        <receiver android:name=".background.alarms.Alarms" />
+
+        <service
+            android:name=".background.services.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".background.services.SyncJobs"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".background.services.OnUpgrade">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data
+                    android:path="com.rohitsuratekar.NCBSinfo"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activities.intro.Intro" />
     </application>
 
 </manifest>
