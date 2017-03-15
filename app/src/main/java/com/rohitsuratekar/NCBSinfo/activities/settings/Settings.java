@@ -67,6 +67,7 @@ public class Settings extends BaseActivity implements SettingsIDs {
     }
 
     private void doAction(int position) {
+        Intent info = new Intent(this, SettingsInfo.class);
         switch (position) {
             case ACTION_LOG:
                 startActivity(new Intent(this, LogActivity.class));
@@ -111,6 +112,26 @@ public class Settings extends BaseActivity implements SettingsIDs {
                 break;
             case ACTION_ADD_NEW_ROUTE:
                 startActivity(new Intent(this, TransportEdit.class));
+                animateTransition();
+                break;
+            case ACTION_TERMS_AND_CONDITIONS:
+                info.setAction(String.valueOf(ACTION_TERMS_AND_CONDITIONS));
+                startActivity(info);
+                animateTransition();
+                break;
+            case ACTION_PRIVACY:
+                info.setAction(String.valueOf(ACTION_PRIVACY));
+                startActivity(info);
+                animateTransition();
+                break;
+            case ACTION_ABOUT_US:
+                info.setAction(String.valueOf(ACTION_ABOUT_US));
+                startActivity(info);
+                animateTransition();
+                break;
+            case ACTION_COPYRIGHT:
+                info.setAction(String.valueOf(ACTION_COPYRIGHT));
+                startActivity(info);
                 animateTransition();
                 break;
         }

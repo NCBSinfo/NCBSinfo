@@ -98,25 +98,32 @@ class SettingsItems implements SettingsIDs {
         addSectionHeader("Important information");
 
         SettingsModel terms = new SettingsModel();
-        terms.setTitle("Terms and Conditions");
-        terms.setSubtitle("Nobody reads this anyways");
+        terms.setTitle(context.getString(R.string.terms_and_conditions));
+        terms.setSubtitle(context.getString(R.string.settings_terms_summary));
         terms.setAction(ACTION_TERMS_AND_CONDITIONS);
         terms.setIcon(R.drawable.icon_alphabetically);
         list.add(terms);
 
         SettingsModel privacy = new SettingsModel();
-        privacy.setTitle("Privacy");
-        privacy.setSubtitle("what information we collect from you");
+        privacy.setTitle(context.getString(R.string.privacy));
+        privacy.setSubtitle(context.getString(R.string.settings_privacy_summary));
         privacy.setAction(ACTION_PRIVACY);
         privacy.setIcon(R.drawable.icon_authenticated);
         list.add(privacy);
+
+        SettingsModel aboutUs = new SettingsModel();
+        aboutUs.setTitle(context.getString(R.string.settings_about_us));
+        aboutUs.setSubtitle(context.getString(R.string.settings_about_us_summary));
+        aboutUs.setAction(ACTION_ABOUT_US);
+        aboutUs.setIcon(R.drawable.icon_favorite);
+        list.add(aboutUs);
 
         addDivider();
         addSectionHeader("Other information");
 
         SettingsModel contribute = new SettingsModel();
-        contribute.setTitle("Contribute");
-        contribute.setSubtitle("Contribute in developing NCBSinfo");
+        contribute.setTitle(context.getString(R.string.settings_contribute));
+        contribute.setSubtitle(context.getString(R.string.settings_contribute_summary));
         contribute.setAction(ACTION_CONTRIBUTE);
         contribute.setIcon(R.drawable.github);
         list.add(contribute);
@@ -129,8 +136,8 @@ class SettingsItems implements SettingsIDs {
         list.add(share);
 
         SettingsModel copyrights = new SettingsModel();
-        copyrights.setTitle("Legal Stuff");
-        copyrights.setSubtitle("Copyright notices of various third party libraries");
+        copyrights.setTitle(context.getString(R.string.acknowledgments));
+        copyrights.setSubtitle(context.getString(R.string.acknowledgments_summary));
         copyrights.setAction(ACTION_COPYRIGHT);
         copyrights.setIcon(R.drawable.icon_copy);
         list.add(copyrights);

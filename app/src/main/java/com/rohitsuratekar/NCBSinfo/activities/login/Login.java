@@ -108,11 +108,10 @@ public class Login extends BaseActivity {
         if (General.isValidEmail(email.getText())) {
             if (General.isNetworkAvailable(getBaseContext())) {
                 new AlertDialog.Builder(Login.this)
-                        .setTitle("Are you sure?")
+                        .setTitle(getString(R.string.are_you_sure))
                         .setMessage(getString(R.string.forgot_password_message, email.getText()))
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
                                 progressDialog.show();
                                 progressDialog.setMessage("Sending...");
                                 mAuth.sendPasswordResetEmail(email.getText()).addOnCompleteListener(new OnCompleteListener<Void>() {

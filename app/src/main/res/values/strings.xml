@@ -9,6 +9,8 @@
     <string name="previous">Previous</string>
     <string name="cancel">Cancel</string>
     <string name="photography">Photography</string>
+    <string name="change">Change</string>
+
 
 
     <string name="home">Home</string>
@@ -85,6 +87,7 @@
 
 
     <string name="security">Account Security</string>
+    <string name="empty_field">This field can not be empty</string>
 
     <string name="log_in">Login</string>
     <string name="register">Register</string>
@@ -94,6 +97,9 @@
     <string name="email_invalid">Provide valid email address, we won\'t spam :)</string>
     <string name="email_forgot_password_warning">Provide valid email address before we send forgot password link.</string>
     <string name="password">Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="password_invalid">Password should be at least 6 character long</string>
     <string name="name">Name</string>
     <string name="network_error">Network not found. Please check your internet connection.</string>
@@ -102,13 +108,19 @@
     <string name="forgot_password_message">Link to reset password will be sent to your email address \'%s\'.
         Please check your inbox for further details. </string>
     <string name="create_account">Create new account ?</string>
+    <string name="password_change_success">Your password is successfully updated!</string>
+    <string name="confirm_password_warning">New password and confirm password should be same</string>
+    <string name="old_wrong_password">Old Password for your account \'%s\' is not correct. Please enter correct password.</string>
     <string name="last_sync_warning">N/A, please log in to sync data</string>
     <string name="log_out_warning">You will not be able to sync data to your account or get latest updated transport timings (if any)</string>
 
-
+    <string name="change_name">Change Name</string>
     <string name="settings_notifications">Current status : %s</string>
     <string name="settings_reset_warning">Important ! You are about to reset all of your transport routes to their default values.
      These values were last created on 30 December 2016. They might be incorrect. Please check with NCBS reception for further validation.</string>
+
+    <string name="did_you_know">Did you know?</string>
+    <string name="change_password_for">Change password for \'%s\'</string>
 
     <string name="intro_tip1">Introducing all new app design.\nA small step towards self sustained app creation.</string>
     <string name="intro_tip2">UI Redesign</string>
@@ -120,6 +132,7 @@
     <string name="intro_tip4">Network Sync</string>
     <string name="intro_tip4_details">We have improved network operations for lowest amount of internet uses. You can sync all your edited routes, preferences to our cloud server.</string>
 
+    <string name="are_you_sure">Are you sure?</string>
     <string name="intro_tip5">Bid Adieu!</string>
     <string name="intro_tip5_details">This will be the last app upgrade. We are shutting down development of this app soon. Hence any developer is welcome to continue this work further.
      Don\'t worry, this version of app will be supported for any bugs or issues. </string>

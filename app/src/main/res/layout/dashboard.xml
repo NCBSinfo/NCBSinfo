@@ -55,11 +55,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginStart="32dp"
         android:contentDescription="@null"
         android:src="@drawable/icon_account"
         android:tint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/guideline12"
-        android:layout_marginStart="32dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
@@ -88,5 +88,21 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dash_edit_name"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/change_name"
+        android:src="@drawable/icon_edit"
+        android:tint="@color/white"
+        android:alpha="0.5"
+        app:layout_constraintLeft_toRightOf="@+id/dash_txt_name"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/dash_txt_email"
+        app:layout_constraintTop_toTopOf="@+id/dash_txt_name"
+        android:layout_marginTop="0dp" />
 
 </android.support.constraint.ConstraintLayout>

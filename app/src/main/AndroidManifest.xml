@@ -42,6 +42,12 @@
             android:name=".activities.settings.log.LogActivity"
             android:theme="@style/EditTransportTheme" />
 
+        <activity android:name=".activities.intro.Intro" />
+        <activity
+            android:name=".activities.settings.SettingsInfo"
+            android:theme="@style/EditTransportTheme" />
+
+
         <service android:name=".background.services.RouteSyncService" />
         <service android:name=".background.services.UserPreferenceService" />
 
@@ -72,7 +78,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.intro.Intro" />
     </application>
 
 </manifest>

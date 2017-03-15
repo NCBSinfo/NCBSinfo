@@ -201,7 +201,7 @@ public class Register extends BaseActivity {
         edittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         //edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
         alert.setMessage("For security reason, reenter your password");
-        alert.setTitle("Confirm Password");
+        alert.setTitle(getString(R.string.dashboard_password_details));
         alert.setView(edittext);
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {

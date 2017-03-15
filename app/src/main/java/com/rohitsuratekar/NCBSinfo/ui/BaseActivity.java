@@ -131,7 +131,7 @@ public abstract class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            animateTransition();
         }
     }
 

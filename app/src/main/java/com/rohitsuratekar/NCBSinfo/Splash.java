@@ -55,7 +55,7 @@ public class Splash extends Activity {
         @Override
         public void onTaskCompleted() {
             if (prefs.isIntroSeen()) {
-                Intent intent = new Intent(Splash.this, Home.class);
+                Intent intent = new Intent(Splash.this, Home.class);//// TODO: 14-03-2017
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

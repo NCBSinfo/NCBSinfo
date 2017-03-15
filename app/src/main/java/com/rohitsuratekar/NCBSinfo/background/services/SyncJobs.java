@@ -19,7 +19,7 @@ public class SyncJobs extends JobService {
 
     public static final String RESET_ALL_JOBS = "startAllJobs";
     public static final String SINGLE_ROUTE_SYNC = "singleRouteSync";
-    private static final String SYNC_PREFERENCES = "syncPreferences";
+    public static final String SYNC_PREFERENCES = "syncPreferences";
     private static final String SYNC_ROUTE_DATA = "syncRouteData";
 
     private FirebaseJobDispatcher dispatcher;
@@ -99,10 +99,6 @@ public class SyncJobs extends JobService {
                 .setTag(SYNC_ROUTE_DATA)
                 .build();
         dispatcher.mustSchedule(myJob);
-    }
-
-    private void singleRouteSync() {
-
     }
 
 }

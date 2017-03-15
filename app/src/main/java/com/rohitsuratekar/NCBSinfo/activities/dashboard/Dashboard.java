@@ -7,8 +7,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.Helper;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.notifications.Notifications;
@@ -16,10 +21,12 @@ import com.rohitsuratekar.NCBSinfo.activities.login.AccountSecurity;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
+import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
+import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,5 +152,60 @@ public class Dashboard extends BaseActivity {
 
         });
         b.show();
+    }
+
+    @OnClick(R.id.dash_edit_name)
+    public void changeName() {
+        if (General.isNetworkAvailable(getBaseContext())) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(Dashboard.this);
+            final EditText edittext = new EditText(getBaseContext());
+            edittext.setText(prefs.getUsername());
+            alert.setTitle(getString(R.string.change_name));
+            alert.setView(edittext);
+            alert.setPositiveButton(getString(R.string.change), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    if (edittext.getText().toString().length() > 0) {
+                        edittext.clearFocus();
+                        sendNameChangeRequest(edittext.getText().toString());
+
+                    } else {
+                        General.makeShortToast(getBaseContext(), getString(R.string.empty_field));
+                    }
+                }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // what ever you want to do with No option.
+                }
+            });
+
+            alert.show();
+        } else {
+            General.makeShortToast(getBaseContext(), getString(R.string.network_error));
+        }
+
+    }
+
+
+    private void sendNameChangeRequest(String name) {
+        prefs.setUserName(name);
+        this.name.setText(name);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getBaseContext()));
+        Job myJob = dispatcher.newJobBuilder()
+                .setService(SyncJobs.class)
+                .setReplaceCurrent(true)
+                .setTrigger(Trigger.executionWindow(0, 1))
+                .setTag(SyncJobs.SYNC_PREFERENCES)
+                .build();
+        dispatcher.mustSchedule(myJob);
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        modelList.clear();
+        modelList.addAll(new DashboardItems().getAll(getBaseContext()));
+        adapter.notifyDataSetChanged();
     }
 }

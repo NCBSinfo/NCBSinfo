@@ -21,6 +21,8 @@ interface SettingsIDs {
     int ACTION_SYNC = 11;
     int ACTION_COPYRIGHT = 12;
     int ACTION_ADD_NEW_ROUTE = 13;
+    int ACTION_ABOUT_US = 14;
+    int ACTION_FAQS = 15;
 
 
 }

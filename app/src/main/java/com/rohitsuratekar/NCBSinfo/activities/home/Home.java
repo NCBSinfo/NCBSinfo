@@ -268,7 +268,7 @@ public class Home extends BaseActivity {
     private void showSuggestions(final SuggestionModel model) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                 .setIcon(model.getIcon())
-                .setTitle("Do you know ?")
+                .setTitle(getString(R.string.did_you_know))
                 .setMessage(model.getDetails())
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
