@@ -29,6 +29,7 @@ public class Locations extends BaseActivity {
     @BindView(R.id.loc_recycler)
     RecyclerView recyclerView;
 
+
     @BindView(R.id.loc_img_name)
     ImageView byName;
     @BindView(R.id.loc_img_building)
@@ -46,6 +47,7 @@ public class Locations extends BaseActivity {
     TextView floorText;
     @BindView(R.id.loc_txt_whatever)
     TextView whatText;
+
 
     private LocationAdapter adapter;
     private List<LocationModel> locationModels = new ArrayList<>();
@@ -188,4 +190,5 @@ public class Locations extends BaseActivity {
     protected CurrentActivity setUpActivity() {
         return CurrentActivity.LOCATIONS;
     }
+
 }
