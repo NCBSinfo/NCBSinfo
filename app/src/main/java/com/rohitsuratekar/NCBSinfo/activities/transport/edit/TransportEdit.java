@@ -114,6 +114,7 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setElevation(0);
         }
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -322,7 +323,7 @@ public class TransportEdit extends AppCompatActivity implements AddLocationFragm
         currentInformation.setOrigin(origin);
         currentInformation.setDestination(destination);
         currentInformation.setType(type);
-        if(origin.length()>0 && destination.length()>0) {
+        if (origin.length() > 0 && destination.length() > 0) {
             currentState.setCompleted(true);
         }
         currentState.setSkipped(false);

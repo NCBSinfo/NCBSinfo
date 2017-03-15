@@ -61,9 +61,9 @@
         android:layout_marginRight="8dp"
         android:text="@string/forgot_password"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.501" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.secretbiology.helpers.general.views.InputView
         android:id="@+id/change_pass_confirm"
@@ -80,20 +80,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="75sp"
-        android:layout_height="75sp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:contentDescription="@string/forgot_password"
-        app:layout_constraintBottom_toTopOf="@+id/change_pass_note"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/image_inapp_logo" />
 
     <TextView
         android:id="@+id/change_pass_note"

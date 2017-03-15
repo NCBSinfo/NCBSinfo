@@ -136,8 +136,8 @@ class SettingsItems implements SettingsIDs {
         list.add(share);
 
         SettingsModel copyrights = new SettingsModel();
-        copyrights.setTitle(context.getString(R.string.acknowledgments));
-        copyrights.setSubtitle(context.getString(R.string.acknowledgments_summary));
+        copyrights.setTitle(context.getString(R.string.acknowledgement));
+        copyrights.setSubtitle(context.getString(R.string.acknowledgement_summary));
         copyrights.setAction(ACTION_COPYRIGHT);
         copyrights.setIcon(R.drawable.icon_copy);
         list.add(copyrights);

@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.settings;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -26,19 +27,19 @@ public class SettingsInfo extends AppCompatActivity implements SettingsIDs {
             switch (Integer.parseInt(action)) {
                 case ACTION_TERMS_AND_CONDITIONS:
                     setTitle(getString(R.string.terms_and_conditions));
-                    mainText.setText(Html.fromHtml(getString(R.string.terms)));
+                    setText(mainText, R.string.terms);
                     break;
                 case ACTION_PRIVACY:
                     setTitle(getString(R.string.privacy));
-                    mainText.setText(Html.fromHtml(getString(R.string.privacy_statement)));
+                    setText(mainText, R.string.privacy_statement);
                     break;
                 case ACTION_ABOUT_US:
                     setTitle(getString(R.string.settings_about_us));
-                    mainText.setText(Html.fromHtml(getString(R.string.about_us)));
+                    setText(mainText, R.string.about_us);
                     break;
                 case ACTION_COPYRIGHT:
-                    setTitle(getString(R.string.acknowledgments));
-                    mainText.setText(Html.fromHtml(getString(R.string.libraries_used)));
+                    setTitle(getString(R.string.acknowledgement));
+                    setText(mainText, R.string.libraries_used);
                     break;
             }
         }
@@ -57,6 +58,14 @@ public class SettingsInfo extends AppCompatActivity implements SettingsIDs {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setText(TextView textView, int stringID) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(getString(stringID), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            textView.setText(Html.fromHtml(getString(stringID)));
+        }
     }
 
 

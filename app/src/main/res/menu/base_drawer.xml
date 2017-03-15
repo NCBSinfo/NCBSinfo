@@ -6,7 +6,7 @@
     android:checkableBehavior="single">
     <item
         android:id="@+id/nav_dashboard"
-        android:icon="@drawable/icon_authenticated"
+        android:icon="@drawable/icon_dashboard"
         android:title="@string/dashboard" />
     <item
         android:id="@+id/nav_home"
