@@ -227,15 +227,15 @@ public class Home extends BaseActivity {
 
         // To Avoid memory out of bound error for lower APIs
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //backImage.setImageResource(getIcon());
-            Picasso.with(Home.this).load(getIcon()).placeholder(getIcon()).into(backImage);
+            backImage.setImageResource(getIcon());
+            //Picasso.with(Home.this).load(getIcon()).placeholder(getIcon()).into(backImage);
         }
         if (prefs.getFavoriteRoute() == currentRoute.getRouteNo()) {
-            // favorite.setImageResource(R.drawable.icon_favorite);
-            Picasso.with(Home.this).load(R.drawable.icon_favorite).placeholder(R.drawable.icon_favorite).into(favorite);
+            favorite.setImageResource(R.drawable.icon_favorite);
+            //Picasso.with(Home.this).load(R.drawable.icon_favorite).placeholder(R.drawable.icon_favorite).into(favorite);
         } else {
-            //favorite.setImageResource(R.drawable.icon_favorite_border);
-            Picasso.with(Home.this).load(R.drawable.icon_favorite_border).placeholder(R.drawable.icon_favorite_border).into(favorite);
+            favorite.setImageResource(R.drawable.icon_favorite_border);
+            //Picasso.with(Home.this).load(R.drawable.icon_favorite_border).placeholder(R.drawable.icon_favorite_border).into(favorite);
         }
     }
 

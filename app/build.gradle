@@ -8,15 +8,15 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 48
-        versionName "6.3.0"
+        versionCode 49
+        versionName "6.3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
