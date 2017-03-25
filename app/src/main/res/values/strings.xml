@@ -11,6 +11,14 @@
     <string name="photography">Photography</string>
     <string name="change">Change</string>
 
+    <string name="salutation_morning">Good Morning!</string>
+    <string name="salutation_afternoon">Good Afternoon!</string>
+    <string name="salutation_evening">Good Evening!</string>
+    <string name="salutation_night">Greetings!</string>
+    <string name="salutation_late_night">Greetings Night Owl!</string>
+    <string name="lts_dialog">We are developing long term support for the current version of the app. This includes frequent updates till April 2017.
+    If you find any bugs, issues or problems, send an email to \'contact@secretbiology.com\'. Your feedback and criticism is also welcome:)  </string>
+
 
     <string name="home">Home</string>
     <string name="home_above_transport">Next %s</string>

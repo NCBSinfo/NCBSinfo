@@ -5,6 +5,11 @@ import android.content.pm.PackageManager;
 
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportType;
 import com.secretbiology.helpers.general.Log;
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
+
+import java.text.ParseException;
+import java.util.Calendar;
 
 public class AppPrefs extends Preferences {
 
@@ -27,6 +32,7 @@ public class AppPrefs extends Preferences {
     private static final String DEVELOPER = "isDeveloper";
     private static final String INTRO_SEEN = "intro_seen";
     private static final String LAST_PASS_UPDATE = "last_pass_update";
+    private static final String LTS_DIALOG = "LTS_dialog";
 
     private Context context;
 
@@ -192,6 +198,23 @@ public class AppPrefs extends Preferences {
 
     public String getLastPassUpdate() {
         return get(LAST_PASS_UPDATE, "N/A");
+    }
+
+    public boolean isLTSShown() {
+        try {
+            Calendar targetDate = DateConverter.convertToCalender(ConverterMode.DATE_FIRST, "30 April 2017");
+            Calendar c = Calendar.getInstance();
+            if (targetDate.before(c)) {
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return get(LTS_DIALOG, false);
+    }
+
+    public void LTSshown() {
+        put(LTS_DIALOG, true);
     }
 
 }

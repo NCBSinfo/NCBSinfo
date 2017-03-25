@@ -1,8 +1,11 @@
 package com.rohitsuratekar.NCBSinfo;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.intro.Intro;
@@ -12,6 +15,10 @@ import com.rohitsuratekar.NCBSinfo.background.tasks.MigrateApp;
 import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.preferences.LearningPrefs;
+
+import java.util.Calendar;
+
+import static android.R.string.ok;
 
 /**
  * This is slash activity to start background process and load all databases.
@@ -65,21 +72,53 @@ public class Splash extends Activity {
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
         @Override
         public void onTaskCompleted() {
-            if (prefs.isIntroSeen()) {
-                Intent intent = new Intent(Splash.this, Home.class);
-                //Not sure about addFlags() or setFlags()
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            if (prefs.isLTSShown()) {
+                selectAction();
             } else {
-                Intent intent = new Intent(Splash.this, Intro.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                new AlertDialog.Builder(Splash.this)
+                        .setTitle(getSalutation())
+                        .setMessage(getString(R.string.lts_dialog))
+                        .setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                prefs.LTSshown();
+                                dialog.dismiss();
+                                selectAction();
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
-
         }
     });
+
+    private void selectAction() {
+        if (prefs.isIntroSeen()) {
+            Intent intent = new Intent(Splash.this, Home.class);
+            //Not sure about addFlags() or setFlags()
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            Intent intent = new Intent(Splash.this, Intro.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    }
+
+    @NonNull
+    private String getSalutation() {
+        int hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (hourOfDay > 4 && hourOfDay <= 12) {
+            return getString(R.string.salutation_morning);
+        } else if (hourOfDay > 12 && hourOfDay <= 18) {
+            return getString(R.string.salutation_afternoon);
+        } else if (hourOfDay > 18 && hourOfDay <= 23) {
+            return getString(R.string.salutation_night);
+        } else {
+            return getString(R.string.salutation_late_night);
+        }
+    }
 
 
 }
