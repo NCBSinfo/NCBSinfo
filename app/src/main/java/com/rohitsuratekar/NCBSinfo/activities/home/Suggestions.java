@@ -86,21 +86,7 @@ class Suggestions implements SuggestionIDs {
     }
 
 
-    boolean takeAction(int action) {
-        switch (action) {
-            case EDIT_TRANSPORT:
-                context.startActivity(new Intent(context, TransportEdit.class));
-                break;
-            case LOGIN:
-                if (new AppPrefs(context).isUserLoggedIn()) {
-                    context.startActivity(new Intent(context, Dashboard.class));
-                } else {
-                    context.startActivity(new Intent(context, Login.class));
-                }
-                break;
-        }
-        return true;
-    }
+
 
 
 }

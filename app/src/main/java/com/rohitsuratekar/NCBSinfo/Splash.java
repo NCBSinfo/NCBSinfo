@@ -13,6 +13,13 @@ import com.rohitsuratekar.NCBSinfo.background.tasks.OnTaskCompleted;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.preferences.LearningPrefs;
 
+/**
+ * This is slash activity to start background process and load all databases.
+ * This activity also shifts old database and preferences to new one
+ *
+ * @see com.rohitsuratekar.NCBSinfo.database.Database for all Database methods
+ * @see AppPrefs for all prefernecs methods
+ */
 public class Splash extends Activity {
 
     private AppPrefs prefs;
@@ -37,7 +44,6 @@ public class Splash extends Activity {
                         @Override
                         public void onTaskCompleted() {
                             prefs.appOpened();
-
                             //Now get session ready
                             loadRoutes.execute(getBaseContext());
                         }
@@ -51,17 +57,23 @@ public class Splash extends Activity {
 
     }
 
+    /**
+     * Loads all routes in background and goes to {@link Home} or {@link Intro}
+     *
+     * @see LoadRoutes
+     */
     LoadRoutes loadRoutes = new LoadRoutes(new OnTaskCompleted() {
         @Override
         public void onTaskCompleted() {
             if (prefs.isIntroSeen()) {
                 Intent intent = new Intent(Splash.this, Home.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //Not sure about addFlags() or setFlags()
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             } else {
                 Intent intent = new Intent(Splash.this, Intro.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }

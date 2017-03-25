@@ -33,6 +33,7 @@ import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
 import com.rohitsuratekar.NCBSinfo.ui.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.ui.CurrentActivity;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 import com.secretbiology.helpers.general.views.ScrollUpRecyclerView;
@@ -138,7 +139,6 @@ public class Transport extends BaseActivity {
 
         updateUI();
         new setUpLayout().execute();
-
     }
 
     @Override
@@ -305,52 +305,57 @@ public class Transport extends BaseActivity {
     }
 
     private void updateUI() {
-        currentPlace.setText(getString(R.string.home_current_place, currentRoute.getOrigin().toUpperCase(),
-                currentRoute.getDestination().toUpperCase()));
-        currentDate.setText(DateConverter.convertToString(currentCalendar, "EE, dd MMM"));
-        type.setText(currentRoute.getType().toString());
+        if (currentRoute != null) { //Just sanity check because many devices getting null pointer in this method
 
-        if (currentRoute.isRegular()) {
-            leftListTitle.setText(getString(R.string.weekdays));
-            rightListTitle.setText(getString(R.string.sunday));
-            leftBtn.setImageResource(android.R.color.transparent);
-            rightBtn.setImageResource(android.R.color.transparent);
-            leftBtn.setEnabled(false);
-            rightBtn.setEnabled(false);
-            leftButtonText.setText("");
-            rightButtonText.setText("");
-            footNote.setText(getString(R.string.transport_regular_note));
+            currentPlace.setText(getString(R.string.home_current_place, currentRoute.getOrigin().toUpperCase(),
+                    currentRoute.getDestination().toUpperCase()));
+            currentDate.setText(DateConverter.convertToString(currentCalendar, "EE, dd MMM"));
+            type.setText(currentRoute.getType().toString());
+
+            if (currentRoute.isRegular()) {
+                leftListTitle.setText(getString(R.string.weekdays));
+                rightListTitle.setText(getString(R.string.sunday));
+                leftBtn.setImageResource(android.R.color.transparent);
+                rightBtn.setImageResource(android.R.color.transparent);
+                leftBtn.setEnabled(false);
+                rightBtn.setEnabled(false);
+                leftButtonText.setText("");
+                rightButtonText.setText("");
+                footNote.setText(getString(R.string.transport_regular_note));
+            } else {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(currentCalendar.getTime());
+                leftListTitle.setText(DateConverter.convertToString(cal, "EEEE"));
+                cal.add(Calendar.DATE, 1);
+                rightListTitle.setText(DateConverter.convertToString(cal, "EEEE"));
+                leftBtn.setImageResource(R.drawable.icon_left);
+                rightBtn.setImageResource(R.drawable.icon_right);
+                leftBtn.setEnabled(true);
+                rightBtn.setEnabled(true);
+                cal.add(Calendar.DATE, 1);
+                rightButtonText.setText(DateConverter.convertToString(cal, "EEE").toUpperCase());
+                cal.add(Calendar.DATE, -3);
+                leftButtonText.setText(DateConverter.convertToString(cal, "EEE").toUpperCase());
+                footNote.setText(getString(R.string.transport_other_note));
+            }
+
+
+            if (oppositeRouteExists) {
+                swap.setEnabled(true);
+            } else {
+                swap.setEnabled(false);
+            }
+
+            leftAdapter.setCurrentItem(leftIndex);
+            rightAdapter.setCurrentItem(rightIndex);
+            leftAdapter.notifyDataSetChanged();
+            rightAdapter.notifyDataSetChanged();
+
+            leftRecycler.scrollToPosition(leftIndex);
+            rightRecycler.scrollToPosition(rightIndex);
         } else {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(currentCalendar.getTime());
-            leftListTitle.setText(DateConverter.convertToString(cal, "EEEE"));
-            cal.add(Calendar.DATE, 1);
-            rightListTitle.setText(DateConverter.convertToString(cal, "EEEE"));
-            leftBtn.setImageResource(R.drawable.icon_left);
-            rightBtn.setImageResource(R.drawable.icon_right);
-            leftBtn.setEnabled(true);
-            rightBtn.setEnabled(true);
-            cal.add(Calendar.DATE, 1);
-            rightButtonText.setText(DateConverter.convertToString(cal, "EEE").toUpperCase());
-            cal.add(Calendar.DATE, -3);
-            leftButtonText.setText(DateConverter.convertToString(cal, "EEE").toUpperCase());
-            footNote.setText(getString(R.string.transport_other_note));
+            General.makeShortToast(getBaseContext(), "Something is wrong!");
         }
-
-
-        if (oppositeRouteExists) {
-            swap.setEnabled(true);
-        } else {
-            swap.setEnabled(false);
-        }
-
-        leftAdapter.setCurrentItem(leftIndex);
-        rightAdapter.setCurrentItem(rightIndex);
-        leftAdapter.notifyDataSetChanged();
-        rightAdapter.notifyDataSetChanged();
-
-        leftRecycler.scrollToPosition(leftIndex);
-        rightRecycler.scrollToPosition(rightIndex);
     }
 
     @Override

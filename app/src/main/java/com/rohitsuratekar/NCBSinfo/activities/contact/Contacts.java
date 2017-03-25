@@ -243,16 +243,10 @@ public class Contacts extends BaseActivity {
     }
 
     private void copyText(String s) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            clipboard.setText(s);
-            General.makeShortToast(getBaseContext(), s + " Copied to clipboard");
-        } else {
-            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            android.content.ClipData clip = android.content.ClipData.newPlainText("NCBSinfo copied text", s);
-            clipboard.setPrimaryClip(clip);
-            General.makeShortToast(getBaseContext(), s + " Copied to clipboard");
-        }
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("NCBSinfo copied text", s);
+        clipboard.setPrimaryClip(clip);
+        General.makeShortToast(getBaseContext(), s + " Copied to clipboard");
     }
 
     private SearchView searchView = null;
