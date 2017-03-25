@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
@@ -7,8 +8,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 49
-        versionName "6.3.1"
+        versionCode 51
+        versionName "6.3.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -57,3 +58,4 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+>>>>>>> branch 'master' of https://secretadmin@github.com/NCBSinfo/NCBSinfo.git

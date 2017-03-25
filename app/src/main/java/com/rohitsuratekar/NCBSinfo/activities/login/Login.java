@@ -173,7 +173,7 @@ public class Login extends BaseActivity {
                     public void onTaskComplete() {
                         progressDialog.dismiss();
                         Intent intent = new Intent(Login.this, Home.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         animateTransition();
                     }

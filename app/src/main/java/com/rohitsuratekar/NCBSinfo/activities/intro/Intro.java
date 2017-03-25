@@ -17,6 +17,16 @@ import com.secretbiology.helpers.general.views.ViewpagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Introduction Activity
+ * <p>
+ * Simple intro activity to show users what is new in this current version.
+ * This activity will be shown only once in the lifetime of app (unless user clears all preferences).
+ * This activity is implemented by {@link com.rohitsuratekar.NCBSinfo.Splash} activity.
+ * User has to go through all slides till end.
+ *
+ * @see com.rohitsuratekar.NCBSinfo.Splash
+ */
 public class Intro extends AppCompatActivity {
 
     @BindView(R.id.intro_viewpager)
@@ -77,6 +87,12 @@ public class Intro extends AppCompatActivity {
         });
     }
 
+    /**
+     * All fragments of viewpager
+     *
+     * @param viewPager : where fragments should be attached
+     * @see GeneralIntroFragment
+     */
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewpagerAdapter(getSupportFragmentManager());
         adapter.addFragment(GeneralIntroFragment.newInstance(

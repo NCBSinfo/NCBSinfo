@@ -16,8 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
+import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportMethods;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
 import com.rohitsuratekar.NCBSinfo.background.CurrentSession;
 import com.rohitsuratekar.NCBSinfo.preferences.AppPrefs;
@@ -29,7 +32,6 @@ import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 import com.secretbiology.helpers.general.listeners.OnClickGuard;
 import com.secretbiology.helpers.general.listeners.OnSwipeTouchListener;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -39,6 +41,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Home Page
+ * <p>
+ * This page is the first page when user opens app.
+ * Details about favorite route will be shown at first. Users will be also shown few tips and suggestions based on
+ * preference matrix and database. Most of the UI updating operations are done in background {@link #setUpItems()}.
+ * This activity also implements some custom made functions like ClickGuard and OnSwipeTouchListener.
+ *
+ * @see OnClickGuard : Avoids taking fast button clicks by user
+ * @see OnSwipeTouchListener : Detects left, right, up and down swipe moments
+ */
 public class Home extends BaseActivity {
 
     @BindView(R.id.hm_tx_above_transport)
@@ -149,6 +162,7 @@ public class Home extends BaseActivity {
             }
         });
 
+        //When user clicks on favorite icon
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +183,9 @@ public class Home extends BaseActivity {
         return CurrentActivity.HOME;
     }
 
+    /**
+     * Opens {@link Transport} activity with whichever current route is on the home screen
+     */
     @OnClick(R.id.hm_bt_view_all)
     public void showAllTrips() {
         Intent intent = new Intent(Home.this, Transport.class);
@@ -176,6 +193,11 @@ public class Home extends BaseActivity {
         animateTransition();
     }
 
+    /**
+     * Shows next route trip details
+     *
+     * @see CurrentSession
+     */
     private void goRight() {
         currentIndex++;
         if (currentIndex == session.getAllRoutes().size()) {
@@ -184,6 +206,12 @@ public class Home extends BaseActivity {
         currentRoute = session.getAllRoutes().get(currentIndex);
         new setUpLayout().execute();
     }
+
+    /**
+     * Shows previous route trip details
+     *
+     * @see CurrentSession
+     */
 
     private void goLeft() {
         currentIndex--;
@@ -194,6 +222,10 @@ public class Home extends BaseActivity {
         new setUpLayout().execute();
     }
 
+    /**
+     * Background operation to update all home page UI.
+     * Basically changes all {@link CurrentSession} parameters and then calls {@link #setUpItems()}
+     */
     private class setUpLayout extends AsyncTask<Object, Void, Void> {
 
         @Override
@@ -212,34 +244,50 @@ public class Home extends BaseActivity {
         }
     }
 
+    /**
+     * Main method to update UI elements when user navigates through buttons or touch inputs
+     *
+     * @see #goLeft()
+     * @see #goRight()
+     */
     private void setUpItems() {
-        currentPlace.setText(getString(R.string.home_current_place,
-                currentRoute.getOrigin().toUpperCase(), currentRoute.getDestination().toUpperCase()));
-        nextTransport.setText(formatString(nextList.get(0)));
-        transportSuggestion1.setText(formatString(nextList.get(1)));
-        transportSuggestion2.setText(formatString(nextList.get(2)));
-        transportSuggestion3.setText(formatString(nextList.get(3)));
-        currentDate.setText(DateConverter.convertToString(currentCalendar, "dd MMM").toUpperCase());
-        currentDay.setText(DateConverter.convertToString(currentCalendar, "EEE").toUpperCase());
-        currentType.setText(currentRoute.getType().toString());
-        aboveTransport.setText(getString(R.string.home_above_transport, currentRoute.getType().toString().toLowerCase()));
-        currentSeats.setText(getString(R.string.home_seats, currentRoute.getType().getSeats()));
+        if (currentRoute != null) { //Sanity check for very slow devices
+            currentPlace.setText(getString(R.string.home_current_place,
+                    currentRoute.getOrigin().toUpperCase(), currentRoute.getDestination().toUpperCase()));
+            nextTransport.setText(formatString(nextList.get(0)));
+            transportSuggestion1.setText(formatString(nextList.get(1)));
+            transportSuggestion2.setText(formatString(nextList.get(2)));
+            transportSuggestion3.setText(formatString(nextList.get(3)));
+            currentDate.setText(DateConverter.convertToString(currentCalendar, "dd MMM").toUpperCase());
+            currentDay.setText(DateConverter.convertToString(currentCalendar, "EEE").toUpperCase());
+            currentType.setText(currentRoute.getType().toString());
+            aboveTransport.setText(getString(R.string.home_above_transport, currentRoute.getType().toString().toLowerCase()));
+            currentSeats.setText(getString(R.string.home_seats, currentRoute.getType().getSeats()));
 
-        // To Avoid memory out of bound error for lower APIs
-        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            backImage.setImageResource(getIcon());
-            //Picasso.with(Home.this).load(getIcon()).placeholder(getIcon()).into(backImage);
-        }
-        if (prefs.getFavoriteRoute() == currentRoute.getRouteNo()) {
-            favorite.setImageResource(R.drawable.icon_favorite);
-            //Picasso.with(Home.this).load(R.drawable.icon_favorite).placeholder(R.drawable.icon_favorite).into(favorite);
+            // To Avoid memory out of bound error for lower APIs
+            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                backImage.setImageResource(getIcon());
+                //Picasso.with(Home.this).load(getIcon()).placeholder(getIcon()).into(backImage);
+            }
+            if (prefs.getFavoriteRoute() == currentRoute.getRouteNo()) {
+                favorite.setImageResource(R.drawable.icon_favorite);
+                //Picasso.with(Home.this).load(R.drawable.icon_favorite).placeholder(R.drawable.icon_favorite).into(favorite);
+            } else {
+                favorite.setImageResource(R.drawable.icon_favorite_border);
+                //Picasso.with(Home.this).load(R.drawable.icon_favorite_border).placeholder(R.drawable.icon_favorite_border).into(favorite);
+            }
         } else {
-            favorite.setImageResource(R.drawable.icon_favorite_border);
-            //Picasso.with(Home.this).load(R.drawable.icon_favorite_border).placeholder(R.drawable.icon_favorite_border).into(favorite);
+            General.makeShortToast(getBaseContext(), "Something is wrong!");
         }
     }
 
-
+    /**
+     * Converts "HH:mm" timing format to "hh:mm a"
+     *
+     * @param string : Input string
+     * @return : formatted string
+     * @see DateConverter
+     */
     private String formatString(String string) {
         Calendar calendar = Calendar.getInstance();
         try {
@@ -250,6 +298,11 @@ public class Home extends BaseActivity {
         return DateConverter.convertToString(calendar, "hh:mm a").toUpperCase();
     }
 
+    /**
+     * Selects icon/illustration of destination buildings on the home screen
+     *
+     * @return : Resource IDs (default "unknown")
+     */
     private int getIcon() {
         switch (currentRoute.getDestination().toLowerCase().trim()) {
             case "ncbs":
@@ -265,6 +318,13 @@ public class Home extends BaseActivity {
         }
     }
 
+    /**
+     * Shows dialog with tips and suggestions based on user database and preferences
+     * //TODO implement dynamic database and with preference matrix
+     *
+     * @param model : Suggestion Model
+     * @see SuggestionModel
+     */
     private void showSuggestions(final SuggestionModel model) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                 .setIcon(model.getIcon())
@@ -279,13 +339,29 @@ public class Home extends BaseActivity {
             dialog.setNegativeButton("Check Out", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    if (new Suggestions(getBaseContext()).takeAction(model.getAction())) {
+                    if (takeAction(model.getAction())) {
                         animateTransition();
                     }
                 }
             });
         }
         dialog.show();
+    }
+
+    boolean takeAction(int action) {
+        switch (action) {
+            case Suggestions.EDIT_TRANSPORT:
+                startActivity(new Intent(Home.this, TransportEdit.class));
+                break;
+            case Suggestions.LOGIN:
+                if (prefs.isUserLoggedIn()) {
+                    startActivity(new Intent(Home.this, Dashboard.class));
+                } else {
+                    startActivity(new Intent(Home.this, Login.class));
+                }
+                break;
+        }
+        return true;
     }
 
 
