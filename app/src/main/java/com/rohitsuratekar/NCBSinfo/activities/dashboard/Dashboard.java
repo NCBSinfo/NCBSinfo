@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -46,6 +48,8 @@ public class Dashboard extends BaseActivity {
     TextView email;
     @BindView(R.id.dash_btn_notifications)
     Button showBtn;
+    @BindView(R.id.dash_edit_name)
+    ImageView editNameIcon;
 
     private DashboardAdapter adapter;
     private List<DashboardModel> modelList = new ArrayList<>();
@@ -70,6 +74,10 @@ public class Dashboard extends BaseActivity {
             showBtn.setText(getString(R.string.log_in));
             name.setText(getString(R.string.app_name));
             email.setText(getString(R.string.dashboard_note));
+        }
+
+        if (!prefs.isUserLoggedIn()) {
+            editNameIcon.setVisibility(View.GONE);
         }
 
         adapter.setOnItemClickListener(new DashboardAdapter.ClickListener() {

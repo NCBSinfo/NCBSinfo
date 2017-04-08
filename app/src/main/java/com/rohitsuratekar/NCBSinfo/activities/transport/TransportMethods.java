@@ -61,8 +61,6 @@ public class TransportMethods {
             }
         }
 
-
-
         cal.add(Calendar.DATE, -1);
         List<String> yesterday = route.getMap().get(cal.get(Calendar.DAY_OF_WEEK), route.getDefaultList());
         firstTrip = yesterday.get(0);
