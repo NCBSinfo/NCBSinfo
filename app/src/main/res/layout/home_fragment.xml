@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/home_card_width"
+        android:layout_height="@dimen/home_card_height"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+        android:layout_marginStart="@dimen/home_card_margin_horizontal"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="@dimen/home_card_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.3"
+                tools:layout_editor_absoluteX="42dp"
+                tools:layout_editor_absoluteY="237dp" />
+
+            <ImageView
+                android:id="@+id/hm_icon_back"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/hm_txt_next_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:text="10:30 PM"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/colorIcon"
+                app:layout_constraintBottom_toBottomOf="@+id/hm_icon_back"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/hm_icon_loc"
+                android:layout_width="@dimen/home_card_icon"
+                android:layout_height="@dimen/home_card_icon"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_location"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/hm_txt_next_route"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hm_txt_next_route" />
+
+            <TextView
+                android:id="@+id/hm_txt_next_route"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="MANDARA - NCBS"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/hm_icon_loc"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hm_icon_back"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/hm_icon_type"
+                android:layout_width="@dimen/home_card_icon"
+                android:layout_height="@dimen/home_card_icon"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_transport"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hm_icon_loc" />
+
+            <TextView
+                android:id="@+id/hm_txt_next_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="SHUTTLE"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintBottom_toBottomOf="@+id/hm_icon_type"
+                app:layout_constraintLeft_toRightOf="@+id/hm_icon_type"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hm_icon_type"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/hm_icon_cal"
+                android:layout_width="@dimen/home_card_icon"
+                android:layout_height="@dimen/home_card_icon"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_calender"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hm_icon_type" />
+
+            <TextView
+                android:id="@+id/hm_txt_next_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="0dp"
+                android:text="Saturday, 15 Aug 2017"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintBottom_toBottomOf="@+id/hm_icon_cal"
+                app:layout_constraintLeft_toRightOf="@+id/hm_icon_cal"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hm_icon_cal"
+                app:layout_constraintVertical_bias="0.333"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/hm_btn_all_trips"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:text="All trips"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/hm_icon_seats"
+                android:layout_width="@dimen/home_card_icon"
+                android:layout_height="@dimen/home_card_icon"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_seats"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hm_icon_cal" />
+
+            <TextView
+                android:id="@+id/hm_txt_next_seats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginStart="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="0dp"
+                android:text="Approx. 30 seats"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintBottom_toBottomOf="@+id/hm_icon_seats"
+                app:layout_constraintLeft_toRightOf="@+id/hm_icon_seats"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/hm_icon_seats"
+                app:layout_constraintVertical_bias="0.461"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/hm_txt_next_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:alpha="0.8"
+                android:text="@string/home_next_transport"
+                android:textAlignment="center"
+                android:textColor="@color/colorIcon"
+                app:layout_constraintBottom_toTopOf="@+id/hm_txt_next_time"
+                app:layout_constraintLeft_toLeftOf="@+id/hm_txt_next_time"
+                app:layout_constraintRight_toRightOf="@+id/hm_txt_next_time" />
+
+            <ImageView
+                android:id="@+id/hm_icon_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/home_card_margin_horizontal"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/icon_favorite_outline"
+                android:tint="@color/colorIcon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

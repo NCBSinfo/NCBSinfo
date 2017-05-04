@@ -1,223 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flipboard.bottomsheet.BottomSheetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tp_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.rohitsuratekar.NCBSinfo.activities.transport.Transport">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/transport_fragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/transport_tabs"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.20"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="117dp" />
+    <android.support.design.widget.TabLayout
+        android:id="@+id/transport_tabs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="0dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:tabGravity="fill"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/colorIcon"
+        app:tabTextColor="@color/colorPrimaryLight" />
 
-        <ImageView
-            android:id="@+id/tp_im_top"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@null"
-            android:transitionName="backImage"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/colorPrimary"
-            tools:targetApi="lollipop" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5026042"
-            tools:layout_editor_absoluteX="193dp"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/tp_bt_swap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:clickable="true"
-            android:src="@drawable/icon_swap"
-            android:transitionName="favorite"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            tools:ignore="VectorDrawableCompat"
-            tools:targetApi="lollipop" />
-
-        <TextView
-            android:id="@+id/tp_tx_place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="32dp"
-            android:text="NCBS - Mandara"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/colorLightText"
-            android:textSize="24sp"
-            android:transitionName="place"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:ignore="HardcodedText"
-            tools:targetApi="lollipop" />
-
-        <TextView
-            android:id="@+id/tp_tx_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Saturday, 16 Oct"
-            android:textColor="@color/colorPrimaryLight"
-            app:layout_constraintBottom_toTopOf="@+id/tp_tx_place"
-            app:layout_constraintLeft_toLeftOf="@+id/tp_tx_place"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tp_tx_left_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Weekdays"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/tp_bt_swap"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tp_tx_right_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="Sunday"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tp_tx_left_title"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline3"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="HardcodedText" />
-
-        <com.secretbiology.helpers.general.views.ScrollUpRecyclerView
-            android:id="@+id/tp_left_recycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:overScrollMode="never"
-            app:layout_constraintBottom_toTopOf="@+id/tp_tx_footnote"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/guideline3"
-            app:layout_constraintTop_toBottomOf="@+id/tp_tx_left_title" />
-
-        <Button
-            android:id="@+id/tp_bt_show_all"
-            style="@style/ColoredButton"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="@string/transport_view_all"
-            android:transitionName="centerButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/tp_bt_left"
-            app:layout_constraintRight_toLeftOf="@+id/tp_bt_right"
-            tools:ignore="UnusedAttribute" />
-
-        <ImageButton
-            android:id="@+id/tp_bt_left"
-            style="@style/ColoredButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@null"
-            android:src="@drawable/icon_left"
-            android:tint="@color/colorLightText"
-            android:transitionName="leftButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:ignore="UnusedAttribute,VectorDrawableCompat" />
-
-        <ImageButton
-            android:id="@+id/tp_bt_right"
-            style="@style/ColoredButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@null"
-            android:src="@drawable/icon_right"
-            android:tint="@color/colorLightText"
-            android:transitionName="rightButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="UnusedAttribute,VectorDrawableCompat" />
-
-        <TextView
-            android:id="@+id/tp_tx_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:text="SUN"
-            app:layout_constraintBottom_toTopOf="@+id/tp_bt_left"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tp_tx_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:text="SAT"
-            app:layout_constraintBottom_toTopOf="@+id/tp_bt_right"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tp_tx_footnote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/transport_regular_note"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:layout_constraintBottom_toTopOf="@+id/tp_bt_show_all"
-            app:layout_constraintLeft_toRightOf="@+id/tp_tx_left"
-            app:layout_constraintRight_toLeftOf="@+id/tp_tx_right" />
-
-        <com.secretbiology.helpers.general.views.ScrollUpRecyclerView
-            android:id="@+id/tp_right_recycler"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:overScrollMode="never"
-            app:layout_constraintBottom_toTopOf="@+id/tp_tx_footnote"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline3"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tp_tx_right_title" />
-
-        <TextView
-            android:id="@+id/tp_tx_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="TextView"
-            android:textColor="@color/colorDivider"
-            android:textSize="14sp"
-            android:transitionName="transportType"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tp_tx_place"
-            app:layout_constraintLeft_toRightOf="@+id/tp_tx_place"
-            tools:ignore="HardcodedText,UnusedAttribute" />
-    </android.support.constraint.ConstraintLayout>
-</com.flipboard.bottomsheet.BottomSheetLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,64 +1,30 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.models;
 
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
-import com.rohitsuratekar.NCBSinfo.database.models.RouteModel;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportMethods;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportType;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Created by Dexter for NCBSinfo .
+ * Code is released under MIT license
+ */
+
 public class Route {
-    private List<RouteModel> allRoutes;
+
     private String origin;
     private String destination;
     private TransportType type;
-    private int routeNo;
-    private SparseArray<List<String>> map = new SparseArray<>();
-    private List<String> defaultList = new ArrayList<>();
+    private int color;
+    private int colorDark;
+    private List<DayTrips> dayTrips;
+    private SparseArray<List<Trip>> weekMap;
+    private TransportUI ui;
 
-    public Route(@NonNull List<RouteModel> allRoutes) {
-        this.allRoutes = allRoutes;
-        this.origin = allRoutes.get(0).getOrigin();
-        this.destination = allRoutes.get(0).getDestination();
-        this.routeNo = allRoutes.get(0).getRoute();
-        this.type = allRoutes.get(0).getType();
-        boolean gotItem = true;
-        for (RouteModel r : allRoutes) {
-            this.map.put(r.getDay(), r.getTrips());
-            if (r.getDay() != Calendar.SUNDAY && gotItem) {
-                this.defaultList = r.getTrips();
-                gotItem = false;
-            }
-        }
-        if (gotItem) {
-            this.defaultList = allRoutes.get(0).getTrips();
-        }
-    }
-
-    public boolean isRegular() {
-        return allRoutes.size() == 2 && map.get(Calendar.SUNDAY) != null;
-    }
-
-    public List<String> getDefaultList() {
-        return defaultList;
-    }
-
-    public SparseArray<List<String>> getMap() {
-        return map;
-    }
-
-    public void setMap(SparseArray<List<String>> map) {
-        this.map = map;
-    }
-
-    public List<RouteModel> getAllRoutes() {
-        return allRoutes;
-    }
-
-    public void setAllRoutes(List<RouteModel> allRoutes) {
-        this.allRoutes = allRoutes;
+    public Route() {
     }
 
     public String getOrigin() {
@@ -85,12 +51,33 @@ public class Route {
         this.type = type;
     }
 
-    public int getRouteNo() {
-        return routeNo;
+    public int getColor() {
+        return color;
     }
 
-    public void setRouteNo(int routeNo) {
-        this.routeNo = routeNo;
+    public void setColor(int color) {
+        this.color = color;
     }
 
+    public int getColorDark() {
+        return colorDark;
+    }
+
+    public void setColorDark(int colorDark) {
+        this.colorDark = colorDark;
+    }
+
+    public void setDayTrips(List<DayTrips> dayTrips) {
+        this.dayTrips = dayTrips;
+        this.weekMap = TransportMethods.getWeekMap(dayTrips);
+        this.ui = new TransportUI(dayTrips);
+    }
+
+    public TransportUI getUi() {
+        return ui;
+    }
+
+    public String nextTrip(Calendar calendar) {
+        return TransportMethods.nextTrip(weekMap, calendar).getFormatted();
+    }
 }
