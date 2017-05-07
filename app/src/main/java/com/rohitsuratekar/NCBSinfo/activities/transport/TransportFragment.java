@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
+import com.rohitsuratekar.NCBSinfo.activities.transport.models.TransportUI;
 import com.rohitsuratekar.NCBSinfo.common.AppState;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,9 +37,12 @@ public class TransportFragment extends Fragment {
 
     @BindView(R.id.tp_left_list)
     RecyclerView leftList;
+    @BindView(R.id.tp_right_list)
+    RecyclerView rightList;
 
     private Route currentRoute;
-    private TransportAdapter adaper;
+    private TransportAdapter leftAdapter, rightAdapter;
+    private TransportUI ui;
 
     @Nullable
     @Override
@@ -48,12 +50,21 @@ public class TransportFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.transport_fragment, container, false);
         ButterKnife.bind(this, rootView);
         currentRoute = state.getRouteList().get(getArguments().getInt(ROUTE));
+        ui = currentRoute.getUi();
 
-        List<String> tripList = currentRoute.getUi().getLeftList();
-        adaper = new TransportAdapter(tripList);
+        leftAdapter = new TransportAdapter(ui.getLeftList());
         leftList.setLayoutManager(new LinearLayoutManager(getContext()));
-        leftList.setAdapter(adaper);
+        leftList.setAdapter(leftAdapter);
 
+        rightAdapter = new TransportAdapter(ui.getRightList());
+        rightList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rightList.setAdapter(rightAdapter);
+
+        if (ui.isSingleValued()) {
+            rightList.setVisibility(View.GONE);
+        } else {
+            rightList.setVisibility(View.VISIBLE);
+        }
         return rootView;
     }
 }

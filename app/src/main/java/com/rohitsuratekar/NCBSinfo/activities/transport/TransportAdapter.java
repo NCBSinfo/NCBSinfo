@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
+import java.text.ParseException;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -17,11 +20,11 @@ import butterknife.ButterKnife;
  * Code is released under MIT license
  */
 
-public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder> {
+class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder> {
 
     private List<String> list;
 
-    public TransportAdapter(List<String> list) {
+    TransportAdapter(List<String> list) {
         this.list = list;
     }
 
@@ -33,7 +36,12 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.Trip
     @Override
     public void onBindViewHolder(TripHolder holder, int position) {
 
-        holder.tripName.setText(list.get(position));
+        try {
+            holder.tripName.setText(DateConverter.changeFormat(ConverterMode.DATE_FIRST, list.get(position), "hh:mm a"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            holder.tripName.setText("--:--");
+        }
 
     }
 

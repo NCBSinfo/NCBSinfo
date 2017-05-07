@@ -57,7 +57,7 @@ public class TestRoutes {
         tripList.add("17:00");
         tripList.add("01:15");
         model.setTripsStrings(tripList);
-        model.setDay(5);
+        model.setDay(1);
 
         models.add(model);
 
