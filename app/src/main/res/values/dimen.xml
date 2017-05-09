@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="nav_header_height">160sp</dimen>
+
     <dimen name="home_card_width">300sp</dimen>
     <dimen name="home_card_height">350sp</dimen>
-    <dimen name="home_card_margin">8sp</dimen>
-
     <dimen name="home_card_icon">30sp</dimen>
     <dimen name="home_card_margin_horizontal">16sp</dimen>
     <dimen name="home_card_radius">16sp</dimen>

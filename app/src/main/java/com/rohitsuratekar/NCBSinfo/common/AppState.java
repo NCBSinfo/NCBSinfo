@@ -1,10 +1,8 @@
 package com.rohitsuratekar.NCBSinfo.common;
 
-import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
 import com.secretbiology.helpers.general.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,18 +14,9 @@ public class AppState {
 
     private static AppState instance;
     private List<Route> routeList;
-    private List<Integer[]> routeColors;
 
-    private AppState(List<Route> routeList) {
-        this.routeList = routeList;
-        this.routeColors = new ArrayList<>();
-        for (Route r : routeList) {
-            if (r.getColor() != 0) {
-                routeColors.add(new Integer[]{r.getColor(), r.getColorDark()});
-            } else {
-                routeColors.add(new Integer[]{R.color.colorPrimary, R.color.colorPrimaryDark});
-            }
-        }
+    private AppState(List<Route> allRoutes) {
+        this.routeList = allRoutes;
     }
 
     public static synchronized AppState getInstance() {
@@ -49,9 +38,5 @@ public class AppState {
 
     public void setRouteList(List<Route> routeList) {
         this.routeList = routeList;
-    }
-
-    public List<Integer[]> getRouteColors() {
-        return routeColors;
     }
 }

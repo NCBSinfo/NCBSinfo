@@ -3,18 +3,16 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
 
-    <!--Home related-->
     <string name="home">Home</string>
+    <string name="home_message">&lt; swipe to check other routes &gt;</string>
+    <string name="home_next_transport">next transport</string>
     <string name="home_card_route_name"> %1$s - %2$s</string>
     <string name="home_card_seats">Approx. %d seats</string>
 
-    <!--Transport Related-->
+
     <string name="transport">Transport</string>
     <string name="shuttle">Shuttle</string>
     <string name="buggy">Buggy</string>
     <string name="ttc">TTC</string>
     <string name="unknown">Unknown</string>
-
-    <string name="home_message">&lt; swipe to check other routes &gt;</string>
-    <string name="home_next_transport">next transport</string>
 </resources>

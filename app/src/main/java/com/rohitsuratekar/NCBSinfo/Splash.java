@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.common.AppState;
-import com.rohitsuratekar.NCBSinfo.debug.TestRoutes;
+import com.rohitsuratekar.NCBSinfo.debug.TestTransport;
 
 public class Splash extends AppCompatActivity {
 
@@ -14,7 +14,7 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
-        AppState.initialize(new TestRoutes().getAllRoutes());
+        AppState.initialize(new TestTransport().getRoutes());
         startActivity(new Intent(this, Home.class));
     }
 }

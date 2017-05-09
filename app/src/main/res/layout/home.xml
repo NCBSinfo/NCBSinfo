@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_margin="@dimen/home_card_margin_horizontal"
+            android:layout_margin="8sp"
             android:text="@string/home_message"
             android:textAlignment="center"
             android:textColor="@color/colorDivider" />

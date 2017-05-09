@@ -1,10 +1,8 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.models;
 
-import android.util.SparseArray;
-
-import com.rohitsuratekar.NCBSinfo.activities.transport.TransportMethods;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportType;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,17 +12,14 @@ import java.util.List;
  */
 
 public class Route {
-
     private String origin;
     private String destination;
     private TransportType type;
-    private int color;
-    private int colorDark;
-    private List<DayTrips> dayTrips;
-    private SparseArray<List<Trip>> weekMap;
-    private TransportUI ui;
+    private TripInfo tripInfo;
+    private List<TripDay> dayList;
 
     public Route() {
+        dayList = new ArrayList<>();
     }
 
     public String getOrigin() {
@@ -51,33 +46,13 @@ public class Route {
         this.type = type;
     }
 
-    public int getColor() {
-        return color;
-    }
 
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public int getColorDark() {
-        return colorDark;
-    }
-
-    public void setColorDark(int colorDark) {
-        this.colorDark = colorDark;
-    }
-
-    public void setDayTrips(List<DayTrips> dayTrips) {
-        this.dayTrips = dayTrips;
-        this.weekMap = TransportMethods.getWeekMap(dayTrips);
-        this.ui = new TransportUI(dayTrips);
-    }
-
-    public TransportUI getUi() {
-        return ui;
+    public void addDay(int day, List<String> tripList) {
+        dayList.add(new TripDay(day, tripList));
+        this.tripInfo = new TripInfo(dayList);
     }
 
     public String nextTrip(Calendar calendar) {
-        return TransportMethods.nextTrip(weekMap, calendar).getFormatted();
+        return tripInfo.nextTrip(calendar).getRawTrip();
     }
 }

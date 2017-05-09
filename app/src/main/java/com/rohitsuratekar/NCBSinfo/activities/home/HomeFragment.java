@@ -34,6 +34,7 @@ import butterknife.OnClick;
 public class HomeFragment extends Fragment {
 
     private static final String ROUTE = "route";
+
     private AppState state = AppState.getInstance();
 
     public static HomeFragment newInstance(int route) {
@@ -70,7 +71,6 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
         currentRoute = state.getRouteList().get(getArguments().getInt(ROUTE));
-        changeIconColors();
         setText();
         return rootView;
     }
@@ -91,12 +91,6 @@ public class HomeFragment extends Fragment {
         fragmentActions.changeActivity();
     }
 
-    private void changeIconColors() {
-        for (ImageView view : icons) {
-            view.setColorFilter(General.getColor(getContext(), currentRoute.getColor()));
-        }
-        typeIcon.setImageResource(currentRoute.getType().getIcon());
-    }
 
     private void setText() {
         routeText.setText(getString(R.string.home_card_route_name, currentRoute.getOrigin(), currentRoute.getDestination()));

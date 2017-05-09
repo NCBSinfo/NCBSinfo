@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="colorPrimary">#673ab7</color>
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="colorAccent">#FF5722</color>
@@ -9,5 +8,4 @@
     <color name="colorSecondaryText">#757575</color>
     <color name="colorDivider">#bdbdbd</color>
     <color name="colorIcon">#ffffff</color>
-
 </resources>
