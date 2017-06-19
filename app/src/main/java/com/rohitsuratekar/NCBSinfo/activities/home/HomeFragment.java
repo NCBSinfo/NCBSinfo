@@ -1,6 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,101 +10,61 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.transport.models.Route;
-import com.rohitsuratekar.NCBSinfo.common.AppState;
-import com.secretbiology.helpers.general.General;
-import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
-import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
- * Created by Dexter for NCBSinfo .
- * Code is released under MIT license
+ * Created by Rohit Suratekar on 11-06-17 for NCBSinfo.
+ * All code is released under MIT License.
  */
 
 public class HomeFragment extends Fragment {
 
-    private static final String ROUTE = "route";
+    private static String ORIGIN = "origin";
+    private static String DESTINATION = "destination";
+    private static String TYPE = "type";
 
-    private AppState state = AppState.getInstance();
-
-    public static HomeFragment newInstance(int route) {
+    public static HomeFragment newInstance(String origin, String destination, String type) {
         HomeFragment myFragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putInt(ROUTE, route);
+        args.putString(ORIGIN, origin);
+        args.putString(DESTINATION, destination);
+        args.putString(TYPE, type);
         myFragment.setArguments(args);
         return myFragment;
     }
-
-    @BindViews({R.id.hm_icon_back, R.id.hm_icon_loc, R.id.hm_icon_type, R.id.hm_icon_cal, R.id.hm_icon_seats})
-    List<ImageView> icons;
-
-    @BindView(R.id.hm_txt_next_time)
-    TextView timeText;
-    @BindView(R.id.hm_txt_next_route)
-    TextView routeText;
-    @BindView(R.id.hm_txt_next_date)
-    TextView dateText;
-    @BindView(R.id.hm_txt_next_type)
-    TextView typeText;
-    @BindView(R.id.hm_txt_next_seats)
-    TextView seatText;
-    @BindView(R.id.hm_icon_type)
-    ImageView typeIcon;
-
-    private OnFragmentActions fragmentActions;
-    private Route currentRoute;
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, rootView);
-        currentRoute = state.getRouteList().get(getArguments().getInt(ROUTE));
-        setText();
+        ImageView image = ButterKnife.findById(rootView, R.id.home_fragment_image);
+        TextView name = ButterKnife.findById(rootView, R.id.home_fragment_name);
+        TextView subName = ButterKnife.findById(rootView, R.id.home_fragment_type);
+        image.setImageResource(R.drawable.home_image_blank);
+        if (getArguments() != null) {
+            String origin = getArguments().getString(ORIGIN).toUpperCase();
+            String destination = getArguments().getString(DESTINATION).toUpperCase();
+            String type = getArguments().getString(TYPE);
+            image.setImageResource(getImageResource(destination));
+            name.setText(getString(R.string.home_route_name, origin, destination));
+            subName.setText(type);
+        }
         return rootView;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            fragmentActions = (OnFragmentActions) context;
-        } catch (ClassCastException castException) {
-            /* The activity does not implement the listener. */
-            General.makeLongToast(context, "Unable to start activity!");
+    private int getImageResource(String destination) {
+        switch (destination.trim().toLowerCase()) {
+            case "ncbs":
+                return R.drawable.home_image_ncbs;
+            case "iisc":
+                return R.drawable.home_image_iisc;
+            case "mandara":
+                return R.drawable.home_image_mandara;
+            default:
+                return R.drawable.home_image_blank;
         }
     }
 
-    @OnClick(R.id.hm_btn_all_trips)
-    public void showAll() {
-        fragmentActions.changeActivity();
-    }
-
-
-    private void setText() {
-        routeText.setText(getString(R.string.home_card_route_name, currentRoute.getOrigin(), currentRoute.getDestination()));
-        typeText.setText(currentRoute.getType().getName());
-        seatText.setText(getString(R.string.home_card_seats, currentRoute.getType().getSeats()));
-        dateText.setText(DateConverter.convertToString(Calendar.getInstance(), "EEEE, d MMM"));
-        try {
-            timeText.setText(DateConverter.changeFormat(ConverterMode.DATE_FIRST, currentRoute.nextTrip(Calendar.getInstance()), "hh:mm a"));
-        } catch (ParseException e) {
-            timeText.setText("--:--");
-            e.printStackTrace();
-        }
-    }
-
-    interface OnFragmentActions {
-        void changeActivity();
-    }
 }

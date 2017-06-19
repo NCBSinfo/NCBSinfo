@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -13,18 +14,18 @@
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
+            style="@style/Widget.MyApp.Toolbar.Solid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:transitionName="toolbar"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                tools:ignore="UnusedAttribute">
+                android:background="?attr/colorPrimary">
+
 
                 <TextView
                     android:id="@+id/special_tool_bar_title"
@@ -32,26 +33,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Title"
+                    android:text="@string/app_name"
                     android:visibility="gone" />
             </android.support.v7.widget.Toolbar>
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="scrollable" />
 
         </android.support.design.widget.AppBarLayout>
 
-        <ViewStub
+        <FrameLayout
             android:id="@+id/base_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
 
-
     <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:id="@+id/navigation_view"
+        android:layout_width="@dimen/nav_bar_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true" />
-
-
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/base_header"
+        app:menu="@menu/drawer" />
 </android.support.v4.widget.DrawerLayout>

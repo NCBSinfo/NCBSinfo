@@ -1,87 +1,41 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.models;
 
-import com.rohitsuratekar.NCBSinfo.common.ErrorReporting;
+import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Dexter for NCBSinfo .
- * Code is released under MIT license
+ * Created by Rohit Suratekar on 17-06-17 for NCBSinfo.
+ * All code is released under MIT License.
  */
 
 class TripDay {
+    private List<String> today = new ArrayList<>();
+    private List<String> tomorrow = new ArrayList<>();
 
-    private int day;
-    private List<String> rawTrips;
-    private List<String> todaysTrips;
-    private List<String> tomorrowsTrips;
-
-    TripDay(int day, List<String> rawTrips) {
-        this.day = day;
-        this.rawTrips = rawTrips;
-        todaysTrips = new ArrayList<>();
-        tomorrowsTrips = new ArrayList<>();
-        List<String> sortedTrips = DateConverter.sortStrings(ConverterMode.DATE_FIRST, rawTrips);
-        for (int i = 0; i < rawTrips.size(); i++) {
-            if (i < sortedTrips.indexOf(rawTrips.get(0))) {
-                tomorrowsTrips.add(sortedTrips.get(i));
-            } else {
-                todaysTrips.add(sortedTrips.get(i));
+    TripDay(List<String> rawTrips) throws ParseException {
+        Date firstTrip = DateConverter.convertToDate(ConverterMode.DATE_FIRST, rawTrips.get(0));
+        today.add(rawTrips.get(0)); //Add first trip.
+        //Now if date is before first date, it should be after midnight trip
+        for (String trip : rawTrips) {
+            if (firstTrip.before(DateConverter.convertToDate(ConverterMode.DATE_FIRST, trip))) {
+                today.add(trip);
+            } else if (firstTrip.after(DateConverter.convertToDate(ConverterMode.DATE_FIRST, trip))) {
+                tomorrow.add(trip);
             }
         }
     }
 
-    int getDay() {
-        return day;
+    List<String> getToday() {
+        return today;
     }
 
-    List<String> getRawTrips() {
-        return rawTrips;
-    }
-
-    List<String> getTodaysTrips() {
-        return todaysTrips;
-    }
-
-    List<String> getTomorrowsTrips() {
-        return tomorrowsTrips;
-    }
-
-    int nextTripIndex(Calendar calendar) {
-        Date currentDate = new Date(calendar.getTimeInMillis());
-        for (String s : todaysTrips) {
-            try {
-                Calendar c1 = DateConverter.convertToCalender(ConverterMode.DATE_FIRST, s);
-                c1.set(Calendar.DATE, calendar.get(Calendar.DATE));
-                Date dateItem = new Date(c1.getTimeInMillis());
-                if (dateItem.after(currentDate)) {
-                    return rawTrips.indexOf(s);
-                }
-            } catch (ParseException e) {
-                ErrorReporting.wrongDateFormat(s);
-                e.printStackTrace();
-            }
-        }
-        for (String s : tomorrowsTrips) {
-            try {
-                Calendar calItem = DateConverter.convertToCalender(ConverterMode.DATE_FIRST, s);
-                calItem.set(Calendar.DATE, calendar.get(Calendar.DATE));
-                calItem.add(Calendar.DATE, 1);
-                Date dateItem = new Date(calItem.getTimeInMillis());
-                if (dateItem.after(currentDate)) {
-                    return rawTrips.indexOf(s);
-                }
-            } catch (ParseException e) {
-                ErrorReporting.wrongDateFormat(s);
-                e.printStackTrace();
-            }
-        }
-        return -1;
+    List<String> getTomorrow() {
+        return tomorrow;
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/transport_option_width"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/transport_option_icon"
+        android:layout_width="@dimen/transport_icon_size"
+        android:layout_height="@dimen/transport_icon_size"
+        android:src="@drawable/icon_delete"
+        android:tint="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/transport_option_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+</LinearLayout>

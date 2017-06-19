@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.common;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleActivity;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -11,16 +12,20 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.Splash;
+import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.secretbiology.helpers.general.General;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -28,81 +33,98 @@ import butterknife.ButterKnife;
  * Code is released under MIT license
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public abstract class BaseActivity extends LifecycleActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-    @BindView(R.id.base_view)
-    ViewStub viewStub;
-
-    private CurrentActivity currentActivity;
+    private FrameLayout baseLayout;
+    private NavigationView navigationView;
+    public ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
+    public Toolbar toolbar; //Keep it public so that child activities can access
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_layout);
-        currentActivity = setCurrentActivity();
-        ButterKnife.bind(this);
-        setUpDrawer();
-        setUpActivity();
+        super.setContentView(R.layout.base_layout);
+        toolbar = ButterKnife.findById(this, R.id.toolbar);
+        baseLayout = ButterKnife.findById(this, R.id.base_view);
+        navigationView = ButterKnife.findById(this, R.id.navigation_view);
+        drawerLayout = ButterKnife.findById(this, R.id.drawer_layout);
+        navigationView.setNavigationItemSelectedListener(this);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        drawerLayout.addDrawerListener(drawerToggle);
+        changeHeader();
     }
 
+    /**
+     * Override all setContentView constructors so that we can just extend and use it like regular
+     * appcombat activity.
+     */
+    @Override
+    public void setContentView(int layoutResID) {
+        if (baseLayout != null) {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            View stubView = inflater.inflate(layoutResID, baseLayout, false);
+            baseLayout.addView(stubView, params);
+        }
+    }
 
-    private void setUpDrawer() {
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        navigationView.inflateHeaderView(R.layout.base_header); //Header
-        navigationView.inflateMenu(R.menu.drawer);
+    @Override
+    public void setContentView(View view) {
+        if (baseLayout != null) {
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            baseLayout.addView(view, params);
+        }
+    }
+
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        if (baseLayout != null) {
+            baseLayout.addView(view, params);
+        }
+    }
+
+    /**
+     * Change header color and gradient.
+     * All header titles and clicks can be handled from here.
+     */
+    private void changeHeader() {
         View header = navigationView.getHeaderView(0);
         GradientDrawable backgroundGradient = (GradientDrawable) header.getBackground();
         backgroundGradient.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
         backgroundGradient.setGradientCenter(10, 0);
         backgroundGradient.setColor(General.getColor(getApplicationContext(), R.color.colorPrimary));
-        navigationView.setNavigationItemSelectedListener(this);
-        toggle.syncState();
-    }
-
-    private void setUpActivity() {
-        setTitle(getString(currentActivity.getName()));
-        viewStub.setLayoutResource(currentActivity.getLayout());
-        viewStub.inflate();
-
+        drawerToggle.syncState();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         // Handle navigation view item clicks here.
-        final Class navClass = Helper.getClass(item.getItemId());
         final Activity activity = this;
-        if (navClass != null) {
-            if (!navClass.equals(this.getClass())) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(activity, navClass));
-                        animateTransition();
-                    }
-                }, 300);
-            }
+        if (activity.getClass() != getNavClass(item.getItemId())) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(activity, getNavClass(item.getItemId())));
+                    animateTransition();
+                }
+            }, 300);
         }
-        drawer.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (navigationView != null) {
-            MenuItem item = navigationView.getMenu().findItem(currentActivity.getNavigationID());
-            if (item != null) {
-                item.setChecked(true);
-            }
+        MenuItem item = navigationView.getMenu().findItem(setNavigationMenu());
+        if (item != null) {
+            item.setChecked(true);
         }
     }
 
@@ -117,9 +139,44 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }
     }
 
+    @Override
+    public void setTitle(CharSequence title) {
+        toolbar.setTitle(title);
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        toolbar.setTitle(titleId);
+    }
+
     public void animateTransition() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    protected abstract CurrentActivity setCurrentActivity();
+    /**
+     * Useful for navigating between activities.
+     *
+     * @param navID : Navigation ID
+     * @return : Class to change the activity
+     */
+    private Class getNavClass(int navID) {
+        switch (navID) {
+            case R.id.nav_home:
+                return Home.class;
+            case R.id.nav_transport:
+                return Transport.class;
+            case R.id.nav_contacts:
+                return Contacts.class;
+        }
+        return Splash.class;
+    }
+
+    /**
+     * Force child activity to set navigation ID.
+     * Default is 0, which will lead to no effect on navigation item click.
+     *
+     * @return : ID of navigation menu item
+     */
+    protected abstract int setNavigationMenu();
+
 }
