@@ -7,26 +7,25 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
-
 /**
- * Created by Rohit Suratekar on 17-06-17 for NCBSinfo.
+ * Created by Rohit Suratekar on 20-06-17 for NCBSinfo.
  * All code is released under MIT License.
  */
+
 @Dao
 public interface RouteDao {
 
     @Query("SELECT * FROM routes")
-    List<Route> loadRoadNames();
+    List<RouteData> getRouteNames();
 
     @Query("SELECT * FROM routes WHERE routeID = :routeID")
-    Route getRoute(int routeID);
+    RouteData getRoute(int routeID);
 
     @Insert
-    void insertRoute(Route route);
+    void insertRoute(RouteData routeData);
 
     @Delete
-    void deleteRoute(Route route);
+    void deleteRoute(RouteData routeData);
 
     @Query("SELECT routeID FROM routes " +
             "WHERE origin LIKE :origin AND " +

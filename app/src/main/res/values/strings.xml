@@ -1,25 +1,8 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
+    <string name="transport">Transport</string>
 
     <string name="home">Home</string>
-    <string name="home_next_transport">next transport between</string>
-    <string name="home_time">%1$s:%2$s %3$s</string>
-    <string name="home_fav">favorite</string>
-    <string name="home_show_all">show all</string>
-    <string name="home_options">options</string>
-    <string name="home_date">on %s</string>
-    <string name="home_route_name">%1$s - %2$s</string>
-
-    <string name="transport">Transport</string>
-    <string name="transport_edit">Edit</string>
-    <string name="transport_delete">Delete</string>
-    <string name="transport_fav">Set Favorite</string>
-    <string name="transport_report">Report</string>
-    <string name="transport_options">Route Options</string>
-    <string name="transport_left_column_title">Weekdays</string>
-    <string name="transport_right_column_title">Sunday</string>
-    <string name="transport_footnote_text">Last updated on 30 Dec 2016</string>
-    <string name="transport_card_text">%1$s-%2$s %3$s</string>
-
-    <string name="contacts">Contacts</string>
+    <string name="home_loading">Loading routes…</string>
+    <string name="home_card_title">%1$s-%2$s</string>
 </resources>

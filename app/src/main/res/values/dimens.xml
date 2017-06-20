@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <dimen name="nav_bar_width">280sp</dimen>
     <dimen name="nav_bar_icon_size">50sp</dimen>
     <dimen name="nav_margin_start">16sp</dimen>
     <dimen name="nav_margin_end">16sp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
 
-    <dimen name="default_margin">16sp</dimen>
-    <dimen name="home_top_margin">50sp</dimen>
-    <dimen name="home_image_height">200sp</dimen>
-    <dimen name="home_icon_size">35sp</dimen>
 
-    <dimen name="transport_icon_size">30sp</dimen>
-    <dimen name="transport_option_width">65sp</dimen>
+    <dimen name="horizontal_margin">16sp</dimen>
+    <dimen name="home_card_icon_size">130sp</dimen>
+
+    <dimen name="transport_title_height">80sp</dimen>
+    <dimen name="transport_image_size">80sp</dimen>
+    <dimen name="transport_trip_icon_size">25sp</dimen>
 
 </resources>

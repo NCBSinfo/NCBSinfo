@@ -15,5 +15,4 @@
         <!-- Parent theme sets colorControlNormal to textColorPrimary. -->
         <item name="android:textColorPrimary">@color/white</item>
     </style>
-
 </resources>

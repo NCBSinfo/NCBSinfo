@@ -26,7 +26,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary">
 
-
                 <TextView
                     android:id="@+id/special_tool_bar_title"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
