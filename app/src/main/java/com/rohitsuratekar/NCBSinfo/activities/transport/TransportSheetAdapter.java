@@ -1,5 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.database.RouteData;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -16,7 +21,18 @@ import butterknife.ButterKnife;
  * All code is released under MIT License.
  */
 
-public class TransportSheetAdapter extends RecyclerView.Adapter<TransportSheetAdapter.ItemHolder> {
+class TransportSheetAdapter extends RecyclerView.Adapter<TransportSheetAdapter.ItemHolder> {
+
+    private List<RouteData> routeDataList;
+    private int index;
+    private int reverseIndex;
+    private onRouteClick click;
+
+    TransportSheetAdapter(List<RouteData> routeDataList, int index, int reverseIndex) {
+        this.routeDataList = routeDataList;
+        this.index = index;
+        this.reverseIndex = reverseIndex;
+    }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,12 +41,25 @@ public class TransportSheetAdapter extends RecyclerView.Adapter<TransportSheetAd
 
     @Override
     public void onBindViewHolder(ItemHolder holder, int position) {
+        Context context = holder.itemView.getContext();
+        final RouteData data = routeDataList.get(position);
+        holder.text.setText(context.getString(R.string.home_card_title, data.getOrigin().toUpperCase(), data.getDestination().toUpperCase()));
+        holder.subText.setText(data.getType());
 
+        if (index == data.getRouteID()) {
+            holder.icon.setColorFilter(ContextCompat.getColor(context, R.color.green));
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click.clicked(data.getRouteID());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return routeDataList.size();
     }
 
     class ItemHolder extends RecyclerView.ViewHolder {
@@ -43,6 +72,14 @@ public class TransportSheetAdapter extends RecyclerView.Adapter<TransportSheetAd
             text = ButterKnife.findById(itemView, R.id.tp_sheet_text);
             subText = ButterKnife.findById(itemView, R.id.tp_sheet_subtext);
         }
+    }
+
+    void setOnRouteClick(onRouteClick c) {
+        click = c;
+    }
+
+    interface onRouteClick {
+        void clicked(int routeID);
     }
 
 }

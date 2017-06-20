@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/horizontal_margin"
             android:text="12:30 PM"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/white"
@@ -87,6 +87,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hm_item_image" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="0dp"
+            android:text="@string/home_next_transport"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:alpha="0.8"
+            app:layout_constraintBottom_toTopOf="@+id/hm_item_next_trip"
+            app:layout_constraintStart_toStartOf="@+id/hm_item_next_trip" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

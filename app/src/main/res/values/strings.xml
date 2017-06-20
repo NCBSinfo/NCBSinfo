@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
-    <string name="transport">Transport</string>
 
     <string name="home">Home</string>
     <string name="home_loading">Loading routes…</string>
     <string name="home_card_title">%1$s-%2$s</string>
+    <string name="home_next_transport">next transport</string>
+
+    <string name="transport">Transport</string>
+    <string name="transport_footnote">Last updated on %1$s by %2$s</string>
+    <string name="transport_weekday">Weekday</string>
+    <string name="transport_sunday">Sunday</string>
+    <string name="transport_show_all">All routes</string>
+
 </resources>

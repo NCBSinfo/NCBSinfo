@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo;
+package com.rohitsuratekar.NCBSinfo.common;
 
 import android.app.Activity;
 import android.arch.lifecycle.LifecycleActivity;
@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.secretbiology.helpers.general.General;

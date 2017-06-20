@@ -13,6 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.secretbiology.helpers.general.Log;
+import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
+import com.secretbiology.helpers.general.TimeUtils.DateConverter;
+
+import java.text.ParseException;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -24,11 +30,11 @@ import butterknife.ButterKnife;
 class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder> {
 
     private int nextTripIndex;
-    private int size;
+    private List<String> trips;
 
-    TransportAdapter(int nextTripIndex, int size) {
+    TransportAdapter(int nextTripIndex, List<String> trips) {
         this.nextTripIndex = nextTripIndex;
-        this.size = size;
+        this.trips = trips;
     }
 
     @Override
@@ -39,12 +45,24 @@ class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder>
     @Override
     public void onBindViewHolder(TripHolder holder, int position) {
         Context context = holder.itemView.getContext();
+        holder.icon.setImageResource(R.drawable.icon_circle);
+        holder.icon.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        holder.text.setTypeface(Typeface.DEFAULT);
+        holder.icon.clearAnimation();
+        holder.half_circle.setVisibility(View.GONE);
+
+        try {
+            holder.text.setText(DateConverter.changeFormat(ConverterMode.DATE_FIRST, trips.get(position), "hh:mm a"));
+        } catch (ParseException e) {
+            Log.error(e.getMessage());
+            holder.text.setText("--:--");
+        }
         if (position < nextTripIndex) {
             if (position == 0) {
                 holder.icon.setImageResource(R.drawable.icon_circle_end);
                 holder.icon.setScaleY(-1f);
             } else {
-                if (position == size - 1) {
+                if (position == trips.size() - 1) {
                     holder.icon.setImageResource(R.drawable.icon_circle_end);
                 } else {
                     holder.icon.setImageResource(R.color.colorPrimary);
@@ -65,16 +83,20 @@ class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder>
 
     }
 
+    void setNextTripIndex(int nextTripIndex) {
+        this.nextTripIndex = nextTripIndex;
+    }
+
     @Override
     public int getItemCount() {
-        return size;
+        return trips.size();
     }
 
     class TripHolder extends RecyclerView.ViewHolder {
         ImageView icon, half_circle;
         TextView text;
 
-        public TripHolder(View itemView) {
+        TripHolder(View itemView) {
             super(itemView);
             icon = ButterKnife.findById(itemView, R.id.tp_trip_icon);
             text = ButterKnife.findById(itemView, R.id.tp_trip_text);

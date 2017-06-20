@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
+import com.rohitsuratekar.NCBSinfo.database.RouteData;
+
+import java.util.List;
 
 public class Splash extends AppCompatActivity implements OnFinish {
 
@@ -22,5 +25,10 @@ public class Splash extends AppCompatActivity implements OnFinish {
     @Override
     public void finished() {
         //TODO Create default routes
+    }
+
+    @Override
+    public void allRoutes(List<RouteData> routeDataList) {
+        //Keep blank
     }
 }

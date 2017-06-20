@@ -47,7 +47,9 @@ public class Home extends LifecycleActivity {
         adapter.setOnCardClick(new HomeAdapter.OnCardClick() {
             @Override
             public void onCardClick(int position) {
-                startActivity(new Intent(Home.this, Transport.class));
+                Intent intent = new Intent(Home.this, Transport.class);
+                intent.putExtra(Transport.ROUTE, cardModels.get(position).getRouteID());
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
 

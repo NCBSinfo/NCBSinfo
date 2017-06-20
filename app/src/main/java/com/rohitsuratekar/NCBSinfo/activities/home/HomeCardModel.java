@@ -1,6 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
-import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 
 /**
@@ -13,12 +13,14 @@ class HomeCardModel {
     private String destination;
     private String type;
     private String nextTrip;
+    private int routeID;
 
     HomeCardModel(RouteData routeData, String[] trip) {
         origin = routeData.getOrigin();
         destination = routeData.getDestination();
         type = routeData.getType();
         nextTrip = trip[0];
+        routeID = routeData.getRouteID();
     }
 
     public String getOrigin() {
@@ -55,24 +57,14 @@ class HomeCardModel {
 
 
     public int getImage() {
-        switch (destination) {
-            case "ncbs":
-                return R.drawable.home_ncbs_image;
-            case "iisc":
-                return R.drawable.home_iisc_image;
-            default:
-                return R.drawable.home_ncbs_image;
-        }
+        return Helper.getImage(destination);
     }
 
     public int getColor() {
-        switch (type.trim()) {
-            case "shuttle":
-                return R.color.teal;
-            case "buggy":
-                return R.color.lime;
-            default:
-                return R.color.blue;
-        }
+        return Helper.getTypeColor(type);
+    }
+
+    public int getRouteID() {
+        return routeID;
     }
 }
