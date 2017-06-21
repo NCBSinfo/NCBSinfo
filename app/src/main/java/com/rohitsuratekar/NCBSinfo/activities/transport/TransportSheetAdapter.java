@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +46,7 @@ class TransportSheetAdapter extends RecyclerView.Adapter<TransportSheetAdapter.I
         holder.subText.setText(data.getType());
 
         if (index == data.getRouteID()) {
-            holder.icon.setColorFilter(ContextCompat.getColor(context, R.color.green));
+            holder.icon.setImageResource(R.color.green);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

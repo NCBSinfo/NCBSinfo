@@ -27,6 +27,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
 
     private List<HomeCardModel> modelList;
     private OnCardClick cardClick;
+    private int currentFav = -1;
 
     HomeAdapter(List<HomeCardModel> modelList) {
         this.modelList = modelList;
@@ -51,18 +52,33 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
             Log.error(e.getMessage());
             holder.nextTrip.setText("--:--");
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardClick.onCardClick(holder.getLayoutPosition());
             }
         });
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardClick.onCardClick(holder.getLayoutPosition());
+            }
+        });
+
         holder.fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardClick.onFavoriteClick(holder.getLayoutPosition());
             }
         });
+        //Need following to not send database change query
+        if (model.isFavorite() && currentFav == -1) {
+            holder.fav.setImageResource(R.drawable.icon_fav);
+        } else if (currentFav == position) {
+            holder.fav.setImageResource(R.drawable.icon_fav);
+        } else {
+            holder.fav.setImageResource(R.drawable.icon_fav_empty);
+        }
     }
 
     @Override
@@ -85,6 +101,10 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
         }
     }
 
+    void setCurrentFav(int currentFav) {
+        this.currentFav = currentFav;
+    }
+
     void setOnCardClick(OnCardClick c) {
         cardClick = c;
     }
@@ -94,4 +114,6 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
 
         void onFavoriteClick(int position);
     }
+
+
 }

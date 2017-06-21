@@ -25,6 +25,17 @@ public class RouteData {
     private String destination;
     @ColumnInfo(name = "type")
     private String type;
+    @ColumnInfo(name = "favorite")
+    private boolean favorite;
+    @ColumnInfo(name = "creation")
+    private String createdOn;
+    @ColumnInfo(name = "modified")
+    private String modifiedOn;
+    @ColumnInfo(name = "author")
+    private String author;
+    @ColumnInfo(name = "synced")
+    private String synced;
+
 
     public int getRouteID() {
         return routeID;
@@ -56,5 +67,45 @@ public class RouteData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public String getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(String modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getSynced() {
+        return synced;
+    }
+
+    public void setSynced(String synced) {
+        this.synced = synced;
     }
 }

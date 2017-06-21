@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <ImageView
+        android:id="@+id/stepper_image"
+        android:layout_width="@dimen/stepper_icon_size"
+        android:layout_height="@dimen/stepper_icon_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:src="@drawable/icon_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepper_text">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/stepper_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/stepper_image"
+        app:layout_constraintEnd_toStartOf="@+id/stepper_right_line"
+        app:layout_constraintStart_toEndOf="@+id/stepper_left_line"
+        app:layout_constraintTop_toTopOf="@+id/stepper_image" />
+
+    <ImageView
+        android:id="@+id/stepper_left_line"
+        android:layout_width="0dp"
+        android:layout_height="3sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:src="@color/divider"
+        app:layout_constraintBottom_toBottomOf="@+id/stepper_image"
+        app:layout_constraintEnd_toStartOf="@+id/stepper_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/stepper_image" />
+
+    <ImageView
+        android:id="@+id/stepper_right_line"
+        android:layout_width="0dp"
+        android:layout_height="3sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:src="@color/divider"
+        app:layout_constraintBottom_toBottomOf="@+id/stepper_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/stepper_image"
+        app:layout_constraintTop_toTopOf="@+id/stepper_image" />
+
+    <TextView
+        android:id="@+id/stepper_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -26,6 +26,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
     private List<String> buggyToNCBS = new ArrayList<>();
     private List<String> buggyToMandara = new ArrayList<>();
     private List<String> ncbsToCBL = new ArrayList<>();
+    private boolean fav = true;
 
 
     public CreateDefaultRoutes(OnFinish onFinish, Context context) {
@@ -47,12 +48,17 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         for (TempInfo info : infoList) {
+            if (fav) {
+                info.getData().setFavorite(true);
+                fav = false;
+            }
             db.routes().insertRoute(info.getData());
             int routeID = db.routes().getRouteNo(info.getData().getOrigin(), info.getData().getDestination(), info.getData().getType());
             TripData weekDay = new TripData();
             weekDay.setDay(Calendar.MONDAY);
             weekDay.setRouteID(routeID);
             weekDay.setTrips(info.getWeek());
+
             db.trips().insertTrips(weekDay);
 
             TripData sunday = new TripData();

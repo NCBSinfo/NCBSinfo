@@ -54,9 +54,28 @@ public class HomeViewModel extends AndroidViewModel implements OnFinishLoading {
         @Override
         protected Void doInBackground(Void... voids) {
             modelList = new ArrayList<>();
+            RouteData favRoute = null;
+            boolean breakDefault = true;
             List<RouteData> dataList = db.routes().getRouteNames();
             for (RouteData r : dataList) {
-                List<TripData> tripData = db.trips().getTripsByRoute(r.getRouteID());
+                if (r.isFavorite() && breakDefault) {
+                    favRoute = r;
+                    breakDefault = false;
+                } else {
+                    List<TripData> tripData = db.trips().getTripsByRoute(r.getRouteID());
+                    String[] nextTrip;
+                    try {
+                        nextTrip = new NextTrip(tripData).calculate(Calendar.getInstance());
+                    } catch (ParseException e) {
+                        Log.error(e.getMessage());
+                        nextTrip = new String[]{"00:00", "0"};
+                    }
+                    modelList.add(new HomeCardModel(r, nextTrip));
+                }
+            }
+            //Put favorite on the top of the list
+            if (favRoute != null) {
+                List<TripData> tripData = db.trips().getTripsByRoute(favRoute.getRouteID());
                 String[] nextTrip;
                 try {
                     nextTrip = new NextTrip(tripData).calculate(Calendar.getInstance());
@@ -64,7 +83,7 @@ public class HomeViewModel extends AndroidViewModel implements OnFinishLoading {
                     Log.error(e.getMessage());
                     nextTrip = new String[]{"00:00", "0"};
                 }
-                modelList.add(new HomeCardModel(r, nextTrip));
+                modelList.add(0, new HomeCardModel(favRoute, nextTrip));
             }
             return null;
         }

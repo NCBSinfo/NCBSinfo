@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
+import com.rohitsuratekar.NCBSinfo.database.TripData;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
@@ -35,6 +38,8 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
     List<RecyclerView> recyclerViews;
     @BindViews({R.id.tp_title_left, R.id.tp_title_right})
     List<TextView> titles;
+    @BindViews({R.id.tp_su, R.id.tp_m, R.id.tp_tu, R.id.tp_w, R.id.tp_th, R.id.tp_f, R.id.tp_sa})
+    List<TextView> weekDays;
     @BindView(R.id.tp_footnote)
     TextView footnote;
     @BindView(R.id.tp_route_name)
@@ -47,6 +52,8 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
     ImageView image;
     @BindView(R.id.tp_fab)
     FloatingActionButton fab;
+    @BindView(R.id.tp_extra_day_layout)
+    LinearLayout extraDayLayout;
 
     private List<TransportAdapter> adapters = new ArrayList<>();
     private List<String> leftList = new ArrayList<>();
@@ -123,7 +130,6 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
             @Override
             public void onChanged(@Nullable Object[] objects) {
                 if (objects != null) {
-                    //// TODO: 20-06-17
                     boolean isAvailable = (boolean) objects[0];
                     reverseRoute = (int) objects[1];
                     if (isAvailable) {
@@ -146,6 +152,7 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
     }
 
     private void setUI(TransportModel model) {
+        extraDayLayout.setVisibility(View.GONE);
         name.setText(getString(R.string.home_card_title, model.getOrigin().toUpperCase(), model.getDestination().toUpperCase()));
         type.setText(model.getType());
         footnote.setText(model.getFootnote());
@@ -159,9 +166,25 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
         adapters.get(1).notifyDataSetChanged();
         titles.get(0).setText(model.getLeftTitle());
         titles.get(1).setText(model.getRightTitle());
-        date.setText(DateConverter.convertToString(model.getCalendar(), "EEE,dd MMM yyyy"));
+        date.setText(DateConverter.convertToString(model.getCalendar(), "EEEE"));
         image.setImageResource(model.getImage());
+        if (model.getTripData().size() > 2) {
+            setUpExtraDays(model);
+        }
+    }
 
+    private void setUpExtraDays(TransportModel model) {
+        extraDayLayout.setVisibility(View.VISIBLE);
+        for (TripData t : model.getTripData()) {
+            weekDays.get(t.getDay() - 1).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        }
+    }
+
+    @OnClick({R.id.tp_su, R.id.tp_m, R.id.tp_tu, R.id.tp_w, R.id.tp_th, R.id.tp_f, R.id.tp_sa})
+    public void changeCalender(TextView view) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, (weekDays.indexOf(view) + 1)); //+1 because sunday starts from 1
+        viewModel.loadRoute(getApplicationContext(), currentRoute, calendar);
     }
 
     @Override

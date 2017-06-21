@@ -15,4 +15,12 @@
         <!-- Parent theme sets colorControlNormal to textColorPrimary. -->
         <item name="android:textColorPrimary">@color/white</item>
     </style>
+
+    <style name="TransportDay" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_margin">4sp</item>
+        <item name="android:background">@color/colorPrimaryLight</item>
+    </style>
 </resources>

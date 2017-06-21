@@ -8,12 +8,12 @@
 
     <ImageView
         android:id="@+id/tp_sheet_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/transport_sheet_icon_size"
+        android:layout_height="@dimen/transport_sheet_icon_size"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/icon_circle"
+        android:src="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="MANDARA-NCBS"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -39,6 +40,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="0dp"
         android:text="shuttle"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tp_sheet_text"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />

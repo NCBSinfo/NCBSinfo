@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimaryLight" />
+                android:textColor="@color/white" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 

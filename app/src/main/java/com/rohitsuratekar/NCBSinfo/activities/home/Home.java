@@ -6,6 +6,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
 import com.secretbiology.helpers.general.Log;
 
 import java.util.ArrayList;
@@ -55,7 +59,12 @@ public class Home extends LifecycleActivity {
 
             @Override
             public void onFavoriteClick(int position) {
-                Log.inform("Fav");
+                CommonTasks.sendFavoriteRoute(getApplicationContext(), cardModels.get(position).getRouteID());
+                adapter.setCurrentFav(position);
+                adapter.notifyDataSetChanged();
+                Snackbar snackbar = Snackbar.make(recyclerView, R.string.home_favorite_changed, BaseTransientBottomBar.LENGTH_SHORT);
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+                snackbar.show();
             }
         });
     }

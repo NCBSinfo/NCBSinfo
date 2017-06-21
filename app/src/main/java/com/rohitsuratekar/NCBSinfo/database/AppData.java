@@ -7,14 +7,12 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 
-import com.secretbiology.helpers.general.Log;
-
 /**
  * Created by Rohit Suratekar on 20-06-17 for NCBSinfo.
  * All code is released under MIT License.
  */
 
-@Database(entities = {RouteData.class, TripData.class}, version = 1)
+@Database(entities = {RouteData.class, TripData.class}, version = 3)
 public abstract class AppData extends RoomDatabase {
 
     private static final String DATABASE_NAME = "NCBSinfo";
@@ -46,11 +44,10 @@ public abstract class AppData extends RoomDatabase {
         INSTANCE = null;
     }
 
-    private static final Migration MIGRATION_LATEST = new Migration(1, 2) {
+    private static final Migration MIGRATION_LATEST = new Migration(4, 5) {
         @Override
-        public void migrate(SupportSQLiteDatabase supportSQLiteDatabase) {
-            Log.inform("Database migration started");
-
+        public void migrate(SupportSQLiteDatabase db) {
+            new DatabaseMigration().migrateToLatest(db);
         }
     };
 }

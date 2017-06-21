@@ -33,4 +33,9 @@ public interface RouteDao {
             "type LIKE :type")
     int getRouteNo(String origin, String destination, String type);
 
+    @Query("UPDATE routes SET favorite = 0")
+    void removeAllFavorite();
+
+    @Query("UPDATE routes SET favorite = 1 WHERE routeID = :routeID")
+    void setFavorite(int routeID);
 }

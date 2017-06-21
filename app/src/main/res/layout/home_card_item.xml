@@ -84,6 +84,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="0dp"
             android:src="@drawable/icon_fav_empty"
+            android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hm_item_image" />
@@ -94,10 +95,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
             android:layout_marginStart="0dp"
-            android:text="@string/home_next_transport"
-            android:textSize="10sp"
-            android:textColor="@color/white"
             android:alpha="0.8"
+            android:text="@string/home_next_transport"
+            android:textColor="@color/white"
+            android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@+id/hm_item_next_trip"
             app:layout_constraintStart_toStartOf="@+id/hm_item_next_trip" />
 

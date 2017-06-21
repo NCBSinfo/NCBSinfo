@@ -14,12 +14,14 @@ class HomeCardModel {
     private String type;
     private String nextTrip;
     private int routeID;
+    private boolean isFavorite;
 
     HomeCardModel(RouteData routeData, String[] trip) {
         origin = routeData.getOrigin();
         destination = routeData.getDestination();
         type = routeData.getType();
         nextTrip = trip[0];
+        isFavorite = routeData.isFavorite();
         routeID = routeData.getRouteID();
     }
 
@@ -66,5 +68,13 @@ class HomeCardModel {
 
     public int getRouteID() {
         return routeID;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

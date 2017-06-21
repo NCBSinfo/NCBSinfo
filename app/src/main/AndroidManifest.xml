@@ -11,7 +11,15 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.home.Home" />
         <activity android:name=".activities.transport.Transport" />
-        <activity android:name=".Splash">
+        <activity android:name=".Splash"></activity>
+
+        <service
+            android:name=".background.CommonTasks"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.edit.EditTransport"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
