@@ -1,81 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2016. Rohit Suratekar
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:background="@drawable/blank"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/nav_header_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/nav_bar_icon_size"
+        android:layout_height="@dimen/nav_bar_icon_size"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/nav_margin_start"
         android:contentDescription="@null"
-        android:scaleType="fitXY"
-        android:src="@drawable/image_inapp_logo"
-        app:layout_constraintBottom_toTopOf="@+id/nav_header_name"
-        app:layout_constraintLeft_toLeftOf="@+id/nav_header_name" />
-
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/nav_header_title"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/nav_header_name"
+        android:id="@+id/nav_header_title"
         android:layout_width="0dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="8dp"
-        android:text="Username"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/nav_header_email"
-        app:layout_constraintLeft_toLeftOf="@+id/nav_header_email"
-        app:layout_constraintRight_toLeftOf="@+id/nav_header_option"
-        tools:ignore="HardcodedText" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/nav_margin_end"
+        android:layout_marginStart="@dimen/nav_margin_start"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nav_header_subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/nav_header_email"
+        android:id="@+id/nav_header_subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:text="email@domain.com"
+        android:layout_marginEnd="@dimen/nav_margin_end"
+        android:layout_marginStart="@dimen/nav_margin_start"
+        android:fontFamily="sans-serif"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/nav_header_option_text"
-        tools:ignore="HardcodedText"
-        tools:layout_conversion_absoluteHeight="16dp"
-        tools:layout_conversion_absoluteWidth="125dp"
-        tools:layout_conversion_absoluteX="16dp"
-        tools:layout_conversion_absoluteY="127dp" />
-
-    <ImageView
-        android:id="@+id/nav_header_option"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:contentDescription="@null"
-        android:src="@drawable/icon_authenticated"
-        android:tint="@color/green"
-        android:alpha="0.8"
-        app:layout_constraintBottom_toTopOf="@+id/nav_header_option_text"
-        app:layout_constraintLeft_toLeftOf="@+id/nav_header_option_text"
-        app:layout_constraintRight_toRightOf="@+id/nav_header_option_text" />
-
-    <TextView
-        android:id="@+id/nav_header_option_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="24dp"
-        android:text="Log Out"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:ignore="HardcodedText,SmallSp" />
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

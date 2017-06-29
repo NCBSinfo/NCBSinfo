@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in C:\Users\Dexter\AppData\Local\Android\Sdk/tools/proguard/proguard-android.txt
+# in C:\Users\rohit\AppData\Local\Android\Sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -16,16 +16,10 @@
 #   public *;
 #}
 
-#-repackageclasses 'obfuscated' # No need of this as our code is Open Source
--keepattributes *Annotation*
-# Add this global rule
--keepattributes Signature
--keepattributes EnclosingMethod
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+#-keepattributes SourceFile,LineNumberTable
 
--dontwarn okio.**
--dontwarn retrofit2.**
--dontwarn com.squareup.picasso.**
--keepclassmembers enum com.rohitsuratekar.NCBSinfo.** { *; }
--keep class com.rohitsuratekar.NCBSinfo.background.networking.** {*;}
--keep class com.rohitsuratekar.NCBSinfo.database.models.** {*;}
--keep class android.support.v7.widget.SearchView { *; }
+# If you keep the line number information, uncomment this to
+# hide the original source file name.
+#-renamesourcefileattribute SourceFile
