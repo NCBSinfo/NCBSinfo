@@ -6,4 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.rohitsuratekar.NCBSinfo.activities.EditTransport">
 
+    <FrameLayout
+        android:id="@+id/edit_transport_view_holder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:text="something"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

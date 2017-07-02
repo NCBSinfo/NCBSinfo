@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="edit_trip_clear_button_padding">16sp</dimen>
+</resources>
