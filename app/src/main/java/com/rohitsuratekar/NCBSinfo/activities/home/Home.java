@@ -12,12 +12,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
-import com.secretbiology.helpers.general.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +31,8 @@ public class Home extends LifecycleActivity {
     RecyclerView recyclerView;
     @BindView(R.id.hm_loader_text)
     TextView loaderText;
+    @BindView(R.id.hm_loading_image)
+    ImageView loaderImage;
 
     private HomeViewModel viewModel;
     private List<HomeCardModel> cardModels = new ArrayList<>();
@@ -46,6 +48,7 @@ public class Home extends LifecycleActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
         loaderText.setVisibility(View.VISIBLE);
+        loaderImage.setVisibility(View.VISIBLE);
         subscribe();
 
         adapter.setOnCardClick(new HomeAdapter.OnCardClick() {
@@ -75,9 +78,14 @@ public class Home extends LifecycleActivity {
             public void onChanged(@Nullable List<HomeCardModel> newCardModels) {
                 if (newCardModels != null) {
                     cardModels.clear();
-                    loaderText.setVisibility(View.GONE);
                     cardModels.addAll(newCardModels);
                     adapter.notifyDataSetChanged();
+                    if (cardModels.size() > 0) {
+                        loaderText.setVisibility(View.GONE);
+                        loaderImage.setVisibility(View.GONE);
+                    } else {
+                        loaderText.setText(R.string.home_no_routes);
+                    }
                 }
             }
         });

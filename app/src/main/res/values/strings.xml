@@ -4,11 +4,14 @@
     <string name="placeholder">--</string>
     <string name="home">Home</string>
     <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="home_loading">Loading routes…</string>
     <string name="home_card_title">%1$s-%2$s</string>
     <string name="home_next_transport">next transport</string>
     <string name="home_favorite_changed">Favorite route changed.</string>
+    <string name="home_no_routes">No routes found…</string>
 
     <string name="transport">Transport</string>
     <string name="transport_footnote">Last updated on %1$s by %2$s</string>

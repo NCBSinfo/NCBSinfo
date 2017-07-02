@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "0fd540adcd11dc2ae9eda63db71ab0b9",
+    "entities": [
+      {
+        "tableName": "routes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routeID` INTEGER PRIMARY KEY AUTOINCREMENT, `origin` TEXT, `destination` TEXT, `type` TEXT, `favorite` INTEGER, `creation` TEXT, `modified` TEXT, `author` TEXT, `synced` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "routeID",
+            "columnName": "routeID",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "origin",
+            "columnName": "origin",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "destination",
+            "columnName": "destination",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "favorite",
+            "columnName": "favorite",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "createdOn",
+            "columnName": "creation",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "modifiedOn",
+            "columnName": "modified",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "author",
+            "columnName": "author",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "synced",
+            "columnName": "synced",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "routeID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "trips",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tripID` INTEGER PRIMARY KEY AUTOINCREMENT, `routeID` INTEGER, `trips` TEXT, `day` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "tripID",
+            "columnName": "tripID",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "routeID",
+            "columnName": "routeID",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "trips",
+            "columnName": "trips",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "day",
+            "columnName": "day",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tripID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0fd540adcd11dc2ae9eda63db71ab0b9\")"
+    ]
+  }
+}
