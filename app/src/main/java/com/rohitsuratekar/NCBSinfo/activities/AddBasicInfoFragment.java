@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.activities.edit;
+package com.rohitsuratekar.NCBSinfo.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,16 +12,15 @@ import com.rohitsuratekar.NCBSinfo.R;
 import butterknife.ButterKnife;
 
 /**
- * Created by Rohit Suratekar on 21-06-17 for NCBSinfo.
- * All code is released under MIT License.
+ * Created by Rohit on 7/1/2017.
  */
 
-public class StepTripDetails extends Fragment {
+public class AddBasicInfoFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.add_trip_details, container, false);
+        View rootView = inflater.inflate(R.layout.edit_transport_frequency, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
     }
