@@ -65,7 +65,7 @@ public class Home extends LifecycleActivity {
                 CommonTasks.sendFavoriteRoute(getApplicationContext(), cardModels.get(position).getRouteID());
                 adapter.setCurrentFav(position);
                 adapter.notifyDataSetChanged();
-                Snackbar snackbar = Snackbar.make(recyclerView, R.string.home_favorite_changed, BaseTransientBottomBar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(recyclerView, R.string.hm_favorite_changed, BaseTransientBottomBar.LENGTH_SHORT);
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
                 snackbar.show();
             }
@@ -84,7 +84,7 @@ public class Home extends LifecycleActivity {
                         loaderText.setVisibility(View.GONE);
                         loaderImage.setVisibility(View.GONE);
                     } else {
-                        loaderText.setText(R.string.home_no_routes);
+                        loaderText.setText(R.string.hm_no_routes);
                     }
                 }
             }

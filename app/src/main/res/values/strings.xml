@@ -1,44 +1,75 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
 
-    <string name="placeholder">--</string>
-    <string name="home">Home</string>
+    <!--Common-->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="cancel">Cancel</string>
+    <string name="other">Other</string>
+    <string name="undo">Undo</string>
     <string name="confirm">Confirm</string>
-    <string name="home_loading">Loading routes…</string>
-    <string name="home_card_title">%1$s-%2$s</string>
-    <string name="home_next_transport">next transport</string>
-    <string name="home_favorite_changed">Favorite route changed.</string>
-    <string name="home_no_routes">No routes found…</string>
-
-    <string name="transport">Transport</string>
-    <string name="transport_footnote">Last updated on %1$s by %2$s</string>
-    <string name="transport_weekday">Weekday</string>
-    <string name="transport_sunday">Sunday</string>
-    <string name="transport_show_all">All routes</string>
-
-    <string name="add_route">Add Route</string>
-    <string name="add_route_basic">Basic info</string>
-    <string name="add_route_basic_note">Add basic information like places name, weekly frequency etc.</string>
-    <string name="add_route_trips">Trip details</string>
-    <string name="add_route_trip_note">Add all trips on selected route. Order does not matter. In next step you can rearrange.</string>
-    <string name="add_route_confirm">Confirm Route</string>
-    <string name="add_route_confirm_note">Select first trip of the day. You can ignore trips past midnight.</string>
-    <string name="add_route_every_day">Every day</string>
-    <string name="add_route_weekdays">Mon-Sat</string>
-    <string name="add_route_weekends">Sat-Sun</string>
-    <string name="add_route_title">Add Route (Step %d of 3)</string>
-
-    <string name="add_route_basic_footnote">If any other combination, please add each day separately.</string>
-
-    <string name="origin">Origin</string>
-    <string name="destination">Destination</string>
-    <string name="transport_type">Transport Type</string>
-    <string name="transport_frequency">Transport frequency</string>
+    <string name="oops">Oops…</string>
     <string name="shuttle">Shuttle</string>
     <string name="buggy">Buggy</string>
-    <string name="other">Other</string>
+    <string name="ttc">TTC</string>
+    <string name="placeholder">--</string>
 
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="saturday">Saturday</string>
+    <string name="friday">Friday</string>
+    <string name="weekend">Weekend</string>
+    <string name="weekdays">Weekdays</string>
+    <string name="everyday">Everyday</string>
+
+    <!--Home-->
+    <string name="home">Home</string>
+    <string name="hm_loading">Loading Routes…</string>
+    <string name="hm_next_transport">next transport</string>
+    <string name="hm_favorite_changed">Favorite route changed.</string>
+    <string name="hm_no_routes">No routes found…</string>
+
+
+    <!--Transport-->
+    <string name="transport">Transport</string>
+    <string name="tp_route_name">%1$s - %2$s</string>
+    <string name="tp_show_all">Show all routes</string>
+    <string name="tp_footnote">Last updated on %1$s by %2$s</string>
+
+
+    <!--Edit Transport-->
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+    <string name="et_basic_footnote">Step 1 of 5 (Next: Add Type)</string>
+    <string name="et_basic_note">Put basic information below</string>
+    <string name="et_type_footnote">Step 2 of 5 (next: Add Frequency)</string>
+    <string name="et_type_note">What kind of transport is this?</string>
+    <string name="et_type_shuttle">Shuttle or Bus (approx 30 seats)</string>
+    <string name="et_type_ttc">Tempo Traveller (approx 12 seats)</string>
+    <string name="et_type_buggy">Electric Buggy (approx 8 seats)</string>
+    <string name="et_frequency_specific">Select specific day(s)</string>
+    <string name="et_frequency_all_days">All Days</string>
+    <string name="et_frequency_mon_sat">Monday to Saturday</string>
+    <string name="et_frequency_sat_sun">Saturday and Sunday</string>
+    <string name="et_frequency_note">Select Weekly Frequency</string>
+    <string name="et_frequency_sub_note">if you have different schedule for different days, add each day separately.</string>
+    <string name="et_frequency_footnote">Step 3 of 5 (next: add trips)</string>
+    <string name="et_trips_add_new">Add</string>
+    <string name="et_trips_note">Add Trips</string>
+    <string name="et_trips_exists_warning">Already in the list.</string>
+    <string name="et_trips_sub_note">Order doesn\'t matter. In next step you can reorder. Swipe left to delete entry.</string>
+    <string name="et_trips_footnote">Step 4 of 5 (next: rearrange)</string>
+    <string name="et_confirm_note">Rearrange Trips</string>
+    <string name="et_confirm_sub_note">Select the first trip of the day. Ignore the post midnight trips.</string>
+    <string name="et_confirm_footnote">Step 5 of 5 (next: confirm)</string>
+    <string name="et_confirm_basic_info_warning">You must add origin and destination in order to add new route.</string>
+    <string name="et_confirm_type_warning">Each route should have valid type.</string>
+    <string name="et_confirm_trip_warning">You have not added any trips to your current route.</string>
+    <string name="et_confirm_type">Transport type : %1$s\nfor %2$s</string>
+    <string name="et_confirm_fq_mon_sat">Weekdays(including Saturday)</string>
+    <string name="et_almost_ready">Almost Ready!</string>
+    <string name="et_fine_details">Confirm all information. Click on any details to change.</string>
 </resources>

@@ -7,10 +7,3 @@
 /build
 /captures
 .externalNativeBuild
-*.keystore
-*.jks
-/gradle.properties
-app/google-services.json
-/.project
-app/app-release.apk
-.idea/

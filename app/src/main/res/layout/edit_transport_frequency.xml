@@ -22,76 +22,80 @@
             android:layout_height="match_parent">
 
             <RadioGroup
-                android:id="@+id/radioGroup2"
+                android:id="@+id/et_fq_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/button6"
+                app:layout_constraintBottom_toTopOf="@+id/et_fq_previous"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <RadioButton
+                    android:id="@+id/et_fq_select_specific"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Select specific day(s)" />
+                    android:text="@string/et_frequency_specific" />
 
                 <RadioButton
+                    android:id="@+id/et_fq_all_days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="All Days" />
+                    android:text="@string/et_frequency_all_days" />
 
                 <RadioButton
+                    android:id="@+id/et_fq_mon_sat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Monday to Saturday" />
+                    android:text="@string/et_frequency_mon_sat" />
 
                 <RadioButton
+                    android:id="@+id/et_fq_sat_sun"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Saturday to Sunday" />
+                    android:text="@string/et_frequency_sat_sun" />
             </RadioGroup>
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/et_fq_next"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Next"
+                android:text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/et_fq_previous"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Previous"
+                android:text="@string/previous"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button5" />
+                app:layout_constraintEnd_toStartOf="@+id/et_fq_next" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/et_fq_friday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
                 android:layout_marginStart="16dp"
-                android:text="Friday"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox7"
+                android:text="@string/friday"
+                app:layout_constraintBottom_toTopOf="@+id/et_fq_sunday"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/et_fq_saturday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Saturday"
-                app:layout_constraintBaseline_toBaselineOf="@+id/checkBox"
+                android:text="@string/saturday"
+                app:layout_constraintBaseline_toBaselineOf="@+id/et_fq_friday"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <android.support.constraint.Guideline
@@ -102,51 +106,51 @@
                 app:layout_constraintGuide_percent="0.5" />
 
             <CheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/et_fq_wednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
                 android:layout_marginStart="16dp"
-                android:text="Wednesday"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox"
+                android:text="@string/wednesday"
+                app:layout_constraintBottom_toTopOf="@+id/et_fq_friday"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <CheckBox
-                android:id="@+id/checkBox4"
+                android:id="@+id/et_fq_thursday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Thursday"
-                app:layout_constraintBaseline_toBaselineOf="@+id/checkBox3"
+                android:text="@string/thursday"
+                app:layout_constraintBaseline_toBaselineOf="@+id/et_fq_wednesday"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <CheckBox
-                android:id="@+id/checkBox5"
+                android:id="@+id/et_fq_monday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="0dp"
                 android:layout_marginStart="16dp"
-                android:text="Monday"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox3"
+                android:text="@string/monday"
+                app:layout_constraintBottom_toTopOf="@+id/et_fq_wednesday"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <CheckBox
-                android:id="@+id/checkBox6"
+                android:id="@+id/et_fq_tuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Tuesday"
-                app:layout_constraintBaseline_toBaselineOf="@+id/checkBox5"
+                android:text="@string/tuesday"
+                app:layout_constraintBaseline_toBaselineOf="@+id/et_fq_monday"
                 app:layout_constraintStart_toStartOf="@+id/guideline" />
 
             <CheckBox
-                android:id="@+id/checkBox7"
+                android:id="@+id/et_fq_sunday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
-                android:text="Sunday"
-                app:layout_constraintBottom_toTopOf="@+id/radioGroup2"
+                android:text="@string/sunday"
+                app:layout_constraintBottom_toTopOf="@+id/et_fq_group"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -156,10 +160,10 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:text="if you have different schedule for different days, add each day separately."
+                android:text="@string/et_frequency_sub_note"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox5"
+                app:layout_constraintBottom_toTopOf="@+id/et_fq_monday"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -171,7 +175,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Select Weekly Frequency"
+                android:text="@string/et_frequency_note"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toTopOf="@+id/textView5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -189,7 +193,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Step 3 of 5 (next: add trips)"
+        android:text="@string/et_frequency_footnote"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

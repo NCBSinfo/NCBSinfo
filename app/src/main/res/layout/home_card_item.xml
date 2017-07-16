@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8sp"
+    android:layout_marginEnd="@dimen/horizontal_margin"
+    android:layout_marginStart="@dimen/horizontal_margin"
+    android:layout_marginTop="@dimen/horizontal_margin">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/hm_item_back"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/home_card_icon_size"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:foregroundGravity="right"
+            android:src="@color/teal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/hm_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="NCBS-MANDARA"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hm_item_back" />
+
+        <ImageView
+            android:id="@+id/hm_item_image"
+            android:layout_width="@dimen/home_card_icon_size"
+            android:layout_height="@dimen/home_card_icon_size"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="0dp"
+            android:src="@drawable/home_iisc_image"
+            app:layout_constraintBottom_toBottomOf="@+id/hm_item_back"
+            app:layout_constraintEnd_toEndOf="@+id/hm_item_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/hm_item_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="0dp"
+            android:fontFamily="sans-serif"
+            android:text="Shuttle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hm_item_title" />
+
+        <TextView
+            android:id="@+id/hm_item_next_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:text="12:30 PM"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/hm_item_back"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/hm_item_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/icon_fav_empty"
+            android:tint="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hm_item_image" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="0dp"
+            android:alpha="0.8"
+            android:text="@string/hm_next_transport"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/hm_item_next_trip"
+            app:layout_constraintStart_toStartOf="@+id/hm_item_next_trip" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

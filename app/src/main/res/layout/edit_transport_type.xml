@@ -22,59 +22,63 @@
             android:layout_height="match_parent">
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/et_type_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/button4"
+                app:layout_constraintBottom_toTopOf="@+id/et_type_previous"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <RadioButton
+                    android:id="@+id/et_type_option1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Shuttle or Bus (approx 30 seats)" />
+                    android:text="@string/et_type_shuttle" />
 
                 <RadioButton
+                    android:id="@+id/et_type_option2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tempo Traveller (approx 12 seats)" />
+                    android:text="@string/et_type_ttc" />
 
                 <RadioButton
+                    android:id="@+id/et_type_option3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Electric Buggy (approx 8 seats)" />
+                    android:text="@string/et_type_buggy" />
 
 
                 <RadioButton
+                    android:id="@+id/et_type_option4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Other" />
+                    android:text="@string/other" />
             </RadioGroup>
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/et_type_next"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Next"
+                android:text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/et_type_previous"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Previous"
+                android:text="@string/previous"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button3" />
+                app:layout_constraintEnd_toStartOf="@+id/et_type_next" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -83,15 +87,15 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+                android:text="@string/et_type_note"
+                app:layout_constraintBottom_toTopOf="@+id/et_type_group"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="100sp"
-                android:layout_height="100sp"
+                android:layout_width="@dimen/et_basic_icon_size"
+                android:layout_height="@dimen/et_basic_icon_size"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -107,12 +111,13 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Step 2 of 5 (next: Add Frequency)"
+        android:text="@string/et_type_footnote"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
