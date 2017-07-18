@@ -46,14 +46,14 @@ public class ETBasicFragment extends Fragment {
         holder = viewModel.getData().getValue();
         if (holder != null) {
             if (holder.getOrigin() != null) {
-                origin.getEditText().setText(holder.getOrigin());
+                origin.getEditText().setText(holder.getOrigin().toUpperCase());
                 if (holder.getOrigin().length() > 0) {
                     originHelper.setImageResource(R.drawable.icon_done_circle);
                     originHelper.setColorFilter(ContextCompat.getColor(getContext(), R.color.green));
                 }
             }
             if (holder.getDestination() != null) {
-                destination.getEditText().setText(holder.getDestination());
+                destination.getEditText().setText(holder.getDestination().toUpperCase());
                 if (holder.getDestination().length() > 0) {
                     destinationHelper.setImageResource(R.drawable.icon_done_circle);
                     destinationHelper.setColorFilter(ContextCompat.getColor(getContext(), R.color.green));
@@ -117,6 +117,7 @@ public class ETBasicFragment extends Fragment {
 
     @OnClick(R.id.et_basic_cancel)
     public void cancelSteps() {
-        //todo
+        getActivity().finish();
+        getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

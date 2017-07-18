@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.edit;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.database.TripData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ class ETDataHolder {
     private int frequency;
     private int[] frequencyDetails;
     private List<String> itemList;
+    private List<TripData> tripData = new ArrayList<>();
 
     ETDataHolder() {
         type = -1;
@@ -72,5 +74,14 @@ class ETDataHolder {
     void setItemList(List<String> itemList) {
         this.itemList.clear();
         this.itemList.addAll(itemList);
+    }
+
+    List<TripData> getTripData() {
+        return tripData;
+    }
+
+    void setTripData(List<TripData> tripData) {
+        this.tripData.clear();
+        this.tripData.addAll(tripData);
     }
 }

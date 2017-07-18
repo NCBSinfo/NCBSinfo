@@ -32,7 +32,7 @@ class ETSimpleAdapter extends RecyclerView.Adapter<ETSimpleAdapter.ItemHolder> {
         isFinalList = false;
     }
 
-    public ETSimpleAdapter(List<String> itemList, boolean isFinalList) {
+    ETSimpleAdapter(List<String> itemList, boolean isFinalList) {
         this.itemList = itemList;
         this.isFinalList = isFinalList;
     }

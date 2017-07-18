@@ -13,6 +13,11 @@
     <string name="buggy">Buggy</string>
     <string name="ttc">TTC</string>
     <string name="placeholder">--</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="add_new">Add New</string>
+    <string name="delete">Delete</string>
+    <string name="report">Report</string>
+    <string name="edit">Edit</string>
 
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
@@ -41,6 +46,9 @@
 
 
     <!--Edit Transport-->
+    <string name="manage_routes">Manage Routes</string>
+    <string name="add_transport">Add Transport</string>
+    <string name="edit_transport">Edit Transport</string>
     <string name="origin">Origin</string>
     <string name="destination">Destination</string>
     <string name="et_basic_footnote">Step 1 of 5 (Next: Add Type)</string>
@@ -72,4 +80,11 @@
     <string name="et_confirm_fq_mon_sat">Weekdays(including Saturday)</string>
     <string name="et_almost_ready">Almost Ready!</string>
     <string name="et_fine_details">Confirm all information. Click on any details to change.</string>
+    <string name="et_back_press">You are in middle of editing route. If you want to go to previous step, you can press \'Previous\' button. What do you want to do ? </string>
+    <string name="et_back_cancel">Cancel Wizard</string>
+    <string name="et_back_previous">Previous Step</string>
+    <string name="mt_note">Edit, Delete, Create New or Report Mistakes</string>
+    <string name="mt_last_modified">Last Modified\n%s</string>
+    <string name="mt_select_trips">Select Trips to Edit</string>
+    <string name="mt_select_trip_message">We have found following trips day(s)</string>
 </resources>

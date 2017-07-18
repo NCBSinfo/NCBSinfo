@@ -28,6 +28,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
     private List<HomeCardModel> modelList;
     private OnCardClick cardClick;
     private int currentFav = -1;
+    private boolean onlyFirst = false;
 
     HomeAdapter(List<HomeCardModel> modelList) {
         this.modelList = modelList;
@@ -81,9 +82,21 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
         }
     }
 
+    boolean isOnlyFirst() {
+        return onlyFirst;
+    }
+
+    void setOnlyFirst(boolean onlyFirst) {
+        this.onlyFirst = onlyFirst;
+    }
+
     @Override
     public int getItemCount() {
-        return modelList.size();
+        if (onlyFirst) {
+            return 1;
+        } else {
+            return modelList.size();
+        }
     }
 
     class HomeViewHolder extends RecyclerView.ViewHolder {

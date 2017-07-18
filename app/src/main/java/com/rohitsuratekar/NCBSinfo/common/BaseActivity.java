@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.transport.ManageTransport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.secretbiology.helpers.general.General;
 
@@ -163,6 +164,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
                 return Home.class;
             case R.id.nav_transport:
                 return Transport.class;
+            case R.id.nav_manage_transport:
+                return ManageTransport.class;
         }
         return Home.class;
     }

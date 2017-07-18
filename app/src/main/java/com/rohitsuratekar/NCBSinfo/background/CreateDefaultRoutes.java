@@ -7,6 +7,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
 import java.util.ArrayList;
@@ -138,6 +139,9 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
             data.setOrigin(origin);
             data.setDestination(destination);
             data.setType(type);
+            data.setAuthor("NCBSinfo");
+            data.setCreatedOn("2017-07-21 00:00:00");
+            data.setModifiedOn(General.timeStamp());
             this.week = convertToList(context.getString(week));
             this.sunday = convertToList(context.getString(sunday));
         }

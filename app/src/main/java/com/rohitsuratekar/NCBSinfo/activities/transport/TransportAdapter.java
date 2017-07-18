@@ -103,4 +103,6 @@ class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder>
             half_circle = ButterKnife.findById(itemView, R.id.tp_trip_half_circle);
         }
     }
+
+
 }

@@ -23,4 +23,5 @@
     <dimen name="et_basic_input_icon">30sp</dimen>
     <dimen name="et_trips_undo_padding">16sp</dimen>
     <dimen name="et_confirm_recycler">250sp</dimen>
+    <dimen name="mt_icon_size">150sp</dimen>
 </resources>

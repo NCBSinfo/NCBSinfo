@@ -23,7 +23,7 @@ public class Helper {
     public static int getTypeColor(String type) {
         switch (type.trim()) {
             case "shuttle":
-                return R.color.teal;
+                return R.color.colorPrimary;
             case "buggy":
                 return R.color.lime;
             default:
