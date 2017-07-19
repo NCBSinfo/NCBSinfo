@@ -24,6 +24,7 @@ public class ETViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> currentStep = new MutableLiveData<>();
     private MutableLiveData<ETDataHolder> data = new MutableLiveData<>();
     private MutableLiveData<List<RouteData>> routeList = new MutableLiveData<>();
+    private MutableLiveData<Boolean> editSetup = new MutableLiveData<>();
 
     public ETViewModel(Application application) {
         super(application);
@@ -48,10 +49,15 @@ public class ETViewModel extends AndroidViewModel {
             public void finished(ETDataHolder holder) {
                 data.postValue(holder);
                 currentStep.postValue(0);
+                editSetup.postValue(true);
+
             }
         }, context).execute(details);
     }
 
+    MutableLiveData<Boolean> getEditSetup() {
+        return editSetup;
+    }
 
     MutableLiveData<Integer> getCurrentStep() {
         return currentStep;

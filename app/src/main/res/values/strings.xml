@@ -86,5 +86,6 @@
     <string name="mt_note">Edit, Delete, Create New or Report Mistakes</string>
     <string name="mt_last_modified">Last Modified\n%s</string>
     <string name="mt_select_trips">Select Trips to Edit</string>
-    <string name="mt_select_trip_message">We have found following trips day(s)</string>
+    <string name="mt_select_trip_message">We have found following trip day(s) related to route \'%1$s-%2$s\'. Please select which one you want to edit.</string>
+    <string name="mt_select_snackbar">Option %s selected.</string>
 </resources>

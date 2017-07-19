@@ -4,6 +4,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ class ETDataHolder {
     private int[] frequencyDetails;
     private List<String> itemList;
     private List<TripData> tripData = new ArrayList<>();
+    private boolean isRegular = false;
 
     ETDataHolder() {
         type = -1;
@@ -83,5 +85,18 @@ class ETDataHolder {
     void setTripData(List<TripData> tripData) {
         this.tripData.clear();
         this.tripData.addAll(tripData);
+        if (tripData.size() == 2) {
+            if (tripData.get(0).getDay() == Calendar.SUNDAY || tripData.get(1).getDay() == Calendar.SUNDAY) {
+                isRegular = true;
+            }
+        }
+    }
+
+    boolean isRegular() {
+        return isRegular;
+    }
+
+    void setRegular(boolean regular) {
+        isRegular = regular;
     }
 }

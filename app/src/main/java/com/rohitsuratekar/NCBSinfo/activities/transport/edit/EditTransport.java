@@ -16,22 +16,30 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
+import com.secretbiology.helpers.general.General;
+import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EditTransport extends BaseActivity implements LifecycleRegistryOwner {
+
+    @BindView(R.id.et_view_holder)
+    FrameLayout layout;
 
     public static final String ORIGIN = "origin";
     public static final String DESTINATION = "destination";
@@ -41,7 +49,6 @@ public class EditTransport extends BaseActivity implements LifecycleRegistryOwne
     private int currentFragmentIndex = 0;
     private List<RouteData> routeData = new ArrayList<>();
     private boolean isForEdit = false;
-    private boolean editSetupDone = false;
     private String[] editDetails = new String[3];
 
     @Override
@@ -109,9 +116,6 @@ public class EditTransport extends BaseActivity implements LifecycleRegistryOwne
                         break;
                     default:
                         fragment = new ETBasicFragment();
-                        if (isForEdit && !editSetupDone) {
-                            updateETData();
-                        }
                 }
                 transaction.replace(R.id.et_view_holder, fragment);
                 transaction.commit();
@@ -126,6 +130,17 @@ public class EditTransport extends BaseActivity implements LifecycleRegistryOwne
                 if (routeDataList != null) {
                     routeData.clear();
                     routeData.addAll(routeDataList);
+                }
+            }
+        });
+
+        viewModel.getEditSetup().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean != null) {
+                    if (aBoolean) {
+                        updateETData();
+                    }
                 }
             }
         });
@@ -162,38 +177,87 @@ public class EditTransport extends BaseActivity implements LifecycleRegistryOwne
     }
 
     private void updateETData() {
-        if (viewModel.getData().getValue() != null) {
-            if (viewModel.getData().getValue().getTripData().size() > 1) {
-                String names[] = {"A", "B", "C", "D"};
+        final ETDataHolder data = viewModel.getData().getValue();
+        if (data != null) {
+            Log.inform("Here " + data.getTripData().size());
+            if (data.getTripData().size() > 1) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditTransport.this);
                 LayoutInflater inflater = getLayoutInflater();
-                View convertView = (View) inflater.inflate(R.layout.manage_transport_dialog, null);
+                final View convertView = (View) inflater.inflate(R.layout.manage_transport_dialog, null);
+                TextView message = ButterKnife.findById(convertView, R.id.mt_dialog_message);
+                message.setText(getString(R.string.mt_select_trip_message,
+                        data.getOrigin().toUpperCase(), data.getDestination().toUpperCase()));
                 alertDialog.setView(convertView);
-                alertDialog.setTitle(getString(R.string.mt_select_trips));
-                RadioGroup group = ButterKnife.findById(convertView, R.id.mt_radio_group);
+                alertDialog.setCancelable(false);
+                final RadioGroup group = ButterKnife.findById(convertView, R.id.mt_radio_group);
                 group.setOrientation(RadioGroup.VERTICAL);
-                for (TripData t : viewModel.getData().getValue().getTripData()) {
+                final Calendar calendar = Calendar.getInstance();
+                for (TripData t : data.getTripData()) {
                     RadioButton button = new RadioButton(getApplicationContext());
-                    Calendar calendar = Calendar.getInstance();
+                    button.setId(data.getTripData().indexOf(t));
                     calendar.set(Calendar.DAY_OF_WEEK, t.getDay());
-                    button.setText(DateConverter.convertToString(calendar, "EEEE"));
+                    if (data.isRegular() && t.getDay() != Calendar.SUNDAY) {
+                        button.setText(getString(R.string.et_confirm_fq_mon_sat));
+                    } else {
+                        button.setText(DateConverter.convertToString(calendar, "EEEE"));
+                    }
+                    group.addView(button);
                 }
+                final int[] selectedIndex = {-1};
+                group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                        selectedIndex[0] = i;
+                    }
+                });
                 alertDialog.setPositiveButton("ok", new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        if (selectedIndex[0] == -1) {
+                            selectedIndex[0] = 0;
+                        }
+                        General.makeShortToast(getApplicationContext(), getString(R.string.mt_select_snackbar, String.valueOf(selectedIndex[0] + 1)));
+                        prepareTrips(selectedIndex[0]);
+                        dialogInterface.dismiss();
                     }
                 });
                 alertDialog.show();
 
             } else if (viewModel.getData().getValue().getTripData().size() == 1) {
-                prepareTrips(viewModel.getData().getValue().getTripData().get(0).getDay());
+                prepareTrips(0);
             }
         }
     }
 
-    private void prepareTrips(int day) {
-
+    private void prepareTrips(int index) {
+        ETDataHolder data = viewModel.getData().getValue();
+        if (data != null) {
+            if (data.isRegular()) {
+                if (data.getTripData().get(index).getDay() != Calendar.SUNDAY) {
+                    data.setFrequency(R.id.et_fq_mon_sat);
+                    data.setFrequencyDetails(new int[]{0, 1, 1, 1, 1, 1, 1});
+                } else {
+                    data.setFrequency(R.id.et_fq_select_specific);
+                    data.setFrequencyDetails(new int[]{1, 0, 0, 0, 0, 0, 0});
+                }
+            } else if (data.getTripData().size() == 1) {
+                data.setFrequency(R.id.et_fq_all_days);
+                data.setFrequencyDetails(new int[]{1, 1, 1, 1, 1, 1, 1});
+            } else {
+                data.setFrequency(R.id.et_fq_select_specific);
+                int[] temp = new int[7];
+                for (int i = 0; i < 7; i++) {
+                    if (i + 1 == data.getTripData().get(index).getDay()) { //Sunday starts from 1
+                        temp[i] = 1;
+                    } else {
+                        temp[i] = 0;
+                    }
+                }
+                data.setFrequencyDetails(temp);
+            }
+            data.setItemList(data.getTripData().get(index).getTrips());
+            viewModel.getData().postValue(data);
+        }
     }
 
     @Override
