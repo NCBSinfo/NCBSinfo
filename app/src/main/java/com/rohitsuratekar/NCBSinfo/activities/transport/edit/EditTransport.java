@@ -179,7 +179,6 @@ public class EditTransport extends BaseActivity implements LifecycleRegistryOwne
     private void updateETData() {
         final ETDataHolder data = viewModel.getData().getValue();
         if (data != null) {
-            Log.inform("Here " + data.getTripData().size());
             if (data.getTripData().size() > 1) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditTransport.this);
                 LayoutInflater inflater = getLayoutInflater();

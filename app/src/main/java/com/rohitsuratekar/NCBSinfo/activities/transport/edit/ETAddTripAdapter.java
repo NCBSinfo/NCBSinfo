@@ -36,7 +36,7 @@ class ETAddTripAdapter extends RecyclerView.Adapter {
     private Handler handler = new Handler(); // hanlder for running delayed runnables
     private HashMap<String, Runnable> pendingRunnable = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
-    public ETAddTripAdapter(List<String> items) {
+    ETAddTripAdapter(List<String> items) {
         this.items = items;
         this.itemsPendingRemoval = new ArrayList<>();
     }
@@ -74,7 +74,6 @@ class ETAddTripAdapter extends RecyclerView.Adapter {
             viewHolder.itemView.setBackgroundColor(Color.WHITE);
             viewHolder.titleTextView.setVisibility(View.VISIBLE);
             try {
-                Log.inform(item);
                 viewHolder.titleTextView.setText(DateConverter.changeFormat(ConverterMode.DATE_FIRST, item, "hh:mm a"));
             } catch (ParseException e) {
                 viewHolder.titleTextView.setText("--:--");
@@ -90,15 +89,15 @@ class ETAddTripAdapter extends RecyclerView.Adapter {
     }
 
 
-    public void setUndoOn(boolean undoOn) {
+    void setUndoOn(boolean undoOn) {
         this.undoOn = undoOn;
     }
 
-    public boolean isUndoOn() {
+    boolean isUndoOn() {
         return undoOn;
     }
 
-    public void pendingRemoval(int position) {
+    void pendingRemoval(int position) {
         final String item = items.get(position);
         if (!itemsPendingRemoval.contains(item)) {
             itemsPendingRemoval.add(item);
@@ -116,7 +115,7 @@ class ETAddTripAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void remove(int position) {
+    void remove(int position) {
         String item = items.get(position);
         if (itemsPendingRemoval.contains(item)) {
             itemsPendingRemoval.remove(item);
@@ -127,7 +126,7 @@ class ETAddTripAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public boolean isPendingRemoval(int position) {
+    boolean isPendingRemoval(int position) {
         String item = items.get(position);
         return itemsPendingRemoval.contains(item);
     }

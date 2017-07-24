@@ -99,4 +99,17 @@ class ETDataHolder {
     void setRegular(boolean regular) {
         isRegular = regular;
     }
+
+    String getConvertedType() {
+        switch (type) {
+            case 0:
+                return "shuttle";
+            case 1:
+                return "ttc";
+            case 2:
+                return "buggy";
+            default:
+                return "other";
+        }
+    }
 }

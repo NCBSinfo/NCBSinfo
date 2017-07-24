@@ -22,7 +22,7 @@ public interface RouteDao {
     RouteData getRoute(int routeID);
 
     @Insert
-    void insertRoute(RouteData routeData);
+    long insertRoute(RouteData routeData);
 
     @Delete
     void deleteRoute(RouteData routeData);
