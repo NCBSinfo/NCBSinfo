@@ -1,144 +1,63 @@
 package com.rohitsuratekar.NCBSinfo.ui;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.contact.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.notifications.Notifications;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.locations.Locations;
+import com.rohitsuratekar.NCBSinfo.activities.login.AccountSecurity;
+import com.rohitsuratekar.NCBSinfo.activities.login.Login;
+import com.rohitsuratekar.NCBSinfo.activities.login.Register;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.edit.TransportEdit;
 
-/**
- * This enum will decide activity UI
- * Check constructors for inputs
- */
 public enum CurrentActivity {
 
-    HOME(
-            R.string.app_name,
-            R.layout.home,
-            R.id.nav_home,
-            false), //Main Home and Launcher activity
+    HOME(Home.class, R.layout.home, R.string.home, R.id.nav_home, R.menu.base_menu),
+    TRANSPORT(Transport.class, R.layout.transport, R.string.transport, R.id.nav_transport, R.menu.transport_menu),
+    TRANSPORT_EDIT(TransportEdit.class, R.layout.transport_edit, R.string.transport_edit, R.id.nav_header_option, R.menu.blank_menu),
+    CONTACTS(Contacts.class, R.layout.contacts, R.string.contacts, R.id.nav_contacts, R.menu.contacts_menu),
+    LOCATIONS(Locations.class, R.layout.locations, R.string.locations, R.id.nav_locations, R.menu.base_menu),
+    LOGIN(Login.class, R.layout.login, R.string.log_in, R.id.nav_header_option, R.menu.blank_menu),
+    REGISTER(Register.class, R.layout.register, R.string.register, R.id.nav_header_option, R.menu.blank_menu),
+    NOTIFICATIONS(Notifications.class, R.layout.notifications, R.string.notifications, R.id.nav_header_option, R.menu.blank_menu),
+    DASHBOARD(Dashboard.class, R.layout.dashboard, R.string.dashboard, R.id.nav_dashboard, R.menu.blank_menu),
+    SECURITY(AccountSecurity.class, R.layout.account_security, R.string.security, R.id.nav_header_option, R.menu.blank_menu),
+    SETTINGS(Settings.class, R.layout.settings, R.string.settings, R.id.nav_settings, R.menu.blank_menu);
 
-    ONLINE_HOME(
-            R.string.app_name,
-            R.layout.online_home,
-            R.id.nav_home,
-            false), //Online Home activity
+    private Class currentClass;
+    private int layout;
+    private int name;
+    private int navigationMenu;
+    private int menu;
 
-    OFFLINE_HOME(
-            R.string.app_name,
-            R.layout.offline_home,
-            R.id.nav_home,
-            false), //Online Home activity
-
-    TRANSPORT(
-            R.string.transport,
-            R.layout.base_viewpager,
-            R.id.nav_transport,
-            true), //Transport
-
-    CONTACTS(
-            R.string.contacts,
-            R.layout.base_viewpager,
-            R.id.nav_contacts,
-            true), //Contacts
-
-    CONTACTS_ADD(
-            R.string.contacts,
-            R.layout.contact_add,
-            R.id.nav_contacts,
-            false), //Add contacts
-
-    LOGIN(
-            R.string.login,
-            R.layout.login,
-            R.id.nav_login,
-            false), //Login
-
-    REGISTRATION(
-            R.string.register,
-            R.layout.register,
-            R.id.nav_register,
-            false), //Registration
-
-    EVENTS(
-            R.string.event_updates,
-            R.layout.base_viewpager,
-            R.id.nav_events,
-            true), //Events
-
-    DASHBOARD(
-            R.string.dashboard,
-            R.layout.base_viewpager,
-            R.id.nav_dashboard,
-            true), //Dashboard
-
-    EXPERIMENTAL(
-            R.string.experimental,
-            R.layout.experimental,
-            R.id.nav_experimental,
-            false),
-
-    LECTUREHALLS(
-            R.string.lecture_hall,
-            R.layout.lecturehalls,
-            R.id.nav_location,
-            false),
-
-    CANTEEN(
-            R.string.canteen,
-            R.layout.canteen,
-            R.id.nav_canteen,
-            false),
-
-    HOLIDAYS(
-            R.string.holidays,
-            R.layout.base_viewpager,
-            R.id.nav_holidays,
-            true),
-
-    CHANGE_PASSWORD(
-            R.string.change_password,
-            R.layout.change_password,
-            R.id.nav_dashboard,
-            false),
-
-    TRANSPORT_REMINDER(
-            R.string.transport_reminder,
-            R.layout.base_viewpager,
-            R.id.nav_transport_reminder,
-            true);
-
-
-    private final int Title;
-    private final int Layout;
-    private final int DrawerItem;
-    private final boolean needTabLayout;
-
-    /**
-     * Need this for setting up UI fo respective activity
-     *
-     * @param Title         : Name of activity
-     * @param Layout        : Layout resource of activity
-     * @param DrawerItem    : ID of navigation item which will be highlighted
-     * @param needTabLayout : Do this activity need tab host for fragment hosting
-     */
-
-    CurrentActivity(int Title, int Layout, int DrawerItem, boolean needTabLayout) {
-        this.Title = Title;
-        this.Layout = Layout;
-        this.DrawerItem = DrawerItem;
-        this.needTabLayout = needTabLayout;
+    CurrentActivity(Class currentClass, int layout, int name, int navigationMenu, int menu) {
+        this.currentClass = currentClass;
+        this.layout = layout;
+        this.name = name;
+        this.navigationMenu = navigationMenu;
+        this.menu = menu;
     }
 
-    public int getTitle() {
-        return Title;
+    public Class getCurrentClass() {
+        return currentClass;
     }
 
     public int getLayout() {
-        return Layout;
+        return layout;
     }
 
-    public int getDrawerItem() {
-        return DrawerItem;
+    public int getName() {
+        return name;
     }
 
-    public boolean needTabLayout() {
-        return needTabLayout;
+    public int getNavigationMenu() {
+        return navigationMenu;
+    }
+
+    public int getMenu() {
+        return menu;
     }
 }

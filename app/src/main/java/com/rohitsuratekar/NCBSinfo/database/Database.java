@@ -1,35 +1,36 @@
+/*
+ * Copyright (c) 2016. Rohit Suratekar
+ */
+
 package com.rohitsuratekar.NCBSinfo.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-public class Database extends SQLiteOpenHelper {
+import com.secretbiology.helpers.general.Log;
+import com.secretbiology.helpers.general.database.QueryBuilder;
 
-    //TODO fix database opening and closing
-    //Database Constants
+class Database extends SQLiteOpenHelper {
+
     private static String DATABASE_NAME = "NCBSinfo";
-    private static int DATABASE_VERSION = 8; //Changed from 7 to 8 on 12 August 2016
-    private Context context;
+    private static int DATABASE_VERSION = 9; //Changed from 8 to 9 in version 44
 
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        this.context = context;
     }
 
     private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
     }
 
-    // Singleton pattern
+
     private static Database instance;
 
     private int mOpenCounter;
 
-    public SQLiteDatabase mDatabase;
+    private SQLiteDatabase mDatabase;
 
 
     public static synchronized Database getInstance(Context context) {
@@ -56,60 +57,40 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-        //All currently available database
-        ContactsData.makeTable(db);
-        AlarmData.makeTable(db);
-        NotificationData.makeTable(db);
-        TalkData.makeTable(db);
+        RouteData.make(db);
+        NotificationData.make(db);
+        Log.inform("Database '" + DATABASE_NAME + "' is created successfully.");
     }
 
-    //Upgrade will take time, hence don't use database synchronized objects here
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Remove support from previous databases
-        Log.i("Database Tag", "Database upgrade started");
-        db.execSQL("DROP TABLE IF EXISTS " + ContactsData.TABLE_CONTACTS);
-        db.execSQL("DROP TABLE IF EXISTS " + AlarmData.TABLE_ALARMS);
-        db.execSQL("DROP TABLE IF EXISTS " + NotificationData.TABLE_NOTIFICATIONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TalkData.TABLE_TALK);
-        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS alarmTable");
+        db.execSQL("DROP TABLE IF EXISTS notifications");
+        db.execSQL("DROP TABLE IF EXISTS table_contacts");
+        db.execSQL("DROP TABLE IF EXISTS table_research_talk");
+        db.execSQL("DROP TABLE IF EXISTS table_notifications");
+
+        //Make new ones
+        RouteData.make(db);
+        NotificationData.make(db);
+        Log.inform("Database '" + DATABASE_NAME + "' is upgraded from " + oldVersion + " to " + newVersion + " successfully.");
     }
 
-
-    public void restartDatabase() {
-        dropAll();
-        SQLiteDatabase db = Database.getInstance(context).openDatabase();
-        ContactsData.makeTable(db);
-        AlarmData.makeTable(db);
-        NotificationData.makeTable(db);
-        TalkData.makeTable(db);
-    }
-
-    public boolean isAlreadyThere(String TableName, String dbfield, String fieldValue) {
-        SQLiteDatabase db = instance.openDatabase();
-        String Query = "SELECT * FROM " + TableName + " WHERE " + dbfield + " = '" + fieldValue + "'";
-        Cursor cursor = db.rawQuery(Query, null);
-        if (cursor.getCount() <= 0) {
+    private boolean ifTableExists(SQLiteDatabase db, String name) {
+        String query = new QueryBuilder()
+                .use("SELECT name FROM sqlite_master WHERE type='table' AND name='" + name + "'").build();
+        Cursor cursor = db.rawQuery(query, null);
+        int count = 0;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                count = cursor.getCount();
+            }
             cursor.close();
-            instance.closeDatabase();
-            return false;
         }
-        cursor.close();
-        instance.closeDatabase();
-        return true;
+        return count != 0;
     }
-
-    private void dropAll() {
-        new ContactsData(context).drop();
-        new AlarmData(context).drop();
-        new NotificationData(context).drop();
-        new TalkData(context).drop();
-    }
-
 
 }
-

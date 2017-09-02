@@ -4,45 +4,57 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * NCBSinfo © 2016, Secret Biology
- * https://github.com/NCBSinfo/NCBSinfo
- * Created by Rohit Suratekar on 03-07-16.
- */
-public class Preferences {
+abstract class Preferences {
 
-    Context context;
-    SharedPreferences pref;
+    private final static String PREF_VERSION = "n1_";
 
-
-    public Preferences(Context context) {
-        this.context = context;
+    Preferences(Context context) {
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public User user() {
-        return new User(pref, context);
+    private SharedPreferences pref;
+
+    SharedPreferences getPref() {
+        return pref;
     }
 
-    public App app() {
-        return new App(pref, context);
+    void put(String key, String value) {
+        pref.edit().putString(PREF_VERSION + key, value).apply();
     }
 
-    public TransportPref transport() {
-        return new TransportPref(pref, context);
+    void put(String key, int value) {
+        pref.edit().putInt(PREF_VERSION + key, value).apply();
     }
 
-    public RemotePref network() {
-        return new RemotePref(pref, context);
+    void put(String key, boolean value) {
+        pref.edit().putBoolean(PREF_VERSION + key, value).apply();
     }
 
-
-    public SettingsPref settings() {
-        return new SettingsPref(pref, context);
+    protected void put(String key, float value) {
+        pref.edit().putFloat(PREF_VERSION + key, value).apply();
     }
 
-    public void clearAll() {
+    protected String get(String key, String defaultValue) {
+        return pref.getString(PREF_VERSION + key, defaultValue);
+    }
+
+    protected int get(String key, int defaultValue) {
+        return pref.getInt(PREF_VERSION + key, defaultValue);
+    }
+
+    protected boolean get(String key, boolean defaultValue) {
+        return pref.getBoolean(PREF_VERSION + key, defaultValue);
+    }
+
+    protected float get(String key, float defaultValue) {
+        return pref.getFloat(PREF_VERSION + key, defaultValue);
+    }
+
+    protected void delete(String key) {
+        pref.edit().remove(PREF_VERSION + key).apply();
+    }
+
+    void clearAll() {
         pref.edit().clear().apply();
     }
-
 }

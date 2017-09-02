@@ -6,10 +6,10 @@
 .DS_Store
 /build
 /captures
-app/google-services.json
-*.properties
-app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces/NetworkConstants.java
-app/app-release.apk
+.externalNativeBuild
 *.keystore
 *.jks
-projectFilesBackup/.idea/workspace.xml
+/gradle.properties
+app/google-services.json
+/.project
+app/app-release.apk

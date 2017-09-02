@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in C:\Users\rohit\AppData\Local\Android\sdk/tools/proguard/proguard-android.txt
+# in C:\Users\Dexter\AppData\Local\Android\Sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -15,15 +15,17 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--repackageclasses 'obfuscated'
+
+#-repackageclasses 'obfuscated' # No need of this as our code is Open Source
 -keepattributes *Annotation*
 # Add this global rule
 -keepattributes Signature
 -keepattributes EnclosingMethod
--keep class sun.misc.Unsafe { *; }
--keep class com.secretbiology.retro.google.** { *; }
--keep class com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}
--keep interface com.rohitsuratekar.NCBSinfo.background.firebase.** {*;}
+
 -dontwarn okio.**
 -dontwarn retrofit2.**
--dontwarn org.joda.convert.**
+-dontwarn com.squareup.picasso.**
+-keepclassmembers enum com.rohitsuratekar.NCBSinfo.** { *; }
+-keep class com.rohitsuratekar.NCBSinfo.background.networking.** {*;}
+-keep class com.rohitsuratekar.NCBSinfo.database.models.** {*;}
+-keep class android.support.v7.widget.SearchView { *; }

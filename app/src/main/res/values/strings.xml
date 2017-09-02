@@ -1,145 +1,145 @@
 <resources>
-    <string name="app_name">NCBS info</string>
-    <string name="app_version">v %1$s</string>
-    <string name="navigation_footer">Made in NCBS :)</string>
-    <string name="google_map">AIzaSyDLRyC8K8PsgDg2ynCWVFfNeB8dGRlrSU0</string>
+    <string name="app_name">NCBSinfo</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
 
-    <!-- Titles -->
-    <string name="dashboard">Dashboard</string>
-    <string name="home">Home</string>
-    <string name="transport">Transport</string>
-    <string name="event_updates">Events</string>
-    <string name="contacts">Contacts</string>
     <string name="settings">Settings</string>
-    <string name="experimental">Experimental</string>
-    <string name="canteen">Canteen</string>
-    <string name="lecture_hall">Locations</string>
-    <string name="information">Information</string>
-    <string name="login">Sign In</string>
-    <string name="register">Register</string>
-    <string name="map">Map</string>
-    <string name="holidays">Holidays</string>
-    <string name="transport_reminder">Transport Reminders</string>
-    <string name="notifications">Notifications</string>
-    <string name="developers">Developers options</string>
+    <string name="last_sync">Last Sync</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="cancel">Cancel</string>
+    <string name="photography">Photography</string>
+    <string name="change">Change</string>
 
+    <string name="salutation_morning">Good Morning!</string>
+    <string name="salutation_afternoon">Good Afternoon!</string>
+    <string name="salutation_evening">Good Evening!</string>
+    <string name="salutation_night">Greetings!</string>
+    <string name="salutation_late_night">Greetings Night Owl!</string>
+    <string name="lts_dialog">We are developing long term support for the current version of the app. This includes frequent updates till April 2017.
+    If you find any bugs, issues or problems, send an email to \'contact@secretbiology.com\'. Your feedback and criticism is also welcome:)  </string>
+
+
+    <string name="home">Home</string>
+    <string name="home_above_transport">Next %s</string>
+    <string name="home_view_all">All Trips</string>
+    <string name="home_current_place">%1$s - %2$s</string>
+    <string name="home_seats">appx. %d seats</string>
+
+    <string name="transport">Transport</string>
+    <string name="transport_view_all">All Routes</string>
+    <string name="transport_regular_note">Weekdays includes Saturday</string>
+    <string name="transport_other_note">Use arrows to toggle days</string>
+    <string name="transport_sheet_title">Available routes (total: %d)</string>
+    <string name="weekdays">Weekdays</string>
+    <string name="sunday">Sunday</string>
+    <string name="transport_edit_entry_title">Select a day to edit</string>
+    <string name="transport_edit_entry">We have detected two different trip lists for this route.
+        Which one do you want to edit? You can always change, edit, delete unwanted changes or reset to default later on.</string>
+
+    <string name="transport_edit_entry_non_regular">There are a total of %d trip list(s) detected for this route. Do you want to change existing trips or add more?</string>
+
+
+    <string name="transport_add">Add New Route</string>
+    <string name="transport_delete_notice">You are about to delete \' %1$s - %2$s %3$s\' route from your database.
+        You will not be able to check trips for this route further.
+        However, you can always add new routes or reset to default routes from settings.</string>
+    <string name="transport_edit">Edit Route</string>
+    <string name="transport_set_route">Set Route</string>
+    <string name="transport_set_type">Transport type: %s </string>
+    <string name="transport_set_route_details">What is the origin and destination of your route?</string>
+    <string name="transport_set_trips">Set Trips</string>
+    <string name="transport_set_trips_details">Add trips to (click to change)</string>
+    <string name="transport_set_trips_empty">Trip list is empty.\nYou can click on \"+\" button to add trips</string>
+    <string name="transport_set_trips_note1">You can add as many as trips you want.</string>
+    <string name="transport_set_trips_note2">Click on trip to see more options</string>
+    <string name="transport_set_trips_note3">Click on title to avail more options</string>
+    <string name="transport_set_trips_note4">You can add trip(s) for any day of week.</string>
+    <string name="transport_confirm">Confirm</string>
+    <string name="transport_confirm_details">Select first trip of the day</string>
+    <string name="transport_confirm_empty">We all like to skip steps, but you have to complete the previous step before using this one :)</string>
+    <string name="transport_suggestions">Suggestions</string>
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+
+    <string name="transport_last_delete_warning">There is only one route left in your database. You must always keep at least one route in your database for proper functioning of this app.</string>
+    <string name="transport_edit_finish">Congratulations! You have successfully added %s route into database. You can always reset all trips to default from the settings.</string>
+    <string name="transport_delete_finish">You have successfully deleted route from the database. You can always reset all trips to default from the settings.</string>
+
+    <string name="contacts">Contacts</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="all_departments">All Departments</string>
+    <string name="imp_contacts">Important Contacts</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="dashboard_note">Login to access account related settings</string>
+    <string name="dashboard_transport">%1$s - %2$s %3$s</string>
+    <string name="dashboard_transport_details">change default route</string>
+    <string name="dashboard_password">Account Security</string>
+    <string name="dashboard_password_details">change password</string>
+    <string name="dashboard_notifications">Notifications : %s</string>
+    <string name="dashboard_notifications_details">Occasional important notifications</string>
+    <string name="dashboard_sync">Database Sync</string>
+    <string name="dashboard_sync_details">Last sync: %s</string>
+    <string name="dashboard_settings_details">Even more settings</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="notification_message">You have not received any notifications yet.</string>
+
+    <string name="locations">Locations</string>
+    <string name="sort_by">sort by</string>
+    <string name="location_name">name</string>
+    <string name="building">building</string>
+    <string name="floor">floor</string>
+    <string name="whatever">whatever</string>
     <string name="name">Name</string>
-    <string name="email">Email address</string>
+
+    <string name="security">Account Security</string>
+    <string name="empty_field">This field can not be empty.</string>
+
+    <string name="log_in">Login</string>
+    <string name="register">Register</string>
+    <string name="log_out">Log out</string>
+    <string name="login_welcome_note">Welcome back :)</string>
+    <string name="email">Email Address</string>
+    <string name="email_invalid">Provide a valid email address - we won\'t spam :)</string>
+    <string name="email_forgot_password_warning">Provide a valid email address to send the \'reset password\' link.</string>
     <string name="password">Password</string>
-    <string name="change_password">Change Password</string>
-    <string name="old_password">Current Password</string>
+    <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="password_invalid">Password should be at least 6 character long</string>
+    <string name="network_error">Network not found. Please check your internet connection.</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="already_have_Account">Already have account?</string>
-    <string name="login_message">Enter your email address</string>
+    <string name="forgot_password_success">We have sent further instructions to \'%s\'. Please check your inbox for further details.</string>
+    <string name="forgot_password_message">Link to reset password will be sent to your email address \'%s\'. Please check your inbox for further details. </string>
+    <string name="create_account">Create new account ?</string>
+    <string name="password_change_success">Your password has been successfully updated!</string>
+    <string name="confirm_password_warning">New password and confirm password should be the same.</string>
+    <string name="old_wrong_password">Old Password for your account \'%s\' is not correct. Please enter the correct password.</string>
+    <string name="last_sync_warning">N/A, please log in to sync data</string>
+    <string name="log_out_warning">You will not be able to sync data to your account or get latest updated transport timings (if any)</string>
 
+    <string name="change_name">Change Name</string>
+    <string name="settings_notifications">Current status : %s</string>
+    <string name="settings_reset_warning">Important ! You are about to reset all of your transport routes to their default values. These values were last created on 30 December 2016.
+        They might be incorrect. Hence, please check with the NCBS reception for further validation.</string>
 
-    <!-- Home -->
-    <string name="home_title">Select what suits your needs!</string>
-    <string name="home_note">You can switch anytime :)</string>
-    <string name="home_online">Online Mode</string>
-    <string name="home_online_features">Experience the all loaded features</string>
-    <string name="home_online_details">Experience the full potential</string>
-    <string name="home_select_online">I want to go online</string>
-    <string name="home_offline">Offline Mode</string>
-    <string name="home_offline_features">Lightweight and\nessentials</string>
-    <string name="home_offline_details">Essential features, zero internet use</string>
-    <string name="home_select_offline">Offline is fine</string>
-    <string name="update_notice">You are using outdated app. Please update</string>
+    <string name="did_you_know">Did you know?</string>
+    <string name="change_password_for">Change password for \'%s\'</string>
 
-    <string name="home_trasnport_title">%1$s - %2$s</string>
-    <string name="next_transport">Next %1$s : %2$s</string>
-    <string name="time_left">%1$d Hr %2$d Min %3$d Sec left</string>
-    <string name="snackbar_added_route">%1$s - %2$s added to the default view.</string>
-    <string name="snackbar_reset_route">Default view is reset.</string>
+    <string name="intro_tip1">Introducing all new app design.\nA small step towards self-sustained app creation.</string>
+    <string name="intro_tip2">UI Redesign</string>
+    <string name="intro_tip2_details">No more Offline or Online modes.\nSingle unified design for better user experience.</string>
 
+    <string name="intro_tip3">Edit Transport</string>
+    <string name="intro_tip3_details">Introducing new useful feature. Now you can create your own custom travel routes, shuttles, buggy or anything you like.</string>
 
-    <!-- Transport -->
-    <string name="buggy">Buggy</string>
-    <string name="shuttle">Shuttle</string>
-    <string name="route_ncbs_iisc">NCBS - IISc</string>
-    <string name="route_iisc_ncbs">IISc - NCBS</string>
-    <string name="route_ncbs_mandara">NCBS - Mandara</string>
-    <string name="route_mandara_ncbs">Mandara - NCBS</string>
-    <string name="route_buggy_ncbs">NCBS - Mandara Buggy</string>
-    <string name="route_buggy_mandara">Mandara - NCBS Buggy</string>
-    <string name="route_ncbs_icts">NCBS - ICTS</string>
-    <string name="route_icts_ncbs">ICTS - NCBS </string>
-    <string name="route_ncbs_cbl">NCBS - CBL</string>
+    <string name="intro_tip4">Network Sync</string>
+    <string name="intro_tip4_details">We have improved network operations for lowest amount of internet uses. You can sync all your edited routes, preferences to our cloud server.</string>
 
-    <string name="transport_list_week_title">Weekdays*</string>
-    <string name="transport_list_sunday_title">Sunday</string>
-    <string name="transport_list_buggy_title_ncbs">From NCBS</string>
-    <string name="transport_list_buggy_title_mandara">From Mandara</string>
-    <string name="transport_footer1">*Including Saturday</string>
-    <string name="transport_footer2">**Next shuttle after %1$s</string>
-    <string name="transport_buggy_footer2">**Next buggy after %1$s</string>
-    <string name="transport_last_updated">Last updated on : %1$s</string>
-    <string name="transport_hours">%1$d Hrs</string>
-    <string name="transport_min">%1$d Min</string>
-    <string name="transport_sec">%1$d Sec</string>
-    <string name="transport_reminder_dialog">Just click on any shuttle or buggy timing to set reminder about it!</string>
-    <string name="transport_reminder_message">Get notification %1$s %2$s before departure time ?</string>
-    <string name="transport_reminder_details"><![CDATA[ You will be notified<br>%1$s (%2$s) at %3$s ]]></string>
-
-    <string name="contact_name">Contact Name</string>
-    <string name="contact_number">Contact Number</string>
-    <string name="contact_department">Department</string>
-    <string name="contact_position">Position</string>
-    <string name="contact_error1">Invalid Name</string>
-    <string name="contact_error2">Contact number can not be empty</string>
-    <string name="contact_add">Add Contact</string>
-    <string name="contact_edit">Edit Contact</string>
-
-    <string name="canteen_welcome">Currently Available Options</string>
-    <string name="canteen_message">Click on the icons to check where.</string>
-    <string name="canteen_message_holiday">Warning: Today is NCBS holiday.\nThese timings may change.</string>
-    <string name="canteen_quote"><b>\"</b><i>%s</i><b>\"</b></string>
-    <string name="canteen_welcome_empty">Looks like there are no food options available at this moment. Try maggi instead ;)</string>
-    <string name="canteen_breakfast">Breakfast</string>
-    <string name="canteen_morningTea">Morning Snacks</string>
-    <string name="canteen_lunch">Lunch</string>
-    <string name="canteen_eveningTea">Evening Snacks</string>
-    <string name="canteen_dinner">Dinner</string>
-    <string name="canteen_main_canteen">Main Canteen Ground Floor</string>
-    <string name="canteen_main_canteen_firstfloor">Main Canteen First Floor</string>
-    <string name="canteen_main_canteen_fastfood">Main Canteen Fast Food Counter</string>
-    <string name="canteen_academic_cafeteria">Academic Cafeteria</string>
-    <string name="canteen_admin_cafeteria">Admin Cafeteria</string>
-    <string name="canteen_parking_cafeteria">Parking Cafeteria</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="holidays_welcome">NCBS Holidays 2016</string>
-    <string name="holidays_note">(From TFR:NCB:165:15–16 Dated 13 April 2016)</string>
-
-
-    <string name="action_add">Add</string>
-    <string name="action_search">Search</string>
-    <string name="action_call">Call</string>
-    <string name="action_add_to_favorite">Add to favorites</string>
-    <string name="action_edit">Edit</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_settings">@string/settings</string>
-    <string name="action_clear_database">Clear Event Data</string>
-    <string name="action_reset">Reset</string>
-    <string name="action_select_category">Select Category</string>
-    <string name="action_clear_contact">Clear all contacts</string>
-    <string name="action_clear_reminders">Clear all reminders</string>
-    <string name="action_clear_notifications">Clear all notifications</string>
-    <string name="action_reset_preference">Reset all preferences</string>
-
-    <string name="events_empty">No further events can be retrieved!\nwe will update you soon :)</string>
-    <string name="holiday_tomorrow">Tomorrow is NCBS holiday. Transport and Canteen timings might change.</string>
-
-    <string name="dashboard_name">@string/name</string>
-    <string name="dashboard_email">@string/email</string>
-    <string name="dashboard_password">@string/password</string>
-    <string name="dashboard_default_route">@string/settings_default_view</string>
-    <string name="dashboard_notifications">Notifications Allowed</string>
-    <string name="dashboard_events_history">Events History</string>
-
-
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="intro_tip5">Bid Adieu!</string>
+    <string name="intro_tip5_details">This will be the last app upgrade. We are shutting down development of this app soon. Hence any developer is welcome to continue this work further.
+        Don\'t worry, this version of app will be supported for any bugs or issues. </string>
 </resources>

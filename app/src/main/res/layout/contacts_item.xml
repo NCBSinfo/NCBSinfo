@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/co_item_layout"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="75sp">
+
+    <ImageView
+        android:id="@+id/co_item_back_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        android:src="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/co_item_icon"
+        android:contentDescription="@null"
+        android:src="@drawable/icon_contacts"
+        android:tint="@color/white"
+        app:layout_constraintLeft_toLeftOf="@+id/co_item_back_image"
+        app:layout_constraintRight_toRightOf="@+id/co_item_back_image"
+        app:layout_constraintVertical_bias="0.19"
+        android:layout_width="30dp"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4" />
+
+    <TextView
+        android:id="@+id/co_item_txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Reception"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintLeft_toRightOf="@+id/co_item_back_image"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/co_item_txt_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="080-2660-2018"
+        app:layout_constraintLeft_toRightOf="@+id/co_item_back_image"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        tools:ignore="HardcodedText" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="50dp" />
+</android.support.constraint.ConstraintLayout>

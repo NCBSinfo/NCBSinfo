@@ -1,124 +1,142 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rohitsuratekar.NCBSinfo.database.models.NotificationModel;
-import com.secretbiology.helpers.general.sql.Column;
-import com.secretbiology.helpers.general.sql.Table;
+import com.secretbiology.helpers.general.Log;
+import com.secretbiology.helpers.general.database.QueryBuilder;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class NotificationData {
 
-    //Public constants
-    //Do not change names. If you want, create new table and copy data from here
-    public static final String TABLE_NOTIFICATIONS = "table_notifications";
-    public static final String KEY_ID = "notification_id";
-    public static final String TIMESTAMP = "notification_timestamp";
-    public static final String TITLE = "notification_title";
-    public static final String MESSAGE = "notification_message";
-    public static final String FROM = "notification_from";
-    public static final String EXTRA_VARIABLES = "notification_extravariables";
+    //Same as old version table
 
-    SQLiteDatabase db;
-    Database database;
-    private Table notificationTable;
-    private LinkedHashMap<String, Column> map;
+    private static final String TABLE = "table_notifications";
+    private static final String KEY_ID = "notification_id";
+    private static final String TIMESTAMP = "notification_timestamp";
+    private static final String TITLE = "notification_title";
+    private static final String MESSAGE = "notification_message";
+    private static final String FROM = "notification_from";
+    private static final String EXPIRES = "notification_expires";
+    private static final String EXTRA_VARIABLES = "notification_extravariables";
+
+
+    private SQLiteDatabase db;
+    private Database database;
 
     public NotificationData(Context context) {
         this.database = Database.getInstance(context);
         this.db = database.openDatabase();
-
-        notificationTable = new Table(db, TABLE_NOTIFICATIONS, getColumn());
-        map = notificationTable.getMap();
-
     }
 
-    private static List<Column> getColumn() {
-        List<Column> columnList = new ArrayList<>();
-        columnList.add(new Column(KEY_ID, Column.ColumnType.PRIMARY_INTEGER));
-        columnList.add(new Column(TIMESTAMP, Column.ColumnType.TEXT));
-        columnList.add(new Column(TITLE, Column.ColumnType.TEXT));
-        columnList.add(new Column(MESSAGE, Column.ColumnType.TEXT));
-        columnList.add(new Column(FROM, Column.ColumnType.TEXT));
-        columnList.add(new Column(EXTRA_VARIABLES, Column.ColumnType.TEXT));
-        return columnList;
+    /**
+     * Creates table
+     *
+     * @param db : SQLight database (do not close)
+     */
+    static void make(SQLiteDatabase db) {
+        List<String[]> columnList = new ArrayList<>();
+        columnList.add(new String[]{KEY_ID, "INTEGER PRIMARY KEY"});
+        columnList.add(new String[]{TIMESTAMP, "TEXT"});
+        columnList.add(new String[]{TITLE, "TEXT"});
+        columnList.add(new String[]{MESSAGE, "TEXT"});
+        columnList.add(new String[]{FROM, "TEXT"});
+        columnList.add(new String[]{EXPIRES, "TEXT"});
+        columnList.add(new String[]{EXTRA_VARIABLES, "TEXT"});
+        db.execSQL(QueryBuilder.buildTableQuery(TABLE, columnList));
+        Log.inform("Table '" + TABLE + "' is created.");
     }
 
-    public static void makeTable(SQLiteDatabase db) {
-        Table notificationTable = new Table(db, TABLE_NOTIFICATIONS, getColumn());
-        notificationTable.make();
-    }
-
-    public void add(NotificationModel notification) {
-        notificationTable.addRow(putValues(notification));
-        database.closeDatabase();
-    }
-
-    public NotificationModel get(int id) {
-        LinkedHashMap<String, Column> m = notificationTable.getRowByValue(KEY_ID, id).getMap();
-        NotificationModel notification = getValues(m);
-        database.closeDatabase();
-        return notification;
-    }
+    /**
+     * Gets all notifications from database
+     *
+     * @return: List of NotificationModel
+     */
 
     public List<NotificationModel> getAll() {
-        List<NotificationModel> notificationList = new ArrayList<>();
-        for (LinkedHashMap<String, Column> m : notificationTable.getAllRows()) {
-            notificationList.add(getValues(m));
+        List<NotificationModel> all = new ArrayList<>();
+        String query = new QueryBuilder()
+                .selectAll()
+                .fromTable(TABLE)
+                .build();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    all.add(convertRow(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
         }
         database.closeDatabase();
-        return notificationList;
+        return all;
     }
 
-    // Delete all data
+    public int add(NotificationModel model) {
+        int id = (int) db.insert(TABLE, null, putContentValues(model));
+        database.closeDatabase();
+        return id;
+    }
+
+    /**
+     * Deletes model
+     *
+     * @param model : Model with key
+     */
+    public void delete(NotificationModel model) {
+        db.delete(TABLE, KEY_ID + "= ?", new String[]{String.valueOf(model.getId())});
+        database.closeDatabase();
+    }
+
+    /**
+     * Clears all notifications.
+     */
     public void clearAll() {
-        notificationTable.clearAll();
+        db.execSQL("DELETE FROM " + TABLE);
         database.closeDatabase();
     }
 
-    // Deleting single entry
-    public void delete(NotificationModel notificationModel) {
-        notificationTable.delete(KEY_ID, notificationModel.getId());
-        database.closeDatabase();
+
+    /**
+     * Private method to put all content values.
+     * Note PRIMARY INTEGER KEY is NOT added into content values.
+     *
+     * @param model : NotificationModel Model
+     * @return : Content values
+     */
+
+    private ContentValues putContentValues(NotificationModel model) {
+        ContentValues values = new ContentValues();
+        values.put(TIMESTAMP, model.getTimestamp());
+        values.put(TITLE, model.getTitle());
+        values.put(MESSAGE, model.getMessage());
+        values.put(FROM, model.getFrom());
+        values.put(EXPIRES, model.getExpires());
+        values.put(EXTRA_VARIABLES, model.getExtraVariables());
+        return values;
     }
 
-    // Drop
-    public void drop() {
-        notificationTable.drop();
-        database.closeDatabase();
+    /**
+     * Private value to put cursor values into model
+     *
+     * @param cursor : Cursor from query (This cursor should come from "SELECT ALL" columns
+     * @return : NotificationModel with given cursor values
+     */
+    private NotificationModel convertRow(Cursor cursor) {
+        NotificationModel m = new NotificationModel();
+        m.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        m.setTimestamp(cursor.getString(cursor.getColumnIndex(TIMESTAMP)));
+        m.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
+        m.setMessage(cursor.getString(cursor.getColumnIndex(MESSAGE)));
+        m.setFrom(cursor.getString(cursor.getColumnIndex(FROM)));
+        m.setExpires(cursor.getString(cursor.getColumnIndex(EXPIRES)));
+        m.setExtraVariables(cursor.getString(cursor.getColumnIndex(EXTRA_VARIABLES)));
+        return m;
     }
-
-    private Column withValue(String columnName, Object value) {
-        Column column = map.get(columnName);
-        column.setData(value);
-        return column;
-    }
-
-    private List<Column> putValues(NotificationModel notification) {
-        List<Column> newList = new ArrayList<>();
-        newList.add(withValue(KEY_ID, notification.getId()));
-        newList.add(withValue(TIMESTAMP, notification.getTimestamp()));
-        newList.add(withValue(TITLE, notification.getTitle()));
-        newList.add(withValue(MESSAGE, notification.getMessage()));
-        newList.add(withValue(FROM, notification.getFrom()));
-        newList.add(withValue(EXTRA_VARIABLES, notification.getExtraVariables()));
-        return newList;
-    }
-
-    private NotificationModel getValues(LinkedHashMap<String, Column> m) {
-        NotificationModel notification = new NotificationModel();
-        notification.setId((Integer) m.get(KEY_ID).getData());
-        notification.setTimestamp((String) m.get(TIMESTAMP).getData());
-        notification.setTitle((String) m.get(TITLE).getData());
-        notification.setMessage((String) m.get(MESSAGE).getData());
-        notification.setFrom((String) m.get(FROM).getData());
-        notification.setExtraVariables((String) m.get(EXTRA_VARIABLES).getData());
-        return notification;
-    }
-
 
 }
