@@ -44,7 +44,6 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
         Context context = holder.itemView.getContext();
         HomeCardModel model = modelList.get(position);
         holder.image.setImageResource(model.getImage());
-        holder.back.setImageResource(model.getColor());
         holder.title.setText(context.getString(R.string.tp_route_name, model.getOrigin().toUpperCase(), model.getDestination().toUpperCase()));
         holder.subtitle.setText(model.getType().toUpperCase());
         try {
@@ -53,7 +52,7 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
             Log.error(e.getMessage());
             holder.nextTrip.setText("--:--");
         }
-        holder.back.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardClick.onCardClick(holder.getLayoutPosition());
@@ -101,12 +100,11 @@ class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
 
     class HomeViewHolder extends RecyclerView.ViewHolder {
         TextView title, subtitle, nextTrip;
-        ImageView image, back, fav;
+        ImageView image, fav;
 
         HomeViewHolder(View itemView) {
             super(itemView);
             image = ButterKnife.findById(itemView, R.id.hm_item_image);
-            back = ButterKnife.findById(itemView, R.id.hm_item_back);
             title = ButterKnife.findById(itemView, R.id.hm_item_title);
             subtitle = ButterKnife.findById(itemView, R.id.hm_item_subtitle);
             nextTrip = ButterKnife.findById(itemView, R.id.hm_item_next_trip);

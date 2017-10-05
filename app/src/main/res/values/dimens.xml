@@ -12,6 +12,7 @@
 
     <!--Home-->
     <dimen name="home_card_icon_size">130sp</dimen>
+    <dimen name="home_card_icon">60sp</dimen>
     <!--Transport-->
     <dimen name="transport_title_height">80sp</dimen>
     <dimen name="transport_image_size">80sp</dimen>
