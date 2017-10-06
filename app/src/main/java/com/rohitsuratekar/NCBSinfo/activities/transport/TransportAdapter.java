@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.activities;
+package com.rohitsuratekar.NCBSinfo.activities.transport;
 
 import android.content.Context;
 import android.graphics.Typeface;
