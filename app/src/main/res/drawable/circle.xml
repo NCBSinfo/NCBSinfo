@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape android:shape="oval"
-xmlns:android="http://schemas.android.com/apk/res/android" >
-<solid android:color="@color/white"/>
-
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="0dp"
+    android:shape="ring"
+    android:thicknessRatio="1.9"
+    android:useLevel="false">
+    <solid android:color="@color/transportIndicator" />
 </shape>
