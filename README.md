@@ -4,6 +4,7 @@ Open source application developed to help people working at National Centre for 
 
 Latest version : <a href = https://github.com/rohitsuratekar/NCBSinfo> v6.3.3 </a> (updated on 25 March 2017) </br>
 Stable version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/bd7fa97bdffe6497efb21385b0259f9a1131a943> v6.1.2 </a></br>
+Development version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/Development> v6.4+ </a></br>
 
 <b>Current features</b> </br>
 (1) Shuttle and Buggy timings </br>
@@ -16,9 +17,6 @@ Stable version: <a href =https://github.com/NCBSinfo/NCBSinfo/tree/bd7fa97bdffe6
 -- Send feedback </br>
 -- Suggest features</br>
 -- Code !</br>
--- Be an administrator for event updates :) </br></br>
-
-> Special note for developers :  app/src/main/java/com/rohitsuratekar/NCBSinfo/interfaces//NetworkConstants.java file is un-tracked for security purpose. This file contains all network related constants. 
 
 </br>
 See <a href = https://github.com/NCBSinfo/NCBSinfo/wiki >NCBSinfo wiki</a> for more details related to app and development.
