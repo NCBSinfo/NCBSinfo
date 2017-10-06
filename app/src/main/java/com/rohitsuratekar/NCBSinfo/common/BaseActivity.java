@@ -22,7 +22,7 @@ import android.widget.FrameLayout;
 
 import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 
 /**
  * Created by Rohit Suratekar on 05-10-17 for NCBSinfo.
