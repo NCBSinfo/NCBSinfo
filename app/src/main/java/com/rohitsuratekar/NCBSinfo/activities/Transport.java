@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Transport extends BaseActivity {
+public class Transport extends BaseActivity implements TransportFragment.OnRouteSelected {
 
     @BindView(R.id.tp_recycler)
     RecyclerView recyclerView;
@@ -72,9 +73,20 @@ public class Transport extends BaseActivity {
         changeDay(textView);
     }
 
+    @OnClick(R.id.tp_show_all)
+    public void showBottomSheet() {
+        BottomSheetDialogFragment bottomSheetDialogFragment = TransportFragment.newInstance(0, 0);
+        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
 
     @Override
     protected int setNavigationMenu() {
         return R.id.nav_transport;
+    }
+
+    @Override
+    public void selected(int routeID) {
+
     }
 }

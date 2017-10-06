@@ -49,20 +49,16 @@ class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder>
 
         LayerDrawable layers = (LayerDrawable) holder.dot.getDrawable();
         GradientDrawable shape = (GradientDrawable) layers.findDrawableByLayerId(R.id.circle_outer_layer);
-        shape.mutate(); //Need this so that android won't catch
+        shape.mutate(); //Need this so that android won't cache the ImageViews
         shape.setColor(ContextCompat.getColor(context, R.color.transportIndicator));
 
         if (position < nextTrip) {
             holder.dot.setImageResource(R.drawable.circle);
-        }
-
-        if (position > nextTrip) {
+        } else if (position > nextTrip) {
             holder.top.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryLight));
             holder.bottom.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryLight));
             shape.setColor(ContextCompat.getColor(context, R.color.colorPrimaryLight));
-
-        }
-        if (position == nextTrip) {
+        } else if (position == nextTrip) {
             Animation pulse = AnimationUtils.loadAnimation(context, R.anim.pulse);
             holder.dot.startAnimation(pulse);
             holder.bottom.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryLight));
