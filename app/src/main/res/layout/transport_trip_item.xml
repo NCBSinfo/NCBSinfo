@@ -1,49 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    android:clipChildren="false">
 
     <TextView
-        android:id="@+id/tp_trip_text"
-        android:layout_width="0dp"
+        android:id="@+id/tp_item_trip"
+        android:layout_width="0sp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/placeholder"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="12:30 PM"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tp_trip_icon"
+        app:layout_constraintStart_toEndOf="@+id/tp_item_bar_top"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/tp_trip_icon"
-        android:layout_width="@dimen/transport_trip_icon_size"
-        android:layout_height="@dimen/transport_trip_icon_size"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="@dimen/horizontal_margin"
-        android:layout_marginTop="0dp"
-        android:src="@drawable/icon_circle"
-        android:tint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/tp_item_bar_top"
+        android:layout_width="@dimen/tp_vertical_bar_width"
+        android:layout_height="0sp"
+        android:layout_marginStart="@dimen/tp_vertical_bar_start_margin"
+        android:background="@color/transportIndicator"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
     <ImageView
-        android:id="@+id/tp_trip_half_circle"
-        android:layout_width="@dimen/transport_trip_icon_size"
-        android:layout_height="@dimen/transport_trip_icon_size"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="@dimen/horizontal_margin"
-        android:layout_marginTop="0dp"
-        android:src="@drawable/icon_half_circle"
-        android:tint="@color/colorPrimary"
+        android:id="@+id/tp_item_bar_bottom"
+        android:layout_width="@dimen/tp_vertical_bar_width"
+        android:layout_height="0sp"
+        android:layout_marginStart="@dimen/tp_vertical_bar_start_margin"
+        android:background="@color/transportIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline2" />
+
+    <ImageView
+        android:id="@+id/tp_item_dot_extra"
+        android:layout_width="16sp"
+        android:layout_height="16sp"
+        android:tint="@color/transportIndicator"
         android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="@id/tp_item_bar_top"
+        app:layout_constraintStart_toStartOf="@id/tp_item_bar_top"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:srcCompat="@drawable/empty_circle" />
+
+    <ImageView
+        android:id="@+id/tp_item_dot"
+        android:layout_width="16sp"
+        android:layout_height="16sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="@id/tp_item_bar_top"
+        app:layout_constraintStart_toStartOf="@id/tp_item_bar_top"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:srcCompat="@drawable/empty_circle" />
+
+    <ImageView
+        android:id="@+id/tp_item_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tp_item_trip"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_arrow" />
+
+    <TextView
+        android:id="@+id/tp_item_help_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:text="next shuttle"
+        android:textColor="@color/colorSecondaryText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tp_item_arrow"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -11,9 +11,4 @@
         android:icon="@drawable/icon_transport"
         android:title="@string/transport" />
 
-    <item
-        android:id="@+id/nav_manage_transport"
-        android:icon="@drawable/icon_edit_location"
-        android:title="@string/manage_routes" />
-
 </menu>

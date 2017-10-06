@@ -25,9 +25,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-    supportLibVersion = "26.1.0"
-    archVersion = "1.0.0-alpha9-1"
-    helperVersion = "1.1.3"
-}

@@ -1,8 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.common;
 
 import android.app.Activity;
-import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -22,21 +20,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.activities.transport.ManageTransport;
-import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
-
-import butterknife.ButterKnife;
+import com.rohitsuratekar.NCBSinfo.activities.Transport;
 
 /**
- * Created by Rohit Suratekar on 15-07-17 for NCBSinfo.
+ * Created by Rohit Suratekar on 05-10-17 for NCBSinfo.
  * All code is released under MIT License.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner, NavigationView.OnNavigationItemSelectedListener {
+public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final LifecycleRegistry mRegistry = new LifecycleRegistry(this);
+
     private FrameLayout baseLayout;
     private NavigationView navigationView;
     public ActionBarDrawerToggle drawerToggle;
@@ -47,21 +42,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.base_layout);
-        toolbar = ButterKnife.findById(this, R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        baseLayout = ButterKnife.findById(this, R.id.base_view);
-        navigationView = ButterKnife.findById(this, R.id.navigation_view);
-        drawerLayout = ButterKnife.findById(this, R.id.drawer_layout);
+        baseLayout = findViewById(R.id.base_view);
+        navigationView = findViewById(R.id.navigation_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.addDrawerListener(drawerToggle);
         changeHeader();
-
-    }
-
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return mRegistry;
     }
 
     /**
@@ -139,9 +128,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
             animateTransition();
@@ -164,8 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
                 return Home.class;
             case R.id.nav_transport:
                 return Transport.class;
-            case R.id.nav_manage_transport:
-                return ManageTransport.class;
         }
         return Home.class;
     }
