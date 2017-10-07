@@ -30,7 +30,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
     private boolean fav = true;
 
 
-    public CreateDefaultRoutes(OnFinish onFinish, Context context) {
+    public CreateDefaultRoutes(Context context, OnFinish onFinish) {
         this.onFinish = onFinish;
         this.db = AppData.getDatabase(context);
         infoList.add(new TempInfo(context, "ncbs", "iisc", "shuttle", R.string.def_ncbs_iisc_week, R.string.def_ncbs_iisc_sunday));
@@ -67,7 +67,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
             sunday.setRouteID(routeID);
             sunday.setTrips(info.getSunday());
             db.trips().insertTrips(sunday);
-            Log.i(getClass().getName(), "Created route for " + info.getData().getOrigin() + "-" + info.getData().getDestination());
+            Log.i(getClass().getSimpleName(), "Created route for " + info.getData().getOrigin() + "-" + info.getData().getDestination());
         }
 
         RouteData r1 = convertToRoute("ncbs", "mandara", "buggy");
@@ -88,7 +88,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         t2.setDay(Calendar.MONDAY);
         db.trips().insertTrips(t2);
 
-        Log.i(getClass().getName(), "Buggy route created");
+        Log.i(getClass().getSimpleName(), "Buggy route created");
 
         RouteData r3 = convertToRoute("ncbs", "cbl", "ttc");
         db.routes().insertRoute(r3);
@@ -99,7 +99,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         t3.setDay(Calendar.MONDAY);
         db.trips().insertTrips(t3);
 
-        Log.i(getClass().getName(), "NCBS-CBL ttc route created");
+        Log.i(getClass().getSimpleName(), "NCBS-CBL ttc route created");
 
 
         return null;
@@ -159,7 +159,4 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public interface OnFinish {
-        void finished();
-    }
 }

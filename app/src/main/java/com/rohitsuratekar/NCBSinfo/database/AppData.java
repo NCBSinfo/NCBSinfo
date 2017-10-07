@@ -12,7 +12,7 @@ import android.content.Context;
  * All code is released under MIT License.
  */
 
-@Database(entities = {RouteData.class, TripData.class}, version = 4)
+@Database(entities = {RouteData.class, TripData.class}, version = 1)
 public abstract class AppData extends RoomDatabase {
 
     private static final String DATABASE_NAME = "NCBSinfo";
@@ -44,7 +44,7 @@ public abstract class AppData extends RoomDatabase {
         INSTANCE = null;
     }
 
-    private static final Migration MIGRATION_LATEST = new Migration(4, 5) {
+    private static final Migration MIGRATION_LATEST = new Migration(1,2) {
         @Override
         public void migrate(SupportSQLiteDatabase db) {
             new DatabaseMigration().migrateToLatest(db);
