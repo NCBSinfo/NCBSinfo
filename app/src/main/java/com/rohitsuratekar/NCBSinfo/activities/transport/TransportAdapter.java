@@ -97,6 +97,11 @@ class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.TripHolder>
 
     }
 
+    int getScrollPosition() {
+        return (nextTrip != -1) ? nextTrip : 0;
+    }
+
+
     @Override
     public int getItemCount() {
         return tripList.size();

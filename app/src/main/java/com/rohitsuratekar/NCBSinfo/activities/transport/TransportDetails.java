@@ -15,7 +15,6 @@ import java.util.List;
 class TransportDetails {
 
     private RouteData routeData;
-    private List<TripData> tripData;
     private String origin;
     private String destination;
     private String type;
@@ -23,11 +22,12 @@ class TransportDetails {
     private boolean isReturnAvailable;
     private int returnIndex;
     private NextTrip next;
+    private String[] originalTrip;
+    private int originalDay;
 
 
     TransportDetails(RouteData routeData, List<TripData> tripData) {
         this.routeData = routeData;
-        this.tripData = tripData;
         origin = routeData.getOrigin();
         destination = routeData.getDestination();
         routeID = routeData.getRouteID();
@@ -35,6 +35,9 @@ class TransportDetails {
         next = new NextTrip(tripData);
     }
 
+    public RouteData getRouteData() {
+        return routeData;
+    }
 
     public void setReturnAvailable(boolean returnAvailable) {
         isReturnAvailable = returnAvailable;
@@ -75,5 +78,21 @@ class TransportDetails {
 
     public int getRouteID() {
         return routeID;
+    }
+
+    public String[] getOriginalTrip() {
+        return originalTrip;
+    }
+
+    public void setOriginalTrip(String[] originalTrip) {
+        this.originalTrip = originalTrip;
+    }
+
+    public int getOriginalDay() {
+        return originalDay;
+    }
+
+    public void setOriginalDay(int originalDay) {
+        this.originalDay = originalDay;
     }
 }

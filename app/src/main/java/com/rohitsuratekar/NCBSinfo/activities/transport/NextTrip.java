@@ -31,7 +31,7 @@ public class NextTrip {
 
     }
 
-    public NextTrip(List<TripData> data) {
+    NextTrip(List<TripData> data) {
         this.weekMap = new SparseArray<>();
         for (TripData t : data) {
             weekMap.put(t.getDay(), t.getTrips());
@@ -57,9 +57,11 @@ public class NextTrip {
     /**
      * This method should return next transport trip for given timing
      *
-     * @param calendar : User defined time
+     * @param inputCalender : User defined time
      */
-    public String[] calculate(Calendar calendar) throws ParseException {
+    String[] calculate(Calendar inputCalender) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(inputCalender.getTimeInMillis());
         Date now = new Date(calendar.getTimeInMillis()); //Record input time
 
         //Check with trips for post midnight from yesterday

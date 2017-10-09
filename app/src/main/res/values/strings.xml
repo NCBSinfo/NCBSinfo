@@ -5,4 +5,6 @@
     <string name="transport">Transport</string>
     <string name="tp_route_name">%1$s - %2$s</string>
     <string name="tp_next_transport">next %s</string>
+    <string name="tp_last_updated">Last updated by %s on %s</string>
+    <string name="tp_no_route_warning">Looks like you have not selected any specific route or you do not have any route created. Please select route to see trips.</string>
 </resources>

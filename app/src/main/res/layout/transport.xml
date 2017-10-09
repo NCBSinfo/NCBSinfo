@@ -205,7 +205,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="@dimen/tp_card_margin"
             android:layout_marginTop="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView13"
+            app:layout_constraintBottom_toTopOf="@+id/tp_last_update"
             app:layout_constraintEnd_toStartOf="@+id/tp_day_holder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tp_title_card" />
@@ -222,14 +222,14 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/tp_last_update"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:alpha="0.6"
-            android:text="Last updated by NCBSinfo on 01 Dec 2017"
+            android:text="--"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="12sp"

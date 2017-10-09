@@ -9,6 +9,7 @@ import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
+import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -126,6 +127,9 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         data.setOrigin(origin);
         data.setDestination(destination);
         data.setType(type);
+        data.setAuthor("NCBSinfo");
+        data.setCreatedOn("2017-07-21 00:00:00");
+        data.setModifiedOn(General.timeStamp());
         return data;
     }
 
@@ -141,7 +145,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
             data.setType(type);
             data.setAuthor("NCBSinfo");
             data.setCreatedOn("2017-07-21 00:00:00");
-            data.setModifiedOn(Helper.timestamp());
+            data.setModifiedOn(General.timeStamp());
             this.week = convertToList(context.getString(week));
             this.sunday = convertToList(context.getString(sunday));
         }

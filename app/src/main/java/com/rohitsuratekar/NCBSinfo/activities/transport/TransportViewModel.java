@@ -22,8 +22,9 @@ class TransportViewModel extends ViewModel {
 
     private MutableLiveData<TransportDetails> currentDetails = new MutableLiveData<>();
     private MutableLiveData<List<RouteData>> allRoutes = new MutableLiveData<>();
+    private MutableLiveData<String> showError = new MutableLiveData<>();
 
-    void loadRoute(Context context, int routeNo) {
+    void loadRoute(final Context context, int routeNo) {
         new LoadTransport(context, routeNo, new OnFinishLoading() {
             @Override
             public void onFinish(TransportDetails model) {
@@ -32,7 +33,7 @@ class TransportViewModel extends ViewModel {
 
             @Override
             public void onError() {
-
+                showError.postValue("No default");
             }
         }).execute();
 
@@ -47,6 +48,10 @@ class TransportViewModel extends ViewModel {
                 allRoutes.postValue(routeDataList);
             }
         }).execute();
+    }
+
+    MutableLiveData<String> getShowError() {
+        return showError;
     }
 
     MutableLiveData<TransportDetails> getCurrentDetails() {
