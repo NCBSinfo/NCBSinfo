@@ -3,11 +3,9 @@ package com.rohitsuratekar.NCBSinfo.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.GetAllRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
@@ -40,13 +38,7 @@ public class Splash extends AppCompatActivity implements OnFinish {
     @Override
     public void allRoutes(List<RouteData> routeDataList) {
 
-        //Keep blank
-        if (routeDataList.size() != 0) {
-            gotoHome();
-        } else {
-            Log.i(getClass().getSimpleName(), "No routes found. Creating default ones.");
-            new CreateDefaultRoutes(getBaseContext(), this).execute();
-        }
-
     }
+
+
 }

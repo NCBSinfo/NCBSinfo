@@ -31,7 +31,7 @@ public class NextTrip {
 
     }
 
-    NextTrip(List<TripData> data) {
+    public NextTrip(List<TripData> data) {
         this.weekMap = new SparseArray<>();
         for (TripData t : data) {
             weekMap.put(t.getDay(), t.getTrips());
@@ -59,7 +59,7 @@ public class NextTrip {
      *
      * @param inputCalender : User defined time
      */
-    String[] calculate(Calendar inputCalender) throws ParseException {
+   public String[] calculate(Calendar inputCalender) throws ParseException {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(inputCalender.getTimeInMillis());
         Date now = new Date(calendar.getTimeInMillis()); //Record input time

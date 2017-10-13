@@ -2,6 +2,7 @@
     <string name="app_name">NCBSinfo</string>
 
     <string name="home">Home</string>
+    <string name="hm_full_route_name">%1$s - %2$s\n%3$s</string>
     <string name="transport">Transport</string>
     <string name="tp_route_name">%1$s - %2$s</string>
     <string name="tp_next_transport">next %s</string>
