@@ -6,6 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +20,8 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.transport.TransportFragment;
+import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
 import com.rohitsuratekar.NCBSinfo.background.SetUpHome;
@@ -23,6 +29,7 @@ import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
+import com.secretbiology.helpers.general.listeners.OnSwipeTouchListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -34,7 +41,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinish {
+public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinish, TransportFragment.OnRouteSelected {
 
     @BindView(R.id.hm_image)
     ImageView imageView;
@@ -46,6 +53,8 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
     TextView route;
     @BindView(R.id.hm_main_layout)
     ConstraintLayout mainLayout;
+    @BindView(R.id.hm_fav)
+    ImageView favorite;
 
     @BindViews({R.id.hm_sug1, R.id.hm_sug2})
     List<TextView> suggestionViews;
@@ -55,6 +64,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
     List<View> loadingViews;
 
     private HomeObject currentObject;
+    private boolean isDirectionRight = true;
 
 
     @Override
@@ -69,11 +79,44 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         Animation pulse = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.pulse);
         findViewById(R.id.hm_show_all).startAnimation(pulse);
         new SetUpHome(getApplicationContext(), this).execute();
+        mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
+            @Override
+            protected void onSwipeRight() {
+                currentObject.goNext();
+                updateUI(currentObject);
+            }
+
+            @Override
+            protected void onSwipeLeft() {
+                isDirectionRight = false;
+                currentObject.goBack();
+                updateUI(currentObject);
+            }
+
+            @Override
+            protected void onSwipeTop() {
+                showBottomSheet();
+            }
+
+            @Override
+            protected void onSwipeBottom() {
+                gotoTransport();
+            }
+            
+        });
+
+
+
     }
 
     private void updateUI(HomeObject object) {
         route.setText(getString(R.string.tp_route_name, object.getOrigin().toUpperCase(), object.getDestination().toUpperCase()));
         type.setText(getString(R.string.tp_next_transport, object.getType()));
+        if (currentObject.getFavoriteRoute() == object.getRouteNo()) {
+            favorite.setImageResource(R.drawable.icon_favorite);
+        } else {
+            favorite.setImageResource(R.drawable.icon_favorite_outline);
+        }
         try {
             time.setText(DateConverter.changeFormat(ConverterMode.DATE_FIRST, object.getNextTrip().calculate(Calendar.getInstance())[0], "hh:mm a"));
         } catch (ParseException e) {
@@ -81,8 +124,8 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         }
         suggestions.clear();
 
-        suggestionViews.get(0).setVisibility(View.INVISIBLE);
-        suggestionViews.get(1).setVisibility(View.INVISIBLE);
+        suggestionViews.get(0).setVisibility(View.GONE);
+        suggestionViews.get(1).setVisibility(View.GONE);
 
         if (object.getRelatedRoutes().size() > 0) {
             suggestionViews.get(0).setVisibility(View.VISIBLE);
@@ -125,17 +168,47 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         return getString(R.string.hm_full_route_name, r.getOrigin().toUpperCase(), r.getDestination().toUpperCase(), r.getType());
     }
 
-    @OnClick({R.id.hm_see_all_holder, R.id.hm_image})
+    @OnClick(R.id.hm_see_all_holder)
     public void gotoTransport() {
         Intent intent = new Intent(Home.this, Transport.class);
         intent.putExtra(Transport.ROUTE, currentObject.getRouteNo());
         startActivity(intent);
     }
 
+    @OnClick(R.id.hm_fav)
+    public void setFavorite() {
+        CommonTasks.sendFavoriteRoute(getApplicationContext(), currentObject.getRouteNo());
+        currentObject.setFavoriteRoute(currentObject.getRouteNo());
+        favorite.setImageResource(R.drawable.icon_favorite);
+        Snackbar snackbar = Snackbar.make(mainLayout, "Default route changed!", BaseTransientBottomBar.LENGTH_SHORT);
+        snackbar.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+        snackbar.show();
+    }
 
-    public static void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
-        final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.slide_out_right);
-        final Animation anim_in = AnimationUtils.loadAnimation(c, android.R.anim.slide_in_left);
+    @OnClick({R.id.hm_route, R.id.hm_sug3})
+    public void showBottomSheet() {
+        BottomSheetDialogFragment bottomSheetDialogFragment;
+        if (currentObject != null) {
+            bottomSheetDialogFragment = TransportFragment.newInstance(currentObject.getRouteNo(), -1);
+        } else {
+            bottomSheetDialogFragment = TransportFragment.newInstance(-1, -1);
+        }
+        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
+
+    public void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
+        final Animation anim_out, anim_in;
+
+        if (isDirectionRight) {
+            anim_out = AnimationUtils.loadAnimation(c, android.R.anim.slide_out_right);
+            anim_in = AnimationUtils.loadAnimation(c, android.R.anim.slide_in_left);
+        } else {
+            anim_out = AnimationUtils.loadAnimation(c, R.anim.slide_out_left);
+            anim_in = AnimationUtils.loadAnimation(c, R.anim.slide_in_right);
+            isDirectionRight = true;
+        }
+
         anim_out.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -203,5 +276,16 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
     @Override
     public void allRoutes(List<RouteData> routeDataList) {
 
+    }
+
+
+    @Override
+    public void selected(int routeID) {
+        currentObject.setRoute(routeID);
+        updateUI(currentObject);
+    }
+
+    public HomeObject getCurrentObject() {
+        return currentObject;
     }
 }

@@ -21,6 +21,7 @@ public class SetUpHome extends AsyncTask<Void, Void, Void> {
     private OnLoad onLoad;
     private AppData db;
     private HomeObject object;
+    private int favorite = -1;
 
     public SetUpHome(Context context, OnLoad onLoad) {
         this.onLoad = onLoad;
@@ -35,9 +36,12 @@ public class SetUpHome extends AsyncTask<Void, Void, Void> {
         for (RouteData r : routeData) {
             routes.put(r.getRouteID(), r);
             trips.put(r.getRouteID(), db.trips().getTripsByRoute(r.getRouteID()));
+            if (r.isFavorite()) {
+                this.favorite = r.getRouteID();
+            }
         }
         if (routes.size() > 0) {
-            this.object = new HomeObject(routes, trips);
+            this.object = new HomeObject(routes, trips, this.favorite);
         } else {
             this.object = null;
         }

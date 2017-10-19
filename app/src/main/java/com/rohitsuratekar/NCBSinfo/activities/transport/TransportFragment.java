@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.home.HomeObject;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,22 +48,33 @@ public class TransportFragment extends BottomSheetDialogFragment {
 
         if (getActivity() instanceof Transport && getArguments() != null) {
             List<RouteData> routeDataList = ((Transport) getActivity()).getRouteDataList();
-            RecyclerView recyclerView = rootView.findViewById(R.id.tp_sheet_recycler);
-            recyclerView.setLayoutManager(new GridLayoutManager(rootView.getContext(), 2));
-            TransportSheetAdapter adapter = new TransportSheetAdapter(routeDataList, getArguments().getInt(INDEX, 0), getArguments().getInt(REVERSE, 0));
-            recyclerView.setAdapter(adapter);
-            adapter.setOnRouteClick(new TransportSheetAdapter.onRouteClick() {
-                @Override
-                public void clicked(int routeID) {
-                    dismiss();
-                    selected.selected(routeID);
-                }
-            });
+            setRecycler(rootView, routeDataList);
 
+        } else if (getActivity() instanceof Home && getArguments() != null) {
+            List<RouteData> routeDataList = new ArrayList<>();
+            HomeObject object = ((Home) getActivity()).getCurrentObject();
+            for (int i = 0; i < object.getRouteData().size(); i++) {
+                routeDataList.add(object.getRouteData().get(object.getRouteData().keyAt(i)));
+            }
+            setRecycler(rootView, routeDataList);
         }
 
 
         return rootView;
+    }
+
+    private void setRecycler(View rootView, List<RouteData> routeDataList) {
+        RecyclerView recyclerView = rootView.findViewById(R.id.tp_sheet_recycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(rootView.getContext(), 2));
+        TransportSheetAdapter adapter = new TransportSheetAdapter(routeDataList, getArguments().getInt(INDEX, 0), getArguments().getInt(REVERSE, 0));
+        recyclerView.setAdapter(adapter);
+        adapter.setOnRouteClick(new TransportSheetAdapter.onRouteClick() {
+            @Override
+            public void clicked(int routeID) {
+                dismiss();
+                selected.selected(routeID);
+            }
+        });
     }
 
     @Override
@@ -74,7 +88,7 @@ public class TransportFragment extends BottomSheetDialogFragment {
 
     }
 
-    interface OnRouteSelected {
+    public interface OnRouteSelected {
         void selected(int routeID);
     }
 }

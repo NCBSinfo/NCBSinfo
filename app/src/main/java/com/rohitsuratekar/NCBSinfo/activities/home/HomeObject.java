@@ -24,16 +24,22 @@ public class HomeObject {
     private SparseArray<RouteData> routeData;
     private SparseArray<List<TripData>> tripData;
     private List<Integer> relatedRoutes = new ArrayList<>();
+    private int favoriteRoute = -1;
 
-    public HomeObject(SparseArray<RouteData> routeData, SparseArray<List<TripData>> tripData) {
+    public HomeObject(SparseArray<RouteData> routeData, SparseArray<List<TripData>> tripData, int fav) {
         this.routeData = routeData;
         this.tripData = tripData;
         if (routeData.size() > 0) {
-            setRoute(routeData.get(routeData.keyAt(0)).getRouteID());
+            if (fav != -1) {
+                setRoute(fav);
+            } else {
+                setRoute(routeData.get(routeData.keyAt(0)).getRouteID());
+            }
         }
+        this.favoriteRoute = fav;
     }
 
-    public void setRoute(int routeNo) {
+    void setRoute(int routeNo) {
         this.routeNo = routeNo;
         this.nextTrip = new NextTrip(tripData.get(routeNo));
         this.origin = routeData.get(routeNo).getOrigin();
@@ -47,23 +53,32 @@ public class HomeObject {
                 }
             }
         }
+        if (relatedRoutes.size() == 0) {
+            for (int i = 0; i < routeData.size(); i++) {
+                if (routeData.get(routeData.keyAt(i)).getOrigin().equals(this.destination)) {
+                    if (routeData.get(routeData.keyAt(i)).getRouteID() != routeNo) {
+                        relatedRoutes.add(routeData.get(routeData.keyAt(i)).getRouteID());
+                    }
+                }
+            }
+        }
         Collections.shuffle(relatedRoutes);
 
     }
 
-    public String getOrigin() {
+    String getOrigin() {
         return origin;
     }
 
-    public String getDestination() {
+    String getDestination() {
         return destination;
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 
-    public List<Integer> getRelatedRoutes() {
+    List<Integer> getRelatedRoutes() {
         return relatedRoutes;
     }
 
@@ -71,15 +86,41 @@ public class HomeObject {
         return routeData;
     }
 
-    public SparseArray<List<TripData>> getTripData() {
+    SparseArray<List<TripData>> getTripData() {
         return tripData;
     }
 
-    public NextTrip getNextTrip() {
+    NextTrip getNextTrip() {
         return nextTrip;
     }
 
-    public int getRouteNo() {
+    int getRouteNo() {
         return routeNo;
+    }
+
+    int getFavoriteRoute() {
+        return favoriteRoute;
+    }
+
+    void setFavoriteRoute(int favoriteRoute) {
+        this.favoriteRoute = favoriteRoute;
+    }
+
+    void goNext() {
+        int index = this.routeData.indexOfKey(this.routeNo);
+        index++;
+        if (index == this.routeData.size()) {
+            index = 0;
+        }
+        setRoute(this.routeData.get(this.routeData.keyAt(index)).getRouteID());
+    }
+
+    void goBack() {
+        int index = this.routeData.indexOfKey(this.routeNo);
+        index--;
+        if (index == -1) {
+            index = this.routeData.size() - 1;
+        }
+        setRoute(this.routeData.get(this.routeData.keyAt(index)).getRouteID());
     }
 }

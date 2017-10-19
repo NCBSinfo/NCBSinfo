@@ -20,8 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 
 /**
@@ -152,6 +153,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return Home.class;
             case R.id.nav_transport:
                 return Transport.class;
+            case R.id.nav_contacts:
+                return Contacts.class;
         }
         return Home.class;
     }

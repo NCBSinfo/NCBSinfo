@@ -237,6 +237,5 @@
             app:layout_constraintEnd_toStartOf="@id/tp_vertical_line_end"
             app:layout_constraintStart_toStartOf="parent" />
 
-
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>
