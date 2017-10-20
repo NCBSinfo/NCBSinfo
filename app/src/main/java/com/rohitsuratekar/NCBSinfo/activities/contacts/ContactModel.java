@@ -8,7 +8,7 @@ import java.util.List;
  * All code is released under MIT License.
  */
 
-public class ContactModel {
+class ContactModel {
 
     enum AREA {
         NAME, EXTENSION, LOCATION, DETAILS
@@ -24,70 +24,70 @@ public class ContactModel {
     private String searchString = "";
     private List<AREA> searchArea = new ArrayList<>();
 
-    public ContactModel() {
+    ContactModel() {
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    void setType(String type) {
         this.type = type;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public String getLocation() {
+    String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    void setLocation(String location) {
         this.location = location;
     }
 
-    public String getPrimaryExtension() {
+    String getPrimaryExtension() {
         return primaryExtension;
     }
 
-    public void setPrimaryExtension(String primaryExtension) {
+    void setPrimaryExtension(String primaryExtension) {
         this.primaryExtension = primaryExtension;
     }
 
-    public List<String> getOtherExtensions() {
+    List<String> getOtherExtensions() {
         return otherExtensions;
     }
 
-    public void setOtherExtensions(List<String> otherExtensions) {
+    void setOtherExtensions(List<String> otherExtensions) {
         this.otherExtensions = otherExtensions;
     }
 
-    public String getInstitute() {
+    String getInstitute() {
         return institute;
     }
 
-    public void setInstitute(String institute) {
+    void setInstitute(String institute) {
         this.institute = institute;
     }
 
-    public String getDetails() {
+    String getDetails() {
         return details;
     }
 
-    public void setDetails(String details) {
+    void setDetails(String details) {
         this.details = details;
     }
 
-    public String getSearchString() {
+    String getSearchString() {
         return searchString;
     }
 
-    public void setSearchString(String searchString) {
+    void setSearchString(String searchString) {
         this.searchString = searchString;
     }
 
@@ -95,11 +95,11 @@ public class ContactModel {
         searchArea.add(area);
     }
 
-    public List<AREA> getSearchArea() {
+    List<AREA> getSearchArea() {
         return searchArea;
     }
 
-    public void clearArea() {
+    void clearArea() {
         this.searchArea.clear();
     }
 }

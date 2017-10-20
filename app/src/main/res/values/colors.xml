@@ -19,4 +19,7 @@
     <color name="red">#f44336</color>
 
     <color name="transportIndicator">#673ab7</color>
+    <color name="contactExtension">#EDE7F6</color>
+
+
 </resources>

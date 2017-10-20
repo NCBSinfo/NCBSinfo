@@ -12,5 +12,8 @@
     <string name="contacts">Contacts</string>
     <string name="search">Search</string>
     <string name="search_contact">Search Contact</string>
+    <string name="ct_item_institute">( %s )</string>
+    <string name="ct_extension">Extension : </string>
+    <string name="ct_sort">Sort</string>
 
 </resources>

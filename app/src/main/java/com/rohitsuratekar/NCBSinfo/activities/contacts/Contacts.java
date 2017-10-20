@@ -4,8 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.secretbiology.helpers.general.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +23,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Contacts extends BaseActivity {
+public class Contacts extends BaseActivity implements ContactFragment.OnContactSelected {
 
     @BindView(R.id.ct_recycler)
     RecyclerView recyclerView;
 
     private List<ContactModel> modelList;
     private List<ContactModel> originalList;
-    private SuggestionAdapter suggestionAdapter;
     private SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
     private ContactAdapter adapter;
+    private MenuItem searchItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,46 +40,46 @@ public class Contacts extends BaseActivity {
         setContentView(R.layout.contacts);
         setTitle(R.string.contacts);
         ButterKnife.bind(this);
+        findViewById(R.id.tabs).setVisibility(View.GONE);
         modelList = new ContactList().getAll();
+        sortList(modelList);
         originalList = new ArrayList<>(modelList);
-        adapter = new ContactAdapter(modelList);
+        adapter = new ContactAdapter(modelList, new ContactAdapter.OnContactClick() {
+            @Override
+            public void clicked(int position) {
+                showBottomSheet(modelList.get(position));
+                searchView.clearFocus();
+                searchItem.collapseActionView();
+                searchView.setIconified(true);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
 
     }
 
+    public void showBottomSheet(ContactModel model) {
+        BottomSheetDialogFragment bottomSheetDialogFragment = ContactFragment.newInstance(model);
+        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.ct_menu, menu);
-        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem = menu.findItem(R.id.action_search);
+        MenuItem sortItem = menu.findItem(R.id.action_sort);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        if (searchItem != null) {
+        if (searchItem != null && sortItem != null) {
             searchView = (SearchView) searchItem.getActionView();
             searchItem.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
+            sortItem.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
         }
 
-        if (searchView != null) {
+        if (searchView != null && searchManager != null) {
             searchView.setQueryHint(getString(R.string.search_contact));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            SearchView.SearchAutoComplete searchSrcTextView = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-            searchSrcTextView.setThreshold(1);
 
-
-            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View v) {
-                    //  outsideHeader.setText("");
-                    // contactListRecycler.setAdapter(searchAdapter);
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View v) {
-                    toolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
-                    // contactListRecycler.setAdapter(listAdapter);
-                }
-            });
-
-            queryTextListener = new SearchView.OnQueryTextListener() {
+            SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     modelList.clear();
@@ -105,11 +105,8 @@ public class Contacts extends BaseActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-//                    if (allContacts.size() > 0) {
-//                        showDetails(allContacts.get(0));
-//                    }
                     searchView.clearFocus();
-                    MenuItemCompat.collapseActionView(searchItem);
+                    searchItem.collapseActionView();
                     searchView.setIconified(true);
                     return true;
                 }
@@ -120,8 +117,30 @@ public class Contacts extends BaseActivity {
         return true;
     }
 
+    private void sortList(List<ContactModel> list) {
+        List<ContactModel> tempList1 = new ArrayList<>();
+        List<ContactModel> tempList2 = new ArrayList<>();
+        for (ContactModel m : list) {
+            if (m.getType().toLowerCase().trim().equals("imp")) {
+                tempList1.add(m);
+            } else {
+                tempList2.add(m);
+            }
+        }
+        list.clear();
+        list.addAll(tempList1);
+        list.addAll(tempList2);
+    }
+
     @Override
     protected int setNavigationMenu() {
         return R.id.nav_contacts;
+    }
+
+
+    @Override
+    public void onCalled(String call) {
+        Log.inform(call);
+        //TODO : Add permission access for calling, Feedback dialog
     }
 }

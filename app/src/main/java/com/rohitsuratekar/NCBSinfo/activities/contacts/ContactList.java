@@ -9,9 +9,9 @@ import java.util.List;
  * All code is released under MIT License.
  */
 
-public class ContactList {
+class ContactList {
 
-    public List<ContactModel> getAll() {
+    List<ContactModel> getAll() {
         List<ContactModel> models = new ArrayList<>();
 
         for (Object o : all_list) {

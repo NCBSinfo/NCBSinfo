@@ -11,6 +11,7 @@ import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
@@ -25,10 +26,13 @@ import java.util.List;
 class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
 
     private List<ContactModel> modelList;
+    private OnContactClick contactClick;
 
-    ContactAdapter(List<ContactModel> modelList) {
+    ContactAdapter(List<ContactModel> modelList, OnContactClick contactClick) {
         this.modelList = modelList;
+        this.contactClick = contactClick;
     }
+
 
     @Override
     public ContactHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,8 +41,8 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
 
     private Spannable getSpan(String original, String search) {
         Spannable spannable = new SpannableString(original);
-        ColorStateList blackColor = new ColorStateList(new int[][]{new int[]{}}, new int[]{Color.BLACK});
-        TextAppearanceSpan highlightSpan = new TextAppearanceSpan(null, Typeface.BOLD, -1, blackColor, null);
+        ColorStateList color = new ColorStateList(new int[][]{new int[]{}}, new int[]{Color.RED});
+        TextAppearanceSpan highlightSpan = new TextAppearanceSpan(null, Typeface.BOLD, -1, color, null);
         int startPos = original.toLowerCase().indexOf(search.toLowerCase());
         int endPos = startPos + search.length();
         spannable.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -46,7 +50,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ContactHolder holder, int position) {
+    public void onBindViewHolder(final ContactHolder holder, int position) {
         Context context = holder.itemView.getContext();
         ContactModel model = modelList.get(position);
         holder.name.setText(model.getName());
@@ -63,10 +67,41 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
                         break;
                 }
             }
-
         }
 
+        holder.institute.setText(context.getString(R.string.ct_item_institute, model.getInstitute()));
 
+        holder.icon.setImageResource(getIcon(model));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                contactClick.clicked(holder.getAdapterPosition());
+            }
+        });
+    }
+
+    private int getIcon(ContactModel model) {
+        switch (model.getType().toLowerCase().trim()) {
+            case "office":
+                return R.drawable.icon_office;
+            case "service":
+                return R.drawable.icon_service;
+            case "facility":
+                return R.drawable.icon_facility;
+            case "room":
+                return R.drawable.icon_location;
+            case "imp":
+                if (model.getName().toLowerCase().contains("medical")) {
+                    return R.drawable.icon_medical;
+                } else {
+                    return R.drawable.icon_star;
+                }
+            case "hostel":
+                return R.drawable.icon_hostel;
+            default:
+                return R.drawable.circle;
+        }
     }
 
     @Override
@@ -76,12 +111,19 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
 
     class ContactHolder extends RecyclerView.ViewHolder {
 
-        TextView name, primary;
+        TextView name, primary, institute;
+        ImageView icon;
 
         ContactHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.ct_list_name);
             primary = itemView.findViewById(R.id.ct_list_primary_number);
+            icon = itemView.findViewById(R.id.ct_icon);
+            institute = itemView.findViewById(R.id.ct_institute);
         }
+    }
+
+    public interface OnContactClick {
+        void clicked(int position);
     }
 }
