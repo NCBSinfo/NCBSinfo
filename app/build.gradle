@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 52
-        versionName "6.4.0"
+        versionCode 51
+        versionName "6.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -19,14 +19,6 @@ android {
         }
     }
 
-    signingConfigs {
-        debug {
-            storeFile file(project.property("MyApp.signing"))
-            storePassword project.property("MyApp.signing.password")
-            keyAlias project.property("MyApp.signing.alias")
-            keyPassword project.property("MyApp.signing.password")
-        }
-    }
     return void
 }
 
