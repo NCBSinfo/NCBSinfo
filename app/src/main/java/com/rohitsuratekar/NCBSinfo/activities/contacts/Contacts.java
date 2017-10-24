@@ -1,11 +1,20 @@
 package com.rohitsuratekar.NCBSinfo.activities.contacts;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -23,7 +32,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.string.cancel;
+import static android.R.string.ok;
+
 public class Contacts extends BaseActivity implements ContactFragment.OnContactSelected {
+
+    private static final int CALL_PERMISSION = 1989;
 
     @BindView(R.id.ct_recycler)
     RecyclerView recyclerView;
@@ -33,6 +47,7 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
     private SearchView searchView = null;
     private ContactAdapter adapter;
     private MenuItem searchItem;
+    private String tempCallString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +147,7 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
         list.addAll(tempList2);
     }
 
+
     @Override
     protected int setNavigationMenu() {
         return R.id.nav_contacts;
@@ -140,7 +156,52 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
 
     @Override
     public void onCalled(String call) {
-        Log.inform(call);
-        //TODO : Add permission access for calling, Feedback dialog
+        //Check permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            call(call);
+        } else {
+            tempCallString = call;
+            showDenied();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void call(String number) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + number));
+        startActivity(intent);
+    }
+
+    private static final String[] permissions = {
+            Manifest.permission.CALL_PHONE
+    };
+
+    private void showDenied() {
+        new AlertDialog.Builder(Contacts.this)
+                .setTitle(getString(R.string.ct_permission_needed))
+                .setMessage(getString(R.string.ct_warning_permission))
+                .setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(Contacts.this, permissions, CALL_PERMISSION);
+                    }
+                }).setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        }).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CALL_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    call(tempCallString);
+                } else {
+                    Log.error("Permission Denied");
+                    showDenied();
+                }
+                break;
+        }
     }
 }

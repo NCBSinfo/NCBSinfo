@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportFragment;
 import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
@@ -67,6 +69,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
     private boolean isDirectionRight = true;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,9 +105,8 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
             protected void onSwipeBottom() {
                 gotoTransport();
             }
-            
-        });
 
+        });
 
 
     }
@@ -173,6 +175,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         Intent intent = new Intent(Home.this, Transport.class);
         intent.putExtra(Transport.ROUTE, currentObject.getRouteNo());
         startActivity(intent);
+        animateTransition();
     }
 
     @OnClick(R.id.hm_fav)
@@ -287,5 +290,15 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
 
     public HomeObject getCurrentObject() {
         return currentObject;
+    }
+
+    @OnClick(R.id.hm_contacts)
+    public void gotoContacts() {
+        startActivity(new Intent(this, Contacts.class));
+        animateTransition();
+    }
+
+    public void animateTransition() {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

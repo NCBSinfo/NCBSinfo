@@ -15,5 +15,7 @@
     <string name="ct_item_institute">( %s )</string>
     <string name="ct_extension">Extension : </string>
     <string name="ct_sort">Sort</string>
+    <string name="ct_permission_needed">Permission needed!</string>
+    <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click on allow when permission dialog appears. </string>
 
 </resources>

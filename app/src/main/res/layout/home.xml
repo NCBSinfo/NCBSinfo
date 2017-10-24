@@ -235,6 +235,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/icon_favorite" />
 
+            <ImageView
+                android:id="@+id/hm_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:tint="@color/colorPrimaryLight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_contact" />
+
         </android.support.constraint.ConstraintLayout>
 
         <ImageView

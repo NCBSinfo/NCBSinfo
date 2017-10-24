@@ -64,6 +64,7 @@ public class ContactFragment extends BottomSheetDialogFragment {
                 public void onclick(String call) {
                     selected.onCalled(call);
                     dismiss();
+                    //TODO: Add feedback button
                 }
             });
             recyclerView.setAdapter(adapter);
