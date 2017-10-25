@@ -20,9 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.rohitsuratekar.NCBSinfo.Home;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.Transport;
+import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 
 /**
  * Created by Rohit Suratekar on 05-10-17 for NCBSinfo.
@@ -59,8 +61,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
      */
     @Override
     public void setContentView(int layoutResID) {
-        if (baseLayout != null) {
-            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        if (baseLayout != null && inflater != null) {
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
@@ -152,6 +154,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return Home.class;
             case R.id.nav_transport:
                 return Transport.class;
+            case R.id.nav_contacts:
+                return Contacts.class;
+            case R.id.nav_settings:
+                return Settings.class;
         }
         return Home.class;
     }

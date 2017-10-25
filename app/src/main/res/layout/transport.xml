@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rohitsuratekar.NCBSinfo.activities.Transport">
+    tools:context="com.rohitsuratekar.NCBSinfo.activities.transport.Transport">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -55,34 +55,34 @@
                     android:background="@color/transportIndicator"
                     app:layout_constraintEnd_toEndOf="parent"
 
-                    app:layout_constraintTop_toBottomOf="@id/imageView6" />
+                    app:layout_constraintTop_toBottomOf="@id/tp_swap" />
 
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/tp_title"
                     android:layout_width="0sp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="0dp"
                     android:layout_marginStart="@dimen/horizontal_margin"
-                    android:text="NCBS - Mandara"
+                    android:text="----"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    app:layout_constraintBottom_toTopOf="@+id/textView9"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView6"
+                    app:layout_constraintBottom_toTopOf="@+id/tp_transport_type"
+                    app:layout_constraintEnd_toStartOf="@+id/tp_swap"
                     app:layout_constraintStart_toEndOf="@+id/tp_card_line"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/tp_transport_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shuttle"
+                    android:text="----"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/textView8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    app:layout_constraintStart_toStartOf="@id/tp_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tp_title" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/tp_swap"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8sp"
@@ -144,7 +144,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mon" />
+                android:text="Sun" />
 
             <TextView
 
@@ -153,7 +153,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tue" />
+                android:text="Mon" />
 
             <TextView
 
@@ -162,7 +162,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Wed" />
+                android:text="Tue" />
 
             <TextView
                 android:id="@+id/tp_day_4"
@@ -170,7 +170,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Thu" />
+                android:text="Wed" />
 
             <TextView
                 android:id="@+id/tp_day_5"
@@ -178,7 +178,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fri" />
+                android:text="Thu" />
 
             <TextView
                 android:id="@+id/tp_day_6"
@@ -186,7 +186,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sat" />
+                android:text="Fri" />
 
             <TextView
                 android:id="@+id/tp_day_7"
@@ -194,7 +194,7 @@
                 android:layout_width="@dimen/tp_day_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Sun" />
+                android:text="Sat" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -205,7 +205,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="@dimen/tp_card_margin"
             android:layout_marginTop="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView13"
+            app:layout_constraintBottom_toTopOf="@+id/tp_last_update"
             app:layout_constraintEnd_toStartOf="@+id/tp_day_holder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tp_title_card" />
@@ -222,21 +222,20 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/tp_last_update"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:alpha="0.6"
-            android:text="Last updated by NCBSinfo on 01 Dec 2017"
+            android:text="--"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/tp_show_all"
             app:layout_constraintEnd_toStartOf="@id/tp_vertical_line_end"
             app:layout_constraintStart_toStartOf="parent" />
-
 
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>
