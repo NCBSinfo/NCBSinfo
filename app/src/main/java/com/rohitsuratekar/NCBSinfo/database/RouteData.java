@@ -26,7 +26,7 @@ public class RouteData {
     @ColumnInfo(name = "type")
     private String type;
     @ColumnInfo(name = "favorite")
-    private boolean favorite;
+    private String favorite; // Values can be "yes" or "no"
     @ColumnInfo(name = "creation")
     private String createdOn;
     @ColumnInfo(name = "modified")
@@ -69,11 +69,11 @@ public class RouteData {
         this.type = type;
     }
 
-    public boolean isFavorite() {
+    public String getFavorite() {
         return favorite;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setFavorite(String favorite) {
         this.favorite = favorite;
     }
 

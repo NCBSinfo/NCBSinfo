@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.SparseArray;
 
 import com.rohitsuratekar.NCBSinfo.activities.home.HomeObject;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
@@ -22,21 +23,32 @@ public class SetUpHome extends AsyncTask<Void, Void, Void> {
     private AppData db;
     private HomeObject object;
     private int favorite = -1;
+    private boolean adjustFavorite;
+    private AppPrefs prefs;
 
-    public SetUpHome(Context context, OnLoad onLoad) {
+    public SetUpHome(Context context, boolean adjustFavorite, OnLoad onLoad) {
+        this.adjustFavorite = adjustFavorite;
         this.onLoad = onLoad;
         this.db = AppData.getDatabase(context);
+        this.prefs = new AppPrefs(context);
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
+        if (adjustFavorite) {
+            int favRoute = db.routes().getRouteNo(prefs.getFavoriteOrigin(), prefs.getFavoriteDestination(), prefs.getFavoriteType());
+            if (favRoute != 0) {
+                db.routes().removeAllFavorite();
+                db.routes().setFavorite(favRoute);
+            }
+        }
         List<RouteData> routeData = db.routes().getRouteNames();
         SparseArray<RouteData> routes = new SparseArray<>();
         SparseArray<List<TripData>> trips = new SparseArray<>();
         for (RouteData r : routeData) {
             routes.put(r.getRouteID(), r);
             trips.put(r.getRouteID(), db.trips().getTripsByRoute(r.getRouteID()));
-            if (r.isFavorite()) {
+            if (r.getFavorite().equals("yes")) {
                 this.favorite = r.getRouteID();
             }
         }

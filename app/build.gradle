@@ -7,9 +7,10 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 49
+        versionCode 52
         versionName "6.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -31,9 +32,9 @@ dependencies {
     implementation 'com.secretbiology.helpers:general:1.1.4'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
-    implementation "android.arch.lifecycle:extensions:1.0.0-alpha9-1"
+    implementation "android.arch.persistence.room:runtime:1.0.0-rc1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-rc1"
+    implementation "android.arch.lifecycle:extensions:1.0.0-rc1"
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.google.code.gson:gson:2.8.2'
 }

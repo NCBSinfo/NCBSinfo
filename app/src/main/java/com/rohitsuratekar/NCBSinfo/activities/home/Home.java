@@ -1,11 +1,14 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
-import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -27,6 +30,8 @@ import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
 import com.rohitsuratekar.NCBSinfo.background.SetUpHome;
+import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
@@ -67,21 +72,29 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
 
     private HomeObject currentObject;
     private boolean isDirectionRight = true;
+    private AppPrefs prefs;
 
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         ButterKnife.bind(this);
         mainLayout.setVisibility(View.INVISIBLE);
+        prefs = new AppPrefs(getApplicationContext());
+        prefs.appOpened();
         for (View v : loadingViews) {
             v.setVisibility(View.VISIBLE);
         }
         Animation pulse = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.pulse);
         findViewById(R.id.hm_show_all).startAnimation(pulse);
-        new SetUpHome(getApplicationContext(), this).execute();
+
+        if (prefs.isFirstTime()) {
+            cancelOldAlarms();
+            transferOldPrefs();
+        } else {
+            new SetUpHome(getApplicationContext(), false, this).execute();
+        }
         mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
             protected void onSwipeRight() {
@@ -273,7 +286,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
 
     @Override
     public void finished() {
-        new SetUpHome(getApplicationContext(), this).execute();
+        new SetUpHome(getApplicationContext(), false, this).execute();
     }
 
     @Override
@@ -298,7 +311,35 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         animateTransition();
     }
 
-    public void animateTransition() {
+    private void animateTransition() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    private void transferOldPrefs() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String origin = sharedPreferences.getString("n1_favorite_origin", "ncbs");
+        String destination = sharedPreferences.getString("n1_favorite_destination", "iisc");
+        String type = sharedPreferences.getString("n1_favorite_type", "shuttle");
+        prefs.clear();
+        prefs.setFavoriteOrigin(origin);
+        prefs.setFavoriteDestination(destination);
+        prefs.setFavoriteType(type);
+        prefs.appOpened();
+        prefs.appMigrated();
+        prefs.appOpenedFirstTime();
+        new SetUpHome(getApplicationContext(), true, this).execute();
+    }
+
+    private void cancelOldAlarms() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int[] oldAlarms = new int[]{2000, 2003, 2004, 2005, 2006, 1000, 1001, 1989, 1990, 1991, 1992};
+        Intent intent = new Intent(getApplicationContext(), Alarms.class);
+        for (int id : oldAlarms) {
+            PendingIntent sender = PendingIntent.getBroadcast(getApplicationContext(), id, intent, PendingIntent.FLAG_NO_CREATE);
+            if (sender != null && alarmManager != null) {
+                alarmManager.cancel(sender);
+            }
+        }
+        Log.i(getClass().getSimpleName(), "Cancelled all past alarms!");
     }
 }

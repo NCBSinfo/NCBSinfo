@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.Helper;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
@@ -29,11 +29,13 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
     private List<String> buggyToMandara = new ArrayList<>();
     private List<String> ncbsToCBL = new ArrayList<>();
     private boolean fav = true;
+    private AppPrefs prefs;
 
 
     public CreateDefaultRoutes(Context context, OnFinish onFinish) {
         this.onFinish = onFinish;
         this.db = AppData.getDatabase(context);
+        this.prefs = new AppPrefs(context);
         infoList.add(new TempInfo(context, "ncbs", "iisc", "shuttle", R.string.def_ncbs_iisc_week, R.string.def_ncbs_iisc_sunday));
         infoList.add(new TempInfo(context, "iisc", "ncbs", "shuttle", R.string.def_iisc_ncbs_week, R.string.def_iisc_ncbs_sunday));
         infoList.add(new TempInfo(context, "ncbs", "mandara", "shuttle", R.string.def_ncbs_mandara_week, R.string.def_ncbs_mandara_sunday));
@@ -51,8 +53,10 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         for (TempInfo info : infoList) {
             if (fav) {
-                info.getData().setFavorite(true);
+                info.getData().setFavorite("yes");
                 fav = false;
+            } else {
+                info.getData().setFavorite("no");
             }
             db.routes().insertRoute(info.getData());
             int routeID = db.routes().getRouteNo(info.getData().getOrigin(), info.getData().getDestination(), info.getData().getType());
@@ -102,6 +106,12 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
 
         Log.i(getClass().getSimpleName(), "NCBS-CBL ttc route created");
 
+        int favRoute = db.routes().getRouteNo(prefs.getFavoriteOrigin(), prefs.getFavoriteDestination(), prefs.getFavoriteType());
+
+        if (favRoute != 0) {
+            db.routes().removeAllFavorite();
+            db.routes().setFavorite(favRoute);
+        }
 
         return null;
     }
@@ -127,6 +137,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         data.setOrigin(origin);
         data.setDestination(destination);
         data.setType(type);
+        data.setFavorite("no");
         data.setAuthor("NCBSinfo");
         data.setCreatedOn("2017-07-21 00:00:00");
         data.setModifiedOn(General.timeStamp());
@@ -146,6 +157,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
             data.setAuthor("NCBSinfo");
             data.setCreatedOn("2017-07-21 00:00:00");
             data.setModifiedOn(General.timeStamp());
+            data.setFavorite("no");
             this.week = convertToList(context.getString(week));
             this.sunday = convertToList(context.getString(sunday));
         }
