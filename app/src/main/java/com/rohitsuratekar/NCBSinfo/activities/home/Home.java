@@ -15,7 +15,9 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportFragment;
 import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
@@ -201,6 +204,32 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         snackbar.show();
     }
 
+    @OnClick(R.id.hm_nav)
+    public void openMenu(ImageView view) {
+        PopupMenu popup = new PopupMenu(Home.this, view);
+        popup.getMenuInflater().inflate(R.menu.drawer, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_transport:
+                        gotoTransport();
+                        break;
+                    case R.id.nav_contacts:
+                        startActivity(new Intent(Home.this, Contacts.class));
+                        animateTransition();
+                        break;
+                    case R.id.nav_settings:
+                        startActivity(new Intent(Home.this, Settings.class));
+                        animateTransition();
+                        break;
+                }
+                return false;
+            }
+        });
+        popup.show();
+    }
+
     @OnClick({R.id.hm_route, R.id.hm_sug3})
     public void showBottomSheet() {
         BottomSheetDialogFragment bottomSheetDialogFragment;
@@ -305,11 +334,6 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         return currentObject;
     }
 
-    @OnClick(R.id.hm_contacts)
-    public void gotoContacts() {
-        startActivity(new Intent(this, Contacts.class));
-        animateTransition();
-    }
 
     private void animateTransition() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

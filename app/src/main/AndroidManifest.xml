@@ -18,6 +18,7 @@
         <activity android:name=".activities.home.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -28,7 +29,7 @@
             android:name=".background.CommonTasks"
             android:exported="false" />
 
-
+        <activity android:name=".activities.settings.Settings"></activity>
     </application>
 
 </manifest>

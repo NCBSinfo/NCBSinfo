@@ -228,23 +228,23 @@
                 android:id="@+id/hm_fav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:tint="@color/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/hm_nav"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/icon_favorite" />
 
             <ImageView
-                android:id="@+id/hm_contacts"
+                android:id="@+id/hm_nav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8sp"
                 android:layout_marginTop="16dp"
                 android:tint="@color/colorPrimaryLight"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_contact" />
+                app:srcCompat="@drawable/icon_navigation" />
 
         </android.support.constraint.ConstraintLayout>
 

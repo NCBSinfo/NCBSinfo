@@ -13,8 +13,8 @@ import android.support.annotation.NonNull;
  * All code is released under MIT License.
  */
 
-@Database(entities = {RouteData.class, TripData.class}, version = 11)
-//Changed from 9 to 11 in version 52. There is no 10th version
+@Database(entities = {RouteData.class, TripData.class}, version = 10)
+//Changed from 9 to 10 in version 52.
 public abstract class AppData extends RoomDatabase {
 
     private static final String DATABASE_NAME = "NCBSinfo";
@@ -28,7 +28,7 @@ public abstract class AppData extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), AppData.class, DATABASE_NAME)
-                            .addMigrations(MIGRATION_LATEST)
+                            .addMigrations(MIGRATION_9_10)
                             .fallbackToDestructiveMigration() //Need this to remove all old databases
                             .build();
         }
@@ -47,11 +47,10 @@ public abstract class AppData extends RoomDatabase {
         INSTANCE = null;
     }
 
-    private static final Migration MIGRATION_LATEST = new Migration(9, 11) {
+    private static final Migration MIGRATION_9_10 = new Migration(9, 10) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase db) {
-            new DatabaseMigration().migrateToLatest(db);
-            //TODO : Check on other devices
+            new DatabaseMigration().migrate9_10(db);
         }
     };
 }

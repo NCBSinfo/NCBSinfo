@@ -19,7 +19,7 @@ import java.util.List;
 
 class DatabaseMigration {
 
-    void migrateToLatest(SupportSQLiteDatabase db) {
+    void migrate9_10(SupportSQLiteDatabase db) {
         List<OldDataHolder> oldData = new ArrayList<>();
         removeOld(db);
         Log.i("DatabaseMigration", "TransportTable Database migration started");
