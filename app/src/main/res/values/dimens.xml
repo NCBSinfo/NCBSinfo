@@ -16,6 +16,12 @@
     <dimen name="tp_day_width">30sp</dimen>
     <dimen name="tp_day_width_expanded">50sp</dimen>
     <dimen name="tp_sheet_icon_size">30sp</dimen>
+
+    <!--Contact Related-->
     <dimen name="ct_sheet_back_image_height">150sp</dimen>
     <dimen name="ct_sheet_app_bar_height">200sp</dimen>
+
+    <!--Settings related-->
+    <dimen name="st_icon_size">30sp</dimen>
+    <dimen name="st_icon_text_margin">32sp</dimen>
 </resources>

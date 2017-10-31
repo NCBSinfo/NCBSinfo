@@ -20,6 +20,7 @@ public class AppPrefs extends Preferences {
     private static final String FAVORITE_TYPE = "favorite_type";
     private static final String USER_NAME = "user_name";
     private static final String USER_EMAIL = "user_email";
+    private static final String NOTIFICATIONS = "notifications";
 
     public AppPrefs(Context context) {
         super(context);
@@ -91,6 +92,14 @@ public class AppPrefs extends Preferences {
 
     public void setUserEmail(String email) {
         put(USER_EMAIL, email);
+    }
+
+    public boolean areNotificationsAllowed() {
+        return get(NOTIFICATIONS, true);
+    }
+
+    public void toggleNotifications() {
+        put(NOTIFICATIONS, !get(NOTIFICATIONS, true));
     }
 
 
