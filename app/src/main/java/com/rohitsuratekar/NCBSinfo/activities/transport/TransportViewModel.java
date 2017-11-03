@@ -17,8 +17,8 @@ import java.util.List;
  * Created by Rohit Suratekar on 07-10-17 for NCBSinfo.
  * All code is released under MIT License.
  */
-
-class TransportViewModel extends ViewModel {
+// Keep constructor public
+public class TransportViewModel extends ViewModel {
 
     private MutableLiveData<TransportDetails> currentDetails = new MutableLiveData<>();
     private MutableLiveData<List<RouteData>> allRoutes = new MutableLiveData<>();

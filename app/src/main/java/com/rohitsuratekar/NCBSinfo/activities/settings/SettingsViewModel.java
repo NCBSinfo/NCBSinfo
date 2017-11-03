@@ -14,8 +14,8 @@ import java.util.List;
  * Created by Rohit Suratekar on 03-11-17 for NCBSinfo.
  * All code is released under MIT License.
  */
-
-class SettingsViewModel extends ViewModel {
+// Keep constructor public
+public class SettingsViewModel extends ViewModel {
 
     private MutableLiveData<List<RouteData>> allRoutes = new MutableLiveData<>();
 
