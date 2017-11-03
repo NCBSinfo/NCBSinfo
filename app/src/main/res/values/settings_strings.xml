@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Settings</string>
+    <string name="settings_header_general">General Options</string>
+    <string name="settings_header_transport">Transport related</string>
+    <string name="settings_default_route">Default Transport</string>
+    <string name="settings_default_transport_details">transport you want to see on Home.</string>
+    <string name="settings_reset_transport">Reset Transport</string>
+    <string name="settings_reset_transport_details">revert back to original transport routes.</string>
+    <string name="settings_transport_last">Route Database</string>
+    <string name="settings_transport_last_update">last update : 16 Oct 2017</string>
+    <string name="settings_header_about">About us</string>
+    <string name="settings_about">About NCBSinfo</string>
+    <string name="settings_about_details">little bit about us!</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_details">Tell us what you think about this app.</string>
+    <string name="settings_github">NCBSinfo on GitHub</string>
+    <string name="settings_github_details">contribute to this open source project.</string>
+    <string name="settings_app_details">NCBSinfo</string>
+    <string name="settings_app_details_text">Current version: %1$d (%2$s)</string>
+    <string name="settings_header_legal">Some legal stuff</string>
+    <string name="settings_terms">Terms and Conditions</string>
+    <string name="settings_terms_details">nobody reads this!</string>
+    <string name="settings_privacy">Privacy Statement</string>
+    <string name="settings_privacy_details">what data we steal?</string>
+    <string name="settings_notification">Notifications preference</string>
+    <string name="settings_notification_details">occasional notifications: %s</string>
+    <string name="settings_acknow">Acknowledgements and Credits</string>
+    <string name="settings_acknow_details">standing on the shoulders of giants.</string>
+    <string name="settings_default_route_name">%1$s - %2$s %3$s</string>
+
+
+    <string name="about_us"><![CDATA[
+ <b>NCBSinfo</b> is an application for regular use, especially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
+    Our aim is to create a mobile application, which will serve as an application-cum-database for important information pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching for shuttle timings and contact numbers.
+]]></string>
+
+    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
+    All the information provided in this application was last updated on December 30, 2016.
+    Though a lot of effort has been taken to curate the information,
+    minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
+    through this application.
+    In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same.]]></string>
+
+    <string name="faq"><![CDATA[ &#8226; <b>Some of components of the UI look weird</b> <br> </br>
+      This application is not yet designed for all screen sizes. Hence UI components might appear distorted or misplaced. <br> </br><br> </br>
+      &#8226; <b>I am not being able to receive any event notifications</b> <br> </br>
+      Please check if you have any task manager application that might be killing the NCBSinfo app. In that case, add this app to
+      the white-list. <br> </br> <br> </br>
+       &#8226; <b>There is no information in the event section</b> <br> </br>
+       This can happen if there are no events retrieved from the server. The app will send request to data server
+       depending on your network settings and will retrieve the data.
+       If you want to manually sync the app, go to the developer\'s options and click on \"Sync Data now\".]]></string>
+
+    <string name="privacy_statement">
+        <![CDATA[
+        Best part of an open source app is that you will know exactly what is going on inside the app. We encourage you to check
+        our source code on GitHub (<a href="https://github.com/NCBSinfo/NCBSinfo"> https://github.com/NCBSinfo/NCBSinfo </a>). Code is heavily commented for readability. We collect
+        various personal and general information from this app to make the user experience better. Following is the list of all
+        information that we collect from users. <br></br><br></br>
+        <b>What information do we collect? <br></br> (from logged in users and why?)</b> <br> </br> <br> </br>
+        &#8226; <b> Name and email </b> <br> </br> (To authenticate you on our server) <br></br>
+        &#8226; <b> Default route </b> <br> </br> (To customize your app when you login again) <br></br>
+        &#8226; <b> Unique Token </b> <br> </br> (This token is generated by Firebase service through which you can get notifications from admins)<br></br>
+        &#8226; <b> Current NCBSinfo App version </b> <br> </br> (To remind you about new updates which will be free of bugs and issues) <br></br>
+        &#8226; <b> Last login </b> <br> </br> (To design network sync algorithms.) <br></br>
+        &#8226; <b> Transport Routes and Trips </b> <br> </br> (So that you don\'t have to make all of your routes again) <br></br>
+        <br> </br><br> </br>
+        If you do not want any of above information to be send to our server, you can just use app without logging in. <br></br>
+        <b>WE DO NOT COLLECT ANY PERSONAL INFORMATION FROM THE USERS WHO HAVE NOT LOGGED IN.</b><br></br><br></br>
+        <b>NO ONE </b> can check or see your password, not even developers. They are sent securely with https protocol and are stored in Google\'s cloud database with encryption. <br></br><br></br>
+        <b>Google and Firebase analytics</b><br> </br>
+        Alongside the above personal information, we also receive some anonymous statistics from all users who have installed this app.
+        This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.
+        <br> </br><br> </br>
+        <b>Crash Report</b><br> </br>
+        This will send us anonymous crash reports (if any) which we use to fix bugs and make the app better :)
+        <br> </br>
+        <br> </br>
+        <br> </br>
+        ]]>
+</string>
+
+    <string name="libraries_used">
+        <![CDATA[ We are very grateful to all the feedback and encouragement given by you. We would also like to
+         acknowledge all the beta testers of this app. Special thanks to Pritha Ghosh for helping us out with grammar and spelling checks. <br></br>
+         We have used the following Open Source Android libraries while making this app and are very thankful to them.
+        <br></br><br></br>
+        &#8226; Design Library by Google <br></br>
+        &#8226; Gson by Google <br></br>
+        &#8226; Firebase by Google <br></br>
+        &#8226; Retrofit by Squareup <br></br>
+        &#8226; Picasso by Squareup <br></br>
+        &#8226; Butterknife by Jake Wharton <br></br>
+        &#8226; Bottomsheet by Flipboard <br></br>
+        <br></br><br></br>
+        See our <a href="https://github.com/NCBSinfo/NCBSinfo"> source code </a> for detailed library information.
+]]>
+</string>
+</resources>

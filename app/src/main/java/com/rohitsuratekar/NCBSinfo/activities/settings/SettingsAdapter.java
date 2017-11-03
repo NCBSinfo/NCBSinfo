@@ -20,9 +20,11 @@ class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
 
 
     private List<SettingsModel> modelList;
+    private OnSelect select;
 
-    SettingsAdapter(List<SettingsModel> modelList) {
+    SettingsAdapter(List<SettingsModel> modelList, OnSelect select) {
         this.modelList = modelList;
+        this.select = select;
     }
 
     @Override
@@ -38,7 +40,7 @@ class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         SettingsModel model = modelList.get(position);
 
 
@@ -77,6 +79,13 @@ class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
                 item.icon.setImageResource(android.R.color.transparent);
                 item.icon.setBackgroundResource(R.mipmap.ic_launcher_round);
             }
+
+            item.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    select.clicked(holder.getLayoutPosition());
+                }
+            });
 
         } else if (model.getViewType() == VIEW_HEADER) {
             Header header = (Header) holder;
@@ -122,5 +131,9 @@ class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impl
         Line(View itemView) {
             super(itemView);
         }
+    }
+
+    interface OnSelect {
+        void clicked(int position);
     }
 }

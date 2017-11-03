@@ -19,32 +19,5 @@
     <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click on allow when permission dialog appears. </string>
 
 
-    <string name="settings">Settings</string>
-    <string name="settings_header_general">General Options</string>
-    <string name="settings_header_transport">Transport related</string>
-    <string name="settings_default_route">Default Transport</string>
-    <string name="settings_default_transport_details">transport you want to see on Home.</string>
-    <string name="settings_reset_transport">Reset Transport</string>
-    <string name="settings_reset_transport_details">revert back to original transport routes.</string>
-    <string name="settings_transport_last">Route Database</string>
-    <string name="settings_transport_last_update">last update : 16 Oct 2017</string>
-    <string name="settings_header_about">About us</string>
-    <string name="settings_about">About NCBSinfo</string>
-    <string name="settings_about_details">little bit about us!</string>
-    <string name="settings_feedback">Feedback</string>
-    <string name="settings_feedback_details">Tell us what you think about this app.</string>
-    <string name="settings_github">NCBSinfo on GitHub</string>
-    <string name="settings_github_details">contribute to this open source project.</string>
-    <string name="settings_app_details">NCBSinfo</string>
-    <string name="settings_app_details_text">Current version: %1$d (%2$s)</string>
-    <string name="settings_header_legal">Some legal stuff</string>
-    <string name="settings_terms">Terms and Conditions</string>
-    <string name="settings_terms_details">nobody reads this!</string>
-    <string name="settings_privacy">Privacy Statement</string>
-    <string name="settings_privacy_details">what data we steal?</string>
-    <string name="settings_notification">Notifications preference</string>
-    <string name="settings_notification_details">occasional notifications: %s</string>
-    <string name="settings_acknow">Acknowledgements and Credits</string>
-    <string name="settings_acknow_details">standing on the shoulders of giants.</string>
 
 </resources>

@@ -21,6 +21,7 @@ public class AppPrefs extends Preferences {
     private static final String USER_NAME = "user_name";
     private static final String USER_EMAIL = "user_email";
     private static final String NOTIFICATIONS = "notifications";
+    private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
 
     public AppPrefs(Context context) {
         super(context);
@@ -102,5 +103,12 @@ public class AppPrefs extends Preferences {
         put(NOTIFICATIONS, !get(NOTIFICATIONS, true));
     }
 
+    public boolean isDefaulutRouteSet() {
+        return get(SETTINGS_DEFAULT_SET, false);
+    }
+
+    public void defaultRouteSet() {
+        put(SETTINGS_DEFAULT_SET, true);
+    }
 
 }
