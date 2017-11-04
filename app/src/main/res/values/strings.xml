@@ -18,6 +18,19 @@
     <string name="ct_permission_needed">Permission needed!</string>
     <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click on allow when permission dialog appears. </string>
 
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="done">Done</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="create_account">Create New Account</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="short_password">Password should be at least 6 character long</string>
+    <string name="invalid_user">This email is not registered with us, Try creating new account!</string>
+    <string name="invalid_password">Password does not match. Forgot password ?</string>
+    <string name="network_issue">There is some network issue. Please try after some time.</string>
+    <string name="blank_email">Enter valid email address so that we can send password reset link.</string>
+    <string name="forgot_password_success">We have sent further instructions to \'%s\'. Please check your inbox for further details.</string>
 
 
 </resources>

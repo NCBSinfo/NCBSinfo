@@ -16,11 +16,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity android:name=".activities.home.Home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.transport.Transport" />
         <activity android:name=".activities.contacts.Contacts" />
@@ -30,6 +26,14 @@
         <service
             android:name=".background.CommonTasks"
             android:exported="false" />
+
+        <activity android:name=".activities.login.Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

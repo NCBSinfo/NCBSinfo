@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
@@ -76,13 +77,20 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
     private HomeObject currentObject;
     private boolean isDirectionRight = true;
     private AppPrefs prefs;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         ButterKnife.bind(this);
+
+        //New test for custom events for analytics
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("app_opened", General.timeStamp());
+        mFirebaseAnalytics.logEvent("app_use", params);
+
         mainLayout.setVisibility(View.INVISIBLE);
         prefs = new AppPrefs(getApplicationContext());
         prefs.appOpened();
@@ -132,6 +140,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         type.setText(getString(R.string.tp_next_transport, object.getType()));
         if (currentObject.getFavoriteRoute() == object.getRouteNo()) {
             favorite.setImageResource(R.drawable.icon_favorite);
+            mFirebaseAnalytics.setUserProperty("favorite_route", currentObject.getOrigin() + "-" + currentObject.getDestination() + " " + currentObject.getType());
         } else {
             favorite.setImageResource(R.drawable.icon_favorite_outline);
         }

@@ -22,8 +22,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
 import java.util.ArrayList;
@@ -56,6 +58,14 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
         setTitle(R.string.contacts);
         ButterKnife.bind(this);
         findViewById(R.id.tabs).setVisibility(View.GONE);
+
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("contacts_accessed", General.timeStamp());
+        mFirebaseAnalytics.logEvent("contacts", params);
+
+
         modelList = new ContactList().getAll();
         sortList(modelList);
         originalList = new ArrayList<>(modelList);

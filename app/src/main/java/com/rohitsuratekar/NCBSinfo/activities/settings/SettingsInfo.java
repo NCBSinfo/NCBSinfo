@@ -29,7 +29,7 @@ public class SettingsInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_info);
         ButterKnife.bind(this);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.setting_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

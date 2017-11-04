@@ -15,12 +15,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
+import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,13 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
         findViewById(R.id.tabs).setVisibility(View.GONE);
         setTitle(R.string.settings);
         ButterKnife.bind(this);
+
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("settings_accessed", General.timeStamp());
+        mFirebaseAnalytics.logEvent("settings", params);
+
         viewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
         prefs = new AppPrefs(getApplicationContext());
         adapter = new SettingsAdapter(modelList, this);
@@ -113,7 +122,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                         if (routeDataList == null) {
                             mod.setDisabled(true);
                         } else {
-                            if (prefs.isDefaulutRouteSet()) {
+                            if (prefs.isDefaultRouteSet()) {
                                 mod.setDescription(getString(R.string.settings_default_route_name,
                                         prefs.getFavoriteOrigin().toUpperCase(),
                                         prefs.getFavoriteDestination().toUpperCase(),
