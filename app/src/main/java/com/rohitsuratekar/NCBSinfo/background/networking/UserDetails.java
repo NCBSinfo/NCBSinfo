@@ -79,6 +79,10 @@ public class UserDetails {
         return email;
     }
 
+    public String getFcmtoken() {
+        return Fcmtoken;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

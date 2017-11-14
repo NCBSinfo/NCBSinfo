@@ -3,12 +3,14 @@ package com.rohitsuratekar.NCBSinfo.activities.login;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,19 +24,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.crash.FirebaseCrash;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.R.string.ok;
 
@@ -81,17 +78,6 @@ public class Login extends AppCompatActivity {
         });
         toggleScreen();
 
-        new RetrofitCalls().updateRoute().enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.inform(response);
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
     }
 
     @OnClick(R.id.login_btn)
@@ -135,11 +121,11 @@ public class Login extends AppCompatActivity {
                             } catch (FirebaseNetworkException e) {
                                 General.makeLongToast(getApplicationContext(), getString(R.string.network_issue));
                             } catch (Exception e) {
-                                FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
+                                //  FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
                                 General.makeLongToast(getApplicationContext(), e.getLocalizedMessage());
                             }
                         } else {
-                            FirebaseCrash.report(new Exception(("Empty Exception during login.")));
+                            //todo FirebaseCrash.report(new Exception(("Empty Exception during login.")));
                             General.makeLongToast(getApplicationContext(), "Something is wrong!");
                         }
                     }
@@ -154,7 +140,30 @@ public class Login extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean != null) {
+                    if (aBoolean) {
+                        toggleScreen();
+                        Intent intent = new Intent(Login.this, Home.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
+                }
+            }
+        });
 
+        viewModel.getErrorOccured().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                if (s != null) {
+                    toggleScreen();
+                    new Builder(Login.this)
+                            .setTitle(getString(R.string.oops))
+                            .setMessage(s)
+                            .setPositiveButton(ok, new OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).show();
                 }
             }
         });
@@ -198,10 +207,10 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         toggleScreen();
                         if (task.isSuccessful()) {
-                            new AlertDialog.Builder(Login.this)
+                            new Builder(Login.this)
                                     .setTitle(getString(R.string.done))
                                     .setMessage(getString(R.string.forgot_password_success, emailLayout.getEditText().getText().toString()))
-                                    .setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(ok, new OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
 
                                         }
@@ -217,11 +226,11 @@ public class Login extends AppCompatActivity {
                                 } catch (FirebaseNetworkException e) {
                                     General.makeLongToast(getApplicationContext(), getString(R.string.network_issue));
                                 } catch (Exception e) {
-                                    FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
+                                    //FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
                                     General.makeLongToast(getApplicationContext(), e.getLocalizedMessage());
                                 }
                             } else {
-                                FirebaseCrash.report(new Exception(("Empty Exception during forgot password.")));
+                                //TODO FirebaseCrash.report(new Exception(("Empty Exception during forgot password.")));
                                 General.makeLongToast(getApplicationContext(), "Something is wrong!");
                             }
                         }

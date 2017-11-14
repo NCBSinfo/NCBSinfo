@@ -24,6 +24,7 @@ public class AppPrefs extends Preferences {
     private static final String NOTIFICATIONS = "notifications";
     private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
     private static final String LAST_SYNC = "last_sync";
+    private static final String MIGRATION_ID = "migration_id";
 
     public AppPrefs(Context context) {
         super(context);
@@ -105,6 +106,10 @@ public class AppPrefs extends Preferences {
         put(NOTIFICATIONS, !get(NOTIFICATIONS, true));
     }
 
+    public void setNotificationAllowed(boolean value) {
+        put(NOTIFICATIONS, value);
+    }
+
     public boolean isDefaultRouteSet() {
         return get(SETTINGS_DEFAULT_SET, false);
     }
@@ -127,5 +132,13 @@ public class AppPrefs extends Preferences {
 
     public String getLastSync() {
         return get(LAST_SYNC, "N/A");
+    }
+
+    public String getMigrationId() {
+        return get(MIGRATION_ID, "v6");
+    }
+
+    public void setMigrationID(String id) {
+        put(MIGRATION_ID, id);
     }
 }

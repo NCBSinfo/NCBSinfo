@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -17,6 +18,7 @@ public interface TripsDao {
     @Insert
     void insertTrips(TripData tripData);
 
+    // Will return 0 id not found
     @Query("SELECT tripID FROM trips " +
             "WHERE routeID LIKE :routeID AND " +
             "day LIKE :day ")
@@ -29,4 +31,10 @@ public interface TripsDao {
 
     @Query("SELECT * FROM trips WHERE tripID LIKE :tripID")
     TripData getTrip(int tripID);
+
+    @Delete
+    void deleteRoute(TripData tripData);
+
+    @Query("DELETE FROM trips")
+    void deletAll();
 }

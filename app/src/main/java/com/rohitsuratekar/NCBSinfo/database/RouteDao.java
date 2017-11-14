@@ -27,6 +27,10 @@ public interface RouteDao {
     @Delete
     void deleteRoute(RouteData routeData);
 
+    @Query("DELETE FROM routes")
+    void deletAll();
+
+    // Will return 0 id not found
     @Query("SELECT routeID FROM routes " +
             "WHERE origin LIKE :origin AND " +
             "destination LIKE :destination AND " +
@@ -38,4 +42,7 @@ public interface RouteDao {
 
     @Query("UPDATE routes SET favorite = 'yes' WHERE routeID = :routeID")
     void setFavorite(int routeID);
+
+    @Query("UPDATE routes SET synced = :timestamp")
+    void updateSync(String timestamp);
 }

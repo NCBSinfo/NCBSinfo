@@ -26,7 +26,6 @@
         <service
             android:name=".background.CommonTasks"
             android:exported="false" />
-
         <activity android:name=".activities.login.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
