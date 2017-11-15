@@ -141,4 +141,13 @@ public class AppPrefs extends Preferences {
     public void setMigrationID(String id) {
         put(MIGRATION_ID, id);
     }
+
+    public void clearPersonal() {
+        delete(USER_NAME);
+        delete(USER_EMAIL);
+        delete(USER_LOGGED_IN);
+        delete(LAST_SYNC);
+        delete(SETTINGS_DEFAULT_SET);
+        delete(NOTIFICATIONS);
+    }
 }

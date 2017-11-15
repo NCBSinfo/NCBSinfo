@@ -24,4 +24,10 @@
     <!--Settings related-->
     <dimen name="st_icon_size">30sp</dimen>
     <dimen name="st_icon_text_margin">32sp</dimen>
+
+    <!--Dashboard Related-->
+    <dimen name="db_back_img_height">150sp</dimen>
+    <dimen name="db_back_icon_size">75sp</dimen>
+    <dimen name="db_icon_size">35sp</dimen>
+    <dimen name="db_icon_margin">16sp</dimen>
 </resources>

@@ -29,6 +29,8 @@
     <string name="settings_acknow_details">standing on the shoulders of giants.</string>
     <string name="settings_default_route_name">%1$s - %2$s %3$s</string>
 
+    <string name="settings_reset_warning">This action will delete all existing transport route and will replace them with default routes. This action can not be undone. Are you sure you want to reset ?</string>
+
 
     <string name="about_us"><![CDATA[
  <b>NCBSinfo</b> is an application for regular use, especially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.

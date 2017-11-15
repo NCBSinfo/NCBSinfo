@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.activities.settings;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.View;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
@@ -29,6 +31,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.string.cancel;
+import static android.R.string.ok;
 
 public class Settings extends BaseActivity implements SettingsActions, SettingsAdapter.OnSelect {
 
@@ -73,6 +78,21 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                 if (routeData != null) {
                     routeDataList = routeData;
                     setUpItems();
+                }
+            }
+        });
+
+        viewModel.getResetDone().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean != null) {
+                    if (aBoolean) {
+                        General.makeLongToast(getApplicationContext(), "All routes reset!");
+                        Intent intent = new Intent(Settings.this, Home.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        animateTransition();
+                    }
                 }
             }
         });
@@ -132,6 +152,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                         }
                         break;
 
+
                 }
                 modelList.add(mod);
             } else {
@@ -144,7 +165,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
 
     private void showTransport() {
         //TODO : Do this properly
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        Builder b = new Builder(this);
         b.setTitle("Select default route");
 
         String[] types = new String[routeDataList.size()];
@@ -155,13 +176,13 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                 types[routeDataList.indexOf(s)] = types[routeDataList.indexOf(s)] + " (default)";
             }
         }
-        b.setPositiveButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+        b.setPositiveButton(cancel, new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        b.setItems(types, new DialogInterface.OnClickListener() {
+        b.setItems(types, new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 prefs.setFavoriteOrigin(routeDataList.get(which).getOrigin());
@@ -245,6 +266,20 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                     Intent i2 = new Intent(Intent.ACTION_VIEW);
                     i2.setData(Uri.parse(currentUrl));
                     startActivity(i2);
+                    break;
+                case ACTION_RESET_ROUTE:
+                    new Builder(Settings.this)
+                            .setTitle(getString(R.string.are_you_sure))
+                            .setMessage(getString(R.string.settings_reset_warning))
+                            .setPositiveButton(ok, new OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    viewModel.startRest(getApplicationContext());
+                                }
+                            }).setNegativeButton(cancel, new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    }).show();
                     break;
 
 

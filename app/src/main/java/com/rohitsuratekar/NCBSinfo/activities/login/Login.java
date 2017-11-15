@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
@@ -46,10 +48,13 @@ public class Login extends AppCompatActivity {
     @BindView(R.id.login_btn)
     Button loginBtn;
 
+
     private LoginViewModel viewModel;
 
     private boolean isBackgroundBusy = true;
     private FirebaseAuth mAuth;
+    private boolean isUserLoggedIn = false;
+    private AppPrefs prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class Login extends AppCompatActivity {
         subscribe();
 
         mAuth = FirebaseAuth.getInstance();
+        prefs = new AppPrefs(getApplicationContext());
         progressBar.setVisibility(View.INVISIBLE);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -74,25 +80,42 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                animateTransition();
             }
         });
         toggleScreen();
+
+        if (mAuth.getCurrentUser() != null) {
+            emailLayout.getEditText().setText(mAuth.getCurrentUser().getEmail());
+            emailLayout.setEnabled(false);
+            passLayout.setVisibility(View.INVISIBLE);
+            loginBtn.setText(getString(R.string.log_out));
+            setTitle(getString(R.string.hello_user, prefs.getUserName()));
+            isUserLoggedIn = true;
+        }
 
     }
 
     @OnClick(R.id.login_btn)
     public void validate() {
-        if (emailLayout.getEditText() != null && passLayout.getEditText() != null) {
-            emailLayout.setErrorEnabled(false);
-            passLayout.setErrorEnabled(false);
-            if (General.isValidEmail(emailLayout.getEditText().getText().toString())) {
-                if (passLayout.getEditText().getText().toString().length() > 5) {
-                    signIn();
+        if (isUserLoggedIn) {
+            mAuth.signOut();
+            prefs.clearPersonal();
+            finish();
+            animateTransition();
+        } else {
+            if (emailLayout.getEditText() != null && passLayout.getEditText() != null) {
+                emailLayout.setErrorEnabled(false);
+                passLayout.setErrorEnabled(false);
+                if (General.isValidEmail(emailLayout.getEditText().getText().toString())) {
+                    if (passLayout.getEditText().getText().toString().length() > 5) {
+                        signIn();
+                    } else {
+                        passLayout.setError(getString(R.string.short_password));
+                    }
                 } else {
-                    passLayout.setError(getString(R.string.short_password));
+                    emailLayout.setError(getString(R.string.invalid_email));
                 }
-            } else {
-                emailLayout.setError(getString(R.string.invalid_email));
             }
         }
     }
@@ -145,7 +168,7 @@ public class Login extends AppCompatActivity {
                         Intent intent = new Intent(Login.this, Home.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        animateTransition();
                     }
                 }
             }
@@ -189,7 +212,8 @@ public class Login extends AppCompatActivity {
 
     @OnClick(R.id.login_create)
     public void register() {
-
+        startActivity(new Intent(this, Register.class));
+        animateTransition();
     }
 
     @OnClick(R.id.login_forgot)
@@ -238,5 +262,9 @@ public class Login extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    private void animateTransition() {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

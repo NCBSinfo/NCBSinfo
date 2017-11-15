@@ -2,12 +2,20 @@
     <string name="app_name">NCBSinfo</string>
 
     <string name="home">Home</string>
+    <string name="header_subtitle">%1$d (%2$s)</string>
     <string name="hm_full_route_name">%1$s - %2$s\n%3$s</string>
     <string name="transport">Transport</string>
     <string name="tp_route_name">%1$s - %2$s</string>
     <string name="tp_next_transport">next %s</string>
     <string name="tp_last_updated">Last updated by %s on %s</string>
     <string name="tp_no_route_warning">Looks like you have not selected any specific route or you do not have any route created. Please select route to see trips.</string>
+
+
+    <string name="dashboard">Dashboard</string>
+    <string name="db_profile">Profile</string>
+    <string name="last_network_sync">Last Network Sync</string>
+    <string name="db_login_warning">You can sync your routes and other settings to our server by signing in. It is free.</string>
+
 
     <string name="contacts">Contacts</string>
     <string name="search">Search</string>
@@ -33,5 +41,15 @@
     <string name="blank_email">Enter valid email address so that we can send password reset link.</string>
     <string name="forgot_password_success">We have sent further instructions to \'%s\'. Please check your inbox for further details.</string>
 
-
+    <string name="register">Register</string>
+    <string name="log_out">Log Out</string>
+    <string name="hello_user">Hello %s</string>
+    <string name="name">Name</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_account">Already have account?</string>
+    <string name="name_error">Common, at least tell us your name.</string>
+    <string name="regi_email_error">We won\'t spam. Provide valid email address.</string>
+    <string name="conf_pass_error">This is not same as password provided above.</string>
+    <string name="user_exists">This email address is already registered with us. Try logging in instead? </string>
 </resources>

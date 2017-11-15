@@ -38,6 +38,7 @@ public class CommonTasks extends IntentService {
     private static final String SEND_FAVORITE_CHANGE = "com.rohitsuratekar.NCBSinfo.background.action.sendfav";
     private static final String SYNC_USER_DETAILS = "com.rohitsuratekar.NCBSinfo.background.action.syncUser";
     private static final String SYNC_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.syncRoutes";
+    private static final String RESET_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.resetRoutes";
 
     private static final String FAV_ROUTE = "FavRoute";
 
@@ -67,6 +68,13 @@ public class CommonTasks extends IntentService {
         context.startService(intent);
     }
 
+    public static void resetAllRoutes(Context context) {
+        Log.inform("Resetting all routes");
+        Intent intent = new Intent(context, CommonTasks.class);
+        intent.setAction(RESET_ROUTES);
+        context.startService(intent);
+    }
+
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -78,6 +86,8 @@ public class CommonTasks extends IntentService {
                 syncUser();
             } else if (SYNC_ROUTES.equals(action)) {
                 syncRoutes();
+            } else if (RESET_ROUTES.equals(action)) {
+                resetRoutes();
             }
         }
     }
@@ -220,6 +230,25 @@ public class CommonTasks extends IntentService {
         }
         return modelList;
     }
+
+    private void resetRoutes() {
+        AppData db = AppData.getDatabase(getApplicationContext());
+        db.routes().deletAll();
+        db.trips().deletAll();
+        Log.inform("All Routes deleted");
+        new CreateDefaultRoutes(getApplicationContext(), new OnFinish() {
+            @Override
+            public void finished() {
+
+            }
+
+            @Override
+            public void allRoutes(List<RouteData> routeDataList) {
+
+            }
+        }).execute();
+    }
+
 
     private void reportError(String message) {
         //TODO: analytics

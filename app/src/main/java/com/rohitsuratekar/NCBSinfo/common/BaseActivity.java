@@ -19,9 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
@@ -53,6 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.addDrawerListener(drawerToggle);
         changeHeader();
+
     }
 
     /**
@@ -99,6 +103,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         backgroundGradient.setGradientCenter(10, 0);
         backgroundGradient.setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         drawerToggle.syncState();
+
+        AppPrefs prefs = new AppPrefs(getApplicationContext());
+        TextView headerTitle = header.findViewById(R.id.nav_header_title);
+        TextView headerSubTitle = header.findViewById(R.id.nav_header_subtitle);
+        if (headerTitle != null && headerSubTitle != null) {
+            if (prefs.isUsedLoggedIn()) {
+                headerTitle.setText(prefs.getUserName());
+                headerSubTitle.setText(prefs.getUserEmail());
+            } else {
+                int versionCode = BuildConfig.VERSION_CODE;
+                String versionName = BuildConfig.VERSION_NAME;
+                headerSubTitle.setText(getString(R.string.header_subtitle, versionCode, versionName));
+            }
+        }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -158,6 +177,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return Contacts.class;
             case R.id.nav_settings:
                 return Settings.class;
+            case R.id.nav_dash:
+                return Dashboard.class;
         }
         return Home.class;
     }
