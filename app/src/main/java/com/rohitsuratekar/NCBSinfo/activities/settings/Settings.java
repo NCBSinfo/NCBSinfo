@@ -20,7 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
+import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;

@@ -1,19 +1,24 @@
 package com.rohitsuratekar.NCBSinfo.activities.dashboard;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
@@ -28,6 +33,8 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
 
     static final int ACTION_NAME = 1;
     static final int ACTION_ROUTE = 2;
+    static final int ACTION_EMAIL = 3;
+    static final int ACTION_SYNC = 4;
 
     @BindView(R.id.db_recycler)
     RecyclerView recyclerView;
@@ -51,6 +58,7 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
         findViewById(R.id.tabs).setVisibility(View.GONE);
         setTitle(R.string.dashboard);
         ButterKnife.bind(this);
+        itemList = new ArrayList<>();
         prefs = new AppPrefs(getApplicationContext());
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
@@ -71,7 +79,6 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
     }
 
     private void setUpList() {
-        itemList = new ArrayList<>();
 
         if (userLoggedIn) {
             DashboardItem name = new DashboardItem();
@@ -96,6 +103,7 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
             DashboardItem email = new DashboardItem();
             email.setTitle(prefs.getUserEmail());
             email.setSubtitle(getString(R.string.email));
+            email.setAction(ACTION_EMAIL);
             email.setIcon(R.drawable.icon_email);
             itemList.add(email);
         }
@@ -103,6 +111,7 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
 
         DashboardItem sync = new DashboardItem();
         sync.setIcon(R.drawable.icon_sync);
+        sync.setAction(ACTION_SYNC);
         sync.setSubtitle(getString(R.string.last_network_sync));
         try {
             sync.setTitle(DateConverter.changeFormat(ConverterMode.MONTH_FIRST, prefs.getLastSync(), "dd MMM yy, hh:mm a"));
@@ -132,6 +141,45 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
         return R.id.nav_dash;
     }
 
+    public void changeName() {
+        if (General.isNetworkAvailable(getBaseContext())) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(Dashboard.this);
+            final EditText edittext = new EditText(getBaseContext());
+            edittext.setText(prefs.getUserName());
+            alert.setTitle(getString(R.string.change_name));
+            alert.setView(edittext);
+            alert.setPositiveButton(getString(R.string.change), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    if (edittext.getText().toString().length() > 0) {
+                        edittext.clearFocus();
+                        sendNameChangeRequest(edittext.getText().toString());
+
+                    } else {
+                        General.makeShortToast(getBaseContext(), getString(R.string.empty_error));
+                    }
+                }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // what ever you want to do with No option.
+                }
+            });
+
+            alert.show();
+        } else {
+            General.makeShortToast(getBaseContext(), getString(R.string.network_issue));
+        }
+
+    }
+
+    private void sendNameChangeRequest(String name) {
+        prefs.setUserName(name);
+        CommonTasks.syncUserDetails(getApplicationContext());
+        itemList.clear();
+        setUpList();
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void itemClicked(int position) {
@@ -141,7 +189,7 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
                 animateTransition();
                 break;
             case ACTION_NAME:
-                //TODO
+                changeName();
                 break;
 
         }

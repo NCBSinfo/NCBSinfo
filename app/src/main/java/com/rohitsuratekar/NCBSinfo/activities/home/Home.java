@@ -27,14 +27,16 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
+import com.rohitsuratekar.NCBSinfo.activities.locations.Locations;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportFragment;
-import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
 import com.rohitsuratekar.NCBSinfo.background.SetUpHome;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
+import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
@@ -232,6 +234,15 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
                         startActivity(new Intent(Home.this, Settings.class));
                         animateTransition();
                         break;
+                    case R.id.nav_dash:
+                        startActivity(new Intent(Home.this, Dashboard.class));
+                        animateTransition();
+                        break;
+                    case R.id.nav_location:
+                        startActivity(new Intent(Home.this, Locations.class));
+                        animateTransition();
+                        break;
+
                 }
                 return false;
             }

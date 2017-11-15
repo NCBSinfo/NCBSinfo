@@ -25,6 +25,7 @@ public class AppPrefs extends Preferences {
     private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
     private static final String LAST_SYNC = "last_sync";
     private static final String MIGRATION_ID = "migration_id";
+    private static final String LOCATION_SORT = "location_sort";
 
     public AppPrefs(Context context) {
         super(context);
@@ -149,5 +150,13 @@ public class AppPrefs extends Preferences {
         delete(LAST_SYNC);
         delete(SETTINGS_DEFAULT_SET);
         delete(NOTIFICATIONS);
+    }
+
+    public int getLocationSort() {
+        return get(LOCATION_SORT, 0);
+    }
+
+    public void setLocationSort(int loc) {
+        put(LOCATION_SORT, loc);
     }
 }

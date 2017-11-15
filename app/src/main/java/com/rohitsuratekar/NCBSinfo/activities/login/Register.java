@@ -17,9 +17,10 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.crash.FirebaseCrash;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.background.CommonTasks;
+import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
@@ -132,11 +133,11 @@ public class Register extends AppCompatActivity {
                         } catch (FirebaseNetworkException e) {
                             General.makeLongToast(getApplicationContext(), getString(R.string.network_issue));
                         } catch (Exception e) {
-                            //  FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
+                            FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
                             General.makeLongToast(getApplicationContext(), e.getLocalizedMessage());
                         }
                     } else {
-                        //todo FirebaseCrash.report(new Exception(("Empty Exception during login.")));
+                        FirebaseCrash.report(new Exception(("Empty Exception during login.")));
                         General.makeLongToast(getApplicationContext(), "Something is wrong!");
                     }
                 }

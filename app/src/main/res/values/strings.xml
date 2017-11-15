@@ -31,6 +31,10 @@
     <string name="done">Done</string>
     <string name="oops">Oops…</string>
     <string name="password">Password</string>
+    <string name="change">Change</string>
+    <string name="change_name">Change Name</string>
+    <string name="empty_error">This field can not be empty</string>
+
     <string name="forgot_password">Forgot Password</string>
     <string name="create_account">Create New Account</string>
     <string name="invalid_email">Invalid email address</string>
@@ -52,4 +56,11 @@
     <string name="regi_email_error">We won\'t spam. Provide valid email address.</string>
     <string name="conf_pass_error">This is not same as password provided above.</string>
     <string name="user_exists">This email address is already registered with us. Try logging in instead? </string>
+
+    <string name="locations">Locations</string>
+    <string name="sort_by">sort by</string>
+    <string name="location_name">name</string>
+    <string name="building">building</string>
+    <string name="floor">floor</string>
+    <string name="whatever">whatever</string>
 </resources>

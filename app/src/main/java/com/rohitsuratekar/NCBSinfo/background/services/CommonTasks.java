@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.background;
+package com.rohitsuratekar.NCBSinfo.background.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -9,7 +9,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
+import com.rohitsuratekar.NCBSinfo.background.OnFinish;
 import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
 import com.rohitsuratekar.NCBSinfo.background.networking.RouteModel;
 import com.rohitsuratekar.NCBSinfo.background.networking.UserDetails;
@@ -251,8 +254,8 @@ public class CommonTasks extends IntentService {
 
 
     private void reportError(String message) {
-        //TODO: analytics
         Log.error(message);
+        FirebaseCrash.report(new Exception(message));
     }
 
 }

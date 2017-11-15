@@ -15,29 +15,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".activities.home.Home" />
-        <activity android:name=".activities.transport.Transport" />
-        <activity android:name=".activities.contacts.Contacts" />
-        <activity android:name=".activities.settings.Settings" />
-        <activity android:name=".activities.settings.SettingsInfo" />
-
-        <service
-            android:name=".background.CommonTasks"
-            android:exported="false" />
-
-        <activity android:name=".activities.login.Login">
-
-        </activity>
-        <activity android:name=".activities.login.Register">
-
-        </activity>
-        <activity android:name=".activities.dashboard.Dashboard">
+        <activity android:name=".activities.home.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.transport.Transport" />
+        <activity android:name=".activities.contacts.Contacts" />
+        <activity android:name=".activities.settings.Settings" />
+        <activity android:name=".activities.settings.SettingsInfo" />
+
+        <service
+            android:name=".background.services.CommonTasks"
+            android:exported="false" />
+
+        <activity android:name=".activities.login.Login"></activity>
+        <activity android:name=".activities.login.Register"></activity>
+        <activity android:name=".activities.dashboard.Dashboard"></activity>
+
+        <service
+            android:name=".background.services.SyncJobs"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".background.services.OnUpgrade">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data
+                    android:path="com.rohitsuratekar.NCBSinfo"
+                    android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activities.locations.Locations"></activity>
     </application>
 
 </manifest>

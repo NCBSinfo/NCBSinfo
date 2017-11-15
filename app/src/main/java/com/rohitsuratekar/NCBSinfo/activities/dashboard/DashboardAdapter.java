@@ -21,7 +21,7 @@ class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder>
     private List<DashboardItem> itemList;
     private OnItemClick onItemClick;
 
-    public DashboardAdapter(List<DashboardItem> itemList, OnItemClick onItemClick) {
+    DashboardAdapter(List<DashboardItem> itemList, OnItemClick onItemClick) {
         this.itemList = itemList;
         this.onItemClick = onItemClick;
     }
@@ -49,6 +49,12 @@ class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder>
                 onItemClick.itemClicked(holder.getAdapterPosition());
             }
         });
+
+        if (item.getAction() == Dashboard.ACTION_EMAIL || item.getAction() == Dashboard.ACTION_SYNC) {
+            holder.title.setAlpha(0.6f);
+        } else {
+            holder.title.setAlpha(1f);
+        }
 
         if (item.getIcon() != 0) {
             holder.icon.setVisibility(View.VISIBLE);
