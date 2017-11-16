@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
@@ -85,6 +86,12 @@ public class Locations extends BaseActivity {
             default:
                 sortByName();
         }
+
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("location_accessed", General.timeStamp());
+        mFirebaseAnalytics.logEvent("location", params);
 
 
     }

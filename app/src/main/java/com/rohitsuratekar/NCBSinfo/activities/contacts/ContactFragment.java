@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.activities.contacts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,7 +46,7 @@ public class ContactFragment extends BottomSheetDialogFragment {
         TextView subDetails = rootView.findViewById(R.id.ct_sheet_details);
 
         if (getActivity() instanceof Contacts && getArguments() != null) {
-            ContactModel model = new Gson().fromJson(getArguments().getString(CONTACT, ""), ContactModel.class);
+            final ContactModel model = new Gson().fromJson(getArguments().getString(CONTACT, ""), ContactModel.class);
             name.setText(model.getName());
             subDetails.setText(model.getInstitute());
 
@@ -64,9 +65,21 @@ public class ContactFragment extends BottomSheetDialogFragment {
                 public void onclick(String call) {
                     selected.onCalled(call);
                     dismiss();
-                    //TODO: Add feedback button
                 }
             });
+
+            rootView.findViewById(R.id.ct_sheet_feedback).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/html");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@secretbiology.com", "ncbs.mod@gmail.com"});
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback on " + model.getName() + " in contact list");
+                    startActivity(Intent.createChooser(intent, "Send Email"));
+                    dismiss();
+                }
+            });
+
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         }

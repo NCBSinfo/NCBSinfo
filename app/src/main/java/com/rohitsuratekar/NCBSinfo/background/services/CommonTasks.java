@@ -108,36 +108,40 @@ public class CommonTasks extends IntentService {
 
     private void syncUser() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            final UserDetails details = getUserDetails(getApplicationContext(), auth);
-            auth.getCurrentUser().getIdToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                @Override
-                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                    if (task.isSuccessful()) {
+        AppPrefs prefs = new AppPrefs(getApplicationContext());
+        //Only do this for logged in users
+        if (prefs.isUsedLoggedIn()) {
+            if (auth.getCurrentUser() != null) {
+                final UserDetails details = getUserDetails(getApplicationContext(), auth);
+                auth.getCurrentUser().getIdToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
 
-                        new RetrofitCalls().synUserPreference(details, task.getResult().getToken()).enqueue(new Callback<UserDetails>() {
-                            @Override
-                            public void onResponse(@NonNull Call<UserDetails> call, @NonNull Response<UserDetails> response) {
-                                Log.inform("User details Synced: " + details.getUid());
-                            }
+                            new RetrofitCalls().synUserPreference(details, task.getResult().getToken()).enqueue(new Callback<UserDetails>() {
+                                @Override
+                                public void onResponse(@NonNull Call<UserDetails> call, @NonNull Response<UserDetails> response) {
+                                    Log.inform("User details Synced: " + details.getUid());
+                                }
 
-                            @Override
-                            public void onFailure(@NonNull Call<UserDetails> call, @NonNull Throwable t) {
-                                reportError(t.getLocalizedMessage());
-                            }
-                        });
+                                @Override
+                                public void onFailure(@NonNull Call<UserDetails> call, @NonNull Throwable t) {
+                                    reportError(t.getLocalizedMessage());
+                                }
+                            });
 
-                    } else {
-                        if (task.getException() != null) {
-                            reportError(task.getException().getLocalizedMessage());
                         } else {
-                            reportError("Unable to get access token.");
+                            if (task.getException() != null) {
+                                reportError(task.getException().getLocalizedMessage());
+                            } else {
+                                reportError("Unable to get access token.");
+                            }
                         }
                     }
-                }
-            });
-        } else {
-            reportError("Unable to Sync User details");
+                });
+            } else {
+                reportError("Unable to Sync User details");
+            }
         }
     }
 
@@ -175,36 +179,40 @@ public class CommonTasks extends IntentService {
 
     private void syncRoutes() {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null) {
-            final List<RouteModel> modelList = createRouteModels();
-            auth.getCurrentUser().getIdToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                @Override
-                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                    if (task.isSuccessful()) {
+        AppPrefs prefs = new AppPrefs(getApplicationContext());
+        //Only do this for logged in users
+        if (prefs.isUsedLoggedIn()) {
+            if (auth.getCurrentUser() != null) {
+                final List<RouteModel> modelList = createRouteModels();
+                auth.getCurrentUser().getIdToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
 
-                        new RetrofitCalls().syncRoutes(auth.getCurrentUser().getUid(), modelList, task.getResult().getToken()).enqueue(new Callback<HashMap<String, RouteModel>>() {
-                            @Override
-                            public void onResponse(@NonNull Call<HashMap<String, RouteModel>> call, @NonNull Response<HashMap<String, RouteModel>> response) {
-                                Log.inform("Route details synced successfully");
-                            }
+                            new RetrofitCalls().syncRoutes(auth.getCurrentUser().getUid(), modelList, task.getResult().getToken()).enqueue(new Callback<HashMap<String, RouteModel>>() {
+                                @Override
+                                public void onResponse(@NonNull Call<HashMap<String, RouteModel>> call, @NonNull Response<HashMap<String, RouteModel>> response) {
+                                    Log.inform("Route details synced successfully");
+                                }
 
-                            @Override
-                            public void onFailure(@NonNull Call<HashMap<String, RouteModel>> call, @NonNull Throwable t) {
-                                reportError(t.getLocalizedMessage());
-                            }
-                        });
+                                @Override
+                                public void onFailure(@NonNull Call<HashMap<String, RouteModel>> call, @NonNull Throwable t) {
+                                    reportError(t.getLocalizedMessage());
+                                }
+                            });
 
-                    } else {
-                        if (task.getException() != null) {
-                            reportError(task.getException().getLocalizedMessage());
                         } else {
-                            reportError("Unable to get access token.");
+                            if (task.getException() != null) {
+                                reportError(task.getException().getLocalizedMessage());
+                            } else {
+                                reportError("Unable to get access token.");
+                            }
                         }
                     }
-                }
-            });
-        } else {
-            reportError("Unable to Sync Route details");
+                });
+            } else {
+                reportError("Unable to Sync Route details");
+            }
         }
     }
 

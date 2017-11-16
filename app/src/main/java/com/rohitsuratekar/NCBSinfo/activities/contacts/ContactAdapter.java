@@ -79,6 +79,7 @@ class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> 
                 contactClick.clicked(holder.getAdapterPosition());
             }
         });
+
     }
 
     private int getIcon(ContactModel model) {

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.login.Login;
@@ -74,6 +75,12 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
         adapter = new DashboardAdapter(itemList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
+
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("dashboard_accessed", General.timeStamp());
+        mFirebaseAnalytics.logEvent("dashboard", params);
 
 
     }

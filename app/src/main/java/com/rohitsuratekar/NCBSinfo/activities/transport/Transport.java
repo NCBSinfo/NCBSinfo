@@ -19,9 +19,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
+import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
@@ -85,6 +87,13 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
         int id = getIntent().getIntExtra(ROUTE, -1);
         viewModel.loadRoute(getApplicationContext(), id);
         changeDay(daysList.get(currentCalender.get(Calendar.DAY_OF_WEEK) - 1));
+
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("transport_accessed", General.timeStamp());
+        mFirebaseAnalytics.logEvent("transport", params);
+
     }
 
     private void changeDay(TextView textView) {
@@ -264,7 +273,7 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit: {
-                // do your sign-out stuff
+                General.makeShortToast(getApplicationContext(), "Editing Transport is coming soon!");
                 break;
             }
             // case blocks for other MenuItems (if any)

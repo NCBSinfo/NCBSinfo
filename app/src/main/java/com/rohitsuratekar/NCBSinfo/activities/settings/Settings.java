@@ -45,6 +45,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
     private AppPrefs prefs;
     private SettingsViewModel viewModel;
     private List<RouteData> routeDataList;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
         ButterKnife.bind(this);
 
         //New test for custom events for analytics
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
         params.putString("settings_accessed", General.timeStamp());
         mFirebaseAnalytics.logEvent("settings", params);
@@ -230,6 +231,10 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
     };
 
     private void showInfo(String action) {
+        Bundle params = new Bundle();
+        params.putString("settings_info_accessed", General.timeStamp());
+        params.putString("settings_info_type", action);
+        mFirebaseAnalytics.logEvent("settings_info", params);
         Intent infoIntent = new Intent(this, SettingsInfo.class);
         infoIntent.setAction(action);
         startActivity(infoIntent);
@@ -281,7 +286,13 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                         }
                     }).show();
                     break;
-
+                case ACTION_FEEDBACK:
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/html");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@secretbiology.com", "ncbs.mod@gmail.com"});
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback on NCBSinfo v" + BuildConfig.VERSION_CODE);
+                    startActivity(Intent.createChooser(intent, "Send Email"));
+                    break;
 
             }
         }

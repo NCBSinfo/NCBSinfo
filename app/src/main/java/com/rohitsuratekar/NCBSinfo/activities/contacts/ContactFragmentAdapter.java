@@ -121,7 +121,7 @@ class ContactFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Spannable getSpan(String original) {
 
-        String preText = "+910 802 366 ";
+        String preText = "+91 802 366 ";
         if (original.length() > 4) {
             preText = "";
         }

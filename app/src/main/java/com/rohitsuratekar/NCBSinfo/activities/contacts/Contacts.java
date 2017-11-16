@@ -29,6 +29,8 @@ import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,6 +52,7 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
     private ContactAdapter adapter;
     private MenuItem searchItem;
     private String tempCallString = "";
+    private int sortOrder = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,5 +216,37 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (sortOrder == 0) {
+            item.setIcon(R.drawable.icon_sort_alphabetical);
+            item.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
+
+            if (item.getItemId() == R.id.action_sort) {
+                Collections.sort(modelList, new Comparator<ContactModel>() {
+                    @Override
+                    public int compare(ContactModel o1, ContactModel o2) {
+                        return o1.getName().compareTo(o2.getName());
+                    }
+                });
+            }
+            sortOrder = 1;
+        } else if (sortOrder == 1) {
+            Collections.reverse(modelList);
+            sortOrder = 2;
+        } else {
+            item.setIcon(R.drawable.icon_sort);
+            item.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
+            modelList.clear();
+            modelList.addAll(new ContactList().getAll());
+            sortList(modelList);
+            sortOrder = 0;
+        }
+        adapter.notifyDataSetChanged();
+        return super.onOptionsItemSelected(item);
+
+
     }
 }
