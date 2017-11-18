@@ -16,11 +16,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity android:name=".activities.home.Home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.transport.Transport" />
         <activity android:name=".activities.contacts.Contacts" />
@@ -54,7 +50,13 @@
         </receiver>
 
         <activity android:name=".activities.locations.Locations" />
-        <activity android:name=".activities.intro.Intro"></activity>
+        <activity android:name=".activities.intro.Intro">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

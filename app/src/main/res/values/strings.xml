@@ -63,4 +63,15 @@
     <string name="building">building</string>
     <string name="floor">floor</string>
     <string name="whatever">whatever</string>
+
+    <string name="intro_text1_heading">New Avatar</string>
+    <string name="intro_text1_details">We heard your feedback and feature requests. Now NCBSinfo is more robust, pleasing and of course useful.</string>
+
+    <string name="intro_text2_heading">Focus on Transport</string>
+    <string name="intro_text2_details">New version is focused on one of the most used feature of NCBSinfo. You can
+    view, add, edit, delete or even sync transport timings with cloud storage.</string>
+
+    <string name="intro_text3_heading">Don\'t be surprised!</string>
+    <string name="intro_text3_details">This version is filled with surprises in every section. We have also hidden some ester eggs ;)</string>
+    <string name="next">Next</string>
 </resources>
