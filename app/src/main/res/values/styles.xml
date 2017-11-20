@@ -28,4 +28,10 @@
         <item name="android:background">@color/colorPrimaryLight</item>
     </style>
 
+    <style name="ErrorDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="android:tint">@color/red</item>
+    </style>
+
+
 </resources>

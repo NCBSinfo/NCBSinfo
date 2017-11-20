@@ -50,12 +50,16 @@
         </receiver>
 
         <activity android:name=".activities.locations.Locations" />
-        <activity android:name=".activities.intro.Intro">
+        <activity android:name=".activities.transport.edit.EditTransport" />
+        <activity android:name=".activities.transport.ManageTransport">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.intro.Intro">
+
         </activity>
     </application>
 

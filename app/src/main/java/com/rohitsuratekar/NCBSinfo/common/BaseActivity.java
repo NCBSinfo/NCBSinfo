@@ -28,6 +28,7 @@ import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.activities.locations.Locations;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.transport.ManageTransport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 
 /**
@@ -182,6 +183,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return Dashboard.class;
             case R.id.nav_location:
                 return Locations.class;
+            case R.id.nav_manage_transport:
+                return ManageTransport.class;
         }
         return Home.class;
     }
