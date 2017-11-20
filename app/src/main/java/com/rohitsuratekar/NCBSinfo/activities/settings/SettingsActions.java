@@ -21,6 +21,7 @@ interface SettingsActions {
     int ACTION_PRIVACY = 12;
     int ACTION_NOTIFICATIONS = 13;
     int ACTION_ACK = 14;
+    int ACTION_INTRO = 15;
 
 
     int VIEW_ITEM = 0;

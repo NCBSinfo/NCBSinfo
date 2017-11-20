@@ -1,17 +1,23 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport.edit;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.secretbiology.helpers.general.General;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -19,6 +25,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.R.string.cancel;
+import static android.R.string.ok;
 
 /**
  * Created by Rohit Suratekar on 15-07-17 for NCBSinfo.
@@ -34,8 +43,17 @@ public class ETConfirmFragment extends Fragment {
     TextView routeType;
     @BindView(R.id.et_final_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.et_progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.et_final_confirm_btn)
+    Button confirmBtn;
+
+
     private ETViewModel viewModel;
     private ETDataHolder holder;
+    private boolean isBackgroundBusy = false;
+    private boolean finishEditing = false;
+    private ConfirmModel confirmModel;
 
 
     @Nullable
@@ -43,6 +61,9 @@ public class ETConfirmFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.edit_transport_confirm, container, false);
         ButterKnife.bind(this, rootView);
+
+        confirmModel = new ConfirmModel();
+        confirmModel.setForEdit(((EditTransport) getActivity()).isForEdit());
         viewModel = ViewModelProviders.of(getActivity()).get(ETViewModel.class);
         holder = viewModel.getData().getValue();
         if (holder != null) {
@@ -53,11 +74,18 @@ public class ETConfirmFragment extends Fragment {
             adapter.setOnSelect(new ETSimpleAdapter.OnSelect() {
                 @Override
                 public void selected(int position) {
-                    viewModel.getCurrentStep().postValue(3);
+
+                    if (isBackgroundBusy) {
+                        General.makeShortToast(getContext(), "Please wait...");
+                    } else {
+                        viewModel.getCurrentStep().postValue(3);
+                    }
                 }
             });
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
+        progressBar.setVisibility(View.GONE);
+        subscribe();
         return rootView;
     }
 
@@ -87,6 +115,35 @@ public class ETConfirmFragment extends Fragment {
         }
     }
 
+    private void subscribe() {
+        viewModel.getConfirmActions().observe(this, new Observer<ConfirmModel>() {
+            @Override
+            public void onChanged(@Nullable final ConfirmModel model) {
+                if (model != null) {
+                    toggleBackground();
+                    if (model.isConfirmed()) {
+                        viewModel.setFinalData(true);
+                    } else {
+                        new AlertDialog.Builder(getContext())
+                                .setTitle(getString(R.string.are_you_sure))
+                                .setMessage(getString(model.getErrorMessage()))
+                                .setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        toggleBackground();
+                                        confirmModel.setConfirmed(true);
+                                        viewModel.validateInfo(getContext(), confirmModel);
+                                    }
+                                }).setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        }).show();
+                    }
+                }
+            }
+        });
+    }
+
     private String getDetailFrequency() {
         StringBuilder s = new StringBuilder();
         Calendar calendar = Calendar.getInstance();
@@ -101,12 +158,41 @@ public class ETConfirmFragment extends Fragment {
 
     @OnClick(R.id.et_final_type)
     public void changeType() {
-        viewModel.getCurrentStep().postValue(1);
+        if (isBackgroundBusy) {
+            General.makeShortToast(getContext(), "Please wait...");
+        } else {
+            viewModel.getCurrentStep().postValue(1);
+        }
     }
 
     @OnClick(R.id.et_final_route_name)
     public void changeInfo() {
-        viewModel.getCurrentStep().postValue(0);
+
+        if (isBackgroundBusy) {
+            General.makeShortToast(getContext(), "Please wait...");
+        } else {
+            viewModel.getCurrentStep().postValue(0);
+        }
+    }
+
+    @OnClick(R.id.et_final_confirm_btn)
+    public void confirmEdit() {
+        toggleBackground();
+        confirmModel.setData(viewModel.getData().getValue());
+        viewModel.validateInfo(getContext(), confirmModel);
+    }
+
+    private void toggleBackground() {
+        isBackgroundBusy = !isBackgroundBusy;
+        if (isBackgroundBusy) {
+            progressBar.setVisibility(View.VISIBLE);
+            confirmBtn.setEnabled(false);
+            confirmBtn.setAlpha(0.6f);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            confirmBtn.setEnabled(true);
+            confirmBtn.setAlpha(1f);
+        }
     }
 
 }

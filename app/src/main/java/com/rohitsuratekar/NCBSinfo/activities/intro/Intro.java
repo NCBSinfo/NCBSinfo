@@ -1,6 +1,5 @@
 package com.rohitsuratekar.NCBSinfo.activities.intro;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.secretbiology.helpers.general.views.ViewpagerAdapter;
 
 import butterknife.BindView;
@@ -66,11 +65,8 @@ public class Intro extends AppCompatActivity {
                     currentPage++;
                     pager.setCurrentItem(currentPage, true);
                 } else {
-                    // new AppPrefs(getBaseContext()).introSeen();
-                    Intent intent = new Intent(Intro.this, Home.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    new AppPrefs(getBaseContext()).introSeen();
+                    finish();
                 }
             }
         });

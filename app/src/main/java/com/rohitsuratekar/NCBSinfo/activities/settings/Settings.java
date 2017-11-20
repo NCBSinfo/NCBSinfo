@@ -20,6 +20,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.activities.intro.Intro;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
@@ -212,6 +213,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
     Object[][] items = {
             {VIEW_HEADER, R.string.settings_header_general},
             {VIEW_ITEM, R.string.settings_notification, 0, R.drawable.icon_notifications_active, ACTION_NOTIFICATIONS},
+            {VIEW_ITEM, R.string.settings_see_intro, R.string.settings_see_intro_details, 0, ACTION_INTRO},
             {VIEW_LINE},
             {VIEW_HEADER, R.string.settings_header_transport},
             {VIEW_ITEM, R.string.settings_default_route, R.string.settings_default_transport_details, R.drawable.icon_transport, ACTION_DEFAULT_ROUTE},
@@ -292,6 +294,10 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@secretbiology.com", "ncbs.mod@gmail.com"});
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback on NCBSinfo v" + BuildConfig.VERSION_CODE);
                     startActivity(Intent.createChooser(intent, "Send Email"));
+                    break;
+                case ACTION_INTRO:
+                    startActivity(new Intent(this, Intro.class));
+                    animateTransition();
                     break;
 
             }

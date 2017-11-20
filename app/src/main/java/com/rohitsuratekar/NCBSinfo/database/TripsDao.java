@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public interface TripsDao {
             "day LIKE :day ")
     int getTripID(int routeID, int day);
 
+    @Update
+    void updateTrips(TripData tripData);
+
     @Query("SELECT * FROM trips " +
             "WHERE routeID LIKE :routeID "
     )
@@ -35,6 +39,16 @@ public interface TripsDao {
     @Delete
     void deleteRoute(TripData tripData);
 
+    @Query("DELETE FROM trips " +
+            "WHERE routeID LIKE :routeID "
+    )
+    void deleteTripsByRoute(int routeID);
+
+    @Query("DELETE FROM trips " +
+            "WHERE tripID LIKE :tripID "
+    )
+    void deleteTripsByTrip(int tripID);
+
     @Query("DELETE FROM trips")
-    void deletAll();
+    void deleteAll();
 }

@@ -6,6 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.rohitsuratekar.NCBSinfo.activities.transport.ManageTransport">
 
+    <FrameLayout
+        android:id="@+id/ma_progress"
+        android:layout_width="match_parent"
+        android:layout_height="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UselessParent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical">
+
+            <ProgressBar
+                android:id="@+id/ma_progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:indeterminate="true" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
     <Button
         android:id="@+id/mt_add_new"
         android:layout_width="0dp"

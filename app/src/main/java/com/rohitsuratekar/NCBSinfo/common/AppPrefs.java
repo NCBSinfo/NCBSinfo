@@ -26,6 +26,7 @@ public class AppPrefs extends Preferences {
     private static final String LAST_SYNC = "last_sync";
     private static final String MIGRATION_ID = "migration_id";
     private static final String LOCATION_SORT = "location_sort";
+    private static final String INTRO_SEEN = "intro_seen";
 
     public AppPrefs(Context context) {
         super(context);
@@ -158,5 +159,13 @@ public class AppPrefs extends Preferences {
 
     public void setLocationSort(int loc) {
         put(LOCATION_SORT, loc);
+    }
+
+    public boolean isIntroSeen() {
+        return get(INTRO_SEEN, false);
+    }
+
+    public void introSeen() {
+        put(INTRO_SEEN, true);
     }
 }

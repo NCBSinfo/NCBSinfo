@@ -213,8 +213,8 @@ public class LoginViewModel extends ViewModel {
         protected Void doInBackground(Void... voids) {
 
             //Delete all old routes
-            db.routes().deletAll();
-            db.trips().deletAll();
+            db.routes().deleteAll();
+            db.trips().deleteAll();
             Log.inform("All Old routes deleted.");
 
             for (RouteModel model : modelList) {

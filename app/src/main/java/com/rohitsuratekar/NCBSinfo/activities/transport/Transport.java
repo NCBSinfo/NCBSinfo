@@ -3,6 +3,7 @@ package com.rohitsuratekar.NCBSinfo.activities.transport;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -246,7 +247,6 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
         //Scroll to next trip
         recyclerView.smoothScrollToPosition(adapter.getScrollPosition());
         try {
-            Log.inform(currentDetails.getRouteData().getModifiedOn());
             lastUpdate.setText(getString(R.string.tp_last_updated,
                     currentDetails.getRouteData().getAuthor(),
                     DateConverter.changeFormat(ConverterMode.DATE_FIRST, currentDetails.getRouteData().getModifiedOn(), "dd MMM yy")));
@@ -273,7 +273,8 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit: {
-                General.makeShortToast(getApplicationContext(), "Editing Transport is coming soon!");
+                startActivity(new Intent(this, ManageTransport.class));
+                animateTransition();
                 break;
             }
             // case blocks for other MenuItems (if any)

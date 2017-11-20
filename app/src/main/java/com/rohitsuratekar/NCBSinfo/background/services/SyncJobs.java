@@ -22,6 +22,8 @@ public class SyncJobs extends JobService {
     public static final String RESET_ALL_JOBS = "startAllJobs";
     public static final String SINGLE_ROUTE_SYNC = "singleRouteSync";
     public static final String SYNC_PREFERENCES = "syncPreferences";
+
+    // Do not use this outside this class. This is for repetitive sync
     private static final String SYNC_ROUTE_DATA = "syncRouteData";
 
     private FirebaseJobDispatcher dispatcher;

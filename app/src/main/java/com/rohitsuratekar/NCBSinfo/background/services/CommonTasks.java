@@ -42,8 +42,14 @@ public class CommonTasks extends IntentService {
     private static final String SYNC_USER_DETAILS = "com.rohitsuratekar.NCBSinfo.background.action.syncUser";
     private static final String SYNC_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.syncRoutes";
     private static final String RESET_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.resetRoutes";
+    private static final String DELETE_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.deleteRoutes";
+    private static final String DELETE_TRIPS = "com.rohitsuratekar.NCBSinfo.background.action.deleteTrips";
 
     private static final String FAV_ROUTE = "FavRoute";
+    private static final String DEL_ORIGIN = "delOrigin";
+    private static final String DEL_DESTINATION = "delDestination";
+    private static final String DEL_TYPE = "delType";
+    private static final String DEL_DAY = "delDay";
 
     public CommonTasks() {
         super("CommonTasks");
@@ -54,6 +60,16 @@ public class CommonTasks extends IntentService {
         Intent intent = new Intent(context, CommonTasks.class);
         intent.setAction(SEND_FAVORITE_CHANGE);
         intent.putExtra(FAV_ROUTE, routeID);
+        context.startService(intent);
+    }
+
+    public static void deleteRoute(Context context, String origin, String destination, String type) {
+        Log.inform("Deleting route " + origin + destination + type);
+        Intent intent = new Intent(context, CommonTasks.class);
+        intent.setAction(DELETE_ROUTES);
+        intent.putExtra(DEL_ORIGIN, origin);
+        intent.putExtra(DEL_DESTINATION, destination);
+        intent.putExtra(DEL_TYPE, type);
         context.startService(intent);
     }
 
@@ -68,6 +84,17 @@ public class CommonTasks extends IntentService {
         Log.inform("Route Sync service started.");
         Intent intent = new Intent(context, CommonTasks.class);
         intent.setAction(SYNC_ROUTES);
+        context.startService(intent);
+    }
+
+    public static void deleteSpecificTrips(Context context, String origin, String destination, String type, int day) {
+        Log.inform("Deleting specific trips");
+        Intent intent = new Intent(context, CommonTasks.class);
+        intent.setAction(DELETE_TRIPS);
+        intent.putExtra(DEL_ORIGIN, origin);
+        intent.putExtra(DEL_DESTINATION, destination);
+        intent.putExtra(DEL_TYPE, type);
+        intent.putExtra(DEL_DAY, day);
         context.startService(intent);
     }
 
@@ -91,8 +118,38 @@ public class CommonTasks extends IntentService {
                 syncRoutes();
             } else if (RESET_ROUTES.equals(action)) {
                 resetRoutes();
+            } else if (DELETE_ROUTES.equals(action)) {
+                String o = intent.getStringExtra(DEL_ORIGIN);
+                String d = intent.getStringExtra(DEL_DESTINATION);
+                String t = intent.getStringExtra(DEL_TYPE);
+                deleteRoute(o, d, t);
+            } else if (DELETE_TRIPS.equals(action)) {
+                String o = intent.getStringExtra(DEL_ORIGIN);
+                String d = intent.getStringExtra(DEL_DESTINATION);
+                String t = intent.getStringExtra(DEL_TYPE);
+                int day = intent.getIntExtra(DEL_DAY, 0);
+                deleteTrips(o, d, t, day);
+            } else {
+                reportError(action + " not found.");
             }
         }
+    }
+
+
+    private void deleteRoute(String origin, String destination, String type) {
+        if (origin != null && destination != null && type != null) {
+            AppData db = AppData.getDatabase(getApplicationContext());
+            int routeNo = db.routes().getRouteNo(origin, destination, type);
+            if (routeNo != 0) {
+                db.routes().deleteRouteByNumber(routeNo);
+                db.trips().deleteTripsByRoute(routeNo);
+            } else {
+                reportError("No such route found " + origin + "-" + destination + " " + type);
+            }
+        } else {
+            reportError("Unable to delete route " + origin + "-" + destination + " " + type);
+        }
+        syncRoutes();
     }
 
 
@@ -244,8 +301,8 @@ public class CommonTasks extends IntentService {
 
     private void resetRoutes() {
         AppData db = AppData.getDatabase(getApplicationContext());
-        db.routes().deletAll();
-        db.trips().deletAll();
+        db.routes().deleteAll();
+        db.trips().deleteAll();
         Log.inform("All Routes deleted");
         new CreateDefaultRoutes(getApplicationContext(), new OnFinish() {
             @Override
@@ -258,6 +315,31 @@ public class CommonTasks extends IntentService {
 
             }
         }).execute();
+    }
+
+    private void deleteTrips(String origin, String destination, String type, int day) {
+        if (origin != null && destination != null && type != null) {
+            AppData db = AppData.getDatabase(getApplicationContext());
+            int routeNo = db.routes().getRouteNo(origin, destination, type);
+            if (routeNo != 0) {
+                Log.inform("Deleting trips for the day: " + day);
+                int tripID = db.trips().getTripID(routeNo, day);
+                db.trips().deleteTripsByTrip(tripID);
+
+                List<TripData> leftData = db.trips().getTripsByRoute(routeNo);
+
+                if (leftData.size() == 0) {
+                    Log.inform("No Trips are left hence deleting route as well.");
+                    db.routes().deleteRouteByNumber(routeNo);
+                }
+
+            } else {
+                reportError("No such route found " + origin + "-" + destination + " " + type);
+            }
+        } else {
+            reportError("Unable to delete route " + origin + "-" + destination + " " + type);
+        }
+        syncRoutes();
     }
 
 

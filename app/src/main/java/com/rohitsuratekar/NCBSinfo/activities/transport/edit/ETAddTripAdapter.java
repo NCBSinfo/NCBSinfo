@@ -10,11 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,9 +72,8 @@ class ETAddTripAdapter extends RecyclerView.Adapter {
             viewHolder.itemView.setBackgroundColor(Color.WHITE);
             viewHolder.titleTextView.setVisibility(View.VISIBLE);
             try {
-                Log.inform(item);
                 viewHolder.titleTextView.setText(DateConverter.changeFormat(ConverterMode.DATE_FIRST, item, "hh:mm a"));
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 viewHolder.titleTextView.setText("--:--");
             }
             viewHolder.undoButton.setVisibility(View.GONE);

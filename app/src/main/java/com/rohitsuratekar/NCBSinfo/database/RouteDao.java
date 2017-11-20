@@ -28,7 +28,7 @@ public interface RouteDao {
     void deleteRoute(RouteData routeData);
 
     @Query("DELETE FROM routes")
-    void deletAll();
+    void deleteAll();
 
     // Will return 0 id not found
     @Query("SELECT routeID FROM routes " +
@@ -45,4 +45,9 @@ public interface RouteDao {
 
     @Query("UPDATE routes SET synced = :timestamp")
     void updateSync(String timestamp);
+
+    @Query("DELETE FROM routes " +
+            "WHERE routeID LIKE :routeID "
+    )
+    void deleteRouteByNumber(int routeID);
 }

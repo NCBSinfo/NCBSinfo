@@ -4,27 +4,38 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.home.Home;
+import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
+import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
 import com.secretbiology.helpers.general.General;
-import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
 import java.util.ArrayList;
@@ -32,7 +43,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import static android.R.string.cancel;
+import static android.R.string.ok;
 
 public class EditTransport extends BaseActivity {
 
@@ -45,25 +58,25 @@ public class EditTransport extends BaseActivity {
     private ETViewModel viewModel;
     private int currentFragmentIndex = 0;
     private List<RouteData> routeData = new ArrayList<>();
-    private boolean isForEdit = false;
     private String[] editDetails = new String[3];
+    private boolean isForEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_transport);
-        ButterKnife.findById(this, R.id.tabs).setVisibility(View.GONE);
+        findViewById(R.id.tabs).setVisibility(View.GONE);
         viewModel = ViewModelProviders.of(this).get(ETViewModel.class);
         String ori = getIntent().getStringExtra(ORIGIN);
         String des = getIntent().getStringExtra(DESTINATION);
         String typ = getIntent().getStringExtra(TYPE);
         if (ori != null && des != null && typ != null) {
             setTitle(R.string.edit_transport);
-            isForEdit = true;
             editDetails[0] = ori;
             editDetails[1] = des;
             editDetails[2] = typ;
             viewModel.editActivityTask(getApplicationContext(), editDetails);
+            isForEdit = true;
         } else {
             setTitle(R.string.add_transport);
         }
@@ -137,12 +150,32 @@ public class EditTransport extends BaseActivity {
                 }
             }
         });
+
+        viewModel.getFinalData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean etDataHolder) {
+                if (etDataHolder != null) {
+                    if (etDataHolder) {
+                        General.makeLongToast(getApplicationContext(), "Successfully Updated");
+                        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getApplicationContext()));
+                        Job myJob = dispatcher.newJobBuilder()
+                                .setService(SyncJobs.class)
+                                .setReplaceCurrent(true)
+                                .setTrigger(Trigger.executionWindow(0, 1))
+                                .setTag(SyncJobs.SINGLE_ROUTE_SYNC)
+                                .build();
+                        dispatcher.mustSchedule(myJob);
+                        finish();
+                    }
+                }
+            }
+        });
     }
 
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -172,17 +205,16 @@ public class EditTransport extends BaseActivity {
     private void updateETData() {
         final ETDataHolder data = viewModel.getData().getValue();
         if (data != null) {
-            Log.inform("Here " + data.getTripData().size());
             if (data.getTripData().size() > 1) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditTransport.this);
+                Builder alertDialog = new Builder(EditTransport.this);
                 LayoutInflater inflater = getLayoutInflater();
-                final View convertView = (View) inflater.inflate(R.layout.manage_transport_dialog, null);
-                TextView message = ButterKnife.findById(convertView, R.id.mt_dialog_message);
+                final View convertView = inflater.inflate(R.layout.manage_transport_dialog, null);
+                TextView message = convertView.findViewById(R.id.mt_dialog_message);
                 message.setText(getString(R.string.mt_select_trip_message,
                         data.getOrigin().toUpperCase(), data.getDestination().toUpperCase()));
                 alertDialog.setView(convertView);
                 alertDialog.setCancelable(false);
-                final RadioGroup group = ButterKnife.findById(convertView, R.id.mt_radio_group);
+                final RadioGroup group = convertView.findViewById(R.id.mt_radio_group);
                 group.setOrientation(RadioGroup.VERTICAL);
                 final Calendar calendar = Calendar.getInstance();
                 for (TripData t : data.getTripData()) {
@@ -253,10 +285,76 @@ public class EditTransport extends BaseActivity {
         }
     }
 
+    public static String convertType(int index) {
+        switch (index) {
+            case 0:
+                return "shuttle";
+            case 1:
+                return "ttc";
+            case 2:
+                return "buggy";
+            default:
+                return "other";
+        }
+    }
+
+    public boolean isForEdit() {
+        return isForEdit;
+    }
+
     @Override
     protected int setNavigationMenu() {
         return R.id.nav_manage_transport;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        if (isForEdit) {
+            getMenuInflater().inflate(R.menu.et_menu, menu);
+            Drawable drawable = menu.findItem(R.id.action_delete).getIcon();
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.white));
+            menu.findItem(R.id.action_delete).setIcon(drawable);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete: {
+                if (viewModel.getData().getValue() != null) {
+                    new Builder(EditTransport.this)
+                            .setTitle(getString(R.string.are_you_sure))
+                            .setMessage(getString(R.string.et_specific_delete))
+                            .setPositiveButton(ok, new OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ETDataHolder holder = viewModel.getData().getValue();
+                                    for (int i = 0; i < holder.getFrequencyDetails().length; i++) {
+                                        if (holder.getFrequencyDetails()[i] == 1) {
+                                            CommonTasks.deleteSpecificTrips(getApplicationContext(),
+                                                    holder.getOrigin(), holder.getDestination(), convertType(holder.getType()), i + 1);
+                                        }
+                                    }
+                                    Intent intent = new Intent(EditTransport.this, Home.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    animateTransition();
+                                    General.makeLongToast(getApplicationContext(), "Deleted!");
+                                }
+                            }).setNegativeButton(cancel, new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    }).show();
+                } else {
+                    General.makeLongToast(getApplicationContext(), "Something is wrong! Try again.");
+                }
+                break;
+            }
+        }
+        return false;
+    }
 
 }

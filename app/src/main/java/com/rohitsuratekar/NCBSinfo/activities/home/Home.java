@@ -28,8 +28,10 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
+import com.rohitsuratekar.NCBSinfo.activities.intro.Intro;
 import com.rohitsuratekar.NCBSinfo.activities.locations.Locations;
 import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.activities.transport.ManageTransport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportFragment;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
@@ -228,22 +230,22 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
                         break;
                     case R.id.nav_contacts:
                         startActivity(new Intent(Home.this, Contacts.class));
-                        animateTransition();
                         break;
                     case R.id.nav_settings:
                         startActivity(new Intent(Home.this, Settings.class));
-                        animateTransition();
                         break;
                     case R.id.nav_dash:
                         startActivity(new Intent(Home.this, Dashboard.class));
-                        animateTransition();
                         break;
                     case R.id.nav_location:
                         startActivity(new Intent(Home.this, Locations.class));
-                        animateTransition();
+                        break;
+                    case R.id.nav_manage_transport:
+                        startActivity(new Intent(Home.this, ManageTransport.class));
                         break;
 
                 }
+                animateTransition();
                 return false;
             }
         });
@@ -327,6 +329,10 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
                 v.setVisibility(View.INVISIBLE);
             }
             mainLayout.setVisibility(View.VISIBLE);
+            if (!prefs.isIntroSeen()) {
+                startActivity(new Intent(this, Intro.class));
+                animateTransition();
+            }
         } else {
             Log.i(getClass().getSimpleName(), "No routes found. Creating default ones.");
             new CreateDefaultRoutes(getBaseContext(), this).execute();

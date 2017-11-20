@@ -1,18 +1,21 @@
 package com.rohitsuratekar.NCBSinfo.activities.transport;
 
-import android.app.ProgressDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.EditTransport;
+import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.Log;
@@ -24,26 +27,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.string.cancel;
+import static android.R.string.yes;
+
 public class ManageTransport extends BaseActivity {
 
     @BindView(R.id.mt_recycler)
     RecyclerView recyclerView;
 
+    @BindView(R.id.ma_progressBar)
+    ProgressBar progressBar;
+
     private ManageTransportAdapter adapter;
     private List<RouteData> dataList;
-    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manage_transport);
         ButterKnife.bind(this);
-        ButterKnife.findById(this, R.id.tabs).setVisibility(View.GONE);
+        findViewById(R.id.tabs).setVisibility(View.GONE);
         setTitle(R.string.manage_routes);
-        dialog = new ProgressDialog(ManageTransport.this);
-        dialog.setCancelable(false);
-        dialog.setMessage(getString(R.string.loading));
-        dialog.show();
+        progressBar.setVisibility(View.VISIBLE);
 
         TransportViewModel viewModel = ViewModelProviders.of(this).get(TransportViewModel.class);
         dataList = new ArrayList<>();
@@ -55,7 +60,7 @@ public class ManageTransport extends BaseActivity {
             @Override
             public void onChanged(@Nullable List<RouteData> routeDataList) {
                 if (routeDataList != null) {
-                    dialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
                     dataList.clear();
                     dataList.addAll(routeDataList);
                     adapter.notifyDataSetChanged();
@@ -76,13 +81,40 @@ public class ManageTransport extends BaseActivity {
             }
 
             @Override
-            public void delete(int position) {
-                Log.inform("delete");
+            public void delete(final int position) {
+
+                final String origin = dataList.get(position).getOrigin();
+                final String destination = dataList.get(position).getDestination();
+                final String type = dataList.get(position).getType();
+                new AlertDialog.Builder(ManageTransport.this)
+                        .setTitle(getString(R.string.are_you_sure))
+                        .setMessage(getString(R.string.mt_delete_confirm,
+                                origin.toUpperCase(), destination.toUpperCase(), type))
+                        .setPositiveButton(yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                CommonTasks.deleteRoute(getApplicationContext(), origin, destination, type);
+                                dataList.remove(position);
+                                adapter.notifyItemRemoved(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }).setNegativeButton(cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                }).show();
             }
 
             @Override
             public void report(int position) {
-                Log.inform("Report");
+                Log.inform("Reporting Route");
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/html");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@secretbiology.com", "ncbs.mod@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback on Transport Route " + getString(R.string.route_name,
+                        dataList.get(position).getOrigin().toUpperCase(),
+                        dataList.get(position).getDestination().toUpperCase(),
+                        dataList.get(position).getType()));
+                startActivity(Intent.createChooser(intent, "Send Email"));
             }
         });
     }

@@ -3,14 +3,16 @@ package com.rohitsuratekar.NCBSinfo.activities.settings;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.rohitsuratekar.NCBSinfo.activities.home.Home;
-import com.rohitsuratekar.NCBSinfo.activities.login.Login;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Trigger;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.GetAllRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
+import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.Log;
@@ -41,13 +43,20 @@ public class SettingsViewModel extends ViewModel {
         }).execute();
     }
 
-    void startRest(Context context) {
+    void startRest(final Context context) {
 
         new ResetRoutes(new OnFinish() {
             @Override
             public void finished() {
                 resetDone.postValue(true);
-
+                FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+                Job myJob = dispatcher.newJobBuilder()
+                        .setService(SyncJobs.class)
+                        .setReplaceCurrent(true)
+                        .setTrigger(Trigger.executionWindow(0, 1))
+                        .setTag(SyncJobs.SINGLE_ROUTE_SYNC)
+                        .build();
+                dispatcher.mustSchedule(myJob);
             }
 
             @Override
@@ -79,8 +88,8 @@ public class SettingsViewModel extends ViewModel {
         protected Void doInBackground(Object... objects) {
             Context contexts = (Context) objects[0];
             AppData db = AppData.getDatabase(contexts);
-            db.routes().deletAll();
-            db.trips().deletAll();
+            db.routes().deleteAll();
+            db.trips().deleteAll();
             Log.inform("All Routes deleted");
             new CreateDefaultRoutes(contexts, new OnFinish() {
                 @Override
