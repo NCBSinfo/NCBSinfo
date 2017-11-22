@@ -25,7 +25,6 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
-import com.secretbiology.helpers.general.Log;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
@@ -86,7 +85,9 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
         subscribe();
 
         int id = getIntent().getIntExtra(ROUTE, -1);
-        viewModel.loadRoute(getApplicationContext(), id);
+        if (viewModel.getCurrentDetails().getValue() == null) {
+            viewModel.loadRoute(getApplicationContext(), id);
+        }
         changeDay(daysList.get(currentCalender.get(Calendar.DAY_OF_WEEK) - 1));
 
         //New test for custom events for analytics
@@ -109,6 +110,13 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
             }
             t.setLayoutParams(params);
         }
+
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("transport_day_change", DateConverter.convertToString(currentCalender, "EEE"));
+        mFirebaseAnalytics.logEvent("transport", params);
+
     }
 
     @OnClick({R.id.tp_day_1, R.id.tp_day_2, R.id.tp_day_3, R.id.tp_day_4, R.id.tp_day_5, R.id.tp_day_6, R.id.tp_day_7})
@@ -134,6 +142,11 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
     @OnClick(R.id.tp_swap)
     public void swapRoute() {
         viewModel.loadRoute(getApplicationContext(), currentDetails.getReturnIndex());
+        //New test for custom events for analytics
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("transport_swap_route", getString(R.string.route_name, currentDetails.getOrigin(), currentDetails.getDestination(), currentDetails.getType()));
+        mFirebaseAnalytics.logEvent("transport", params);
     }
 
 

@@ -28,6 +28,7 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Trigger;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
@@ -66,6 +67,12 @@ public class EditTransport extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_transport);
         findViewById(R.id.tabs).setVisibility(View.GONE);
+
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("transport_edit_access", General.timeStamp());
+        mFirebaseAnalytics.logEvent("transport_edit", params);
+
         viewModel = ViewModelProviders.of(this).get(ETViewModel.class);
         String ori = getIntent().getStringExtra(ORIGIN);
         String des = getIntent().getStringExtra(DESTINATION);

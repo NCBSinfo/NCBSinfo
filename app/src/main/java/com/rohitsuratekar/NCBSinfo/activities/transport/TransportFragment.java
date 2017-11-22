@@ -42,7 +42,7 @@ public class TransportFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.transport_sheet, container, false);
+        final View rootView = inflater.inflate(R.layout.transport_sheet, container, false);
 
         //TODO  : Change the layout of bottom sheet
 

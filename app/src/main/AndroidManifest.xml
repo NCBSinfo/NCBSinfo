@@ -56,7 +56,9 @@
         </receiver>
 
         <activity android:name=".activities.locations.Locations" />
-        <activity android:name=".activities.transport.edit.EditTransport" />
+        <activity
+            android:name=".activities.transport.edit.EditTransport"
+            android:screenOrientation="portrait" />
         <activity android:name=".activities.transport.ManageTransport">
 
         </activity>

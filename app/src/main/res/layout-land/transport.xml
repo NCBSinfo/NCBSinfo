@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rohitsuratekar.NCBSinfo.activities.transport.Transport">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.constraint.Guideline
+            android:id="@+id/tp_guide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+            android:id="@+id/tp_back_image"
+            android:layout_width="0dp"
+            android:layout_height="0sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/colorPrimary" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/tp_title_card"
+            android:layout_width="0dp"
+            android:layout_height="100sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/tp_card_margin"
+            android:layout_marginStart="@dimen/tp_card_margin"
+            app:layout_constraintBottom_toBottomOf="@id/tp_last_update"
+            app:layout_constraintEnd_toEndOf="@id/tp_guide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tp_back_image">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:visibility="visible">
+
+                <View
+                    android:id="@+id/tp_card_line"
+                    android:layout_width="@dimen/tp_vertical_bar_width"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/tp_vertical_bar_start_margin"
+                    android:background="@color/transportIndicator"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="@dimen/tp_vertical_bar_width"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="16sp"
+                    android:layout_marginTop="16sp"
+                    android:background="@color/transportIndicator"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintTop_toBottomOf="@id/tp_swap" />
+
+
+                <TextView
+                    android:id="@+id/tp_title"
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="@dimen/horizontal_margin"
+                    android:text="----"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    app:layout_constraintBottom_toTopOf="@+id/tp_transport_type"
+                    app:layout_constraintEnd_toStartOf="@+id/tp_swap"
+                    app:layout_constraintStart_toEndOf="@+id/tp_card_line"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tp_transport_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="----"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tp_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tp_title" />
+
+                <ImageView
+                    android:id="@+id/tp_swap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8sp"
+                    android:layout_marginTop="8sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_swap" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.5" />
+
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:id="@+id/tp_vertical_line"
+            android:layout_width="@dimen/tp_vertical_bar_width"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="@dimen/tp_vertical_bar_start_margin"
+            android:layout_marginTop="0sp"
+            android:background="@color/transportIndicator"
+            app:layout_constraintBottom_toTopOf="@id/tp_recycler"
+            app:layout_constraintStart_toStartOf="@id/tp_recycler"
+            app:layout_constraintTop_toBottomOf="@id/tp_back_image" />
+
+        <View
+            android:id="@+id/tp_vertical_line_end"
+            android:layout_width="@dimen/tp_vertical_bar_width"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="16sp"
+            android:layout_marginStart="@dimen/tp_vertical_bar_start_margin"
+            android:layout_marginTop="16sp"
+            android:background="@color/transportIndicator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tp_day_holder"
+            app:layout_constraintTop_toBottomOf="@id/tp_day_holder" />
+
+
+        <LinearLayout
+            android:id="@+id/tp_day_holder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8sp"
+            android:gravity="end"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tp_recycler">
+
+            <TextView
+
+                android:id="@+id/tp_day_1"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sun" />
+
+            <TextView
+
+                android:id="@+id/tp_day_2"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mon" />
+
+            <TextView
+
+                android:id="@+id/tp_day_3"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tue" />
+
+            <TextView
+                android:id="@+id/tp_day_4"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Wed" />
+
+            <TextView
+                android:id="@+id/tp_day_5"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thu" />
+
+            <TextView
+                android:id="@+id/tp_day_6"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fri" />
+
+            <TextView
+                android:id="@+id/tp_day_7"
+                style="@style/TransportDay"
+                android:layout_width="@dimen/tp_day_width"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sat" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tp_recycler"
+            android:layout_width="0sp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/tp_vertical_bar_start_margin"
+            android:layout_marginTop="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tp_day_holder"
+            app:layout_constraintStart_toStartOf="@id/tp_guide"
+            app:layout_constraintTop_toBottomOf="@id/tp_back_image" />
+
+        <Button
+            android:id="@+id/tp_show_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="Show All Routes"
+            android:textColor="@color/colorLightText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tp_guide"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tp_last_update"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:alpha="0.6"
+            android:text="--"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/tp_show_all"
+            app:layout_constraintEnd_toStartOf="@id/tp_guide"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

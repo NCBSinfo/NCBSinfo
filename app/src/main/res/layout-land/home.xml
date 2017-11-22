@@ -50,16 +50,24 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
+            <android.support.constraint.Guideline
+                android:id="@+id/hm_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
             <ImageView
                 android:id="@+id/hm_image"
-                android:layout_width="384dp"
+                android:layout_width="0sp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitEnd"
-                app:layout_constraintBottom_toTopOf="@+id/textView5"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintEnd_toEndOf="@id/hm_guide"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/unknown" />
 
 
@@ -67,7 +75,6 @@
                 android:id="@+id/hm_route"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:text="NCBS - MANDARA"
@@ -75,25 +82,22 @@
                 android:textColor="@color/colorLightText"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/hm_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/hm_time"
+                app:layout_constraintStart_toStartOf="@+id/hm_time" />
 
             <TextView
                 android:id="@+id/hm_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:text="12:30 PM"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/colorLightText"
                 android:textSize="42sp"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintBottom_toTopOf="@+id/hm_see_all_holder"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="@id/hm_guide" />
 
             <TextView
                 android:id="@+id/hm_type"
@@ -105,8 +109,8 @@
                 android:text="next shuttle"
                 android:textColor="@color/colorPrimaryLight"
                 app:layout_constraintBottom_toTopOf="@+id/hm_route"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/hm_route"
+                app:layout_constraintStart_toStartOf="@+id/hm_route" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -131,7 +135,7 @@
                 android:layout_marginStart="8dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/hm_image"
+                app:layout_constraintBottom_toTopOf="@+id/textView5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -197,12 +201,14 @@
                 android:id="@+id/hm_see_all_holder"
                 android:layout_width="0sp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/hm_time">
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintEnd_toEndOf="@+id/hm_time"
+                app:layout_constraintStart_toStartOf="@+id/hm_time">
 
                 <TextView
                     android:id="@+id/hm_see_all_text"

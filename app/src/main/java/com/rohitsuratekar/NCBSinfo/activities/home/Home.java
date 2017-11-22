@@ -2,6 +2,8 @@ package com.rohitsuratekar.NCBSinfo.activities.home;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -36,7 +39,6 @@ import com.rohitsuratekar.NCBSinfo.activities.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.activities.transport.TransportFragment;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
-import com.rohitsuratekar.NCBSinfo.background.SetUpHome;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
@@ -56,7 +58,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinish, TransportFragment.OnRouteSelected {
+public class Home extends AppCompatActivity implements TransportFragment.OnRouteSelected {
 
     @BindView(R.id.hm_image)
     ImageView imageView;
@@ -82,6 +84,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
     private boolean isDirectionRight = true;
     private AppPrefs prefs;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private HomeViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,46 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         Bundle params = new Bundle();
         params.putString("app_opened", General.timeStamp());
         mFirebaseAnalytics.logEvent("app_use", params);
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        viewModel.getHomeObject().observe(this, new Observer<HomeObject>() {
+            @Override
+            public void onChanged(@Nullable HomeObject homeObject) {
+                if (homeObject != null) {
+                    currentObject = homeObject;
+                    updateUI(homeObject);
+                    for (View v : loadingViews) {
+                        v.setVisibility(View.INVISIBLE);
+                    }
+                    mainLayout.setVisibility(View.VISIBLE);
+                    if (!prefs.isIntroSeen()) {
+                        startActivity(new Intent(Home.this, Intro.class));
+                        animateTransition();
+                    }
+                }
+            }
+        });
+
+        viewModel.getCreateDefault().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean != null) {
+                    if (aBoolean) {
+                        Log.i(getClass().getSimpleName(), "No routes found. Creating default ones.");
+                        new CreateDefaultRoutes(getBaseContext(), new OnFinish() {
+                            @Override
+                            public void finished() {
+                                viewModel.startCalculations(getApplicationContext(), false);
+                            }
+
+                            @Override
+                            public void allRoutes(List<RouteData> routeDataList) {
+
+                            }
+                        }).execute();
+                    }
+                }
+            }
+        });
 
         mainLayout.setVisibility(View.INVISIBLE);
         prefs = new AppPrefs(getApplicationContext());
@@ -108,7 +151,11 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
             cancelOldAlarms();
             transferOldPrefs();
         } else {
-            new SetUpHome(getApplicationContext(), false, this).execute();
+            // Only start calculation if there is no model.
+            // This will keep state in changes in orientation
+            if (viewModel.getHomeObject().getValue() == null) {
+                viewModel.startCalculations(getApplicationContext(), false);
+            }
         }
         mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
             @Override
@@ -320,35 +367,6 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         }
     }
 
-    @Override
-    public void loaded(HomeObject homeObject) {
-        if (homeObject != null) {
-            currentObject = homeObject;
-            updateUI(homeObject);
-            for (View v : loadingViews) {
-                v.setVisibility(View.INVISIBLE);
-            }
-            mainLayout.setVisibility(View.VISIBLE);
-            if (!prefs.isIntroSeen()) {
-                startActivity(new Intent(this, Intro.class));
-                animateTransition();
-            }
-        } else {
-            Log.i(getClass().getSimpleName(), "No routes found. Creating default ones.");
-            new CreateDefaultRoutes(getBaseContext(), this).execute();
-        }
-    }
-
-    @Override
-    public void finished() {
-        new SetUpHome(getApplicationContext(), false, this).execute();
-    }
-
-    @Override
-    public void allRoutes(List<RouteData> routeDataList) {
-
-    }
-
 
     @Override
     public void selected(int routeID) {
@@ -377,7 +395,7 @@ public class Home extends AppCompatActivity implements SetUpHome.OnLoad, OnFinis
         prefs.appOpened();
         prefs.appMigrated();
         prefs.appOpenedFirstTime();
-        new SetUpHome(getApplicationContext(), true, this).execute();
+        viewModel.startCalculations(getApplicationContext(), true);
     }
 
     private void cancelOldAlarms() {
