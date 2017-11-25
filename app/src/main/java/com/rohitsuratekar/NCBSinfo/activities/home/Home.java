@@ -96,7 +96,7 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
         params.putString("app_opened", General.timeStamp());
-        mFirebaseAnalytics.logEvent("app_use", params);
+        mFirebaseAnalytics.logEvent("home", params);
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         viewModel.getHomeObject().observe(this, new Observer<HomeObject>() {
             @Override
@@ -409,5 +409,12 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
             }
         }
         Log.i(getClass().getSimpleName(), "Cancelled all past alarms!");
+    }
+
+
+    @OnClick(R.id.hm_footnote)
+    public void egg() {
+        startActivity(new Intent(this, HomeEgg.class));
+        animateTransition();
     }
 }

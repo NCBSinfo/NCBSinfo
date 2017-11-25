@@ -9,10 +9,14 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
+import com.secretbiology.helpers.general.General;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SettingsInfo extends AppCompatActivity {
 
@@ -20,9 +24,15 @@ public class SettingsInfo extends AppCompatActivity {
     public static String PRIVACY = "privacy";
     public static String ACK = "ack";
     public static String ABOUT = "about";
+    public static String EGG_ASSAY1 = "assay1";
+    public static String EGG_ASSAY2 = "assay2";
 
     @BindView(R.id.st_info_text)
     TextView mainText;
+
+    int tap = 0;
+    String action;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +53,11 @@ public class SettingsInfo extends AppCompatActivity {
             }
         });
 
-        String action = getIntent().getAction();
+        action = getIntent().getAction();
 
         //Need to make links clickable
         mainText.setMovementMethod(LinkMovementMethod.getInstance());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         // TODO : Proper layouts
         if (action != null) {
@@ -58,6 +69,17 @@ public class SettingsInfo extends AppCompatActivity {
                 mainText.setText(Html.fromHtml(getString(R.string.libraries_used)));
             } else if (action.equals(ABOUT)) {
                 mainText.setText(Html.fromHtml(getString(R.string.about_us)));
+            } else if (action.equals(EGG_ASSAY1)) {
+                //New test for custom events for analytics
+                Bundle params = new Bundle();
+                params.putString("caught_eggs", General.timeStamp());
+                mFirebaseAnalytics.logEvent("settings", params);
+                mainText.setText(Html.fromHtml(getString(R.string.egg_ron)));
+            } else if (action.equals(EGG_ASSAY2)) {
+                Bundle params = new Bundle();
+                params.putString("caught_eggs", General.timeStamp());
+                mFirebaseAnalytics.logEvent("settings", params);
+                mainText.setText(Html.fromHtml(getString(R.string.egg_hermione)));
             }
         }
 
@@ -67,5 +89,14 @@ public class SettingsInfo extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @OnClick(R.id.st_info_text)
+    public void activateEgg() {
+        tap++;
+        if (tap == 4 && action.equals(PRIVACY)) {
+            General.makeLongToast(getApplicationContext(), "Muggles mode activated. Restart the app and visit settings!");
+            new AppPrefs(getApplicationContext()).eggActivated();
+        }
     }
 }

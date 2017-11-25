@@ -30,6 +30,13 @@
     <string name="settings_acknow">Acknowledgements and Credits</string>
     <string name="settings_acknow_details">standing on the shoulders of giants.</string>
     <string name="settings_default_route_name">%1$s - %2$s %3$s</string>
+    <string name="settings_egg">Muggle Mode Dialogs</string>
+    <string name="settings_remove_egg">Remove Dialogs</string>
+    <string name="settings_remove_egg_details">I am not Muggle blooded.</string>
+    <string name="settings_ron">Ron</string>
+    <string name="settings_ron_details">Letter to Harry 1</string>
+    <string name="settings_hermione">Hermione</string>
+    <string name="settings_hermione_details">Letter to Harry 2</string>
 
     <string name="settings_reset_warning">This action will delete all existing transport route and will replace them with default routes. This action can not be undone. Are you sure you want to reset ?</string>
 
@@ -72,7 +79,8 @@
         <br> </br><br> </br>
         If you do not want any of above information to be send to our server, you can just use app without logging in. <br></br>
         <b>WE DO NOT COLLECT ANY PERSONAL INFORMATION FROM THE USERS WHO HAVE NOT LOGGED IN.</b><br></br><br></br>
-        <b>NO ONE </b> can check or see your password, not even developers. They are sent securely with https protocol and are stored in Google\'s cloud database with encryption. <br></br><br></br>
+        <b>NO ONE </b> can check or see your password, not even developers. They are sent securely with https protocol and are stored in Google\'s cloud database with encryption.
+         If you want more knowledge about how Muggles generally ignore their privacy, tap on this screen for 4 times. <br></br><br></br>
         <b>Google and Firebase analytics</b><br> </br>
         Alongside the above personal information, we also receive some anonymous statistics from all users who have installed this app.
         This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.

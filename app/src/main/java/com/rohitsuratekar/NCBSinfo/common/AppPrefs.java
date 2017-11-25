@@ -27,6 +27,7 @@ public class AppPrefs extends Preferences {
     private static final String MIGRATION_ID = "migration_id";
     private static final String LOCATION_SORT = "location_sort";
     private static final String INTRO_SEEN = "intro_seen";
+    private static final String EGG_ACTIVE = "egg_active";
 
     public AppPrefs(Context context) {
         super(context);
@@ -167,5 +168,17 @@ public class AppPrefs extends Preferences {
 
     public void introSeen() {
         put(INTRO_SEEN, true);
+    }
+
+    public boolean isEggActive() {
+        return get(EGG_ACTIVE, false);
+    }
+
+    public void eggActivated() {
+        put(EGG_ACTIVE, true);
+    }
+
+    public void removeEggs() {
+        put(EGG_ACTIVE, false);
     }
 }

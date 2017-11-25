@@ -113,6 +113,7 @@ class ContactList {
             {"Service", "SLC Reception", "SLC GF", "6569", new String[]{}, "NCBS", "Key Issue"},
             {"Room", "SLC Ground Floor", "SLC GF", "6506", new String[]{"6507", "6504", "6509", "6510", "6520", "6515", "6514"}, "NCBS", "Student Area"},
             {"Room", "SLC First Floor", "SLC FF", "6601", new String[]{"6602", "6603", "6604", "6605", "6607", "6608", "6609"}, "NCBS", "Student Area"},
+            {"Room", "SLC First Floor", "SLC FF", "6602", new String[]{}, "NCBS", "Rohit Suratekar"},
             {"Room", "SLC Second Floor", "SLC SF", "6701", new String[]{"6702", "6703", "6704", "6705", "6706", "6707", "6708"}, "NCBS", "Student Area"},
             {"Room", "SLC Third Floor", "SLC TF", "6803", new String[]{"6804", "6806", "6808"}, "NCBS", "Student Area"},
             {"Service", "SLC Lab Kitchen", "SLC FF", "6670", new String[]{}, "NCBS", "NULL"},

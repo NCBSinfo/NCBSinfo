@@ -22,6 +22,9 @@ interface SettingsActions {
     int ACTION_NOTIFICATIONS = 13;
     int ACTION_ACK = 14;
     int ACTION_INTRO = 15;
+    int ACTION_EGG1 = 16;
+    int ACTION_EGG2 = 17;
+    int ACTION_REMOVE_EGG = 18;
 
 
     int VIEW_ITEM = 0;

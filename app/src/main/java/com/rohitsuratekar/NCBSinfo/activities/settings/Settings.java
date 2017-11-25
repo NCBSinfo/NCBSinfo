@@ -110,7 +110,13 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
 
         for (Object[] obj : items) {
             if ((int) obj[0] == VIEW_HEADER) {
-                modelList.add(new SettingsModel(getString((int) obj[1])));
+                if ((int) obj[1] != R.string.settings_egg) {
+                    modelList.add(new SettingsModel(getString((int) obj[1])));
+                } else {
+                    if (prefs.isEggActive()) {
+                        modelList.add(new SettingsModel(getString((int) obj[1])));
+                    }
+                }
             } else if ((int) obj[0] == VIEW_ITEM) {
                 SettingsModel mod = new SettingsModel(VIEW_ITEM);
                 mod.setTitle(getString((int) obj[1]));
@@ -156,7 +162,18 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
 
 
                 }
-                modelList.add(mod);
+                if (mod.getAction() == ACTION_EGG1 || mod.getAction() == ACTION_EGG2) {
+                    if (prefs.isEggActive()) {
+                        modelList.add(mod);
+                    }
+                } else if (mod.getAction() == ACTION_REMOVE_EGG) {
+                    if (prefs.isEggActive()) {
+                        modelList.add(mod);
+                        modelList.add(new SettingsModel(VIEW_LINE));
+                    }
+                } else {
+                    modelList.add(mod);
+                }
             } else {
                 modelList.add(new SettingsModel(VIEW_LINE));
             }
@@ -225,6 +242,10 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
             {VIEW_ITEM, R.string.settings_privacy, R.string.settings_privacy_details, 0, ACTION_PRIVACY},
             {VIEW_ITEM, R.string.settings_acknow, R.string.settings_acknow_details, R.drawable.icon_favorite, ACTION_ACK},
             {VIEW_LINE},
+            {VIEW_HEADER, R.string.settings_egg},
+            {VIEW_ITEM, R.string.settings_ron, R.string.settings_ron_details, 0, ACTION_EGG1},
+            {VIEW_ITEM, R.string.settings_hermione, R.string.settings_hermione_details, 0, ACTION_EGG2},
+            {VIEW_ITEM, R.string.settings_remove_egg, R.string.settings_remove_egg_details, 0, ACTION_REMOVE_EGG},
             {VIEW_HEADER, R.string.settings_header_about},
             {VIEW_ITEM, R.string.settings_about, R.string.settings_about_details, R.drawable.icon_star, ACTION_ABOUT_US},
             {VIEW_ITEM, R.string.settings_github, R.string.settings_github_details, R.drawable.icon_github, ACTION_GITHUB},
@@ -298,6 +319,17 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                 case ACTION_INTRO:
                     startActivity(new Intent(this, Intro.class));
                     animateTransition();
+                    break;
+                case ACTION_EGG1:
+                    showInfo(SettingsInfo.EGG_ASSAY1);
+                    break;
+                case ACTION_EGG2:
+                    showInfo(SettingsInfo.EGG_ASSAY2);
+                    break;
+                case ACTION_REMOVE_EGG:
+                    prefs.removeEggs();
+                    General.makeLongToast(getApplicationContext(), "As you wish! Apparate...");
+                    finish();
                     break;
 
             }
