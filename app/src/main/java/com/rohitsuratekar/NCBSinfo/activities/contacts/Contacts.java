@@ -25,6 +25,7 @@ import android.view.View;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
 
@@ -65,7 +66,7 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
         //New test for custom events for analytics
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("contacts_accessed", General.timeStamp());
+        params.putString("contacts_accessed", Helper.timestamp());
         mFirebaseAnalytics.logEvent("contacts", params);
 
 
@@ -220,31 +221,33 @@ public class Contacts extends BaseActivity implements ContactFragment.OnContactS
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (sortOrder == 0) {
-            item.setIcon(R.drawable.icon_sort_alphabetical);
-            item.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
+        if (item.getItemId() == R.id.action_sort) {
+            if (sortOrder == 0) {
+                item.setIcon(R.drawable.icon_sort_alphabetical);
+                item.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
 
-            if (item.getItemId() == R.id.action_sort) {
-                Collections.sort(modelList, new Comparator<ContactModel>() {
-                    @Override
-                    public int compare(ContactModel o1, ContactModel o2) {
-                        return o1.getName().compareTo(o2.getName());
-                    }
-                });
+                if (item.getItemId() == R.id.action_sort) {
+                    Collections.sort(modelList, new Comparator<ContactModel>() {
+                        @Override
+                        public int compare(ContactModel o1, ContactModel o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
+                }
+                sortOrder = 1;
+            } else if (sortOrder == 1) {
+                Collections.reverse(modelList);
+                sortOrder = 2;
+            } else {
+                item.setIcon(R.drawable.icon_sort);
+                item.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
+                modelList.clear();
+                modelList.addAll(new ContactList().getAll());
+                sortList(modelList);
+                sortOrder = 0;
             }
-            sortOrder = 1;
-        } else if (sortOrder == 1) {
-            Collections.reverse(modelList);
-            sortOrder = 2;
-        } else {
-            item.setIcon(R.drawable.icon_sort);
-            item.getIcon().setColorFilter(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight), PorterDuff.Mode.SRC_ATOP);
-            modelList.clear();
-            modelList.addAll(new ContactList().getAll());
-            sortList(modelList);
-            sortOrder = 0;
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
         return super.onOptionsItemSelected(item);
 
 

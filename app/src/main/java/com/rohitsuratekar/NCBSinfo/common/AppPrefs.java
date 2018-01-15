@@ -28,6 +28,8 @@ public class AppPrefs extends Preferences {
     private static final String LOCATION_SORT = "location_sort";
     private static final String INTRO_SEEN = "intro_seen";
     private static final String EGG_ACTIVE = "egg_active";
+    private static final String SPECIAL_NOTICE_ACTIVATED = "special_notice_activated";
+    private static final String SPECIAL_NOTICE_SEEN = "special_notice_seen";
 
     public AppPrefs(Context context) {
         super(context);
@@ -181,4 +183,21 @@ public class AppPrefs extends Preferences {
     public void removeEggs() {
         put(EGG_ACTIVE, false);
     }
+
+    public void activateSpecialNotice() {
+        put(SPECIAL_NOTICE_ACTIVATED, true);
+    }
+
+    public boolean isSpecialNoticeActivated() {
+        return get(SPECIAL_NOTICE_ACTIVATED, false);
+    }
+
+    public void specialNoticeSeen() {
+        put(SPECIAL_NOTICE_SEEN, true);
+    }
+
+    public boolean isSpecialNoticeSeen() {
+        return get(SPECIAL_NOTICE_SEEN, false);
+    }
+
 }

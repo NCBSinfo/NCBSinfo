@@ -7,12 +7,14 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
+import com.rohitsuratekar.NCBSinfo.background.networking.PublicInfo;
 import com.rohitsuratekar.NCBSinfo.background.networking.RetrofitCalls;
 import com.rohitsuratekar.NCBSinfo.background.networking.RouteModel;
 import com.rohitsuratekar.NCBSinfo.background.networking.UserDetails;
@@ -41,6 +43,7 @@ public class CommonTasks extends IntentService {
     private static final String SEND_FAVORITE_CHANGE = "com.rohitsuratekar.NCBSinfo.background.action.sendfav";
     private static final String SYNC_USER_DETAILS = "com.rohitsuratekar.NCBSinfo.background.action.syncUser";
     private static final String SYNC_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.syncRoutes";
+    private static final String SYNC_PUBLIC_DATA = "com.rohitsuratekar.NCBSinfo.background.action.syncPublicData";
     private static final String RESET_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.resetRoutes";
     private static final String DELETE_ROUTES = "com.rohitsuratekar.NCBSinfo.background.action.deleteRoutes";
     private static final String DELETE_TRIPS = "com.rohitsuratekar.NCBSinfo.background.action.deleteTrips";
@@ -87,6 +90,13 @@ public class CommonTasks extends IntentService {
         context.startService(intent);
     }
 
+    public static void syncPublicData(Context context) {
+        Log.inform("Public data sync service started.");
+        Intent intent = new Intent(context, CommonTasks.class);
+        intent.setAction(SYNC_PUBLIC_DATA);
+        context.startService(intent);
+    }
+
     public static void deleteSpecificTrips(Context context, String origin, String destination, String type, int day) {
         Log.inform("Deleting specific trips");
         Intent intent = new Intent(context, CommonTasks.class);
@@ -118,6 +128,8 @@ public class CommonTasks extends IntentService {
                 syncRoutes();
             } else if (RESET_ROUTES.equals(action)) {
                 resetRoutes();
+            } else if (SYNC_PUBLIC_DATA.equals(action)) {
+                syncPublic();
             } else if (DELETE_ROUTES.equals(action)) {
                 String o = intent.getStringExtra(DEL_ORIGIN);
                 String d = intent.getStringExtra(DEL_DESTINATION);
@@ -133,6 +145,72 @@ public class CommonTasks extends IntentService {
                 reportError(action + " not found.");
             }
         }
+    }
+
+    private void syncPublic() {
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+        AppPrefs prefs = new AppPrefs(getApplicationContext());
+        //Only do this for logged in users
+        if (prefs.isUsedLoggedIn()) {
+            if (auth.getCurrentUser() != null) {
+                auth.getCurrentUser().getIdToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<GetTokenResult> task) {
+                        if (task.isSuccessful()) {
+                            getPublicInfo(task.getResult().getToken());
+                        } else {
+                            reportError(task.getException().getLocalizedMessage());
+                        }
+                    }
+                });
+            } else {
+                reportError("Unable to Sync User details");
+            }
+        } else {
+            auth.signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful() && auth.getCurrentUser() != null) {
+                        auth.getCurrentUser().getIdToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                if (task.isSuccessful()) {
+                                    getPublicInfo(task.getResult().getToken());
+                                } else {
+                                    reportError(task.getException().getLocalizedMessage());
+                                }
+
+                            }
+                        });
+                    } else {
+                        reportError("Unable to authenticate anonymously");
+                    }
+                }
+            });
+        }
+    }
+
+    private void getPublicInfo(String token) {
+        new RetrofitCalls().getPublicInfo(token).enqueue(new Callback<PublicInfo>() {
+            @Override
+            public void onResponse(@NonNull Call<PublicInfo> call, @NonNull Response<PublicInfo> response) {
+                if (response.isSuccessful()) {
+                    PublicInfo info = response.body();
+                    if (info != null) {
+                        //todo
+                    } else {
+                        Log.inform("No public information found");
+                    }
+                } else {
+                    Log.error(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<PublicInfo> call, @NonNull Throwable t) {
+                Log.error(t.getLocalizedMessage());
+            }
+        });
     }
 
 
@@ -345,7 +423,11 @@ public class CommonTasks extends IntentService {
 
     private void reportError(String message) {
         Log.error(message);
-        FirebaseCrash.report(new Exception(message));
+        if (!message.toLowerCase().contains("connect timed out")) {
+            if (!message.toLowerCase().contains("connection abort")) {
+                FirebaseCrash.report(new Exception(message));
+            }
+        }
     }
 
 }

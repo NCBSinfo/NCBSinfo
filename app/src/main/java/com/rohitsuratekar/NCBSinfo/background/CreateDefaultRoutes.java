@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.rohitsuratekar.NCBSinfo.common.Helper.convertToList;
+
 /**
  * Created by SecretAdmin on 10/6/2017 for NCBSinfo.
  * All code is released under MIT License.
@@ -29,6 +31,9 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
     private List<String> buggyToNCBS = new ArrayList<>();
     private List<String> buggyToMandara = new ArrayList<>();
     private List<String> ncbsToCBL = new ArrayList<>();
+    private List<String> ncbsToICTS_1 = new ArrayList<>();
+    private List<String> ncbsToICTS_2 = new ArrayList<>();
+    private List<String> ncbsToICTS_sunday = new ArrayList<>();
     private boolean fav = true;
     private AppPrefs prefs;
     private boolean reportCrash = false;
@@ -42,10 +47,11 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         infoList.add(new TempInfo(context, "iisc", "ncbs", "shuttle", R.string.def_iisc_ncbs_week, R.string.def_iisc_ncbs_sunday));
         infoList.add(new TempInfo(context, "ncbs", "mandara", "shuttle", R.string.def_ncbs_mandara_week, R.string.def_ncbs_mandara_sunday));
         infoList.add(new TempInfo(context, "mandara", "ncbs", "shuttle", R.string.def_mandara_ncbs_week, R.string.def_mandara_ncbs_sunday));
-        infoList.add(new TempInfo(context, "ncbs", "icts", "shuttle", R.string.def_ncbs_icts_week, R.string.def_ncbs_icts_sunday));
         infoList.add(new TempInfo(context, "icts", "ncbs", "shuttle", R.string.def_icts_ncbs_week, R.string.def_icts_ncbs_sunday));
 
-
+        ncbsToICTS_1 = convertToList(context.getString(R.string.def_ncbs_icts_week_1));
+        ncbsToICTS_2 = convertToList(context.getString(R.string.def_ncbs_icts_week_2));
+        ncbsToICTS_sunday = convertToList(context.getString(R.string.def_ncbs_icts_sunday));
         buggyToNCBS = convertToList(context.getString(R.string.def_buggy_from_mandara));
         buggyToMandara = convertToList(context.getString(R.string.def_buggy_from_ncbs));
         ncbsToCBL = convertToList(context.getString(R.string.def_ncbs_cbl));
@@ -83,6 +89,36 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
                 reportCrash = true;
             }
         }
+
+        //NCBS-ICTS Shuttle
+        int testID5 = db.routes().getRouteNo("ncbs", "icts", "shuttle");
+        if (testID5 == 0) {
+            RouteData r4 = convertToRoute("ncbs", "icts", "shuttle");
+            int r4_id = (int) db.routes().insertRoute(r4);
+            for (int day = Calendar.SUNDAY; day < Calendar.SATURDAY + 1; day++) {
+                TripData t4 = new TripData();
+                t4.setRouteID(r4_id);
+                t4.setDay(day);
+                switch (day) {
+                    case Calendar.SUNDAY:
+                        t4.setTrips(ncbsToICTS_sunday);
+                        break;
+                    case Calendar.MONDAY:
+                    case Calendar.WEDNESDAY:
+                    case Calendar.THURSDAY:
+                        t4.setTrips(ncbsToICTS_1);
+                        break;
+                    default:
+                        t4.setTrips(ncbsToICTS_2);
+                }
+                db.trips().insertTrips(t4);
+            }
+
+        } else {
+            reportCrash = true;
+        }
+
+        Log.i(getClass().getSimpleName(), "NCBS-ICTS week shuttle route created");
 
         int testID2 = db.routes().getRouteNo("ncbs", "mandara", "buggy");
         if (testID2 == 0) {
@@ -131,6 +167,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
 
         Log.i(getClass().getSimpleName(), "NCBS-CBL ttc route created");
 
+
         int favRoute = db.routes().getRouteNo(prefs.getFavoriteOrigin(), prefs.getFavoriteDestination(), prefs.getFavoriteType());
 
         if (favRoute != 0) {
@@ -150,15 +187,6 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    private List<String> convertToList(String string) {
-        List<String> list = new ArrayList<>();
-        string = string.replace("{", "").replace("}", "");
-        String[] tempArray = string.split(",");
-        for (String aTempArray : tempArray) {
-            list.add(aTempArray.trim());
-        }
-        return list;
-    }
 
     private RouteData convertToRoute(String origin, String destination, String type) {
         RouteData data = new RouteData();

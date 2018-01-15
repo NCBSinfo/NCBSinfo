@@ -24,6 +24,7 @@ import com.rohitsuratekar.NCBSinfo.activities.intro.Intro;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
 
@@ -59,7 +60,7 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
         //New test for custom events for analytics
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("settings_accessed", General.timeStamp());
+        params.putString("settings_accessed", Helper.timestamp());
         mFirebaseAnalytics.logEvent("settings", params);
 
         viewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
@@ -331,7 +332,6 @@ public class Settings extends BaseActivity implements SettingsActions, SettingsA
                     General.makeLongToast(getApplicationContext(), "As you wish! Apparate...");
                     finish();
                     break;
-
             }
         }
     }

@@ -34,6 +34,7 @@ import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.background.services.SyncJobs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
 import com.secretbiology.helpers.general.General;
@@ -70,7 +71,7 @@ public class EditTransport extends BaseActivity {
 
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("transport_edit_access", General.timeStamp());
+        params.putString("transport_edit_access", Helper.timestamp());
         mFirebaseAnalytics.logEvent("transport_edit", params);
 
         viewModel = ViewModelProviders.of(this).get(ETViewModel.class);

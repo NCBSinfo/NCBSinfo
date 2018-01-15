@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.secretbiology.helpers.general.General;
 
 import butterknife.BindView;
@@ -72,12 +73,12 @@ public class SettingsInfo extends AppCompatActivity {
             } else if (action.equals(EGG_ASSAY1)) {
                 //New test for custom events for analytics
                 Bundle params = new Bundle();
-                params.putString("caught_eggs", General.timeStamp());
+                params.putString("caught_eggs", Helper.timestamp());
                 mFirebaseAnalytics.logEvent("settings", params);
                 mainText.setText(Html.fromHtml(getString(R.string.egg_ron)));
             } else if (action.equals(EGG_ASSAY2)) {
                 Bundle params = new Bundle();
-                params.putString("caught_eggs", General.timeStamp());
+                params.putString("caught_eggs", Helper.timestamp());
                 mFirebaseAnalytics.logEvent("settings", params);
                 mainText.setText(Html.fromHtml(getString(R.string.egg_hermione)));
             }

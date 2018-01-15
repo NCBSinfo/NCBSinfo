@@ -30,6 +30,7 @@ public class RetrofitCalls {
 
     private OkHttpClient getClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return httpClient.addInterceptor(interceptor).build();
@@ -85,5 +86,8 @@ public class RetrofitCalls {
         return builder().create(FirebaseServices.class).updateMigration(uid, id, token);
     }
 
+    public Call<PublicInfo> getPublicInfo(String token) {
+        return builder().create(FirebaseServices.class).getPublicInfo(token);
+    }
 
 }

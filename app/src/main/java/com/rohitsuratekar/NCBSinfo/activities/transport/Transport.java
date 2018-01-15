@@ -23,8 +23,8 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
-import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
 
@@ -93,7 +93,7 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
         //New test for custom events for analytics
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("transport_accessed", General.timeStamp());
+        params.putString("transport_accessed", Helper.timestamp());
         mFirebaseAnalytics.logEvent("transport", params);
 
     }
@@ -262,7 +262,7 @@ public class Transport extends BaseActivity implements TransportFragment.OnRoute
         try {
             lastUpdate.setText(getString(R.string.tp_last_updated,
                     currentDetails.getRouteData().getAuthor(),
-                    DateConverter.changeFormat(ConverterMode.DATE_FIRST, currentDetails.getRouteData().getModifiedOn(), "dd MMM yy")));
+                    DateConverter.changeFormat(ConverterMode.MONTH_FIRST, currentDetails.getRouteData().getModifiedOn(), "dd MMM yy")));
         } catch (ParseException | NullPointerException e) {
             lastUpdate.setText("--");
         }

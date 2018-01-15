@@ -18,6 +18,7 @@ import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.transport.edit.EditTransport;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.Log;
@@ -54,7 +55,7 @@ public class ManageTransport extends BaseActivity {
 
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("transport_manage_access", General.timeStamp());
+        params.putString("transport_manage_access", Helper.timestamp());
         mFirebaseAnalytics.logEvent("transport_manage", params);
 
         TransportViewModel viewModel = ViewModelProviders.of(this).get(TransportViewModel.class);

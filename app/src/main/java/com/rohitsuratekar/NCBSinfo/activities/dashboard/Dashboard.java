@@ -19,6 +19,7 @@ import com.rohitsuratekar.NCBSinfo.activities.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
 import com.secretbiology.helpers.general.TimeUtils.DateConverter;
@@ -79,7 +80,7 @@ public class Dashboard extends BaseActivity implements DashboardAdapter.OnItemCl
         //New test for custom events for analytics
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("dashboard_accessed", General.timeStamp());
+        params.putString("dashboard_accessed", Helper.timestamp());
         mFirebaseAnalytics.logEvent("dashboard", params);
 
 

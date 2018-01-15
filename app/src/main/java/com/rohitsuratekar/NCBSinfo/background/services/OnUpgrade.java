@@ -8,6 +8,7 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Trigger;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.secretbiology.helpers.general.Log;
 
 /**
@@ -29,5 +30,6 @@ public class OnUpgrade extends BroadcastReceiver {
                 .setTag(SyncJobs.RESET_ALL_JOBS)
                 .build();
         dispatcher.mustSchedule(myJob);
+        new AppPrefs(context).activateSpecialNotice();
     }
 }

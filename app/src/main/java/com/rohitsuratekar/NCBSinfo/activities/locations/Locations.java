@@ -12,6 +12,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class Locations extends BaseActivity {
         //New test for custom events for analytics
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("location_accessed", General.timeStamp());
+        params.putString("location_accessed", Helper.timestamp());
         mFirebaseAnalytics.logEvent("location", params);
 
 

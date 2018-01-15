@@ -61,6 +61,8 @@ interface FirebaseServices {
                                             @Body UpdateMigrationID value,
                                             @Query("auth") String token);
 
+    @GET("public.json")
+    Call<PublicInfo> getPublicInfo(@Query("auth") String token);
 
 }
 

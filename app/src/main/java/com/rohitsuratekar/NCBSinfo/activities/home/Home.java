@@ -42,6 +42,7 @@ import com.rohitsuratekar.NCBSinfo.background.OnFinish;
 import com.rohitsuratekar.NCBSinfo.background.alarms.Alarms;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.secretbiology.helpers.general.General;
 import com.secretbiology.helpers.general.TimeUtils.ConverterMode;
@@ -92,10 +93,13 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
         setContentView(R.layout.home);
         ButterKnife.bind(this);
 
+        //TODO: remove
+        CommonTasks.syncPublicData(getApplicationContext());
+
         //New test for custom events for analytics
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
-        params.putString("app_opened", General.timeStamp());
+        params.putString("app_opened", Helper.timestamp());
         mFirebaseAnalytics.logEvent("home", params);
         viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         viewModel.getHomeObject().observe(this, new Observer<HomeObject>() {
@@ -154,7 +158,13 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
             // Only start calculation if there is no model.
             // This will keep state in changes in orientation
             if (viewModel.getHomeObject().getValue() == null) {
-                viewModel.startCalculations(getApplicationContext(), false);
+                if (prefs.isSpecialNoticeActivated() && !prefs.isSpecialNoticeSeen()) {
+                    //Update NCBS-ICTS from version 56
+                    viewModel.updateNCBS_ICTS(getApplicationContext());
+                    prefs.specialNoticeSeen();
+                } else {
+                    viewModel.startCalculations(getApplicationContext(), false);
+                }
             }
         }
         mainLayout.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()) {
