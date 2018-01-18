@@ -164,6 +164,7 @@ public class LoginViewModel extends ViewModel {
     private void loadData(UserDetails details, Context context) {
         Gson gson = new Gson();
         final AppPrefs prefs = new AppPrefs(context);
+        prefs.clearPersonal();
         prefs.setFavoriteOrigin(details.getFavoriteOrigin());
         prefs.setUserName(details.getName());
         prefs.setUserEmail(details.getEmail());

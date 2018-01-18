@@ -91,6 +91,7 @@ public class CommonTasks extends IntentService {
     }
 
     public static void syncPublicData(Context context) {
+        //TODO  : Some new mechanism to update routes
         Log.inform("Public data sync service started.");
         Intent intent = new Intent(context, CommonTasks.class);
         intent.setAction(SYNC_PUBLIC_DATA);

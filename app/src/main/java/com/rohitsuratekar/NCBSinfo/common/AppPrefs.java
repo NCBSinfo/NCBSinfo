@@ -154,6 +154,7 @@ public class AppPrefs extends Preferences {
         delete(LAST_SYNC);
         delete(SETTINGS_DEFAULT_SET);
         delete(NOTIFICATIONS);
+        delete(SPECIAL_NOTICE_SEEN);
     }
 
     public int getLocationSort() {

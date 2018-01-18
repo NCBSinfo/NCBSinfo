@@ -53,8 +53,10 @@ public class TransportFragment extends BottomSheetDialogFragment {
         } else if (getActivity() instanceof Home && getArguments() != null) {
             List<RouteData> routeDataList = new ArrayList<>();
             HomeObject object = ((Home) getActivity()).getCurrentObject();
-            for (int i = 0; i < object.getRouteData().size(); i++) {
-                routeDataList.add(object.getRouteData().get(object.getRouteData().keyAt(i)));
+            if (object != null) {
+                for (int i = 0; i < object.getRouteData().size(); i++) {
+                    routeDataList.add(object.getRouteData().get(object.getRouteData().keyAt(i)));
+                }
             }
             setRecycler(rootView, routeDataList);
         }

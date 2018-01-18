@@ -93,9 +93,6 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
         setContentView(R.layout.home);
         ButterKnife.bind(this);
 
-        //TODO: remove
-        CommonTasks.syncPublicData(getApplicationContext());
-
         //New test for custom events for analytics
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle params = new Bundle();
@@ -162,6 +159,7 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
                     //Update NCBS-ICTS from version 56
                     viewModel.updateNCBS_ICTS(getApplicationContext());
                     prefs.specialNoticeSeen();
+                    //TODO: Implement update broadcast properly for updating routes
                 } else {
                     viewModel.startCalculations(getApplicationContext(), false);
                 }
