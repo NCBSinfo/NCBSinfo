@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.home;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.arch.lifecycle.Observer;
@@ -9,17 +10,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -28,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.activities.dashboard.Dashboard;
@@ -59,7 +68,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends AppCompatActivity implements TransportFragment.OnRouteSelected {
+public class Home extends AppCompatActivity implements TransportFragment.OnRouteSelected, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.hm_image)
     ImageView imageView;
@@ -73,6 +82,10 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
     ConstraintLayout mainLayout;
     @BindView(R.id.hm_fav)
     ImageView favorite;
+    @BindView(R.id.home_drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.home_navigation_view)
+    NavigationView navigationView;
 
     @BindViews({R.id.hm_sug1, R.id.hm_sug2})
     List<TextView> suggestionViews;
@@ -87,11 +100,15 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
     private FirebaseAnalytics mFirebaseAnalytics;
     private HomeViewModel viewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         ButterKnife.bind(this);
+
+        navigationView.setNavigationItemSelectedListener(this);
+        changeHeader();
 
         //New test for custom events for analytics
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -272,40 +289,6 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
         snackbar.show();
     }
 
-    @OnClick(R.id.hm_nav)
-    public void openMenu(ImageView view) {
-        PopupMenu popup = new PopupMenu(Home.this, view);
-        popup.getMenuInflater().inflate(R.menu.drawer, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_transport:
-                        gotoTransport();
-                        break;
-                    case R.id.nav_contacts:
-                        startActivity(new Intent(Home.this, Contacts.class));
-                        break;
-                    case R.id.nav_settings:
-                        startActivity(new Intent(Home.this, Settings.class));
-                        break;
-                    case R.id.nav_dash:
-                        startActivity(new Intent(Home.this, Dashboard.class));
-                        break;
-                    case R.id.nav_location:
-                        startActivity(new Intent(Home.this, Locations.class));
-                        break;
-                    case R.id.nav_manage_transport:
-                        startActivity(new Intent(Home.this, ManageTransport.class));
-                        break;
-
-                }
-                animateTransition();
-                return false;
-            }
-        });
-        popup.show();
-    }
 
     @OnClick({R.id.hm_route, R.id.hm_sug3})
     public void showBottomSheet() {
@@ -316,6 +299,11 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
             bottomSheetDialogFragment = TransportFragment.newInstance(-1, -1);
         }
         bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
+    @OnClick(R.id.hm_nav_icon)
+    public void openDrawer() {
+        drawerLayout.openDrawer(Gravity.START);
     }
 
 
@@ -424,5 +412,97 @@ public class Home extends AppCompatActivity implements TransportFragment.OnRoute
     public void egg() {
         startActivity(new Intent(this, HomeEgg.class));
         animateTransition();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            animateTransition();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+        // Handle navigation view item clicks here.
+        final Activity activity = this;
+        if (activity.getClass() != getNavClass(item.getItemId())) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (item.getItemId() != R.id.nav_transport) {
+                        startActivity(new Intent(activity, getNavClass(item.getItemId())));
+                        animateTransition();
+                    } else {
+                        gotoTransport();
+                    }
+                }
+            }, 300);
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MenuItem item = navigationView.getMenu().findItem(R.id.nav_home);
+        if (item != null) {
+            item.setChecked(true);
+        }
+    }
+
+    /**
+     * Useful for navigating between activities.
+     *
+     * @param navID : Navigation ID
+     * @return : Class to change the activity
+     */
+    private Class getNavClass(int navID) {
+        switch (navID) {
+            case R.id.nav_home:
+                return Home.class;
+            case R.id.nav_transport:
+                return Transport.class;
+            case R.id.nav_contacts:
+                return Contacts.class;
+            case R.id.nav_settings:
+                return Settings.class;
+            case R.id.nav_dash:
+                return Dashboard.class;
+            case R.id.nav_location:
+                return Locations.class;
+            case R.id.nav_manage_transport:
+                return ManageTransport.class;
+        }
+        return Home.class;
+    }
+
+    /**
+     * Change header color and gradient.
+     * All header titles and clicks can be handled from here.
+     */
+    private void changeHeader() {
+        View header = navigationView.getHeaderView(0);
+        GradientDrawable backgroundGradient = (GradientDrawable) header.getBackground();
+        backgroundGradient.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+        backgroundGradient.setGradientCenter(10, 0);
+        backgroundGradient.setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+        AppPrefs prefs = new AppPrefs(getApplicationContext());
+        TextView headerTitle = header.findViewById(R.id.nav_header_title);
+        TextView headerSubTitle = header.findViewById(R.id.nav_header_subtitle);
+        if (headerTitle != null && headerSubTitle != null) {
+            if (prefs.isUsedLoggedIn()) {
+                headerTitle.setText(prefs.getUserName());
+                headerSubTitle.setText(prefs.getUserEmail());
+            } else {
+                int versionCode = BuildConfig.VERSION_CODE;
+                String versionName = BuildConfig.VERSION_NAME;
+                headerSubTitle.setText(getString(R.string.header_subtitle, versionCode, versionName));
+            }
+        }
+
     }
 }
