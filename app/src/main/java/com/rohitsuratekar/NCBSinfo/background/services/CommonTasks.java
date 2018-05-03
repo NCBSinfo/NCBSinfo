@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.rohitsuratekar.NCBSinfo.background.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.background.OnFinish;
@@ -426,7 +426,7 @@ public class CommonTasks extends IntentService {
         Log.error(message);
         if (!message.toLowerCase().contains("connect timed out")) {
             if (!message.toLowerCase().contains("connection abort")) {
-                FirebaseCrash.report(new Exception(message));
+                Crashlytics.logException(new Exception(message));
             }
         }
     }

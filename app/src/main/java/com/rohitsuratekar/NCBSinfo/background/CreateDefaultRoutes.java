@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
@@ -183,7 +183,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         onFinish.finished();
         if (reportCrash) {
-            FirebaseCrash.report(new Exception("Problem in creating default routes."));
+            Crashlytics.logException(new Exception("Problem in creating default routes."));
         }
     }
 

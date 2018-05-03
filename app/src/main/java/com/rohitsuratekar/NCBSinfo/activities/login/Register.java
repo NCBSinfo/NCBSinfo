@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.crash.FirebaseCrash;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.home.Home;
 import com.rohitsuratekar.NCBSinfo.background.services.CommonTasks;
@@ -133,11 +133,11 @@ public class Register extends AppCompatActivity {
                         } catch (FirebaseNetworkException e) {
                             General.makeLongToast(getApplicationContext(), getString(R.string.network_issue));
                         } catch (Exception e) {
-                            FirebaseCrash.report(new Exception(e.getLocalizedMessage()));
+                            Crashlytics.logException(new Exception(e.getLocalizedMessage()));
                             General.makeLongToast(getApplicationContext(), e.getLocalizedMessage());
                         }
                     } else {
-                        FirebaseCrash.report(new Exception(("Empty Exception during login.")));
+                        Crashlytics.logException(new Exception(("Empty Exception during login.")));
                         General.makeLongToast(getApplicationContext(), "Something is wrong!");
                     }
                 }
