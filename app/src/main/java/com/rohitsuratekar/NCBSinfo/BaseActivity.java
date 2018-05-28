@@ -22,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.base_activity);
+        setContentView(R.layout.base_layout);
         navigationView = findViewById(R.id.nav_bar);
         navigationView.setOnNavigationItemSelectedListener(navListener);
         attachHome();
