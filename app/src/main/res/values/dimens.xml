@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< Updated upstream
     <dimen name="horizontal_margin">16sp</dimen>
 
     <!--Navigation Drawer-->
@@ -18,4 +19,8 @@
     <dimen name="tp_sheet_icon_size">30sp</dimen>
     <dimen name="ct_sheet_back_image_height">150sp</dimen>
     <dimen name="ct_sheet_app_bar_height">200sp</dimen>
+=======
+    <dimen name="home_image_height">150sp</dimen>
+    <dimen name="home_sun_size">45sp</dimen>
+>>>>>>> Stashed changes
 </resources>

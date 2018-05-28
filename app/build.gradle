@@ -6,11 +6,18 @@ android {
     defaultConfig {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 21
+<<<<<<< Updated upstream
         targetSdkVersion 26
         versionCode 52
         versionName "6.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+=======
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+>>>>>>> Stashed changes
     }
     buildTypes {
         release {
@@ -22,19 +29,40 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+<<<<<<< Updated upstream
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:26.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+=======
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:support-v4:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.support:design:27.1.1'
 
-    implementation 'com.secretbiology.helpers:general:1.1.4'
+    def room_version = "1.1.0"
+    def lifecycle_version = "1.1.1"
+
+>>>>>>> Stashed changes
+
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+<<<<<<< Updated upstream
     implementation "android.arch.persistence.room:runtime:1.0.0-rc1"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-rc1"
     implementation "android.arch.lifecycle:extensions:1.0.0-rc1"
     implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.google.code.gson:gson:2.8.2'
+=======
+
+>>>>>>> Stashed changes
 }
