@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.rohitsuratekar.NCBSinfo.common.Helper.timeToDate;
+
 /**
  * Created by Rohit Suratekar on 06-10-17 for NCBSinfo.
  * All code is released under MIT License.
@@ -72,7 +74,7 @@ public class NextTrip {
         calendar.add(Calendar.DATE, -1); //Yesterday
         List<String> beforeFirstTrip = new TripDay(getTrips(calendar.get(Calendar.DAY_OF_WEEK))).getTomorrow();
         for (String s : beforeFirstTrip) {
-            Date d1 = changeTime(now, s);
+            Date d1 = timeToDate(now, s);
             if (d1.after(now) || d1.equals(now)) {
                 return new String[]{s, "-1"};
             }
@@ -84,7 +86,7 @@ public class NextTrip {
         List<String> todaysTrip = new TripDay(getTrips(calendar.get(Calendar.DAY_OF_WEEK))).getToday();
 
         for (String s : todaysTrip) {
-            Date d1 = changeTime(now, s);
+            Date d1 = timeToDate(now, s);
             if (d1.after(now) || d1.equals(now)) {
                 return new String[]{s, "0"};
             }
@@ -94,7 +96,7 @@ public class NextTrip {
         //Check tomorrow's trips (i.e. post midnight today)
         List<String> tomorrowTrip = new TripDay(getTrips(calendar.get(Calendar.DAY_OF_WEEK))).getTomorrow();
         for (String s : tomorrowTrip) {
-            Date d1 = changeTime(now, s);
+            Date d1 = timeToDate(now, s);
             //In this case we need to check if time is between last trip of today and first trip of tomorrow
             //Hence we should use before instead after for comparing
             if (d1.before(now) || d1.equals(now)) {
@@ -116,13 +118,5 @@ public class NextTrip {
         }
     }
 
-    private Date changeTime(Date now, String s) throws ParseException {
-        Calendar newCal = Calendar.getInstance();
-        newCal.setTimeInMillis(now.getTime());
-        Calendar subCal = Calendar.getInstance();
-        subCal.setTimeInMillis(format.parse(s).getTime());
-        newCal.set(Calendar.HOUR_OF_DAY, subCal.get(Calendar.HOUR_OF_DAY));
-        newCal.set(Calendar.MINUTE, subCal.get(Calendar.MINUTE));
-        return new Date(newCal.getTimeInMillis());
-    }
+
 }

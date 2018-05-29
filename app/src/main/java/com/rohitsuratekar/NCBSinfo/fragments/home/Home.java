@@ -9,11 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.rohitsuratekar.NCBSinfo.common.Helper;
+import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
+import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,8 +34,18 @@ public class Home extends Fragment {
     ImageView scene;
     @BindView(R.id.hm_stars)
     ImageView stars;
+    @BindView(R.id.hm_type)
+    TextView type;
+    @BindView(R.id.hm_origin)
+    TextView origin;
+    @BindView(R.id.hm_destination)
+    TextView destination;
+    @BindView(R.id.hm_time)
+    TextView time;
 
     private int randRotation = 0;
+    private List<TransportDetails> transportList;
+    private TransportDetails transport;
 
 
     @Override
@@ -44,8 +59,24 @@ public class Home extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home, container, false);
         ButterKnife.bind(this, rootView);
+        if (getActivity() != null) {
+            transportList = ((BaseActivity) getActivity()).getTransportList();
+            changeTo(0);
+        }
         adjustGraphics();
         return rootView;
+    }
+
+    private void changeTo(int index) {
+        transport = transportList.get(index);
+        origin.setText(transport.getOrigin().toUpperCase());
+        destination.setText(transport.getDestination().toUpperCase());
+        type.setText(getString(R.string.hm_next, transport.getType()));
+        try {
+            time.setText(Helper.displayTime(transport.getNextTripDetails(Calendar.getInstance())[0]));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void adjustGraphics() {

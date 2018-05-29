@@ -12,13 +12,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
+
+import java.text.ParseException;
+import java.util.List;
 
 public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.ViewHolder> {
 
     private int highlightIndex;
-    private int size = 7;
+    private List<String> tripList;
+    private String type;
 
-    TransportAdapter(int highlightIndex) {
+    TransportAdapter(List<String> tripList, int highlightIndex) {
+        this.tripList = tripList;
         this.highlightIndex = highlightIndex;
     }
 
@@ -33,7 +39,15 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         Context context = holder.itemView.getContext();
         holder.ending.setVisibility(View.GONE);
         holder.text.setTypeface(Typeface.DEFAULT);
+        holder.text.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
 
+        try {
+            holder.text.setText(Helper.displayTime(tripList.get(position)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        holder.extraText.setText(context.getString(R.string.hm_next, type));
 
         if (position == highlightIndex) {
             holder.frontImage.setImageResource(R.color.colorAccent);
@@ -56,16 +70,26 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
             holder.ending.setColorFilter(ContextCompat.getColor(context, R.color.colorLight));
         }
 
-        if (position == size - 1) {
+        if (position == tripList.size() - 1) {
             holder.ending.setVisibility(View.VISIBLE);
-            holder.backImage.setVisibility(View.GONE);
+            holder.backImage.setVisibility(View.INVISIBLE);
         }
 
     }
 
+    void updateNext(int index) {
+        this.highlightIndex = index;
+        notifyDataSetChanged();
+    }
+
+    void updateMessage(String message) {
+        this.type = message;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return size;
+        return tripList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

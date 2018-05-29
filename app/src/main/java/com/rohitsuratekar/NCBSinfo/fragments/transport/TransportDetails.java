@@ -12,7 +12,7 @@ import java.util.List;
  * All code is released under MIT License.
  */
 
-class TransportDetails {
+public class TransportDetails {
 
     private RouteData routeData;
     private String origin;
@@ -26,7 +26,7 @@ class TransportDetails {
     private int originalDay;
 
 
-    TransportDetails(RouteData routeData, List<TripData> tripData) {
+    public TransportDetails(RouteData routeData, List<TripData> tripData) {
         this.routeData = routeData;
         origin = routeData.getOrigin();
         destination = routeData.getDestination();

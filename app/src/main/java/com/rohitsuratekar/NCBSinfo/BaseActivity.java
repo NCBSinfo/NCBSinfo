@@ -1,8 +1,10 @@
 package com.rohitsuratekar.NCBSinfo;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,9 @@ import com.rohitsuratekar.NCBSinfo.fragments.home.Home;
 import com.rohitsuratekar.NCBSinfo.fragments.informtion.Information;
 import com.rohitsuratekar.NCBSinfo.fragments.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.Transport;
+import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
+
+import java.util.List;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class BaseActivity extends AppCompatActivity {
     FrameLayout mainFrame;
     BaseViewModel viewModel;
     TextView mainWarning;
+    List<TransportDetails> transportList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,27 @@ public class BaseActivity extends AppCompatActivity {
         mainFrame.setVisibility(View.GONE);
         navigationView.setVisibility(View.GONE);
         viewModel.loadApp(getApplicationContext());
+        subscribe();
+    }
+
+    private void subscribe() {
+        viewModel.getAllTransport().observe(this, new Observer<List<TransportDetails>>() {
+            @Override
+            public void onChanged(@Nullable List<TransportDetails> transportDetailsList) {
+                if (transportDetailsList != null) {
+                    transportList = transportDetailsList;
+                    mainFrame.setVisibility(View.VISIBLE);
+                    navigationView.setVisibility(View.VISIBLE);
+                    mainWarning.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                    attachHome();
+                }
+            }
+        });
+    }
+
+    public List<TransportDetails> getTransportList() {
+        return transportList;
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
