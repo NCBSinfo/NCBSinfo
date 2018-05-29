@@ -4,4 +4,8 @@
     <dimen name="home_image_height">150sp</dimen>
     <dimen name="home_sun_size">45sp</dimen>
 
+    <dimen name="transport_top_panel">130sp</dimen>
+    <dimen name="transport_day_panel">45sp</dimen>
+    <dimen name="transport_item_bar">30sp</dimen>
+
 </resources>

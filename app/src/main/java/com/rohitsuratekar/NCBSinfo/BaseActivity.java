@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,24 +9,37 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-import com.rohitsuratekar.NCBSinfo.fragments.Contacts;
-import com.rohitsuratekar.NCBSinfo.fragments.Home;
-import com.rohitsuratekar.NCBSinfo.fragments.Information;
-import com.rohitsuratekar.NCBSinfo.fragments.Settings;
-import com.rohitsuratekar.NCBSinfo.fragments.Transport;
+import com.rohitsuratekar.NCBSinfo.fragments.contacts.Contacts;
+import com.rohitsuratekar.NCBSinfo.fragments.home.Home;
+import com.rohitsuratekar.NCBSinfo.fragments.informtion.Information;
+import com.rohitsuratekar.NCBSinfo.fragments.settings.Settings;
+import com.rohitsuratekar.NCBSinfo.fragments.transport.Transport;
 
 public class BaseActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
+    FrameLayout progressBar;
+    FrameLayout mainFrame;
+    BaseViewModel viewModel;
+    TextView mainWarning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base_layout);
+        mainWarning = findViewById(R.id.main_warning);
+        mainFrame = findViewById(R.id.main_frame);
         navigationView = findViewById(R.id.nav_bar);
         navigationView.setOnNavigationItemSelectedListener(navListener);
-        attachHome();
+        progressBar = findViewById(R.id.progress);
+        viewModel = ViewModelProviders.of(this).get(BaseViewModel.class);
+        mainFrame.setVisibility(View.GONE);
+        navigationView.setVisibility(View.GONE);
+        viewModel.loadApp(getApplicationContext());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {

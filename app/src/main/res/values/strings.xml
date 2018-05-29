@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
+    <string name="setup_warning">Setting up your app…</string>
 
     <string name="home">Home</string>
 
@@ -14,5 +15,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="hm_see_full">See full timetable</string>
+    <string name="tp_show_all">Show\nAll Routes</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.fragments;
+package com.rohitsuratekar.NCBSinfo.fragments.contacts;
 
 
 import android.os.Bundle;

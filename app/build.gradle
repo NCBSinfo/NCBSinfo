@@ -6,8 +6,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 57
+        versionName "6.5.0 beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,5 +37,6 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.google.code.gson:gson:2.8.4'
 
 }

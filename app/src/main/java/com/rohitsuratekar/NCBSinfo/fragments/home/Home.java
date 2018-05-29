@@ -1,15 +1,16 @@
-package com.rohitsuratekar.NCBSinfo.fragments;
+package com.rohitsuratekar.NCBSinfo.fragments.home;
 
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.rohitsuratekar.NCBSinfo.Helper;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.R;
 
 import java.util.Calendar;
@@ -29,6 +30,14 @@ public class Home extends Fragment {
     @BindView(R.id.hm_stars)
     ImageView stars;
 
+    private int randRotation = 0;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        randRotation = Helper.randomInt(0, 360);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -46,7 +55,7 @@ public class Home extends Fragment {
         } else {
             sun.setImageResource(R.drawable.graphics_moon);
             stars.setVisibility(View.VISIBLE);
-            stars.setRotation(Helper.randomInt(0, 360));
+            stars.setRotation(randRotation);
         }
         float hour_factor = getResources().getDimensionPixelSize(R.dimen.home_image_height) / 12;
         hour_factor = hour_factor * hour;
