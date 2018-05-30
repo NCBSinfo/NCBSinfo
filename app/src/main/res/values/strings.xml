@@ -4,7 +4,7 @@
 
     <string name="home">Home</string>
 
-    <string name="transport">Transport</string>
+    <string name="transport">Timetable</string>
     <string name="contacts">Contacts</string>
     <string name="more">More</string>
     <string name="settings">Settings</string>
@@ -16,6 +16,8 @@
 
     <string name="hm_see_full">See full timetable</string>
     <string name="hm_next">next %s</string>
-    <string name="tp_show_all">Show\nAll Routes</string>
+    <string name="hm_show_route">Or\nselect different transport route</string>
 
+    <string name="tp_show_all">Show\nAll Routes</string>
+    <string name="tp_route_name">%1$s - %2$s</string>
 </resources>

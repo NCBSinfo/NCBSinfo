@@ -9,6 +9,13 @@ android {
         versionCode 57
         versionName "6.5.0 beta"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
     }
     buildTypes {
         release {

@@ -62,40 +62,40 @@ public class Transport extends Fragment {
         tripList = new ArrayList<>();
         if (getActivity() != null) {
             transportList = ((BaseActivity) getActivity()).getTransportList();
-            transport = transportList.get(0);
+            transport = ((BaseActivity) getActivity()).getCurrentTransport();
+            showActual = true;
             tripList.addAll(transport.getTrips(calendar));
-            try {
-                showActual = true;
-                String[] d = transport.getNextTripDetails(Calendar.getInstance());
-                transport.setOriginalTrip(d);
-                Calendar cal = Calendar.getInstance();
-                switch (d[1]) {
-                    case "2":
-                        cal.add(Calendar.DATE, 1);
-                        transport.setOriginalDay(cal.get(Calendar.DAY_OF_WEEK));
-                        break;
-                    case "-1":
-                        cal.add(Calendar.DATE, -1);
-                        transport.setOriginalDay(cal.get(Calendar.DAY_OF_WEEK));
-                        break;
-                    default:
-                        transport.setOriginalDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
-                        break;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
             adapter = new TransportAdapter(tripList, -1);
             updateUI();
         }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        calendar = Calendar.getInstance();
         daySelected(dayList.get(calendar.get(Calendar.DAY_OF_WEEK) - 1));
         return rootView;
     }
 
     private void updateUI() {
+        try {
+            String[] d = transport.getNextTripDetails(calendar);
+            transport.setOriginalTrip(d);
+            Calendar cal = Calendar.getInstance();
+            switch (d[1]) {
+                case "2":
+                    cal.add(Calendar.DATE, 1);
+                    transport.setOriginalDay(cal.get(Calendar.DAY_OF_WEEK));
+                    break;
+                case "-1":
+                    cal.add(Calendar.DATE, -1);
+                    transport.setOriginalDay(cal.get(Calendar.DAY_OF_WEEK));
+                    break;
+                default:
+                    transport.setOriginalDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK));
+                    break;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         tripList.clear();
         tripList.addAll(transport.getTrips(calendar));
         if (calendar.get(Calendar.DAY_OF_WEEK) == transport.getOriginalDay()) {
@@ -105,7 +105,17 @@ public class Transport extends Fragment {
             if (showActual) {
                 Calendar c = Calendar.getInstance();
                 c.add(Calendar.DATE, 1);
-                //  onDayClick(daysList.get(c.get(Calendar.DAY_OF_WEEK) - 1));
+                daySelected(dayList.get(c.get(Calendar.DAY_OF_WEEK) - 1));
+                showActual = false;
+            } else {
+                adapter.updateNext(tripList.size());
+            }
+        } else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                && transport.getOriginalTrip()[1].equals("-1")) {
+            if (showActual) {
+                Calendar c = Calendar.getInstance();
+                c.add(Calendar.DATE, -1);
+                daySelected(dayList.get(c.get(Calendar.DAY_OF_WEEK) - 1));
                 showActual = false;
             } else {
                 adapter.updateNext(tripList.size());
@@ -161,6 +171,23 @@ public class Transport extends Fragment {
             }
             for (ImageView i : linkList) {
                 i.setImageResource(android.R.color.transparent);
+            }
+        }
+    }
+
+    @OnClick(R.id.tp_show_all_btn)
+    public void showAllRoutes() {
+        if (getActivity() != null) {
+            ((BaseActivity) getActivity()).showRouteList();
+        }
+    }
+
+    public void changeRoute(int routeNo) {
+        for (TransportDetails t : transportList) {
+            if (t.getRouteID() == routeNo) {
+                transport = t;
+                updateUI();
+                break;
             }
         }
     }

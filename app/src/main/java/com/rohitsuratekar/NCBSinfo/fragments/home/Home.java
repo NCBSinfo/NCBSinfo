@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Home extends Fragment {
 
@@ -45,7 +46,6 @@ public class Home extends Fragment {
 
     private int randRotation = 0;
     private List<TransportDetails> transportList;
-    private TransportDetails transport;
 
 
     @Override
@@ -61,14 +61,18 @@ public class Home extends Fragment {
         ButterKnife.bind(this, rootView);
         if (getActivity() != null) {
             transportList = ((BaseActivity) getActivity()).getTransportList();
-            changeTo(0);
+            for (TransportDetails t : transportList) {
+                if (t.getRouteID() == ((BaseActivity) getActivity()).getCurrentTransport().getRouteID()) {
+                    changeTo(transportList.indexOf(t));
+                }
+            }
         }
         adjustGraphics();
         return rootView;
     }
 
     private void changeTo(int index) {
-        transport = transportList.get(index);
+        TransportDetails transport = transportList.get(index);
         origin.setText(transport.getOrigin().toUpperCase());
         destination.setText(transport.getDestination().toUpperCase());
         type.setText(getString(R.string.hm_next, transport.getType()));
@@ -97,4 +101,29 @@ public class Home extends Fragment {
                 .translationX(hour_factor)
                 .setDuration(10).start();
     }
+
+    @OnClick(R.id.hm_change_route)
+    public void showAllRoutes() {
+        if (getActivity() != null) {
+            ((BaseActivity) getActivity()).showRouteList();
+        }
+    }
+
+    @OnClick(R.id.hm_see_all)
+    public void seeAll() {
+        if (getActivity() != null) {
+            ((BaseActivity) getActivity()).attachTransport();
+        }
+    }
+
+    public void changeRoute(int routeNo) {
+        for (TransportDetails t : transportList) {
+            if (t.getRouteID() == routeNo) {
+                changeTo(transportList.indexOf(t));
+                break;
+            }
+        }
+    }
+
+
 }

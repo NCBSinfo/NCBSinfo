@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,16 +16,18 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.rohitsuratekar.NCBSinfo.common.OnRouteSelect;
 import com.rohitsuratekar.NCBSinfo.fragments.contacts.Contacts;
 import com.rohitsuratekar.NCBSinfo.fragments.home.Home;
 import com.rohitsuratekar.NCBSinfo.fragments.informtion.Information;
 import com.rohitsuratekar.NCBSinfo.fragments.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
+import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportSheet;
 
 import java.util.List;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements OnRouteSelect {
 
     BottomNavigationView navigationView;
     FrameLayout progressBar;
@@ -32,6 +35,7 @@ public class BaseActivity extends AppCompatActivity {
     BaseViewModel viewModel;
     TextView mainWarning;
     List<TransportDetails> transportList;
+    TransportDetails currentTransport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class BaseActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<TransportDetails> transportDetailsList) {
                 if (transportDetailsList != null) {
                     transportList = transportDetailsList;
+                    currentTransport = transportList.get(0);
                     mainFrame.setVisibility(View.VISIBLE);
                     navigationView.setVisibility(View.VISIBLE);
                     mainWarning.setVisibility(View.GONE);
@@ -63,6 +68,10 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public TransportDetails getCurrentTransport() {
+        return currentTransport;
     }
 
     public List<TransportDetails> getTransportList() {
@@ -77,7 +86,7 @@ public class BaseActivity extends AppCompatActivity {
                     attachHome();
                     break;
                 case R.id.nav_transport:
-                    attachTransport();
+                    replaceFragment(new Transport());
                     break;
                 case R.id.nav_contacts:
                     replaceFragment(new Contacts());
@@ -97,8 +106,8 @@ public class BaseActivity extends AppCompatActivity {
         replaceFragment(new Home());
     }
 
-    private void attachTransport() {
-        replaceFragment(new Transport());
+    public void attachTransport() {
+        navigationView.setSelectedItemId(R.id.nav_transport);
     }
 
 
@@ -139,6 +148,32 @@ public class BaseActivity extends AppCompatActivity {
             } else if (f instanceof Settings) {
                 navigationView.setSelectedItemId(R.id.nav_settings);
             }
+        }
+    }
+
+    public void showRouteList() {
+        BottomSheetDialogFragment bottomSheetDialogFragment;
+        if (transportList != null) {
+            bottomSheetDialogFragment = TransportSheet.newInstance(currentTransport.getRouteID(), currentTransport.getReturnIndex());
+        } else {
+            bottomSheetDialogFragment = TransportSheet.newInstance(-1, -1);
+        }
+        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
+    @Override
+    public void routeSelected(int routeID) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_frame);
+        for (TransportDetails t : transportList) {
+            if (t.getRouteID() == routeID) {
+                currentTransport = t;
+                break;
+            }
+        }
+        if (f instanceof Home) {
+            ((Home) f).changeRoute(routeID);
+        } else if (f instanceof Transport) {
+            ((Transport) f).changeRoute(routeID);
         }
     }
 }

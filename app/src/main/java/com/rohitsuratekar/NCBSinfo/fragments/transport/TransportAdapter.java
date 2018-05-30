@@ -49,6 +49,10 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
 
         holder.extraText.setText(context.getString(R.string.hm_next, type));
 
+        if (position < highlightIndex) {
+            holder.text.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
+        }
+
         if (position == highlightIndex) {
             holder.frontImage.setImageResource(R.color.colorAccent);
             holder.extraText.setVisibility(View.VISIBLE);
@@ -63,9 +67,9 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
             holder.backImage.setVisibility(View.VISIBLE);
         }
         if (position > highlightIndex) {
+            holder.text.setTextColor(ContextCompat.getColor(context, android.R.color.primary_text_light));
             holder.backImage.setImageResource(R.color.colorLight);
             holder.frontImage.setImageResource(R.color.colorLight);
-            holder.pseudo.setImageResource(R.color.colorLight);
             holder.text.setTypeface(Typeface.DEFAULT);
             holder.ending.setColorFilter(ContextCompat.getColor(context, R.color.colorLight));
         }
@@ -94,7 +98,7 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView backImage, frontImage, arrow, ending, pseudo;
+        ImageView backImage, frontImage, arrow, ending;
         TextView text, extraText;
 
         ViewHolder(View itemView) {
@@ -105,7 +109,6 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
             text = itemView.findViewById(R.id.tp_item_text);
             extraText = itemView.findViewById(R.id.tp_item_extra_text);
             ending = itemView.findViewById(R.id.tp_item_ending);
-            pseudo = itemView.findViewById(R.id.tp_item_pseudo_back);
         }
     }
 }

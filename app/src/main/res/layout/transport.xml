@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -131,21 +132,19 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView8"
+    <Button
+        android:id="@+id/tp_show_all_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="32sp"
         android:background="@color/colorPrimary"
-        android:paddingBottom="8sp"
-        android:paddingEnd="16sp"
-        android:paddingStart="8sp"
-        android:paddingTop="8sp"
+        android:padding="8sp"
         android:text="@string/tp_show_all"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tp_recycler"
