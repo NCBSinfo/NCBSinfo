@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.SettingsInfo;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
@@ -187,7 +188,6 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
     }
 
     private void showTransport() {
-        //TODO : Do this properly
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
         b.setTitle("Select default route");
 
@@ -232,12 +232,14 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
     }
 
     Object[][] items = {
+            {VIEW_HEADER, R.string.settings_header_notice},
+            {VIEW_ITEM, R.string.settings_data_notice, R.string.settings_data_notice_details, R.drawable.icon_information, ACTION_NOTICE},
             {VIEW_HEADER, R.string.settings_header_general},
             {VIEW_ITEM, R.string.settings_notification, 0, R.drawable.icon_notifications_active, ACTION_NOTIFICATIONS},
             {VIEW_ITEM, R.string.settings_see_intro, R.string.settings_see_intro_details, 0, ACTION_INTRO},
             {VIEW_LINE},
             {VIEW_HEADER, R.string.settings_header_transport},
-            {VIEW_ITEM, R.string.settings_default_route, R.string.settings_default_transport_details, R.drawable.icon_transport, ACTION_DEFAULT_ROUTE},
+            {VIEW_ITEM, R.string.settings_default_route, R.string.settings_default_transport_details, R.drawable.icon_bus, ACTION_DEFAULT_ROUTE},
             {VIEW_ITEM, R.string.settings_reset_transport, R.string.settings_reset_transport_details, R.drawable.icon_restore, ACTION_RESET_ROUTE},
             {VIEW_ITEM, R.string.settings_transport_last, R.string.settings_transport_last_update, 0, ACTION_TRANSPORT_UPDATE},
             {VIEW_LINE},
@@ -318,6 +320,9 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
                     break;
                 case ACTION_EGG2:
                     showInfo(SettingsInfo.EGG_ASSAY2);
+                    break;
+                case ACTION_NOTICE:
+                    showInfo(SettingsInfo.NOTICE);
                     break;
                 case ACTION_REMOVE_EGG:
                     prefs.removeEggs();

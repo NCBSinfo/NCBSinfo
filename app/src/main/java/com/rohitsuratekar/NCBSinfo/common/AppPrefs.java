@@ -12,6 +12,7 @@ public class AppPrefs {
     private static final String EGG_ACTIVE = "egg_active";
     private static final String NOTIFICATIONS = "notifications";
     private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
+    private static final String LOCATION_SORT = "location_sort";
 
     private Context context;
     private SharedPreferences prefs;
@@ -78,9 +79,21 @@ public class AppPrefs {
         put(SETTINGS_DEFAULT_SET, true);
     }
 
+    public int getLocationSort() {
+        return get(LOCATION_SORT, 0);
+    }
+
+    public void setLocationSort(int loc) {
+        put(LOCATION_SORT, loc);
+    }
+
 
     private String get(String key, String defaultValue) {
         return prefs.getString(key, defaultValue);
+    }
+
+    private int get(String key, int defaultValue) {
+        return prefs.getInt(key, defaultValue);
     }
 
     private boolean get(String key, boolean defaultValue) {
@@ -93,6 +106,10 @@ public class AppPrefs {
 
     private void put(String key, boolean value) {
         prefs.edit().putBoolean(key, value).apply();
+    }
+
+    private void put(String key, int value) {
+        prefs.edit().putInt(key, value).apply();
     }
 
 

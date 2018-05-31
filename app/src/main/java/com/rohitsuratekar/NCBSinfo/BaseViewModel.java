@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.rohitsuratekar.NCBSinfo.common.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.common.GetAllRoutes;
 import com.rohitsuratekar.NCBSinfo.common.OnFinish;
@@ -103,7 +104,7 @@ public class BaseViewModel extends ViewModel {
                     }
                 } else {
                     Log.e(TAG, "Something went wrong while retrieving routes");
-                    //TODO: Report Error
+                    Crashlytics.log("Something went wrong while retrieving routes");
                 }
             }
 

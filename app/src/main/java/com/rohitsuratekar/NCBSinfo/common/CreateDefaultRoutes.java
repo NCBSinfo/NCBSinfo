@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
@@ -180,7 +181,7 @@ public class CreateDefaultRoutes extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         onFinish.finished();
         if (reportCrash) {
-            //TODO
+            Crashlytics.log("Problem in creating default routes.");
         }
     }
 

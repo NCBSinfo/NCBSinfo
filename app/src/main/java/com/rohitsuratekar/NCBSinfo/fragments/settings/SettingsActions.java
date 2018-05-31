@@ -8,7 +8,7 @@ package com.rohitsuratekar.NCBSinfo.fragments.settings;
 public interface SettingsActions {
 
     int ACTION_DEFAULT_ROUTE = 1;
-    int ACTION_DETAILS = 2;
+    int ACTION_NOTICE = 2;
     int ACTION_GITHUB = 3;
     int ACTION_DEVELOPERS_OPTIONS = 4;
     int ACTION_SYNC = 5;

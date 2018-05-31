@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.fragments.transport;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.activities.manage.ManageTransport;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -209,6 +211,11 @@ public class Transport extends Fragment {
                 break;
             }
         }
+    }
+
+    @OnClick(R.id.tp_manage)
+    public void manageRoutes() {
+        startActivity(new Intent(getActivity(), ManageTransport.class));
     }
 
     @OnClick(R.id.tp_swap)

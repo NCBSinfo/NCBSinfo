@@ -20,5 +20,14 @@
     <dimen name="st_icon_size">30sp</dimen>
     <dimen name="st_icon_text_margin">32sp</dimen>
 
+    <!--Edit Transport-->
+    <dimen name="et_basic_icon_size">100sp</dimen>
+    <dimen name="et_basic_input_icon">30sp</dimen>
+    <dimen name="et_trips_undo_padding">16sp</dimen>
+    <dimen name="et_confirm_recycler">250sp</dimen>
+    <dimen name="mt_icon_size">150sp</dimen>
+
+    <!--Location Related-->
+    <dimen name="loc_image_height">100sp</dimen>
 
 </resources>

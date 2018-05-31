@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -56,10 +58,32 @@ public class Helper {
         return format.format(timeToDate(new Date(), string));
     }
 
+    public static String convertToString(Calendar calendar, String format) {
+        SimpleDateFormat format1 = new SimpleDateFormat(format, Locale.ENGLISH);
+        return format1.format(new Date(calendar.getTimeInMillis()));
+    }
+
     public static void copyToClipBoardWithToast(Context context, String text) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("NCBSinfo", text);
         clipboard.setPrimaryClip(clip);
         Toast.makeText(context, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
+    }
+
+    public static List<String> sortStringsByDate(List<String> input) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        List<String> stringList = new ArrayList<>(input);
+        Collections.sort(stringList, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                try {
+                    return dateFormat.parse(s1).compareTo(dateFormat.parse(s2));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
+        return stringList;
     }
 }

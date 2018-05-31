@@ -1,4 +1,4 @@
-package com.rohitsuratekar.NCBSinfo.fragments.settings;
+package com.rohitsuratekar.NCBSinfo.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
-import com.rohitsuratekar.NCBSinfo.common.Helper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +25,7 @@ public class SettingsInfo extends AppCompatActivity {
     public static String ABOUT = "about";
     public static String EGG_ASSAY1 = "assay1";
     public static String EGG_ASSAY2 = "assay2";
+    public static String NOTICE = "notice";
 
     @BindView(R.id.st_info_text)
     TextView mainText;
@@ -57,8 +57,6 @@ public class SettingsInfo extends AppCompatActivity {
         //Need to make links clickable
         mainText.setMovementMethod(LinkMovementMethod.getInstance());
 
-
-        // TODO : Proper layouts
         if (action != null) {
             if (action.equals(TERMS)) {
                 mainText.setText(Html.fromHtml(getString(R.string.terms)));
@@ -69,14 +67,11 @@ public class SettingsInfo extends AppCompatActivity {
             } else if (action.equals(ABOUT)) {
                 mainText.setText(Html.fromHtml(getString(R.string.about_us)));
             } else if (action.equals(EGG_ASSAY1)) {
-                //New test for custom events for analytics
-                Bundle params = new Bundle();
-                params.putString("caught_eggs", Helper.timestamp());
                 mainText.setText(Html.fromHtml(getString(R.string.egg_ron)));
             } else if (action.equals(EGG_ASSAY2)) {
-                Bundle params = new Bundle();
-                params.putString("caught_eggs", Helper.timestamp());
                 mainText.setText(Html.fromHtml(getString(R.string.egg_hermione)));
+            } else if (action.equals(NOTICE)) {
+                mainText.setText(Html.fromHtml(getString(R.string.notice)));
             }
         }
 

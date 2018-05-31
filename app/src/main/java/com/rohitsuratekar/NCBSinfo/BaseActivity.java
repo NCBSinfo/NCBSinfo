@@ -35,7 +35,7 @@ import com.rohitsuratekar.NCBSinfo.fragments.home.Home;
 import com.rohitsuratekar.NCBSinfo.fragments.informtion.Information;
 import com.rohitsuratekar.NCBSinfo.fragments.settings.Settings;
 import com.rohitsuratekar.NCBSinfo.fragments.settings.SettingsActions;
-import com.rohitsuratekar.NCBSinfo.fragments.settings.SettingsInfo;
+import com.rohitsuratekar.NCBSinfo.activities.SettingsInfo;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.Transport;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportSheet;
@@ -271,11 +271,13 @@ public class BaseActivity extends AppCompatActivity implements OnRouteSelect, Tr
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case SettingsActions.ACTION_INFO:
                 Intent infoIntent = new Intent(this, SettingsInfo.class);
                 infoIntent.setAction(params);
                 startActivity(infoIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case SettingsActions.ACTION_REMOVE_EGG:
                 navigationView.setSelectedItemId(R.id.nav_home);
