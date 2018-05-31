@@ -11,8 +11,8 @@
     <string name="manage_transport">Manage Transport</string>
     <string name="information">Information</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="are_you_sure">Are you sure?</string>
+
 
     <string name="hm_see_full">See full timetable</string>
     <string name="hm_next">next %s</string>
@@ -20,4 +20,14 @@
 
     <string name="tp_show_all">Show\nAll Routes</string>
     <string name="tp_route_name">%1$s - %2$s</string>
+
+    <string name="search">Search</string>
+    <string name="search_contact">Search Contact</string>
+
+    <string name="ct_item_institute">( %s )</string>
+    <string name="ct_extension">Extension : </string>
+    <string name="ct_sort">Sort</string>
+    <string name="ct_permission_needed">Permission needed!</string>
+    <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click on allow when permission dialog appears. </string>
+
 </resources>

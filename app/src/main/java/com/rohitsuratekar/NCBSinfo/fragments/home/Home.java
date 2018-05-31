@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
 
@@ -43,9 +45,12 @@ public class Home extends Fragment {
     TextView destination;
     @BindView(R.id.hm_time)
     TextView time;
+    @BindView(R.id.hm_fav)
+    ImageView fav;
 
     private int randRotation = 0;
     private List<TransportDetails> transportList;
+    private TransportDetails transport;
 
 
     @Override
@@ -61,18 +66,14 @@ public class Home extends Fragment {
         ButterKnife.bind(this, rootView);
         if (getActivity() != null) {
             transportList = ((BaseActivity) getActivity()).getTransportList();
-            for (TransportDetails t : transportList) {
-                if (t.getRouteID() == ((BaseActivity) getActivity()).getCurrentTransport().getRouteID()) {
-                    changeTo(transportList.indexOf(t));
-                }
-            }
+            transport = ((BaseActivity) getActivity()).getCurrentTransport();
+            updateRoute();
         }
         adjustGraphics();
         return rootView;
     }
 
-    private void changeTo(int index) {
-        TransportDetails transport = transportList.get(index);
+    private void updateRoute() {
         origin.setText(transport.getOrigin().toUpperCase());
         destination.setText(transport.getDestination().toUpperCase());
         type.setText(getString(R.string.hm_next, transport.getType()));
@@ -80,6 +81,17 @@ public class Home extends Fragment {
             time.setText(Helper.displayTime(transport.getNextTripDetails(Calendar.getInstance())[0]));
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+        if (getContext() != null) {
+            if (transport.getRouteData().getFavorite().equals("yes")) {
+                fav.setImageResource(R.drawable.icon_fav);
+                fav.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
+
+            } else {
+                fav.setImageResource(R.drawable.icon_fav_empty);
+                fav.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+
+            }
         }
     }
 
@@ -119,9 +131,25 @@ public class Home extends Fragment {
     public void changeRoute(int routeNo) {
         for (TransportDetails t : transportList) {
             if (t.getRouteID() == routeNo) {
-                changeTo(transportList.indexOf(t));
+                transport = t;
+                updateRoute();
                 break;
             }
+        }
+    }
+
+    @OnClick(R.id.hm_fav)
+    public void changeFavorite(ImageView imageView) {
+        if (getContext() != null) {
+            CommonTasks.sendFavoriteRoute(getContext(), transport.getRouteID());
+            transport.getRouteData().setFavorite("yes");
+            for (TransportDetails t : transportList) {
+                if (t != transport) {
+                    t.getRouteData().setFavorite("no");
+                }
+            }
+            fav.setImageResource(R.drawable.icon_fav);
+            fav.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
         }
     }
 

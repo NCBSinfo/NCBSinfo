@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="horizontal_margin">16sp</dimen>
 
+    <!--Home Related-->
     <dimen name="home_image_height">150sp</dimen>
     <dimen name="home_sun_size">45sp</dimen>
 
+    <!--Transport Related-->
     <dimen name="transport_top_panel">130sp</dimen>
     <dimen name="transport_day_panel">45sp</dimen>
     <dimen name="transport_item_bar">30sp</dimen>
-    <dimen name="tp_sheet_icon_size">30sp</dimen>
+    <dimen name="transport_sheet_icon_size">30sp</dimen>
+
+    <!--Contact Related-->
+    <dimen name="ct_sheet_back_image_height">150sp</dimen>
+    <dimen name="ct_sheet_app_bar_height">200sp</dimen>
+
+    <!--Settings related-->
+    <dimen name="st_icon_size">30sp</dimen>
+    <dimen name="st_icon_text_margin">32sp</dimen>
+
 
 </resources>

@@ -6,4 +6,9 @@
     <color name="colorLight">#b3e5ff</color>
     <color name="white">#fbfcfc</color>
     <color name="green">#57d785</color>
+
+    <color name="contactExtension">#EDE7F6</color>
+
+
+    <color name="divider">#bdbdbd</color>
 </resources>

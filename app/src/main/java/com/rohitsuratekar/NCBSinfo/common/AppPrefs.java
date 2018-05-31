@@ -9,7 +9,9 @@ public class AppPrefs {
     private static final String FAVORITE_ORIGIN = "favorite_origin";
     private static final String FAVORITE_DESTINATION = "favorite_destination";
     private static final String FAVORITE_TYPE = "favorite_type";
-
+    private static final String EGG_ACTIVE = "egg_active";
+    private static final String NOTIFICATIONS = "notifications";
+    private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
 
     private Context context;
     private SharedPreferences prefs;
@@ -44,12 +46,54 @@ public class AppPrefs {
         put(FAVORITE_TYPE, type);
     }
 
+    public boolean isEggActive() {
+        return get(EGG_ACTIVE, false);
+    }
+
+    public void eggActivated() {
+        put(EGG_ACTIVE, true);
+    }
+
+    public void removeEggs() {
+        put(EGG_ACTIVE, false);
+    }
+
+    public boolean areNotificationsAllowed() {
+        return get(NOTIFICATIONS, true);
+    }
+
+    public void toggleNotifications() {
+        put(NOTIFICATIONS, !get(NOTIFICATIONS, true));
+    }
+
+    public void setNotificationAllowed(boolean value) {
+        put(NOTIFICATIONS, value);
+    }
+
+    public boolean isDefaultRouteSet() {
+        return get(SETTINGS_DEFAULT_SET, false);
+    }
+
+    public void defaultRouteSet() {
+        put(SETTINGS_DEFAULT_SET, true);
+    }
+
 
     private String get(String key, String defaultValue) {
         return prefs.getString(key, defaultValue);
     }
 
-    private void put(String key, String value) {
-        prefs.edit().putString(key, value);
+    private boolean get(String key, boolean defaultValue) {
+        return prefs.getBoolean(key, defaultValue);
     }
+
+    private void put(String key, String value) {
+        prefs.edit().putString(key, value).apply();
+    }
+
+    private void put(String key, boolean value) {
+        prefs.edit().putBoolean(key, value).apply();
+    }
+
+
 }

@@ -1,7 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.fragments.transport;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.R;
@@ -44,6 +48,8 @@ public class Transport extends Fragment {
     TextView type;
     @BindView(R.id.tp_swap)
     ImageView swapBtn;
+    @BindView(R.id.tp_layout)
+    ConstraintLayout layout;
 
     private Calendar calendar;
     private List<TransportDetails> transportList;
@@ -51,8 +57,10 @@ public class Transport extends Fragment {
     private List<String> tripList;
     private TransportAdapter adapter;
     private boolean showActual = true;
+    private OnHomeInteraction tpInteraction;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,8 +79,22 @@ public class Transport extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         daySelected(dayList.get(calendar.get(Calendar.DAY_OF_WEEK) - 1));
+
+
         return rootView;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            tpInteraction = (OnHomeInteraction) context;
+        } catch (Exception e) {
+            Toast.makeText(context, "attach fragment interface!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 
     private void updateUI() {
         try {
@@ -136,9 +158,6 @@ public class Transport extends Fragment {
             swapBtn.setVisibility(View.INVISIBLE);
         }
 
-        //Scroll to next trip
-        //recyclerView.smoothScrollToPosition(adapter.getScrollPosition());
-
     }
 
     @OnClick({R.id.tp_day_mon, R.id.tp_day_tue, R.id.tp_day_wed, R.id.tp_day_thu, R.id.tp_day_fri, R.id.tp_day_sat, R.id.tp_day_sun})
@@ -190,5 +209,21 @@ public class Transport extends Fragment {
                 break;
             }
         }
+    }
+
+    @OnClick(R.id.tp_swap)
+    public void swapRoue() {
+        for (TransportDetails t : transportList) {
+            if (t.getRouteID() == transport.getReturnIndex()) {
+                transport = t;
+                tpInteraction.routeSwap(t);
+                updateUI();
+                break;
+            }
+        }
+    }
+
+    public interface OnHomeInteraction {
+        void routeSwap(TransportDetails newRoute);
     }
 }

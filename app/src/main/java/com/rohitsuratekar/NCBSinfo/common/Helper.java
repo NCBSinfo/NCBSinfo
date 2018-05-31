@@ -1,5 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.common;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.widget.Toast;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,5 +54,12 @@ public class Helper {
     public static String displayTime(String string) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat(FORMAT_DISPLAY_TIME, Locale.ENGLISH);
         return format.format(timeToDate(new Date(), string));
+    }
+
+    public static void copyToClipBoardWithToast(Context context, String text) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("NCBSinfo", text);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(context, "Copied to clipboard!", Toast.LENGTH_SHORT).show();
     }
 }

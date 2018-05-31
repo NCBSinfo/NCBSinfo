@@ -116,4 +116,14 @@
         app:layout_constraintStart_toStartOf="@+id/hm_see_all"
         app:layout_constraintTop_toBottomOf="@+id/hm_see_all" />
 
+    <ImageView
+        android:id="@+id/hm_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_fav_empty" />
+
 </android.support.constraint.ConstraintLayout>

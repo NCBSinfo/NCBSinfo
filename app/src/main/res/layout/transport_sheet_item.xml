@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/tp_sheet_icon"
-        android:layout_width="@dimen/tp_sheet_icon_size"
-        android:layout_height="@dimen/tp_sheet_icon_size"
+        android:layout_width="@dimen/transport_sheet_icon_size"
+        android:layout_height="@dimen/transport_sheet_icon_size"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
