@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
@@ -59,7 +60,7 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.settings, container, false);
         ButterKnife.bind(this, rootView);
@@ -234,9 +235,9 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
     Object[][] items = {
             {VIEW_HEADER, R.string.settings_header_notice},
             {VIEW_ITEM, R.string.settings_data_notice, R.string.settings_data_notice_details, R.drawable.icon_information, ACTION_NOTICE},
+            {VIEW_LINE},
             {VIEW_HEADER, R.string.settings_header_general},
             {VIEW_ITEM, R.string.settings_notification, 0, R.drawable.icon_notifications_active, ACTION_NOTIFICATIONS},
-            {VIEW_ITEM, R.string.settings_see_intro, R.string.settings_see_intro_details, 0, ACTION_INTRO},
             {VIEW_LINE},
             {VIEW_HEADER, R.string.settings_header_transport},
             {VIEW_ITEM, R.string.settings_default_route, R.string.settings_default_transport_details, R.drawable.icon_bus, ACTION_DEFAULT_ROUTE},

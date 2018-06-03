@@ -5,8 +5,6 @@
     <string name="settings_data_notice_details">Information regarding your data on NCBSinfo server.</string>
     <string name="settings_header_general">General Options</string>
     <string name="settings_header_transport">Transport related</string>
-    <string name="settings_see_intro">See intro</string>
-    <string name="settings_see_intro_details">What\'s new in this version?</string>
     <string name="settings_default_route">Default Transport</string>
     <string name="settings_default_transport_details">transport you want to see on Home.</string>
     <string name="settings_reset_transport">Reset Transport</string>
@@ -55,16 +53,6 @@
     through this application.
     In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same.]]></string>
 
-    <string name="faq"><![CDATA[ &#8226; <b>Some of components of the UI look weird</b> <br> </br>
-      This application is not yet designed for all screen sizes. Hence UI components might appear distorted or misplaced. <br> </br><br> </br>
-      &#8226; <b>I am not being able to receive any event notifications</b> <br> </br>
-      Please check if you have any task manager application that might be killing the NCBSinfo app. In that case, add this app to
-      the white-list. <br> </br> <br> </br>
-       &#8226; <b>There is no information in the event section</b> <br> </br>
-       This can happen if there are no events retrieved from the server. The app will send request to data server
-       depending on your network settings and will retrieve the data.
-       If you want to manually sync the app, go to the developer\'s options and click on \"Sync Data now\".]]></string>
-
     <string name="privacy_statement">
         <![CDATA[
         Best part of an open source app is that you will know exactly what is going on inside the app. We encourage you to check
@@ -92,7 +80,7 @@
         <![CDATA[
         We are very grateful to all the feedback and encouragement given by you. We would also like to
          acknowledge all the beta testers of this app. Special thanks to Pritha Ghosh for helping us out with grammar and spelling checks.
-         All graphics inside the app was created by Rohit Suratekar. Icons were borrowed from Google Material Design as well as IBM design language resources.
+         All graphics inside the app were created by Rohit Suratekar. Icons were borrowed from Google Material Design as well as IBM design language resources.
 
         <br></br>We have used the following Open Source Android libraries while making this app and are very thankful to them.
 

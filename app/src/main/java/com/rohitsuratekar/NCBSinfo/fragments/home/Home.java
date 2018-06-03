@@ -116,14 +116,14 @@ public class Home extends Fragment {
                 .setDuration(10).start();
     }
 
-    @OnClick(R.id.hm_change_route)
+    @OnClick({R.id.hm_change_route, R.id.hm_origin, R.id.hm_destination, R.id.hm_type})
     public void showAllRoutes() {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).showRouteList();
         }
     }
 
-    @OnClick(R.id.hm_see_all)
+    @OnClick({R.id.hm_see_all, R.id.hm_time})
     public void seeAll() {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).attachTransport();

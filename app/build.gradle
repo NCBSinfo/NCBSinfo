@@ -5,10 +5,10 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.rohitsuratekar.NCBSinfo"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 27
-        versionCode 57
-        versionName "6.5.0 beta"
+        versionCode 59
+        versionName "6.5.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -20,7 +20,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

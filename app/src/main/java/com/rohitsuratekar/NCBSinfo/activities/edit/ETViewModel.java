@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.rohitsuratekar.NCBSinfo.R;
-import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.GetAllRoutes;
 import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.common.OnFinish;
@@ -77,7 +76,7 @@ public class ETViewModel extends AndroidViewModel {
         return routeList;
     }
 
-    static class PrepareETData extends AsyncTask<Object, Void, Void> {
+    static class PrepareETData extends AsyncTask<String, Void, Void> {
 
         private OnDataFinish finish;
         private AppData db;
@@ -89,9 +88,9 @@ public class ETViewModel extends AndroidViewModel {
 
 
         @Override
-        protected Void doInBackground(Object... objects) {
+        protected Void doInBackground(String... objects) {
             if (objects[0] != null && objects[1] != null && objects[2] != null) {
-                String[] details = new String[]{(String) objects[0], (String) objects[1], (String) objects[2]};
+                String[] details = new String[]{objects[0], objects[1], objects[2]};
                 int routeNo = db.routes().getRouteNo(details[0], details[1], details[2]);
                 RouteData routeData = db.routes().getRoute(routeNo);
                 List<TripData> tripData = db.trips().getTripsByRoute(routeNo);
@@ -166,13 +165,11 @@ public class ETViewModel extends AndroidViewModel {
         private ConfirmModel model;
         private OnValidate validate;
         private AppData db;
-        private AppPrefs prefs;
 
         ValidateData(Context context, ConfirmModel model, OnValidate validate) {
             this.model = model;
             this.validate = validate;
             this.db = AppData.getDatabase(context);
-            this.prefs = new AppPrefs(context);
         }
 
         @Override

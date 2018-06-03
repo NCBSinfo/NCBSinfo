@@ -50,8 +50,8 @@ public class Information extends Fragment implements InfoAdapter.OnInfoClick {
     private void setUpList() {
         modelList = new ArrayList<>();
         modelList.add(new InfoModel(R.string.manage_transport, R.string.info_manage_transport_details,
-                0, MANAGE_TRANSPORT));
-        modelList.add(new InfoModel(R.string.locations, R.string.info_loc_details, 0, LOCATION));
+                R.drawable.graphics_builder, MANAGE_TRANSPORT));
+        modelList.add(new InfoModel(R.string.locations, R.string.info_loc_details, R.drawable.graphics_location, LOCATION));
     }
 
     @Override

@@ -196,7 +196,7 @@ public class Transport extends Fragment {
         }
     }
 
-    @OnClick(R.id.tp_show_all_btn)
+    @OnClick({R.id.tp_show_all_btn, R.id.tp_origin, R.id.tp_destination})
     public void showAllRoutes() {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).showRouteList();
