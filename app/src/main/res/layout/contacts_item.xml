@@ -30,11 +30,11 @@
     <ImageView
         android:id="@+id/ct_icon"
         android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:layout_height="40sp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:tint="@color/colorPrimaryLight"
+        android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

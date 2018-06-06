@@ -1,5 +1,6 @@
 <resources>
 
+    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -7,9 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="TransportDays" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@color/colorLight</item>
+        <item name="android:gravity">center</item>
+    </style>
 
     <style name="Widget.MyApp.Toolbar.Solid" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
@@ -17,15 +20,12 @@
 
     <style name="ThemeOverlay.MyApp.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
         <!-- Parent theme sets colorControlNormal to textColorPrimary. -->
-        <item name="android:textColorPrimary">@color/colorLightText</item>
+        <item name="android:textColorPrimary">@color/colorLight</item>
     </style>
 
-    <style name="TransportDay" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:layout_weight">1</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/colorLightText</item>
-        <item name="android:layout_margin">4sp</item>
-        <item name="android:background">@color/colorPrimaryLight</item>
+    <style name="ErrorDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="android:tint">@color/red</item>
     </style>
 
     <style name="ErrorDialog" parent="Theme.AppCompat.Light.Dialog.Alert">

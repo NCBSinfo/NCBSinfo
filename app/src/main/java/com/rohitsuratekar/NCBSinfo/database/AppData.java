@@ -1,20 +1,19 @@
 package com.rohitsuratekar.NCBSinfo.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 /**
  * Created by Rohit Suratekar on 20-06-17 for NCBSinfo.
  * All code is released under MIT License.
+ * <p>
+ * From Version 57 , all old database will be dropped and new database will be created
  */
 
-@Database(entities = {RouteData.class, TripData.class}, version = 10)
-//Changed from 9 to 10 in version 52.
+@Database(entities = {RouteData.class, TripData.class}, version = 11)
+//Changed from 10 to 11 in version 57.
 public abstract class AppData extends RoomDatabase {
 
     private static final String DATABASE_NAME = "NCBSinfo";
@@ -28,7 +27,6 @@ public abstract class AppData extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE =
                     Room.databaseBuilder(context.getApplicationContext(), AppData.class, DATABASE_NAME)
-                            .addMigrations(MIGRATION_9_10)
                             .fallbackToDestructiveMigration() //Need this to remove all old databases
                             .build();
         }
@@ -47,10 +45,4 @@ public abstract class AppData extends RoomDatabase {
         INSTANCE = null;
     }
 
-    private static final Migration MIGRATION_9_10 = new Migration(9, 10) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase db) {
-            new DatabaseMigration().migrate9_10(db);
-        }
-    };
 }
