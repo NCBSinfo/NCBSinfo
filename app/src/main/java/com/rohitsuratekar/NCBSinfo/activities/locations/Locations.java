@@ -1,19 +1,16 @@
 package com.rohitsuratekar.NCBSinfo.activities.locations;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
-import com.rohitsuratekar.NCBSinfo.common.BaseActivity;
-import com.rohitsuratekar.NCBSinfo.common.Helper;
-import com.secretbiology.helpers.general.General;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Locations extends BaseActivity {
+public class Locations extends AppCompatActivity {
 
     @BindView(R.id.loc_recycler)
     RecyclerView recyclerView;
@@ -62,7 +59,6 @@ public class Locations extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.locations);
         setTitle(R.string.locations);
-        findViewById(R.id.tabs).setVisibility(View.GONE);
         ButterKnife.bind(this);
         prefs = new AppPrefs(getBaseContext());
         locationModels = new LocationList().getLocations();
@@ -87,13 +83,6 @@ public class Locations extends BaseActivity {
             default:
                 sortByName();
         }
-
-        //New test for custom events for analytics
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle params = new Bundle();
-        params.putString("location_accessed", Helper.timestamp());
-        mFirebaseAnalytics.logEvent("location", params);
-
 
     }
 
@@ -176,28 +165,29 @@ public class Locations extends BaseActivity {
 
     private void resetImage(ImageView... list) {
         for (ImageView imageView : list) {
-            imageView.setColorFilter(General.getColor(getBaseContext(), R.color.colorPrimaryLight));
+            imageView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorLight));
             imageView.setAlpha((float) 0.8);
         }
     }
 
     private void resetText(TextView... list) {
         for (TextView textView : list) {
-            textView.setTextColor(General.getColor(getBaseContext(), R.color.colorPrimaryLight));
+            textView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLight));
             textView.setAlpha((float) 0.8);
         }
     }
 
     private void select(ImageView imageView, TextView textView) {
         resetAll();
-        imageView.setColorFilter(General.getColor(getBaseContext(), R.color.colorAccent));
+        imageView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
         imageView.setAlpha((float) 1);
-        textView.setTextColor(General.getColor(getBaseContext(), R.color.white));
+        textView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         textView.setAlpha((float) 1);
     }
 
     @Override
-    protected int setNavigationMenu() {
-        return R.id.nav_location;
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

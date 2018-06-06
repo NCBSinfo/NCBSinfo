@@ -1,8 +1,9 @@
-package com.rohitsuratekar.NCBSinfo.activities.contacts;
+package com.rohitsuratekar.NCBSinfo.fragments.contacts;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.R;
 
 import java.util.ArrayList;
@@ -23,13 +25,13 @@ import java.util.List;
  * All code is released under MIT License.
  */
 
-public class ContactFragment extends BottomSheetDialogFragment {
+public class ContactSheet extends BottomSheetDialogFragment {
 
-    private OnContactSelected selected;
+    private OnContactSheetSelected selected;
     private static String CONTACT = "contact";
 
-    public static ContactFragment newInstance(ContactModel model) {
-        ContactFragment myFragment = new ContactFragment();
+    public static ContactSheet newInstance(ContactModel model) {
+        ContactSheet myFragment = new ContactSheet();
         Bundle args = new Bundle();
         args.putString(CONTACT, new Gson().toJson(model));
         myFragment.setArguments(args);
@@ -37,7 +39,7 @@ public class ContactFragment extends BottomSheetDialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.contacts_sheet, container, false);
 
@@ -45,7 +47,7 @@ public class ContactFragment extends BottomSheetDialogFragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.ct_sheet_recycler);
         TextView subDetails = rootView.findViewById(R.id.ct_sheet_details);
 
-        if (getActivity() instanceof Contacts && getArguments() != null) {
+        if (getActivity() instanceof BaseActivity && getArguments() != null) {
             final ContactModel model = new Gson().fromJson(getArguments().getString(CONTACT, ""), ContactModel.class);
             name.setText(model.getName());
             subDetails.setText(model.getInstitute());
@@ -101,14 +103,14 @@ public class ContactFragment extends BottomSheetDialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            selected = (OnContactSelected) context;
+            selected = (OnContactSheetSelected) context;
         } catch (Exception e) {
             Toast.makeText(context, "attach fragment interface!", Toast.LENGTH_LONG).show();
         }
 
     }
 
-    public interface OnContactSelected {
+    public interface OnContactSheetSelected {
         void onCalled(String call);
     }
 

@@ -1,84 +1,51 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
+    <string name="setup_warning">Setting up your app…</string>
 
     <string name="home">Home</string>
-    <string name="header_subtitle">%1$d (%2$s)</string>
-    <string name="hm_full_route_name">%1$s - %2$s\n%3$s</string>
-    <string name="transport">Transport</string>
-    <string name="tp_route_name">%1$s - %2$s</string>
-    <string name="tp_next_transport">next %s</string>
-    <string name="tp_last_updated">Last updated by %s on %s</string>
-    <string name="tp_no_route_warning">Looks like you have not selected any specific route or you do not have any route created. Please select route to see trips.</string>
-    <string name="route_name">%1$s - %2$s %3$s</string>
-    <string name="hm_note">you may also want to check,</string>
-    <string name="hm_footnote">NCBSinfo, an open source app</string>
-    <string name="hm_see_full">See full time table</string>
 
-    <string name="dashboard">Dashboard</string>
-    <string name="db_profile">Profile</string>
-    <string name="last_network_sync">Last Network Sync</string>
-    <string name="db_login_warning">You can sync your routes and other settings to our server by signing in. It is free.</string>
-
-
+    <string name="transport">Timetable</string>
     <string name="contacts">Contacts</string>
+    <string name="more">More</string>
+    <string name="settings">Settings</string>
+    <string name="manage_transport">Manage Transport</string>
+    <string name="information">Information</string>
+
+    <string name="are_you_sure">Are you sure?</string>
+
+
+    <string name="hm_see_full">See full timetable</string>
+    <string name="hm_next">next %s</string>
+    <string name="hm_show_route">Or\nselect different transport route</string>
+
+    <string name="tp_show_all">Show\nAll Routes</string>
+    <string name="tp_route_name">%1$s - %2$s</string>
+
     <string name="search">Search</string>
     <string name="search_contact">Search Contact</string>
+
     <string name="ct_item_institute">( %s )</string>
     <string name="ct_extension">Extension : </string>
     <string name="ct_sort">Sort</string>
     <string name="ct_permission_needed">Permission needed!</string>
     <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click on allow when permission dialog appears. </string>
 
-    <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="done">Done</string>
-    <string name="oops">Oops…</string>
-    <string name="password">Password</string>
-    <string name="change">Change</string>
-    <string name="change_name">Change Name</string>
-    <string name="empty_error">This field can not be empty</string>
 
-    <string name="forgot_password">Forgot Password</string>
-    <string name="create_account">Create New Account</string>
-    <string name="invalid_email">Invalid email address</string>
-    <string name="short_password">Password should be at least 6 character long</string>
-    <string name="invalid_user">This email is not registered with us, Try creating new account!</string>
-    <string name="invalid_password">Password does not match. Forgot password ?</string>
-    <string name="network_issue">There is some network issue. Please try after some time.</string>
-    <string name="blank_email">Enter valid email address so that we can send password reset link.</string>
-    <string name="forgot_password_success">We have sent further instructions to \'%s\'. Please check your inbox for further details.</string>
-
-    <string name="register">Register</string>
-    <string name="log_out">Log Out</string>
-    <string name="hello_user">Hello %s</string>
-    <string name="name">Name</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="already_account">Already have account?</string>
-    <string name="name_error">Common, at least tell us your name.</string>
-    <string name="regi_email_error">We won\'t spam. Provide valid email address.</string>
-    <string name="conf_pass_error">This is not same as password provided above.</string>
-    <string name="user_exists">This email address is already registered with us. Try logging in instead? </string>
-
+    <!--Location Related-->
     <string name="locations">Locations</string>
-    <string name="sort_by">sort by</string>
+    <string name="sort_by">sort locations by</string>
     <string name="location_name">name</string>
     <string name="building">building</string>
     <string name="floor">floor</string>
     <string name="whatever">whatever</string>
 
-    <string name="intro_text1_heading">New Avatar</string>
-    <string name="intro_text1_details">We heard your feedback and feature requests. Now NCBSinfo is more robust, pleasing and of course useful.</string>
 
-    <string name="intro_text2_heading">Focus on Transport</string>
-    <string name="intro_text2_details">New version is focused on one of the most used feature of NCBSinfo. You can
-    view, add, edit, delete or even sync transport timings with cloud storage.</string>
+    <!--Information Related-->
+    <string name="info_manage_transport_details">Manage your transport routes. Edit, Delete or create New.</string>
+    <string name="info_loc_details">Check locations of various meetings rooms and lecture halls on NCBS campus.</string>
 
-    <string name="intro_text3_heading">Don\'t be surprised!</string>
-    <string name="intro_text3_details">This version is filled with surprises in every section. We have also hidden some ester eggs ;)</string>
-    <string name="next">Next</string>
-
-
+    <string name="route_name">%1$s - %2$s %3$s</string>
+    <string name="oops">Oops…</string>
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -91,6 +58,7 @@
     <string name="everyday">Everyday</string>
 
     <!--Common-->
+    <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="cancel">Cancel</string>
     <string name="other">Other</string>
@@ -156,4 +124,5 @@
     <string name="et_no_conflict_day">You are about to add additional trip information to existing route. Do you want to continue?</string>
     <string name="et_route_conflict">This route already exists in your database. This action might override existing trip data. Do you still want to continue?</string>
     <string name="et_specific_delete">This action will delete only current day(s) from this route. Rest of the days (if any) will not be affected. Do you want to continue?</string>
+
 </resources>

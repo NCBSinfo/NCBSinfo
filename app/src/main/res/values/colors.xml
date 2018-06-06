@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#673ab7</color>
-    <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorPrimaryLight">#D1C4E9</color>
-    <color name="colorAccent">#FF9800</color>
-    <color name="colorPrimaryText">#212121</color>
-    <color name="colorSecondaryText">#757575</color>
-    <color name="colorLightText">#ffffff</color>
+    <color name="colorPrimary">#009bef</color>
+    <color name="colorPrimaryDark">#0a57a4</color>
+    <color name="colorAccent">#fe8300</color>
+    <color name="colorLight">#b3e5ff</color>
+    <color name="white">#fbfcfc</color>
+    <color name="green">#57d785</color>
+    <color name="red">#f44336</color>
+
+    <color name="contactExtension">#EDE7F6</color>
 
 
     <color name="divider">#bdbdbd</color>
 
-    <color name="white">#ffffff</color>
-    <color name="teal">#009688</color>
-    <color name="lime">#cddc39</color>
-    <color name="blue">#2196f3</color>
-    <color name="green">#4caf50</color>
-    <color name="red">#f44336</color>
-
-    <color name="transportIndicator">#673ab7</color>
-    <color name="contactExtension">#EDE7F6</color>
-
-    <color name="ic_launcher_background">#673ab7</color>
-
-
+    <color name="ic_launcher_background">#009bef</color>
 </resources>

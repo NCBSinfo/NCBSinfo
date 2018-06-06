@@ -4,7 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.transport.edit.EditTransport">
+    tools:context=".activities.edit.EditTransport">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mt_appBarLayout"
+        style="@style/Widget.MyApp.Toolbar.Solid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mt_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/et_view_holder"
@@ -17,6 +33,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/mt_appBarLayout" />
 
 </android.support.constraint.ConstraintLayout>

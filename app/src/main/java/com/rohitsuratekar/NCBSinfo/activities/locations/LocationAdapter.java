@@ -1,6 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.activities.locations;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,8 +24,9 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
         this.entryList = items;
     }
 
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.locations_item, parent, false);
 
@@ -33,7 +34,7 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         LocationModel entry = entryList.get(position);
         holder.name.setText(entry.getName());
         holder.old_name.setText(entry.getOldName());
@@ -68,7 +69,6 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
     private List<LocationModel> entryList;
 
 
-
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, old_name, details, floor, building;
         ImageView icon;
@@ -86,7 +86,6 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
 
         }
     }
-
 
 
 }

@@ -67,7 +67,7 @@
         android:text="FF"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/colorLightText"
+        android:textColor="@color/colorLight"
         app:layout_constraintBottom_toBottomOf="@+id/loc_item_icon"
         app:layout_constraintLeft_toLeftOf="@+id/loc_item_icon"
         app:layout_constraintRight_toRightOf="@+id/loc_item_icon"

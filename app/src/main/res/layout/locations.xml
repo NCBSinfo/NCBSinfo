@@ -59,7 +59,7 @@
         android:alpha="0.8"
         android:contentDescription="@null"
         android:src="@drawable/icon_building"
-        android:tint="@color/colorPrimaryLight"
+        android:tint="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/loc_txt_build"
         app:layout_constraintRight_toLeftOf="@+id/guideline11" />
 
@@ -71,7 +71,7 @@
         android:alpha="0.8"
         android:contentDescription="@null"
         android:src="@drawable/icon_floor"
-        android:tint="@color/colorPrimaryLight"
+        android:tint="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/loc_txt_floor"
         app:layout_constraintLeft_toLeftOf="@+id/guideline11" />
 
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/building"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintLeft_toLeftOf="@+id/loc_img_building"
         app:layout_constraintRight_toRightOf="@+id/loc_img_building" />
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/floor"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintLeft_toLeftOf="@+id/loc_img_floor"
         app:layout_constraintRight_toRightOf="@+id/loc_img_floor" />
@@ -105,7 +105,7 @@
         android:alpha="0.8"
         android:contentDescription="@null"
         android:src="@drawable/icon_error"
-        android:tint="@color/colorPrimaryLight"
+        android:tint="@color/colorLight"
         app:layout_constraintBottom_toBottomOf="@+id/loc_img_floor"
         app:layout_constraintLeft_toRightOf="@+id/loc_img_floor"
         app:layout_constraintTop_toTopOf="@+id/loc_img_floor" />
@@ -115,7 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/whatever"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/colorLight"
         app:layout_constraintLeft_toLeftOf="@+id/loc_img_whatever"
         app:layout_constraintRight_toRightOf="@+id/loc_img_whatever"
         app:layout_constraintTop_toBottomOf="@+id/loc_img_whatever" />
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/sort_by"
-        android:textColor="@color/colorPrimaryLight"
+        android:textColor="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/loc_img_building"
         app:layout_constraintLeft_toLeftOf="@+id/loc_img_name"
         app:layout_constraintRight_toRightOf="@+id/loc_img_whatever" />

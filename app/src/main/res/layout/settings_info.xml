@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rohitsuratekar.NCBSinfo.activities.settings.SettingsInfo">
+    tools:context="com.rohitsuratekar.NCBSinfo.activities.SettingsInfo">
 
 
     <android.support.design.widget.AppBarLayout
@@ -42,7 +42,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="Something is Wrong !" />
+            android:text="Something is Wrong !"
+            android:textIsSelectable="true" />
 
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

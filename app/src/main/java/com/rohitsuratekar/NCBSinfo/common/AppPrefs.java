@@ -1,67 +1,27 @@
 package com.rohitsuratekar.NCBSinfo.common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import com.secretbiology.helpers.general.General;
-import com.secretbiology.helpers.general.Preferences;
+public class AppPrefs {
 
-/**
- * Created by Rohit Suratekar on 24-10-17 for NCBSinfo.
- * All code is released under MIT License.
- */
-
-public class AppPrefs extends Preferences {
-
-    private static final String APP_OPEN = "v52_app_open";
-    private static final String LAST_OPEN = "v52_last_open";
-    private static final String APP_MIGRATED = "v52_app_migrated";
-    private static final String USER_LOGGED_IN = "user_logged_in";
     private static final String FAVORITE_ORIGIN = "favorite_origin";
     private static final String FAVORITE_DESTINATION = "favorite_destination";
     private static final String FAVORITE_TYPE = "favorite_type";
-    private static final String USER_NAME = "user_name";
-    private static final String USER_EMAIL = "user_email";
+    private static final String EGG_ACTIVE = "egg_active";
     private static final String NOTIFICATIONS = "notifications";
     private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
-    private static final String LAST_SYNC = "last_sync";
-    private static final String MIGRATION_ID = "migration_id";
     private static final String LOCATION_SORT = "location_sort";
-    private static final String INTRO_SEEN = "intro_seen";
-    private static final String EGG_ACTIVE = "egg_active";
-    private static final String SPECIAL_NOTICE_ACTIVATED = "special_notice_activated";
-    private static final String SPECIAL_NOTICE_SEEN = "special_notice_seen";
+
+    private Context context;
+    private SharedPreferences prefs;
 
     public AppPrefs(Context context) {
-        super(context);
+        this.context = context;
+        this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public void clear() {
-        clearAll();
-    }
-
-    public boolean isFirstTime() {
-        return !get(APP_OPEN, false);
-    }
-
-    public void appOpenedFirstTime() {
-        put(APP_OPEN, true);
-    }
-
-    public void appOpened() {
-        put(LAST_OPEN, General.timeStamp());
-    }
-
-    public String lastOpened() {
-        return get(LAST_OPEN, "N/A");
-    }
-
-    public void appMigrated() {
-        put(APP_MIGRATED, true);
-    }
-
-    public boolean isAppMigrated() {
-        return get(APP_MIGRATED, false);
-    }
 
     public String getFavoriteOrigin() {
         return get(FAVORITE_ORIGIN, "ncbs");
@@ -87,20 +47,16 @@ public class AppPrefs extends Preferences {
         put(FAVORITE_TYPE, type);
     }
 
-    public String getUserEmail() {
-        return get(USER_EMAIL, "email@domain.com");
+    public boolean isEggActive() {
+        return get(EGG_ACTIVE, false);
     }
 
-    public String getUserName() {
-        return get(USER_NAME, "username");
+    public void eggActivated() {
+        put(EGG_ACTIVE, true);
     }
 
-    public void setUserName(String name) {
-        put(USER_NAME, name);
-    }
-
-    public void setUserEmail(String email) {
-        put(USER_EMAIL, email);
+    public void removeEggs() {
+        put(EGG_ACTIVE, false);
     }
 
     public boolean areNotificationsAllowed() {
@@ -123,40 +79,6 @@ public class AppPrefs extends Preferences {
         put(SETTINGS_DEFAULT_SET, true);
     }
 
-    public boolean isUsedLoggedIn() {
-        return get(USER_LOGGED_IN, false);
-    }
-
-    public void userLoggedIn() {
-        put(USER_LOGGED_IN, true);
-    }
-
-    public void setLastSync(String timestamp) {
-        put(LAST_SYNC, timestamp);
-    }
-
-    public String getLastSync() {
-        return get(LAST_SYNC, "N/A");
-    }
-
-    public String getMigrationId() {
-        return get(MIGRATION_ID, "v6");
-    }
-
-    public void setMigrationID(String id) {
-        put(MIGRATION_ID, id);
-    }
-
-    public void clearPersonal() {
-        delete(USER_NAME);
-        delete(USER_EMAIL);
-        delete(USER_LOGGED_IN);
-        delete(LAST_SYNC);
-        delete(SETTINGS_DEFAULT_SET);
-        delete(NOTIFICATIONS);
-        delete(SPECIAL_NOTICE_SEEN);
-    }
-
     public int getLocationSort() {
         return get(LOCATION_SORT, 0);
     }
@@ -165,40 +87,30 @@ public class AppPrefs extends Preferences {
         put(LOCATION_SORT, loc);
     }
 
-    public boolean isIntroSeen() {
-        return get(INTRO_SEEN, false);
+
+    private String get(String key, String defaultValue) {
+        return prefs.getString(key, defaultValue);
     }
 
-    public void introSeen() {
-        put(INTRO_SEEN, true);
+    private int get(String key, int defaultValue) {
+        return prefs.getInt(key, defaultValue);
     }
 
-    public boolean isEggActive() {
-        return get(EGG_ACTIVE, false);
+    private boolean get(String key, boolean defaultValue) {
+        return prefs.getBoolean(key, defaultValue);
     }
 
-    public void eggActivated() {
-        put(EGG_ACTIVE, true);
+    private void put(String key, String value) {
+        prefs.edit().putString(key, value).apply();
     }
 
-    public void removeEggs() {
-        put(EGG_ACTIVE, false);
+    private void put(String key, boolean value) {
+        prefs.edit().putBoolean(key, value).apply();
     }
 
-    public void activateSpecialNotice() {
-        put(SPECIAL_NOTICE_ACTIVATED, true);
+    private void put(String key, int value) {
+        prefs.edit().putInt(key, value).apply();
     }
 
-    public boolean isSpecialNoticeActivated() {
-        return get(SPECIAL_NOTICE_ACTIVATED, false);
-    }
-
-    public void specialNoticeSeen() {
-        put(SPECIAL_NOTICE_SEEN, true);
-    }
-
-    public boolean isSpecialNoticeSeen() {
-        return get(SPECIAL_NOTICE_SEEN, false);
-    }
 
 }

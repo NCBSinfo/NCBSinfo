@@ -2,20 +2,15 @@
 <resources>
     <dimen name="horizontal_margin">16sp</dimen>
 
-    <!--Navigation Drawer-->
-    <dimen name="nav_bar_width">280sp</dimen>
-    <dimen name="nav_bar_icon_size">50sp</dimen>
-    <dimen name="nav_margin_start">16sp</dimen>
-    <dimen name="nav_margin_end">16sp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
+    <!--Home Related-->
+    <dimen name="home_image_height">150sp</dimen>
+    <dimen name="home_sun_size">45sp</dimen>
 
     <!--Transport Related-->
-    <dimen name="tp_vertical_bar_width">8sp</dimen>
-    <dimen name="tp_vertical_bar_start_margin">16sp</dimen>
-    <dimen name="tp_card_margin">32sp</dimen>
-    <dimen name="tp_day_width">30sp</dimen>
-    <dimen name="tp_day_width_expanded">50sp</dimen>
-    <dimen name="tp_sheet_icon_size">30sp</dimen>
+    <dimen name="transport_top_panel">130sp</dimen>
+    <dimen name="transport_day_panel">45sp</dimen>
+    <dimen name="transport_item_bar">30sp</dimen>
+    <dimen name="transport_sheet_icon_size">30sp</dimen>
 
     <!--Contact Related-->
     <dimen name="ct_sheet_back_image_height">150sp</dimen>
@@ -25,16 +20,14 @@
     <dimen name="st_icon_size">30sp</dimen>
     <dimen name="st_icon_text_margin">32sp</dimen>
 
-    <!--Dashboard Related-->
-    <dimen name="db_back_img_height">150sp</dimen>
-    <dimen name="db_back_icon_size">75sp</dimen>
-    <dimen name="db_icon_size">35sp</dimen>
-    <dimen name="db_icon_margin">16sp</dimen>
-
     <!--Edit Transport-->
     <dimen name="et_basic_icon_size">100sp</dimen>
     <dimen name="et_basic_input_icon">30sp</dimen>
     <dimen name="et_trips_undo_padding">16sp</dimen>
     <dimen name="et_confirm_recycler">250sp</dimen>
     <dimen name="mt_icon_size">150sp</dimen>
+
+    <!--Location Related-->
+    <dimen name="loc_image_height">100sp</dimen>
+
 </resources>
