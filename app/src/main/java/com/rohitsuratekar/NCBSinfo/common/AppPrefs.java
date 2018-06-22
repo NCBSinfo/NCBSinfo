@@ -13,12 +13,14 @@ public class AppPrefs {
     private static final String NOTIFICATIONS = "notifications";
     private static final String SETTINGS_DEFAULT_SET = "settings_default_set";
     private static final String LOCATION_SORT = "location_sort";
+    private static final String DEVELOPER_ACTIVE = "developer_active";
+    private static final String ADMIN_CODE = "admin_code";
+    private static fi
 
-    private Context context;
+
     private SharedPreferences prefs;
 
     public AppPrefs(Context context) {
-        this.context = context;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -87,6 +89,25 @@ public class AppPrefs {
         put(LOCATION_SORT, loc);
     }
 
+    public void setDeveloperActive() {
+        put(DEVELOPER_ACTIVE, true);
+    }
+
+    public void removeDeveloper() {
+        put(DEVELOPER_ACTIVE, false);
+    }
+
+    public boolean isDeveloperActive() {
+        return get(DEVELOPER_ACTIVE, false);
+    }
+
+    public String getAdminCode() {
+        return get(ADMIN_CODE, "");
+    }
+
+    public void setAdminCode(String code) {
+        put(ADMIN_CODE, code);
+    }
 
     private String get(String key, String defaultValue) {
         return prefs.getString(key, defaultValue);

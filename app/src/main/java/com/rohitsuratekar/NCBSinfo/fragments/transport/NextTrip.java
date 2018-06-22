@@ -23,7 +23,6 @@ public class NextTrip {
 
     private SparseArray<List<String>> weekMap;
     private List<String> defaultTrips = null;
-    private SimpleDateFormat format = new SimpleDateFormat(Helper.FORMAT_TIME, Locale.ENGLISH);
 
     /**
      * WeekMap will contains trips for any day of week. Keys are equal to Calender.DAY_OF_WEEK

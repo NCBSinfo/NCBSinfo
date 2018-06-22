@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>home_graphics_url</key>
+        <value>null</value>
+    </entry>
+    <entry>
+        <key>is_home_promo_active</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>promo_start_time</key>
+        <value>2018-06-21</value>
+    </entry>
+    <entry>
+        <key>promo_end_time</key>
+        <value>2018-06-22</value>
+    </entry>
+    <entry>
+        <key>admin_code</key>
+        <value>null</value>
+    </entry>
+    <entry>
+        <key>admin_graphics</key>
+        <value>null</value>
+    </entry>
+</defaultsMap><!-- END xml_defaults -->

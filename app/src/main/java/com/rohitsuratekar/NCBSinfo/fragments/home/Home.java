@@ -8,27 +8,40 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rohitsuratekar.NCBSinfo.BaseActivity;
+import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends Fragment {
+public class Home extends Fragment implements RemoteConstants {
+
+    private static String TAG = "HomeFragment";
 
     public Home() {
     }
@@ -53,12 +66,36 @@ public class Home extends Fragment {
     private int randRotation = 0;
     private List<TransportDetails> transportList;
     private TransportDetails transport;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         randRotation = Helper.randomInt(0, 360);
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+
+        long cacheExpiration = 0; // 1 hour in seconds. TODO
+        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+            cacheExpiration = 0;
+        }
+        mFirebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    mFirebaseRemoteConfig.activateFetched();
+                } else {
+                    Log.e(TAG, task.getException().getLocalizedMessage());
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -69,9 +106,14 @@ public class Home extends Fragment {
         if (getActivity() != null) {
             transportList = ((BaseActivity) getActivity()).getTransportList();
             transport = ((BaseActivity) getActivity()).getCurrentTransport();
-            updateRoute();
+            if (transport != null) {
+                updateRoute();
+            } else {
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
         }
         adjustGraphics();
+
         return rootView;
     }
 
@@ -114,6 +156,35 @@ public class Home extends Fragment {
         sun.animate()
                 .translationX(hour_factor)
                 .setDuration(10).start();
+
+        if (mFirebaseRemoteConfig.getBoolean(IS_HOME_PROMO_ACTIVE)) {
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd,HH:mm", Locale.ENGLISH);
+            try {
+                Date promo_start = format.parse(mFirebaseRemoteConfig.getString(PROMO_START_TIME));
+                Date promo_end = format.parse(mFirebaseRemoteConfig.getString(PROMO_END_TIME));
+                Date now = new Date();
+                if (now.after(promo_start) && now.before(promo_end)) {
+                    String url = mFirebaseRemoteConfig.getString(HOME_GRAPHICS_URL);
+                    GlideApp.with(this)
+                            .load(url)
+                            .placeholder(R.drawable.graphics_home)
+                            .into(scene);
+                } else {
+                    Log.i(TAG, "Promo Expired!");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (new AppPrefs(getContext()).getAdminCode().equals(mFirebaseRemoteConfig.getString(ADMIN_CODE))) {
+            String url = mFirebaseRemoteConfig.getString(ADMIN_GRAPHICS);
+            GlideApp.with(this)
+                    .load(url)
+                    .placeholder(R.drawable.graphics_home)
+                    .into(scene);
+        }
     }
 
     @OnClick({R.id.hm_change_route, R.id.hm_origin, R.id.hm_destination, R.id.hm_type})

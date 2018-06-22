@@ -73,15 +73,18 @@ public class Transport extends Fragment {
         if (getActivity() != null) {
             transportList = ((BaseActivity) getActivity()).getTransportList();
             transport = ((BaseActivity) getActivity()).getCurrentTransport();
-            showActual = true;
-            tripList.addAll(transport.getTrips(calendar));
-            adapter = new TransportAdapter(tripList, -1);
-            updateUI();
+            if (transport != null) {
+                showActual = true;
+                tripList.addAll(transport.getTrips(calendar));
+                adapter = new TransportAdapter(tripList, -1);
+                updateUI();
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                daySelected(dayList.get(calendar.get(Calendar.DAY_OF_WEEK) - 1));
+            } else {
+                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
         }
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        daySelected(dayList.get(calendar.get(Calendar.DAY_OF_WEEK) - 1));
-
 
         return rootView;
     }

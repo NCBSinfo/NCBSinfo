@@ -22,9 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.SettingsInfo;
+import com.rohitsuratekar.NCBSinfo.activities.developer.DevelopersOptions;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.CommonTasks;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
@@ -52,7 +54,7 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
     private SettingsViewModel viewModel;
     private List<RouteData> routeDataList;
     private OnSettingAction settingAction;
-
+    private int developerCount = 0;
 
     public Settings() {
         // Required empty public constructor
@@ -124,6 +126,7 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
                     }
                 }
             } else if ((int) obj[0] == VIEW_ITEM) {
+
                 SettingsModel mod = new SettingsModel(VIEW_ITEM);
                 mod.setTitle(getString((int) obj[1]));
                 if ((int) obj[2] != 0) {
@@ -139,7 +142,6 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
                         int versionCode = BuildConfig.VERSION_CODE;
                         String versionName = BuildConfig.VERSION_NAME;
                         mod.setDescription(getString(R.string.settings_app_details_text, versionCode, versionName));
-                        mod.setDisabled(true);
                         break;
                     case ACTION_NOTIFICATIONS:
                         String notifications;
@@ -170,6 +172,10 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
                 }
                 if (mod.getAction() == ACTION_EGG1 || mod.getAction() == ACTION_EGG2) {
                     if (prefs.isEggActive()) {
+                        modelList.add(mod);
+                    }
+                } else if (mod.getAction() == ACTION_DEVELOPERS_OPTIONS) {
+                    if (prefs.isDeveloperActive()) {
                         modelList.add(mod);
                     }
                 } else if (mod.getAction() == ACTION_REMOVE_EGG) {
@@ -257,6 +263,7 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
             {VIEW_ITEM, R.string.settings_about, R.string.settings_about_details, R.drawable.icon_star, ACTION_ABOUT_US},
             {VIEW_ITEM, R.string.settings_github, R.string.settings_github_details, R.drawable.icon_github, ACTION_GITHUB},
             {VIEW_ITEM, R.string.settings_feedback, R.string.settings_feedback_details, R.drawable.icon_feedback, ACTION_FEEDBACK},
+            {VIEW_ITEM, R.string.settings_developers, R.string.settings_developers_details, R.drawable.icon_developer, ACTION_DEVELOPERS_OPTIONS},
             {VIEW_ITEM, R.string.settings_app_details, 0, R.mipmap.ic_launcher_round, ACTION_APP_DETAILS}
     };
 
@@ -329,6 +336,27 @@ public class Settings extends Fragment implements SettingsActions, SettingsAdapt
                     prefs.removeEggs();
                     Toast.makeText(getContext(), "As you wish! Apparate...", Toast.LENGTH_LONG).show();
                     settingAction.settingAction(ACTION_REMOVE_EGG, null);
+                    break;
+                case ACTION_APP_DETAILS:
+                    developerCount++;
+                    if (prefs.isDeveloperActive()) {
+                        Toast.makeText(getContext(), "You are already a developer", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        if (developerCount > 4) {
+                            Toast.makeText(getContext(), 8 - developerCount + " clicks to developers options", Toast.LENGTH_SHORT).show();
+                        }
+                        if (developerCount == 7) {
+                            prefs.setDeveloperActive();
+                            Intent id = new Intent(getActivity(), BaseActivity.class);
+                            id.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(id);
+                            Toast.makeText(getContext(), "You are now a developer", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    break;
+                case ACTION_DEVELOPERS_OPTIONS:
+                    startActivity(new Intent(getActivity(), DevelopersOptions.class));
                     break;
             }
         }

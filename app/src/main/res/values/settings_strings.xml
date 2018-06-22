@@ -37,6 +37,8 @@
     <string name="settings_ron_details">Letter to Harry 1</string>
     <string name="settings_hermione">Hermione</string>
     <string name="settings_hermione_details">Letter to Harry 2</string>
+    <string name="settings_developers">Developers Options</string>
+    <string name="settings_developers_details">Some basic logging information</string>
 
     <string name="settings_reset_warning">This action will delete all existing transport route and will replace them with default routes. This action can not be undone. Are you sure you want to reset ?</string>
 
