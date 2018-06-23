@@ -15,7 +15,7 @@ public class AppPrefs {
     private static final String LOCATION_SORT = "location_sort";
     private static final String DEVELOPER_ACTIVE = "developer_active";
     private static final String ADMIN_CODE = "admin_code";
-    private static fi
+    private static final String REMOTE_FETCH = "remote_fetch_time";
 
 
     private SharedPreferences prefs;
@@ -107,6 +107,14 @@ public class AppPrefs {
 
     public void setAdminCode(String code) {
         put(ADMIN_CODE, code);
+    }
+
+    public void setRemoteFetch(String timestamp) {
+        put(REMOTE_FETCH, timestamp);
+    }
+
+    public String getRemoteFetch() {
+        return get(REMOTE_FETCH, "null");
     }
 
     private String get(String key, String defaultValue) {

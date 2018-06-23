@@ -10,11 +10,11 @@
     </entry>
     <entry>
         <key>promo_start_time</key>
-        <value>2018-06-21</value>
+        <value>2018-06-21,00:00</value>
     </entry>
     <entry>
         <key>promo_end_time</key>
-        <value>2018-06-22</value>
+        <value>2018-06-21,00:00</value>
     </entry>
     <entry>
         <key>admin_code</key>
@@ -23,5 +23,21 @@
     <entry>
         <key>admin_graphics</key>
         <value>null</value>
+    </entry>
+    <entry>
+        <key>special_notice</key>
+        <value>none</value>
+    </entry>
+    <entry>
+        <key>is_notice_active</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>notice_start_time</key>
+        <value>2018-06-21,00:00</value>
+    </entry>
+    <entry>
+        <key>notice_end_time</key>
+        <value>2018-06-21,00:00</value>
     </entry>
 </defaultsMap><!-- END xml_defaults -->

@@ -3,6 +3,8 @@
     <string name="settings_header_notice">Important Notice</string>
     <string name="settings_data_notice">Data Notice</string>
     <string name="settings_data_notice_details">Information regarding your data on NCBSinfo server.</string>
+    <string name="settings_announcement">Announcement</string>
+    <string name="settings_announcement_details">Latest announcement or message from admins.</string>
     <string name="settings_header_general">General Options</string>
     <string name="settings_header_transport">Transport related</string>
     <string name="settings_default_route">Default Transport</string>
@@ -49,7 +51,7 @@
 ]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information provided in this application was last updated on December 30, 2017.
+    All the information provided in this application was last updated on June 21, 2018.
     Though a lot of effort has been taken to curate the information,
     minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
     through this application.
@@ -62,9 +64,12 @@
         We ask for following permissions from you
         <br></br><br></br>
         <b>Permission <br></br> (and why?)</b> <br> </br> <br> </br>
-        &#8226; <b> Internet Access </b> <br> </br> (To send anonymous crash report in case of crash) <br></br>
+        &#8226; <b> Internet Access </b> <br> </br> (To send anonymous crash report in case of crash. <br> </br>
+         Occasionally we also fetch image from our server to show it on your home page, just like Google Doodles). <br></br>
         &#8226; <b> Call Phone </b> <br> </br> (To directly call from this app) <br></br>
          <br> </br><br> </br>
+         However, this app will work perfectly fine without any of above permissions. You can block them if you
+         are really paranoid about them :) If you want to know more about muggle privacy, tap on this screen for 5 times.<br> </br><br> </br>
         <b>Google and Firebase analytics</b><br> </br>
         We receive some anonymous statistics from all users who have installed this app.
         This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.

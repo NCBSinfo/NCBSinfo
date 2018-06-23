@@ -80,14 +80,15 @@ public class Home extends Fragment implements RemoteConstants {
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
 
-        long cacheExpiration = 0; // 1 hour in seconds. TODO
-        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
-            cacheExpiration = 0;
-        }
-        mFirebaseRemoteConfig.fetch(cacheExpiration).addOnCompleteListener(new OnCompleteListener<Void>() {
+//        long cacheExpiration = 0; // 1 hour in seconds. TODO: Important to comment
+//        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+//            cacheExpiration = 0;
+//        }
+        mFirebaseRemoteConfig.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
+                    new AppPrefs(getContext()).setRemoteFetch(Helper.timestamp());
                     mFirebaseRemoteConfig.activateFetched();
                 } else {
                     Log.e(TAG, task.getException().getLocalizedMessage());
@@ -159,7 +160,7 @@ public class Home extends Fragment implements RemoteConstants {
 
         if (mFirebaseRemoteConfig.getBoolean(IS_HOME_PROMO_ACTIVE)) {
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd,HH:mm", Locale.ENGLISH);
+            SimpleDateFormat format = new SimpleDateFormat(Helper.FORMAT_REMOTE_TIME, Locale.ENGLISH);
             try {
                 Date promo_start = format.parse(mFirebaseRemoteConfig.getString(PROMO_START_TIME));
                 Date promo_end = format.parse(mFirebaseRemoteConfig.getString(PROMO_END_TIME));

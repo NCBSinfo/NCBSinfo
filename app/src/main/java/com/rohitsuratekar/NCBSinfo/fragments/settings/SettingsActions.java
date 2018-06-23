@@ -11,7 +11,7 @@ public interface SettingsActions {
     int ACTION_NOTICE = 2;
     int ACTION_GITHUB = 3;
     int ACTION_DEVELOPERS_OPTIONS = 4;
-    int ACTION_SYNC = 5;
+    int ACTION_ANNOUNCE = 5;
     int ACTION_ABOUT_US = 6;
     int ACTION_FEEDBACK = 7;
     int ACTION_RESET_ROUTE = 8;

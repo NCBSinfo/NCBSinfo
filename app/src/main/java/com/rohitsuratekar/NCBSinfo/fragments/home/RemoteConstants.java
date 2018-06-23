@@ -7,4 +7,8 @@ public interface RemoteConstants {
     String PROMO_START_TIME = "promo_start_time";
     String ADMIN_CODE = "admin_code";
     String ADMIN_GRAPHICS = "admin_graphics";
+    String SPECIAL_NOTICE = "special_notice";
+    String IS_NOTICE_ACTIVE = "is_notice_active";
+    String NOTICE_START_TIME = "notice_start_time";
+    String NOTICE_END_TIME = "notice_end_time";
 }

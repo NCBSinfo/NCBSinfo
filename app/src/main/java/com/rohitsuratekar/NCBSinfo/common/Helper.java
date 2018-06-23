@@ -5,9 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +19,7 @@ import java.util.Random;
 public class Helper {
 
     public static String FORMAT_TIME = "HH:mm";
+    public static String FORMAT_REMOTE_TIME = "yyyy-MM-dd,HH:mm";
     public static String FORMAT_DISPLAY_TIME = "hh:mm a";
     public static String FORMAT_TIMESTAMP = "yyyy-MM-dd'T'HH:mm:ssZ";
 

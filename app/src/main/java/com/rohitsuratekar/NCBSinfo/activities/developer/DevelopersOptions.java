@@ -18,10 +18,15 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.rohitsuratekar.NCBSinfo.BuildConfig;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.fragments.home.RemoteConstants;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +46,7 @@ public class DevelopersOptions extends AppCompatActivity implements RemoteConsta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.developers_options);
         ButterKnife.bind(this);
+        mf = FirebaseRemoteConfig.getInstance();
         prefs = new AppPrefs(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.dev_toolbar);
         setSupportActionBar(toolbar);
@@ -56,13 +62,6 @@ public class DevelopersOptions extends AppCompatActivity implements RemoteConsta
             }
         });
         setTitle(R.string.settings_developers);
-
-        mf = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                .build();
-        mf.setConfigSettings(configSettings);
-        mf.setDefaults(R.xml.remote_config_defaults);
         setItems();
         recyclerView.setAdapter(new DevAdapter(modelList));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -70,7 +69,8 @@ public class DevelopersOptions extends AppCompatActivity implements RemoteConsta
 
     private void setItems() {
         modelList = new ArrayList<>();
-        String[] ss = new String[]{PROMO_START_TIME, PROMO_END_TIME, IS_HOME_PROMO_ACTIVE, HOME_GRAPHICS_URL};
+        String[] ss = new String[]{PROMO_START_TIME, PROMO_END_TIME, IS_HOME_PROMO_ACTIVE, HOME_GRAPHICS_URL,
+                SPECIAL_NOTICE, IS_NOTICE_ACTIVE, NOTICE_START_TIME, NOTICE_END_TIME};
         for (String s : ss) {
             if (!s.equals(HOME_GRAPHICS_URL)) {
                 DevRecyclerModel m1 = new DevRecyclerModel(s, mf.getString(s));
@@ -81,6 +81,22 @@ public class DevelopersOptions extends AppCompatActivity implements RemoteConsta
                 DevRecyclerModel m1 = new DevRecyclerModel(s, n);
                 modelList.add(m1);
             }
+        }
+
+        if (prefs.getRemoteFetch().equals("null")) {
+            DevRecyclerModel m4 = new DevRecyclerModel("last_fetch", "Not Available");
+            modelList.add(m4);
+        } else {
+            try {
+                SimpleDateFormat f1 = new SimpleDateFormat(Helper.FORMAT_TIMESTAMP, Locale.ENGLISH);
+                SimpleDateFormat f2 = new SimpleDateFormat("hh:mm a, dd MMM yyyy", Locale.ENGLISH);
+                Date d1 = f1.parse(prefs.getRemoteFetch());
+                DevRecyclerModel m4 = new DevRecyclerModel("last_fetch", f2.format(d1));
+                modelList.add(m4);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }
         if (prefs.getAdminCode().trim().length() > 0) {
             DevRecyclerModel m2 = new DevRecyclerModel("admin_code", prefs.getAdminCode());
