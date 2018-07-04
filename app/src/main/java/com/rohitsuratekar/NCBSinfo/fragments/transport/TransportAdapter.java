@@ -48,6 +48,9 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         }
 
         holder.extraText.setText(context.getString(R.string.hm_next, type));
+        if (type.equals("other")) {
+            holder.extraText.setText(context.getString(R.string.hm_next, "transport"));
+        }
 
         if (position < highlightIndex) {
             holder.text.setTextColor(ContextCompat.getColor(context, android.R.color.secondary_text_dark));
@@ -84,6 +87,10 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
     void updateNext(int index) {
         this.highlightIndex = index;
         notifyDataSetChanged();
+    }
+
+    int getHighlightIndex() {
+        return highlightIndex;
     }
 
     void updateMessage(String message) {

@@ -44,7 +44,8 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
     }
 
     private String getFloor(int i) {
-        switch (i) {
+        return String.valueOf(i);
+       /* switch (i) {
             case 0:
                 return "GF";
             case 1:
@@ -57,7 +58,7 @@ class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.MyViewHolder>
                 return "BM";
             default:
                 return "--";
-        }
+        }*/
     }
 
     @Override

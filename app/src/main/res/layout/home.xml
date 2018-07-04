@@ -31,7 +31,7 @@
         android:id="@+id/hm_graphics"
         android:layout_width="@dimen/home_image_height"
         android:layout_height="@dimen/home_image_height"
-        app:layout_constraintBottom_toTopOf="@+id/hm_origin"
+        app:layout_constraintBottom_toTopOf="@+id/hm_type"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,31 +43,31 @@
         android:id="@+id/hm_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="next shuttle"
-        app:layout_constraintBottom_toTopOf="@+id/hm_see_all"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hm_time" />
-
-    <TextView
-        android:id="@+id/hm_origin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="NCBS"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        app:layout_constraintBottom_toTopOf="@+id/hm_destination"
+        android:text="next shuttle"
+        app:layout_constraintBottom_toTopOf="@+id/hm_origin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hm_graphics" />
 
     <TextView
+        android:id="@+id/hm_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NCBS"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintBottom_toTopOf="@+id/hm_destination"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_type" />
+
+    <TextView
         android:id="@+id/hm_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="MANDARA"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintBottom_toTopOf="@+id/hm_time"
@@ -80,11 +80,10 @@
         android:id="@+id/hm_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
         android:text="00:00 PM"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/hm_type"
+        app:layout_constraintBottom_toTopOf="@+id/hm_see_all"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +101,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hm_type" />
+        app:layout_constraintTop_toBottomOf="@+id/hm_time" />
 
     <TextView
         android:id="@+id/hm_change_route"
@@ -110,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/hm_show_route"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

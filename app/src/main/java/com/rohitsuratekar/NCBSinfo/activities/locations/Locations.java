@@ -179,7 +179,7 @@ public class Locations extends AppCompatActivity {
 
     private void select(ImageView imageView, TextView textView) {
         resetAll();
-        imageView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+        imageView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.white));
         imageView.setAlpha((float) 1);
         textView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
         textView.setAlpha((float) 1);

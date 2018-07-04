@@ -163,6 +163,12 @@ public class Transport extends Fragment {
             swapBtn.setVisibility(View.INVISIBLE);
         }
 
+        if (adapter.getHighlightIndex() != -1) {
+            recyclerView.smoothScrollToPosition(adapter.getHighlightIndex());
+        } else {
+            recyclerView.smoothScrollToPosition(0);
+        }
+
     }
 
     @OnClick({R.id.tp_day_mon, R.id.tp_day_tue, R.id.tp_day_wed, R.id.tp_day_thu, R.id.tp_day_fri, R.id.tp_day_sat, R.id.tp_day_sun})
@@ -207,12 +213,16 @@ public class Transport extends Fragment {
     }
 
     public void changeRoute(int routeNo) {
-        for (TransportDetails t : transportList) {
-            if (t.getRouteID() == routeNo) {
-                transport = t;
-                updateUI();
-                break;
+        if (transportList != null) {
+            for (TransportDetails t : transportList) {
+                if (t.getRouteID() == routeNo) {
+                    transport = t;
+                    updateUI();
+                    break;
+                }
             }
+        } else {
+            Toast.makeText(getContext(), "Something went Wrong!", Toast.LENGTH_SHORT).show();
         }
     }
 

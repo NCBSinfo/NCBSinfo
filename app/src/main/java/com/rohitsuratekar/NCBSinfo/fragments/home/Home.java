@@ -66,32 +66,32 @@ public class Home extends Fragment implements RemoteConstants {
     private int randRotation = 0;
     private List<TransportDetails> transportList;
     private TransportDetails transport;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private FirebaseRemoteConfig remoteConfig;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         randRotation = Helper.randomInt(0, 360);
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        remoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        remoteConfig.setConfigSettings(configSettings);
+        remoteConfig.setDefaults(R.xml.remote_config_defaults);
 
 //        long cacheExpiration = 0; // 1 hour in seconds. TODO: Important to comment
-//        if (mFirebaseRemoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
+//        if (remoteConfig.getInfo().getConfigSettings().isDeveloperModeEnabled()) {
 //            cacheExpiration = 0;
 //        }
-        mFirebaseRemoteConfig.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
+        remoteConfig.fetch().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     new AppPrefs(getContext()).setRemoteFetch(Helper.timestamp());
-                    mFirebaseRemoteConfig.activateFetched();
+                    remoteConfig.activateFetched();
                 } else {
-                    Log.e(TAG, task.getException().getLocalizedMessage());
+                    Log.e(TAG, "" + task.getException().getLocalizedMessage());
                 }
 
             }
@@ -122,6 +122,9 @@ public class Home extends Fragment implements RemoteConstants {
         origin.setText(transport.getOrigin().toUpperCase());
         destination.setText(transport.getDestination().toUpperCase());
         type.setText(getString(R.string.hm_next, transport.getType()));
+        if (transport.getType().equals("other")) {
+            type.setText(getString(R.string.hm_other));
+        }
         try {
             time.setText(Helper.displayTime(transport.getNextTripDetails(Calendar.getInstance())[0]));
         } catch (ParseException e) {
@@ -158,15 +161,15 @@ public class Home extends Fragment implements RemoteConstants {
                 .translationX(hour_factor)
                 .setDuration(10).start();
 
-        if (mFirebaseRemoteConfig.getBoolean(IS_HOME_PROMO_ACTIVE)) {
+        if (remoteConfig.getBoolean(IS_HOME_PROMO_ACTIVE)) {
 
             SimpleDateFormat format = new SimpleDateFormat(Helper.FORMAT_REMOTE_TIME, Locale.ENGLISH);
             try {
-                Date promo_start = format.parse(mFirebaseRemoteConfig.getString(PROMO_START_TIME));
-                Date promo_end = format.parse(mFirebaseRemoteConfig.getString(PROMO_END_TIME));
+                Date promo_start = format.parse(remoteConfig.getString(PROMO_START_TIME));
+                Date promo_end = format.parse(remoteConfig.getString(PROMO_END_TIME));
                 Date now = new Date();
                 if (now.after(promo_start) && now.before(promo_end)) {
-                    String url = mFirebaseRemoteConfig.getString(HOME_GRAPHICS_URL);
+                    String url = remoteConfig.getString(HOME_GRAPHICS_URL);
                     GlideApp.with(this)
                             .load(url)
                             .placeholder(R.drawable.graphics_home)
@@ -179,8 +182,8 @@ public class Home extends Fragment implements RemoteConstants {
             }
         }
 
-        if (new AppPrefs(getContext()).getAdminCode().equals(mFirebaseRemoteConfig.getString(ADMIN_CODE))) {
-            String url = mFirebaseRemoteConfig.getString(ADMIN_GRAPHICS);
+        if (new AppPrefs(getContext()).getAdminCode().equals(remoteConfig.getString(ADMIN_CODE))) {
+            String url = remoteConfig.getString(ADMIN_GRAPHICS);
             GlideApp.with(this)
                     .load(url)
                     .placeholder(R.drawable.graphics_home)
@@ -203,12 +206,16 @@ public class Home extends Fragment implements RemoteConstants {
     }
 
     public void changeRoute(int routeNo) {
-        for (TransportDetails t : transportList) {
-            if (t.getRouteID() == routeNo) {
-                transport = t;
-                updateRoute();
-                break;
+        if (transportList != null) {
+            for (TransportDetails t : transportList) {
+                if (t.getRouteID() == routeNo) {
+                    transport = t;
+                    updateRoute();
+                    break;
+                }
             }
+        } else {
+            Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
         }
     }
 
