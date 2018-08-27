@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tp_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,8 +10,8 @@
         android:id="@+id/tp_manage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16sp"
         android:layout_marginTop="16sp"
+        android:layout_marginEnd="16sp"
         android:elevation="12sp"
         android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,9 +32,9 @@
         android:id="@+id/tp_destination"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:text="NCBS"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/white"
@@ -66,9 +67,9 @@
         android:id="@+id/tp_swap"
         android:layout_width="30sp"
         android:layout_height="30sp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:tint="@color/colorLight"
         app:layout_constraintBottom_toBottomOf="@+id/tp_destination"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,9 +164,9 @@
         android:id="@+id/tp_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -232,5 +233,18 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:srcCompat="@color/colorPrimary" />
 
+    <TextView
+        android:id="@+id/tp_creation_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4sp"
+        android:layout_marginBottom="4sp"
+        android:alpha="0.5"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SmallSp" />
 
 </android.support.constraint.ConstraintLayout>

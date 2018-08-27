@@ -119,11 +119,12 @@
     <string name="mt_select_trip_message">We have found following trip day(s) related to route \'%1$s-%2$s\'. Please select which one you want to edit.</string>
     <string name="mt_select_snackbar">Option %s selected.</string>
     <string name="mt_delete_confirm">You are about to delete \' %1$s - %2$s (%3$s)\' from your database. This action can not be undone. If you want to delete specific trip, please use edit button.
-    If you have logged in, these changes will be synced to your cloud account. Do you want to continue?</string>
+    Do you want to continue?</string>
 
     <string name="et_conflict_day">You are about to change trip details for already existing route. Do you want to continue?</string>
     <string name="et_no_conflict_day">You are about to add additional trip information to existing route. Do you want to continue?</string>
     <string name="et_route_conflict">This route already exists in your database. This action might override existing trip data. Do you still want to continue?</string>
     <string name="et_specific_delete">This action will delete only current day(s) from this route. Rest of the days (if any) will not be affected. Do you want to continue?</string>
 
+    <string name="tp_created_on">Last Update: %s</string>
 </resources>

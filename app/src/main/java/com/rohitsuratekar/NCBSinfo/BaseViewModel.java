@@ -21,7 +21,7 @@ import java.util.List;
 
 public class BaseViewModel extends ViewModel {
 
-    static String TAG = "BaseViewModel";
+    private static String TAG = "BaseViewModel";
 
     private MutableLiveData<List<TransportDetails>> allTransport = new MutableLiveData<>();
 

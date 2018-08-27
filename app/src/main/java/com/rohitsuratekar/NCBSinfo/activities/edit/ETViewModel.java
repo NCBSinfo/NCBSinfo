@@ -190,6 +190,9 @@ public class ETViewModel extends AndroidViewModel {
                             data.setTripID(tripID);
                             db.trips().updateTrips(data);
                         }
+                        RouteData r = db.routes().getRoute(routeNo);
+                        r.setModifiedOn(Helper.timestamp());
+                        db.routes().updateRoute(r);
                     }
                 }
                 model.setActionCode(ConfirmModel.ACTION_DONE);
@@ -235,7 +238,6 @@ public class ETViewModel extends AndroidViewModel {
                             db.trips().insertTrips(data);
                         }
                     }
-
                     model.setActionCode(ConfirmModel.ACTION_DONE);
                     validate.getModel(model);
                 }

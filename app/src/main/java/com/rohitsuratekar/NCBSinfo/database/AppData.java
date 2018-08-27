@@ -12,8 +12,8 @@ import android.content.Context;
  * From Version 57 , all old database will be dropped and new database will be created
  */
 
-@Database(entities = {RouteData.class, TripData.class}, version = 11)
-//Changed from 10 to 11 in version 57.
+@Database(entities = {RouteData.class, TripData.class}, version = 12)
+//Changed from 11 to 12 in version 62.
 public abstract class AppData extends RoomDatabase {
 
     private static final String DATABASE_NAME = "NCBSinfo";

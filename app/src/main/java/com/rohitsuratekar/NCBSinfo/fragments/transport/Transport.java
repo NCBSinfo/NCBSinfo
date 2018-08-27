@@ -20,11 +20,15 @@ import android.widget.Toast;
 import com.rohitsuratekar.NCBSinfo.BaseActivity;
 import com.rohitsuratekar.NCBSinfo.R;
 import com.rohitsuratekar.NCBSinfo.activities.manage.ManageTransport;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -52,6 +56,8 @@ public class Transport extends Fragment {
     ImageView swapBtn;
     @BindView(R.id.tp_layout)
     ConstraintLayout layout;
+    @BindView(R.id.tp_creation_date)
+    TextView createdOnText;
 
     private Calendar calendar;
     private List<TransportDetails> transportList;
@@ -60,6 +66,9 @@ public class Transport extends Fragment {
     private TransportAdapter adapter;
     private boolean showActual = true;
     private OnHomeInteraction tpInteraction;
+
+    private SimpleDateFormat stampFormat = new SimpleDateFormat(Helper.FORMAT_TIMESTAMP, Locale.ENGLISH);
+    private SimpleDateFormat readFormat = new SimpleDateFormat("dd MMM yy", Locale.ENGLISH);
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -168,6 +177,15 @@ public class Transport extends Fragment {
         } else {
             recyclerView.smoothScrollToPosition(0);
         }
+
+        String timeStamp = "";
+        try {
+            Date d1 = stampFormat.parse(transport.getRouteData().getModifiedOn());
+            timeStamp = getString(R.string.tp_created_on, readFormat.format(d1));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        createdOnText.setText(timeStamp);
 
     }
 

@@ -35,8 +35,8 @@
         android:layout_height="30dp"
         android:layout_marginEnd="32dp"
         android:contentDescription="@null"
-        android:src="@drawable/icon_sort_alphabetical"
-        android:tint="@color/colorAccent"
+        app:srcCompat="@drawable/icon_sort_alphabetical"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/loc_img_building"
         app:layout_constraintRight_toLeftOf="@+id/loc_img_building"
         app:layout_constraintTop_toTopOf="@+id/loc_img_building" />
@@ -58,7 +58,7 @@
         android:layout_marginEnd="16dp"
         android:alpha="0.8"
         android:contentDescription="@null"
-        android:src="@drawable/icon_building"
+        app:srcCompat="@drawable/icon_building"
         android:tint="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/loc_txt_build"
         app:layout_constraintRight_toLeftOf="@+id/guideline11" />
@@ -70,7 +70,7 @@
         android:layout_marginStart="16dp"
         android:alpha="0.8"
         android:contentDescription="@null"
-        android:src="@drawable/icon_floor"
+        app:srcCompat="@drawable/icon_floor"
         android:tint="@color/colorLight"
         app:layout_constraintBottom_toTopOf="@+id/loc_txt_floor"
         app:layout_constraintLeft_toLeftOf="@+id/guideline11" />
@@ -104,7 +104,7 @@
         android:layout_marginStart="32dp"
         android:alpha="0.8"
         android:contentDescription="@null"
-        android:src="@drawable/icon_error"
+        app:srcCompat="@drawable/icon_error"
         android:tint="@color/colorLight"
         app:layout_constraintBottom_toBottomOf="@+id/loc_img_floor"
         app:layout_constraintLeft_toRightOf="@+id/loc_img_floor"
