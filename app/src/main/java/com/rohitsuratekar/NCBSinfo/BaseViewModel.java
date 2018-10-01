@@ -3,21 +3,30 @@ package com.rohitsuratekar.NCBSinfo;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.rohitsuratekar.NCBSinfo.common.AppPrefs;
 import com.rohitsuratekar.NCBSinfo.common.CreateDefaultRoutes;
 import com.rohitsuratekar.NCBSinfo.common.GetAllRoutes;
+import com.rohitsuratekar.NCBSinfo.common.Helper;
 import com.rohitsuratekar.NCBSinfo.common.OnFinish;
 import com.rohitsuratekar.NCBSinfo.database.AppData;
 import com.rohitsuratekar.NCBSinfo.database.RouteData;
 import com.rohitsuratekar.NCBSinfo.database.TripData;
 import com.rohitsuratekar.NCBSinfo.fragments.transport.TransportDetails;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import static com.rohitsuratekar.NCBSinfo.common.Helper.convertToList;
 
 public class BaseViewModel extends ViewModel {
 
@@ -59,6 +68,7 @@ public class BaseViewModel extends ViewModel {
             @Override
             public void allRoutes(List<RouteData> routeDataList) {
                 //Will be empty
+                //
             }
         }).execute();
 
@@ -79,10 +89,30 @@ public class BaseViewModel extends ViewModel {
         private OnFinishLoading onFinishLoading;
         private AppData db;
         private List<TransportDetails> modelList;
+        private AppPrefs prefs;
+        private int versionCode;
+        private List<String> buggyToNCBS;
+        private List<String> buggyToMandara;
+        private List<String> ncbsToCBL;
 
         LoadTransport(Context context, OnFinishLoading onFinishLoading) {
             this.onFinishLoading = onFinishLoading;
             this.db = AppData.getDatabase(context);
+            this.prefs = new AppPrefs(context);
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = context.getPackageManager()
+                        .getPackageInfo(context.getPackageName(), 0);
+                this.versionCode = packageInfo.versionCode;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Unable to get package version");
+                this.versionCode = 0;
+            }
+            buggyToNCBS = convertToList(context.getString(R.string.def_buggy_from_mandara));
+            buggyToMandara = convertToList(context.getString(R.string.def_buggy_from_ncbs));
+            ncbsToCBL = convertToList(context.getString(R.string.def_ncbs_cbl));
+
         }
 
         @Override
@@ -115,7 +145,58 @@ public class BaseViewModel extends ViewModel {
             } else {
                 Collections.swap(modelList, 0, favRoute);
             }
+            checkUpgrade();
             return null;
+        }
+
+        void checkUpgrade() {
+            Log.i(TAG, "Checking if new data-set upgrade is available.");
+            if (versionCode > 62 && !prefs.getUpdate_62_63()) {
+                Log.i(TAG, "Updating buggy and TTC w.r.t. 2 Oct 2018");
+
+                SimpleDateFormat f2 = new SimpleDateFormat(Helper.FORMAT_TIMESTAMP, Locale.ENGLISH);
+                String modifiedDate = f2.format(new Date());
+                int r1 = db.routes().getRouteNo("ncbs", "mandara", "buggy");
+                int r2 = db.routes().getRouteNo("mandara", "ncbs", "buggy");
+                int r3 = db.routes().getRouteNo("ncbs", "cbl", "ttc");
+
+                if (r1 != 0) {
+                    List<TripData> t1 = db.trips().getTripsByRoute(r1);
+                    for (TripData t : t1) {
+                        t.setTrips(buggyToMandara);
+                        db.trips().updateTrips(t);
+                    }
+
+                    RouteData rd1 = db.routes().getRoute(r1);
+                    rd1.setModifiedOn(modifiedDate);
+                    db.routes().updateRoute(rd1);
+
+                }
+                if (r2 != 0) {
+                    List<TripData> t2 = db.trips().getTripsByRoute(r2);
+                    for (TripData t : t2) {
+                        t.setTrips(buggyToNCBS);
+                        db.trips().updateTrips(t);
+                    }
+
+                    RouteData rd2 = db.routes().getRoute(r2);
+                    rd2.setModifiedOn(modifiedDate);
+                    db.routes().updateRoute(rd2);
+                }
+                if (r3 != 0) {
+                    List<TripData> t3 = db.trips().getTripsByRoute(r3);
+                    for (TripData t : t3) {
+                        t.setTrips(ncbsToCBL);
+                        db.trips().updateTrips(t);
+                    }
+
+                    RouteData rd3 = db.routes().getRoute(r3);
+                    rd3.setModifiedOn(modifiedDate);
+                    db.routes().updateRoute(rd3);
+                }
+                prefs.updated_62_63();
+            }
+
         }
 
 

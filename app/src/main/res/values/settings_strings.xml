@@ -51,7 +51,7 @@
 ]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information provided in this application was last updated on August 27, 2018.
+    All the information provided in this application was last updated on October 2, 2018.
     Though a lot of effort has been taken to curate the information,
     minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
     through this application.
@@ -80,6 +80,7 @@
         <br> </br>
         <br> </br>
         <br> </br>
+        Check latest privacy statement <a href="https://github.com/NCBSinfo/NCBSinfo/blob/master/PrivacyPolicy.md"> here </a>.
         ]]>
 </string>
 
