@@ -1,31 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="TransportDays" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textAlignment">center</item>
-        <item name="android:background">@color/colorLight</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="Widget.MyApp.Toolbar.Solid" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
-    <style name="ThemeOverlay.MyApp.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <!-- Parent theme sets colorControlNormal to textColorPrimary. -->
-        <item name="android:textColorPrimary">@color/colorLight</item>
-    </style>
-
-    <style name="ErrorDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <!-- Used for the buttons -->
-        <item name="android:tint">@color/red</item>
     </style>
 
 </resources>
