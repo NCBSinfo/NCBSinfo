@@ -118,6 +118,8 @@ public class BaseViewModel extends ViewModel {
         @Override
         protected Void doInBackground(Object... objects) {
 
+            checkUpgrade();
+
             List<RouteData> routeDataList = db.routes().getRouteNames();
             modelList = new ArrayList<>();
             int favRoute = -1;
@@ -145,7 +147,7 @@ public class BaseViewModel extends ViewModel {
             } else {
                 Collections.swap(modelList, 0, favRoute);
             }
-            checkUpgrade();
+
             return null;
         }
 
