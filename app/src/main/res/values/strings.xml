@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Common-->
+    <string name="home">Home</string>
+    <string name="timetable">Timetable</string>
+    <string name="oops">Oops…</string>
+
+
+
+
+    <!--Landing Page-->
+    <string name="landing_page_note">Setting up your app. Please wait…</string>
 </resources>
