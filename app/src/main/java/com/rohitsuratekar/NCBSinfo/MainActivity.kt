@@ -11,10 +11,15 @@ import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
 import com.rohitsuratekar.NCBSinfo.common.hideMe
 import com.rohitsuratekar.NCBSinfo.common.showMe
+import com.rohitsuratekar.NCBSinfo.di.Repository
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainCallbacks {
 
+
+    @Inject
+    lateinit var repository: Repository
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
