@@ -13,4 +13,5 @@ interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
     fun repository(): Repository
+    fun dataRepository(): DataRepository
 }

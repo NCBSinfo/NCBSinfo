@@ -1,14 +1,15 @@
-package com.rohitsuratekar.NCBSinfo.common
+package com.rohitsuratekar.NCBSinfo.models
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import com.rohitsuratekar.NCBSinfo.MainActivity
+import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
 import com.rohitsuratekar.NCBSinfo.di.Repository
 
 abstract class MyFragment : Fragment() {
 
     var callback: MainCallbacks? = null
-    private lateinit var repository: Repository
+    lateinit var repository: Repository
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

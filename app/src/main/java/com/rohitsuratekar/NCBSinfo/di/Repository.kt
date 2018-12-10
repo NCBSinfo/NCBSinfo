@@ -2,13 +2,12 @@ package com.rohitsuratekar.NCBSinfo.di
 
 import android.app.Application
 import com.rohitsuratekar.NCBSinfo.common.AppPrefs
-import com.rohitsuratekar.NCBSinfo.database.RouteDao
-import com.rohitsuratekar.NCBSinfo.database.TripsDao
+import dagger.Provides
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class Repository @Inject constructor(
-    private val routeDao: RouteDao,
-    private val tripsDao: TripsDao,
+    private val data: DataRepository,
     private val application: Application,
     private val prefs: AppPrefs
 ) {
@@ -19,6 +18,10 @@ class Repository @Inject constructor(
 
     fun app(): Application {
         return application
+    }
+
+    fun data(): DataRepository {
+        return data
     }
 
 

@@ -9,9 +9,14 @@
     <string name="timetable">Timetable</string>
     <string name="oops">Oops…</string>
 
-
+    <!--Home-->
+    <string name="hm_see_full">See full timetable</string>
+    <string name="hm_next">next %s</string>
+    <string name="hm_other">other transport</string>
+    <string name="hm_show_route">Or\nselect different transport route</string>
 
 
     <!--Landing Page-->
     <string name="landing_page_note">Setting up your app. Please wait…</string>
+    <string name="making_default">No routes found, making default routes.</string>
 </resources>

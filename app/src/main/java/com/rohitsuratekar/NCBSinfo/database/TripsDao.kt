@@ -11,7 +11,7 @@ import androidx.room.*
 interface TripsDao {
 
     @Insert
-    fun insertTrips(tripData: TripData)
+    fun insertTrips(tripData: TripData): Long
 
     // Will return 0 id not found
     @Query(

@@ -11,7 +11,7 @@ import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
 import com.rohitsuratekar.NCBSinfo.common.hideMe
 import com.rohitsuratekar.NCBSinfo.common.showMe
-import com.rohitsuratekar.NCBSinfo.di.Repository
+import com.rohitsuratekar.NCBSinfo.di.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -27,6 +27,13 @@ class MainActivity : AppCompatActivity(), MainCallbacks {
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.nav_host)
         bottom_navigation.setupWithNavController(navController)
+
+        DaggerAppComponent.builder()
+            .appModule(AppModule(application))
+            .prefModule(PrefModule(baseContext))
+            .roomModule(RoomModule(application))
+            .build()
+            .inject(this)
 
         for (item in bottom_navigation.menu.children) {
             item.isEnabled = false
@@ -63,5 +70,10 @@ class MainActivity : AppCompatActivity(), MainCallbacks {
         when (option) {
             Constants.NAVIGATE_HOME -> gotoHome()
         }
+}
+
+    override fun hideToolbar() {
+        actionBar?.hide()
     }
+
 }

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun View.hideMe() {
     this.visibility = View.GONE
@@ -16,6 +18,11 @@ fun View.showMe() {
 
 fun View.invisible() {
     this.visibility = View.INVISIBLE
+}
+
+fun Calendar.serverTimestamp(): String {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH)
+    return format.format(Date(this.timeInMillis))
 }
 
 
