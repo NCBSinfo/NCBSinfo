@@ -5,5 +5,5 @@ interface MainCallbacks {
     fun hideProgress()
     fun showError(message: String)
     fun navigate(option: Int)
-    fun hideToolbar()
+    fun showRouteList(currentRoute: Int)
 }

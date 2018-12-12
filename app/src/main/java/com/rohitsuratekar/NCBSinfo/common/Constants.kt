@@ -6,4 +6,6 @@ object Constants {
     const val FORMAT_SERVER_TIMESTAMP = "yyyy-MM-dd'T'HH:mm:ssZ"
     const val FORMAT_TRIP_LIST = "HH:mm"
     const val FORMAT_DISPLAY_TIME = "hh:mm a"
+
+    const val BOTTOM_SHEET_ROUTEID = "routeID"
 }

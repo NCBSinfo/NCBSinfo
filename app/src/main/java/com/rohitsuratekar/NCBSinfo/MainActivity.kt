@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.navigation.NavController
@@ -11,11 +12,14 @@ import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
 import com.rohitsuratekar.NCBSinfo.common.hideMe
 import com.rohitsuratekar.NCBSinfo.common.showMe
+import com.rohitsuratekar.NCBSinfo.database.RouteData
 import com.rohitsuratekar.NCBSinfo.di.*
+import com.rohitsuratekar.NCBSinfo.fragments.HomeFragment
+import com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainCallbacks {
+class MainActivity : AppCompatActivity(), MainCallbacks, TransportRoutesFragment.OnRouteChanged {
 
 
     @Inject
@@ -70,10 +74,23 @@ class MainActivity : AppCompatActivity(), MainCallbacks {
         when (option) {
             Constants.NAVIGATE_HOME -> gotoHome()
         }
-}
-
-    override fun hideToolbar() {
-        actionBar?.hide()
     }
 
+
+    override fun showRouteList(currentRoute: Int) {
+        val sheet = TransportRoutesFragment()
+        val args = Bundle()
+        args.putInt(Constants.BOTTOM_SHEET_ROUTEID, currentRoute)
+        sheet.arguments = args
+        sheet.show(supportFragmentManager, sheet.tag)
+    }
+
+    override fun newRoute(routeData: RouteData) {
+
+        supportFragmentManager.findFragmentById(R.id.homeFragment)?.let {
+            (it as HomeFragment).changeRoute(routeData)
+        } ?: kotlin.run {
+            Log.i("TAG=====", "Here.....")
+        }
+    }
 }

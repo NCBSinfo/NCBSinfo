@@ -15,12 +15,14 @@ import com.rohitsuratekar.NCBSinfo.models.MyFragment
 import com.rohitsuratekar.NCBSinfo.models.NextTrip
 import com.rohitsuratekar.NCBSinfo.models.Route
 import com.rohitsuratekar.NCBSinfo.viewmodels.HomeViewModel
+import com.rohitsuratekar.NCBSinfo.viewmodels.TransportRoutesViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 
 class HomeFragment : MyFragment() {
 
     private lateinit var viewModel: HomeViewModel
+    private var sharedModel : TransportRoutesViewModel? = null
     private val routeList = mutableListOf<RouteData>()
     private var currentRoute: Route? = null
     private val currentCalendar = Calendar.getInstance()
@@ -37,12 +39,14 @@ class HomeFragment : MyFragment() {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+            sharedModel = activity?.run {
+                ViewModelProviders.of(this).get(TransportRoutesViewModel::class.java)
+            }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        callback?.hideToolbar()
         subscribe()
         viewModel.getRouteList(repository)
         viewModel.getFavorite(repository)
@@ -58,7 +62,12 @@ class HomeFragment : MyFragment() {
                 }
             }
 
+        }
 
+        hm_see_all.setOnClickListener {
+            currentRoute?.routeData?.routeID?.let { routeID ->
+                callback?.showRouteList(routeID)
+            }
         }
     }
 
@@ -74,6 +83,10 @@ class HomeFragment : MyFragment() {
         viewModel.returnedRoute.observe(this, Observer {
             currentRoute = it
             updateUI()
+        })
+
+        sharedModel?.currentRoute?.observe(this, Observer {
+            changeRoute(it)
         })
     }
 
@@ -95,7 +108,7 @@ class HomeFragment : MyFragment() {
 
     }
 
-    private fun changeRoute(routeData: RouteData) {
+    fun changeRoute(routeData: RouteData) {
         callback?.showProgress()
         viewModel.changeCurrentRoute(routeData, repository)
     }

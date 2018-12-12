@@ -10,4 +10,9 @@
               android:label="fragment_home" tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/timetableFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.TimetableFragment"
               android:label="fragment_timetable" tools:layout="@layout/fragment_timetable"/>
+    <fragment android:id="@+id/transportRoutesFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment"
+              android:label="fragment_transport_routes" tools:layout="@layout/fragment_transport_routes">
+        <argument android:name="routeID" app:argType="integer" android:defaultValue="0"/>
+    </fragment>
 </navigation>
