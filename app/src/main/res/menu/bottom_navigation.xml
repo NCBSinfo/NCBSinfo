@@ -11,4 +11,9 @@
             android:icon="@drawable/icon_timetable"
             android:title="@string/timetable"/>
 
+    <item
+            android:id="@+id/contactsFragment"
+            android:icon="@drawable/icon_contacts"
+            android:title="@string/contacts"/>
+
 </menu>

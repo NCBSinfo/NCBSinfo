@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.fragments
 
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,6 @@ class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdap
     private var viewModel: TransportRoutesViewModel? = null
     private lateinit var repository: Repository
     private lateinit var adapter: TransportRoutesAdapter
-    private var listener: OnRouteChanged? = null
     private var routeID: Int = 0
     private val routeList = mutableListOf<RouteData>()
 
@@ -74,21 +72,5 @@ class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdap
 
     }
 
-    interface OnRouteChanged {
-        fun newRoute(routeData: RouteData)
-    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnRouteChanged) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnRouteChanged")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
 }

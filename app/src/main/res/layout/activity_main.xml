@@ -8,6 +8,17 @@
         tools:context=".MainActivity">
 
 
+    <fragment
+            android:id="@+id/nav_host"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0sp"
+            android:layout_height="0sp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/navigation"/>
     <FrameLayout
             android:id="@+id/progress_frame"
             android:layout_width="match_parent"
@@ -32,18 +43,6 @@
         </FrameLayout>
 
     </FrameLayout>
-
-    <fragment
-            android:id="@+id/nav_host"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="0sp"
-            android:layout_height="0sp"
-            app:defaultNavHost="true"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_frame"
-            app:navGraph="@navigation/navigation"/>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

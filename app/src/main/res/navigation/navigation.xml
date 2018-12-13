@@ -5,14 +5,25 @@
             app:startDestination="@id/landingFragment">
 
     <fragment android:id="@+id/landingFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.LandingFragment"
-              android:label="fragment_landing" tools:layout="@layout/fragment_landing"/>
+              android:label="fragment_landing" tools:layout="@layout/fragment_landing">
+        <action android:id="@+id/action_landingFragment_to_homeFragment" app:destination="@id/homeFragment"/>
+    </fragment>
     <fragment android:id="@+id/homeFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.HomeFragment"
-              android:label="fragment_home" tools:layout="@layout/fragment_home"/>
-    <fragment android:id="@+id/timetableFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.TimetableFragment"
-              android:label="fragment_timetable" tools:layout="@layout/fragment_timetable"/>
+              android:label="fragment_home" tools:layout="@layout/fragment_home">
+        <action android:id="@+id/action_homeFragment_to_contactsFragment" app:destination="@id/contactsFragment"/>
+        <action android:id="@+id/action_homeFragment_to_timetableFragment" app:destination="@id/timetableFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/timetableFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.TimetableFragment"
+              android:label="fragment_timetable"
+              tools:layout="@layout/fragment_timetable"/>
+
     <fragment android:id="@+id/transportRoutesFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment"
               android:label="fragment_transport_routes" tools:layout="@layout/fragment_transport_routes">
         <argument android:name="routeID" app:argType="integer" android:defaultValue="0"/>
     </fragment>
+    <fragment android:id="@+id/contactsFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.ContactsFragment"
+              android:label="fragment_contacts" tools:layout="@layout/fragment_contacts"/>
 </navigation>

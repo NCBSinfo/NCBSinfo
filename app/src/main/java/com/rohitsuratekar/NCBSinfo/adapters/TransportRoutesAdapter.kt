@@ -29,11 +29,13 @@ class TransportRoutesAdapter(
         val context = holder.itemView.context
         val route = routeDataList[position]
 
-        holder.text.text = context.getString(R.string.tp_route_name, route.origin, route.destination)
+        holder.text.text = context.getString(R.string.tp_route_name, route.origin, route.destination).toUpperCase()
         holder.subText.text = route.type
 
         if (routeID == route.routeID) {
             holder.icon.setImageResource(R.color.green)
+        }else{
+            holder.icon.setImageResource(R.color.colorPrimary)
         }
 
         holder.layout.setOnClickListener {

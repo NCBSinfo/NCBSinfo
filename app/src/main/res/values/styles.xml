@@ -8,4 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="TransportDays" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@color/colorLight</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 </resources>

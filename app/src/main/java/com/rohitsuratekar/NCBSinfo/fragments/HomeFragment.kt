@@ -22,7 +22,7 @@ import java.util.*
 class HomeFragment : MyFragment() {
 
     private lateinit var viewModel: HomeViewModel
-    private var sharedModel : TransportRoutesViewModel? = null
+    private var sharedModel: TransportRoutesViewModel? = null
     private val routeList = mutableListOf<RouteData>()
     private var currentRoute: Route? = null
     private val currentCalendar = Calendar.getInstance()
@@ -64,7 +64,7 @@ class HomeFragment : MyFragment() {
 
         }
 
-        hm_see_all.setOnClickListener {
+        hm_change_route.setOnClickListener {
             currentRoute?.routeData?.routeID?.let { routeID ->
                 callback?.showRouteList(routeID)
             }
@@ -108,7 +108,7 @@ class HomeFragment : MyFragment() {
 
     }
 
-    fun changeRoute(routeData: RouteData) {
+    private fun changeRoute(routeData: RouteData) {
         callback?.showProgress()
         viewModel.changeCurrentRoute(routeData, repository)
     }

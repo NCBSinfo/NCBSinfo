@@ -6,27 +6,7 @@
         android:layout_height="match_parent"
         tools:layout_editor_absoluteY="25dp">
 
-    <ImageView
-            android:id="@+id/hm_stars"
-            android:layout_width="0sp"
-            android:layout_height="0sp"
-            app:layout_constraintBottom_toBottomOf="@id/hm_graphics"
-            app:layout_constraintEnd_toEndOf="@id/hm_graphics"
-            app:layout_constraintStart_toStartOf="@id/hm_graphics"
-            app:layout_constraintTop_toTopOf="@id/hm_graphics"
-            app:srcCompat="@drawable/graphics_stars"/>
 
-    <ImageView
-            android:id="@+id/hm_sun"
-            android:layout_width="@dimen/home_sun_size"
-            android:layout_height="@dimen/home_sun_size"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/hm_graphics"
-            app:layout_constraintEnd_toStartOf="@+id/hm_graphics"
-            app:layout_constraintStart_toStartOf="@+id/hm_graphics"
-            app:layout_constraintTop_toTopOf="@+id/hm_graphics"
-            app:srcCompat="@drawable/graphics_sun"/>
 
     <ImageView
             android:id="@+id/hm_graphics"
