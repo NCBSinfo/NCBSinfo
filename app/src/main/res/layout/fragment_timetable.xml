@@ -4,13 +4,254 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.TimetableFragment">
+        tools:context=".fragments.TimetableFragment" android:id="@+id/tp_layout">
 
     <ImageView
-            android:src="@color/colorPrimary"
-            android:layout_width="0sp"
-            android:layout_height="@dimen/transport_top_panel"
-            android:id="@+id/imageView" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/tp_manage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:layout_marginEnd="16sp"
+            android:elevation="12sp"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_edit"/>
+
+
+    <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/transport_top_panel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/colorPrimary"/>
+
+    <TextView
+            android:id="@+id/tp_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="NCBS"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tp_swap"/>
+
+    <TextView
+            android:id="@+id/tp_origin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="MANDARA"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/tp_destination"
+            app:layout_constraintEnd_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toStartOf="@+id/tp_destination"/>
+
+    <TextView
+            android:id="@+id/tp_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[ shuttle ]"
+            android:textColor="@color/colorLight"
+            app:layout_constraintBottom_toTopOf="@+id/tp_origin"
+            app:layout_constraintStart_toStartOf="@+id/tp_origin"/>
+
+    <ImageView
+            android:id="@+id/tp_swap"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:tint="@color/colorLight"
+            app:layout_constraintBottom_toBottomOf="@+id/tp_destination"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tp_origin"
+            app:srcCompat="@drawable/icon_swap"/>
+
+    <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/transport_day_panel"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <TextView
+                android:id="@+id/tp_day_sun"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/sunday_short"/>
+
+        <TextView
+                android:id="@+id/tp_day_mon"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="@string/monday_short"/>
+
+        <TextView
+                android:id="@+id/tp_day_tue"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/tuesday_short"/>
+
+        <TextView
+                android:id="@+id/tp_day_wed"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/wednesday_short"/>
+
+        <TextView
+                android:id="@+id/tp_day_thu"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/thursday_short"/>
+
+        <TextView
+                android:id="@+id/tp_day_fri"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/friday_short"/>
+
+        <TextView
+                android:id="@+id/tp_day_sat"
+                style="@style/TransportDays"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/saturday_short"/>
+
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/tp_show_all_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32sp"
+            android:background="@color/colorPrimary"
+            android:padding="8sp"
+            android:text="@string/tp_show_all"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tp_recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tp_linker"/>
+
+    <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0sp"
+            android:layout_height="20sp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <ImageView
+                android:id="@+id/tp_link_0"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@color/colorPrimary"
+                android:contentDescription="@string/sunday_short"/>
+
+        <ImageView
+                android:id="@+id/tp_link_1"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/monday_short"
+                android:layout_weight="1"/>
+
+        <ImageView
+                android:id="@+id/tp_link_2"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/tuesday_short"
+                android:layout_weight="1"/>
+
+        <ImageView
+                android:id="@+id/tp_link_3"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/wednesday_short"
+                android:layout_weight="1"/>
+
+        <ImageView
+                android:id="@+id/tp_link_4"
+                android:layout_width="0sp"
+                android:contentDescription="@string/thursday_short"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        <ImageView
+                android:id="@+id/tp_link_5"
+                android:layout_width="0sp"
+                android:contentDescription="@string/friday_short"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        <ImageView
+                android:id="@+id/tp_link_6"
+                android:layout_width="0sp"
+                android:contentDescription="@string/saturday_short"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+    <ImageView
+            android:id="@+id/tp_linker"
+            android:layout_width="@dimen/transport_item_bar"
+            android:layout_height="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+            app:srcCompat="@color/colorPrimary"
+            android:contentDescription="@null"/>
+
+    <TextView
+            android:id="@+id/tp_creation_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4sp"
+            android:layout_marginBottom="4sp"
+            android:alpha="0.5"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="SmallSp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

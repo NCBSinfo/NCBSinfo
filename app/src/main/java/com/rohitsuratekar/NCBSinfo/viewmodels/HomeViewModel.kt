@@ -14,7 +14,6 @@ class HomeViewModel : ViewModel() {
 
     val returnedRoute = MutableLiveData<Route>()
     val routeList = MutableLiveData<List<RouteData>>()
-    val currentRoute = MutableLiveData<Route>()
 
 
     fun getRouteList(repository: Repository) {
@@ -45,7 +44,7 @@ class HomeViewModel : ViewModel() {
             }
 
             override fun favoriteReturned(favRoute: Route) {
-                currentRoute.postValue(favRoute)
+                returnedRoute.postValue(favRoute)
             }
 
         }).execute()

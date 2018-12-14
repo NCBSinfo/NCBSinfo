@@ -14,12 +14,14 @@ import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.TransportRoutesAdapter
 import com.rohitsuratekar.NCBSinfo.database.RouteData
 import com.rohitsuratekar.NCBSinfo.di.Repository
+import com.rohitsuratekar.NCBSinfo.viewmodels.SharedViewModel
 import com.rohitsuratekar.NCBSinfo.viewmodels.TransportRoutesViewModel
 import kotlinx.android.synthetic.main.fragment_transport_routes.*
 
 class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdapter.OnRouteClick {
 
     private var viewModel: TransportRoutesViewModel? = null
+    private var sharedModel: SharedViewModel? = null
     private lateinit var repository: Repository
     private lateinit var adapter: TransportRoutesAdapter
     private var routeID: Int = 0
@@ -27,11 +29,9 @@ class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (savedInstanceState == null) {
-            viewModel = activity?.run {
-                ViewModelProviders.of(this).get(TransportRoutesViewModel::class.java)
-            }
+        activity?.run {
+            viewModel = ViewModelProviders.of(this).get(TransportRoutesViewModel::class.java)
+            sharedModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
         }
         repository = (activity as MainActivity).repository
         adapter = TransportRoutesAdapter(routeList, 0, this)
@@ -63,13 +63,14 @@ class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdap
             adapter.setRouteID(routeID)
             adapter.notifyDataSetChanged()
         })
+        viewModel?.currentRoute?.observe(this, Observer {
+            sharedModel?.changeCurrentRoute(it)
+        })
     }
 
     override fun clicked(routeData: RouteData) {
-        //listener?.newRoute(routeData)
-        viewModel?.changeCurrentRoute(routeData)
+        viewModel?.changeCurrentRoute(repository, routeData)
         dismiss()
-
     }
 
 

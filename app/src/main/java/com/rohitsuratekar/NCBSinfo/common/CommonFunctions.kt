@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.common
 
+import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,4 +32,8 @@ fun timeToDate(now: Date, s: String): Date {
     newCal.set(Calendar.MINUTE, subCal.get(Calendar.MINUTE))
 
     return Date(newCal.timeInMillis)
+}
+
+fun test(any: Any = "pass") {
+    Log.i("TAG=======", "Testing here! $any")
 }

@@ -97,7 +97,7 @@ class NextTrip {
         return Trip(getTrips(calendar.get(Calendar.DAY_OF_WEEK))[0], 2, inputCalender)
     }
 
-    private fun getTrips(day: Int): List<String> {
+    fun getTrips(day: Int): List<String> {
         return weekMap!!.get(day) ?: kotlin.run { return defaultTrips!! }
     }
 

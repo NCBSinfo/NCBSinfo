@@ -8,4 +8,6 @@
     <!--Transport Related-->
     <dimen name="transport_sheet_icon_size">30sp</dimen>
     <dimen name="transport_top_panel">130sp</dimen>
+    <dimen name="transport_item_bar">30sp</dimen>
+    <dimen name="transport_day_panel">45sp</dimen>
 </resources>

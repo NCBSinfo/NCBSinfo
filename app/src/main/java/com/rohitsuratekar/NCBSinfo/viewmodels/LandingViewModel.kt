@@ -106,7 +106,7 @@ class LandingViewModel : ViewModel() {
             val r9 = makeRoute("ncbs", "cbl", "ttc", creationDate, modifiedDate)
             makeTrips(r9, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_ncbs_cbl)))
 
-
+            listener.dataLoadFinished()
         }
 
         private fun makeRoute(

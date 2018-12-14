@@ -24,6 +24,10 @@ class Trip(private var tripString: String, private var dayIndex: Int, private va
         return outputFormat.format(Date(returnCal.timeInMillis))
     }
 
+    fun raw(): String {
+        return tripString
+    }
+
     fun tripHighlightDay(): Int {
         val tempCal = Calendar.getInstance().apply { cal.timeInMillis }
         when (dayIndex) {

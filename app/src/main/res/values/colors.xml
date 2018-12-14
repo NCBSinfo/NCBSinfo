@@ -6,5 +6,8 @@
     <color name="colorLight">#b3e5ff</color>
 
     <color name="white">#fbfcfc</color>
+    <color name="black">#000000</color>
     <color name="green">#57d785</color>
+    <color name="grey">#979797</color>
+
 </resources>

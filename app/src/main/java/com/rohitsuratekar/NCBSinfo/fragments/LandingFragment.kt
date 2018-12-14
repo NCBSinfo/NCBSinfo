@@ -27,9 +27,7 @@ class LandingFragment : MyFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            viewModel = ViewModelProviders.of(this).get(LandingViewModel::class.java)
-        }
+        viewModel = ViewModelProviders.of(this).get(LandingViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
