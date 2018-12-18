@@ -38,6 +38,13 @@
         on allow when permission dialog appears.
     </string>
 
+    <!--Location-->
+    <string name="locations">Locations</string>
+    <string name="sort_by">sort locations by</string>
+    <string name="location_name">name</string>
+    <string name="building">building</string>
+    <string name="floor">floor</string>
+    <string name="whatever">whatever</string>
 
     <!--Landing Page-->
     <string name="landing_page_note">Setting up your app. Please wait…</string>

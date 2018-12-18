@@ -16,4 +16,10 @@
             android:icon="@drawable/icon_contacts"
             android:title="@string/contacts"/>
 
+
+    <item
+            android:id="@+id/locationFragment"
+            android:icon="@drawable/icon_office"
+            android:title="@string/contacts"/>
+
 </menu>
