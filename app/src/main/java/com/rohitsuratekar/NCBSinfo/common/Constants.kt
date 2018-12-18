@@ -8,5 +8,10 @@ object Constants {
     const val FORMAT_TRIP_LIST = "HH:mm"
     const val FORMAT_DISPLAY_TIME = "hh:mm a"
 
-    const val BOTTOM_SHEET_ROUTEID = "routeID"
+    const val BOTTOM_SHEET_ROUTE_ID = "routeID"
+    const val BOTTOM_SHEET_CONTACT_NAME = "name"
+    const val BOTTOM_SHEET_CONTACT_EXTENSION = "primary"
+    const val BOTTOM_SHEET_CONTACT_EXTRA = "extra"
+    const val BOTTOM_SHEET_CONTACT_DETAILS = "details"
+
 }

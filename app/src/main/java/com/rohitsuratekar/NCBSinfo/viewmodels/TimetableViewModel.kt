@@ -13,10 +13,15 @@ private const val TAG = "TimetableViewModel"
 class TimetableViewModel : ViewModel() {
 
     val returnedRoute = MutableLiveData<Route>()
+    val reverseRoute = MutableLiveData<Route?>()
 
 
     fun fetchRoute(repository: Repository, routeID: Int) {
         GetRouteDetails(repository, routeID, object : OnDataRetrieved {
+            override fun hasReverse(route: Route?) {
+                reverseRoute.postValue(route)
+            }
+
             override fun fetchedRoute(route: Route) {
                 returnedRoute.postValue(route)
             }
@@ -41,19 +46,34 @@ class TimetableViewModel : ViewModel() {
 
             returnedRoute?.let {
                 val trips = repository.data().getTrips(it)
+                checkReverse(it)
                 listener.fetchedRoute(Route(it, trips))
             } ?: kotlin.run {
                 Log.i(TAG, "There was no such route found. Selecting first Route from the database")
                 val trips = repository.data().getTrips(routes.first())
+                checkReverse(routes.first())
                 listener.fetchedRoute(Route(routes.first(), trips))
             }
             return null
         }
 
+        private fun checkReverse(route: RouteData) {
+            val id = repository.data().isRouteThere(route.destination!!, route.origin!!, route.type!!)
+            if (id > 0) {
+                val reverseRoute = repository.data().getRouteByNumber(id)
+                val reverseTrips = repository.data().getTrips(reverseRoute)
+                listener.hasReverse(Route(reverseRoute, reverseTrips))
+            } else {
+                listener.hasReverse(null)
+            }
+        }
+
+
     }
 
     interface OnDataRetrieved {
         fun fetchedRoute(route: Route)
+        fun hasReverse(route: Route?)
     }
 
 }

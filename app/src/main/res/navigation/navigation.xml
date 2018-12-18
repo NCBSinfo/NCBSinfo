@@ -26,4 +26,12 @@
     </fragment>
     <fragment android:id="@+id/contactsFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.ContactsFragment"
               android:label="fragment_contacts" tools:layout="@layout/fragment_contacts"/>
+    <fragment android:id="@+id/contactDetailsFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.ContactDetailsFragment"
+              android:label="fragment_contact_details" tools:layout="@layout/fragment_contact_details">
+        <argument android:name="name" app:argType="string" android:defaultValue="Unknown"/>
+        <argument android:name="primary" app:argType="string" android:defaultValue="0000"/>
+        <argument android:name="extra" app:argType="string" app:nullable="true"/>
+        <argument android:name="details" app:argType="string" app:nullable="true"/>
+    </fragment>
 </navigation>

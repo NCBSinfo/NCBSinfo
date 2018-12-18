@@ -28,6 +28,16 @@
     <string name="tp_type">[ %s ]</string>
     <string name="tp_update_on">Last Update: %s</string>
 
+    <!--Contact-->
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="ct_extension">Extension:</string>
+    <string name="ct_sheet_numbers">Contact Numbers</string>
+    <string name="ct_permission_needed">Permission needed!</string>
+    <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click
+        on allow when permission dialog appears.
+    </string>
+
 
     <!--Landing Page-->
     <string name="landing_page_note">Setting up your app. Please wait…</string>

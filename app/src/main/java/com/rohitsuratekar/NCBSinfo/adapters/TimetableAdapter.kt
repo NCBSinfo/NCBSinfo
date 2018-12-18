@@ -10,7 +10,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.rohitsuratekar.NCBSinfo.R
-import com.rohitsuratekar.NCBSinfo.common.*
+import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.hideMe
+import com.rohitsuratekar.NCBSinfo.common.inflate
+import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.models.NextTrip
 import com.rohitsuratekar.NCBSinfo.models.Route
 import java.text.ParseException
@@ -24,11 +27,10 @@ class TimetableAdapter(private var route: Route, private var currentCal: Calenda
     private var nextTripDay: Int = -1
     private var nextTripText: String = ""
     private var endingColor: Int = R.color.colorLight
+    private var originalCal: Calendar = Calendar.getInstance()
 
     init {
-        val next = NextTrip(route.tripData).calculate(currentCal)
-        nextTripDay = next.tripHighlightDay()
-        nextTripText = next.raw()
+        originalCal.timeInMillis = currentCal.timeInMillis
         updateList()
     }
 
@@ -90,11 +92,14 @@ class TimetableAdapter(private var route: Route, private var currentCal: Calenda
     }
 
     private fun updateList() {
+        val next = NextTrip(route.tripData).calculate(originalCal)
+        nextTripDay = next.tripHighlightDay()
+        nextTripText = next.raw()
         currentTrips.clear()
         currentTrips.addAll(route.tripList(currentCal))
         endingColor = R.color.colorLight
 
-     }
+    }
 
     fun changeDay(cal: Calendar) {
         currentCal.timeInMillis = cal.timeInMillis
@@ -123,8 +128,6 @@ class TimetableAdapter(private var route: Route, private var currentCal: Calenda
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var backImage: ImageView = itemView.findViewById(R.id.tp_item_back_image)
         var frontImage: ImageView = itemView.findViewById(R.id.tp_item_front_image)
         var arrow: ImageView = itemView.findViewById(R.id.tp_item_arrow)
         var itemText: TextView = itemView.findViewById(R.id.tp_item_text)

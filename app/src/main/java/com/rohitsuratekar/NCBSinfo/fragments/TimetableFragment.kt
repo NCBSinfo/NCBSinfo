@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.TimetableAdapter
 import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.invisible
+import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.models.MyFragment
 import com.rohitsuratekar.NCBSinfo.models.NextTrip
 import com.rohitsuratekar.NCBSinfo.models.Route
@@ -32,6 +34,7 @@ class TimetableFragment : MyFragment() {
     private lateinit var currentCalendar: Calendar
     private var currentRoute: Route? = null
     private var next: Trip? = null
+    private var swapRoute: Route? = null
     private val dayList = mutableListOf<TextView>()
     private val linkList = mutableListOf<ImageView>()
     private val calDays = listOf(
@@ -75,6 +78,13 @@ class TimetableFragment : MyFragment() {
             }
         }
 
+        tp_swap.setOnClickListener {
+            swapRoute?.let {
+                routeID = it.routeData.routeID
+                viewModel.fetchRoute(repository, routeID)
+            }
+        }
+
         for (i in 0 until dayList.size) {
             dayList[i].setOnClickListener {
                 currentCalendar.set(Calendar.DAY_OF_WEEK, calDays[i])
@@ -83,6 +93,7 @@ class TimetableFragment : MyFragment() {
                 updateUI()
             }
         }
+
     }
 
     private fun setupRecycler() {
@@ -111,6 +122,10 @@ class TimetableFragment : MyFragment() {
             }
             updateUI()
         })
+
+        viewModel.reverseRoute.observe(this, Observer {
+            swapRoute = it
+        })
     }
 
     private fun updateUI() {
@@ -122,8 +137,13 @@ class TimetableFragment : MyFragment() {
             tp_creation_date.text = getString(R.string.tp_update_on, formatDate(it.routeData.modifiedOn))
         }
 
-        val today = currentCalendar.get(Calendar.DAY_OF_WEEK)
+        swapRoute?.let {
+            tp_swap.showMe()
+        } ?: kotlin.run {
+            tp_swap.invisible()
+        }
 
+        val today = currentCalendar.get(Calendar.DAY_OF_WEEK)
 
         for (i in 0 until dayList.size) {
             if (today == calDays[i]) {
