@@ -18,7 +18,7 @@
 
 
     <item
-            android:id="@+id/locationFragment"
+            android:id="@+id/manageTransportFragment"
             android:icon="@drawable/icon_office"
             android:title="@string/contacts"/>
 

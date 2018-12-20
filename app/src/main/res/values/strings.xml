@@ -16,6 +16,10 @@
     <string name="thursday_short">Thu</string>
     <string name="friday_short">Fri</string>
     <string name="saturday_short">Sat</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="report">Report</string>
+
     <!--Home-->
     <string name="hm_see_full">See full timetable</string>
     <string name="hm_next">next %s</string>
@@ -45,6 +49,11 @@
     <string name="building">building</string>
     <string name="floor">floor</string>
     <string name="whatever">whatever</string>
+
+
+    <!--Manage Transport-->
+    <string name="mt_last_modified">Last Modified\n%s</string>
+    <string name="mt_add_new_transport">Add New Transport</string>
 
     <!--Landing Page-->
     <string name="landing_page_note">Setting up your app. Please wait…</string>

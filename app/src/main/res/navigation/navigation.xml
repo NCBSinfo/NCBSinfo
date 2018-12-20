@@ -36,4 +36,7 @@
     </fragment>
     <fragment android:id="@+id/locationFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.LocationFragment"
               android:label="fragment_location" tools:layout="@layout/fragment_location"/>
+    <fragment android:id="@+id/manageTransportFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.ManageTransportFragment"
+              android:label="fragment_manage_transport" tools:layout="@layout/fragment_manage_transport"/>
 </navigation>

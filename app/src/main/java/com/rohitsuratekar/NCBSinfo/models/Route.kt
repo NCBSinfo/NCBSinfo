@@ -6,7 +6,8 @@ import java.util.*
 
 class Route(
     val routeData: RouteData,
-    val tripData: List<TripData>
+    val tripData: List<TripData>,
+    var isExpanded: Boolean = false
 ) {
     fun tripList(calendar: Calendar): List<String> {
         val next = NextTrip(tripData)
