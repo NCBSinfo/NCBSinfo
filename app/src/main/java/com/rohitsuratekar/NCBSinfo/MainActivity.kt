@@ -18,7 +18,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.rohitsuratekar.NCBSinfo.adapters.ContactDetailsAdapter
-import com.rohitsuratekar.NCBSinfo.common.*
+import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
+import com.rohitsuratekar.NCBSinfo.common.hideMe
+import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.di.*
 import com.rohitsuratekar.NCBSinfo.fragments.ContactDetailsFragment
 import com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment
@@ -102,6 +105,8 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
         when (option) {
             Constants.NAVIGATE_HOME -> gotoHome()
             Constants.NAVIGATE_TIMETABLE -> navController.navigate(R.id.timetableFragment)
+            Constants.NAVIGATE_LOCATIONS -> navController.navigate(R.id.action_informationFragment_to_locationFragment)
+            Constants.NAVIGATE_MANAGE_TRANSPORT -> navController.navigate(R.id.action_informationFragment_to_manageTransportFragment)
         }
     }
 

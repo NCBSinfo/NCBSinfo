@@ -8,6 +8,8 @@
     <string name="home">Home</string>
     <string name="timetable">Timetable</string>
     <string name="contacts">Contacts</string>
+    <string name="manage_transport">Manage Transport</string>
+    <string name="information">Information</string>
     <string name="oops">Oops…</string>
     <string name="sunday_short">Sun</string>
     <string name="monday_short">Mon</string>
@@ -18,7 +20,10 @@
     <string name="saturday_short">Sat</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
     <string name="report">Report</string>
+    <string name="are_you_sure">Are you sure?</string>
 
     <!--Home-->
     <string name="hm_see_full">See full timetable</string>
@@ -52,8 +57,27 @@
 
 
     <!--Manage Transport-->
+    <string name="mt_details">Edit, Delete or Create new transport route</string>
+    <string name="mt_click_expand">(Click on the route to get more options)</string>
     <string name="mt_last_modified">Last Modified\n%s</string>
     <string name="mt_add_new_transport">Add New Transport</string>
+    <string name="mt_delete_confirm">You are about to delete \' %1$s - %2$s (%3$s)\' from your database. This action can
+        not be undone. If you want to delete specific trip, please use edit button. Do you want to continue?
+    </string>
+    <string name="mt_single_route_error">There is only 1 transport route left in your database. If you delete this
+        route, system will automatically create all default routes. Do you want to delete last route?
+    </string>
+    <string name="mt_route_feedback">Feedback on Transport Route %1$s - %2$s %3$s</string>
+    <string name="mt_reset_route_title">Reset All Routes</string>
+    <string name="mt_reset_route">This will reset all of your transport routes to their default values.
+        This action can not be undone. Are you sure you want to reset ALL of your transport route?
+    </string>
+
+    <!--Information Related-->
+    <string name="info_manage_transport_details">Manage your transport routes. Edit, Delete or create New.</string>
+    <string name="info_loc_details">Check locations of various meetings rooms and lecture halls on NCBS campus.</string>
+
+
 
     <!--Landing Page-->
     <string name="landing_page_note">Setting up your app. Please wait…</string>

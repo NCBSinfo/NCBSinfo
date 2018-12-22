@@ -13,4 +13,7 @@
 
     <!--Contact Related-->
     <dimen name="ct_sheet_back_image_height">150sp</dimen>
+
+    <!--Information Related-->
+    <dimen name="info_image_height">100sp</dimen>
 </resources>

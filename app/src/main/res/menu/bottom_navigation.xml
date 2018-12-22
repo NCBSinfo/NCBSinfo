@@ -18,8 +18,8 @@
 
 
     <item
-            android:id="@+id/manageTransportFragment"
-            android:icon="@drawable/icon_office"
-            android:title="@string/contacts"/>
+            android:id="@+id/informationFragment"
+            android:icon="@drawable/icon_information"
+            android:title="@string/information"/>
 
 </menu>

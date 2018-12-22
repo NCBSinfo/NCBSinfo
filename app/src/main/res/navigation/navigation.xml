@@ -12,6 +12,7 @@
               android:label="fragment_home" tools:layout="@layout/fragment_home">
         <action android:id="@+id/action_homeFragment_to_contactsFragment" app:destination="@id/contactsFragment"/>
         <action android:id="@+id/action_homeFragment_to_timetableFragment" app:destination="@id/timetableFragment"/>
+        <action android:id="@+id/action_homeFragment_to_informationFragment" app:destination="@id/informationFragment"/>
     </fragment>
 
     <fragment android:id="@+id/timetableFragment"
@@ -39,4 +40,16 @@
     <fragment android:id="@+id/manageTransportFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.ManageTransportFragment"
               android:label="fragment_manage_transport" tools:layout="@layout/fragment_manage_transport"/>
+    <fragment android:id="@+id/informationFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.InformationFragment"
+              android:label="fragment_information" tools:layout="@layout/fragment_information">
+        <action android:id="@+id/action_informationFragment_to_locationFragment"
+                app:destination="@id/locationFragment" app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" app:popUpTo="@id/informationFragment"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action android:id="@+id/action_informationFragment_to_manageTransportFragment"
+                app:destination="@id/manageTransportFragment" app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim" app:popUpTo="@id/informationFragment"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
 </navigation>

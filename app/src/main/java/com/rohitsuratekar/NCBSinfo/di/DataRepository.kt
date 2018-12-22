@@ -44,5 +44,14 @@ class DataRepository @Inject constructor(
         return routeDao.getRoute(routeNo)
     }
 
+    fun deleteRoute(routeData: RouteData) {
+        tripsDao.deleteTripsByRoute(routeData.routeID)
+        routeDao.deleteRoute(routeData)
+    }
+
+    fun deleteAll() {
+        routeDao.deleteAll()
+        tripsDao.deleteAll()
+    }
 
 }
