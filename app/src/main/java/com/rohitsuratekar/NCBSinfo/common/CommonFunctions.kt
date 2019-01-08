@@ -1,9 +1,13 @@
 package com.rohitsuratekar.NCBSinfo.common
 
+import android.app.Activity
 import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 fun convertToList(listString: String): List<String> {
     var string = listString
@@ -36,4 +40,16 @@ fun timeToDate(now: Date, s: String): Date {
 
 fun test(any: Any = "pass") {
     Log.i("TAG=======", "Testing here! $any")
+}
+
+
+fun hideKeyboard(activity: Activity) {
+    val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    //Find the currently focused view, so we can grab the correct window token from it.
+    var view = activity.currentFocus
+    //If no view currently has focus, create a new one, just so we can grab a window token from it
+    if (view == null) {
+        view = View(activity)
+    }
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }

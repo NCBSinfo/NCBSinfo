@@ -17,4 +17,11 @@ object Constants {
     const val BOTTOM_SHEET_CONTACT_EXTRA = "extra"
     const val BOTTOM_SHEET_CONTACT_DETAILS = "details"
 
+    const val EDIT_NAME = 0
+    const val EDIT_TYPE = 1
+    const val EDIT_TRIPS = 2
+    const val EDIT_START_TRIP = 3
+    const val EDIT_CONFIRM = 4
+
+
 }

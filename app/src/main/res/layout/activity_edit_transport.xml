@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        tools:context=".EditTransport">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout_transport"
+            style="@style/Widget.MyApp.Toolbar.Solid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.MyApp.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/transport_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorPrimary"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView android:layout_width="wrap_content"
+                                               android:id="@+id/et_step_recycler"
+                                               android:layout_height="@dimen/et_step_recycler_height"
+                                               app:layout_constraintStart_toStartOf="parent"
+                                               app:layout_constraintEnd_toEndOf="parent"
+                                               app:layout_constraintHorizontal_bias="0.498"
+                                               app:layout_constraintTop_toBottomOf="@+id/et_step_title">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <fragment
+            android:id="@+id/nav_host_transport"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0sp"
+            android:layout_height="0sp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_step_recycler"
+            app:navGraph="@navigation/transport_navigation"/>
+
+    <FrameLayout
+            android:id="@+id/progress_frame_transport"
+            android:layout_width="match_parent"
+            android:layout_height="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout_transport"
+            tools:ignore="SmallSp,UselessParent">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical">
+
+            <ProgressBar
+                    android:id="@+id/progress_bar_transport"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminate="true"/>
+
+        </FrameLayout>
+
+    </FrameLayout>
+    <TextView
+            android:text="TextView"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout_transport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_step_title" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8sp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

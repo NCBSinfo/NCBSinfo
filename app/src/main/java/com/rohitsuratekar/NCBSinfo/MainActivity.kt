@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
         val navHostFragment = nav_host as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.navigation)
-        graph.setDefaultArguments(intent.extras)
         graph.startDestination = R.id.homeFragment
         navHostFragment.navController.graph = graph
 
