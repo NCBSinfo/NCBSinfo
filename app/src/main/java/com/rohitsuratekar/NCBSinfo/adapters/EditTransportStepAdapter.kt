@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.inflate
 import com.rohitsuratekar.NCBSinfo.common.invisible
+import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.models.EditTransportStep
 
 class EditTransportStepAdapter(private val stepList: List<EditTransportStep>, private val listener: OnStepClick) :
@@ -31,12 +32,6 @@ class EditTransportStepAdapter(private val stepList: List<EditTransportStep>, pr
         holder.apply {
             text.text = context.getString(step.text)
             icon.setImageResource(R.drawable.icon_information)
-            if (position == 0) {
-                left.invisible()
-            }
-            if (position == stepList.size - 1) {
-                right.invisible()
-            }
             if (step.isSeen) {
                 ImageViewCompat.setImageTintList(
                     icon,
@@ -64,7 +59,17 @@ class EditTransportStepAdapter(private val stepList: List<EditTransportStep>, pr
 
             }
 
-            layout.setOnClickListener { listener.setClicked(position) }
+            layout.setOnClickListener { listener.setClicked(step.number) }
+            if (position == 0) {
+                left.invisible()
+            } else {
+                left.showMe()
+            }
+            if (position == stepList.size - 1) {
+                right.invisible()
+            } else {
+                right.showMe()
+            }
         }
 
     }

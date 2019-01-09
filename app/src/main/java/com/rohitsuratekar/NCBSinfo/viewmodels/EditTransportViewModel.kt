@@ -2,6 +2,7 @@ package com.rohitsuratekar.NCBSinfo.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.models.EditTransportStep
 
 class EditTransportViewModel : ViewModel() {
@@ -9,6 +10,7 @@ class EditTransportViewModel : ViewModel() {
     val origin = MutableLiveData<String>()
     val destination = MutableLiveData<String>()
     val stepUpdate = MutableLiveData<MutableList<EditTransportStep>>()
+    val tripList = MutableLiveData<MutableList<String>>()
 
     fun setOrigin(string: String) {
         origin.postValue(string)
@@ -52,5 +54,12 @@ class EditTransportViewModel : ViewModel() {
         if (returnList.isNotEmpty()) {
             stepUpdate.postValue(returnList)
         }
+    }
+
+    fun updateTrips(list: List<String>) {
+        val k = mutableListOf<String>()
+        k.addAll(list)
+        tripList.postValue(k)
+        updateConfirmState(Constants.EDIT_TRIPS, !k.isEmpty())
     }
 }

@@ -6,23 +6,12 @@
         android:layout_width="match_parent" android:layout_height="match_parent"
         tools:context=".EditTransport">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout_transport"
-            style="@style/Widget.MyApp.Toolbar.Solid"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.MyApp.ActionBar"
-            app:layout_constraintEnd_toEndOf="parent"
+    <ImageView
+            android:id="@+id/et_top_image"
+            android:layout_width="match_parent" android:layout_height="@dimen/et_top_image_height"
+            android:src="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/transport_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/colorPrimary"/>
-    </com.google.android.material.appbar.AppBarLayout>
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
     <androidx.recyclerview.widget.RecyclerView android:layout_width="wrap_content"
@@ -31,7 +20,7 @@
                                                app:layout_constraintStart_toStartOf="parent"
                                                app:layout_constraintEnd_toEndOf="parent"
                                                app:layout_constraintHorizontal_bias="0.498"
-                                               app:layout_constraintTop_toBottomOf="@+id/et_step_title">
+                                               app:layout_constraintBottom_toBottomOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -44,7 +33,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_step_recycler"
+            app:layout_constraintBottom_toTopOf="@id/et_step_recycler"
+            app:layout_constraintTop_toBottomOf="@id/et_top_image"
             app:navGraph="@navigation/transport_navigation"/>
 
     <FrameLayout
@@ -53,7 +43,7 @@
             android:layout_height="8sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout_transport"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SmallSp,UselessParent">
 
         <FrameLayout
@@ -72,13 +62,21 @@
 
     </FrameLayout>
     <TextView
-            android:text="TextView"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout_transport"
-            android:layout_width="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/et_step_title" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8sp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            android:id="@+id/textView12" app:layout_constraintStart_toStartOf="@+id/et_top_image"
+            android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="@id/et_top_image"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+    <TextView
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorLight"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView13" app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintBottom_toTopOf="@+id/textView12"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

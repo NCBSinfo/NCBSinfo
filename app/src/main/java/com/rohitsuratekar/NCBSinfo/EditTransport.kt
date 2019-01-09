@@ -34,8 +34,6 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
         setContentView(R.layout.activity_edit_transport)
         navController = Navigation.findNavController(this, R.id.nav_host_transport)
         sharedViewModel = ViewModelProviders.of(this).get(EditTransportViewModel::class.java)
-        transport_toolbar.setTitle(R.string.edit_transport)
-        et_step_title.text = getString(R.string.et_step_title, 1)
         DaggerAppComponent.builder()
             .appModule(AppModule(application))
             .prefModule(PrefModule(baseContext))
@@ -58,7 +56,14 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
     private fun setupSteps() {
 
         val textList =
-            arrayListOf<Int>(R.string.et_name, R.string.et_type, R.string.et_trips, R.string.et_adjust, R.string.et_confirm)
+            arrayListOf(
+                R.string.et_name,
+                R.string.et_type,
+                R.string.et_frequency,
+                R.string.et_trips,
+                R.string.et_adjust,
+                R.string.et_confirm
+            )
 
         for (i in 0 until textList.size) {
             stepList.add(EditTransportStep().apply {
@@ -101,18 +106,12 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
             Constants.EDIT_TRIPS -> navController.navigate(R.id.addTripsFragment)
             Constants.EDIT_START_TRIP -> navController.navigate(R.id.adjustTripFragment)
             Constants.EDIT_CONFIRM -> navController.navigate(R.id.confirmEditFragment)
+            Constants.EDIT_FREQUENCY -> navController.navigate(R.id.addFrequencyFragment)
         }
     }
 
     override fun setClicked(step: Int) {
-        et_step_title.text = getString(R.string.et_step_title, step + 1)
-        when (step) {
-            0 -> navigate(Constants.EDIT_NAME)
-            1 -> navigate(Constants.EDIT_TYPE)
-            2 -> navigate(Constants.EDIT_TRIPS)
-            3 -> navigate(Constants.EDIT_START_TRIP)
-            4 -> navigate(Constants.EDIT_CONFIRM)
-        }
+        navigate(step)
     }
 
 }

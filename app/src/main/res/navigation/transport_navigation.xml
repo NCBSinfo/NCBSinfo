@@ -18,4 +18,7 @@
     <fragment android:id="@+id/confirmEditFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.ConfirmEditFragment"
               android:label="@string/et_confirm" tools:layout="@layout/fragment_confirm_edit"/>
+    <fragment android:id="@+id/addFrequencyFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.AddFrequencyFragment"
+              android:label="fragment_add_frequency" tools:layout="@layout/fragment_add_frequency"/>
 </navigation>

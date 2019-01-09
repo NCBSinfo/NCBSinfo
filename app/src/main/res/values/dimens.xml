@@ -18,7 +18,9 @@
     <dimen name="info_image_height">100sp</dimen>
 
     <!--Edit Transport Related-->
+    <dimen name="et_top_image_height">150sp</dimen>
     <dimen name="et_step_recycler_height">60sp</dimen>
     <dimen name="et_step_recycler_width">60sp</dimen>
     <dimen name="et_step_recycler_bar">10sp</dimen>
+    <dimen name="et_trips_undo_padding">16sp</dimen>
 </resources>

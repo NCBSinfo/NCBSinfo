@@ -1,14 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragments.AddTransportTypeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".fragments.AddTransportTypeFragment">
 
-</FrameLayout>
+    <androidx.cardview.widget.CardView android:layout_width="0dp"
+                                       app:layout_constraintStart_toStartOf="parent"
+                                       app:layout_constraintEnd_toEndOf="parent"
+                                       app:layout_constraintTop_toTopOf="parent"
+                                       app:layout_constraintBottom_toBottomOf="parent"
+                                       android:layout_height="wrap_content" android:layout_marginStart="32dp"
+                                       android:layout_marginEnd="32dp" android:layout_marginTop="32dp"
+                                       android:layout_marginBottom="32dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <RadioGroup
+                    android:id="@+id/et_type_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/et_type_next">
+
+                <RadioButton
+                        android:id="@+id/et_type_option1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/et_type_shuttle"/>
+
+                <RadioButton
+                        android:id="@+id/et_type_option2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/et_type_ttc"/>
+
+                <RadioButton
+                        android:id="@+id/et_type_option3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/et_type_buggy"/>
+
+
+                <RadioButton
+                        android:id="@+id/et_type_option4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/other"/>
+            </RadioGroup>
+            <Button
+                    android:text="@string/previous"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MyApp.EditButton"
+                    android:id="@+id/et_type_previous" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/et_type_next"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <Button
+                    android:text="@string/next"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MyApp.EditButton"
+                    android:id="@+id/et_type_next" app:layout_constraintStart_toEndOf="@+id/et_type_previous"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                    android:text="@string/et_type_note"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView8" app:layout_constraintStart_toStartOf="@+id/et_type_group"
+                    app:layout_constraintEnd_toEndOf="@+id/et_type_group" android:layout_marginBottom="32dp"
+                    app:layout_constraintBottom_toTopOf="@+id/et_type_group" android:textAlignment="center"
+                    android:layout_marginTop="32dp" app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

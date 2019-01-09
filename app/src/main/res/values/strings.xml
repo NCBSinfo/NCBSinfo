@@ -23,7 +23,10 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="report">Report</string>
+    <string name="other">Other</string>
+    <string name="previous">Previous</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="undo">Undo</string>
 
     <!--Home-->
     <string name="hm_see_full">See full timetable</string>
@@ -92,10 +95,43 @@
     <string name="next">Next</string>
     <string name="destination">Destination</string>
     <string name="et_route_name_title">Add Origin and Destination of your transport</string>
-    <string name="et_step_title">Step %d of 5</string>
+    <string name="et_step_title">Step %d of 6</string>
     <string name="et_name">Route</string>
     <string name="et_type">Type</string>
+    <string name="et_frequency">Frequency</string>
     <string name="et_trips">Trips</string>
     <string name="et_adjust">Adjust</string>
     <string name="et_confirm">Confirm</string>
+
+    <string name="et_type_note">What kind of transport is this?</string>
+    <string name="et_type_shuttle">Shuttle or Bus (approx 30 seats)</string>
+    <string name="et_type_ttc">Tempo Traveller (approx 12 seats)</string>
+    <string name="et_type_buggy">Electric Buggy (approx 8 seats)</string>
+
+    <string name="et_frequency_specific">Select specific day(s)</string>
+    <string name="et_frequency_all_days">All Days</string>
+    <string name="et_frequency_mon_sat">Monday to Saturday</string>
+    <string name="et_frequency_sat_sun">Saturday and Sunday</string>
+    <string name="et_frequency_note">Select Weekly Frequency</string>
+    <string name="et_frequency_sub_note">if you have different schedule for different days, add each day separately.
+    </string>
+
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="saturday">Saturday</string>
+    <string name="friday">Friday</string>
+    <string name="weekend">Weekend</string>
+    <string name="weekdays">Weekdays</string>
+    <string name="everyday">Everyday</string>
+
+    <string name="et_trips_sub_note">Add trips by clicking \'+\' button.
+        Order doesn\'t matter. In next step you can reorder. Swipe left to delete entry.
+    </string>
+    <string name="et_adjust_note">Select the first trip of the day. Ignore the post midnight trips.</string>
+    <string name="et_adjust_warning">You have not added any trips to the current route. Please go back to the previous
+        step and add some trips before rearranging them.
+    </string>
 </resources>

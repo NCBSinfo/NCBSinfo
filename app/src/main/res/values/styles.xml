@@ -25,4 +25,9 @@
         <item name="android:textColorPrimary">@color/colorLight</item>
     </style>
 
+    <style name="Widget.MyApp.EditButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/colorPrimary</item>
+       <item name="android:textColor">@color/colorLight</item>
+    </style>
+
 </resources>
