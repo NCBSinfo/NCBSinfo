@@ -79,10 +79,18 @@ class TimetableFragment : MyFragment() {
         }
 
         tp_swap.setOnClickListener {
-            swapRoute?.let {
-                routeID = it.routeData.routeID
+            swapRoute?.let { r ->
+                routeID = r.routeData.routeID
                 viewModel.fetchRoute(repository, routeID)
             }
+        }
+
+        tp_manage.setOnClickListener {
+            currentRoute?.routeData?.routeID?.let { id ->
+                val arg = TimetableFragmentDirections.actionTimetableFragmentToEditTransport().setRouteNo(id)
+                callback?.editRoute(arg)
+            }
+
         }
 
         for (i in 0 until dayList.size) {

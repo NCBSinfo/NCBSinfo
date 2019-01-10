@@ -29,7 +29,7 @@
                     android:layout_marginEnd="8dp"
                     android:gravity="center"
                     android:id="@+id/et_trip_holder" app:layout_constraintTop_toBottomOf="@+id/textView10"
-                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintBottom_toTopOf="@+id/button"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintBottom_toTopOf="@+id/et_trip_previous"
                     android:layout_marginBottom="16dp">
                 <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -40,16 +40,16 @@
                     android:layout_width="0dp"
                     style="@style/Widget.MyApp.EditButton"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button" app:layout_constraintEnd_toStartOf="@+id/button2"
+                    android:id="@+id/et_trip_previous" app:layout_constraintEnd_toStartOf="@+id/et_trip_next"
                     app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <Button
                     android:text="@string/next"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button2"
+                    android:id="@+id/et_trip_next"
                     style="@style/Widget.MyApp.EditButton"
-                    app:layout_constraintStart_toEndOf="@+id/button" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/et_trip_previous" app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView

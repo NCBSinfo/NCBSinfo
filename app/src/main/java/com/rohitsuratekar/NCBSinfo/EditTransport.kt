@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -41,8 +42,15 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
             .build()
             .inject(this)
 
+
         setupRecycler()
         subscribe()
+        et_step_recycler.hideMe()
+
+        intent.extras?.let {
+            val arg = EditTransportArgs.fromBundle(it).routeNo
+            sharedViewModel.setInputRouteID(arg)
+        }
     }
 
     private fun subscribe() {
@@ -71,7 +79,6 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
                 text = textList[i]
             })
         }
-        stepList[0].isSeen = true
     }
 
     private fun setupRecycler() {
@@ -107,11 +114,41 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
             Constants.EDIT_START_TRIP -> navController.navigate(R.id.adjustTripFragment)
             Constants.EDIT_CONFIRM -> navController.navigate(R.id.confirmEditFragment)
             Constants.EDIT_FREQUENCY -> navController.navigate(R.id.addFrequencyFragment)
+            Constants.EDIT_FINISH -> finish()
+            Constants.EDIT_START_EDITING -> {
+                navController.popBackStack()
+                navController.navigate(R.id.addRouteNamesFragment)
+                et_step_recycler.showMe()
+                sharedViewModel.inputRouteID.value?.let {
+                    if (it == -1) {
+                        et_fragment_subtitle.text = getString(R.string.create_new)
+                    } else {
+                        et_fragment_subtitle.text = getString(R.string.edit_transport)
+                    }
+                } ?: kotlin.run {
+                    et_fragment_subtitle.text = getString(R.string.create_new)
+                }
+            }
+
         }
+    }
+
+    override fun navigateWithPopback() {
+        navController.popBackStack()
     }
 
     override fun setClicked(step: Int) {
         navigate(step)
+    }
+
+    override fun setFragmentTitle(id: Int) {
+        et_fragment_title.text = getString(id)
+    }
+
+    override fun navigateToHome() {
+        val intent = Intent(this@EditTransport, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
 }

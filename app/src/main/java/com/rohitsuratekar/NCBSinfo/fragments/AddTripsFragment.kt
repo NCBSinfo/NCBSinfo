@@ -42,7 +42,10 @@ class AddTripsFragment : EditFragment() {
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
                 super.onItemRangeRemoved(positionStart, itemCount)
+                itemList.sort()
+                adapter.notifyDataSetChanged()
                 sharedModel.updateTrips(itemList)
+                sharedModel.updateTripSelection(false)
                 checkEmptyList()
             }
         })
@@ -52,7 +55,10 @@ class AddTripsFragment : EditFragment() {
         super.onActivityCreated(savedInstanceState)
         callback?.hideProgress()
         sharedModel.updateReadState(Constants.EDIT_TRIPS)
+        callback?.setFragmentTitle(R.string.et_add_trips)
         et_trip_add_fab.setOnClickListener { selectTime() }
+        et_trip_next.setOnClickListener { callback?.navigate(Constants.EDIT_START_TRIP) }
+        et_trip_previous.setOnClickListener { callback?.navigateWithPopback() }
         setUpRecycler()
     }
 
@@ -75,12 +81,32 @@ class AddTripsFragment : EditFragment() {
         }
     }
 
+    private fun getFormattedDate(hour: Int, minute: Int): String {
+        var returnString = hour.toString()
+        if (returnString.length == 1) {
+            returnString = "0$returnString"
+        }
+        returnString = if (minute.toString().length == 1) {
+            "$returnString:0$minute"
+        } else {
+            "$returnString:$minute"
+        }
+        return returnString
+    }
+
     private fun selectTime() {
         val cal = Calendar.getInstance()
         TimePickerDialog(context!!, TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-            itemList.add("$hourOfDay : $minute")
-            adapter.notifyDataSetChanged()
-            checkEmptyList()
+            val t = getFormattedDate(hourOfDay, minute)
+            if (t in itemList) {
+                context?.toast(getString(R.string.et_same_trip_warning, convertTimeFormat(t)))
+            } else {
+                itemList.add(t)
+                itemList.sort()
+                adapter.notifyDataSetChanged()
+                checkEmptyList()
+                sharedModel.updateTripSelection(false)
+            }
         }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false).show()
     }
 

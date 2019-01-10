@@ -31,7 +31,7 @@ interface TripsDao {
     fun getTrip(tripID: Int): TripData
 
     @Delete
-    fun deleteRoute(tripData: TripData)
+    fun deleteTrip(tripData: TripData)
 
     @Query("DELETE FROM trips " + "WHERE routeID LIKE :routeID ")
     fun deleteTripsByRoute(routeID: Int)

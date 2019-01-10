@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -106,6 +107,8 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
             Constants.NAVIGATE_TIMETABLE -> navController.navigate(R.id.timetableFragment)
             Constants.NAVIGATE_LOCATIONS -> navController.navigate(R.id.action_informationFragment_to_locationFragment)
             Constants.NAVIGATE_MANAGE_TRANSPORT -> navController.navigate(R.id.action_informationFragment_to_manageTransportFragment)
+            Constants.NAVIGATE_EDIT_TRANSPORT -> navController.navigate(R.id.action_manageTransportFragment_to_editTransport)
+
         }
     }
 
@@ -176,6 +179,11 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
         val intent = Intent(Intent.ACTION_CALL)
         intent.data = Uri.parse("tel:$number")
         startActivity(intent)
+    }
+
+    override fun editRoute(navDirections: NavDirections) {
+        navController.navigate(navDirections)
+
     }
 
 }

@@ -53,3 +53,16 @@ fun hideKeyboard(activity: Activity) {
     }
     imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun convertTimeFormat(input: String): String {
+    val inputFormat = SimpleDateFormat(Constants.FORMAT_TRIP_LIST, Locale.ENGLISH)
+    val outputFormat = SimpleDateFormat(Constants.FORMAT_DISPLAY_TIME, Locale.ENGLISH)
+    val tempCal = Calendar.getInstance()
+    try {
+        tempCal.timeInMillis = inputFormat.parse(input).time
+    } catch (e: ParseException) {
+        Log.e("Trip", e.localizedMessage)
+        return "--:--"
+    }
+    return outputFormat.format(Date(tempCal.timeInMillis))
+}

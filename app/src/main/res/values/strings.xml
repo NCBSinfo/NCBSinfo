@@ -27,6 +27,8 @@
     <string name="previous">Previous</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="undo">Undo</string>
+    <string name="warning">Warning</string>
+    <string name="et_continue">Continue</string>
 
     <!--Home-->
     <string name="hm_see_full">See full timetable</string>
@@ -90,7 +92,10 @@
     <string name="et_route_name">Route Name</string>
     <string name="et_transport_type">Transport Type</string>
     <string name="et_add_trips">Add Trips</string>
+    <string name="et_add_frequency">Frequency of Transport</string>
     <string name="et_select_first">Select First Trip</string>
+    <string name="et_adjust_trips">Adjust Trips</string>
+    <string name="et_confirm_route">Confirm the Route</string>
     <string name="origin">Origin</string>
     <string name="next">Next</string>
     <string name="destination">Destination</string>
@@ -134,4 +139,29 @@
     <string name="et_adjust_warning">You have not added any trips to the current route. Please go back to the previous
         step and add some trips before rearranging them.
     </string>
+    <string name="et_same_trip_warning">%s is already in the list.</string>
+    <string name="et_first_trip">First Trip</string>
+    <string name="et_not_set">&lt; Not Set &gt;</string>
+    <string name="et_confirm_note">Almost there! Please check if following details are correct. You may click on the
+        elements to edit them.
+    </string>
+    <string name="et_confirm_warning">You have not completed one or more of the steps.
+        Check out step indicator at the bottom to know which step is incomplete.
+    </string>
+
+    <string name="et_same_route_error">Route %1$s - %2$s (%3$s) already exists in your database. If you continue, old
+        data will be replaced by current data. Do you want to continue?
+    </string>
+
+    <string name="et_sd_trips">No of trips: %d</string>
+    <string name="et_select_weekday">Weekdays</string>
+    <string name="et_select_weekday_details">Monday to Saturday</string>
+    <string name="et_select_single_day">Single day schedule</string>
+    <string name="et_select_day">Select Trip Schedule</string>
+    <string name="et_select_day_note">You have selected above route to edit.
+        This route has following different trip schedules, please select which one do you want to edit.
+    </string>
+    <string name="edit_transport_wizard">Edit Transport Wizard</string>
+    <string name="create_new">Create New Route</string>
+    <string name="et_footnote">Or can always create new route…</string>
 </resources>

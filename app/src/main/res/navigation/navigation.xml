@@ -18,7 +18,9 @@
     <fragment android:id="@+id/timetableFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.TimetableFragment"
               android:label="fragment_timetable"
-              tools:layout="@layout/fragment_timetable"/>
+              tools:layout="@layout/fragment_timetable">
+        <action android:id="@+id/action_timetableFragment_to_editTransport" app:destination="@id/editTransport"/>
+    </fragment>
 
     <fragment android:id="@+id/transportRoutesFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment"
@@ -39,7 +41,11 @@
               android:label="fragment_location" tools:layout="@layout/fragment_location"/>
     <fragment android:id="@+id/manageTransportFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.ManageTransportFragment"
-              android:label="fragment_manage_transport" tools:layout="@layout/fragment_manage_transport"/>
+              android:label="fragment_manage_transport" tools:layout="@layout/fragment_manage_transport">
+        <action android:id="@+id/action_manageTransportFragment_to_editTransport" app:destination="@id/editTransport"
+                app:enterAnim="@anim/nav_default_enter_anim" app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
     <fragment android:id="@+id/informationFragment"
               android:name="com.rohitsuratekar.NCBSinfo.fragments.InformationFragment"
               android:label="fragment_information" tools:layout="@layout/fragment_information">
@@ -52,4 +58,8 @@
                 app:exitAnim="@anim/nav_default_exit_anim" app:popUpTo="@id/informationFragment"
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim" app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
+    <activity android:id="@+id/editTransport" android:name="com.rohitsuratekar.NCBSinfo.EditTransport"
+              android:label="activity_edit_transport" tools:layout="@layout/activity_edit_transport">
+        <argument android:name="routeNo" app:argType="integer" android:defaultValue="-1"/>
+    </activity>
 </navigation>

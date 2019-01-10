@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.common
 
+import androidx.navigation.NavDirections
 import com.rohitsuratekar.NCBSinfo.models.Contact
 
 interface MainCallbacks {
@@ -9,4 +10,5 @@ interface MainCallbacks {
     fun navigate(option: Int)
     fun showRouteList(currentRoute: Int)
     fun showContact(contact: Contact)
+    fun editRoute(navDirections: NavDirections)
 }

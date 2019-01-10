@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.ManageTransportAdapter
+import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.models.MyFragment
 import com.rohitsuratekar.NCBSinfo.models.Route
 import com.rohitsuratekar.NCBSinfo.viewmodels.ManageTransportViewModel
@@ -37,6 +38,7 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
         callback?.showProgress()
         viewModel.getRouteList(repository)
         adapter = ManageTransportAdapter(routeList, this)
+        mt_add_new_btn.setOnClickListener { callback?.navigate(Constants.NAVIGATE_EDIT_TRANSPORT) }
         mt_recycler.adapter = adapter
         mt_recycler.layoutManager = LinearLayoutManager(context)
         mt_reset.setOnClickListener { resetRoutes() }
@@ -86,7 +88,9 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
     }
 
     override fun edit(route: Route) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val arg = ManageTransportFragmentDirections.actionManageTransportFragmentToEditTransport()
+            .setRouteNo(route.routeData.routeID)
+        callback?.editRoute(arg)
     }
 
     override fun delete(route: Route) {

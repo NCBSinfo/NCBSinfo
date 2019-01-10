@@ -35,6 +35,7 @@
                 <RadioButton
                         android:id="@+id/et_fq_select_specific"
                         android:layout_width="match_parent"
+                        android:checked="true"
                         android:layout_height="wrap_content"
                         android:text="@string/et_frequency_specific"/>
 

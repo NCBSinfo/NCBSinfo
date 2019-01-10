@@ -66,17 +66,17 @@
             android:textColor="@color/white"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textView12" app:layout_constraintStart_toStartOf="@+id/et_top_image"
+            android:id="@+id/et_fragment_title" app:layout_constraintStart_toStartOf="@+id/et_top_image"
             android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
             android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="@id/et_top_image"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
     <TextView
-            android:text="@string/app_name"
+            android:text="@string/edit_transport_wizard"
             android:layout_width="wrap_content"
             android:textColor="@color/colorLight"
             android:layout_height="wrap_content"
-            android:id="@+id/textView13" app:layout_constraintStart_toStartOf="@+id/textView12"
-            app:layout_constraintBottom_toTopOf="@+id/textView12"/>
+            android:id="@+id/et_fragment_subtitle" app:layout_constraintStart_toStartOf="@+id/et_fragment_title"
+            app:layout_constraintBottom_toTopOf="@+id/et_fragment_title"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

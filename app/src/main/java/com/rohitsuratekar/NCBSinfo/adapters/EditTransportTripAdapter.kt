@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.rohitsuratekar.NCBSinfo.R
+import com.rohitsuratekar.NCBSinfo.common.convertTimeFormat
 import com.rohitsuratekar.NCBSinfo.common.hideMe
 import com.rohitsuratekar.NCBSinfo.common.inflate
 import com.rohitsuratekar.NCBSinfo.common.showMe
@@ -56,7 +57,7 @@ class EditTransportTripAdapter(private val items: MutableList<String>) :
                 // we need to show the "normal" state
                 itemView.setBackgroundColor(Color.WHITE)
                 titleTextView.showMe()
-                titleTextView.text = item
+                titleTextView.text = convertTimeFormat(item)
 
                 undoButton.hideMe()
                 undoButton.setOnClickListener(null)

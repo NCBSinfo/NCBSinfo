@@ -11,6 +11,16 @@ class EditTransportViewModel : ViewModel() {
     val destination = MutableLiveData<String>()
     val stepUpdate = MutableLiveData<MutableList<EditTransportStep>>()
     val tripList = MutableLiveData<MutableList<String>>()
+    val tripSelected = MutableLiveData<Boolean>()
+    val transportType = MutableLiveData<Int>()
+    val transportFrequency = MutableLiveData<Int>()
+    val frequencyDetails = MutableLiveData<MutableList<Int>>()
+    val inputRouteID = MutableLiveData<Int>()
+
+
+    fun setInputRouteID(routeID: Int) {
+        inputRouteID.postValue(routeID)
+    }
 
     fun setOrigin(string: String) {
         origin.postValue(string)
@@ -24,6 +34,24 @@ class EditTransportViewModel : ViewModel() {
         val k = mutableListOf<EditTransportStep>()
         k.addAll(list)
         stepUpdate.postValue(k)
+    }
+
+    fun setType(type: Int) {
+        transportType.postValue(type)
+        updateConfirmState(Constants.EDIT_TYPE, true)
+    }
+
+    fun setFrequency(id: Int) {
+        transportFrequency.postValue(id)
+    }
+
+    fun setFrequencyData(list: MutableList<Int>) {
+        frequencyDetails.postValue(list)
+        if (list.sum() > 0) {
+            updateConfirmState(Constants.EDIT_FREQUENCY, true)
+        } else {
+            updateConfirmState(Constants.EDIT_FREQUENCY, false)
+        }
     }
 
     fun updateReadState(step: Int) {
@@ -61,5 +89,30 @@ class EditTransportViewModel : ViewModel() {
         k.addAll(list)
         tripList.postValue(k)
         updateConfirmState(Constants.EDIT_TRIPS, !k.isEmpty())
+    }
+
+    fun updateTripSelection(value: Boolean) {
+        tripSelected.postValue(value)
+        updateConfirmState(Constants.EDIT_START_TRIP, value)
+    }
+
+    fun clearAllAttributes() {
+        origin.postValue(null)
+        destination.postValue(null)
+        transportType.postValue(null)
+        transportFrequency.postValue(null)
+        tripList.postValue(null)
+        frequencyDetails.postValue(null)
+        tripSelected.postValue(null)
+
+        val returnList = mutableListOf<EditTransportStep>()
+        stepUpdate.value?.let {
+            for (t in it) {
+                t.isSeen = false
+                t.isComplete = false
+                returnList.add(t)
+            }
+        }
+        stepUpdate.postValue(returnList)
     }
 }

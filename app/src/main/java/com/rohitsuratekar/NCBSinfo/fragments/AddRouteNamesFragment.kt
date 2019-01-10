@@ -28,6 +28,10 @@ class AddRouteNamesFragment : EditFragment() {
         super.onActivityCreated(savedInstanceState)
         callback?.hideProgress()
         sharedModel.updateReadState(Constants.EDIT_NAME)
+        callback?.setFragmentTitle(R.string.et_route_name)
+
+        et_name_next.setOnClickListener { callback?.navigate(Constants.EDIT_TYPE) }
+        et_name_cancel.setOnClickListener { callback?.navigate(Constants.EDIT_FINISH) }
 
 
         et_input_origin.addTextChangedListener(object : TextWatcher {

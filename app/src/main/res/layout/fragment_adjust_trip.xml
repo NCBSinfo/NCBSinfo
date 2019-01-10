@@ -24,15 +24,15 @@
                     android:layout_width="0dp"
                     style="@style/Widget.MyApp.EditButton"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button3" app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/button4"
+                    android:id="@+id/et_adjust_previous" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/et_adjust_next"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <Button
                     android:text="@string/next"
                     android:layout_width="0dp"
                     style="@style/Widget.MyApp.EditButton"
                     android:layout_height="wrap_content"
-                    android:id="@+id/button4" app:layout_constraintStart_toEndOf="@+id/button3"
+                    android:id="@+id/et_adjust_next" app:layout_constraintStart_toEndOf="@+id/et_adjust_previous"
                     app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView
@@ -50,7 +50,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:id="@+id/adjust_holder" app:layout_constraintTop_toBottomOf="@+id/adjust_note"
-                    app:layout_constraintBottom_toTopOf="@+id/button3" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/et_adjust_previous" app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="32dp" android:gravity="center">
