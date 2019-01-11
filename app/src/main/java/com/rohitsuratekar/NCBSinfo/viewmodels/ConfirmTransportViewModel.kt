@@ -84,7 +84,9 @@ class ConfirmTransportViewModel : ViewModel() {
                 Log.i(TAG, "New route is added")
                 repository.data().getRouteByNumber(newNo.toInt())
             } else {
-                repository.data().getRouteByNumber(routeNo)
+                val r = repository.data().getRouteByNumber(routeNo)
+                repository.data().updateModifiedDate(r, timestamp)
+                r
             }
         }
 

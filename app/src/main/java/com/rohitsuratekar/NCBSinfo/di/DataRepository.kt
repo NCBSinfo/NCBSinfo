@@ -44,6 +44,13 @@ class DataRepository @Inject constructor(
         return routeDao.getRoute(routeNo)
     }
 
+    fun updateModifiedDate(routeData: RouteData, timestamp: String) {
+        routeData.apply {
+            modifiedOn = timestamp
+        }
+        routeDao.updateRoute(routeData)
+    }
+
     fun deleteRoute(routeData: RouteData) {
         tripsDao.deleteTripsByRoute(routeData.routeID)
         routeDao.deleteRoute(routeData)

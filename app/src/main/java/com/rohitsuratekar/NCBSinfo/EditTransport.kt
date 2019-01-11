@@ -10,12 +10,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.adapters.EditTransportStepAdapter
-import com.rohitsuratekar.NCBSinfo.common.Constants
-import com.rohitsuratekar.NCBSinfo.common.EditCallbacks
-import com.rohitsuratekar.NCBSinfo.common.hideMe
-import com.rohitsuratekar.NCBSinfo.common.showMe
+import com.rohitsuratekar.NCBSinfo.common.*
 import com.rohitsuratekar.NCBSinfo.di.*
 import com.rohitsuratekar.NCBSinfo.models.EditTransportStep
+import com.rohitsuratekar.NCBSinfo.models.Route
 import com.rohitsuratekar.NCBSinfo.viewmodels.EditTransportViewModel
 import kotlinx.android.synthetic.main.activity_edit_transport.*
 import javax.inject.Inject
@@ -46,6 +44,8 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
         setupRecycler()
         subscribe()
         et_step_recycler.hideMe()
+        et_delete.setOnClickListener { deleteRoute() }
+        et_delete.hideMe()
 
         intent.extras?.let {
             val arg = EditTransportArgs.fromBundle(it).routeNo
@@ -59,6 +59,66 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
             stepList.addAll(it)
             adapter.notifyDataSetChanged()
         })
+
+        sharedViewModel.routeDeleted.observe(this, Observer {
+            if (it) {
+                baseContext.toast("Route Deleted")
+                navigateToHome()
+            }
+        })
+    }
+
+    private fun deleteSingleTrip(route: Route) {
+        sharedViewModel.selectedTrip.value?.let {
+            AlertDialog.Builder(this@EditTransport)
+                .setTitle(R.string.warning)
+                .setMessage(
+                    getString(
+                        R.string.et_delete_warning,
+                        route.tripData.size,
+                        route.routeData.origin?.toUpperCase(),
+                        route.routeData.destination?.toUpperCase(),
+                        route.routeData.type
+                    )
+                )
+                .setPositiveButton(R.string.et_continue) { _, _ ->
+                    showProgress()
+                    sharedViewModel.deleteRoute(repository, route, it)
+                }
+                .setNegativeButton(R.string.cancel) { _, _ -> }
+                .show()
+        } ?: kotlin.run {
+            showError(getString(R.string.et_delete_error))
+        }
+
+    }
+
+    private fun deleteRoute() {
+        sharedViewModel.currentRoute.value?.let {
+            if (it.tripData.size > 1) {
+                deleteSingleTrip(it)
+            } else {
+                AlertDialog.Builder(this@EditTransport)
+                    .setTitle(R.string.warning)
+                    .setMessage(
+                        getString(
+                            R.string.et_delete_only_trip,
+                            it.routeData.origin?.toUpperCase(),
+                            it.routeData.destination?.toUpperCase(),
+                            it.routeData.type
+                        )
+                    )
+                    .setPositiveButton(R.string.et_continue) { _, _ ->
+                        showProgress()
+                        sharedViewModel.deleteRoute(repository, it, null)
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
+                    .show()
+            }
+        } ?: kotlin.run {
+            showError(getString(R.string.et_delete_error))
+        }
+
     }
 
     private fun setupSteps() {
@@ -122,11 +182,14 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
                 sharedViewModel.inputRouteID.value?.let {
                     if (it == -1) {
                         et_fragment_subtitle.text = getString(R.string.create_new)
+                        et_delete.hideMe()
                     } else {
                         et_fragment_subtitle.text = getString(R.string.edit_transport)
+                        et_delete.showMe()
                     }
                 } ?: kotlin.run {
                     et_fragment_subtitle.text = getString(R.string.create_new)
+                    et_delete.hideMe()
                 }
             }
 

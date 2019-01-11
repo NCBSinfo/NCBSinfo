@@ -1,9 +1,15 @@
 package com.rohitsuratekar.NCBSinfo.viewmodels
 
+import android.os.AsyncTask
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.serverTimestamp
+import com.rohitsuratekar.NCBSinfo.database.TripData
+import com.rohitsuratekar.NCBSinfo.di.Repository
 import com.rohitsuratekar.NCBSinfo.models.EditTransportStep
+import com.rohitsuratekar.NCBSinfo.models.Route
+import java.util.*
 
 class EditTransportViewModel : ViewModel() {
 
@@ -16,6 +22,9 @@ class EditTransportViewModel : ViewModel() {
     val transportFrequency = MutableLiveData<Int>()
     val frequencyDetails = MutableLiveData<MutableList<Int>>()
     val inputRouteID = MutableLiveData<Int>()
+    val currentRoute = MutableLiveData<Route>()
+    val routeDeleted = MutableLiveData<Boolean>()
+    val selectedTrip = MutableLiveData<TripData>()
 
 
     fun setInputRouteID(routeID: Int) {
@@ -28,6 +37,14 @@ class EditTransportViewModel : ViewModel() {
 
     fun setDestination(string: String) {
         destination.postValue(string)
+    }
+
+    fun setRoute(route: Route) {
+        currentRoute.postValue(route)
+    }
+
+    fun setSelectedTrip(tripData: TripData) {
+        selectedTrip.postValue(tripData)
     }
 
     fun addSteps(list: List<EditTransportStep>) {
@@ -114,5 +131,36 @@ class EditTransportViewModel : ViewModel() {
             }
         }
         stepUpdate.postValue(returnList)
+    }
+
+    fun deleteRoute(repository: Repository, route: Route, selectedTrip: TripData?) {
+        DeleteRoute(repository, route, selectedTrip, object : OnDeleteRoute {
+            override fun deleted() {
+                routeDeleted.postValue(true)
+            }
+
+        }).execute()
+    }
+
+    class DeleteRoute(
+        private val repository: Repository,
+        private val route: Route,
+        private val selectedTrip: TripData?,
+        private val listener: OnDeleteRoute
+    ) : AsyncTask<Void?, Void?, Void?>() {
+        override fun doInBackground(vararg params: Void?): Void? {
+            selectedTrip?.let {
+                repository.data().updateModifiedDate(route.routeData, Calendar.getInstance().serverTimestamp())
+                repository.data().deleteTrip(it)
+            } ?: kotlin.run {
+                repository.data().deleteRoute(route.routeData)
+            }
+            listener.deleted()
+            return null
+        }
+    }
+
+    interface OnDeleteRoute {
+        fun deleted()
     }
 }

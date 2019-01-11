@@ -13,6 +13,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               app:srcCompat="@drawable/icon_delete"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               android:tint="@color/colorLight"
+               android:id="@+id/et_delete" android:layout_marginEnd="16dp" android:layout_marginTop="16dp"/>
+
 
     <androidx.recyclerview.widget.RecyclerView android:layout_width="wrap_content"
                                                android:id="@+id/et_step_recycler"

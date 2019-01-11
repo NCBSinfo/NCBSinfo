@@ -164,4 +164,11 @@
     <string name="edit_transport_wizard">Edit Transport Wizard</string>
     <string name="create_new">Create New Route</string>
     <string name="et_footnote">Or can always create new route…</string>
+    <string name="et_delete_warning">You are about to delete single day schedule (1 out of %1$d) from  \' %2$s - %3$s (%4$s) \'.
+        All other trip schedules will not be affected. Do you want to continue?
+    </string>
+    <string name="et_delete_only_trip">You are about to delete only schedule from \' %1$s - %2$s (%3$s) \'.
+        This action will delete complete route. Do you want to continue?
+    </string>
+    <string name="et_delete_error">Sorry…Something went wrong. Try again later or contact the developers.</string>
 </resources>

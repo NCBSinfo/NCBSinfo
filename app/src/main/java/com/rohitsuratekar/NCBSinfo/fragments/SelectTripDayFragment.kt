@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.SelectTripDayAdapter
 import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.database.TripData
 import com.rohitsuratekar.NCBSinfo.models.EditFragment
 import com.rohitsuratekar.NCBSinfo.models.Route
 import com.rohitsuratekar.NCBSinfo.viewmodels.SelectTripDayViewModel
@@ -26,7 +27,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
         val note: String,
         val id: Int,
         val freq: MutableList<Int>,
-        val trips: List<String>
+        val trip: TripData
     )
 
     private lateinit var viewModel: SelectTripDayViewModel
@@ -88,6 +89,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
 
         viewModel.currentRoute.observe(this, Observer {
             currentRoute = it
+            sharedModel.setRoute(it)
             updateSharedModel()
         })
     }
@@ -144,7 +146,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
                                 getString(R.string.et_sd_trips, t.trips?.size),
                                 R.id.et_fq_select_specific,
                                 mutableListOf(1, 0, 0, 0, 0, 0, 0),
-                                t.trips!!
+                                t
                             )
                         )
                     } else {
@@ -155,7 +157,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
                                 getString(R.string.et_sd_trips, t.trips?.size),
                                 R.id.et_fq_mon_sat,
                                 mutableListOf(0, 1, 1, 1, 1, 1, 1),
-                                t.trips!!
+                                t
                             )
                         )
                     }
@@ -171,7 +173,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
                             getString(R.string.et_sd_trips, t.trips?.size),
                             R.id.et_fq_select_specific,
                             e,
-                            t.trips!!
+                            t
                         )
                     )
                 }
@@ -184,7 +186,8 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
     override fun daySelected(dayModel: SelectTripDayModel) {
         sharedModel.setFrequencyData(dayModel.freq)
         sharedModel.setFrequency(dayModel.id)
-        sharedModel.updateTrips(dayModel.trips)
+        sharedModel.setSelectedTrip(dayModel.trip)
+        sharedModel.updateTrips(dayModel.trip.trips!!)
         callback?.navigate(Constants.EDIT_START_EDITING)
     }
 }
