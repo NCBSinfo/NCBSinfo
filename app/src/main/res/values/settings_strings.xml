@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="settings_app_version">6.5.8</string>
+    <string name="settings_app_version">6.6.1</string>
     <string name="settings_header_notice">Important Information</string>
     <string name="settings_development_notice">Announcement</string>
     <string name="settings_development_notice_details">Information regarding future app development.
@@ -101,6 +101,7 @@
         &#8226; AndroidX Libraries by Google <br></br>
         &#8226; Architecture Components by Google <br></br>
         &#8226; Dagger2 by Google <br></br>
+        &#8226; Firebase Crashlytics by Google <br></br>
         <br></br><br></br>
         See our <a href="https://github.com/NCBSinfo/NCBSinfo"> source code </a> for detailed library information.
         <br> </br>

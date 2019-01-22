@@ -24,7 +24,7 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
     @Inject
     lateinit var repository: Repository
     private lateinit var navController: NavController
-    lateinit var sharedViewModel: EditTransportViewModel
+    private lateinit var sharedViewModel: EditTransportViewModel
     lateinit var adapter: EditTransportStepAdapter
     private val stepList = mutableListOf<EditTransportStep>()
 
@@ -52,6 +52,26 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
             sharedViewModel.setInputRouteID(arg)
         }
     }
+
+    fun checkSharedModel(): EditTransportViewModel {
+        if (!this::sharedViewModel.isInitialized) {
+            sharedViewModel = ViewModelProviders.of(this).get(EditTransportViewModel::class.java)
+        }
+        return sharedViewModel
+    }
+
+    fun checkRepository(): Repository {
+        if (!this::repository.isInitialized) {
+            DaggerAppComponent.builder()
+                .appModule(AppModule(application))
+                .prefModule(PrefModule(baseContext))
+                .roomModule(RoomModule(application))
+                .build()
+                .inject(this)
+        }
+        return repository
+    }
+
 
     private fun subscribe() {
         sharedViewModel.stepUpdate.observe(this, Observer {

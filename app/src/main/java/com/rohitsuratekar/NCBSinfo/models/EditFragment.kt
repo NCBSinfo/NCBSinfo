@@ -17,8 +17,8 @@ abstract class EditFragment : Fragment() {
         super.onAttach(context)
         if (context is EditCallbacks) {
             callback = context
-            repository = (activity as EditTransport).repository
-            sharedModel = (activity as EditTransport).sharedViewModel
+            repository = (activity as EditTransport).checkRepository()
+            sharedModel = (activity as EditTransport).checkSharedModel()
         } else {
             throw RuntimeException(context.toString() + " must implement EditCallbacks")
         }

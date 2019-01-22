@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
     @Inject
     lateinit var repository: Repository
     private lateinit var navController: NavController
-    lateinit var sharedViewModel: SharedViewModel
+    private lateinit var sharedViewModel: SharedViewModel
     private val permissions = arrayOf(Manifest.permission.CALL_PHONE)
     private var tempNumber = ""
 
@@ -60,14 +60,32 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
             .build()
             .inject(this)
 
-        for (item in bottom_navigation.menu.children) {
-            item.isEnabled = false
-        }
 
         if (repository.prefs().crashReportingEnabled()) {
             Fabric.with(this, Crashlytics())
         }
 
+        bottom_navigation.setupWithNavController(navController)
+
+    }
+
+    fun checkSharedModel(): SharedViewModel {
+        if (!this::sharedViewModel.isInitialized) {
+            sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
+        }
+        return sharedViewModel
+    }
+
+    fun checkRepository(): Repository {
+        if (!this::repository.isInitialized) {
+            DaggerAppComponent.builder()
+                .appModule(AppModule(application))
+                .prefModule(PrefModule(baseContext))
+                .roomModule(RoomModule(application))
+                .build()
+                .inject(this)
+        }
+        return repository
     }
 
 
@@ -88,9 +106,9 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
         navController.popBackStack()
         navController.navigate(R.id.homeFragment)
 
-        for (item in bottom_navigation.menu.children) {
-            item.isEnabled = true
-        }
+//        for (item in bottom_navigation.menu.children) {
+//            item.isEnabled = true
+//        }
 
     }
 

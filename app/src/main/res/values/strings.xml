@@ -31,9 +31,10 @@
     <string name="hm_welcome">Welcome</string>
     <string name="hm_allow">Allow</string>
     <string name="hm_later">Later</string>
-    <string name="hm_crash_notice">Thank you for using NCBSinfo app. If your app encounters an issue, unless it has
-        reported to us, we will not able to fix it. \'Crash Reporting\' can generate anonymous report ONLY if your app
-        crashes. Do you want us to collect such anonymous report from you? You can always turn it off from the settings.
+    <string name="hm_crash_notice">Thank you for using the NCBSinfo app. If your app encounters an issue and unless it
+        has been reported to us, we will not be able to fix it. \'Crash Reporting\' can generate anonymous reports, ONLY
+        if your app crashes. If you do not want us to collect such anonymous reports from you, then you can always turn
+        it off from the settings. Do you want us to collect anonymous crash reports?
     </string>
 
     <!--TimeTable-->

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import com.rohitsuratekar.NCBSinfo.MainActivity
 import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
-import com.rohitsuratekar.NCBSinfo.common.test
 import com.rohitsuratekar.NCBSinfo.di.Repository
 import com.rohitsuratekar.NCBSinfo.viewmodels.SharedViewModel
 
@@ -18,11 +17,12 @@ abstract class MyFragment : Fragment() {
         super.onAttach(context)
         if (context is MainCallbacks) {
             callback = context
-            repository = (activity as MainActivity).repository
-            sharedModel = (activity as MainActivity).sharedViewModel
+            repository = (activity as MainActivity).checkRepository()
+            sharedModel = (activity as MainActivity).checkSharedModel()
         } else {
             throw RuntimeException(context.toString() + " must implement MainCallbacks")
         }
+
     }
 
     override fun onDetach() {
