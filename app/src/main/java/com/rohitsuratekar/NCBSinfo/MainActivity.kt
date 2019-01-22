@@ -18,6 +18,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.crashlytics.android.Crashlytics
 import com.rohitsuratekar.NCBSinfo.adapters.ContactDetailsAdapter
 import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
@@ -25,14 +26,17 @@ import com.rohitsuratekar.NCBSinfo.common.hideMe
 import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.di.*
 import com.rohitsuratekar.NCBSinfo.fragments.ContactDetailsFragment
+import com.rohitsuratekar.NCBSinfo.fragments.SettingsFragmentDirections
 import com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment
 import com.rohitsuratekar.NCBSinfo.models.Contact
 import com.rohitsuratekar.NCBSinfo.viewmodels.SharedViewModel
+import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.OnCalled {
+
 
     val CALL_PERMISSION = 1989 // Should NOT be private
 
@@ -60,7 +64,12 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
             item.isEnabled = false
         }
 
+        if (repository.prefs().crashReportingEnabled()) {
+            Fabric.with(this, Crashlytics())
+        }
+
     }
+
 
     private fun gotoHome() {
 
@@ -82,6 +91,7 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
         for (item in bottom_navigation.menu.children) {
             item.isEnabled = true
         }
+
     }
 
     override fun showProgress() {
@@ -186,4 +196,8 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
 
     }
 
+    override fun showSettingsInfo(action: Int) {
+        val arg = SettingsFragmentDirections.actionSettingsFragmentToSettingsInfoFragment().setAction(action)
+        navController.navigate(arg)
+    }
 }

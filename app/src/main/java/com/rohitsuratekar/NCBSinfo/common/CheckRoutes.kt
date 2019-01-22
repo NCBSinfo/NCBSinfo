@@ -106,9 +106,9 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
             type = typeString.toLowerCase()
             createdOn = creation.serverTimestamp()
             modifiedOn = modified.serverTimestamp()
-            synced = modified.serverTimestamp()
+            syncedOn = modified.serverTimestamp()
             favorite = "no"
-            author = "SecretBiology"
+            author = Constants.DEFAULT_AUTHOR
         }
         val no = repository.data().addRoute(route)
         route.routeID = no.toInt()

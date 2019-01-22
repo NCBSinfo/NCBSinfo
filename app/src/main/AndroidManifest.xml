@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
+
     <application
             android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
@@ -13,11 +14,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+                android:name="firebase_crashlytics_collection_enabled"
+                android:value="false"/>
+
         <activity android:name=".EditTransport"
+                  android:windowSoftInputMode="adjustPan"
                   android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:screenOrientation="portrait"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

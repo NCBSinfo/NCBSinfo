@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"/>
     <ImageView
-            app:srcCompat="@drawable/icon_reset"
+            app:srcCompat="@drawable/icon_restore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:tint="@color/colorLight"

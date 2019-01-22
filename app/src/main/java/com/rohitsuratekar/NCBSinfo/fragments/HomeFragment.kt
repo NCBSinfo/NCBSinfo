@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.fragments
 
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.rohitsuratekar.NCBSinfo.MainActivity
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.toast
@@ -68,6 +68,26 @@ class HomeFragment : MyFragment() {
         hm_see_all.setOnClickListener {
             callback?.navigate(Constants.NAVIGATE_TIMETABLE)
         }
+
+        if (repository.prefs().showCrashReportingRequest()) {
+            askForPermission()
+        }
+    }
+
+    private fun askForPermission() {
+        AlertDialog.Builder(context)
+            .setTitle(R.string.hm_welcome)
+            .setMessage(R.string.hm_crash_notice)
+            .setCancelable(false)
+            .setPositiveButton(R.string.hm_allow) { _, _ ->
+                repository.prefs().crashReportingEnabled(true)
+                repository.prefs().showCrashReportingRequest(false)
+            }
+            .setNegativeButton(R.string.hm_later) { _, _ ->
+                repository.prefs().crashReportingEnabled(false)
+                repository.prefs().showCrashReportingRequest(false)
+            }
+            .show()
     }
 
     private fun subscribe() {
@@ -95,6 +115,9 @@ class HomeFragment : MyFragment() {
             hm_origin.text = it.routeData.origin?.toUpperCase()
             hm_destination.text = it.routeData.destination?.toUpperCase()
             hm_type.text = getString(R.string.hm_next, it.routeData.type)
+            if (it.routeData.type == "other") {
+                hm_type.text = getString(R.string.hm_next, "transport")
+            }
             hm_time.text = NextTrip(it.tripData).calculate(currentCalendar).displayTime()
             if (it.routeData.favorite == "yes") {
                 hm_fav.setImageResource(R.drawable.icon_fav)

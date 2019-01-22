@@ -74,8 +74,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/et_fragment_title" app:layout_constraintStart_toStartOf="@+id/et_top_image"
-            android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="@id/et_top_image"
+            android:layout_marginStart="@dimen/et_fragment_title_margin_start" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/et_fragment_title_margin_start"
+            android:layout_marginBottom="@dimen/et_fragment_title_margin_bottom"
+            app:layout_constraintBottom_toBottomOf="@id/et_top_image"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
     <TextView
             android:text="@string/edit_transport_wizard"

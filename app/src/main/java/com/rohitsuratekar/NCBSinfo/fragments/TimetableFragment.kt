@@ -142,6 +142,9 @@ class TimetableFragment : MyFragment() {
             tp_origin.text = it.routeData.origin?.toUpperCase()
             tp_destination.text = it.routeData.destination?.toUpperCase()
             tp_type.text = getString(R.string.tp_type, it.routeData.type)
+            if (it.routeData.type == "other") {
+                tp_type.text = getString(R.string.tp_type, "transport")
+            }
             tp_creation_date.text = getString(R.string.tp_update_on, formatDate(it.routeData.modifiedOn))
         }
 

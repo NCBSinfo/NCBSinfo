@@ -6,158 +6,156 @@
                                                    android:layout_height="match_parent"
                                                    tools:context=".fragments.LocationFragment">
 
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline8"
-            android:layout_width="384dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.20987654"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="119dp"/>
 
-    <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="@null"
-            android:src="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"/>
-
-    <ImageView
-            android:id="@+id/loc_img_name"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="32dp"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/icon_sort_alphabetical"
-            android:tint="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/loc_img_building"
-            app:layout_constraintRight_toLeftOf="@+id/loc_img_building"
-            app:layout_constraintTop_toTopOf="@+id/loc_img_building"/>
-
-    <TextView
-            android:id="@+id/loc_txt_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/location_name"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toLeftOf="@+id/loc_img_name"
-            app:layout_constraintRight_toRightOf="@+id/loc_img_name"
-            app:layout_constraintTop_toBottomOf="@+id/loc_img_name"/>
-
-    <ImageView
-            android:id="@+id/loc_img_building"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:alpha="0.8"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/icon_building"
-            android:tint="@color/colorLight"
-            app:layout_constraintBottom_toTopOf="@+id/loc_txt_build"
-            app:layout_constraintRight_toLeftOf="@+id/guideline11"/>
-
-    <ImageView
-            android:id="@+id/loc_img_floor"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:alpha="0.8"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/icon_department"
-            android:tint="@color/colorLight"
-            app:layout_constraintBottom_toTopOf="@+id/loc_txt_floor"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline11"/>
-
-    <TextView
-            android:id="@+id/loc_txt_build"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/building"
-            android:textColor="@color/colorLight"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            app:layout_constraintLeft_toLeftOf="@+id/loc_img_building"
-            app:layout_constraintRight_toRightOf="@+id/loc_img_building"/>
-
-    <TextView
-            android:id="@+id/loc_txt_floor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/floor"
-            android:textColor="@color/colorLight"
-            app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            app:layout_constraintLeft_toLeftOf="@+id/loc_img_floor"
-            app:layout_constraintRight_toRightOf="@+id/loc_img_floor"/>
-
-    <ImageView
-            android:id="@+id/loc_img_whatever"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:alpha="0.8"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/icon_warning"
-            android:tint="@color/colorLight"
-            app:layout_constraintBottom_toBottomOf="@+id/loc_img_floor"
-            app:layout_constraintLeft_toRightOf="@+id/loc_img_floor"
-            app:layout_constraintTop_toTopOf="@+id/loc_img_floor"/>
-
-    <TextView
-            android:id="@+id/loc_txt_whatever"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/whatever"
-            android:textColor="@color/colorLight"
-            app:layout_constraintLeft_toLeftOf="@+id/loc_img_whatever"
-            app:layout_constraintRight_toRightOf="@+id/loc_img_whatever"
-            app:layout_constraintTop_toBottomOf="@+id/loc_img_whatever"/>
-
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:id="@+id/loc_header_image"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5"
-            tools:layout_editor_absoluteX="192dp"
-            tools:layout_editor_absoluteY="0dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/sort_by"
-            android:textColor="@color/colorLight"
-            app:layout_constraintBottom_toTopOf="@+id/loc_img_building"
-            app:layout_constraintLeft_toLeftOf="@+id/loc_img_name"
-            app:layout_constraintRight_toRightOf="@+id/loc_img_whatever"/>
+
+        <ImageView
+                android:id="@+id/loc_img_name"
+                android:layout_width="@dimen/loc_icon_size"
+                android:layout_height="@dimen/loc_icon_size"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/icon_sort_alphabetical"
+                android:tint="@color/white"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/loc_img_building"
+                app:layout_constraintTop_toTopOf="@+id/loc_img_building"
+                app:layout_constraintBottom_toBottomOf="@+id/loc_img_building"/>
+
+        <TextView
+                android:id="@+id/loc_txt_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location_name"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@+id/loc_img_name"
+                app:layout_constraintEnd_toEndOf="@+id/loc_img_name"
+                app:layout_constraintTop_toBottomOf="@+id/loc_img_name"
+                android:layout_marginBottom="@dimen/loc_header_margin"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+                android:id="@+id/loc_img_building"
+                android:layout_width="@dimen/loc_icon_size"
+                android:layout_height="@dimen/loc_icon_size"
+                android:alpha="0.8"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/icon_building"
+                android:tint="@color/colorLight"
+                app:layout_constraintStart_toEndOf="@+id/loc_img_name" app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/loc_img_floor"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+                android:id="@+id/loc_img_floor"
+                android:layout_width="@dimen/loc_icon_size"
+                android:layout_height="@dimen/loc_icon_size"
+                android:alpha="0.8"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/icon_department"
+                android:tint="@color/colorLight"
+                app:layout_constraintStart_toEndOf="@+id/loc_img_building" app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/loc_img_whatever"
+                app:layout_constraintTop_toTopOf="@+id/loc_img_building"
+                app:layout_constraintBottom_toBottomOf="@+id/loc_img_building"/>
+
+        <TextView
+                android:id="@+id/loc_txt_build"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/building"
+                android:textColor="@color/colorLight"
+                app:layout_constraintStart_toStartOf="@+id/loc_img_building"
+                app:layout_constraintEnd_toEndOf="@+id/loc_img_building"
+                app:layout_constraintTop_toBottomOf="@+id/loc_img_building"
+                android:layout_marginBottom="@dimen/loc_header_margin"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+                android:id="@+id/loc_txt_floor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/floor"
+                android:textColor="@color/colorLight"
+                app:layout_constraintStart_toStartOf="@+id/loc_img_floor"
+                app:layout_constraintEnd_toEndOf="@+id/loc_img_floor"
+                android:layout_marginBottom="@dimen/loc_header_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loc_img_floor"/>
+
+        <ImageView
+                android:id="@+id/loc_img_whatever"
+                android:layout_width="@dimen/loc_icon_size"
+                android:layout_height="@dimen/loc_icon_size"
+                android:alpha="0.8"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/icon_warning"
+                android:tint="@color/colorLight"
+                app:layout_constraintStart_toEndOf="@+id/loc_img_floor" app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/loc_img_floor"
+                app:layout_constraintBottom_toBottomOf="@+id/loc_img_floor"/>
+
+        <TextView
+                android:id="@+id/loc_txt_whatever"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/whatever"
+                android:textColor="@color/colorLight"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/loc_img_whatever"
+                app:layout_constraintEnd_toEndOf="@+id/loc_img_whatever"
+                app:layout_constraintTop_toBottomOf="@+id/loc_img_whatever"
+                android:layout_marginBottom="@dimen/loc_header_margin"/>
+
+        <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sort_by"
+                android:textColor="@color/colorLight"
+                android:textAlignment="center" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" app:layout_constraintHorizontal_bias="0.498"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"/>
+
+
+        <TextView
+                android:text="@string/locations"
+                android:layout_width="0dp"
+                android:textColor="@color/colorLight"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAlignment="center" android:layout_marginTop="@dimen/loc_header_margin"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/loc_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline8"/>
-    <TextView
-            android:text="@string/locations"
-            android:layout_width="wrap_content"
-            android:textColor="@color/colorLight"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/textView9"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/imageView4"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:layout_margin="@dimen/loc_recycler_margin"
+            app:layout_constraintTop_toBottomOf="@+id/loc_header_image"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

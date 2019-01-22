@@ -78,7 +78,7 @@ class ConfirmTransportViewModel : ViewModel() {
                 r.author = "User"
                 r.createdOn = timestamp
                 r.modifiedOn = timestamp
-                r.synced = timestamp
+                r.syncedOn = timestamp
                 r.favorite = "no"
                 val newNo = repository.data().addRoute(r)
                 Log.i(TAG, "New route is added")

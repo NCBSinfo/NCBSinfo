@@ -5,6 +5,8 @@
     <color name="colorAccent">#fe8300</color>
     <color name="colorLight">#b3e5ff</color>
 
+    <color name="ic_launcher_background">#009BEF</color>
+
     <color name="white">#fbfcfc</color>
     <color name="black">#000000</color>
     <color name="green">#57d785</color>

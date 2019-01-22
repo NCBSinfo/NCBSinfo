@@ -51,6 +51,10 @@ class DataRepository @Inject constructor(
         routeDao.updateRoute(routeData)
     }
 
+    fun lastModifiedOn(): String {
+        return routeDao.getLastModified()
+    }
+
     fun deleteRoute(routeData: RouteData) {
         tripsDao.deleteTripsByRoute(routeData.routeID)
         routeDao.deleteRoute(routeData)

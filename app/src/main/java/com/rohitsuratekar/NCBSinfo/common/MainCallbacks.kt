@@ -11,4 +11,5 @@ interface MainCallbacks {
     fun showRouteList(currentRoute: Int)
     fun showContact(contact: Contact)
     fun editRoute(navDirections: NavDirections)
+    fun showSettingsInfo(action: Int)
 }

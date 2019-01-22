@@ -38,9 +38,12 @@ interface RouteDao {
     @Query("UPDATE routes SET favorite = 'yes' WHERE routeID = :routeID")
     fun setFavorite(routeID: Int)
 
-    @Query("UPDATE routes SET synced = :timestamp")
+    @Query("UPDATE routes SET syncedOn = :timestamp")
     fun updateSync(timestamp: String)
 
     @Query("DELETE FROM routes " + "WHERE routeID LIKE :routeID ")
     fun deleteRouteByNumber(routeID: Int)
+
+    @Query("SELECT modifiedOn FROM routes WHERE modifiedOn ORDER BY modifiedOn DESC LIMIT 1")
+    fun getLastModified(): String
 }

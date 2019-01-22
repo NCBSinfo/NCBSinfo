@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_app_version">6.5.8</string>
+    <string name="settings_header_notice">Important Information</string>
+    <string name="settings_development_notice">Announcement</string>
+    <string name="settings_development_notice_details">Information regarding future app development.
+    </string>
+    <string name="settings_header_general">General Options</string>
+    <string name="settings_header_transport">Transport related</string>
+    <string name="settings_default_route">Default Transport</string>
+    <string name="settings_route_name">%1$s - %2$s (%3$s)</string>
+    <string name="settings_default_transport_details">transport you want to see on Home.</string>
+    <string name="settings_default_transport_dialog">Please select a route from the following list. This route
+        will be shown on your home screen.
+    </string>
+    <string name="settings_reset_transport">Reset Transport</string>
+    <string name="settings_reset_transport_details">revert back to original transport routes.</string>
+    <string name="settings_transport_last">Route Database</string>
+    <string name="settings_transport_last_update">last update : %s</string>
+    <string name="settings_header_about">About us</string>
+    <string name="settings_about">About NCBSinfo</string>
+    <string name="settings_about_details">little bit about us!</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_details">Tell us what you think about this app.</string>
+    <string name="settings_github">NCBSinfo on GitHub</string>
+    <string name="settings_github_details">contribute to this open source project.</string>
+    <string name="settings_app_details">NCBSinfo</string>
+    <string name="settings_app_details_text">Current version: %1$d (%2$s)</string>
+    <string name="settings_header_legal">Some legal stuff</string>
+    <string name="settings_terms">Terms and Conditions</string>
+    <string name="settings_terms_details">nobody reads this!</string>
+    <string name="settings_privacy">Privacy Statement</string>
+    <string name="settings_privacy_details">what data we steal?</string>
+    <string name="settings_acknow">Acknowledgements and Credits</string>
+    <string name="settings_acknow_details">standing on the shoulders of giants.</string>
+    <string name="settings_default_route_name">%1$s - %2$s %3$s</string>
+    <string name="settings_crash_report">Anonymous Crash Reporting</string>
+    <string name="settings_crash_report_details">Currently reporting is : %s</string>
+
+
+    <string name="settings_reset_warning">This action will delete all existing transport route and will replace them
+        with default routes. This action can not be undone. Are you sure you want to reset?
+    </string>
+
+
+    <string name="about_us"><![CDATA[
+ <b>NCBSinfo</b> is an application for regular use, especially helpful for people working at the National Centre for Biological Science (NCBS), Bangalore.
+    Our aim is to create a mobile application, which will serve as an application-cum-database for important information pertaining to NCBS. With the help of this, we will try to reduce the time spent on searching for shuttle timings and contact numbers.
+]]></string>
+
+    <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
+    All the information provided in this application was last updated on January 1, 2019.
+    Though a lot of effort has been taken to curate the information,
+    minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
+    through this application.
+    In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same.
+
+        <br> </br>
+        <br> </br>
+        <br> </br>]]></string>
+
+    <string name="privacy_statement">
+        <![CDATA[
+        Best part of an open source app is that you will know exactly what is going on inside the app. We encourage you to check
+        our source code on GitHub (<a href="https://github.com/NCBSinfo/NCBSinfo"> https://github.com/NCBSinfo/NCBSinfo </a>). Code is heavily commented for readability.
+        We ask for following permissions from you
+        <br></br><br></br>
+        <b>Permission <br></br> (and why?)</b> <br> </br> <br> </br>
+        &#8226; <b> Internet Access </b> <br> </br> (To send anonymous crash report in case of crash) <br></br>
+        &#8226; <b> Call Phone </b> <br> </br> (To directly call from this app) <br></br>
+         <br> </br><br> </br>
+         However, this app will work perfectly fine without any of above permissions. You can block them if you
+         are really paranoid about them :) <br> </br><br> </br>
+        <b>Google and Firebase analytics</b><br> </br>
+        We receive some anonymous statistics from all users who have installed this app.
+        This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.
+        See <a href="https://policies.google.com/privacy">Google privacy policies</a> regarding this.
+        <br> </br><br> </br>
+        <b>Crash Report</b><br> </br>
+        This will send us anonymous crash reports (if any) which we use to fix bugs and make the app better :) However,
+        if you have switched OFF this from settings, this report will NOT be sent.
+        <br> </br>
+        <br> </br>
+        <br> </br>
+        Check latest and full privacy statement <a href="https://github.com/NCBSinfo/NCBSinfo/blob/master/PrivacyPolicy.md"> here </a>.
+        <br> </br>
+        <br> </br>
+        <br> </br>
+        ]]>
+    </string>
+
+    <string name="libraries_used">
+        <![CDATA[
+        We are very grateful to all the feedback and encouragement given by you. We would also like to
+         acknowledge all the beta testers of this app. Special thanks to Pritha Ghosh for helping us out with grammar and spelling checks.
+         All graphics inside the app were created by Rohit Suratekar. Icons were borrowed from Google Material Design as well as IBM design language resources.
+
+        <br></br>We have used the following Open Source Android libraries while making this app and are very thankful to them.
+
+        <br></br><br></br>
+        &#8226; AndroidX Libraries by Google <br></br>
+        &#8226; Architecture Components by Google <br></br>
+        &#8226; Dagger2 by Google <br></br>
+        <br></br><br></br>
+        See our <a href="https://github.com/NCBSinfo/NCBSinfo"> source code </a> for detailed library information.
+        <br> </br>
+        <br> </br>
+        <br> </br>
+
+]]>
+    </string>
+
+
+    <string name="halted_development">
+        <![CDATA[
+       Dear app user, <br> </br><br> </br>
+        The NCBSinfo project started as a small personal app in December 2016, which I had used to track shuttle timings in NCBS.
+        Soon it\'s user base expanded and now (as of December 2018) it has almost 450 daily users and more than 1000 installs.
+        Unfortunately, now I can not dedicate more time for maintaining this app and have to stop further development. However,
+        to make this self-sustained, I have added a solid foundation for editing and managing one\'s own timetable. If you
+        are not aware of this function, please check \'Manage Transport\' option from \'Information\' section. You will be able to
+        use this app smoothly, even if there are any changes in transport timings. One can even create their own routes.
+        I will fix (any) bugs and timetable changes until 16 October 2019. If anyone is interested in developing
+        this app further, feel free to contribute to this open source app on <a href="https://github.com/NCBSinfo/NCBSinfo"> GitHub</a>.
+        If you have any suggestion or feedback, please drop me an email on <a href="mailto:contact@secretbiology.com">contact@secretbiology.com</a> or
+        <a href="mailto:ncbs.mod@gmail.com">ncbs.mod@gmail.com</a>. <br> </br> <br> </br> I am very
+        grateful for all the love and encouragement provided by you. I hope this app will also help you in the future.
+        Thank you!<br> </br> Bidding Adieu!!
+        <br> </br><br> </br>
+        Yours<br> </br>
+        <a href="http://rohitsuratekar.com/">Rohit Suratekar</a>
+        <br> </br>
+        <br> </br>
+        <br> </br>
+]]>
+    </string>
+
+    <string name="bid_adieu">Bid Adieu</string>
+</resources>

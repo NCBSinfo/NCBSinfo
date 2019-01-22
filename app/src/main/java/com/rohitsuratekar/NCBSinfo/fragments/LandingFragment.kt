@@ -43,6 +43,12 @@ class LandingFragment : MyFragment() {
 
         viewModel.dataLoaded.observe(this, Observer {
             if (it) {
+                viewModel.checkDataUpdate(repository)
+            }
+        })
+
+        viewModel.dataUpdated.observe(this, Observer {
+            if (it) {
                 callback?.navigate(Constants.NAVIGATE_HOME)
             }
         })

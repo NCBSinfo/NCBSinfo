@@ -1,6 +1,10 @@
 package com.rohitsuratekar.NCBSinfo.common
 
 object Constants {
+
+    const val DEFAULT_AUTHOR = "SecretBiology"
+    const val UPDATE_VERSION = 1
+
     const val NAVIGATE_HOME = 1
     const val NAVIGATE_TIMETABLE = 2
     const val NAVIGATE_LOCATIONS = 3
@@ -11,6 +15,7 @@ object Constants {
     const val FORMAT_TRIP_LIST = "HH:mm"
     const val FORMAT_DISPLAY_TIME = "hh:mm a"
     const val FORMAT_MODIFIED = "dd MMM yy"
+    const val FORMAT_MODIFIED_WITH_TIME = "dd MMM yy hh:mm a"
 
     const val BOTTOM_SHEET_ROUTE_ID = "routeID"
     const val BOTTOM_SHEET_CONTACT_NAME = "name"

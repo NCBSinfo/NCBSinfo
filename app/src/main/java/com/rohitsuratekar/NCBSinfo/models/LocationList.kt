@@ -136,6 +136,7 @@ private fun listHalls(): ArrayList<Array<String>> {
             "Lecture Hall"
         )
     )
+    lectureList.add(arrayOf("InStem Auditorium", "100 Seater", "InStem Building", "Ground Floor", "Towards InStem-Canteen", "Auditorium"))
     lectureList.add(arrayOf("Langra", "LH-2", "Eastern Labs", "First Floor", "Above reception", "Lecture Hall"))
     lectureList.add(arrayOf("Malgova", "70 Seater", "Southern Labs", "Second Floor", "Next to Library", "Auditorium"))
     lectureList.add(

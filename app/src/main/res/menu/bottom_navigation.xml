@@ -22,4 +22,7 @@
             android:icon="@drawable/icon_information"
             android:title="@string/information"/>
 
+    <item android:id="@+id/settingsFragment"
+          android:title="@string/settings"
+          android:icon="@drawable/icon_settings"/>
 </menu>

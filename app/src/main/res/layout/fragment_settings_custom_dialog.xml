@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:orientation="vertical"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <Button
+            android:text="@string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/st_dialog_btn" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/st_dialog_recycler_height"
+            app:layout_constraintBottom_toTopOf="@+id/st_dialog_btn" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/st_dialog_margins" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13">
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:verticalScrollbarPosition="defaultPosition"
+                android:scrollbars="vertical"
+                android:layout_height="match_parent"
+                android:id="@+id/st_dialog_recycler"/>
+
+
+    </LinearLayout>
+
+    <TextView
+            android:text="@string/settings_default_route"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView12" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/st_dialog_margins" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/st_dialog_margins"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toTopOf="parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+    <TextView
+            android:text="@string/settings_default_transport_dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView13" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/st_dialog_margins"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/st_dialog_margins"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView12"
+            android:textAlignment="center"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

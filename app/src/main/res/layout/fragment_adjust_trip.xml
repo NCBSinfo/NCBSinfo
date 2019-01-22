@@ -12,8 +12,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="0dp"
-            android:layout_height="0dp" android:layout_marginBottom="32dp" android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp" android:layout_marginEnd="32dp">
+            android:layout_height="0dp" android:layout_margin="@dimen/et_card_margin">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -50,7 +49,8 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:id="@+id/adjust_holder" app:layout_constraintTop_toBottomOf="@+id/adjust_note"
-                    app:layout_constraintBottom_toTopOf="@+id/et_adjust_previous" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/et_adjust_previous"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="32dp" android:gravity="center">

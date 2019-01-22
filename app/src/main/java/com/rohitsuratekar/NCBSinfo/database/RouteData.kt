@@ -26,7 +26,7 @@ class RouteData {
     @Expose
     var author: String? = null
     @Expose
-    var synced: String? = null
+    var syncedOn: String? = null
 
     companion object {
         const val ROUTE_TABLE = "routes"

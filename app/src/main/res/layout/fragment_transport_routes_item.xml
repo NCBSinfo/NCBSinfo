@@ -4,8 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8sp"
-        android:orientation="vertical" android:id="@+id/tp_sheet_layout">
+        android:layout_margin="@dimen/transport_route_margin" android:id="@+id/tp_sheet_layout">
 
     <ImageView
             android:id="@+id/tp_sheet_icon"
@@ -23,34 +22,28 @@
             android:id="@+id/tp_sheet_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/transport_route_margin"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/transport_route_margin"
             android:text="MANDARA-NCBS"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            app:layout_constraintBottom_toTopOf="@+id/tp_sheet_subtext"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tp_sheet_icon"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"/>
+            app:layout_constraintVertical_chainStyle="packed" app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
             android:id="@+id/tp_sheet_subtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginBottom="@dimen/transport_route_margin"
             android:text="shuttle"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tp_sheet_text"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:layout_constraintVertical_chainStyle="packed"/>
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@+id/tp_sheet_text"/>
 
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

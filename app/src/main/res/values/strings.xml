@@ -1,23 +1,14 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!--Common-->
     <string name="home">Home</string>
     <string name="timetable">Timetable</string>
     <string name="contacts">Contacts</string>
     <string name="manage_transport">Manage Transport</string>
     <string name="information">Information</string>
+    <string name="settings">Settings</string>
     <string name="oops">Oops…</string>
-    <string name="sunday_short">Sun</string>
-    <string name="monday_short">Mon</string>
-    <string name="tuesday_short">Tue</string>
-    <string name="wednesday_short">Wed</string>
-    <string name="thursday_short">Thu</string>
-    <string name="friday_short">Fri</string>
-    <string name="saturday_short">Sat</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
@@ -28,13 +19,22 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="undo">Undo</string>
     <string name="warning">Warning</string>
-    <string name="et_continue">Continue</string>
+    <string name="origin">Origin</string>
+    <string name="next">Next</string>
+    <string name="destination">Destination</string>
 
     <!--Home-->
     <string name="hm_see_full">See full timetable</string>
     <string name="hm_next">next %s</string>
     <string name="hm_other">other transport</string>
     <string name="hm_show_route">Or\nselect different transport route</string>
+    <string name="hm_welcome">Welcome</string>
+    <string name="hm_allow">Allow</string>
+    <string name="hm_later">Later</string>
+    <string name="hm_crash_notice">Thank you for using NCBSinfo app. If your app encounters an issue, unless it has
+        reported to us, we will not able to fix it. \'Crash Reporting\' can generate anonymous report ONLY if your app
+        crashes. Do you want us to collect such anonymous report from you? You can always turn it off from the settings.
+    </string>
 
     <!--TimeTable-->
     <string name="tp_route_name">%1$s - %2$s</string>
@@ -67,19 +67,19 @@
     <string name="mt_last_modified">Last Modified\n%s</string>
     <string name="mt_add_new_transport">Add New Transport</string>
     <string name="mt_delete_confirm">You are about to delete \' %1$s - %2$s (%3$s)\' from your database. This action can
-        not be undone. If you want to delete specific trip, please use edit button. Do you want to continue?
+        not be undone. If you want to delete specific trip, please use the edit button. Do you want to continue?
     </string>
     <string name="mt_single_route_error">There is only 1 transport route left in your database. If you delete this
-        route, system will automatically create all default routes. Do you want to delete last route?
+        route, the system will automatically create all default routes. Do you want to delete the last route?
     </string>
     <string name="mt_route_feedback">Feedback on Transport Route %1$s - %2$s %3$s</string>
     <string name="mt_reset_route_title">Reset All Routes</string>
     <string name="mt_reset_route">This will reset all of your transport routes to their default values.
-        This action can not be undone. Are you sure you want to reset ALL of your transport route?
+        This action can not be undone. Are you sure you want to reset ALL of your transport routes?
     </string>
 
     <!--Information Related-->
-    <string name="info_manage_transport_details">Manage your transport routes. Edit, Delete or create New.</string>
+    <string name="info_manage_transport_details">Manage your transport routes. Edit, Delete or Create New.</string>
     <string name="info_loc_details">Check locations of various meetings rooms and lecture halls on NCBS campus.</string>
 
 
@@ -96,9 +96,6 @@
     <string name="et_select_first">Select First Trip</string>
     <string name="et_adjust_trips">Adjust Trips</string>
     <string name="et_confirm_route">Confirm the Route</string>
-    <string name="origin">Origin</string>
-    <string name="next">Next</string>
-    <string name="destination">Destination</string>
     <string name="et_route_name_title">Add Origin and Destination of your transport</string>
     <string name="et_step_title">Step %d of 6</string>
     <string name="et_name">Route</string>
@@ -107,6 +104,7 @@
     <string name="et_trips">Trips</string>
     <string name="et_adjust">Adjust</string>
     <string name="et_confirm">Confirm</string>
+    <string name="et_continue">Continue</string>
 
     <string name="et_type_note">What kind of transport is this?</string>
     <string name="et_type_shuttle">Shuttle or Bus (approx 30 seats)</string>
@@ -118,8 +116,16 @@
     <string name="et_frequency_mon_sat">Monday to Saturday</string>
     <string name="et_frequency_sat_sun">Saturday and Sunday</string>
     <string name="et_frequency_note">Select Weekly Frequency</string>
-    <string name="et_frequency_sub_note">if you have different schedule for different days, add each day separately.
+    <string name="et_frequency_sub_note">if you have a different schedule for different days, add each day separately.
     </string>
+
+    <string name="sunday_short">Sun</string>
+    <string name="monday_short">Mon</string>
+    <string name="tuesday_short">Tue</string>
+    <string name="wednesday_short">Wed</string>
+    <string name="thursday_short">Thu</string>
+    <string name="friday_short">Fri</string>
+    <string name="saturday_short">Sat</string>
 
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
@@ -164,8 +170,8 @@
     <string name="edit_transport_wizard">Edit Transport Wizard</string>
     <string name="create_new">Create New Route</string>
     <string name="et_footnote">Or can always create new route…</string>
-    <string name="et_delete_warning">You are about to delete single day schedule (1 out of %1$d) from  \' %2$s - %3$s (%4$s) \'.
-        All other trip schedules will not be affected. Do you want to continue?
+    <string name="et_delete_warning">You are about to delete single day schedule (1 out of %1$d) from \' %2$s - %3$s
+        (%4$s) \'. All other trip schedules will not be affected. Do you want to continue?
     </string>
     <string name="et_delete_only_trip">You are about to delete only schedule from \' %1$s - %2$s (%3$s) \'.
         This action will delete complete route. Do you want to continue?
