@@ -66,8 +66,7 @@
         We ask for following permissions from you
         <br></br><br></br>
         <b>Permission <br></br> (and why?)</b> <br> </br> <br> </br>
-        &#8226; <b> Internet Access </b> <br> </br> (To send anonymous crash report in case of crash. <br> </br>
-         Occasionally we also fetch image from our server to show it on your home page, just like Google Doodles). <br></br>
+        &#8226; <b> Internet Access </b> <br> </br> (To send anonymous crash report in case of crash) <br></br>
         &#8226; <b> Call Phone </b> <br> </br> (To directly call from this app) <br></br>
          <br> </br><br> </br>
          However, this app will work perfectly fine without any of above permissions. You can block them if you
@@ -87,7 +86,6 @@
         <br> </br>
         <br> </br>
         <br> </br>
-        Check latest privacy statement <a href="https://github.com/NCBSinfo/NCBSinfo/blob/master/PrivacyPolicy.md"> here </a>.
         ]]>
     </string>
 
