@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".fragments.AdjustTripFragment">
+
+    <androidx.cardview.widget.CardView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp" android:layout_margin="@dimen/et_card_margin">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
+
+            <Button
+                    android:text="@string/previous"
+                    android:layout_width="0dp"
+                    style="@style/Widget.MyApp.EditButton"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_adjust_previous" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/et_adjust_next"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <Button
+                    android:text="@string/next"
+                    android:layout_width="0dp"
+                    style="@style/Widget.MyApp.EditButton"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_adjust_next" app:layout_constraintStart_toEndOf="@+id/et_adjust_previous"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                    android:text="@string/et_adjust_note"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adjust_note" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/adjust_holder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="32dp" android:textAlignment="center" android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/adjust_holder" app:layout_constraintTop_toBottomOf="@+id/adjust_note"
+                    app:layout_constraintBottom_toTopOf="@+id/et_adjust_previous"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="32dp" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="32dp" android:gravity="center">
+                <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/adjust_recycler"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

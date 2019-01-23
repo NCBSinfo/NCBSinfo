@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:orientation="vertical"
+                                                   android:layout_width="@dimen/et_step_recycler_width"
+                                                   android:layout_height="wrap_content"
+                                                   android:id="@+id/et_step_layout">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@drawable/icon_information"
+            android:id="@+id/et_step_icon"
+            app:layout_constraintStart_toEndOf="@+id/et_step_left_bar" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/et_step_right_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+            android:text="TextView"
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/et_step_text"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_step_icon"
+            android:layout_marginEnd="8dp" android:layout_marginStart="8dp"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/et_step_recycler_bar" app:srcCompat="@color/colorPrimary"
+            android:id="@+id/et_step_left_bar"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/et_step_icon"
+            app:layout_constraintTop_toTopOf="@+id/et_step_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/et_step_icon"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/et_step_recycler_bar" app:srcCompat="@color/colorPrimary"
+            android:id="@+id/et_step_right_bar"
+            app:layout_constraintStart_toEndOf="@+id/et_step_icon" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_step_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/et_step_icon"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

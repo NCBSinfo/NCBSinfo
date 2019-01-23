@@ -8,11 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
     <style name="TransportDays" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textAlignment">center</item>
         <item name="android:background">@color/colorLight</item>
         <item name="android:gravity">center</item>
     </style>
+
 
     <style name="Widget.MyApp.Toolbar.Solid" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
@@ -23,9 +25,9 @@
         <item name="android:textColorPrimary">@color/colorLight</item>
     </style>
 
-    <style name="ErrorDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <!-- Used for the buttons -->
-        <item name="android:tint">@color/red</item>
+    <style name="Widget.MyApp.EditButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/colorPrimary</item>
+       <item name="android:textColor">@color/colorLight</item>
     </style>
 
 </resources>

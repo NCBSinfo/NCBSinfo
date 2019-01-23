@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:orientation="vertical"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content" android:id="@+id/ct_layout">
+
+    <TextView
+            android:id="@+id/ct_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Some Name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toTopOf="@+id/ct_extension_text"
+            app:layout_constraintStart_toEndOf="@+id/ct_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"/>
+
+    <TextView
+            android:id="@+id/ct_list_primary_number"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:text="2678"
+            app:layout_constraintBottom_toBottomOf="@+id/ct_extension_text"
+            app:layout_constraintStart_toEndOf="@+id/ct_extension_text"
+            app:layout_constraintTop_toTopOf="@+id/ct_extension_text"/>
+
+    <ImageView
+            android:id="@+id/ct_icon"
+            android:layout_width="50sp"
+            android:layout_height="40sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_contacts"/>
+
+    <TextView
+            android:id="@+id/ct_extension_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:alpha="0.6"
+            android:text="@string/ct_extension"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ct_icon"
+            app:layout_constraintTop_toBottomOf="@+id/ct_list_name"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="settings_header_notice">Important Notice</string>
-    <string name="settings_data_notice">Data Notice</string>
-    <string name="settings_data_notice_details">Information regarding your data on NCBSinfo server.</string>
-    <string name="settings_announcement">Announcement</string>
-    <string name="settings_announcement_details">Latest announcement or message from admins.</string>
+    <string name="settings_app_version">6.6.1</string>
+    <string name="settings_header_notice">Important Information</string>
+    <string name="settings_development_notice">Announcement</string>
+    <string name="settings_development_notice_details">Information regarding future app development.
+    </string>
     <string name="settings_header_general">General Options</string>
     <string name="settings_header_transport">Transport related</string>
     <string name="settings_default_route">Default Transport</string>
+    <string name="settings_route_name">%1$s - %2$s (%3$s)</string>
     <string name="settings_default_transport_details">transport you want to see on Home.</string>
+    <string name="settings_default_transport_dialog">Please select a route from the following list. This route
+        will be shown on your home screen.
+    </string>
     <string name="settings_reset_transport">Reset Transport</string>
     <string name="settings_reset_transport_details">revert back to original transport routes.</string>
     <string name="settings_transport_last">Route Database</string>
-    <string name="settings_transport_last_update">last update : 16 Oct 2017</string>
+    <string name="settings_transport_last_update">last update : %s</string>
     <string name="settings_header_about">About us</string>
     <string name="settings_about">About NCBSinfo</string>
     <string name="settings_about_details">little bit about us!</string>
@@ -27,22 +31,16 @@
     <string name="settings_terms_details">nobody reads this!</string>
     <string name="settings_privacy">Privacy Statement</string>
     <string name="settings_privacy_details">what data we steal?</string>
-    <string name="settings_notification">Notifications preference</string>
-    <string name="settings_notification_details">occasional notifications: %s</string>
     <string name="settings_acknow">Acknowledgements and Credits</string>
     <string name="settings_acknow_details">standing on the shoulders of giants.</string>
     <string name="settings_default_route_name">%1$s - %2$s %3$s</string>
-    <string name="settings_egg">Muggle Mode Dialogs</string>
-    <string name="settings_remove_egg">Remove Dialogs</string>
-    <string name="settings_remove_egg_details">I am not Muggle blooded.</string>
-    <string name="settings_ron">Ron</string>
-    <string name="settings_ron_details">Letter to Harry 1</string>
-    <string name="settings_hermione">Hermione</string>
-    <string name="settings_hermione_details">Letter to Harry 2</string>
-    <string name="settings_developers">Developers Options</string>
-    <string name="settings_developers_details">Some basic logging information</string>
+    <string name="settings_crash_report">Anonymous Crash Reporting</string>
+    <string name="settings_crash_report_details">Currently reporting is : %s</string>
 
-    <string name="settings_reset_warning">This action will delete all existing transport route and will replace them with default routes. This action can not be undone. Are you sure you want to reset ?</string>
+
+    <string name="settings_reset_warning">This action will delete all existing transport route and will replace them
+        with default routes. This action can not be undone. Are you sure you want to reset?
+    </string>
 
 
     <string name="about_us"><![CDATA[
@@ -51,11 +49,15 @@
 ]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information provided in this application was last updated on October 2, 2018.
+    All the information provided in this application was last updated on January 1, 2019.
     Though a lot of effort has been taken to curate the information,
     minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
     through this application.
-    In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same.]]></string>
+    In case of any bug/error(s), please report it to the developers; measures will be taken to rectify the same.
+
+        <br> </br>
+        <br> </br>
+        <br> </br>]]></string>
 
     <string name="privacy_statement">
         <![CDATA[
@@ -69,20 +71,25 @@
         &#8226; <b> Call Phone </b> <br> </br> (To directly call from this app) <br></br>
          <br> </br><br> </br>
          However, this app will work perfectly fine without any of above permissions. You can block them if you
-         are really paranoid about them :) If you want to know more about muggle privacy, tap on this screen for 5 times.<br> </br><br> </br>
+         are really paranoid about them :) <br> </br><br> </br>
         <b>Google and Firebase analytics</b><br> </br>
         We receive some anonymous statistics from all users who have installed this app.
         This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.
         See <a href="https://policies.google.com/privacy">Google privacy policies</a> regarding this.
         <br> </br><br> </br>
         <b>Crash Report</b><br> </br>
-        This will send us anonymous crash reports (if any) which we use to fix bugs and make the app better :)
+        This will send us anonymous crash reports (if any) which we use to fix bugs and make the app better :) However,
+        if you have switched OFF this from settings, this report will NOT be sent.
+        <br> </br>
+        <br> </br>
+        <br> </br>
+        Check latest and full privacy statement <a href="https://github.com/NCBSinfo/NCBSinfo/blob/master/PrivacyPolicy.md"> here </a>.
         <br> </br>
         <br> </br>
         <br> </br>
         Check latest privacy statement <a href="https://github.com/NCBSinfo/NCBSinfo/blob/master/PrivacyPolicy.md"> here </a>.
         ]]>
-</string>
+    </string>
 
     <string name="libraries_used">
         <![CDATA[
@@ -93,28 +100,43 @@
         <br></br>We have used the following Open Source Android libraries while making this app and are very thankful to them.
 
         <br></br><br></br>
-        &#8226; Design Library by Google <br></br>
-        &#8226; Gson by Google <br></br>
-        &#8226; Firebase by Google <br></br>
-        &#8226; Butterknife by Jake Wharton <br></br>
-        &#8226; Glide by Sam Judd <br></br>
+        &#8226; AndroidX Libraries by Google <br></br>
+        &#8226; Architecture Components by Google <br></br>
+        &#8226; Dagger2 by Google <br></br>
+        &#8226; Firebase Crashlytics by Google <br></br>
         <br></br><br></br>
         See our <a href="https://github.com/NCBSinfo/NCBSinfo"> source code </a> for detailed library information.
+        <br> </br>
+        <br> </br>
+        <br> </br>
 
 ]]>
-</string>
+    </string>
 
-    <string name="notice">
-        <![CDATA[ In continuation with our <a href="https://github.com/NCBSinfo/NCBSinfo/releases/tag/v6.0">previous</a>
-        announcement regarding halting further development,
-        we will be generating long term support (LTS) version of current app.
-        For this purpose, we will be removing all cloud related functions.
-        Now all app functions will be offline. Authentication steps will be discarded i.e. you can no
-        longer create account or login to your existing account.
-        All user data will be deleted in future.
-        If you want to access any of your past data related to synced routes,
-        please contact <a href="mailto:contact@secretbiology.com">contact@secretbiology.com</a>. All user data and backups will be kept till <b>1 Feb 2019</b>.
 
+    <string name="halted_development">
+        <![CDATA[
+       Dear app user, <br> </br><br> </br>
+        The NCBSinfo project started as a small personal app in December 2016, which I had used to track shuttle timings in NCBS.
+        Soon it\'s user base expanded and now (as of December 2018) it has almost 450 daily users and more than 1000 installs.
+        Unfortunately, now I can not dedicate more time for maintaining this app and have to stop further development. However,
+        to make this self-sustained, I have added a solid foundation for editing and managing one\'s own timetable. If you
+        are not aware of this function, please check \'Manage Transport\' option from \'Information\' section. You will be able to
+        use this app smoothly, even if there are any changes in transport timings. One can even create their own routes.
+        I will fix (any) bugs and timetable changes until 16 October 2019. If anyone is interested in developing
+        this app further, feel free to contribute to this open source app on <a href="https://github.com/NCBSinfo/NCBSinfo"> GitHub</a>.
+        If you have any suggestion or feedback, please drop me an email on <a href="mailto:contact@secretbiology.com">contact@secretbiology.com</a> or
+        <a href="mailto:ncbs.mod@gmail.com">ncbs.mod@gmail.com</a>. <br> </br> <br> </br> I am very
+        grateful for all the love and encouragement provided by you. I hope this app will also help you in the future.
+        Thank you!<br> </br> Bidding Adieu!!
+        <br> </br><br> </br>
+        Yours<br> </br>
+        <a href="http://rohitsuratekar.com/">Rohit Suratekar</a>
+        <br> </br>
+        <br> </br>
+        <br> </br>
 ]]>
-</string>
+    </string>
+
+    <string name="bid_adieu">Bid Adieu</string>
 </resources>

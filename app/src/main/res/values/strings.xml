@@ -1,38 +1,59 @@
 <resources>
     <string name="app_name">NCBSinfo</string>
-    <string name="setup_warning">Setting up your app…</string>
 
+    <!--Common-->
     <string name="home">Home</string>
-
-    <string name="transport">Timetable</string>
+    <string name="timetable">Timetable</string>
     <string name="contacts">Contacts</string>
-    <string name="more">More</string>
-    <string name="settings">Settings</string>
     <string name="manage_transport">Manage Transport</string>
     <string name="information">Information</string>
-
+    <string name="settings">Settings</string>
+    <string name="oops">Oops…</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="report">Report</string>
+    <string name="other">Other</string>
+    <string name="previous">Previous</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="undo">Undo</string>
+    <string name="warning">Warning</string>
+    <string name="origin">Origin</string>
+    <string name="next">Next</string>
+    <string name="destination">Destination</string>
 
-
+    <!--Home-->
     <string name="hm_see_full">See full timetable</string>
     <string name="hm_next">next %s</string>
     <string name="hm_other">other transport</string>
     <string name="hm_show_route">Or\nselect different transport route</string>
+    <string name="hm_welcome">Welcome</string>
+    <string name="hm_allow">Allow</string>
+    <string name="hm_later">Later</string>
+    <string name="hm_crash_notice">Thank you for using the NCBSinfo app. If your app encounters an issue and unless it
+        has been reported to us, we will not be able to fix it. \'Crash Reporting\' can generate anonymous reports, ONLY
+        if your app crashes. If you do not want us to collect such anonymous reports from you, then you can always turn
+        it off from the settings. Do you want us to collect anonymous crash reports?
+    </string>
 
-    <string name="tp_show_all">Show\nAll Routes</string>
+    <!--TimeTable-->
     <string name="tp_route_name">%1$s - %2$s</string>
+    <string name="tp_show_all">Show\nAll Routes</string>
+    <string name="tp_type">[ %s ]</string>
+    <string name="tp_update_on">Last Update: %s</string>
 
+    <!--Contact-->
     <string name="search">Search</string>
-    <string name="search_contact">Search Contact</string>
-
-    <string name="ct_item_institute">( %s )</string>
-    <string name="ct_extension">Extension : </string>
-    <string name="ct_sort">Sort</string>
+    <string name="sort">Sort</string>
+    <string name="ct_extension">Extension:</string>
+    <string name="ct_sheet_numbers">Contact Numbers</string>
     <string name="ct_permission_needed">Permission needed!</string>
-    <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click on allow when permission dialog appears. </string>
+    <string name="ct_warning_permission">To call directly from this app, we need your permission to call. Please click
+        on allow when permission dialog appears.
+    </string>
 
-
-    <!--Location Related-->
+    <!--Location-->
     <string name="locations">Locations</string>
     <string name="sort_by">sort locations by</string>
     <string name="location_name">name</string>
@@ -41,12 +62,72 @@
     <string name="whatever">whatever</string>
 
 
+    <!--Manage Transport-->
+    <string name="mt_details">Edit, Delete or Create new transport route</string>
+    <string name="mt_click_expand">(Click on the route to get more options)</string>
+    <string name="mt_last_modified">Last Modified\n%s</string>
+    <string name="mt_add_new_transport">Add New Transport</string>
+    <string name="mt_delete_confirm">You are about to delete \' %1$s - %2$s (%3$s)\' from your database. This action can
+        not be undone. If you want to delete specific trip, please use the edit button. Do you want to continue?
+    </string>
+    <string name="mt_single_route_error">There is only 1 transport route left in your database. If you delete this
+        route, the system will automatically create all default routes. Do you want to delete the last route?
+    </string>
+    <string name="mt_route_feedback">Feedback on Transport Route %1$s - %2$s %3$s</string>
+    <string name="mt_reset_route_title">Reset All Routes</string>
+    <string name="mt_reset_route">This will reset all of your transport routes to their default values.
+        This action can not be undone. Are you sure you want to reset ALL of your transport routes?
+    </string>
+
     <!--Information Related-->
-    <string name="info_manage_transport_details">Manage your transport routes. Edit, Delete or create New.</string>
+    <string name="info_manage_transport_details">Manage your transport routes. Edit, Delete or Create New.</string>
     <string name="info_loc_details">Check locations of various meetings rooms and lecture halls on NCBS campus.</string>
 
-    <string name="route_name">%1$s - %2$s %3$s</string>
-    <string name="oops">Oops…</string>
+
+    <!--Landing Page-->
+    <string name="landing_page_note">Setting up your app. Please wait…</string>
+    <string name="making_default">No routes found, making default routes.</string>
+
+    <!--Edit Transport-->
+    <string name="edit_transport">Edit Transport</string>
+    <string name="et_route_name">Route Name</string>
+    <string name="et_transport_type">Transport Type</string>
+    <string name="et_add_trips">Add Trips</string>
+    <string name="et_add_frequency">Frequency of Transport</string>
+    <string name="et_select_first">Select First Trip</string>
+    <string name="et_adjust_trips">Adjust Trips</string>
+    <string name="et_confirm_route">Confirm the Route</string>
+    <string name="et_route_name_title">Add Origin and Destination of your transport</string>
+    <string name="et_step_title">Step %d of 6</string>
+    <string name="et_name">Route</string>
+    <string name="et_type">Type</string>
+    <string name="et_frequency">Frequency</string>
+    <string name="et_trips">Trips</string>
+    <string name="et_adjust">Adjust</string>
+    <string name="et_confirm">Confirm</string>
+    <string name="et_continue">Continue</string>
+
+    <string name="et_type_note">What kind of transport is this?</string>
+    <string name="et_type_shuttle">Shuttle or Bus (approx 30 seats)</string>
+    <string name="et_type_ttc">Tempo Traveller (approx 12 seats)</string>
+    <string name="et_type_buggy">Electric Buggy (approx 8 seats)</string>
+
+    <string name="et_frequency_specific">Select specific day(s)</string>
+    <string name="et_frequency_all_days">All Days</string>
+    <string name="et_frequency_mon_sat">Monday to Saturday</string>
+    <string name="et_frequency_sat_sun">Saturday and Sunday</string>
+    <string name="et_frequency_note">Select Weekly Frequency</string>
+    <string name="et_frequency_sub_note">if you have a different schedule for different days, add each day separately.
+    </string>
+
+    <string name="sunday_short">Sun</string>
+    <string name="monday_short">Mon</string>
+    <string name="tuesday_short">Tue</string>
+    <string name="wednesday_short">Wed</string>
+    <string name="thursday_short">Thu</string>
+    <string name="friday_short">Fri</string>
+    <string name="saturday_short">Sat</string>
+
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -58,73 +139,43 @@
     <string name="weekdays">Weekdays</string>
     <string name="everyday">Everyday</string>
 
-    <!--Common-->
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-    <string name="cancel">Cancel</string>
-    <string name="other">Other</string>
-    <string name="undo">Undo</string>
-    <string name="confirm">Confirm</string>
-    <string name="shuttle">Shuttle</string>
-    <string name="buggy">Buggy</string>
-    <string name="ttc">TTC</string>
-    <string name="placeholder">--</string>
-    <string name="add_new">Add New</string>
-    <string name="delete">Delete</string>
-    <string name="report">Report</string>
-    <string name="edit">Edit</string>
-    <string name="loading">Loading…</string>
+    <string name="et_trips_sub_note">Add trips by clicking \'+\' button.
+        Order doesn\'t matter. In next step you can reorder. Swipe left to delete entry.
+    </string>
+    <string name="et_adjust_note">Select the first trip of the day. Ignore the post midnight trips.</string>
+    <string name="et_adjust_warning">You have not added any trips to the current route. Please go back to the previous
+        step and add some trips before rearranging them.
+    </string>
+    <string name="et_same_trip_warning">%s is already in the list.</string>
+    <string name="et_first_trip">First Trip</string>
+    <string name="et_not_set">&lt; Not Set &gt;</string>
+    <string name="et_confirm_note">Almost there! Please check if following details are correct. You may click on the
+        elements to edit them.
+    </string>
+    <string name="et_confirm_warning">You have not completed one or more of the steps.
+        Check out step indicator at the bottom to know which step is incomplete.
+    </string>
 
-    <!--Edit Transport-->
-    <string name="manage_routes">Manage Routes</string>
-    <string name="add_transport">Add Transport</string>
-    <string name="edit_transport">Edit Transport</string>
-    <string name="origin">Origin</string>
-    <string name="destination">Destination</string>
-    <string name="et_basic_footnote">Step 1 of 5 (Next: Add Type)</string>
-    <string name="et_basic_note">Put basic information below</string>
-    <string name="et_type_footnote">Step 2 of 5 (next: Add Frequency)</string>
-    <string name="et_type_note">What kind of transport is this?</string>
-    <string name="et_type_shuttle">Shuttle or Bus (approx 30 seats)</string>
-    <string name="et_type_ttc">Tempo Traveller (approx 12 seats)</string>
-    <string name="et_type_buggy">Electric Buggy (approx 8 seats)</string>
-    <string name="et_frequency_specific">Select specific day(s)</string>
-    <string name="et_frequency_all_days">All Days</string>
-    <string name="et_frequency_mon_sat">Monday to Saturday</string>
-    <string name="et_frequency_sat_sun">Saturday and Sunday</string>
-    <string name="et_frequency_note">Select Weekly Frequency</string>
-    <string name="et_frequency_sub_note">if you have different schedule for different days, add each day separately.</string>
-    <string name="et_frequency_footnote">Step 3 of 5 (next: add trips)</string>
-    <string name="et_trips_add_new">Add</string>
-    <string name="et_trips_note">Add Trips</string>
-    <string name="et_trips_exists_warning">Already in the list.</string>
-    <string name="et_trips_sub_note">Order doesn\'t matter. In next step you can reorder. Swipe left to delete entry.</string>
-    <string name="et_trips_footnote">Step 4 of 5 (next: rearrange)</string>
-    <string name="et_confirm_note">Rearrange Trips</string>
-    <string name="et_confirm_sub_note">Select the first trip of the day. Ignore the post midnight trips.</string>
-    <string name="et_confirm_footnote">Step 5 of 5 (next: confirm)</string>
-    <string name="et_confirm_basic_info_warning">You must add origin and destination in order to add new route.</string>
-    <string name="et_confirm_type_warning">Each route should have valid type.</string>
-    <string name="et_confirm_trip_warning">You have not added any trips to your current route.</string>
-    <string name="et_confirm_type">Transport type : %1$s\nfor %2$s</string>
-    <string name="et_confirm_fq_mon_sat">Weekdays(including Saturday)</string>
-    <string name="et_almost_ready">Almost Ready!</string>
-    <string name="et_fine_details">Confirm all information. Click on any details to change.</string>
-    <string name="et_back_press">You are in middle of editing route. If you want to go to previous step, you can press \'Previous\' button. What do you want to do ? </string>
-    <string name="et_back_cancel">Cancel Wizard</string>
-    <string name="et_back_previous">Previous Step</string>
-    <string name="mt_note">Edit, Delete, Create New or Report Mistakes</string>
-    <string name="mt_last_modified">Last Modified\n%s</string>
-    <string name="mt_select_trips">Select Trips to Edit</string>
-    <string name="mt_select_trip_message">We have found following trip day(s) related to route \'%1$s-%2$s\'. Please select which one you want to edit.</string>
-    <string name="mt_select_snackbar">Option %s selected.</string>
-    <string name="mt_delete_confirm">You are about to delete \' %1$s - %2$s (%3$s)\' from your database. This action can not be undone. If you want to delete specific trip, please use edit button.
-    Do you want to continue?</string>
+    <string name="et_same_route_error">Route %1$s - %2$s (%3$s) already exists in your database. If you continue, old
+        data will be replaced by current data. Do you want to continue?
+    </string>
 
-    <string name="et_conflict_day">You are about to change trip details for already existing route. Do you want to continue?</string>
-    <string name="et_no_conflict_day">You are about to add additional trip information to existing route. Do you want to continue?</string>
-    <string name="et_route_conflict">This route already exists in your database. This action might override existing trip data. Do you still want to continue?</string>
-    <string name="et_specific_delete">This action will delete only current day(s) from this route. Rest of the days (if any) will not be affected. Do you want to continue?</string>
-
-    <string name="tp_created_on">Last Update: %s</string>
+    <string name="et_sd_trips">No of trips: %d</string>
+    <string name="et_select_weekday">Weekdays</string>
+    <string name="et_select_weekday_details">Monday to Saturday</string>
+    <string name="et_select_single_day">Single day schedule</string>
+    <string name="et_select_day">Select Trip Schedule</string>
+    <string name="et_select_day_note">You have selected above route to edit.
+        This route has following different trip schedules, please select which one do you want to edit.
+    </string>
+    <string name="edit_transport_wizard">Edit Transport Wizard</string>
+    <string name="create_new">Create New Route</string>
+    <string name="et_footnote">Or can always create new route…</string>
+    <string name="et_delete_warning">You are about to delete single day schedule (1 out of %1$d) from \' %2$s - %3$s
+        (%4$s) \'. All other trip schedules will not be affected. Do you want to continue?
+    </string>
+    <string name="et_delete_only_trip">You are about to delete only schedule from \' %1$s - %2$s (%3$s) \'.
+        This action will delete complete route. Do you want to continue?
+    </string>
+    <string name="et_delete_error">Sorry…Something went wrong. Try again later or contact the developers.</string>
 </resources>

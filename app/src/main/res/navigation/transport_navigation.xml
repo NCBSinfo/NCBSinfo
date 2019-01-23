@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/transport_navigation"
+            app:startDestination="@id/selectTripDayFragment">
+
+    <fragment android:id="@+id/addRouteNamesFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.AddRouteNamesFragment"
+              android:label="@string/et_route_name" tools:layout="@layout/fragment_add_route_names"/>
+    <fragment android:id="@+id/addTransportTypeFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.AddTransportTypeFragment"
+              android:label="@string/et_transport_type" tools:layout="@layout/fragment_add_transport_type"/>
+    <fragment android:id="@+id/addTripsFragment" android:name="com.rohitsuratekar.NCBSinfo.fragments.AddTripsFragment"
+              android:label="@string/et_add_trips" tools:layout="@layout/fragment_add_trips"/>
+    <fragment android:id="@+id/adjustTripFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.AdjustTripFragment"
+              android:label="@string/et_adjust" tools:layout="@layout/fragment_adjust_trip"/>
+    <fragment android:id="@+id/confirmEditFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.ConfirmEditFragment"
+              android:label="@string/et_confirm" tools:layout="@layout/fragment_confirm_edit"/>
+    <fragment android:id="@+id/addFrequencyFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.AddFrequencyFragment"
+              android:label="fragment_add_frequency" tools:layout="@layout/fragment_add_frequency"/>
+    <fragment android:id="@+id/selectTripDayFragment"
+              android:name="com.rohitsuratekar.NCBSinfo.fragments.SelectTripDayFragment"
+              android:label="fragment_select_trip_day" tools:layout="@layout/fragment_select_trip_day"/>
+</navigation>

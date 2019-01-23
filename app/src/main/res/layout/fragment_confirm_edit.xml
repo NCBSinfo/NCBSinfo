@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".fragments.ConfirmEditFragment">
+
+    <androidx.cardview.widget.CardView
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp" android:layout_margin="@dimen/et_card_margin">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/et_cn_layout">
+
+            <TextView
+                    android:text="@string/et_not_set"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_cn_name" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/et_confirm_fragment_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/et_confirm_fragment_margin"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintTop_toBottomOf="@+id/et_cn_note" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toTopOf="@+id/et_cn_type"
+                    android:layout_marginTop="@dimen/et_confirm_fragment_margin" android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/et_not_set"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_cn_type" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/et_confirm_fragment_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/et_confirm_fragment_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/et_cn_name"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintBottom_toTopOf="@+id/et_cn_holder"
+                    android:layout_marginBottom="@dimen/et_confirm_fragment_margin_bottom"
+                    android:textAlignment="center"/>
+            <TextView
+                    android:text="@string/et_confirm_note"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_cn_note" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/et_confirm_fragment_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/et_confirm_fragment_margin"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toTopOf="@+id/et_cn_name"
+                    android:layout_marginTop="@dimen/et_confirm_fragment_margin"
+                    android:textAlignment="center"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:id="@+id/et_cn_holder"
+                    app:layout_constraintTop_toBottomOf="@+id/et_cn_type" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toTopOf="@+id/et_cn_recycler"
+                    android:layout_marginBottom="@dimen/et_confirm_fragment_margin_bottom"
+            >
+                <TextView
+                        android:text="@string/sunday_short"
+                        android:textColor="@color/white"
+                        style="@style/TransportDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_0"/>
+
+                <TextView
+                        android:text="@string/monday_short"
+                        android:textColor="@color/white"
+                        style="@style/TransportDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_1"/>
+                <TextView
+                        android:text="@string/tuesday_short"
+                        style="@style/TransportDays"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_2"/>
+                <TextView
+                        android:text="@string/wednesday_short"
+                        android:textColor="@color/white"
+                        style="@style/TransportDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_3"/>
+                <TextView
+                        android:text="@string/thursday_short"
+                        style="@style/TransportDays"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_4"/>
+                <TextView
+                        android:text="@string/friday_short"
+                        android:textColor="@color/white"
+                        style="@style/TransportDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_5"/>
+                <TextView
+                        android:text="@string/saturday_short"
+                        android:textColor="@color/white"
+                        style="@style/TransportDays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1" android:id="@+id/et_cn_6"/>
+            </LinearLayout>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="@string/et_not_set"
+                      android:id="@+id/et_cn_empty_trips"
+                      app:layout_constraintStart_toStartOf="@id/et_cn_recycler"
+                      app:layout_constraintEnd_toEndOf="@id/et_cn_recycler"
+                      app:layout_constraintTop_toTopOf="@id/et_cn_recycler"
+                      app:layout_constraintBottom_toBottomOf="@id/et_cn_recycler"
+            />
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                    android:id="@+id/et_cn_recycler"
+                    app:layout_constraintTop_toBottomOf="@+id/et_cn_holder" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintBottom_toTopOf="@+id/et_cn_confirm"
+                    android:layout_marginBottom="@dimen/et_confirm_fragment_margin_bottom"/>
+            <Button
+                    android:text="@string/et_confirm"
+                    android:layout_width="0dp"
+                    style="@style/Widget.MyApp.EditButton"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_cn_confirm"
+                    app:layout_constraintStart_toEndOf="@+id/et_cn_previous" app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <Button
+                    android:text="@string/previous"
+                    style="@style/Widget.MyApp.EditButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_cn_previous" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/et_cn_confirm"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
