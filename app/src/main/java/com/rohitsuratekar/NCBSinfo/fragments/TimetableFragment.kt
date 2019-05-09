@@ -139,8 +139,8 @@ class TimetableFragment : MyFragment() {
     private fun updateUI() {
         callback?.hideProgress()
         currentRoute?.let {
-            tp_origin.text = it.routeData.origin?.toUpperCase()
-            tp_destination.text = it.routeData.destination?.toUpperCase()
+            tp_origin.text = it.routeData.origin?.toUpperCase(Locale.getDefault())
+            tp_destination.text = it.routeData.destination?.toUpperCase(Locale.getDefault())
             tp_type.text = getString(R.string.tp_type, it.routeData.type)
             if (it.routeData.type == "other") {
                 tp_type.text = getString(R.string.tp_type, "transport")

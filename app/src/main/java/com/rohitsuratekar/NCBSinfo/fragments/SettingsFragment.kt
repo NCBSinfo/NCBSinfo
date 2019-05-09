@@ -101,8 +101,8 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
             itemList.add(
                 getString(
                     R.string.settings_route_name,
-                    r.routeData.origin?.toUpperCase(),
-                    r.routeData.destination?.toUpperCase(),
+                    r.routeData.origin?.toUpperCase(Locale.getDefault()),
+                    r.routeData.destination?.toUpperCase(Locale.getDefault()),
                     r.routeData.type
                 )
             )
@@ -155,7 +155,7 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
                         }
                         ACTION_APP_DETAILS -> isDisabled = true
                         ACTION_CRASH_REPORT -> description =
-                                getString(a[2], convertBool(repository.prefs().crashReportingEnabled()))
+                            getString(a[2], convertBool(repository.prefs().crashReportingEnabled()))
                     }
                 })
                 else -> itemList.add(SettingsItem(VIEW_LINE))

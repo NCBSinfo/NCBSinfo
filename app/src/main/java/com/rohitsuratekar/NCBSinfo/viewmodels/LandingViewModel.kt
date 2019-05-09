@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.rohitsuratekar.NCBSinfo.common.CheckRoutes
 import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.OnFinishRetrieving
-import com.rohitsuratekar.NCBSinfo.common.serverTimestamp
+import com.rohitsuratekar.NCBSinfo.common.updateMay19
 import com.rohitsuratekar.NCBSinfo.database.RouteData
 import com.rohitsuratekar.NCBSinfo.database.TripData
 import com.rohitsuratekar.NCBSinfo.di.Repository
@@ -44,9 +44,9 @@ class LandingViewModel : ViewModel() {
     fun checkDataUpdate(repository: Repository) {
 
         if (repository.prefs().updateVersion() < Constants.UPDATE_VERSION) {
-
-            val updateList = mutableListOf<DataUpdateModel>()
-            //val updateList = testUpdate1(repository.app().baseContext) // For Testing purpose only
+            //TODO: Need proper method to update sequentially
+            //val updateList = mutableListOf<DataUpdateModel>()
+            val updateList = updateMay19(repository.app().baseContext) // For 3 May 2019 Update
 
             CheckUpdates(repository, updateList, object : OnUpdate {
                 override fun updateCompleted() {
@@ -54,6 +54,7 @@ class LandingViewModel : ViewModel() {
                 }
             }).execute()
         } else {
+            Log.i(TAG, "Database is up-to date")
             dataUpdated.postValue(true)
         }
 
@@ -66,20 +67,18 @@ class LandingViewModel : ViewModel() {
     ) :
         AsyncTask<Void?, Void?, Void?>() {
 
-        private val timestamp = Calendar.getInstance().serverTimestamp()
-
         override fun doInBackground(vararg params: Void?): Void? {
             for (data in dataList) {
                 var routeNo = repository.data().isRouteThere(data.origin, data.destination, data.type)
                 if ((routeNo == 0) and data.createNew) {
                     routeNo = repository.data().addRoute(RouteData().apply {
-                        origin = data.origin.trim().toLowerCase()
-                        destination = data.destination.trim().toLowerCase()
-                        type = data.type.trim().toLowerCase()
+                        origin = data.origin.trim().toLowerCase(Locale.getDefault())
+                        destination = data.destination.trim().toLowerCase(Locale.getDefault())
+                        type = data.type.trim().toLowerCase(Locale.getDefault())
                         author = Constants.DEFAULT_AUTHOR
-                        modifiedOn = timestamp
-                        createdOn = timestamp
-                        syncedOn = timestamp
+                        modifiedOn = data.updateDate
+                        createdOn = data.updateDate
+                        syncedOn = data.updateDate
                         favorite = "no"
                     }).toInt()
                     Log.i(TAG, "New Route Created")
@@ -109,7 +108,7 @@ class LandingViewModel : ViewModel() {
                             }
                             t.routeID = route.routeID
                             repository.data().addTrips(t)
-                            repository.data().updateModifiedDate(route, timestamp)
+                            repository.data().updateModifiedDate(route, data.updateDate)
                             Log.i(TAG, "Added New Trip")
                         }
                     }

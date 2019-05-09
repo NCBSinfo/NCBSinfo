@@ -29,7 +29,7 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
         listener.changeStatus(repository.app().getString(R.string.making_default))
 
         val creationString = "2018-07-21 00:00:00"
-        val modifiedString = "2018-08-27 00:00:00"
+        val modifiedString = "2019-05-03 00:00:00"
 
         val readableFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 
@@ -90,6 +90,9 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
             returnList.add(Route(r, repository.data().getTrips(r)))
         }
         listener.returnRoutes(returnList)
+        // If default data is reset, no need to check database update, hence update the "UPDATE_VERSION"
+        repository.prefs().updateVersion(Constants.UPDATE_VERSION)
+        // Finish database loading
         listener.dataLoadFinished()
     }
 
@@ -101,9 +104,9 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
         modified: Calendar
     ): RouteData {
         val route = RouteData().apply {
-            origin = originString.toLowerCase()
-            destination = destinationString.toLowerCase()
-            type = typeString.toLowerCase()
+            origin = originString.toLowerCase(Locale.getDefault())
+            destination = destinationString.toLowerCase(Locale.getDefault())
+            type = typeString.toLowerCase(Locale.getDefault())
             createdOn = creation.serverTimestamp()
             modifiedOn = modified.serverTimestamp()
             syncedOn = modified.serverTimestamp()

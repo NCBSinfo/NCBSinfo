@@ -9,5 +9,6 @@ data class DataUpdateModel(
     val replaceAll: Boolean, // If true, deletes all old routes and used new
     val createNew: Boolean, // If true, new route will be created if it doesn't exist
     val tripList: List<TripData>, // List of trips. If size is zero, nothing is updated
-    val deleteRoute: Boolean // If true, Route with current details will be deleted
+    val deleteRoute: Boolean, // If true, Route with current details will be deleted
+    val updateDate: String // Date of Update
 )
