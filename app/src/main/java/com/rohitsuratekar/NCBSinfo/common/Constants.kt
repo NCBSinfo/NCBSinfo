@@ -3,7 +3,7 @@ package com.rohitsuratekar.NCBSinfo.common
 object Constants {
 
     const val DEFAULT_AUTHOR = "SecretBiology"
-    const val UPDATE_VERSION = 2 // Update on 9 May 2019
+    const val UPDATE_VERSION = 3 // Update on 4 June 2019
 
     const val NAVIGATE_HOME = 1
     const val NAVIGATE_TIMETABLE = 2

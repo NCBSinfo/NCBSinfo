@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TODO Change at Every Version -->
-    <string name="settings_app_version">6.6.2</string>
+    <string name="settings_app_version">6.6.3</string>
     <string name="settings_header_notice">Important Information</string>
     <string name="settings_development_notice">Announcement</string>
     <string name="settings_development_notice_details">Information regarding future app development.
@@ -50,7 +50,7 @@
 ]]></string>
 
     <string name="terms"><![CDATA[ This is <b>NOT</b> an official NCBS app and has been created ONLY for personal use.
-    All the information provided in this application was last updated on May 3, 2019.
+    All the information provided in this application was last updated on June 4, 2019.
     Though a lot of effort has been taken to curate the information,
     minor discrepancies may still exist. Developers are not responsible for any such information presented/conveyed
     through this application.

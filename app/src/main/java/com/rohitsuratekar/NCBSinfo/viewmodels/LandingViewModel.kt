@@ -4,10 +4,7 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rohitsuratekar.NCBSinfo.common.CheckRoutes
-import com.rohitsuratekar.NCBSinfo.common.Constants
-import com.rohitsuratekar.NCBSinfo.common.OnFinishRetrieving
-import com.rohitsuratekar.NCBSinfo.common.updateMay19
+import com.rohitsuratekar.NCBSinfo.common.*
 import com.rohitsuratekar.NCBSinfo.database.RouteData
 import com.rohitsuratekar.NCBSinfo.database.TripData
 import com.rohitsuratekar.NCBSinfo.di.Repository
@@ -44,9 +41,11 @@ class LandingViewModel : ViewModel() {
     fun checkDataUpdate(repository: Repository) {
 
         if (repository.prefs().updateVersion() < Constants.UPDATE_VERSION) {
+
             //TODO: Need proper method to update sequentially
-            //val updateList = mutableListOf<DataUpdateModel>()
-            val updateList = updateMay19(repository.app().baseContext) // For 3 May 2019 Update
+            val updateList = mutableListOf<DataUpdateModel>()
+            updateList.addAll(updateMay19(repository.app().baseContext)) // For 3 May 2019 Update
+            updateList.addAll(updateJune19(repository.app().baseContext)) // For 4 June 2019 Update
 
             CheckUpdates(repository, updateList, object : OnUpdate {
                 override fun updateCompleted() {
@@ -69,6 +68,7 @@ class LandingViewModel : ViewModel() {
 
         override fun doInBackground(vararg params: Void?): Void? {
             for (data in dataList) {
+                Log.i(TAG, "Started Update ${data.origin} - ${data.destination} ${data.type}")
                 var routeNo = repository.data().isRouteThere(data.origin, data.destination, data.type)
                 if ((routeNo == 0) and data.createNew) {
                     routeNo = repository.data().addRoute(RouteData().apply {

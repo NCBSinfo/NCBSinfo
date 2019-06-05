@@ -146,3 +146,77 @@ fun updateMay19(context: Context): List<DataUpdateModel> {
     )
     return list
 }
+
+
+/**
+ * Update based on announcement on 4 June 2019 for NCBS/IISC and NCBS/Mandara
+ */
+
+fun updateJune19(context: Context): List<DataUpdateModel> {
+
+    val ncbsIisc = mutableListOf<TripData>()
+    ncbsIisc.add(
+        TripData().apply {
+            day = Calendar.MONDAY
+            trips = convertToList(context.getString(R.string.def_ncbs_iisc_week))
+        }
+    )
+
+    val ncbsMandara = mutableListOf<TripData>()
+    ncbsMandara.add(
+        TripData().apply {
+            day = Calendar.MONDAY
+            trips = convertToList(context.getString(R.string.def_ncbs_mandara_week))
+        }
+    )
+
+    val mandaraNcbs = mutableListOf<TripData>()
+    mandaraNcbs.add(
+        TripData().apply {
+            day = Calendar.MONDAY
+            trips = convertToList(context.getString(R.string.def_mandara_ncbs_week))
+        }
+    )
+
+    val list = mutableListOf<DataUpdateModel>()
+    list.add(
+        DataUpdateModel(
+            "ncbs",
+            "iisc",
+            "shuttle",
+            false,
+            false,
+            ncbsIisc,
+            false,
+            convertToServerTimeStamp("2019-06-04 12:13:00")
+        )
+    )
+
+    list.add(
+        DataUpdateModel(
+            "ncbs",
+            "mandara",
+            "shuttle",
+            false,
+            false,
+            ncbsMandara,
+            false,
+            convertToServerTimeStamp("2019-06-04 12:13:00")
+        )
+    )
+
+    list.add(
+        DataUpdateModel(
+            "mandara",
+            "ncbs",
+            "shuttle",
+            false,
+            false,
+            mandaraNcbs,
+            false,
+            convertToServerTimeStamp("2019-06-04 12:13:00")
+        )
+    )
+
+    return list
+}
