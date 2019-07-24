@@ -76,7 +76,10 @@ class TimetableAdapter(private var route: Route, private var currentCal: Calenda
                 holder.frontImage.setImageResource(R.color.colorLight)
             }
 
-            if ((position < currentTrips.indexOf(nextTripText)) and (nextTripDay == currentCal.get(Calendar.DAY_OF_WEEK))) {
+            if ((position < currentTrips.indexOf(nextTripText)) and (nextTripDay == currentCal.get(
+                    Calendar.DAY_OF_WEEK
+                ))
+            ) {
                 holder.frontImage.setImageResource(R.color.colorPrimary)
                 holder.itemText.setTextColor(ContextCompat.getColor(context, R.color.grey))
             }
@@ -117,9 +120,9 @@ class TimetableAdapter(private var route: Route, private var currentCal: Calenda
         val returnCal = Calendar.getInstance().apply { timeInMillis = currentCal.timeInMillis }
         val tempCal = Calendar.getInstance()
         try {
-            tempCal.timeInMillis = inputFormat.parse(input).time
+            tempCal.timeInMillis = inputFormat.parse(input)?.time!!
         } catch (e: ParseException) {
-            Log.e("Trip", e.localizedMessage)
+            Log.e("Trip", "Message : ${e.localizedMessage}")
             return "--:--"
         }
         returnCal.set(Calendar.HOUR_OF_DAY, tempCal.get(Calendar.HOUR_OF_DAY))

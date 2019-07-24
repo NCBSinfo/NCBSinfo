@@ -187,7 +187,7 @@ class TimetableFragment : MyFragment() {
             val outFormat = SimpleDateFormat("dd MMM yy", Locale.ENGLISH)
             return try {
                 val d = readFormat.parse(input)
-                outFormat.format(d)
+                outFormat.format(d!!)
             } catch (e: Exception) {
                 "N/A"
             }

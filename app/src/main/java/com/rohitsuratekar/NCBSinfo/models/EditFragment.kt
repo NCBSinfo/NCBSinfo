@@ -20,7 +20,7 @@ abstract class EditFragment : Fragment() {
             repository = (activity as EditTransport).checkRepository()
             sharedModel = (activity as EditTransport).checkSharedModel()
         } else {
-            throw RuntimeException(context.toString() + " must implement EditCallbacks")
+            throw RuntimeException("$context must implement EditCallbacks")
         }
     }
 

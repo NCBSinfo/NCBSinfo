@@ -52,8 +52,14 @@ class ContactDetailsFragment : BottomSheetDialogFragment(), ContactDetailsAdapte
             ct_sheet_feedback.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/html"
-                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("contact@secretbiology.com", "ncbs.mod@gmail.com"))
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback on " + contact.name + " in contact list")
+                intent.putExtra(
+                    Intent.EXTRA_EMAIL,
+                    arrayOf("contact@secretbiology.com", "ncbs.mod@gmail.com")
+                )
+                intent.putExtra(
+                    Intent.EXTRA_SUBJECT,
+                    "Feedback on " + contact.name + " in contact list"
+                )
                 startActivity(Intent.createChooser(intent, "Send Email"))
                 dismiss()
             }
@@ -80,12 +86,18 @@ class ContactDetailsFragment : BottomSheetDialogFragment(), ContactDetailsAdapte
             val intent = Intent(Intent.ACTION_INSERT)
             intent.type = ContactsContract.Contacts.CONTENT_TYPE
             intent.putExtra(ContactsContract.Intents.Insert.NAME, it.name)
-            intent.putExtra(ContactsContract.Intents.Insert.PHONE, getFormattedNumber(it.primaryExtension))
+            intent.putExtra(
+                ContactsContract.Intents.Insert.PHONE,
+                getFormattedNumber(it.primaryExtension)
+            )
 
             val data = ArrayList<ContentValues>()
             for (a in it.extraExtensions()) {
                 val row = ContentValues()
-                row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                row.put(
+                    ContactsContract.Data.MIMETYPE,
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                )
                 row.put(ContactsContract.CommonDataKinds.Phone.NUMBER, getFormattedNumber(a))
                 data.add(row)
             }
@@ -103,7 +115,7 @@ class ContactDetailsFragment : BottomSheetDialogFragment(), ContactDetailsAdapte
         if (context is ContactDetailsAdapter.OnCalled) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement ContactDetailsAdapter.OnCalled")
+            throw RuntimeException("$context must implement ContactDetailsAdapter.OnCalled")
         }
     }
 

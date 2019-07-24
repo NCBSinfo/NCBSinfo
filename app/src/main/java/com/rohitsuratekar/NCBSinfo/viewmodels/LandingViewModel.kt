@@ -4,9 +4,8 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rohitsuratekar.NCBSinfo.common.*
-import com.rohitsuratekar.NCBSinfo.database.RouteData
-import com.rohitsuratekar.NCBSinfo.database.TripData
+import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.database.*
 import com.rohitsuratekar.NCBSinfo.di.Repository
 import com.rohitsuratekar.NCBSinfo.models.DataUpdateModel
 import com.rohitsuratekar.NCBSinfo.models.Route
@@ -23,18 +22,20 @@ class LandingViewModel : ViewModel() {
 
     fun checkAvailableRoutes(repository: Repository) {
 
-        CheckRoutes(repository, object : OnFinishRetrieving {
-            override fun returnRoutes(routeList: List<Route>) {}
+        CheckRoutes(
+            repository,
+            object : OnFinishRetrieving {
+                override fun returnRoutes(routeList: List<Route>) {}
 
-            override fun dataLoadFinished() {
-                dataLoaded.postValue(true)
-            }
+                override fun dataLoadFinished() {
+                    dataLoaded.postValue(true)
+                }
 
-            override fun changeStatus(statusNote: String) {
-                status.postValue(statusNote)
-            }
+                override fun changeStatus(statusNote: String) {
+                    status.postValue(statusNote)
+                }
 
-        }).execute()
+            }).execute()
     }
 
 
@@ -44,14 +45,28 @@ class LandingViewModel : ViewModel() {
 
             //TODO: Need proper method to update sequentially
             val updateList = mutableListOf<DataUpdateModel>()
-            updateList.addAll(updateMay19(repository.app().baseContext)) // For 3 May 2019 Update
-            updateList.addAll(updateJune19(repository.app().baseContext)) // For 4 June 2019 Update
+//            updateList.addAll(updateMay19(repository.app().baseContext)) // For 3 May 2019 Update
+//            updateList.addAll(updateJune19(repository.app().baseContext)) // For 4 June 2019 Update
 
-            CheckUpdates(repository, updateList, object : OnUpdate {
-                override fun updateCompleted() {
+//            CheckUpdates(repository, updateList, object : OnUpdate {
+//                override fun updateCompleted() {
+//                    dataUpdated.postValue(true)
+//                }
+//            }).execute()
+
+
+            // July 2019 Update: Reset all Default Routes
+
+            ResetOnlyDefault(repository, object : OnFinishReset {
+                override fun resetFinished() {
+                    Log.i(TAG, "Database Updated")
+                    repository.prefs().updateVersion(Constants.UPDATE_VERSION)
                     dataUpdated.postValue(true)
                 }
+
             }).execute()
+
+
         } else {
             Log.i(TAG, "Database is up-to date")
             dataUpdated.postValue(true)
@@ -69,7 +84,8 @@ class LandingViewModel : ViewModel() {
         override fun doInBackground(vararg params: Void?): Void? {
             for (data in dataList) {
                 Log.i(TAG, "Started Update ${data.origin} - ${data.destination} ${data.type}")
-                var routeNo = repository.data().isRouteThere(data.origin, data.destination, data.type)
+                var routeNo =
+                    repository.data().isRouteThere(data.origin, data.destination, data.type)
                 if ((routeNo == 0) and data.createNew) {
                     routeNo = repository.data().addRoute(RouteData().apply {
                         origin = data.origin.trim().toLowerCase(Locale.getDefault())

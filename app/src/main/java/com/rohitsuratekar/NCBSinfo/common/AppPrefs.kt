@@ -1,7 +1,7 @@
 package com.rohitsuratekar.NCBSinfo.common
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 
 private const val FAVORITE_ORIGIN = "favorite_origin"
 private const val FAVORITE_DESTINATION = "favorite_destination"
@@ -13,7 +13,9 @@ private const val CRASH_REPORTING = "crash_reporting"
 private const val CRASH_REPORTING_REQUEST = "crash_reporting_request"
 
 class AppPrefs(context: Context) {
+
     private val pref = PreferenceManager.getDefaultSharedPreferences(context)
+
 
     fun clearAll() {
         pref.edit().clear().apply()

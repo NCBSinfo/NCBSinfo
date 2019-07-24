@@ -17,6 +17,7 @@ import com.rohitsuratekar.NCBSinfo.models.MyFragment
 import com.rohitsuratekar.NCBSinfo.models.Route
 import com.rohitsuratekar.NCBSinfo.viewmodels.ManageTransportViewModel
 import kotlinx.android.synthetic.main.fragment_manage_transport.*
+import java.util.*
 
 class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionClicked {
 
@@ -96,7 +97,9 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
     override fun delete(route: Route) {
         var message = getString(
             R.string.mt_delete_confirm,
-            route.routeData.origin?.toUpperCase(), route.routeData.destination?.toUpperCase(), route.routeData.type
+            route.routeData.origin?.toUpperCase(Locale.getDefault()),
+            route.routeData.destination?.toUpperCase(Locale.getDefault()),
+            route.routeData.type
         )
         if (routeList.size == 1) {
             message = getString(R.string.mt_single_route_error)
@@ -119,11 +122,16 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
     override fun report(route: Route) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/html"
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("contact@secretbiology.com", "ncbs.mod@gmail.com"))
+        intent.putExtra(
+            Intent.EXTRA_EMAIL,
+            arrayOf("contact@secretbiology.com", "ncbs.mod@gmail.com")
+        )
         intent.putExtra(
             Intent.EXTRA_SUBJECT, getString(
                 R.string.mt_route_feedback,
-                route.routeData.origin?.toUpperCase(), route.routeData.destination?.toUpperCase(), route.routeData.type
+                route.routeData.origin?.toUpperCase(Locale.getDefault()),
+                route.routeData.destination?.toUpperCase(Locale.getDefault()),
+                route.routeData.type
             )
         )
         startActivity(Intent.createChooser(intent, "Send Email"))

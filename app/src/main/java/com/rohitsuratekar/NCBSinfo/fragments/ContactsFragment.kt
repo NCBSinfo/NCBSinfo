@@ -72,17 +72,32 @@ class ContactsFragment : MyFragment(), ContactAdapter.OnContactSelect {
                     for (c in originalList) {
                         c.searchArea.clear()
                         c.name?.let {
-                            if (it.toLowerCase().contains(newText.toLowerCase())) {
+                            if (it.toLowerCase(Locale.getDefault()).contains(
+                                    newText.toLowerCase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                            ) {
                                 c.searchArea.add(Contact.AREA.NAME)
                             }
                         }
                         c.details?.let {
-                            if (it.toLowerCase().contains(newText.toLowerCase())) {
+                            if (it.toLowerCase(Locale.getDefault()).contains(
+                                    newText.toLowerCase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                            ) {
                                 c.searchArea.add(Contact.AREA.DETAILS)
                             }
                         }
                         c.primaryExtension?.let {
-                            if (it.toLowerCase().contains(newText.toLowerCase())) {
+                            if (it.toLowerCase(Locale.getDefault()).contains(
+                                    newText.toLowerCase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                            ) {
                                 c.searchArea.add(Contact.AREA.EXTENSION)
                             }
                         }
@@ -105,6 +120,7 @@ class ContactsFragment : MyFragment(), ContactAdapter.OnContactSelect {
 
         })
 
+        //TODO: Handle setColorFilter
         contact_toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_sort -> {

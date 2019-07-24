@@ -1,10 +1,11 @@
-package com.rohitsuratekar.NCBSinfo.common
+package com.rohitsuratekar.NCBSinfo.database
 
 import android.os.AsyncTask
 import android.util.Log
 import com.rohitsuratekar.NCBSinfo.R
-import com.rohitsuratekar.NCBSinfo.database.RouteData
-import com.rohitsuratekar.NCBSinfo.database.TripData
+import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.convertToList
+import com.rohitsuratekar.NCBSinfo.common.serverTimestamp
 import com.rohitsuratekar.NCBSinfo.di.Repository
 import com.rohitsuratekar.NCBSinfo.models.Route
 import java.text.SimpleDateFormat
@@ -29,59 +30,104 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
         listener.changeStatus(repository.app().getString(R.string.making_default))
 
         val creationString = "2018-07-21 00:00:00"
-        val modifiedString = "2019-06-04 00:00:00"
+        val modifiedString = "2019-07-17 00:00:00"
 
         val readableFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 
         val creationDate = Calendar.getInstance()
         val modifiedDate = Calendar.getInstance()
 
-        creationDate.timeInMillis = readableFormat.parse(creationString).time
-        modifiedDate.timeInMillis = readableFormat.parse(modifiedString).time
+        creationDate.timeInMillis = readableFormat.parse(creationString)?.time!!
+        modifiedDate.timeInMillis = readableFormat.parse(modifiedString)?.time!!
 
         //NCBS - IISC Shuttle
         val r1 = makeRoute("ncbs", "iisc", "shuttle", creationDate, modifiedDate)
-        makeTrips(r1, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_ncbs_iisc_week)))
-        makeTrips(r1, Calendar.SUNDAY, convertToList(repository.app().getString(R.string.def_ncbs_iisc_sunday)))
+        makeTrips(
+            r1, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_iisc_week))
+        )
+        makeTrips(
+            r1, Calendar.SUNDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_iisc_sunday))
+        )
 
         // IISC - NCBS Shuttle
         val r2 = makeRoute("iisc", "ncbs", "shuttle", creationDate, modifiedDate)
-        makeTrips(r2, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_iisc_ncbs_week)))
-        makeTrips(r2, Calendar.SUNDAY, convertToList(repository.app().getString(R.string.def_iisc_ncbs_sunday)))
+        makeTrips(
+            r2, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_iisc_ncbs_week))
+        )
+        makeTrips(
+            r2, Calendar.SUNDAY,
+            convertToList(repository.app().getString(R.string.def_iisc_ncbs_sunday))
+        )
 
 
         //NCBS - Mandara Shuttle
         val r3 = makeRoute("ncbs", "mandara", "shuttle", creationDate, modifiedDate)
-        makeTrips(r3, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_ncbs_mandara_week)))
-        makeTrips(r3, Calendar.SUNDAY, convertToList(repository.app().getString(R.string.def_ncbs_mandara_sunday)))
+        makeTrips(
+            r3, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_mandara_week))
+        )
+        makeTrips(
+            r3, Calendar.SUNDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_mandara_sunday))
+        )
 
         //Mandara - NCBS Shuttle
         val r4 = makeRoute("mandara", "ncbs", "shuttle", creationDate, modifiedDate)
-        makeTrips(r4, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_mandara_ncbs_week)))
-        makeTrips(r4, Calendar.SUNDAY, convertToList(repository.app().getString(R.string.def_mandara_ncbs_sunday)))
+        makeTrips(
+            r4, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_mandara_ncbs_week))
+        )
+        makeTrips(
+            r4, Calendar.SUNDAY,
+            convertToList(repository.app().getString(R.string.def_mandara_ncbs_sunday))
+        )
 
         //NCBS - Mandara Buggy
         val r5 = makeRoute("ncbs", "mandara", "buggy", creationDate, modifiedDate)
-        makeTrips(r5, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_buggy_from_ncbs)))
+        makeTrips(
+            r5, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_buggy_from_ncbs))
+        )
 
         //Mandara - NCBS Buggy
         val r6 = makeRoute("mandara", "ncbs", "buggy", creationDate, modifiedDate)
-        makeTrips(r6, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_buggy_from_mandara)))
+        makeTrips(
+            r6, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_buggy_from_mandara))
+        )
 
 
         //NCBS - ICTS Shuttle
         val r7 = makeRoute("ncbs", "icts", "shuttle", creationDate, modifiedDate)
-        makeTrips(r7, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_ncbs_icts_week)))
-        makeTrips(r7, Calendar.SUNDAY, convertToList(repository.app().getString(R.string.def_ncbs_icts_sunday)))
+        makeTrips(
+            r7, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_icts_week))
+        )
+        makeTrips(
+            r7, Calendar.SUNDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_icts_sunday))
+        )
 
         //ICTS-NCBS Shuttle
         val r8 = makeRoute("icts", "ncbs", "shuttle", creationDate, modifiedDate)
-        makeTrips(r8, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_icts_ncbs_week)))
-        makeTrips(r8, Calendar.SUNDAY, convertToList(repository.app().getString(R.string.def_icts_ncbs_sunday)))
+        makeTrips(
+            r8, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_icts_ncbs_week))
+        )
+        makeTrips(
+            r8, Calendar.SUNDAY,
+            convertToList(repository.app().getString(R.string.def_icts_ncbs_sunday))
+        )
 
         //NCBS-CBL TTC
         val r9 = makeRoute("ncbs", "cbl", "ttc", creationDate, modifiedDate)
-        makeTrips(r9, Calendar.MONDAY, convertToList(repository.app().getString(R.string.def_ncbs_cbl)))
+        makeTrips(
+            r9, Calendar.MONDAY,
+            convertToList(repository.app().getString(R.string.def_ncbs_cbl))
+        )
 
 
         val routeList = repository.data().getAllRoutes()

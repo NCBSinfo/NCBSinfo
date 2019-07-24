@@ -3,8 +3,8 @@ package com.rohitsuratekar.NCBSinfo.viewmodels
 import android.os.AsyncTask
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rohitsuratekar.NCBSinfo.common.CheckRoutes
-import com.rohitsuratekar.NCBSinfo.common.OnFinishRetrieving
+import com.rohitsuratekar.NCBSinfo.database.CheckRoutes
+import com.rohitsuratekar.NCBSinfo.database.OnFinishRetrieving
 import com.rohitsuratekar.NCBSinfo.di.Repository
 import com.rohitsuratekar.NCBSinfo.models.Route
 
@@ -63,16 +63,18 @@ class ManageTransportViewModel : ViewModel() {
     }
 
     private fun remakeRoutes(repository: Repository) {
-        CheckRoutes(repository, object : OnFinishRetrieving {
-            override fun returnRoutes(routeList: List<Route>) {
-                routeDeleted.postValue(routeList)
-            }
+        CheckRoutes(
+            repository,
+            object : OnFinishRetrieving {
+                override fun returnRoutes(routeList: List<Route>) {
+                    routeDeleted.postValue(routeList)
+                }
 
-            override fun dataLoadFinished() {}
+                override fun dataLoadFinished() {}
 
-            override fun changeStatus(statusNote: String) {}
+                override fun changeStatus(statusNote: String) {}
 
-        }).execute()
+            }).execute()
     }
 
     fun deleteRoute(repository: Repository, route: Route) {

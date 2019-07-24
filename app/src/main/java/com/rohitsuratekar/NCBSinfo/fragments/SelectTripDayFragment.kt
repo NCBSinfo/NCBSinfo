@@ -106,8 +106,8 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
     private fun updateSharedModel() {
         val frequencyDetails = mutableListOf(0, 0, 0, 0, 0, 0, 0)
         currentRoute?.let {
-            sharedModel.setOrigin(it.routeData.origin!!.toUpperCase())
-            sharedModel.setDestination(it.routeData.destination!!.toUpperCase())
+            sharedModel.setOrigin(it.routeData.origin!!.toUpperCase(Locale.getDefault()))
+            sharedModel.setDestination(it.routeData.destination!!.toUpperCase(Locale.getDefault()))
             sharedModel.setType(getType(it.routeData.type!!))
             for (t in it.tripData) {
                 frequencyDetails[dayList.indexOf(t.day)] = 1
@@ -131,8 +131,8 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
         currentRoute?.let {
             et_sd_route.text = getString(
                 R.string.tp_route_name,
-                it.routeData.origin!!.toUpperCase(),
-                it.routeData.destination!!.toUpperCase()
+                it.routeData.origin!!.toUpperCase(Locale.getDefault()),
+                it.routeData.destination!!.toUpperCase(Locale.getDefault())
             )
             et_sd_type.text = it.routeData.type
 

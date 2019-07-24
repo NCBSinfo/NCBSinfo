@@ -14,7 +14,7 @@ constructor(rawTrips: List<String>) {
 
         val format = SimpleDateFormat(Constants.FORMAT_TRIP_LIST, Locale.ENGLISH)
 
-        val firstTrip = format.parse(rawTrips[0])
+        val firstTrip = format.parse(rawTrips[0])!!
         today.add(rawTrips[0]) //Add first trip.
         //Now if date is before first date, it should be after midnight trip
         for (trip in rawTrips) {

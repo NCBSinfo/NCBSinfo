@@ -105,7 +105,7 @@ class EditTransportViewModel : ViewModel() {
         val k = mutableListOf<String>()
         k.addAll(list)
         tripList.postValue(k)
-        updateConfirmState(Constants.EDIT_TRIPS, !k.isEmpty())
+        updateConfirmState(Constants.EDIT_TRIPS, k.isNotEmpty())
     }
 
     fun updateTripSelection(value: Boolean) {

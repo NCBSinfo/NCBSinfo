@@ -1,6 +1,7 @@
 package com.rohitsuratekar.NCBSinfo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -202,6 +203,7 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun call(number: String) {
         val intent = Intent(Intent.ACTION_CALL)
         intent.data = Uri.parse("tel:$number")

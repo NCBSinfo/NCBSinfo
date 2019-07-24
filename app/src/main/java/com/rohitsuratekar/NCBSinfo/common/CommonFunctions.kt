@@ -29,7 +29,7 @@ fun timeToDate(now: Date, s: String): Date {
         timeInMillis = now.time
     }
     val subCal = Calendar.getInstance().apply {
-        timeInMillis = format.parse(s).time
+        timeInMillis = format.parse(s)?.time!!
     }
 
     newCal.set(Calendar.HOUR_OF_DAY, subCal.get(Calendar.HOUR_OF_DAY))
@@ -59,9 +59,9 @@ fun convertTimeFormat(input: String): String {
     val outputFormat = SimpleDateFormat(Constants.FORMAT_DISPLAY_TIME, Locale.ENGLISH)
     val tempCal = Calendar.getInstance()
     try {
-        tempCal.timeInMillis = inputFormat.parse(input).time
+        tempCal.timeInMillis = inputFormat.parse(input)?.time!!
     } catch (e: ParseException) {
-        Log.e("Trip", e.localizedMessage)
+        Log.e("Trip", "Message : ${e.localizedMessage}")
         return "--:--"
     }
     return outputFormat.format(Date(tempCal.timeInMillis))

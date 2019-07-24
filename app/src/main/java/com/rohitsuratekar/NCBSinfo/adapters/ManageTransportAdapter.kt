@@ -53,7 +53,7 @@ class ManageTransportAdapter(private val routeList: List<Route>, private val lis
 
         holder.apply {
             name.text = context.getString(R.string.tp_route_name, route.routeData.origin, route.routeData.destination)
-                .toUpperCase()
+                .toUpperCase(Locale.getDefault())
             type.text = route.routeData.type
             modified.text = context.getString(R.string.mt_last_modified, format(route.routeData.modifiedOn))
         }
@@ -82,6 +82,7 @@ class ManageTransportAdapter(private val routeList: List<Route>, private val lis
         holder.mainLayout.setOnClickListener { listener.expand(route) }
     }
 
+    //TODO: Handle setColorFilter
     private fun setColor(context: Context, drawables: Array<Drawable>, color: Int) {
         drawables[1].mutate()
         drawables[1].setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP)

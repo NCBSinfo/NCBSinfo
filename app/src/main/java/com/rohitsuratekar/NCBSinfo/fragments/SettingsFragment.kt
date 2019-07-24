@@ -111,17 +111,19 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
             }
         }
         val dialog = AlertDialog.Builder(context).create()
-        val dialogAdapter = SettingsDialogAdapter(itemList, favLoc, object : SettingsDialogAdapter.OnRouteSelected {
-            override fun routeSelected(position: Int) {
-                viewModel.updateFavorite(repository, routeList[position])
-                dialog.dismiss()
-            }
+        val dialogAdapter =
+            SettingsDialogAdapter(itemList, favLoc, object : SettingsDialogAdapter.OnRouteSelected {
+                override fun routeSelected(position: Int) {
+                    viewModel.updateFavorite(repository, routeList[position])
+                    dialog.dismiss()
+                }
 
-        })
+            })
 
         val view = layoutInflater.inflate(R.layout.fragment_settings_custom_dialog, null)
         view.findViewById<RecyclerView>(R.id.st_dialog_recycler).adapter = dialogAdapter
-        view.findViewById<RecyclerView>(R.id.st_dialog_recycler).layoutManager = LinearLayoutManager(context)
+        view.findViewById<RecyclerView>(R.id.st_dialog_recycler).layoutManager =
+            LinearLayoutManager(context)
         view.findViewById<Button>(R.id.st_dialog_btn).setOnClickListener {
             dialog.dismiss()
         }
@@ -207,7 +209,13 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
             R.drawable.icon_copyright,
             ACTION_TERMS
         ),
-        arrayOf(VIEW_ITEM, R.string.settings_privacy, R.string.settings_privacy_details, 0, ACTION_PRIVACY),
+        arrayOf(
+            VIEW_ITEM,
+            R.string.settings_privacy,
+            R.string.settings_privacy_details,
+            0,
+            ACTION_PRIVACY
+        ),
         arrayOf(
             VIEW_ITEM,
             R.string.settings_acknow,
@@ -258,7 +266,7 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
         val outputFormat = SimpleDateFormat(Constants.FORMAT_MODIFIED_WITH_TIME, Locale.ENGLISH)
         val tempCal = Calendar.getInstance()
         try {
-            tempCal.timeInMillis = inputFormat.parse(input).time
+            tempCal.timeInMillis = inputFormat.parse(input)?.time!!
         } catch (e: ParseException) {
             return "N/A"
         }
@@ -281,7 +289,10 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
     private fun sendFeedback() {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/html"
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("contact@secretbiology.com", "ncbs.mod@gmail.com"))
+        intent.putExtra(
+            Intent.EXTRA_EMAIL,
+            arrayOf("contact@secretbiology.com", "ncbs.mod@gmail.com")
+        )
         intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback on NCBSinfo v" + BuildConfig.VERSION_CODE)
         startActivity(Intent.createChooser(intent, "Send Email"))
     }

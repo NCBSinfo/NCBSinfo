@@ -15,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.inflate
 import com.rohitsuratekar.NCBSinfo.models.Contact
+import java.util.*
 
-class ContactAdapter(private var contactList: List<Contact>, private val listener: OnContactSelect) :
+class ContactAdapter(
+    private var contactList: List<Contact>,
+    private val listener: OnContactSelect
+) :
     RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -62,7 +66,8 @@ class ContactAdapter(private var contactList: List<Contact>, private val listene
         original?.let {
             val color = ColorStateList(arrayOf(intArrayOf()), intArrayOf(Color.RED))
             val highlightSpan = TextAppearanceSpan(null, Typeface.BOLD, -1, color, null)
-            val startPos = it.toLowerCase().indexOf(search.toLowerCase())
+            val startPos =
+                it.toLowerCase(Locale.getDefault()).indexOf(search.toLowerCase(Locale.getDefault()))
             val endPos = startPos + search.length
             spannable.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
@@ -70,7 +75,7 @@ class ContactAdapter(private var contactList: List<Contact>, private val listene
     }
 
     private fun getIcon(type: String): Int {
-        return when (type.toLowerCase()) {
+        return when (type.toLowerCase(Locale.getDefault())) {
             "emergency" -> R.drawable.icon_star
             "department" -> R.drawable.icon_department
             "facility" -> R.drawable.icon_facility

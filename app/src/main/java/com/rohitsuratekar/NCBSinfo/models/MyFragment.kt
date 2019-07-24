@@ -20,7 +20,7 @@ abstract class MyFragment : Fragment() {
             repository = (activity as MainActivity).checkRepository()
             sharedModel = (activity as MainActivity).checkSharedModel()
         } else {
-            throw RuntimeException(context.toString() + " must implement MainCallbacks")
+            throw RuntimeException("$context must implement MainCallbacks")
         }
 
     }

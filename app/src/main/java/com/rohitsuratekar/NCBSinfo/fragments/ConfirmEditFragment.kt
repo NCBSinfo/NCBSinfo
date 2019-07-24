@@ -19,6 +19,7 @@ import com.rohitsuratekar.NCBSinfo.common.toast
 import com.rohitsuratekar.NCBSinfo.models.EditFragment
 import com.rohitsuratekar.NCBSinfo.viewmodels.ConfirmTransportViewModel
 import kotlinx.android.synthetic.main.fragment_confirm_edit.*
+import java.util.*
 
 class ConfirmEditFragment : EditFragment() {
 
@@ -44,12 +45,13 @@ class ConfirmEditFragment : EditFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = EditTransportConfirmAdapter(tripList, object : EditTransportConfirmAdapter.OnItemClick {
-            override fun itemClicked() {
-                callback?.navigate(Constants.EDIT_TRIPS)
-            }
+        adapter =
+            EditTransportConfirmAdapter(tripList, object : EditTransportConfirmAdapter.OnItemClick {
+                override fun itemClicked() {
+                    callback?.navigate(Constants.EDIT_TRIPS)
+                }
 
-        })
+            })
         viewModel = ViewModelProviders.of(this).get(ConfirmTransportViewModel::class.java)
     }
 
@@ -93,14 +95,22 @@ class ConfirmEditFragment : EditFragment() {
                     .setMessage(
                         getString(
                             R.string.et_same_route_error,
-                            origin?.toUpperCase(),
-                            destination?.toUpperCase(),
+                            origin?.toUpperCase(Locale.getDefault()),
+                            destination?.toUpperCase(Locale.getDefault()),
                             type
                         )
                     )
                     .setPositiveButton(R.string.et_continue) { _, _ ->
                         blockUI()
-                        viewModel.addTransport(repository, origin!!, destination!!, type!!, frequency, tripList, true)
+                        viewModel.addTransport(
+                            repository,
+                            origin!!,
+                            destination!!,
+                            type!!,
+                            frequency,
+                            tripList,
+                            true
+                        )
 
                     }
                     .setNegativeButton(R.string.cancel) { _, _ -> }
@@ -114,7 +124,7 @@ class ConfirmEditFragment : EditFragment() {
         var name = ""
         sharedModel.origin.value?.let {
             name = it
-            origin = it.trim().toLowerCase()
+            origin = it.trim().toLowerCase(Locale.getDefault())
         } ?: kotlin.run {
             allSet = false
             name = getString(R.string.et_not_set)
@@ -123,7 +133,7 @@ class ConfirmEditFragment : EditFragment() {
 
         sharedModel.destination.value?.let {
             name += " - $it"
-            destination = it.trim().toLowerCase()
+            destination = it.trim().toLowerCase(Locale.getDefault())
         } ?: kotlin.run {
             allSet = false
             name += " - " + getString(R.string.et_not_set)
@@ -141,7 +151,7 @@ class ConfirmEditFragment : EditFragment() {
                 R.id.et_type_option4 -> tempType = "other"
             }
 
-            type = tempType.trim().toLowerCase()
+            type = tempType.trim().toLowerCase(Locale.getDefault())
 
         } ?: kotlin.run {
             allSet = false
@@ -222,7 +232,15 @@ class ConfirmEditFragment : EditFragment() {
 
     private fun startUpdate() {
         blockUI()
-        viewModel.addTransport(repository, origin!!, destination!!, type!!, frequency, tripList, false)
+        viewModel.addTransport(
+            repository,
+            origin!!,
+            destination!!,
+            type!!,
+            frequency,
+            tripList,
+            false
+        )
     }
 
 

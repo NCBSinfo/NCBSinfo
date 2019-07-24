@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.inflate
 import com.rohitsuratekar.NCBSinfo.database.RouteData
+import java.util.*
 
 class TransportRoutesAdapter(
     private val routeDataList: List<RouteData>,
@@ -29,12 +30,15 @@ class TransportRoutesAdapter(
         val context = holder.itemView.context
         val route = routeDataList[position]
 
-        holder.text.text = context.getString(R.string.tp_route_name, route.origin, route.destination).toUpperCase()
+        holder.text.text =
+            context.getString(R.string.tp_route_name, route.origin, route.destination).toUpperCase(
+                Locale.getDefault()
+            )
         holder.subText.text = route.type
 
         if (routeID == route.routeID) {
             holder.icon.setImageResource(R.color.green)
-        }else{
+        } else {
             holder.icon.setImageResource(R.color.colorPrimary)
         }
 

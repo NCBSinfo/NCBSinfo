@@ -14,9 +14,9 @@ class Trip(private var tripString: String, private var dayIndex: Int, private va
         val returnCal = Calendar.getInstance().apply { timeInMillis = cal.timeInMillis }
         val tempCal = Calendar.getInstance()
         try {
-            tempCal.timeInMillis = inputFormat.parse(tripString).time
+            tempCal.timeInMillis = inputFormat.parse(tripString)?.time!!
         } catch (e: ParseException) {
-            Log.e("Trip", e.localizedMessage)
+            Log.e("Trip", "Message : ${e.localizedMessage}")
             return "--:--"
         }
         returnCal.set(Calendar.HOUR_OF_DAY, tempCal.get(Calendar.HOUR_OF_DAY))

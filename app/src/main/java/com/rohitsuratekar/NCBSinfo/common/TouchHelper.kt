@@ -25,12 +25,13 @@ class TouchHelper {
                 lateinit var xMark: Drawable
                 var xMarkMargin: Int = 0
                 var initiated: Boolean = false
-
+                //TODO: Handle setColorFilter
                 private fun init() {
                     background = ColorDrawable(Color.RED)
                     xMark = ContextCompat.getDrawable(context, R.drawable.icon_cancel)!!
                     xMark.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
-                    xMarkMargin = context.resources.getDimension(R.dimen.et_trips_undo_padding).toInt()
+                    xMarkMargin =
+                        context.resources.getDimension(R.dimen.et_trips_undo_padding).toInt()
                     initiated = true
                 }
 
@@ -43,7 +44,10 @@ class TouchHelper {
                     return false
                 }
 
-                override fun getSwipeDirs(recyclerView1: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+                override fun getSwipeDirs(
+                    recyclerView1: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
                     val position = viewHolder.adapterPosition
                     val testAdapter = recyclerView1.adapter as EditTransportTripAdapter
                     return if (testAdapter.isUndoOn() && testAdapter.isPendingRemoval(position)) {
@@ -105,7 +109,15 @@ class TouchHelper {
 
                     xMark.draw(c)
 
-                    super.onChildDraw(c, recyclerView1, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    super.onChildDraw(
+                        c,
+                        recyclerView1,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
                 }
 
             }

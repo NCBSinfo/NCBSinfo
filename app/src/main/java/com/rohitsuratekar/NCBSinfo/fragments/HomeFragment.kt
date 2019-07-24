@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.Constants
-import com.rohitsuratekar.NCBSinfo.common.test
 import com.rohitsuratekar.NCBSinfo.common.toast
 import com.rohitsuratekar.NCBSinfo.database.RouteData
 import com.rohitsuratekar.NCBSinfo.models.MyFragment
@@ -113,8 +112,8 @@ class HomeFragment : MyFragment() {
     private fun updateUI() {
         callback?.hideProgress()
         currentRoute?.let {
-            hm_origin.text = it.routeData.origin?.toUpperCase()
-            hm_destination.text = it.routeData.destination?.toUpperCase()
+            hm_origin.text = it.routeData.origin?.toUpperCase(Locale.getDefault())
+            hm_destination.text = it.routeData.destination?.toUpperCase(Locale.getDefault())
             hm_type.text = getString(R.string.hm_next, it.routeData.type)
             if (it.routeData.type == "other") {
                 hm_type.text = getString(R.string.hm_next, "transport")

@@ -16,6 +16,7 @@ import com.rohitsuratekar.NCBSinfo.models.EditTransportStep
 import com.rohitsuratekar.NCBSinfo.models.Route
 import com.rohitsuratekar.NCBSinfo.viewmodels.EditTransportViewModel
 import kotlinx.android.synthetic.main.activity_edit_transport.*
+import java.util.*
 import javax.inject.Inject
 
 class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapter.OnStepClick {
@@ -96,8 +97,8 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
                     getString(
                         R.string.et_delete_warning,
                         route.tripData.size,
-                        route.routeData.origin?.toUpperCase(),
-                        route.routeData.destination?.toUpperCase(),
+                        route.routeData.origin?.toUpperCase(Locale.getDefault()),
+                        route.routeData.destination?.toUpperCase(Locale.getDefault()),
                         route.routeData.type
                     )
                 )
@@ -123,8 +124,8 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
                     .setMessage(
                         getString(
                             R.string.et_delete_only_trip,
-                            it.routeData.origin?.toUpperCase(),
-                            it.routeData.destination?.toUpperCase(),
+                            it.routeData.origin?.toUpperCase(Locale.getDefault()),
+                            it.routeData.destination?.toUpperCase(Locale.getDefault()),
                             it.routeData.type
                         )
                     )
@@ -165,7 +166,8 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
         setupSteps()
         adapter = EditTransportStepAdapter(stepList, this)
         et_step_recycler.adapter = adapter
-        et_step_recycler.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.HORIZONTAL, false)
+        et_step_recycler.layoutManager =
+            LinearLayoutManager(baseContext, LinearLayoutManager.HORIZONTAL, false)
         sharedViewModel.addSteps(stepList)
     }
 
