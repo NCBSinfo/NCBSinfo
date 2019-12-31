@@ -18,7 +18,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.crashlytics.android.Crashlytics
 import com.rohitsuratekar.NCBSinfo.adapters.ContactDetailsAdapter
 import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.common.MainCallbacks
@@ -30,7 +29,6 @@ import com.rohitsuratekar.NCBSinfo.fragments.SettingsFragmentDirections
 import com.rohitsuratekar.NCBSinfo.fragments.TransportRoutesFragment
 import com.rohitsuratekar.NCBSinfo.models.Contact
 import com.rohitsuratekar.NCBSinfo.viewmodels.SharedViewModel
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -61,9 +59,6 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
             .inject(this)
 
 
-        if (repository.prefs().crashReportingEnabled()) {
-            Fabric.with(this, Crashlytics())
-        }
 
         bottom_navigation.setupWithNavController(navController)
 
@@ -216,7 +211,8 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
     }
 
     override fun showSettingsInfo(action: Int) {
-        val arg = SettingsFragmentDirections.actionSettingsFragmentToSettingsInfoFragment().setAction(action)
+        val arg = SettingsFragmentDirections.actionSettingsFragmentToSettingsInfoFragment()
+            .setAction(action)
         navController.navigate(arg)
     }
 }

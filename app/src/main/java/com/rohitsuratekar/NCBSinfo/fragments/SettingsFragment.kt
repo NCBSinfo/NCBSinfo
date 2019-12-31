@@ -222,12 +222,6 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
             R.string.settings_acknow_details,
             R.drawable.icon_fav,
             ACTION_ACK
-        ), arrayOf(
-            VIEW_ITEM,
-            R.string.settings_crash_report,
-            R.string.settings_crash_report_details,
-            R.drawable.icon_bug,
-            ACTION_CRASH_REPORT
         ),
         arrayOf(VIEW_LINE),
         arrayOf(VIEW_HEADER, R.string.settings_header_about),
@@ -273,11 +267,6 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
         return outputFormat.format(Date(tempCal.timeInMillis))
     }
 
-    private fun changeCrashReporting() {
-        context?.toast("Crash Reporting Preference Updated")
-        repository.prefs().crashReportingEnabled(!repository.prefs().crashReportingEnabled())
-        setUpItems()
-    }
 
     private fun gotoGitHub() {
         val currentUrl = "https://github.com/NCBSinfo/NCBSinfo"
@@ -343,9 +332,6 @@ class SettingsFragment : MyFragment(), SettingsAdapter.OnSettingItemClicked {
             }
             ACTION_DEFAULT_ROUTE -> {
                 viewModel.getRouteList(repository)
-            }
-            ACTION_CRASH_REPORT -> {
-                changeCrashReporting()
             }
         }
     }
