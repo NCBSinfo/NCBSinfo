@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TODO Change at Every Version -->
-    <string name="settings_app_version">6.6.4</string>
+    <string name="settings_app_version">6.6.5</string>
     <string name="settings_header_notice">Important Information</string>
     <string name="settings_development_notice">Announcement</string>
     <string name="settings_development_notice_details">Information regarding future app development.
@@ -67,20 +67,15 @@
         We ask for following permissions from you
         <br></br><br></br>
         <b>Permission <br></br> (and why?)</b> <br> </br> <br> </br>
-        &#8226; <b> Internet Access </b> <br> </br> (To send anonymous crash report in case of crash) <br></br>
         &#8226; <b> Call Phone </b> <br> </br> (To directly call from this app) <br></br>
          <br> </br><br> </br>
          However, this app will work perfectly fine without any of above permissions. You can block them if you
          are really paranoid about them :) <br> </br><br> </br>
-        <b>Google and Firebase analytics</b><br> </br>
+        <b>Google analytics</b><br> </br>
         We receive some anonymous statistics from all users who have installed this app.
         This information generally includes Android Version, Default language, Country, App version, Uninstall count etc.
         See <a href="https://policies.google.com/privacy">Google privacy policies</a> regarding this.
         <br> </br><br> </br>
-        <b>Crash Report</b><br> </br>
-        This will send us anonymous crash reports (if any) which we use to fix bugs and make the app better :) However,
-        if you have switched OFF this from settings, this report will NOT be sent.
-        <br> </br>
         <br> </br>
         <br> </br>
         Check latest and full privacy statement <a href="https://github.com/NCBSinfo/NCBSinfo/blob/master/PrivacyPolicy.md"> here </a>.
@@ -102,7 +97,6 @@
         &#8226; AndroidX Libraries by Google <br></br>
         &#8226; Architecture Components by Google <br></br>
         &#8226; Dagger2 by Google <br></br>
-        &#8226; Firebase Crashlytics by Google <br></br>
         <br></br><br></br>
         See our <a href="https://github.com/NCBSinfo/NCBSinfo"> source code </a> for detailed library information.
         <br> </br>
@@ -122,7 +116,7 @@
         to make this self-sustained, I have added a solid foundation for editing and managing one\'s own timetable. If you
         are not aware of this function, please check \'Manage Transport\' option from \'Information\' section. You will be able to
         use this app smoothly, even if there are any changes in transport timings. One can even create their own routes.
-        I will fix (any) bugs and timetable changes until 16 October 2019. If anyone is interested in developing
+        I will fix (any) bugs and timetable changes until 16 October <strike>2019</strike> 2020. If anyone is interested in developing
         this app further, feel free to contribute to this open source app on <a href="https://github.com/NCBSinfo/NCBSinfo"> GitHub</a>.
         If you have any suggestion or feedback, please drop me an email on <a href="mailto:contact@secretbiology.com">contact@secretbiology.com</a> or
         <a href="mailto:ncbs.mod@gmail.com">ncbs.mod@gmail.com</a>. <br> </br> <br> </br> I am very

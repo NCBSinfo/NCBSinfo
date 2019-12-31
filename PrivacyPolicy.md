@@ -17,16 +17,20 @@ The terms used in this Privacy Policy have the same meanings as in our Terms and
 
 #### Information Collection and Use
 
-We do not collect ANY information from our users who are using our android app. However, we do use few third party libraries which might collect some identifiable information. Please check their privacy policies for the more details. Following are third party services we use (and why?),
+We **DO NOT** collect **ANY** information from our users who are using our android app. However, we do use few third party libraries which might collect some identifiable information. Please check their privacy policies for the more details. 
 
-**Firebase Crashalytics**
-We can not test our application on all possible devices and various configurations. Hence, there is chance that few bugs might creep in. To hunt these bugs and remove them, we need to know details regarding any crashes or errors occurred while using our app. To achieve that we use Firebase Crashalytics service which sends us anonymous crash reports. This will send us anonymous crash report ONLY if you have allowed us to collect it. You can change this from settings section. Check out their privacy policy [here](https://firebase.google.com/terms/crashlytics/). 
+We use following third party libraries
+*  AndroidX Libraries by Google
+*  Architecture Components by Google
+*  Dagger2 by Google
 
+This app does **NOT** need internet access. 
 
+If you have further doubts, suggestions or feedback, please contact us on [contact@secretbiology.com](mailto:contact@secretbiology.com)
 
-However, you can use **full features** of our app without using these services. You can just block internet access to this app and none of these services will work! If you have further doubts, suggestions or feedback, please contact us on [contact@secretbiology.com](mailto:contact@secretbiology.com)
+<br><br>
+*This document was updated on 31 December 2019.*
 
+Previous version : [17 July 2019](https://github.com/NCBSinfo/NCBSinfo/blob/398dc27941f70359296f00bb9f9724cc2c999885/PrivacyPolicy.md)
 
-*This document was updated on 25 January 2019.*
-
-Last version : [28 September 2018](https://github.com/NCBSinfo/NCBSinfo/blob/f2c0e135a4e00d777081a3448124b38e59c28774/PrivacyPolicy.md)
+Older version : [28 September 2018](https://github.com/NCBSinfo/NCBSinfo/blob/f2c0e135a4e00d777081a3448124b38e59c28774/PrivacyPolicy.md)

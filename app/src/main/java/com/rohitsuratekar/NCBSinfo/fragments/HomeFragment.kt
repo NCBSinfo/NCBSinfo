@@ -1,7 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.fragments
 
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -69,25 +68,6 @@ class HomeFragment : MyFragment() {
             callback?.navigate(Constants.NAVIGATE_TIMETABLE)
         }
 
-        if (repository.prefs().showCrashReportingRequest()) {
-            askForPermission()
-        }
-    }
-
-    private fun askForPermission() {
-        AlertDialog.Builder(context)
-            .setTitle(R.string.hm_welcome)
-            .setMessage(R.string.hm_crash_notice)
-            .setCancelable(false)
-            .setPositiveButton(R.string.hm_allow) { _, _ ->
-                repository.prefs().crashReportingEnabled(true)
-                repository.prefs().showCrashReportingRequest(false)
-            }
-            .setNegativeButton(R.string.hm_later) { _, _ ->
-                repository.prefs().crashReportingEnabled(false)
-                repository.prefs().showCrashReportingRequest(false)
-            }
-            .show()
     }
 
     private fun subscribe() {
