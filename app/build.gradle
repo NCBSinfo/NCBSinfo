@@ -12,8 +12,8 @@ android {
         applicationId "com.rohitsuratekar.NCBSinfo"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 71
-        versionName '6.6.6'
+        versionCode 72
+        versionName '6.6.7'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
@@ -71,6 +71,4 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.dagger:dagger:2.27'
     kapt 'com.google.dagger:dagger-compiler:2.27'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
-
 }
