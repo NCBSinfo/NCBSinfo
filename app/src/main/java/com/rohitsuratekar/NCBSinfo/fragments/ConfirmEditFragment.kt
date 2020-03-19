@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.EditTransportConfirmAdapter
@@ -52,7 +52,7 @@ class ConfirmEditFragment : EditFragment() {
                 }
 
             })
-        viewModel = ViewModelProviders.of(this).get(ConfirmTransportViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ConfirmTransportViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -79,14 +79,14 @@ class ConfirmEditFragment : EditFragment() {
 
     private fun subscribe() {
 
-        viewModel.success.observe(this, Observer {
+        viewModel.success.observe(viewLifecycleOwner, Observer {
             if (it) {
                 context?.toast("Database successfully updated!")
                 callback?.navigateToHome()
             }
         })
 
-        viewModel.error.observe(this, Observer {
+        viewModel.error.observe(viewLifecycleOwner, Observer {
             releaseUI()
             if (it == Constants.EDIT_ERROR_EXISTING_ROUTE) {
                 AlertDialog.Builder(context)

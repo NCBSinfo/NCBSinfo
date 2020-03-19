@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,7 +33,7 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_transport)
         navController = Navigation.findNavController(this, R.id.nav_host_transport)
-        sharedViewModel = ViewModelProviders.of(this).get(EditTransportViewModel::class.java)
+        sharedViewModel = ViewModelProvider(this).get(EditTransportViewModel::class.java)
         DaggerAppComponent.builder()
             .appModule(AppModule(application))
             .prefModule(PrefModule(baseContext))
@@ -56,7 +56,7 @@ class EditTransport : AppCompatActivity(), EditCallbacks, EditTransportStepAdapt
 
     fun checkSharedModel(): EditTransportViewModel {
         if (!this::sharedViewModel.isInitialized) {
-            sharedViewModel = ViewModelProviders.of(this).get(EditTransportViewModel::class.java)
+            sharedViewModel = ViewModelProvider(this).get(EditTransportViewModel::class.java)
         }
         return sharedViewModel
     }

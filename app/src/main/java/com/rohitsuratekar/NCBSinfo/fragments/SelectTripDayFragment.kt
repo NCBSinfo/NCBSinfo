@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.SelectTripDayAdapter
@@ -59,7 +59,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SelectTripDayViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SelectTripDayViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -79,7 +79,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
 
 
     private fun subscribe() {
-        sharedModel.inputRouteID.observe(this, Observer {
+        sharedModel.inputRouteID.observe(viewLifecycleOwner, Observer {
             if (it == -1) {
                 callback?.navigate(Constants.EDIT_START_EDITING)
             } else {
@@ -87,7 +87,7 @@ class SelectTripDayFragment : EditFragment(), SelectTripDayAdapter.OnDaySelected
             }
         })
 
-        viewModel.currentRoute.observe(this, Observer {
+        viewModel.currentRoute.observe(viewLifecycleOwner, Observer {
             currentRoute = it
             sharedModel.setRoute(it)
             updateSharedModel()

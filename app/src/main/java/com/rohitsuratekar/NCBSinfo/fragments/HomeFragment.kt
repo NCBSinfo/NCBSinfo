@@ -1,15 +1,19 @@
 package com.rohitsuratekar.NCBSinfo.fragments
 
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.hideMe
+import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.common.toast
 import com.rohitsuratekar.NCBSinfo.database.RouteData
 import com.rohitsuratekar.NCBSinfo.models.MyFragment
@@ -36,7 +40,7 @@ class HomeFragment : MyFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -68,14 +72,50 @@ class HomeFragment : MyFragment() {
             callback?.navigate(Constants.NAVIGATE_TIMETABLE)
         }
 
+        hm_covid_who.setOnClickListener {
+            gotoGOI()
+        }
+
+        hm_covid_ncbs.setOnClickListener {
+            gotoNCBI()
+        }
+
+        hm_emergency.setOnClickListener {
+            gotoHelpline()
+        }
+
     }
 
+    private fun gotoGOI() {
+        val currentUrl = "https://www.mohfw.gov.in/"
+        val i2 = Intent(Intent.ACTION_VIEW)
+        i2.data = Uri.parse(currentUrl)
+        startActivity(i2)
+    }
+
+    private fun gotoNCBI() {
+        val currentUrl =
+            "https://www.ncbs.res.in/content/blisc-ncbs-instem-c-camp-responses-covid-19"
+        val i2 = Intent(Intent.ACTION_VIEW)
+        i2.data = Uri.parse(currentUrl)
+        startActivity(i2)
+    }
+
+    private fun gotoHelpline() {
+        val currentUrl =
+            "https://www.mohfw.gov.in/pdf/coronvavirushelplinenumber.pdf"
+        val i2 = Intent(Intent.ACTION_VIEW)
+        i2.data = Uri.parse(currentUrl)
+        startActivity(i2)
+    }
+
+
     private fun subscribe() {
-        viewModel.routeList.observe(this, Observer {
+        viewModel.routeList.observe(viewLifecycleOwner, Observer {
             routeList.clear()
             routeList.addAll(it)
         })
-        viewModel.returnedRoute.observe(this, Observer {
+        viewModel.returnedRoute.observe(viewLifecycleOwner, Observer {
             if (sharedModel.currentRoute.value == null) {
                 sharedModel.changeCurrentRoute(it)
             } else {
@@ -84,7 +124,7 @@ class HomeFragment : MyFragment() {
             }
         })
 
-        sharedModel.currentRoute.observe(this, Observer {
+        sharedModel.currentRoute.observe(viewLifecycleOwner, Observer {
             changeRoute(it.routeData)
         })
     }
@@ -106,6 +146,18 @@ class HomeFragment : MyFragment() {
                 hm_fav.setImageResource(R.drawable.icon_fav_empty)
                 hm_fav.setColorFilter(ContextCompat.getColor(context!!, R.color.colorPrimary))
             }
+
+            val day = NextTrip(it.tripData).calculate(currentCalendar)
+            if (day.tripHighlightDay() == currentCalendar.get(Calendar.DAY_OF_WEEK)
+            ) {
+                hm_next_day.hideMe()
+            } else {
+                hm_next_day.showMe()
+                hm_next_day.text = getString(
+                    R.string.hm_next_day, day.tripCalender()
+                        .getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+                )
+            }
         }
 
     }
@@ -114,4 +166,6 @@ class HomeFragment : MyFragment() {
         callback?.showProgress()
         viewModel.changeCurrentRoute(routeData, repository)
     }
+
+
 }

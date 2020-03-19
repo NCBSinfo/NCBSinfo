@@ -1,112 +1,169 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteY="25dp">
-
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="25dp">
 
 
     <ImageView
-            android:id="@+id/hm_graphics"
-            android:layout_width="@dimen/home_image_height"
-            android:layout_height="@dimen/home_image_height"
-            app:layout_constraintBottom_toTopOf="@+id/hm_type"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/graphics_home"/>
+        android:id="@+id/hm_graphics"
+        android:layout_width="@dimen/home_image_height"
+        android:layout_height="@dimen/home_image_height"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/hm_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/graphics_home" />
 
     <TextView
-            android:id="@+id/hm_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="next shuttle"
-            app:layout_constraintBottom_toTopOf="@+id/hm_origin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hm_graphics"/>
+        android:id="@+id/hm_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="next shuttle"
+        app:layout_constraintBottom_toTopOf="@+id/hm_origin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_graphics" />
 
     <TextView
-            android:id="@+id/hm_origin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NCBS"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintBottom_toTopOf="@+id/hm_destination"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hm_type"/>
+        android:id="@+id/hm_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NCBS"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintBottom_toTopOf="@+id/hm_destination"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_type" />
 
     <TextView
-            android:id="@+id/hm_destination"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="MANDARA"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintBottom_toTopOf="@+id/hm_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hm_origin"/>
+        android:id="@+id/hm_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="MANDARA"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintBottom_toTopOf="@+id/hm_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_origin" />
 
     <TextView
-            android:id="@+id/hm_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="00:00 PM"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toTopOf="@+id/hm_see_all"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hm_destination"/>
+        android:id="@+id/hm_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="00:00 PM"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toTopOf="@+id/hm_see_all"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_destination" />
 
     <Button
-            android:id="@+id/hm_see_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:padding="8sp"
-            android:text="@string/hm_see_full"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/hm_change_route"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hm_time"/>
+        android:id="@+id/hm_see_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="8sp"
+        android:text="@string/hm_see_full"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/hm_change_route"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_time" />
 
     <TextView
-            android:id="@+id/hm_change_route"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/hm_show_route"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/hm_see_all"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/hm_see_all"
-            app:layout_constraintTop_toBottomOf="@+id/hm_see_all"/>
+        android:id="@+id/hm_change_route"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/hm_show_route"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/hm_see_all"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/hm_see_all"
+        app:layout_constraintTop_toBottomOf="@+id/hm_see_all" />
 
     <ImageView
-            android:id="@+id/hm_fav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_fav_empty"/>
+        android:id="@+id/hm_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_fav_empty" />
+
+
+    <TextView
+        android:id="@+id/hm_next_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAlignment="textEnd"
+        android:textSize="10sp"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="@+id/hm_time"
+        app:layout_constraintTop_toBottomOf="@+id/hm_time"
+        tools:ignore="SmallSp" />
+
+    <Button
+        android:id="@+id/hm_covid_who"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hm_covid_who"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/hm_covid_ncbs"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hm_change_route" />
+
+    <Button
+        android:id="@+id/hm_covid_ncbs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hm_covid_ncbs"
+        app:layout_constraintBottom_toBottomOf="@+id/hm_covid_who"
+        app:layout_constraintEnd_toStartOf="@+id/hm_emergency"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/hm_covid_who"
+        app:layout_constraintTop_toTopOf="@+id/hm_covid_who"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/hm_covid_warn"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/hm_emergency"
+        app:layout_constraintStart_toStartOf="@+id/hm_covid_who"
+        app:layout_constraintTop_toBottomOf="@+id/hm_covid_who" />
+
+    <Button
+        android:id="@+id/hm_emergency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hm_emergency"
+        app:layout_constraintBottom_toBottomOf="@+id/hm_covid_who"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/hm_covid_ncbs"
+        app:layout_constraintTop_toTopOf="@+id/hm_covid_who" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

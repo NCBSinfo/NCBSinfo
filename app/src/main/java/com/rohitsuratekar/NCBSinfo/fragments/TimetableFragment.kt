@@ -1,19 +1,22 @@
 package com.rohitsuratekar.NCBSinfo.fragments
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.TimetableAdapter
 import com.rohitsuratekar.NCBSinfo.common.Constants
+import com.rohitsuratekar.NCBSinfo.common.hideMe
 import com.rohitsuratekar.NCBSinfo.common.invisible
 import com.rohitsuratekar.NCBSinfo.common.showMe
 import com.rohitsuratekar.NCBSinfo.models.MyFragment
@@ -56,18 +59,43 @@ class TimetableFragment : MyFragment() {
         return inflater.inflate(R.layout.fragment_timetable, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Toast.makeText(context, getString(R.string.tp_warning), Toast.LENGTH_LONG).show()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         currentCalendar = Calendar.getInstance()
-        viewModel = ViewModelProviders.of(this).get(TimetableViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TimetableViewModel::class.java)
         sharedModel.currentRoute.value?.let {
             routeID = it.routeData.routeID
         }
         viewModel.fetchRoute(repository, routeID)
         callback?.showProgress()
 
-        dayList.addAll(listOf(tp_day_sun, tp_day_mon, tp_day_tue, tp_day_wed, tp_day_thu, tp_day_fri, tp_day_sat))
-        linkList.addAll(listOf(tp_link_0, tp_link_1, tp_link_2, tp_link_3, tp_link_4, tp_link_5, tp_link_6))
+        dayList.addAll(
+            listOf(
+                tp_day_sun,
+                tp_day_mon,
+                tp_day_tue,
+                tp_day_wed,
+                tp_day_thu,
+                tp_day_fri,
+                tp_day_sat
+            )
+        )
+        linkList.addAll(
+            listOf(
+                tp_link_0,
+                tp_link_1,
+                tp_link_2,
+                tp_link_3,
+                tp_link_4,
+                tp_link_5,
+                tp_link_6
+            )
+        )
         subscribe()
 
         tp_show_all_btn.setOnClickListener {
@@ -87,7 +115,7 @@ class TimetableFragment : MyFragment() {
 
         tp_manage.setOnClickListener {
             currentRoute?.routeData?.routeID?.let { id ->
-                val arg = TimetableFragmentDirections.actionTimetableFragmentToEditTransport().setRouteNo(id)
+                val arg = TimetableFragmentDirections.actionTimetableFragmentToEditTransport(id)
                 callback?.editRoute(arg)
             }
 
@@ -111,11 +139,11 @@ class TimetableFragment : MyFragment() {
     }
 
     private fun subscribe() {
-        sharedModel.currentRoute.observe(this, Observer {
+        sharedModel.currentRoute.observe(viewLifecycleOwner, Observer {
             routeID = it.routeData.routeID
             viewModel.fetchRoute(repository, routeID)
         })
-        viewModel.returnedRoute.observe(this, Observer { route ->
+        viewModel.returnedRoute.observe(viewLifecycleOwner, Observer { route ->
             currentRoute = route
             currentCalendar = Calendar.getInstance()
             next = NextTrip(route.tripData).calculate(Calendar.getInstance())
@@ -131,12 +159,14 @@ class TimetableFragment : MyFragment() {
             updateUI()
         })
 
-        viewModel.reverseRoute.observe(this, Observer {
+        viewModel.reverseRoute.observe(viewLifecycleOwner, Observer {
             swapRoute = it
         })
     }
 
     private fun updateUI() {
+        val today = currentCalendar.get(Calendar.DAY_OF_WEEK)
+
         callback?.hideProgress()
         currentRoute?.let {
             tp_origin.text = it.routeData.origin?.toUpperCase(Locale.getDefault())
@@ -145,7 +175,18 @@ class TimetableFragment : MyFragment() {
             if (it.routeData.type == "other") {
                 tp_type.text = getString(R.string.tp_type, "transport")
             }
-            tp_creation_date.text = getString(R.string.tp_update_on, formatDate(it.routeData.modifiedOn))
+            tp_creation_date.text =
+                getString(R.string.tp_update_on, formatDate(it.routeData.modifiedOn))
+
+            if (it.tripList(currentCalendar).isEmpty()) {
+                tp_no_trip_text.showMe()
+                tp_recycler.hideMe()
+                tp_linker.hideMe()
+            } else {
+                tp_no_trip_text.hideMe()
+                tp_recycler.showMe()
+                tp_linker.showMe()
+            }
         }
 
         swapRoute?.let {
@@ -154,7 +195,16 @@ class TimetableFragment : MyFragment() {
             tp_swap.invisible()
         }
 
-        val today = currentCalendar.get(Calendar.DAY_OF_WEEK)
+
+        tp_no_trip_text.text =
+            getString(
+                R.string.tp_no_trips,
+                currentCalendar.getDisplayName(
+                    Calendar.DAY_OF_WEEK,
+                    Calendar.LONG,
+                    Locale.getDefault()
+                )
+            )
 
         for (i in 0 until dayList.size) {
             if (today == calDays[i]) {
@@ -170,6 +220,12 @@ class TimetableFragment : MyFragment() {
                 linkList[i].setImageResource(R.color.colorPrimary)
             } else {
                 linkList[i].setImageResource(android.R.color.transparent)
+            }
+        }
+
+        currentRoute?.let {
+            if (it.tripList(currentCalendar).isEmpty()) {
+                linkList
             }
         }
 

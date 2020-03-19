@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rohitsuratekar.NCBSinfo.MainActivity
@@ -30,8 +30,8 @@ class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.run {
-            viewModel = ViewModelProviders.of(this).get(TransportRoutesViewModel::class.java)
-            sharedModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
+            viewModel = ViewModelProvider(this).get(TransportRoutesViewModel::class.java)
+            sharedModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         }
         repository = (activity as MainActivity).repository
         adapter = TransportRoutesAdapter(routeList, 0, this)
@@ -57,13 +57,13 @@ class TransportRoutesFragment : BottomSheetDialogFragment(), TransportRoutesAdap
     }
 
     private fun subscribe() {
-        viewModel?.routeList?.observe(this, Observer {
+        viewModel?.routeList?.observe(viewLifecycleOwner, Observer {
             routeList.clear()
             routeList.addAll(it)
             adapter.setRouteID(routeID)
             adapter.notifyDataSetChanged()
         })
-        viewModel?.currentRoute?.observe(this, Observer {
+        viewModel?.currentRoute?.observe(viewLifecycleOwner, Observer {
             sharedModel?.changeCurrentRoute(it)
         })
     }

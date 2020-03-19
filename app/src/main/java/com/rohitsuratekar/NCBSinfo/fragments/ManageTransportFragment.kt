@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.adapters.ManageTransportAdapter
@@ -35,7 +35,7 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ManageTransportViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ManageTransportViewModel::class.java)
         callback?.showProgress()
         viewModel.getRouteList(repository)
         adapter = ManageTransportAdapter(routeList, this)
@@ -47,13 +47,13 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
     }
 
     private fun subscribe() {
-        viewModel.routeList.observe(this, Observer {
+        viewModel.routeList.observe(viewLifecycleOwner, Observer {
             callback?.hideProgress()
             routeList.clear()
             routeList.addAll(it)
             adapter.notifyDataSetChanged()
         })
-        viewModel.routeDeleted.observe(this, Observer {
+        viewModel.routeDeleted.observe(viewLifecycleOwner, Observer {
             callback?.hideProgress()
             routeList.clear()
             routeList.addAll(it)
@@ -89,8 +89,8 @@ class ManageTransportFragment : MyFragment(), ManageTransportAdapter.OnOptionCli
     }
 
     override fun edit(route: Route) {
-        val arg = ManageTransportFragmentDirections.actionManageTransportFragmentToEditTransport()
-            .setRouteNo(route.routeData.routeID)
+        val arg =
+            ManageTransportFragmentDirections.actionManageTransportFragmentToEditTransport(route.routeData.routeID)
         callback?.editRoute(arg)
     }
 

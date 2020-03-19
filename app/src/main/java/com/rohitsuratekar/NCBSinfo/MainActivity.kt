@@ -12,7 +12,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navController = Navigation.findNavController(this, R.id.nav_host)
-        sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
 
+        navController = Navigation.findNavController(this, R.id.nav_host)
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         DaggerAppComponent.builder()
             .appModule(AppModule(application))
             .prefModule(PrefModule(baseContext))
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
 
     fun checkSharedModel(): SharedViewModel {
         if (!this::sharedViewModel.isInitialized) {
-            sharedViewModel = ViewModelProviders.of(this).get(SharedViewModel::class.java)
+            sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         }
         return sharedViewModel
     }
@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
 
 
     private fun gotoHome() {
+
 
         // Following code is needed to change start destination
         // https://stackoverflow.com/questions/51929290/
@@ -186,7 +187,11 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
             ) { _, _ -> }.show()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        @NonNull permissions: Array<String>,
+        @NonNull grantResults: IntArray
+    ) {
         when (requestCode) {
             CALL_PERMISSION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 call(tempNumber)
@@ -211,8 +216,7 @@ class MainActivity : AppCompatActivity(), MainCallbacks, ContactDetailsAdapter.O
     }
 
     override fun showSettingsInfo(action: Int) {
-        val arg = SettingsFragmentDirections.actionSettingsFragmentToSettingsInfoFragment()
-            .setAction(action)
+        val arg = SettingsFragmentDirections.actionSettingsFragmentToSettingsInfoFragment(action)
         navController.navigate(arg)
     }
 }

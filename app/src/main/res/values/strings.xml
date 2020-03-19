@@ -31,12 +31,19 @@
     <string name="hm_welcome">Welcome</string>
     <string name="hm_allow">Allow</string>
     <string name="hm_later">Later</string>
+    <string name="hm_next_day">on %s</string>
+    <string name="hm_covid_who">GOI</string>
+    <string name="hm_covid_ncbs">NCBS</string>
+    <string name="hm_emergency">Helplines</string>
+    <string name="hm_covid_warn">Important Information Regarding COVID-19</string>
 
     <!--TimeTable-->
     <string name="tp_route_name">%1$s - %2$s</string>
     <string name="tp_show_all">Show\nAll Routes</string>
     <string name="tp_type">[ %s ]</string>
     <string name="tp_update_on">Last Update: %s</string>
+    <string name="tp_no_trips">No trip is scheduled on %s.</string>
+    <string name="tp_warning">Trip schedules might be affected by COVID-19. Please refer official website for updated timings.</string>
 
     <!--Contact-->
     <string name="search">Search</string>

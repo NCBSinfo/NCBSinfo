@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 
 //Changed from 12 to 13 in version 65.
 
-@Database(entities = [RouteData::class, TripData::class], version = 13, exportSchema = false)
+@Database(entities = [RouteData::class, TripData::class], version = 14, exportSchema = false)
 @TypeConverters(ListConverter::class)
 abstract class LocalData : RoomDatabase() {
     abstract val routeDao: RouteDao

@@ -40,4 +40,17 @@ class Trip(private var tripString: String, private var dayIndex: Int, private va
         }
         return tempCal.get(Calendar.DAY_OF_WEEK)
     }
+
+    fun tripCalender(): Calendar {
+        val tempCal = Calendar.getInstance().apply { cal.timeInMillis }
+        when (dayIndex) {
+            -1 -> {
+                tempCal.add(Calendar.DATE, -1)
+            }
+            2 -> {
+                tempCal.add(Calendar.DATE, 1)
+            }
+        }
+        return tempCal
+    }
 }

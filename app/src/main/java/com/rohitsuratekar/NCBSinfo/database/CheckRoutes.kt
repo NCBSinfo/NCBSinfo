@@ -30,7 +30,7 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
         listener.changeStatus(repository.app().getString(R.string.making_default))
 
         val creationString = "2018-07-21 00:00:00"
-        val modifiedString = "2019-07-17 00:00:00"
+        val modifiedString = "2020-03-20 00:00:00"
 
         val readableFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 

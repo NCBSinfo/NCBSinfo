@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.rohitsuratekar.NCBSinfo.R
 import com.rohitsuratekar.NCBSinfo.common.Constants
 import com.rohitsuratekar.NCBSinfo.models.MyFragment
@@ -27,7 +27,7 @@ class LandingFragment : MyFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(LandingViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LandingViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,17 +37,17 @@ class LandingFragment : MyFragment() {
     }
 
     private fun subscribe() {
-        viewModel.status.observe(this, Observer {
+        viewModel.status.observe(viewLifecycleOwner, Observer {
             landing_status_note.text = it
         })
 
-        viewModel.dataLoaded.observe(this, Observer {
+        viewModel.dataLoaded.observe(viewLifecycleOwner, Observer {
             if (it) {
                 viewModel.checkDataUpdate(repository)
             }
         })
 
-        viewModel.dataUpdated.observe(this, Observer {
+        viewModel.dataUpdated.observe(viewLifecycleOwner, Observer {
             if (it) {
                 callback?.navigate(Constants.NAVIGATE_HOME)
             }

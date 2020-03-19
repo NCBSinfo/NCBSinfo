@@ -21,7 +21,7 @@ class ResetOnlyDefault(private val repository: Repository, private val listener:
     override fun doInBackground(vararg p0: Void?): Void? {
 
         val creationString = "2018-07-21 00:00:00"
-        val modifiedString = "2019-07-17 00:00:00"
+        val modifiedString = "2019-03-20 00:00:00"
         val readableFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         creationDate.timeInMillis = readableFormat.parse(creationString)?.time!!
         modifiedDate.timeInMillis = readableFormat.parse(modifiedString)?.time!!
