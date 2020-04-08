@@ -34,8 +34,12 @@ class Trip(private var tripString: String, private var dayIndex: Int, private va
             -1 -> {
                 tempCal.add(Calendar.DATE, -1)
             }
-            2 -> {
-                tempCal.add(Calendar.DATE, 1)
+            0 -> {
+            }
+            1 -> {
+            }
+            else -> {
+                tempCal.add(Calendar.DATE, dayIndex-1)
             }
         }
         return tempCal.get(Calendar.DAY_OF_WEEK)
@@ -47,8 +51,12 @@ class Trip(private var tripString: String, private var dayIndex: Int, private va
             -1 -> {
                 tempCal.add(Calendar.DATE, -1)
             }
-            2 -> {
-                tempCal.add(Calendar.DATE, 1)
+            0 -> {
+            }
+            1 -> {
+            }
+            else -> {
+                tempCal.add(Calendar.DATE, dayIndex-1)
             }
         }
         return tempCal

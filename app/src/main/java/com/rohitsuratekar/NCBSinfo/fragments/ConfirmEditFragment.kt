@@ -178,8 +178,11 @@ class ConfirmEditFragment : EditFragment() {
             allSet = false
         }
 
+        var skipTrips = false
+        sharedModel.skippedTrips.value?.let { skipTrips = it }
+
         sharedModel.tripList.value?.let {
-            if (it.isEmpty()) {
+            if (it.isEmpty() && !skipTrips) {
                 et_cn_empty_trips.showMe()
                 allSet = false
             } else {

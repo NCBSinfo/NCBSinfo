@@ -1,5 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.models
 
+import android.util.Log
 import android.util.SparseArray
 import com.rohitsuratekar.NCBSinfo.common.timeToDate
 import com.rohitsuratekar.NCBSinfo.database.TripData
@@ -94,6 +95,15 @@ class NextTrip {
 
         //Else get first trip of tomorrow
         calendar.add(Calendar.DATE, 1)
+        for (i in 2..7) {
+            val tp = getTrips(calendar.get(Calendar.DAY_OF_WEEK))
+            if (tp.isNotEmpty()) {
+                return Trip(tp[0], i, inputCalender)
+            } else {
+                calendar.add(Calendar.DATE, 1)
+            }
+        }
+        // Following will generate Error. TODO
         return Trip(getTrips(calendar.get(Calendar.DAY_OF_WEEK))[0], 2, inputCalender)
     }
 

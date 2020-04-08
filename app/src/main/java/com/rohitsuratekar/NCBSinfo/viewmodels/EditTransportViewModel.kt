@@ -25,6 +25,7 @@ class EditTransportViewModel : ViewModel() {
     val currentRoute = MutableLiveData<Route>()
     val routeDeleted = MutableLiveData<Boolean>()
     val selectedTrip = MutableLiveData<TripData>()
+    val skippedTrips = MutableLiveData<Boolean>()
 
 
     fun setInputRouteID(routeID: Int) {
@@ -113,6 +114,10 @@ class EditTransportViewModel : ViewModel() {
         updateConfirmState(Constants.EDIT_START_TRIP, value)
     }
 
+    fun skipTrips(value: Boolean) {
+        skippedTrips.postValue(value)
+    }
+
     fun clearAllAttributes() {
         origin.postValue(null)
         destination.postValue(null)
@@ -150,8 +155,20 @@ class EditTransportViewModel : ViewModel() {
     ) : AsyncTask<Void?, Void?, Void?>() {
         override fun doInBackground(vararg params: Void?): Void? {
             selectedTrip?.let {
-                repository.data().updateModifiedDate(route.routeData, Calendar.getInstance().serverTimestamp())
+                repository.data()
+                    .updateModifiedDate(route.routeData, Calendar.getInstance().serverTimestamp())
                 repository.data().deleteTrip(it)
+
+                //Check if any trip is available for the route. If not, delete the route
+                var totalTrips = 0
+                for (trip in repository.data().getTrips(route.routeData)) {
+                    trip.trips?.let { p ->
+                        totalTrips += p.size
+                    }
+                }
+                if (totalTrips == 0) {
+                    repository.data().deleteRoute(route.routeData)
+                }
             } ?: kotlin.run {
                 repository.data().deleteRoute(route.routeData)
             }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TODO Change at Every Version -->
-    <string name="settings_app_version">6.6.7</string>
+    <string name="settings_app_version">6.6.8</string>
     <string name="settings_header_notice">Important Information</string>
     <string name="settings_development_notice">Announcement</string>
     <string name="settings_development_notice_details">Information regarding future app development.

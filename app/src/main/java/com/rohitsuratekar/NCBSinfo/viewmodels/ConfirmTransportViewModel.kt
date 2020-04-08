@@ -170,7 +170,7 @@ class ConfirmTransportViewModel : ViewModel() {
             for (t in tripList) {
                 map[t.day] = t
             }
-            for (i in 0 until frequency.size) {
+            for (i in frequency.indices) {
                 if (frequency[i] == 1) {
                     if (map.containsKey(dayList[i])) {
                         repository.data().deleteTrip(map[dayList[i]]!!)
@@ -184,7 +184,7 @@ class ConfirmTransportViewModel : ViewModel() {
                 trips = inputTrips
             }
 
-            for (i in 0 until frequency.size) {
+            for (i in frequency.indices) {
                 if (frequency[i] == 1) {
                     newTrip.day = dayList[i]
                     repository.data().addTrips(newTrip)

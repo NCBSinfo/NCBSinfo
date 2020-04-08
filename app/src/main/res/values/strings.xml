@@ -141,6 +141,10 @@
     <string name="weekdays">Weekdays</string>
     <string name="everyday">Everyday</string>
 
+    <string name="et_use_empty">Skip adding trips</string>
+    <string name="et_trips_sub_note_with_skip">Add trips by clicking \'+\' button above. And if you want to create empty
+        day, skip adding trips by clicking following button.
+    </string>
     <string name="et_trips_sub_note">Add trips by clicking \'+\' button.
         Order doesn\'t matter. In next step you can reorder. Swipe left to delete entry.
     </string>

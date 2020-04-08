@@ -60,6 +60,12 @@ class AddTripsFragment : EditFragment() {
         et_trip_next.setOnClickListener { callback?.navigate(Constants.EDIT_START_TRIP) }
         et_trip_previous.setOnClickListener { callback?.navigateWithPopback() }
         setUpRecycler()
+
+        et_trip_add_skip.setOnClickListener {
+            sharedModel.updateConfirmState(Constants.EDIT_TRIPS, true)
+            sharedModel.updateConfirmState(Constants.EDIT_START_TRIP, true)
+            sharedModel.skipTrips(true)
+        }
     }
 
     private fun setUpRecycler() {
@@ -76,8 +82,12 @@ class AddTripsFragment : EditFragment() {
     private fun checkEmptyList() {
         if (itemList.isEmpty()) {
             et_trip_holder.hideMe()
+            et_trip_add_skip.showMe()
+            et_trip_add_note.text = getString(R.string.et_trips_sub_note_with_skip)
         } else {
             et_trip_holder.showMe()
+            et_trip_add_skip.hideMe()
+            et_trip_add_note.text = getString(R.string.et_trips_sub_note)
         }
     }
 
