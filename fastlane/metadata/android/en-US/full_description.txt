@@ -1,16 +1,12 @@
-Check shuttle and buggy timings, find important contacts, check lecture hall venue and more ! This 'unofficial' app brings you some useful information right into your pockets.
-
-
-Currently supports following transport routes, however you can always add your own :)
- 
-
-* NCBS - IISc shuttle
- * IISc - NCBS shuttle
- * NCBS - ICTS shuttle
- * ICTS - NCBS shuttle
- * NCBS - Mandara shuttle and buggy
- * Mandara - NCBS shuttle and buggy
- * NCBS - CBL shuttle
-
-
-You can add your own route from 'Manage Transport' section. You can also delete existing routes if you don't want.
+<p>Check shuttle and buggy timings, find important contacts, check lecture hall venue and more! This 'unofficial' app brings you some useful information right into your pockets.</p>
+<p>Currently supports following transport routes, however you can always add your own :)</p>
+<ul>
+<li>NCBS - IISc shuttle</li>
+<li>IISc - NCBS shuttle</li>
+<li>NCBS - ICTS shuttle</li>
+<li>ICTS - NCBS shuttle</li>
+<li>NCBS - Mandara shuttle and buggy</li>
+<li>Mandara - NCBS shuttle and buggy</li>
+<li>NCBS - CBL shuttle</li>
+</ul>
+<p>You can add your own route from 'Manage Transport' section. You can also delete existing routes if you don't want.</p>
