@@ -21,7 +21,7 @@ class ResetOnlyDefault(private val repository: Repository, private val listener:
     override fun doInBackground(vararg p0: Void?): Void? {
 
         val creationString = "2018-07-21 00:00:00"
-        val modifiedString = "2019-03-20 00:00:00"
+        val modifiedString = "2020-10-08 00:00:00"
         val readableFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         creationDate.timeInMillis = readableFormat.parse(creationString)?.time!!
         modifiedDate.timeInMillis = readableFormat.parse(modifiedString)?.time!!
@@ -65,8 +65,15 @@ class ResetOnlyDefault(private val repository: Repository, private val listener:
             this.routeID = routeNo
             this.trips = convertToList(repository.app().getString(trips))
         }
-        repository.data().addTrips(t)
-        Log.i(TAG, "Trips Updated")
+        t.trips?.let {
+            if (it.isNotEmpty()) {
+                repository.data().addTrips(t)
+                Log.i(TAG, "Trips Updated")
+            }else {
+                Log.i(TAG, "Trips are empty. Nothing will be updated")
+            }
+        }
+
     }
 
     private fun handleReturn(info: InfoHolder) {

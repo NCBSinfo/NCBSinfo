@@ -1,8 +1,6 @@
 package com.rohitsuratekar.NCBSinfo.fragments
 
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -72,42 +70,9 @@ class HomeFragment : MyFragment() {
             callback?.navigate(Constants.NAVIGATE_TIMETABLE)
         }
 
-        hm_covid_who.setOnClickListener {
-            gotoGOI()
-        }
-
-        hm_covid_ncbs.setOnClickListener {
-            gotoNCBI()
-        }
-
-        hm_emergency.setOnClickListener {
-            gotoHelpline()
-        }
-
     }
 
-    private fun gotoGOI() {
-        val currentUrl = "https://www.mohfw.gov.in/"
-        val i2 = Intent(Intent.ACTION_VIEW)
-        i2.data = Uri.parse(currentUrl)
-        startActivity(i2)
-    }
 
-    private fun gotoNCBI() {
-        val currentUrl =
-            "https://www.ncbs.res.in/content/blisc-ncbs-instem-c-camp-responses-covid-19"
-        val i2 = Intent(Intent.ACTION_VIEW)
-        i2.data = Uri.parse(currentUrl)
-        startActivity(i2)
-    }
-
-    private fun gotoHelpline() {
-        val currentUrl =
-            "https://www.mohfw.gov.in/pdf/coronvavirushelplinenumber.pdf"
-        val i2 = Intent(Intent.ACTION_VIEW)
-        i2.data = Uri.parse(currentUrl)
-        startActivity(i2)
-    }
 
 
     private fun subscribe() {
@@ -141,10 +106,10 @@ class HomeFragment : MyFragment() {
             hm_time.text = NextTrip(it.tripData).calculate(currentCalendar).displayTime()
             if (it.routeData.favorite == "yes") {
                 hm_fav.setImageResource(R.drawable.icon_fav)
-                hm_fav.setColorFilter(ContextCompat.getColor(context!!, R.color.colorAccent))
+                hm_fav.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             } else {
                 hm_fav.setImageResource(R.drawable.icon_fav_empty)
-                hm_fav.setColorFilter(ContextCompat.getColor(context!!, R.color.colorPrimary))
+                hm_fav.setColorFilter(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
             }
 
             val day = NextTrip(it.tripData).calculate(currentCalendar)

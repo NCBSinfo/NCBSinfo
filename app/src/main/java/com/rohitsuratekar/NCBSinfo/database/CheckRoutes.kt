@@ -30,7 +30,7 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
         listener.changeStatus(repository.app().getString(R.string.making_default))
 
         val creationString = "2018-07-21 00:00:00"
-        val modifiedString = "2020-03-20 00:00:00"
+        val modifiedString = "2020-10-08 00:00:00"
 
         val readableFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
 
@@ -133,7 +133,12 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
         val routeList = repository.data().getAllRoutes()
         val returnList = mutableListOf<Route>()
         for (r in routeList) {
-            returnList.add(Route(r, repository.data().getTrips(r)))
+            val tps = repository.data().getTrips(r)
+            if (tps.isNotEmpty()) {
+                returnList.add(Route(r, repository.data().getTrips(r)))
+            } else {
+                repository.data().deleteRoute(r)
+            }
         }
         listener.returnRoutes(returnList)
         // If default data is reset, no need to check database update, hence update the "UPDATE_VERSION"
@@ -172,7 +177,11 @@ class CheckRoutes(private val repository: Repository, private val listener: OnFi
             day = tripDay
 
         }
-        repository.data().addTrips(tripData)
+        tripData.trips?.let {
+            if (it.isNotEmpty()) {
+                repository.data().addTrips(tripData)
+            }
+        }
     }
 
 }
