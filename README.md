@@ -1,6 +1,6 @@
 # Information about NCBS
 
-Open source application developed to help people working at National Centre for Biological Sciences, Bangalore. This is <b>NOT</b> an official app. This app can be found on <a href= "https://play.google.com/store/apps/details?id=com.rohitsuratekar.NCBSinfo">Google Play Store</a><br></br>
+Open source application developed to help people working at National Centre for Biological Sciences, Bangalore. This is <b>NOT</b> an official app. This app can be found on <a href= "https://play.google.com/store/apps/details?id=com.rohitsuratekar.NCBSinfo">Google Play Store</a> as well as on <a href="https://f-droid.org/en/packages/com.rohitsuratekar.NCBSinfo/">F-Droid</a>. </br></br>
 
 <b>Current features</b> </br>
 (1) Shuttle and Buggy timings </br>

@@ -26,7 +26,7 @@ We use following third party libraries
 
 This app does **NOT** need internet access. 
 
-If you have further doubts, suggestions or feedback, please contact us on [contact@secretbiology.com](mailto:contact@secretbiology.com)
+If you have further doubts, suggestions or feedback, please contact us on [secretbiology@protonmail.com](mailto:secretbiology@protonmail.com)
 
 <br><br>
 *This document was updated on 31 December 2019.*
